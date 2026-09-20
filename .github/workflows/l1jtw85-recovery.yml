@@ -42,7 +42,7 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/class_inventory.csv recovery/jvm_signature_collisions.csv \
+          git add recovery/class_inventory.csv recovery/synthetic_members.csv recovery/jvm_signature_collisions.csv \
             recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
           if ! git diff --cached --quiet; then
             git commit -m "research: record L1JTW8.5 classfile protection audit [skip ci]"
@@ -104,6 +104,10 @@ jobs:
                   else:
                       child.unlink()
 
+      - name: Source-only full-tree compile
+        shell: bash
+        run: python ./tools/recovery/full-tree-compile.py
+
       - name: Write recovery summary
         shell: python
         run: |
@@ -131,6 +135,11 @@ jobs:
           if audit_path.exists():
               audit = json.loads(audit_path.read_text(encoding="utf-8"))
 
+          compile_state = {}
+          compile_path = Path("recovery/full_tree_compile.json")
+          if compile_path.exists():
+              compile_state = json.loads(compile_path.read_text(encoding="utf-8"))
+
           out = [
               "# Generated Recovery Summary",
               "",
@@ -143,6 +152,10 @@ jobs:
               f"- Synthetic-affected classes: **{audit.get('synthetic_affected_classes', 'UNKNOWN')}**",
               f"- Synthetic fields/methods/constructors: **{audit.get('synthetic_fields', 'UNKNOWN')} / {audit.get('synthetic_methods', 'UNKNOWN')} / {audit.get('synthetic_constructors', 'UNKNOWN')}**",
               f"- JVM return-type-only method collisions: **{audit.get('jvm_return_type_only_method_collisions', 'UNKNOWN')}**",
+              f"- Full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
+              f"- Full-tree javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
+              f"- Built application classes: **{compile_state.get('built_application_classes', 'UNKNOWN')}**",
+              f"- Missing / extra application classes: **{compile_state.get('missing_application_classes', 'UNKNOWN')} / {compile_state.get('extra_application_classes', 'UNKNOWN')}**",
               f"- Target javap files: **{len(javap)}**",
               f"- DB tables indexed: **{len(tables)}**",
               "",
@@ -169,8 +182,10 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add recovery/db_table_index.csv recovery/javap-targets recovery/GENERATED_SUMMARY.md recovered-src-obf \
-            recovery/class_inventory.csv recovery/jvm_signature_collisions.csv \
-            recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
+            recovery/class_inventory.csv recovery/synthetic_members.csv recovery/jvm_signature_collisions.csv \
+            recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md \
+            recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
+            recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
