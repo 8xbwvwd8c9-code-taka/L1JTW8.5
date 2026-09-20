@@ -50,6 +50,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
+      - name: Probe required protobuf runtime bridge flags
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-required-runtime-bridge-flags.py
+
       - name: Probe protobuf protected nested type visibility
         shell: bash
         run: python ./tools/recovery/probe-protobuf-p-b-visibility.py
