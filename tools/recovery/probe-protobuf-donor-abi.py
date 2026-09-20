@@ -45,7 +45,7 @@ for cls in builders:
     builder_rows.append({'class':cls,'noarg_d':ds})
 
 runtime={}
-for cls in ['a.ab','a.a$c','a.p$a','a.a$a']:
+for cls in ['a.ab','a.c','a.p$a','a.a$a']:
     runtime[cls]=method_blocks(javap(cls))
 
 state={'builder_count':len(builders),'builders':builder_rows,'runtime':runtime}
