@@ -93,7 +93,7 @@ state={
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 MD.write_text(
     '# Protobuf Runtime Bridge Flag Normalization\n\n'
-    + f'- Target methods patched: **{len(all_hits)} / {expected}**\n'
+    + f'- Target methods patched: **{len(all_hits)}**\n'
     + '- Change: clear ACC_SYNTHETIC on methods only in l1rpb/p$a.class and l1rpb/c.class.\n'
     + '- Method names/descriptors changed: **NO / NO**\n'
     + '- Bytecode changed: **NO**\n'
