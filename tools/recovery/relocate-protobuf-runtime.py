@@ -107,7 +107,6 @@ def strip_method_signature_attributes(data: bytes):
         out += attrs
 
     class_attr_count = struct.unpack_from(">H", data, pos)[0]
-    out += data[pos:pos+2]
     pos += 2
     attrs, pos, _ = rewrite_attribute_table(data, pos, class_attr_count, utf8, False)
     out += attrs
