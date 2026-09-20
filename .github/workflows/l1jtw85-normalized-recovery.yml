@@ -42,6 +42,12 @@ jobs:
       - name: Repair normalized source
         shell: bash
         run: python tools/normalized-recovery/repair-normalized-source.py
+      - name: Build normalized protobuf compile reference
+        shell: bash
+        run: python tools/normalized-recovery/build-normalized-proto-ref.py
+      - name: Compile normalized core with PBMessage isolated
+        shell: bash
+        run: python tools/normalized-recovery/compile-normalized-core.py
       - name: Compile normalized source
         shell: bash
         run: python tools/normalized-recovery/compile-normalized-source.py
@@ -50,7 +56,7 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/l1jserver2-source-normalized.jar recovery/l1jserver2-nonapp-ref.jar             recovery/source_namespace_map.csv recovery/source_namespace_state.json             recovery/SOURCE_NAMESPACE_NORMALIZATION.md recovery/normalized-src-vf             recovery/normalized-vineflower.log recovery/NORMALIZED_DECOMPILE.md             recovery/normalized-javac.log recovery/normalized_compile.json             recovery/NORMALIZED_COMPILE.md recovery/normalized-source-files.txt             recovery/normalized-class-missing.txt recovery/normalized-class-extra.txt
+          git add recovery/l1jserver2-source-normalized.jar recovery/l1jserver2-nonapp-ref.jar             recovery/source_namespace_map.csv recovery/source_namespace_state.json             recovery/SOURCE_NAMESPACE_NORMALIZATION.md recovery/normalized-src-vf             recovery/normalized-vineflower.log recovery/NORMALIZED_DECOMPILE.md             recovery/compile-ref-normalized-proto.jar recovery/compile_ref_normalized_proto.json             recovery/COMPILE_REF_NORMALIZED_PROTO.md recovery/wip/normalized-core-javac.log             recovery/wip/normalized_core_compile.json recovery/wip/NORMALIZED_CORE_COMPILE.md             recovery/wip/NORMALIZED_CORE_FAIL.csv recovery/wip/normalized-core-source-files.txt             recovery/wip/normalized-core-class-missing.txt recovery/wip/normalized-core-class-extra.txt             recovery/normalized-javac.log recovery/normalized_compile.json             recovery/NORMALIZED_COMPILE.md recovery/normalized-source-files.txt             recovery/normalized-class-missing.txt recovery/normalized-class-extra.txt
           if git diff --cached --quiet; then
             echo "No normalized recovery changes."
             exit 0
