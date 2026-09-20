@@ -1,0 +1,2310 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/ao/bl.class
+  Last modified Jan 3, 2018; size 10181 bytes
+  SHA-256 checksum 938e2ad7f620cd7f0d22b43612eb683ccba5266602bb9e341090ad1ee1615579
+  Compiled from "WeaponSkillTable.java"
+public class ao.bl
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #26                         // ao/bl
+  super_class: #55                        // java/lang/Object
+  interfaces: 0, fields: 3, methods: 13, attributes: 2
+Constant pool:
+    #1 = String             #420          // )
+    #2 = String             #450          // SELECT * FROM weapon_skill
+    #3 = String             #457          // \\\\fRf4↓ 魔傷\\\\fRfM (
+    #4 = String             #477          // area
+    #5 = String             #478          // attr
+    #6 = String             #482          // base_damage
+    #7 = String             #489          // berserkers_rate
+    #8 = String             #503          // chaser_attack_gfxid
+    #9 = String             #517          // effect_id
+   #10 = String             #540          // is_arrow
+   #11 = String             #541          // is_caotic
+   #12 = String             #542          // is_skill_bind
+   #13 = String             #543          // is_skill_disease
+   #14 = String             #544          // is_skill_freeze
+   #15 = String             #545          // is_skill_mind_break
+   #16 = String             #546          // is_skill_turn_undead
+   #17 = String             #547          // is_target_effect
+   #18 = String             #567          // leech_every_enchant
+   #19 = String             #568          // leech_hp
+   #20 = String             #569          // leech_mp
+   #21 = String             #583          // prob_every_enchant
+   #22 = String             #584          // probability
+   #23 = String             #589          // random_damage
+   #24 = String             #592          // skill_name
+   #25 = String             #605          // weapon_id
+   #26 = Class              #462          // ao/bl
+   #27 = Class              #463          // ao/bl$a
+   #28 = Class              #464          // ap/e
+   #29 = Class              #465          // ap/q
+   #30 = Class              #466          // ap/s
+   #31 = Class              #467          // ap/t
+   #32 = Class              #468          // ap/u
+   #33 = Class              #469          // ap/v
+   #34 = Class              #470          // ap/z
+   #35 = Class              #472          // aq/aa
+   #36 = Class              #473          // aq/ai
+   #37 = Class              #474          // aq/aq
+   #38 = Class              #475          // aq/f
+   #39 = Class              #476          // aq/w
+   #40 = Class              #483          // bc/e
+   #41 = Class              #484          // be/ak
+   #42 = Class              #485          // be/cg
+   #43 = Class              #486          // be/cn
+   #44 = Class              #487          // be/ee
+   #45 = Class              #488          // be/g
+   #46 = Class              #490          // bf/ay
+   #47 = Class              #491          // bf/be
+   #48 = Class              #492          // bf/fu
+   #49 = Class              #493          // bf/t
+   #50 = Class              #494          // bh/j
+   #51 = Class              #495          // bi/i
+   #52 = Class              #496          // bi/j
+   #53 = Class              #550          // java/lang/Class
+   #54 = Class              #551          // java/lang/Integer
+   #55 = Class              #552          // java/lang/Object
+   #56 = Class              #553          // java/lang/StringBuilder
+   #57 = Class              #554          // java/sql/Connection
+   #58 = Class              #555          // java/sql/PreparedStatement
+   #59 = Class              #556          // java/sql/ResultSet
+   #60 = Class              #557          // java/sql/SQLException
+   #61 = Class              #558          // java/util/ArrayList
+   #62 = Class              #559          // java/util/HashMap
+   #63 = Class              #560          // java/util/Iterator
+   #64 = Class              #561          // java/util/logging/Level
+   #65 = Class              #562          // java/util/logging/Logger
+   #66 = Class              #565          // l1j/server/a
+   #67 = Class              #566          // l1j/server/b
+   #68 = Double             8.0d
+   #70 = Fieldref           #26.#262      // ao/bl.a:Ljava/util/logging/Logger;
+   #71 = Fieldref           #26.#279      // ao/bl.b:Lao/bl;
+   #72 = Fieldref           #26.#287      // ao/bl.c:Ljava/util/HashMap;
+   #73 = Fieldref           #64.#237      // java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+   #74 = Fieldref           #66.#236      // l1j/server/a.S:Z
+   #75 = Methodref          #26.#225      // ao/bl."<init>":()V
+   #76 = Methodref          #26.#252      // ao/bl.a:(Lap/u;Laq/f;)V
+   #77 = Methodref          #26.#254      // ao/bl.a:(Laq/f;)V
+   #78 = Methodref          #26.#260      // ao/bl.a:(Ljava/sql/ResultSet;)V
+   #79 = Methodref          #26.#269      // ao/bl.b:()V
+   #80 = Methodref          #26.#274      // ao/bl.b:(Laq/f;)V
+   #81 = Methodref          #26.#286      // ao/bl.c:(Laq/f;)V
+   #82 = Methodref          #26.#295      // ao/bl.d:(Laq/f;)V
+   #83 = Methodref          #27.#228      // ao/bl$a."<init>":(Lao/bl;Lao/bl$a;)V
+   #84 = Methodref          #27.#247      // ao/bl$a.a:(Lao/bl$a;)Ljava/lang/String;
+   #85 = Methodref          #27.#248      // ao/bl$a.a:(Lao/bl$a;D)V
+   #86 = Methodref          #27.#249      // ao/bl$a.a:(Lao/bl$a;I)V
+   #87 = Methodref          #27.#250      // ao/bl$a.a:(Lao/bl$a;Ljava/lang/String;)V
+   #88 = Methodref          #27.#251      // ao/bl$a.a:(Lao/bl$a;Z)V
+   #89 = Methodref          #27.#270      // ao/bl$a.b:(Lao/bl$a;)I
+   #90 = Methodref          #27.#271      // ao/bl$a.b:(Lao/bl$a;I)V
+   #91 = Methodref          #27.#272      // ao/bl$a.b:(Lao/bl$a;Z)V
+   #92 = Methodref          #27.#283      // ao/bl$a.c:(Lao/bl$a;)I
+   #93 = Methodref          #27.#284      // ao/bl$a.c:(Lao/bl$a;I)V
+   #94 = Methodref          #27.#285      // ao/bl$a.c:(Lao/bl$a;Z)V
+   #95 = Methodref          #27.#292      // ao/bl$a.d:(Lao/bl$a;)I
+   #96 = Methodref          #27.#293      // ao/bl$a.d:(Lao/bl$a;I)V
+   #97 = Methodref          #27.#294      // ao/bl$a.d:(Lao/bl$a;Z)V
+   #98 = Methodref          #27.#296      // ao/bl$a.e:(Lao/bl$a;)Z
+   #99 = Methodref          #27.#297      // ao/bl$a.e:(Lao/bl$a;I)V
+  #100 = Methodref          #27.#298      // ao/bl$a.e:(Lao/bl$a;Z)V
+  #101 = Methodref          #27.#303      // ao/bl$a.f:(Lao/bl$a;)I
+  #102 = Methodref          #27.#304      // ao/bl$a.f:(Lao/bl$a;I)V
+  #103 = Methodref          #27.#305      // ao/bl$a.f:(Lao/bl$a;Z)V
+  #104 = Methodref          #27.#311      // ao/bl$a.g:(Lao/bl$a;)Z
+  #105 = Methodref          #27.#312      // ao/bl$a.g:(Lao/bl$a;I)V
+  #106 = Methodref          #27.#313      // ao/bl$a.g:(Lao/bl$a;Z)V
+  #107 = Methodref          #27.#322      // ao/bl$a.h:(Lao/bl$a;)Z
+  #108 = Methodref          #27.#323      // ao/bl$a.h:(Lao/bl$a;I)V
+  #109 = Methodref          #27.#324      // ao/bl$a.h:(Lao/bl$a;Z)V
+  #110 = Methodref          #27.#327      // ao/bl$a.i:(Lao/bl$a;)Z
+  #111 = Methodref          #27.#328      // ao/bl$a.i:(Lao/bl$a;I)V
+  #112 = Methodref          #27.#332      // ao/bl$a.j:(Lao/bl$a;)Z
+  #113 = Methodref          #27.#333      // ao/bl$a.j:(Lao/bl$a;I)V
+  #114 = Methodref          #27.#334      // ao/bl$a.k:(Lao/bl$a;)Z
+  #115 = Methodref          #27.#335      // ao/bl$a.k:(Lao/bl$a;I)V
+  #116 = Methodref          #27.#337      // ao/bl$a.l:(Lao/bl$a;)Z
+  #117 = Methodref          #27.#338      // ao/bl$a.l:(Lao/bl$a;I)V
+  #118 = Methodref          #27.#340      // ao/bl$a.m:(Lao/bl$a;)I
+  #119 = Methodref          #27.#341      // ao/bl$a.n:(Lao/bl$a;)I
+  #120 = Methodref          #27.#345      // ao/bl$a.o:(Lao/bl$a;)I
+  #121 = Methodref          #27.#346      // ao/bl$a.p:(Lao/bl$a;)Z
+  #122 = Methodref          #27.#349      // ao/bl$a.q:(Lao/bl$a;)I
+  #123 = Methodref          #27.#350      // ao/bl$a.r:(Lao/bl$a;)I
+  #124 = Methodref          #27.#351      // ao/bl$a.s:(Lao/bl$a;)I
+  #125 = Methodref          #27.#352      // ao/bl$a.t:(Lao/bl$a;)D
+  #126 = Methodref          #27.#354      // ao/bl$a.u:(Lao/bl$a;)I
+  #127 = Methodref          #27.#356      // ao/bl$a.v:(Lao/bl$a;)I
+  #128 = Methodref          #29.#233      // ap/q.G:()I
+  #129 = Methodref          #29.#235      // ap/q.N:()I
+  #130 = Methodref          #29.#241      // ap/q.a:()Lbh/j;
+  #131 = Methodref          #29.#278      // ap/q.b:(Ljava/lang/String;)V
+  #132 = Methodref          #30.#265      // ap/s.ac:()I
+  #133 = Methodref          #30.#299      // ap/s.eX:()Z
+  #134 = Methodref          #31.#234      // ap/t.M:()Laq/f;
+  #135 = Methodref          #31.#275      // ap/t.b:(Laq/f;I)V
+  #136 = Methodref          #31.#277      // ap/t.b:(Lbe/eu;)V
+  #137 = Methodref          #31.#282      // ap/t.by:(I)V
+  #138 = Methodref          #31.#301      // ap/t.eb:()I
+  #139 = Methodref          #31.#308      // ap/t.fr:()I
+  #140 = Methodref          #31.#326      // ap/t.i:(I)I
+  #141 = Methodref          #31.#331      // ap/t.j:(II)V
+  #142 = Methodref          #31.#342      // ap/t.n:(Z)V
+  #143 = Methodref          #32.#245      // ap/u.a:(I)V
+  #144 = Methodref          #32.#253      // ap/u.a:(Lap/u;Laq/f;Z)Z
+  #145 = Methodref          #32.#256      // ap/u.a:(Laq/f;DZ)V
+  #146 = Methodref          #32.#259      // ap/u.a:(Lbe/eu;)V
+  #147 = Methodref          #32.#263      // ap/u.aA:()Z
+  #148 = Methodref          #32.#277      // ap/u.b:(Lbe/eu;)V
+  #149 = Methodref          #32.#280      // ap/u.bE:()I
+  #150 = Methodref          #32.#281      // ap/u.bN:()Z
+  #151 = Methodref          #32.#299      // ap/u.eX:()Z
+  #152 = Methodref          #32.#300      // ap/u.ea:()I
+  #153 = Methodref          #32.#301      // ap/u.eb:()I
+  #154 = Methodref          #32.#306      // ap/u.fa:()I
+  #155 = Methodref          #32.#307      // ap/u.fp:()I
+  #156 = Methodref          #32.#308      // ap/u.fr:()I
+  #157 = Methodref          #32.#309      // ap/u.fs:()I
+  #158 = Methodref          #32.#310      // ap/u.ft:()I
+  #159 = Methodref          #32.#329      // ap/u.i_:(I)V
+  #160 = Methodref          #32.#331      // ap/u.j:(II)V
+  #161 = Methodref          #32.#336      // ap/u.l:()Z
+  #162 = Methodref          #32.#355      // ap/u.v:()Lap/q;
+  #163 = Methodref          #35.#308      // aq/aa.fr:()I
+  #164 = Methodref          #35.#309      // aq/aa.fs:()I
+  #165 = Methodref          #35.#310      // aq/aa.ft:()I
+  #166 = Methodref          #36.#239      // aq/ai.a:()Laq/ai;
+  #167 = Methodref          #36.#246      // aq/ai.a:(IIIII)Lap/h;
+  #168 = Methodref          #37.#240      // aq/aq.a:()Laq/aq;
+  #169 = Methodref          #37.#273      // aq/aq.b:(Laq/aa;I)Ljava/util/ArrayList;
+  #170 = Methodref          #38.#225      // aq/f."<init>":()V
+  #171 = Methodref          #38.#238      // aq/f.W_:()I
+  #172 = Methodref          #38.#288      // aq/f.cF:(I)V
+  #173 = Methodref          #38.#289      // aq/f.cG:(I)V
+  #174 = Methodref          #38.#290      // aq/f.cH:(I)V
+  #175 = Methodref          #38.#307      // aq/f.fp:()I
+  #176 = Methodref          #38.#308      // aq/f.fr:()I
+  #177 = Methodref          #38.#309      // aq/f.fs:()I
+  #178 = Methodref          #38.#310      // aq/f.ft:()I
+  #179 = Methodref          #39.#255      // aq/w.a:(Laq/f;)Z
+  #180 = Methodref          #39.#258      // aq/w.a:(Laq/f;Laq/f;DI)D
+  #181 = Methodref          #40.#229      // bc/e."<init>":(Lap/u;Laq/f;I)V
+  #182 = Methodref          #40.#243      // bc/e.a:()V
+  #183 = Methodref          #41.#226      // be/ak."<init>":(II)V
+  #184 = Methodref          #42.#231      // be/cg."<init>":(Laq/f;Ljava/lang/String;)V
+  #185 = Methodref          #43.#227      // be/cn."<init>":(IZ)V
+  #186 = Methodref          #44.#226      // be/ee."<init>":(II)V
+  #187 = Methodref          #45.#230      // be/g."<init>":(Laq/f;Laq/f;IIIII)V
+  #188 = Methodref          #46.#225      // bf/ay."<init>":()V
+  #189 = Methodref          #46.#257      // bf/ay.a:(Laq/f;I)V
+  #190 = Methodref          #47.#225      // bf/be."<init>":()V
+  #191 = Methodref          #47.#257      // bf/be.a:(Laq/f;I)V
+  #192 = Methodref          #48.#225      // bf/fu."<init>":()V
+  #193 = Methodref          #48.#276      // bf/fu.b:(Laq/f;Laq/f;I)V
+  #194 = Methodref          #49.#225      // bf/t."<init>":()V
+  #195 = Methodref          #49.#257      // bf/t.a:(Laq/f;I)V
+  #196 = Methodref          #50.#264      // bh/j.aO:()I
+  #197 = Methodref          #51.#244      // bi/i.a:(I)I
+  #198 = Methodref          #52.#261      // bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #199 = Methodref          #53.#320      // java/lang/Class.getName:()Ljava/lang/String;
+  #200 = Methodref          #54.#357      // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+  #201 = Methodref          #55.#225      // java/lang/Object."<init>":()V
+  #202 = Methodref          #56.#232      // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+  #203 = Methodref          #56.#266      // java/lang/StringBuilder.append:(D)Ljava/lang/StringBuilder;
+  #204 = Methodref          #56.#267      // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #205 = Methodref          #56.#353      // java/lang/StringBuilder.toString:()Ljava/lang/String;
+  #206 = Methodref          #60.#318      // java/sql/SQLException.getLocalizedMessage:()Ljava/lang/String;
+  #207 = Methodref          #61.#330      // java/util/ArrayList.iterator:()Ljava/util/Iterator;
+  #208 = Methodref          #62.#225      // java/util/HashMap."<init>":()V
+  #209 = Methodref          #62.#291      // java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+  #210 = Methodref          #62.#314      // java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #211 = Methodref          #62.#348      // java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #212 = Methodref          #65.#319      // java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #213 = Methodref          #65.#339      // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #214 = Methodref          #67.#242      // l1j/server/b.a:()Ll1j/server/b;
+  #215 = Methodref          #67.#268      // l1j/server/b.b:()Ljava/sql/Connection;
+  #216 = InterfaceMethodref #57.#347      // java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #217 = InterfaceMethodref #58.#302      // java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+  #218 = InterfaceMethodref #59.#315      // java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+  #219 = InterfaceMethodref #59.#316      // java/sql/ResultSet.getDouble:(Ljava/lang/String;)D
+  #220 = InterfaceMethodref #59.#317      // java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+  #221 = InterfaceMethodref #59.#321      // java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+  #222 = InterfaceMethodref #59.#344      // java/sql/ResultSet.next:()Z
+  #223 = InterfaceMethodref #63.#325      // java/util/Iterator.hasNext:()Z
+  #224 = InterfaceMethodref #63.#343      // java/util/Iterator.next:()Ljava/lang/Object;
+  #225 = NameAndType        #422:#371     // "<init>":()V
+  #226 = NameAndType        #422:#377     // "<init>":(II)V
+  #227 = NameAndType        #422:#379     // "<init>":(IZ)V
+  #228 = NameAndType        #422:#388     // "<init>":(Lao/bl;Lao/bl$a;)V
+  #229 = NameAndType        #422:#392     // "<init>":(Lap/u;Laq/f;I)V
+  #230 = NameAndType        #422:#402     // "<init>":(Laq/f;Laq/f;IIIII)V
+  #231 = NameAndType        #422:#403     // "<init>":(Laq/f;Ljava/lang/String;)V
+  #232 = NameAndType        #422:#414     // "<init>":(Ljava/lang/String;)V
+  #233 = NameAndType        #426:#358     // G:()I
+  #234 = NameAndType        #447:#363     // M:()Laq/f;
+  #235 = NameAndType        #448:#358     // N:()I
+  #236 = NameAndType        #449:#456     // S:Z
+  #237 = NameAndType        #451:#444     // SEVERE:Ljava/util/logging/Level;
+  #238 = NameAndType        #454:#358     // W_:()I
+  #239 = NameAndType        #458:#361     // a:()Laq/ai;
+  #240 = NameAndType        #458:#362     // a:()Laq/aq;
+  #241 = NameAndType        #458:#364     // a:()Lbh/j;
+  #242 = NameAndType        #458:#370     // a:()Ll1j/server/b;
+  #243 = NameAndType        #458:#371     // a:()V
+  #244 = NameAndType        #458:#374     // a:(I)I
+  #245 = NameAndType        #458:#376     // a:(I)V
+  #246 = NameAndType        #458:#378     // a:(IIIII)Lap/h;
+  #247 = NameAndType        #458:#382     // a:(Lao/bl$a;)Ljava/lang/String;
+  #248 = NameAndType        #458:#384     // a:(Lao/bl$a;D)V
+  #249 = NameAndType        #458:#385     // a:(Lao/bl$a;I)V
+  #250 = NameAndType        #458:#386     // a:(Lao/bl$a;Ljava/lang/String;)V
+  #251 = NameAndType        #458:#387     // a:(Lao/bl$a;Z)V
+  #252 = NameAndType        #458:#390     // a:(Lap/u;Laq/f;)V
+  #253 = NameAndType        #458:#394     // a:(Lap/u;Laq/f;Z)Z
+  #254 = NameAndType        #458:#396     // a:(Laq/f;)V
+  #255 = NameAndType        #458:#397     // a:(Laq/f;)Z
+  #256 = NameAndType        #458:#398     // a:(Laq/f;DZ)V
+  #257 = NameAndType        #458:#399     // a:(Laq/f;I)V
+  #258 = NameAndType        #458:#400     // a:(Laq/f;Laq/f;DI)D
+  #259 = NameAndType        #458:#404     // a:(Lbe/eu;)V
+  #260 = NameAndType        #458:#416     // a:(Ljava/sql/ResultSet;)V
+  #261 = NameAndType        #458:#417     // a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #262 = NameAndType        #458:#445     // a:Ljava/util/logging/Logger;
+  #263 = NameAndType        #459:#372     // aA:()Z
+  #264 = NameAndType        #460:#358     // aO:()I
+  #265 = NameAndType        #461:#358     // ac:()I
+  #266 = NameAndType        #471:#373     // append:(D)Ljava/lang/StringBuilder;
+  #267 = NameAndType        #471:#411     // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #268 = NameAndType        #479:#367     // b:()Ljava/sql/Connection;
+  #269 = NameAndType        #479:#371     // b:()V
+  #270 = NameAndType        #479:#381     // b:(Lao/bl$a;)I
+  #271 = NameAndType        #479:#385     // b:(Lao/bl$a;I)V
+  #272 = NameAndType        #479:#387     // b:(Lao/bl$a;Z)V
+  #273 = NameAndType        #479:#395     // b:(Laq/aa;I)Ljava/util/ArrayList;
+  #274 = NameAndType        #479:#396     // b:(Laq/f;)V
+  #275 = NameAndType        #479:#399     // b:(Laq/f;I)V
+  #276 = NameAndType        #479:#401     // b:(Laq/f;Laq/f;I)V
+  #277 = NameAndType        #479:#404     // b:(Lbe/eu;)V
+  #278 = NameAndType        #479:#414     // b:(Ljava/lang/String;)V
+  #279 = NameAndType        #479:#430     // b:Lao/bl;
+  #280 = NameAndType        #480:#358     // bE:()I
+  #281 = NameAndType        #481:#372     // bN:()Z
+  #282 = NameAndType        #497:#376     // by:(I)V
+  #283 = NameAndType        #498:#381     // c:(Lao/bl$a;)I
+  #284 = NameAndType        #498:#385     // c:(Lao/bl$a;I)V
+  #285 = NameAndType        #498:#387     // c:(Lao/bl$a;Z)V
+  #286 = NameAndType        #498:#396     // c:(Laq/f;)V
+  #287 = NameAndType        #498:#442     // c:Ljava/util/HashMap;
+  #288 = NameAndType        #499:#376     // cF:(I)V
+  #289 = NameAndType        #500:#376     // cG:(I)V
+  #290 = NameAndType        #501:#376     // cH:(I)V
+  #291 = NameAndType        #505:#406     // containsKey:(Ljava/lang/Object;)Z
+  #292 = NameAndType        #506:#381     // d:(Lao/bl$a;)I
+  #293 = NameAndType        #506:#385     // d:(Lao/bl$a;I)V
+  #294 = NameAndType        #506:#387     // d:(Lao/bl$a;Z)V
+  #295 = NameAndType        #506:#396     // d:(Laq/f;)V
+  #296 = NameAndType        #511:#383     // e:(Lao/bl$a;)Z
+  #297 = NameAndType        #511:#385     // e:(Lao/bl$a;I)V
+  #298 = NameAndType        #511:#387     // e:(Lao/bl$a;Z)V
+  #299 = NameAndType        #512:#372     // eX:()Z
+  #300 = NameAndType        #513:#358     // ea:()I
+  #301 = NameAndType        #514:#358     // eb:()I
+  #302 = NameAndType        #519:#368     // executeQuery:()Ljava/sql/ResultSet;
+  #303 = NameAndType        #520:#381     // f:(Lao/bl$a;)I
+  #304 = NameAndType        #520:#385     // f:(Lao/bl$a;I)V
+  #305 = NameAndType        #520:#387     // f:(Lao/bl$a;Z)V
+  #306 = NameAndType        #521:#358     // fa:()I
+  #307 = NameAndType        #523:#358     // fp:()I
+  #308 = NameAndType        #524:#358     // fr:()I
+  #309 = NameAndType        #525:#358     // fs:()I
+  #310 = NameAndType        #526:#358     // ft:()I
+  #311 = NameAndType        #527:#383     // g:(Lao/bl$a;)Z
+  #312 = NameAndType        #527:#385     // g:(Lao/bl$a;I)V
+  #313 = NameAndType        #527:#387     // g:(Lao/bl$a;Z)V
+  #314 = NameAndType        #528:#405     // get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #315 = NameAndType        #529:#415     // getBoolean:(Ljava/lang/String;)Z
+  #316 = NameAndType        #530:#408     // getDouble:(Ljava/lang/String;)D
+  #317 = NameAndType        #531:#409     // getInt:(Ljava/lang/String;)I
+  #318 = NameAndType        #532:#366     // getLocalizedMessage:()Ljava/lang/String;
+  #319 = NameAndType        #533:#413     // getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #320 = NameAndType        #534:#366     // getName:()Ljava/lang/String;
+  #321 = NameAndType        #535:#410     // getString:(Ljava/lang/String;)Ljava/lang/String;
+  #322 = NameAndType        #536:#383     // h:(Lao/bl$a;)Z
+  #323 = NameAndType        #536:#385     // h:(Lao/bl$a;I)V
+  #324 = NameAndType        #536:#387     // h:(Lao/bl$a;Z)V
+  #325 = NameAndType        #537:#372     // hasNext:()Z
+  #326 = NameAndType        #538:#374     // i:(I)I
+  #327 = NameAndType        #538:#383     // i:(Lao/bl$a;)Z
+  #328 = NameAndType        #538:#385     // i:(Lao/bl$a;I)V
+  #329 = NameAndType        #539:#376     // i_:(I)V
+  #330 = NameAndType        #548:#369     // iterator:()Ljava/util/Iterator;
+  #331 = NameAndType        #549:#377     // j:(II)V
+  #332 = NameAndType        #549:#383     // j:(Lao/bl$a;)Z
+  #333 = NameAndType        #549:#385     // j:(Lao/bl$a;I)V
+  #334 = NameAndType        #563:#383     // k:(Lao/bl$a;)Z
+  #335 = NameAndType        #563:#385     // k:(Lao/bl$a;I)V
+  #336 = NameAndType        #564:#372     // l:()Z
+  #337 = NameAndType        #564:#383     // l:(Lao/bl$a;)Z
+  #338 = NameAndType        #564:#385     // l:(Lao/bl$a;I)V
+  #339 = NameAndType        #570:#418     // log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #340 = NameAndType        #571:#381     // m:(Lao/bl$a;)I
+  #341 = NameAndType        #574:#381     // n:(Lao/bl$a;)I
+  #342 = NameAndType        #574:#419     // n:(Z)V
+  #343 = NameAndType        #575:#365     // next:()Ljava/lang/Object;
+  #344 = NameAndType        #575:#372     // next:()Z
+  #345 = NameAndType        #577:#381     // o:(Lao/bl$a;)I
+  #346 = NameAndType        #579:#383     // p:(Lao/bl$a;)Z
+  #347 = NameAndType        #582:#412     // prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #348 = NameAndType        #586:#407     // put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #349 = NameAndType        #587:#381     // q:(Lao/bl$a;)I
+  #350 = NameAndType        #588:#381     // r:(Lao/bl$a;)I
+  #351 = NameAndType        #591:#381     // s:(Lao/bl$a;)I
+  #352 = NameAndType        #593:#380     // t:(Lao/bl$a;)D
+  #353 = NameAndType        #598:#366     // toString:()Ljava/lang/String;
+  #354 = NameAndType        #600:#381     // u:(Lao/bl$a;)I
+  #355 = NameAndType        #601:#360     // v:()Lap/q;
+  #356 = NameAndType        #601:#381     // v:(Lao/bl$a;)I
+  #357 = NameAndType        #603:#375     // valueOf:(I)Ljava/lang/Integer;
+  #358 = Utf8               ()I
+  #359 = Utf8               ()Lao/bl;
+  #360 = Utf8               ()Lap/q;
+  #361 = Utf8               ()Laq/ai;
+  #362 = Utf8               ()Laq/aq;
+  #363 = Utf8               ()Laq/f;
+  #364 = Utf8               ()Lbh/j;
+  #365 = Utf8               ()Ljava/lang/Object;
+  #366 = Utf8               ()Ljava/lang/String;
+  #367 = Utf8               ()Ljava/sql/Connection;
+  #368 = Utf8               ()Ljava/sql/ResultSet;
+  #369 = Utf8               ()Ljava/util/Iterator;
+  #370 = Utf8               ()Ll1j/server/b;
+  #371 = Utf8               ()V
+  #372 = Utf8               ()Z
+  #373 = Utf8               (D)Ljava/lang/StringBuilder;
+  #374 = Utf8               (I)I
+  #375 = Utf8               (I)Ljava/lang/Integer;
+  #376 = Utf8               (I)V
+  #377 = Utf8               (II)V
+  #378 = Utf8               (IIIII)Lap/h;
+  #379 = Utf8               (IZ)V
+  #380 = Utf8               (Lao/bl$a;)D
+  #381 = Utf8               (Lao/bl$a;)I
+  #382 = Utf8               (Lao/bl$a;)Ljava/lang/String;
+  #383 = Utf8               (Lao/bl$a;)Z
+  #384 = Utf8               (Lao/bl$a;D)V
+  #385 = Utf8               (Lao/bl$a;I)V
+  #386 = Utf8               (Lao/bl$a;Ljava/lang/String;)V
+  #387 = Utf8               (Lao/bl$a;Z)V
+  #388 = Utf8               (Lao/bl;Lao/bl$a;)V
+  #389 = Utf8               (Lap/q;)V
+  #390 = Utf8               (Lap/u;Laq/f;)V
+  #391 = Utf8               (Lap/u;Laq/f;I)D
+  #392 = Utf8               (Lap/u;Laq/f;I)V
+  #393 = Utf8               (Lap/u;Laq/f;IID)D
+  #394 = Utf8               (Lap/u;Laq/f;Z)Z
+  #395 = Utf8               (Laq/aa;I)Ljava/util/ArrayList;
+  #396 = Utf8               (Laq/f;)V
+  #397 = Utf8               (Laq/f;)Z
+  #398 = Utf8               (Laq/f;DZ)V
+  #399 = Utf8               (Laq/f;I)V
+  #400 = Utf8               (Laq/f;Laq/f;DI)D
+  #401 = Utf8               (Laq/f;Laq/f;I)V
+  #402 = Utf8               (Laq/f;Laq/f;IIIII)V
+  #403 = Utf8               (Laq/f;Ljava/lang/String;)V
+  #404 = Utf8               (Lbe/eu;)V
+  #405 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #406 = Utf8               (Ljava/lang/Object;)Z
+  #407 = Utf8               (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #408 = Utf8               (Ljava/lang/String;)D
+  #409 = Utf8               (Ljava/lang/String;)I
+  #410 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #411 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #412 = Utf8               (Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #413 = Utf8               (Ljava/lang/String;)Ljava/util/logging/Logger;
+  #414 = Utf8               (Ljava/lang/String;)V
+  #415 = Utf8               (Ljava/lang/String;)Z
+  #416 = Utf8               (Ljava/sql/ResultSet;)V
+  #417 = Utf8               (Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #418 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #419 = Utf8               (Z)V
+  #420 = Utf8               )
+  #421 = Utf8               <clinit>
+  #422 = Utf8               <init>
+  #423 = Utf8               Code
+  #424 = Utf8               D
+  #425 = Utf8               Exceptions
+  #426 = Utf8               G
+  #427 = Utf8               I
+  #428 = Utf8               InnerClasses
+  #429 = Utf8               Lao/bl$a;
+  #430 = Utf8               Lao/bl;
+  #431 = Utf8               Lap/q;
+  #432 = Utf8               Lap/s;
+  #433 = Utf8               Lap/t;
+  #434 = Utf8               Lap/u;
+  #435 = Utf8               Laq/aa;
+  #436 = Utf8               Laq/f;
+  #437 = Utf8               LineNumberTable
+  #438 = Utf8               Ljava/sql/Connection;
+  #439 = Utf8               Ljava/sql/PreparedStatement;
+  #440 = Utf8               Ljava/sql/ResultSet;
+  #441 = Utf8               Ljava/sql/SQLException;
+  #442 = Utf8               Ljava/util/HashMap;
+  #443 = Utf8               Ljava/util/HashMap<Ljava/lang/Integer;Lao/bl$a;>;
+  #444 = Utf8               Ljava/util/logging/Level;
+  #445 = Utf8               Ljava/util/logging/Logger;
+  #446 = Utf8               LocalVariableTable
+  #447 = Utf8               M
+  #448 = Utf8               N
+  #449 = Utf8               S
+  #450 = Utf8               SELECT * FROM weapon_skill
+  #451 = Utf8               SEVERE
+  #452 = Utf8               Signature
+  #453 = Utf8               SourceFile
+  #454 = Utf8               W_
+  #455 = Utf8               WeaponSkillTable.java
+  #456 = Utf8               Z
+  #457 = Utf8               \\\\fRf4↓ 魔傷\\\\fRfM (
+  #458 = Utf8               a
+  #459 = Utf8               aA
+  #460 = Utf8               aO
+  #461 = Utf8               ac
+  #462 = Utf8               ao/bl
+  #463 = Utf8               ao/bl$a
+  #464 = Utf8               ap/e
+  #465 = Utf8               ap/q
+  #466 = Utf8               ap/s
+  #467 = Utf8               ap/t
+  #468 = Utf8               ap/u
+  #469 = Utf8               ap/v
+  #470 = Utf8               ap/z
+  #471 = Utf8               append
+  #472 = Utf8               aq/aa
+  #473 = Utf8               aq/ai
+  #474 = Utf8               aq/aq
+  #475 = Utf8               aq/f
+  #476 = Utf8               aq/w
+  #477 = Utf8               area
+  #478 = Utf8               attr
+  #479 = Utf8               b
+  #480 = Utf8               bE
+  #481 = Utf8               bN
+  #482 = Utf8               base_damage
+  #483 = Utf8               bc/e
+  #484 = Utf8               be/ak
+  #485 = Utf8               be/cg
+  #486 = Utf8               be/cn
+  #487 = Utf8               be/ee
+  #488 = Utf8               be/g
+  #489 = Utf8               berserkers_rate
+  #490 = Utf8               bf/ay
+  #491 = Utf8               bf/be
+  #492 = Utf8               bf/fu
+  #493 = Utf8               bf/t
+  #494 = Utf8               bh/j
+  #495 = Utf8               bi/i
+  #496 = Utf8               bi/j
+  #497 = Utf8               by
+  #498 = Utf8               c
+  #499 = Utf8               cF
+  #500 = Utf8               cG
+  #501 = Utf8               cH
+  #502 = Utf8               cha
+  #503 = Utf8               chaser_attack_gfxid
+  #504 = Utf8               con
+  #505 = Utf8               containsKey
+  #506 = Utf8               d
+  #507 = Utf8               damage
+  #508 = Utf8               data
+  #509 = Utf8               dmg
+  #510 = Utf8               dummy
+  #511 = Utf8               e
+  #512 = Utf8               eX
+  #513 = Utf8               ea
+  #514 = Utf8               eb
+  #515 = Utf8               effectId
+  #516 = Utf8               effect_cha
+  #517 = Utf8               effect_id
+  #518 = Utf8               effectid
+  #519 = Utf8               executeQuery
+  #520 = Utf8               f
+  #521 = Utf8               fa
+  #522 = Utf8               fettersTime
+  #523 = Utf8               fp
+  #524 = Utf8               fr
+  #525 = Utf8               fs
+  #526 = Utf8               ft
+  #527 = Utf8               g
+  #528 = Utf8               get
+  #529 = Utf8               getBoolean
+  #530 = Utf8               getDouble
+  #531 = Utf8               getInt
+  #532 = Utf8               getLocalizedMessage
+  #533 = Utf8               getLogger
+  #534 = Utf8               getName
+  #535 = Utf8               getString
+  #536 = Utf8               h
+  #537 = Utf8               hasNext
+  #538 = Utf8               i
+  #539 = Utf8               i_
+  #540 = Utf8               is_arrow
+  #541 = Utf8               is_caotic
+  #542 = Utf8               is_skill_bind
+  #543 = Utf8               is_skill_disease
+  #544 = Utf8               is_skill_freeze
+  #545 = Utf8               is_skill_mind_break
+  #546 = Utf8               is_skill_turn_undead
+  #547 = Utf8               is_target_effect
+  #548 = Utf8               iterator
+  #549 = Utf8               j
+  #550 = Utf8               java/lang/Class
+  #551 = Utf8               java/lang/Integer
+  #552 = Utf8               java/lang/Object
+  #553 = Utf8               java/lang/StringBuilder
+  #554 = Utf8               java/sql/Connection
+  #555 = Utf8               java/sql/PreparedStatement
+  #556 = Utf8               java/sql/ResultSet
+  #557 = Utf8               java/sql/SQLException
+  #558 = Utf8               java/util/ArrayList
+  #559 = Utf8               java/util/HashMap
+  #560 = Utf8               java/util/Iterator
+  #561 = Utf8               java/util/logging/Level
+  #562 = Utf8               java/util/logging/Logger
+  #563 = Utf8               k
+  #564 = Utf8               l
+  #565 = Utf8               l1j/server/a
+  #566 = Utf8               l1j/server/b
+  #567 = Utf8               leech_every_enchant
+  #568 = Utf8               leech_hp
+  #569 = Utf8               leech_mp
+  #570 = Utf8               log
+  #571 = Utf8               m
+  #572 = Utf8               master
+  #573 = Utf8               mob
+  #574 = Utf8               n
+  #575 = Utf8               next
+  #576 = Utf8               npc
+  #577 = Utf8               o
+  #578 = Utf8               object
+  #579 = Utf8               p
+  #580 = Utf8               pc
+  #581 = Utf8               pet
+  #582 = Utf8               prepareStatement
+  #583 = Utf8               prob_every_enchant
+  #584 = Utf8               probability
+  #585 = Utf8               pstm
+  #586 = Utf8               put
+  #587 = Utf8               q
+  #588 = Utf8               r
+  #589 = Utf8               random_damage
+  #590 = Utf8               rs
+  #591 = Utf8               s
+  #592 = Utf8               skill_name
+  #593 = Utf8               t
+  #594 = Utf8               target
+  #595 = Utf8               targetNpc
+  #596 = Utf8               targetPc
+  #597 = Utf8               this
+  #598 = Utf8               toString
+  #599 = Utf8               tpc
+  #600 = Utf8               u
+  #601 = Utf8               v
+  #602 = Utf8               value
+  #603 = Utf8               valueOf
+  #604 = Utf8               weapon
+  #605 = Utf8               weapon_id
+  #606 = Utf8               weaponid
+{
+  private static final java.util.logging.Logger a;
+    descriptor: Ljava/util/logging/Logger;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  private static ao.bl b;
+    descriptor: Lao/bl;
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+
+  private final java.util.HashMap<java.lang.Integer, ao.bl$a> c;
+    descriptor: Ljava/util/HashMap;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #443                         // Ljava/util/HashMap<Ljava/lang/Integer;Lao/bl$a;>;
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #26                 // class ao/bl
+         2: invokevirtual #199                // Method java/lang/Class.getName:()Ljava/lang/String;
+         5: invokestatic  #212                // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+         8: putstatic     #70                 // Field a:Ljava/util/logging/Logger;
+        11: return
+      LineNumberTable:
+        line 56: 0
+        line 59: 11
+
+  public static ao.bl a();
+    descriptor: ()Lao/bl;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: getstatic     #71                 // Field b:Lao/bl;
+         3: ifnonnull     16
+         6: new           #26                 // class ao/bl
+         9: dup
+        10: invokespecial #75                 // Method "<init>":()V
+        13: putstatic     #71                 // Field b:Lao/bl;
+        16: getstatic     #71                 // Field b:Lao/bl;
+        19: areturn
+      LineNumberTable:
+        line 62: 0
+        line 63: 6
+        line 65: 16
+
+  private ao.bl();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #201                // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #62                 // class java/util/HashMap
+         8: dup
+         9: invokespecial #208                // Method java/util/HashMap."<init>":()V
+        12: putfield      #72                 // Field c:Ljava/util/HashMap;
+        15: aload_0
+        16: invokespecial #79                 // Method b:()V
+        19: return
+      LineNumberTable:
+        line 68: 0
+        line 97: 4
+        line 69: 15
+        line 70: 19
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      20     0  this   Lao/bl;
+
+  private void b();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=4, locals=6, args_size=1
+         0: aconst_null
+         1: astore_1
+         2: aconst_null
+         3: astore_2
+         4: aconst_null
+         5: astore_3
+         6: invokestatic  #214                // Method l1j/server/b.a:()Ll1j/server/b;
+         9: invokevirtual #215                // Method l1j/server/b.b:()Ljava/sql/Connection;
+        12: astore_1
+        13: aload_1
+        14: ldc           #2                  // String SELECT * FROM weapon_skill
+        16: invokeinterface #216,  2          // InterfaceMethod java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+        21: astore_2
+        22: aload_2
+        23: invokeinterface #217,  1          // InterfaceMethod java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+        28: astore_3
+        29: aload_0
+        30: aload_3
+        31: invokespecial #78                 // Method a:(Ljava/sql/ResultSet;)V
+        34: goto          75
+        37: astore        4
+        39: getstatic     #70                 // Field a:Ljava/util/logging/Logger;
+        42: getstatic     #73                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        45: aload         4
+        47: invokevirtual #206                // Method java/sql/SQLException.getLocalizedMessage:()Ljava/lang/String;
+        50: aload         4
+        52: invokevirtual #213                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        55: aload_3
+        56: aload_2
+        57: aload_1
+        58: invokestatic  #198                // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+        61: goto          81
+        64: astore        5
+        66: aload_3
+        67: aload_2
+        68: aload_1
+        69: invokestatic  #198                // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+        72: aload         5
+        74: athrow
+        75: aload_3
+        76: aload_2
+        77: aload_1
+        78: invokestatic  #198                // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+        81: return
+      Exception table:
+         from    to  target type
+             6    34    37   Class java/sql/SQLException
+             6    55    64   any
+      LineNumberTable:
+        line 73: 0
+        line 74: 2
+        line 75: 4
+        line 78: 6
+        line 79: 13
+        line 80: 22
+        line 81: 29
+        line 82: 34
+        line 83: 39
+        line 85: 55
+        line 84: 64
+        line 85: 66
+        line 86: 72
+        line 85: 75
+        line 87: 81
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      82     0  this   Lao/bl;
+            2      80     1   con   Ljava/sql/Connection;
+            4      78     2  pstm   Ljava/sql/PreparedStatement;
+            6      76     3    rs   Ljava/sql/ResultSet;
+           39      16     4     e   Ljava/sql/SQLException;
+
+  public void a(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #72                 // Field c:Ljava/util/HashMap;
+         4: aload_1
+         5: invokevirtual #129                // Method ap/q.N:()I
+         8: invokestatic  #200                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        11: invokevirtual #209                // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+        14: ifeq          41
+        17: aload_1
+        18: aload_0
+        19: getfield      #72                 // Field c:Ljava/util/HashMap;
+        22: aload_1
+        23: invokevirtual #129                // Method ap/q.N:()I
+        26: invokestatic  #200                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        29: invokevirtual #210                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        32: checkcast     #27                 // class ao/bl$a
+        35: invokestatic  #84                 // Method ao/bl$a.a:(Lao/bl$a;)Ljava/lang/String;
+        38: invokevirtual #131                // Method ap/q.b:(Ljava/lang/String;)V
+        41: return
+      LineNumberTable:
+        line 91: 0
+        line 92: 17
+        line 95: 41
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      42     0  this   Lao/bl;
+            0      42     1 weapon   Lap/q;
+
+  private void a(java.sql.ResultSet) throws java.sql.SQLException;
+    descriptor: (Ljava/sql/ResultSet;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=4, locals=3, args_size=2
+         0: goto          293
+         3: new           #27                 // class ao/bl$a
+         6: dup
+         7: aload_0
+         8: aconst_null
+         9: invokespecial #83                 // Method ao/bl$a."<init>":(Lao/bl;Lao/bl$a;)V
+        12: astore_2
+        13: aload_2
+        14: aload_1
+        15: ldc           #25                 // String weapon_id
+        17: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        22: invokestatic  #86                 // Method ao/bl$a.a:(Lao/bl$a;I)V
+        25: aload_2
+        26: aload_1
+        27: ldc           #24                 // String skill_name
+        29: invokeinterface #221,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+        34: invokestatic  #87                 // Method ao/bl$a.a:(Lao/bl$a;Ljava/lang/String;)V
+        37: aload_2
+        38: aload_1
+        39: ldc           #22                 // String probability
+        41: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        46: invokestatic  #90                 // Method ao/bl$a.b:(Lao/bl$a;I)V
+        49: aload_2
+        50: aload_1
+        51: ldc           #21                 // String prob_every_enchant
+        53: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        58: invokestatic  #93                 // Method ao/bl$a.c:(Lao/bl$a;I)V
+        61: aload_2
+        62: aload_1
+        63: ldc           #6                  // String base_damage
+        65: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        70: invokestatic  #96                 // Method ao/bl$a.d:(Lao/bl$a;I)V
+        73: aload_2
+        74: aload_1
+        75: ldc           #23                 // String random_damage
+        77: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        82: invokestatic  #99                 // Method ao/bl$a.e:(Lao/bl$a;I)V
+        85: aload_2
+        86: aload_1
+        87: ldc           #4                  // String area
+        89: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        94: invokestatic  #102                // Method ao/bl$a.f:(Lao/bl$a;I)V
+        97: aload_2
+        98: aload_1
+        99: ldc           #9                  // String effect_id
+       101: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       106: invokestatic  #105                // Method ao/bl$a.g:(Lao/bl$a;I)V
+       109: aload_2
+       110: aload_1
+       111: ldc           #17                 // String is_target_effect
+       113: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       118: invokestatic  #88                 // Method ao/bl$a.a:(Lao/bl$a;Z)V
+       121: aload_2
+       122: aload_1
+       123: ldc           #10                 // String is_arrow
+       125: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       130: invokestatic  #91                 // Method ao/bl$a.b:(Lao/bl$a;Z)V
+       133: aload_2
+       134: aload_1
+       135: ldc           #5                  // String attr
+       137: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       142: invokestatic  #108                // Method ao/bl$a.h:(Lao/bl$a;I)V
+       145: aload_2
+       146: aload_1
+       147: ldc           #7                  // String berserkers_rate
+       149: invokeinterface #219,  2          // InterfaceMethod java/sql/ResultSet.getDouble:(Ljava/lang/String;)D
+       154: invokestatic  #85                 // Method ao/bl$a.a:(Lao/bl$a;D)V
+       157: aload_2
+       158: aload_1
+       159: ldc           #19                 // String leech_hp
+       161: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       166: invokestatic  #111                // Method ao/bl$a.i:(Lao/bl$a;I)V
+       169: aload_2
+       170: aload_1
+       171: ldc           #20                 // String leech_mp
+       173: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       178: invokestatic  #113                // Method ao/bl$a.j:(Lao/bl$a;I)V
+       181: aload_2
+       182: aload_1
+       183: ldc           #18                 // String leech_every_enchant
+       185: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       190: invokestatic  #115                // Method ao/bl$a.k:(Lao/bl$a;I)V
+       193: aload_2
+       194: aload_1
+       195: ldc           #8                  // String chaser_attack_gfxid
+       197: invokeinterface #220,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       202: invokestatic  #117                // Method ao/bl$a.l:(Lao/bl$a;I)V
+       205: aload_2
+       206: aload_1
+       207: ldc           #11                 // String is_caotic
+       209: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       214: invokestatic  #94                 // Method ao/bl$a.c:(Lao/bl$a;Z)V
+       217: aload_2
+       218: aload_1
+       219: ldc           #14                 // String is_skill_freeze
+       221: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       226: invokestatic  #97                 // Method ao/bl$a.d:(Lao/bl$a;Z)V
+       229: aload_2
+       230: aload_1
+       231: ldc           #13                 // String is_skill_disease
+       233: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       238: invokestatic  #100                // Method ao/bl$a.e:(Lao/bl$a;Z)V
+       241: aload_2
+       242: aload_1
+       243: ldc           #12                 // String is_skill_bind
+       245: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       250: invokestatic  #103                // Method ao/bl$a.f:(Lao/bl$a;Z)V
+       253: aload_2
+       254: aload_1
+       255: ldc           #16                 // String is_skill_turn_undead
+       257: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       262: invokestatic  #106                // Method ao/bl$a.g:(Lao/bl$a;Z)V
+       265: aload_2
+       266: aload_1
+       267: ldc           #15                 // String is_skill_mind_break
+       269: invokeinterface #218,  2          // InterfaceMethod java/sql/ResultSet.getBoolean:(Ljava/lang/String;)Z
+       274: invokestatic  #109                // Method ao/bl$a.h:(Lao/bl$a;Z)V
+       277: aload_0
+       278: getfield      #72                 // Field c:Ljava/util/HashMap;
+       281: aload_2
+       282: invokestatic  #89                 // Method ao/bl$a.b:(Lao/bl$a;)I
+       285: invokestatic  #200                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       288: aload_2
+       289: invokevirtual #211                // Method java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       292: pop
+       293: aload_1
+       294: invokeinterface #222,  1          // InterfaceMethod java/sql/ResultSet.next:()Z
+       299: ifne          3
+       302: return
+      LineNumberTable:
+        line 100: 0
+        line 102: 3
+        line 103: 13
+        line 104: 25
+        line 105: 37
+        line 106: 49
+        line 107: 61
+        line 108: 73
+        line 110: 85
+        line 112: 97
+        line 113: 109
+        line 114: 121
+        line 115: 133
+        line 116: 145
+        line 117: 157
+        line 118: 169
+        line 119: 181
+        line 121: 193
+        line 123: 205
+        line 125: 217
+        line 126: 229
+        line 127: 241
+        line 128: 253
+        line 129: 265
+        line 131: 277
+        line 100: 293
+        line 137: 302
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     303     0  this   Lao/bl;
+            0     303     1    rs   Ljava/sql/ResultSet;
+           13     280     2  data   Lao/bl$a;
+    Exceptions:
+      throws java.sql.SQLException
+
+  public double a(ap.u, aq.f, int);
+    descriptor: (Lap/u;Laq/f;I)D
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=10, locals=15, args_size=4
+         0: aload_2
+         1: instanceof    #28                 // class ap/e
+         4: ifeq          9
+         7: dconst_0
+         8: dreturn
+         9: aload_0
+        10: getfield      #72                 // Field c:Ljava/util/HashMap;
+        13: iload_3
+        14: invokestatic  #200                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        17: invokevirtual #209                // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+        20: ifne          25
+        23: dconst_0
+        24: dreturn
+        25: iload_3
+        26: sipush        310
+        29: if_icmpne     54
+        32: aload_1
+        33: invokevirtual #155                // Method ap/u.fp:()I
+        36: sipush        2600
+        39: if_icmplt     52
+        42: aload_1
+        43: invokevirtual #155                // Method ap/u.fp:()I
+        46: sipush        2698
+        49: if_icmple     73
+        52: dconst_0
+        53: dreturn
+        54: iload_3
+        55: sipush        413
+        58: if_icmpne     73
+        61: aload_1
+        62: invokevirtual #155                // Method ap/u.fp:()I
+        65: sipush        6311
+        68: if_icmpeq     73
+        71: dconst_0
+        72: dreturn
+        73: aload_0
+        74: getfield      #72                 // Field c:Ljava/util/HashMap;
+        77: iload_3
+        78: invokestatic  #200                // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        81: invokevirtual #210                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        84: checkcast     #27                 // class ao/bl$a
+        87: astore        4
+        89: bipush        100
+        91: invokestatic  #197                // Method bi/i.a:(I)I
+        94: aload         4
+        96: invokestatic  #92                 // Method ao/bl$a.c:(Lao/bl$a;)I
+        99: aload         4
+       101: invokestatic  #95                 // Method ao/bl$a.d:(Lao/bl$a;)I
+       104: aload_1
+       105: invokevirtual #162                // Method ap/u.v:()Lap/q;
+       108: invokevirtual #128                // Method ap/q.G:()I
+       111: imul
+       112: iadd
+       113: if_icmple     118
+       116: dconst_0
+       117: dreturn
+       118: aload         4
+       120: invokestatic  #98                 // Method ao/bl$a.e:(Lao/bl$a;)Z
+       123: ifeq          130
+       126: aload_2
+       127: goto          131
+       130: aload_1
+       131: astore        5
+       133: aload         4
+       135: invokestatic  #101                // Method ao/bl$a.f:(Lao/bl$a;)I
+       138: istore        6
+       140: iload         6
+       142: ifle          297
+       145: aload         4
+       147: invokestatic  #104                // Method ao/bl$a.g:(Lao/bl$a;)Z
+       150: ifeq          261
+       153: new           #38                 // class aq/f
+       156: dup
+       157: invokespecial #170                // Method aq/f."<init>":()V
+       160: astore        7
+       162: aload_1
+       163: invokevirtual #162                // Method ap/u.v:()Lap/q;
+       166: invokevirtual #130                // Method ap/q.a:()Lbh/j;
+       169: invokevirtual #196                // Method bh/j.aO:()I
+       172: bipush        20
+       174: if_icmpne     198
+       177: aload         7
+       179: aload_1
+       180: invokevirtual #157                // Method ap/u.fs:()I
+       183: invokevirtual #173                // Method aq/f.cG:(I)V
+       186: aload         7
+       188: aload_1
+       189: invokevirtual #158                // Method ap/u.ft:()I
+       192: invokevirtual #174                // Method aq/f.cH:(I)V
+       195: goto          216
+       198: aload         7
+       200: aload_2
+       201: invokevirtual #177                // Method aq/f.fs:()I
+       204: invokevirtual #173                // Method aq/f.cG:(I)V
+       207: aload         7
+       209: aload_2
+       210: invokevirtual #178                // Method aq/f.ft:()I
+       213: invokevirtual #174                // Method aq/f.cH:(I)V
+       216: aload_1
+       217: new           #45                 // class be/g
+       220: dup
+       221: aload         7
+       223: aload_2
+       224: iconst_1
+       225: iload         6
+       227: iconst_0
+       228: bipush        6
+       230: iconst_0
+       231: invokespecial #187                // Method be/g."<init>":(Laq/f;Laq/f;IIIII)V
+       234: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+       237: aload_1
+       238: new           #45                 // class be/g
+       241: dup
+       242: aload         7
+       244: aload_2
+       245: iconst_1
+       246: iload         6
+       248: iconst_0
+       249: bipush        6
+       251: iconst_0
+       252: invokespecial #187                // Method be/g."<init>":(Laq/f;Laq/f;IIIII)V
+       255: invokevirtual #148                // Method ap/u.b:(Lbe/eu;)V
+       258: goto          297
+       261: aload_1
+       262: new           #44                 // class be/ee
+       265: dup
+       266: aload         5
+       268: invokevirtual #176                // Method aq/f.fr:()I
+       271: iload         6
+       273: invokespecial #186                // Method be/ee."<init>":(II)V
+       276: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+       279: aload_1
+       280: new           #44                 // class be/ee
+       283: dup
+       284: aload         5
+       286: invokevirtual #176                // Method aq/f.fr:()I
+       289: iload         6
+       291: invokespecial #186                // Method be/ee."<init>":(II)V
+       294: invokevirtual #148                // Method ap/u.b:(Lbe/eu;)V
+       297: aload         4
+       299: invokestatic  #107                // Method ao/bl$a.h:(Lao/bl$a;)Z
+       302: ifeq          310
+       305: aload_0
+       306: aload_2
+       307: invokespecial #82                 // Method d:(Laq/f;)V
+       310: aload         4
+       312: invokestatic  #110                // Method ao/bl$a.i:(Lao/bl$a;)Z
+       315: ifeq          323
+       318: aload_0
+       319: aload_2
+       320: invokespecial #80                 // Method b:(Laq/f;)V
+       323: aload         4
+       325: invokestatic  #112                // Method ao/bl$a.j:(Lao/bl$a;)Z
+       328: ifeq          336
+       331: aload_0
+       332: aload_2
+       333: invokespecial #77                 // Method a:(Laq/f;)V
+       336: aload         4
+       338: invokestatic  #114                // Method ao/bl$a.k:(Lao/bl$a;)Z
+       341: ifeq          350
+       344: aload_0
+       345: aload_1
+       346: aload_2
+       347: invokespecial #76                 // Method a:(Lap/u;Laq/f;)V
+       350: aload         4
+       352: invokestatic  #116                // Method ao/bl$a.l:(Lao/bl$a;)Z
+       355: ifeq          363
+       358: aload_0
+       359: aload_2
+       360: invokespecial #81                 // Method c:(Laq/f;)V
+       363: aload         4
+       365: invokestatic  #118                // Method ao/bl$a.m:(Lao/bl$a;)I
+       368: ifle          388
+       371: new           #40                 // class bc/e
+       374: dup
+       375: aload_1
+       376: aload_2
+       377: aload         4
+       379: invokestatic  #118                // Method ao/bl$a.m:(Lao/bl$a;)I
+       382: invokespecial #181                // Method bc/e."<init>":(Lap/u;Laq/f;I)V
+       385: invokevirtual #182                // Method bc/e.a:()V
+       388: aload         4
+       390: invokestatic  #119                // Method ao/bl$a.n:(Lao/bl$a;)I
+       393: i2d
+       394: dstore        7
+       396: aload         4
+       398: invokestatic  #120                // Method ao/bl$a.o:(Lao/bl$a;)I
+       401: ifeq          418
+       404: dload         7
+       406: aload         4
+       408: invokestatic  #120                // Method ao/bl$a.o:(Lao/bl$a;)I
+       411: invokestatic  #197                // Method bi/i.a:(I)I
+       414: i2d
+       415: dadd
+       416: dstore        7
+       418: aload         4
+       420: invokestatic  #121                // Method ao/bl$a.p:(Lao/bl$a;)Z
+       423: ifeq          450
+       426: aload_1
+       427: invokevirtual #154                // Method ap/u.fa:()I
+       430: ifge          450
+       433: dload         7
+       435: aload_1
+       436: invokevirtual #154                // Method ap/u.fa:()I
+       439: sipush        -300
+       442: idiv
+       443: invokestatic  #197                // Method bi/i.a:(I)I
+       446: i2d
+       447: dadd
+       448: dstore        7
+       450: aload         4
+       452: invokestatic  #122                // Method ao/bl$a.q:(Lao/bl$a;)I
+       455: ifle          512
+       458: aload         4
+       460: invokestatic  #122                // Method ao/bl$a.q:(Lao/bl$a;)I
+       463: aload         4
+       465: invokestatic  #123                // Method ao/bl$a.r:(Lao/bl$a;)I
+       468: aload_1
+       469: invokevirtual #162                // Method ap/u.v:()Lap/q;
+       472: invokevirtual #128                // Method ap/q.G:()I
+       475: imul
+       476: invokestatic  #197                // Method bi/i.a:(I)I
+       479: iadd
+       480: istore        9
+       482: iload         9
+       484: aload_2
+       485: invokevirtual #171                // Method aq/f.W_:()I
+       488: iconst_2
+       489: idiv
+       490: isub
+       491: istore        9
+       493: iload         9
+       495: ifge          501
+       498: iconst_0
+       499: istore        9
+       501: aload_1
+       502: aload_1
+       503: invokevirtual #152                // Method ap/u.ea:()I
+       506: iload         9
+       508: iadd
+       509: invokevirtual #143                // Method ap/u.a:(I)V
+       512: aload         4
+       514: invokestatic  #124                // Method ao/bl$a.s:(Lao/bl$a;)I
+       517: ifle          641
+       520: aload         4
+       522: invokestatic  #124                // Method ao/bl$a.s:(Lao/bl$a;)I
+       525: aload         4
+       527: invokestatic  #123                // Method ao/bl$a.r:(Lao/bl$a;)I
+       530: aload_1
+       531: invokevirtual #162                // Method ap/u.v:()Lap/q;
+       534: invokevirtual #128                // Method ap/q.G:()I
+       537: imul
+       538: iadd
+       539: invokestatic  #197                // Method bi/i.a:(I)I
+       542: istore        9
+       544: aload_2
+       545: instanceof    #32                 // class ap/u
+       548: ifeq          595
+       551: aload_2
+       552: checkcast     #32                 // class ap/u
+       555: astore        10
+       557: iload         9
+       559: aload         10
+       561: invokevirtual #153                // Method ap/u.eb:()I
+       564: if_icmple     575
+       567: aload         10
+       569: invokevirtual #153                // Method ap/u.eb:()I
+       572: goto          577
+       575: iload         9
+       577: istore        9
+       579: aload         10
+       581: aload         10
+       583: invokevirtual #153                // Method ap/u.eb:()I
+       586: iload         9
+       588: isub
+       589: invokevirtual #159                // Method ap/u.i_:(I)V
+       592: goto          630
+       595: aload_2
+       596: instanceof    #31                 // class ap/t
+       599: ifeq          630
+       602: aload_2
+       603: checkcast     #31                 // class ap/t
+       606: astore        10
+       608: aload         10
+       610: iload         9
+       612: invokevirtual #140                // Method ap/t.i:(I)I
+       615: istore        9
+       617: aload         10
+       619: aload         10
+       621: invokevirtual #138                // Method ap/t.eb:()I
+       624: iload         9
+       626: isub
+       627: invokevirtual #137                // Method ap/t.by:(I)V
+       630: aload_1
+       631: aload_1
+       632: invokevirtual #153                // Method ap/u.eb:()I
+       635: iload         9
+       637: iadd
+       638: invokevirtual #159                // Method ap/u.i_:(I)V
+       641: aload         4
+       643: invokestatic  #125                // Method ao/bl$a.t:(Lao/bl$a;)D
+       646: dconst_0
+       647: dcmpl
+       648: ifle          661
+       651: dload         7
+       653: aload         4
+       655: invokestatic  #125                // Method ao/bl$a.t:(Lao/bl$a;)D
+       658: dmul
+       659: dstore        7
+       661: aload         4
+       663: invokestatic  #126                // Method ao/bl$a.u:(Lao/bl$a;)I
+       666: iconst_m1
+       667: if_icmpeq     684
+       670: aload_1
+       671: aload_2
+       672: dload         7
+       674: aload         4
+       676: invokestatic  #126                // Method ao/bl$a.u:(Lao/bl$a;)I
+       679: invokestatic  #180                // Method aq/w.a:(Laq/f;Laq/f;DI)D
+       682: dstore        7
+       684: aload         4
+       686: invokestatic  #127                // Method ao/bl$a.v:(Lao/bl$a;)I
+       689: ifgt          701
+       692: aload         4
+       694: invokestatic  #127                // Method ao/bl$a.v:(Lao/bl$a;)I
+       697: iconst_m1
+       698: if_icmpne     1596
+       701: invokestatic  #168                // Method aq/aq.a:()Laq/aq;
+       704: aload         5
+       706: aload         4
+       708: invokestatic  #127                // Method ao/bl$a.v:(Lao/bl$a;)I
+       711: invokevirtual #169                // Method aq/aq.b:(Laq/aa;I)Ljava/util/ArrayList;
+       714: invokevirtual #207                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       717: astore        10
+       719: goto          1586
+       722: aload         10
+       724: invokeinterface #224,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       729: checkcast     #35                 // class aq/aa
+       732: astore        9
+       734: aload         9
+       736: instanceof    #38                 // class aq/f
+       739: ifne          745
+       742: goto          1586
+       745: aload         9
+       747: invokevirtual #163                // Method aq/aa.fr:()I
+       750: aload_1
+       751: invokevirtual #156                // Method ap/u.fr:()I
+       754: if_icmpne     760
+       757: goto          1586
+       760: aload         9
+       762: invokevirtual #163                // Method aq/aa.fr:()I
+       765: aload_2
+       766: invokevirtual #176                // Method aq/f.fr:()I
+       769: if_icmpne     775
+       772: goto          1586
+       775: aload         4
+       777: invokestatic  #119                // Method ao/bl$a.n:(Lao/bl$a;)I
+       780: i2d
+       781: dstore        11
+       783: aload         4
+       785: invokestatic  #120                // Method ao/bl$a.o:(Lao/bl$a;)I
+       788: ifeq          805
+       791: dload         11
+       793: aload         4
+       795: invokestatic  #120                // Method ao/bl$a.o:(Lao/bl$a;)I
+       798: invokestatic  #197                // Method bi/i.a:(I)I
+       801: i2d
+       802: dadd
+       803: dstore        11
+       805: aload         9
+       807: instanceof    #32                 // class ap/u
+       810: ifeq          861
+       813: aload         9
+       815: checkcast     #32                 // class ap/u
+       818: astore        13
+       820: aload         13
+       822: invokevirtual #150                // Method ap/u.bN:()Z
+       825: ifne          1586
+       828: aload         13
+       830: invokevirtual #147                // Method ap/u.aA:()Z
+       833: ifne          1586
+       836: aload         13
+       838: invokevirtual #151                // Method ap/u.eX:()Z
+       841: ifeq          847
+       844: goto          1586
+       847: aload_1
+       848: aload_1
+       849: aload         13
+       851: iconst_1
+       852: invokevirtual #144                // Method ap/u.a:(Lap/u;Laq/f;Z)Z
+       855: ifeq          989
+       858: goto          1586
+       861: aload         9
+       863: instanceof    #30                 // class ap/s
+       866: ifeq          905
+       869: aload         9
+       871: checkcast     #30                 // class ap/s
+       874: astore        13
+       876: aload         13
+       878: invokevirtual #133                // Method ap/s.eX:()Z
+       881: ifne          1586
+       884: aload         13
+       886: invokevirtual #132                // Method ap/s.ac:()I
+       889: iconst_1
+       890: if_icmpeq     1586
+       893: aload         13
+       895: invokevirtual #132                // Method ap/s.ac:()I
+       898: iconst_2
+       899: if_icmpne     989
+       902: goto          1586
+       905: aload         9
+       907: instanceof    #34                 // class ap/z
+       910: ifne          921
+       913: aload         9
+       915: instanceof    #33                 // class ap/v
+       918: ifeq          1586
+       921: aload         9
+       923: checkcast     #31                 // class ap/t
+       926: astore        13
+       928: aload         13
+       930: invokevirtual #134                // Method ap/t.M:()Laq/f;
+       933: checkcast     #32                 // class ap/u
+       936: astore        14
+       938: aload         14
+       940: ifnull        989
+       943: aload         14
+       945: invokevirtual #149                // Method ap/u.bE:()I
+       948: ifle          959
+       951: dload         11
+       953: ldc2_w        #68                 // double 8.0d
+       956: ddiv
+       957: dstore        11
+       959: aload         14
+       961: invokevirtual #156                // Method ap/u.fr:()I
+       964: aload_1
+       965: invokevirtual #156                // Method ap/u.fr:()I
+       968: if_icmpne     974
+       971: goto          1586
+       974: aload         14
+       976: aload_1
+       977: aload         14
+       979: iconst_1
+       980: invokevirtual #144                // Method ap/u.a:(Lap/u;Laq/f;Z)Z
+       983: ifeq          989
+       986: goto          1586
+       989: aload         4
+       991: invokestatic  #107                // Method ao/bl$a.h:(Lao/bl$a;)Z
+       994: ifeq          1016
+       997: bipush        100
+       999: invokestatic  #197                // Method bi/i.a:(I)I
+      1002: bipush        45
+      1004: if_icmpge     1016
+      1007: aload_0
+      1008: aload         9
+      1010: checkcast     #38                 // class aq/f
+      1013: invokespecial #82                 // Method d:(Laq/f;)V
+      1016: aload         4
+      1018: invokestatic  #110                // Method ao/bl$a.i:(Lao/bl$a;)Z
+      1021: ifeq          1043
+      1024: bipush        100
+      1026: invokestatic  #197                // Method bi/i.a:(I)I
+      1029: bipush        45
+      1031: if_icmpge     1043
+      1034: aload_0
+      1035: aload         9
+      1037: checkcast     #38                 // class aq/f
+      1040: invokespecial #80                 // Method b:(Laq/f;)V
+      1043: aload         4
+      1045: invokestatic  #112                // Method ao/bl$a.j:(Lao/bl$a;)Z
+      1048: ifeq          1070
+      1051: bipush        100
+      1053: invokestatic  #197                // Method bi/i.a:(I)I
+      1056: bipush        45
+      1058: if_icmpge     1070
+      1061: aload_0
+      1062: aload         9
+      1064: checkcast     #38                 // class aq/f
+      1067: invokespecial #77                 // Method a:(Laq/f;)V
+      1070: aload         4
+      1072: invokestatic  #116                // Method ao/bl$a.l:(Lao/bl$a;)Z
+      1075: ifeq          1097
+      1078: bipush        100
+      1080: invokestatic  #197                // Method bi/i.a:(I)I
+      1083: bipush        45
+      1085: if_icmpge     1097
+      1088: aload_0
+      1089: aload         9
+      1091: checkcast     #38                 // class aq/f
+      1094: invokespecial #81                 // Method c:(Laq/f;)V
+      1097: aload         4
+      1099: invokestatic  #114                // Method ao/bl$a.k:(Lao/bl$a;)Z
+      1102: ifeq          1125
+      1105: bipush        100
+      1107: invokestatic  #197                // Method bi/i.a:(I)I
+      1110: bipush        45
+      1112: if_icmpge     1125
+      1115: aload_0
+      1116: aload_1
+      1117: aload         9
+      1119: checkcast     #38                 // class aq/f
+      1122: invokespecial #76                 // Method a:(Lap/u;Laq/f;)V
+      1125: aload         4
+      1127: invokestatic  #118                // Method ao/bl$a.m:(Lao/bl$a;)I
+      1130: ifle          1154
+      1133: new           #40                 // class bc/e
+      1136: dup
+      1137: aload_1
+      1138: aload         9
+      1140: checkcast     #38                 // class aq/f
+      1143: aload         4
+      1145: invokestatic  #118                // Method ao/bl$a.m:(Lao/bl$a;)I
+      1148: invokespecial #181                // Method bc/e."<init>":(Lap/u;Laq/f;I)V
+      1151: invokevirtual #182                // Method bc/e.a:()V
+      1154: aload         4
+      1156: invokestatic  #122                // Method ao/bl$a.q:(Lao/bl$a;)I
+      1159: ifle          1220
+      1162: aload         4
+      1164: invokestatic  #122                // Method ao/bl$a.q:(Lao/bl$a;)I
+      1167: aload         4
+      1169: invokestatic  #123                // Method ao/bl$a.r:(Lao/bl$a;)I
+      1172: aload_1
+      1173: invokevirtual #162                // Method ap/u.v:()Lap/q;
+      1176: invokevirtual #128                // Method ap/q.G:()I
+      1179: imul
+      1180: invokestatic  #197                // Method bi/i.a:(I)I
+      1183: iadd
+      1184: istore        13
+      1186: iload         13
+      1188: aload         9
+      1190: checkcast     #38                 // class aq/f
+      1193: invokevirtual #171                // Method aq/f.W_:()I
+      1196: iconst_2
+      1197: idiv
+      1198: isub
+      1199: istore        13
+      1201: iload         13
+      1203: ifge          1209
+      1206: iconst_0
+      1207: istore        13
+      1209: aload_1
+      1210: aload_1
+      1211: invokevirtual #152                // Method ap/u.ea:()I
+      1214: iload         13
+      1216: iadd
+      1217: invokevirtual #143                // Method ap/u.a:(I)V
+      1220: aload         4
+      1222: invokestatic  #124                // Method ao/bl$a.s:(Lao/bl$a;)I
+      1225: ifle          1353
+      1228: aload         4
+      1230: invokestatic  #124                // Method ao/bl$a.s:(Lao/bl$a;)I
+      1233: aload         4
+      1235: invokestatic  #123                // Method ao/bl$a.r:(Lao/bl$a;)I
+      1238: aload_1
+      1239: invokevirtual #162                // Method ap/u.v:()Lap/q;
+      1242: invokevirtual #128                // Method ap/q.G:()I
+      1245: imul
+      1246: iadd
+      1247: invokestatic  #197                // Method bi/i.a:(I)I
+      1250: istore        13
+      1252: aload         9
+      1254: instanceof    #32                 // class ap/u
+      1257: ifeq          1305
+      1260: aload         9
+      1262: checkcast     #32                 // class ap/u
+      1265: astore        14
+      1267: iload         13
+      1269: aload         14
+      1271: invokevirtual #153                // Method ap/u.eb:()I
+      1274: if_icmple     1285
+      1277: aload         14
+      1279: invokevirtual #153                // Method ap/u.eb:()I
+      1282: goto          1287
+      1285: iload         13
+      1287: istore        13
+      1289: aload         14
+      1291: aload         14
+      1293: invokevirtual #153                // Method ap/u.eb:()I
+      1296: iload         13
+      1298: isub
+      1299: invokevirtual #159                // Method ap/u.i_:(I)V
+      1302: goto          1342
+      1305: aload         9
+      1307: instanceof    #31                 // class ap/t
+      1310: ifeq          1342
+      1313: aload         9
+      1315: checkcast     #31                 // class ap/t
+      1318: astore        14
+      1320: aload         14
+      1322: iload         13
+      1324: invokevirtual #140                // Method ap/t.i:(I)I
+      1327: istore        13
+      1329: aload         14
+      1331: aload         14
+      1333: invokevirtual #138                // Method ap/t.eb:()I
+      1336: iload         13
+      1338: isub
+      1339: invokevirtual #137                // Method ap/t.by:(I)V
+      1342: aload_1
+      1343: aload_1
+      1344: invokevirtual #153                // Method ap/u.eb:()I
+      1347: iload         13
+      1349: iadd
+      1350: invokevirtual #159                // Method ap/u.i_:(I)V
+      1353: aload         4
+      1355: invokestatic  #126                // Method ao/bl$a.u:(Lao/bl$a;)I
+      1358: iconst_m1
+      1359: if_icmpeq     1380
+      1362: aload_1
+      1363: aload         9
+      1365: checkcast     #38                 // class aq/f
+      1368: dload         11
+      1370: aload         4
+      1372: invokestatic  #126                // Method ao/bl$a.u:(Lao/bl$a;)I
+      1375: invokestatic  #180                // Method aq/w.a:(Laq/f;Laq/f;DI)D
+      1378: dstore        11
+      1380: getstatic     #74                 // Field l1j/server/a.S:Z
+      1383: ifeq          1469
+      1386: aload_1
+      1387: invokevirtual #161                // Method ap/u.l:()Z
+      1390: ifeq          1469
+      1393: new           #38                 // class aq/f
+      1396: dup
+      1397: invokespecial #170                // Method aq/f."<init>":()V
+      1400: astore        13
+      1402: aload         13
+      1404: aload         9
+      1406: invokevirtual #163                // Method aq/aa.fr:()I
+      1409: invokevirtual #172                // Method aq/f.cF:(I)V
+      1412: aload         13
+      1414: aload         9
+      1416: invokevirtual #164                // Method aq/aa.fs:()I
+      1419: invokevirtual #173                // Method aq/f.cG:(I)V
+      1422: aload         13
+      1424: aload         9
+      1426: invokevirtual #165                // Method aq/aa.ft:()I
+      1429: iconst_1
+      1430: isub
+      1431: invokevirtual #174                // Method aq/f.cH:(I)V
+      1434: aload_1
+      1435: new           #42                 // class be/cg
+      1438: dup
+      1439: aload         13
+      1441: new           #56                 // class java/lang/StringBuilder
+      1444: dup
+      1445: ldc           #3                  // String \\\\fRf4↓ 魔傷\\\\fRfM (
+      1447: invokespecial #202                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+      1450: dload         11
+      1452: invokevirtual #203                // Method java/lang/StringBuilder.append:(D)Ljava/lang/StringBuilder;
+      1455: ldc           #1                  // String )
+      1457: invokevirtual #204                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+      1460: invokevirtual #205                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+      1463: invokespecial #184                // Method be/cg."<init>":(Laq/f;Ljava/lang/String;)V
+      1466: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+      1469: dload         11
+      1471: dconst_0
+      1472: dcmpg
+      1473: ifgt          1479
+      1476: goto          1586
+      1479: aload         9
+      1481: instanceof    #32                 // class ap/u
+      1484: ifeq          1544
+      1487: aload         9
+      1489: checkcast     #32                 // class ap/u
+      1492: astore        13
+      1494: aload         13
+      1496: new           #41                 // class be/ak
+      1499: dup
+      1500: aload         13
+      1502: invokevirtual #156                // Method ap/u.fr:()I
+      1505: iconst_2
+      1506: invokespecial #183                // Method be/ak."<init>":(II)V
+      1509: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+      1512: aload         13
+      1514: new           #41                 // class be/ak
+      1517: dup
+      1518: aload         13
+      1520: invokevirtual #156                // Method ap/u.fr:()I
+      1523: iconst_2
+      1524: invokespecial #183                // Method be/ak."<init>":(II)V
+      1527: invokevirtual #148                // Method ap/u.b:(Lbe/eu;)V
+      1530: aload         13
+      1532: aload_1
+      1533: dload         11
+      1535: d2i
+      1536: i2d
+      1537: iconst_0
+      1538: invokevirtual #145                // Method ap/u.a:(Laq/f;DZ)V
+      1541: goto          1586
+      1544: aload         9
+      1546: instanceof    #31                 // class ap/t
+      1549: ifeq          1586
+      1552: aload         9
+      1554: checkcast     #31                 // class ap/t
+      1557: astore        13
+      1559: aload         13
+      1561: new           #41                 // class be/ak
+      1564: dup
+      1565: aload         13
+      1567: invokevirtual #139                // Method ap/t.fr:()I
+      1570: iconst_2
+      1571: invokespecial #183                // Method be/ak."<init>":(II)V
+      1574: invokevirtual #136                // Method ap/t.b:(Lbe/eu;)V
+      1577: aload         13
+      1579: aload_1
+      1580: dload         11
+      1582: d2i
+      1583: invokevirtual #135                // Method ap/t.b:(Laq/f;I)V
+      1586: aload         10
+      1588: invokeinterface #223,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+      1593: ifne          722
+      1596: dload         7
+      1598: dreturn
+      LineNumberTable:
+        line 141: 0
+        line 142: 7
+        line 145: 9
+        line 146: 23
+        line 148: 25
+        line 150: 32
+        line 151: 52
+        line 153: 54
+        line 154: 61
+        line 155: 71
+        line 159: 73
+        line 161: 89
+        line 162: 116
+        line 165: 118
+        line 167: 133
+        line 168: 140
+        line 170: 145
+        line 171: 153
+        line 172: 162
+        line 173: 177
+        line 174: 186
+        line 175: 195
+        line 176: 198
+        line 177: 207
+        line 179: 216
+        line 180: 237
+        line 181: 258
+        line 183: 261
+        line 184: 279
+        line 189: 297
+        line 190: 305
+        line 193: 310
+        line 194: 318
+        line 197: 323
+        line 198: 331
+        line 201: 336
+        line 202: 344
+        line 205: 350
+        line 206: 358
+        line 209: 363
+        line 210: 371
+        line 212: 388
+        line 214: 396
+        line 215: 404
+        line 226: 418
+        line 227: 426
+        line 228: 433
+        line 232: 450
+        line 233: 458
+        line 235: 482
+        line 237: 493
+        line 238: 498
+        line 242: 501
+        line 245: 512
+        line 246: 520
+        line 248: 544
+        line 249: 551
+        line 250: 557
+        line 251: 579
+        line 252: 592
+        line 253: 602
+        line 254: 608
+        line 255: 617
+        line 257: 630
+        line 260: 641
+        line 261: 651
+        line 264: 661
+        line 265: 670
+        line 267: 684
+        line 270: 701
+        line 271: 734
+        line 272: 742
+        line 275: 745
+        line 276: 757
+        line 278: 760
+        line 279: 772
+        line 281: 775
+        line 283: 783
+        line 284: 791
+        line 287: 805
+        line 288: 813
+        line 290: 820
+        line 291: 844
+        line 295: 847
+        line 296: 858
+        line 299: 861
+        line 300: 869
+        line 301: 876
+        line 302: 893
+        line 303: 902
+        line 306: 905
+        line 307: 921
+        line 309: 928
+        line 310: 938
+        line 311: 943
+        line 312: 951
+        line 315: 959
+        line 316: 971
+        line 319: 974
+        line 320: 986
+        line 328: 989
+        line 329: 1007
+        line 331: 1016
+        line 332: 1034
+        line 334: 1043
+        line 335: 1061
+        line 337: 1070
+        line 338: 1088
+        line 340: 1097
+        line 341: 1115
+        line 344: 1125
+        line 345: 1133
+        line 348: 1154
+        line 349: 1162
+        line 350: 1186
+        line 352: 1201
+        line 353: 1206
+        line 355: 1209
+        line 357: 1220
+        line 358: 1228
+        line 360: 1252
+        line 361: 1260
+        line 362: 1267
+        line 363: 1289
+        line 364: 1302
+        line 365: 1313
+        line 366: 1320
+        line 367: 1329
+        line 369: 1342
+        line 372: 1353
+        line 373: 1362
+        line 376: 1380
+        line 377: 1393
+        line 378: 1402
+        line 379: 1412
+        line 380: 1422
+        line 382: 1434
+        line 385: 1469
+        line 386: 1476
+        line 388: 1479
+        line 389: 1487
+        line 390: 1494
+        line 391: 1512
+        line 392: 1530
+        line 393: 1541
+        line 394: 1552
+        line 395: 1559
+        line 396: 1577
+        line 270: 1586
+        line 401: 1596
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0    1599     0  this   Lao/bl;
+            0    1599     1    pc   Lap/u;
+            0    1599     2 target   Laq/f;
+            0    1599     3 weaponid   I
+           89    1510     4  data   Lao/bl$a;
+          133    1466     5 effect_cha   Laq/f;
+          140    1459     6 effectId   I
+          162      96     7 dummy   Laq/f;
+          396    1203     7 damage   D
+          482      30     9 value   I
+          544      97     9 value   I
+          557      35    10   tpc   Lap/u;
+          608      22    10   npc   Lap/t;
+          734     852     9 object   Laq/aa;
+          783     803    11   dmg   D
+          820      41    13   tpc   Lap/u;
+          876      29    13   mob   Lap/s;
+          928      61    13   pet   Lap/t;
+          938      51    14 master   Lap/u;
+         1186      34    13 value   I
+         1252     101    13 value   I
+         1267      35    14   tpc   Lap/u;
+         1320      22    14   npc   Lap/t;
+         1402      67    13   cha   Laq/f;
+         1494      47    13 targetPc   Lap/u;
+         1559      27    13 targetNpc   Lap/t;
+
+  private void a(ap.u, aq.f);
+    descriptor: (Lap/u;Laq/f;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=4, locals=3, args_size=3
+         0: bipush        100
+         2: invokestatic  #197                // Method bi/i.a:(I)I
+         5: aload_2
+         6: invokevirtual #171                // Method aq/f.W_:()I
+         9: if_icmpgt     13
+        12: return
+        13: new           #48                 // class bf/fu
+        16: dup
+        17: invokespecial #192                // Method bf/fu."<init>":()V
+        20: aload_1
+        21: aload_2
+        22: iconst_m1
+        23: invokevirtual #193                // Method bf/fu.b:(Laq/f;Laq/f;I)V
+        26: return
+      LineNumberTable:
+        line 408: 0
+        line 409: 12
+        line 411: 13
+        line 413: 26
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      27     0  this   Lao/bl;
+            0      27     1    pc   Lap/u;
+            0      27     2   cha   Laq/f;
+
+  private void a(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=2
+         0: bipush        100
+         2: invokestatic  #197                // Method bi/i.a:(I)I
+         5: aload_1
+         6: invokevirtual #171                // Method aq/f.W_:()I
+         9: if_icmpgt     13
+        12: return
+        13: new           #49                 // class bf/t
+        16: dup
+        17: invokespecial #194                // Method bf/t."<init>":()V
+        20: aload_1
+        21: iconst_m1
+        22: invokevirtual #195                // Method bf/t.a:(Laq/f;I)V
+        25: return
+      LineNumberTable:
+        line 418: 0
+        line 419: 12
+        line 421: 13
+        line 423: 25
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      26     0  this   Lao/bl;
+            0      26     1   cha   Laq/f;
+
+  private void b(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=2
+         0: bipush        100
+         2: invokestatic  #197                // Method bi/i.a:(I)I
+         5: aload_1
+         6: invokevirtual #171                // Method aq/f.W_:()I
+         9: if_icmpgt     13
+        12: return
+        13: new           #47                 // class bf/be
+        16: dup
+        17: invokespecial #190                // Method bf/be."<init>":()V
+        20: aload_1
+        21: iconst_m1
+        22: invokevirtual #191                // Method bf/be.a:(Laq/f;I)V
+        25: return
+      LineNumberTable:
+        line 428: 0
+        line 429: 12
+        line 432: 13
+        line 434: 25
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      26     0  this   Lao/bl;
+            0      26     1   cha   Laq/f;
+
+  private void c(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=2
+         0: bipush        100
+         2: invokestatic  #197                // Method bi/i.a:(I)I
+         5: aload_1
+         6: invokevirtual #171                // Method aq/f.W_:()I
+         9: if_icmpgt     13
+        12: return
+        13: new           #46                 // class bf/ay
+        16: dup
+        17: invokespecial #188                // Method bf/ay."<init>":()V
+        20: aload_1
+        21: iconst_m1
+        22: invokevirtual #189                // Method bf/ay.a:(Laq/f;I)V
+        25: return
+      LineNumberTable:
+        line 439: 0
+        line 440: 12
+        line 443: 13
+        line 445: 25
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      26     0  this   Lao/bl;
+            0      26     1   cha   Laq/f;
+
+  private void d(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=4, args_size=2
+         0: sipush        8000
+         3: istore_2
+         4: aload_1
+         5: invokestatic  #179                // Method aq/w.a:(Laq/f;)Z
+         8: ifeq          12
+        11: return
+        12: invokestatic  #166                // Method aq/ai.a:()Laq/ai;
+        15: sipush        4184
+        18: sipush        8000
+        21: aload_1
+        22: invokevirtual #177                // Method aq/f.fs:()I
+        25: aload_1
+        26: invokevirtual #178                // Method aq/f.ft:()I
+        29: aload_1
+        30: invokevirtual #175                // Method aq/f.fp:()I
+        33: invokevirtual #167                // Method aq/ai.a:(IIIII)Lap/h;
+        36: pop
+        37: aload_1
+        38: instanceof    #32                 // class ap/u
+        41: ifeq          76
+        44: aload_1
+        45: checkcast     #32                 // class ap/u
+        48: astore_3
+        49: aload_3
+        50: sipush        1028
+        53: sipush        8000
+        56: invokevirtual #160                // Method ap/u.j:(II)V
+        59: aload_3
+        60: new           #43                 // class be/cn
+        63: dup
+        64: bipush        6
+        66: iconst_1
+        67: invokespecial #185                // Method be/cn."<init>":(IZ)V
+        70: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+        73: goto          103
+        76: aload_1
+        77: instanceof    #31                 // class ap/t
+        80: ifeq          103
+        83: aload_1
+        84: checkcast     #31                 // class ap/t
+        87: astore_3
+        88: aload_3
+        89: sipush        1028
+        92: sipush        8000
+        95: invokevirtual #141                // Method ap/t.j:(II)V
+        98: aload_3
+        99: iconst_1
+       100: invokevirtual #142                // Method ap/t.n:(Z)V
+       103: return
+      LineNumberTable:
+        line 449: 0
+        line 450: 4
+        line 451: 11
+        line 454: 12
+        line 455: 37
+        line 456: 44
+        line 457: 49
+        line 458: 59
+        line 459: 73
+        line 460: 83
+        line 461: 88
+        line 462: 98
+        line 465: 103
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     104     0  this   Lao/bl;
+            0     104     1   cha   Laq/f;
+            4     100     2 fettersTime   I
+           49      24     3 targetPc   Lap/u;
+           88      15     3   npc   Lap/t;
+
+  public double a(ap.u, aq.f, int, int, double);
+    descriptor: (Lap/u;Laq/f;IID)D
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=12, args_size=6
+         0: aload_2
+         1: instanceof    #28                 // class ap/e
+         4: ifeq          9
+         7: dconst_0
+         8: dreturn
+         9: aload_1
+        10: new           #44                 // class be/ee
+        13: dup
+        14: aload_2
+        15: invokevirtual #176                // Method aq/f.fr:()I
+        18: iload_3
+        19: invokespecial #186                // Method be/ee."<init>":(II)V
+        22: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+        25: aload_1
+        26: new           #44                 // class be/ee
+        29: dup
+        30: aload_2
+        31: invokevirtual #176                // Method aq/f.fr:()I
+        34: iload_3
+        35: invokespecial #186                // Method be/ee."<init>":(II)V
+        38: invokevirtual #148                // Method ap/u.b:(Lbe/eu;)V
+        41: invokestatic  #168                // Method aq/aq.a:()Laq/aq;
+        44: aload_2
+        45: iload         4
+        47: invokevirtual #169                // Method aq/aq.b:(Laq/aa;I)Ljava/util/ArrayList;
+        50: invokevirtual #207                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+        53: astore        8
+        55: goto          410
+        58: aload         8
+        60: invokeinterface #224,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        65: checkcast     #35                 // class aq/aa
+        68: astore        7
+        70: aload         7
+        72: instanceof    #38                 // class aq/f
+        75: ifne          81
+        78: goto          410
+        81: aload         7
+        83: invokevirtual #163                // Method aq/aa.fr:()I
+        86: aload_1
+        87: invokevirtual #156                // Method ap/u.fr:()I
+        90: if_icmpne     96
+        93: goto          410
+        96: aload         7
+        98: invokevirtual #163                // Method aq/aa.fr:()I
+       101: aload_2
+       102: invokevirtual #176                // Method aq/f.fr:()I
+       105: if_icmpne     111
+       108: goto          410
+       111: aload         7
+       113: instanceof    #32                 // class ap/u
+       116: ifeq          167
+       119: aload         7
+       121: checkcast     #32                 // class ap/u
+       124: astore        9
+       126: aload         9
+       128: invokevirtual #150                // Method ap/u.bN:()Z
+       131: ifne          410
+       134: aload         9
+       136: invokevirtual #147                // Method ap/u.aA:()Z
+       139: ifne          410
+       142: aload         9
+       144: invokevirtual #151                // Method ap/u.eX:()Z
+       147: ifeq          153
+       150: goto          410
+       153: aload_1
+       154: aload_1
+       155: aload         9
+       157: iconst_1
+       158: invokevirtual #144                // Method ap/u.a:(Lap/u;Laq/f;Z)Z
+       161: ifeq          279
+       164: goto          410
+       167: aload         7
+       169: instanceof    #30                 // class ap/s
+       172: ifeq          211
+       175: aload         7
+       177: checkcast     #30                 // class ap/s
+       180: astore        9
+       182: aload         9
+       184: invokevirtual #133                // Method ap/s.eX:()Z
+       187: ifne          410
+       190: aload         9
+       192: invokevirtual #132                // Method ap/s.ac:()I
+       195: iconst_1
+       196: if_icmpeq     410
+       199: aload         9
+       201: invokevirtual #132                // Method ap/s.ac:()I
+       204: iconst_2
+       205: if_icmpne     279
+       208: goto          410
+       211: aload         7
+       213: instanceof    #34                 // class ap/z
+       216: ifne          227
+       219: aload         7
+       221: instanceof    #33                 // class ap/v
+       224: ifeq          410
+       227: aload         7
+       229: checkcast     #31                 // class ap/t
+       232: astore        9
+       234: aload         9
+       236: invokevirtual #134                // Method ap/t.M:()Laq/f;
+       239: checkcast     #32                 // class ap/u
+       242: astore        10
+       244: aload         10
+       246: ifnull        279
+       249: aload         10
+       251: invokevirtual #156                // Method ap/u.fr:()I
+       254: aload_1
+       255: invokevirtual #156                // Method ap/u.fr:()I
+       258: if_icmpne     264
+       261: goto          410
+       264: aload         10
+       266: aload_1
+       267: aload         10
+       269: iconst_1
+       270: invokevirtual #144                // Method ap/u.a:(Lap/u;Laq/f;Z)Z
+       273: ifeq          279
+       276: goto          410
+       279: aload_1
+       280: aload         7
+       282: checkcast     #38                 // class aq/f
+       285: dload         5
+       287: iconst_0
+       288: invokestatic  #180                // Method aq/w.a:(Laq/f;Laq/f;DI)D
+       291: dstore        9
+       293: dload         9
+       295: dconst_0
+       296: dcmpg
+       297: ifgt          303
+       300: goto          410
+       303: aload         7
+       305: instanceof    #32                 // class ap/u
+       308: ifeq          368
+       311: aload         7
+       313: checkcast     #32                 // class ap/u
+       316: astore        11
+       318: aload         11
+       320: new           #41                 // class be/ak
+       323: dup
+       324: aload         11
+       326: invokevirtual #156                // Method ap/u.fr:()I
+       329: iconst_2
+       330: invokespecial #183                // Method be/ak."<init>":(II)V
+       333: invokevirtual #146                // Method ap/u.a:(Lbe/eu;)V
+       336: aload         11
+       338: new           #41                 // class be/ak
+       341: dup
+       342: aload         11
+       344: invokevirtual #156                // Method ap/u.fr:()I
+       347: iconst_2
+       348: invokespecial #183                // Method be/ak."<init>":(II)V
+       351: invokevirtual #148                // Method ap/u.b:(Lbe/eu;)V
+       354: aload         11
+       356: aload_1
+       357: dload         9
+       359: d2i
+       360: i2d
+       361: iconst_0
+       362: invokevirtual #145                // Method ap/u.a:(Laq/f;DZ)V
+       365: goto          410
+       368: aload         7
+       370: instanceof    #31                 // class ap/t
+       373: ifeq          410
+       376: aload         7
+       378: checkcast     #31                 // class ap/t
+       381: astore        11
+       383: aload         11
+       385: new           #41                 // class be/ak
+       388: dup
+       389: aload         11
+       391: invokevirtual #139                // Method ap/t.fr:()I
+       394: iconst_2
+       395: invokespecial #183                // Method be/ak."<init>":(II)V
+       398: invokevirtual #136                // Method ap/t.b:(Lbe/eu;)V
+       401: aload         11
+       403: aload_1
+       404: dload         9
+       406: d2i
+       407: invokevirtual #135                // Method ap/t.b:(Laq/f;I)V
+       410: aload         8
+       412: invokeinterface #223,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       417: ifne          58
+       420: aload_1
+       421: aload_2
+       422: dload         5
+       424: iconst_0
+       425: invokestatic  #180                // Method aq/w.a:(Laq/f;Laq/f;DI)D
+       428: dreturn
+      LineNumberTable:
+        line 495: 0
+        line 496: 7
+        line 498: 9
+        line 499: 25
+        line 502: 41
+        line 503: 70
+        line 504: 78
+        line 507: 81
+        line 508: 93
+        line 510: 96
+        line 511: 108
+        line 514: 111
+        line 515: 119
+        line 517: 126
+        line 518: 150
+        line 522: 153
+        line 523: 164
+        line 526: 167
+        line 527: 175
+        line 528: 182
+        line 529: 199
+        line 530: 208
+        line 533: 211
+        line 534: 227
+        line 536: 234
+        line 537: 244
+        line 540: 249
+        line 541: 261
+        line 544: 264
+        line 545: 276
+        line 553: 279
+        line 555: 293
+        line 556: 300
+        line 558: 303
+        line 559: 311
+        line 560: 318
+        line 561: 336
+        line 562: 354
+        line 563: 365
+        line 564: 376
+        line 565: 383
+        line 566: 401
+        line 502: 410
+        line 572: 420
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     429     0  this   Lao/bl;
+            0     429     1    pc   Lap/u;
+            0     429     2 target   Laq/f;
+            0     429     3 effectid   I
+            0     429     4  area   I
+            0     429     5 damage   D
+           70     340     7 object   Laq/aa;
+          126      41     9   tpc   Lap/u;
+          182      29     9   mob   Lap/s;
+          234      45     9   pet   Lap/t;
+          244      35    10 master   Lap/u;
+          293     117     9   dmg   D
+          318      47    11 targetPc   Lap/u;
+          383      27    11 targetNpc   Lap/t;
+}
+InnerClasses:
+  private #458= #27 of #26;               // a=class ao/bl$a of class ao/bl
+SourceFile: "WeaponSkillTable.java"

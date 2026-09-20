@@ -1,0 +1,137 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/bk.class
+  Last modified Jan 3, 2018; size 675 bytes
+  SHA-256 checksum 52be1466732d340e460bf686711a59998e5ca21e0d6e247665b58e05f3004f93
+  Compiled from "S_ItemColor.java"
+public class be.bk extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #3                          // be/bk
+  super_class: #4                         // be/eu
+  interfaces: 0, fields: 0, methods: 4, attributes: 1
+Constant pool:
+   #1 = String             #32            // S_ItemColor
+   #2 = Class              #36            // ap/q
+   #3 = Class              #38            // be/bk
+   #4 = Class              #39            // be/eu
+   #5 = Methodref          #2.#13         // ap/q.F:()I
+   #6 = Methodref          #2.#18         // ap/q.fr:()I
+   #7 = Methodref          #3.#14         // be/bk.a:(I)V
+   #8 = Methodref          #3.#15         // be/bk.a:(Lap/q;)V
+   #9 = Methodref          #3.#16         // be/bk.c:(I)V
+  #10 = Methodref          #3.#17         // be/bk.d:()[B
+  #11 = Methodref          #4.#12         // be/eu."<init>":()V
+  #12 = NameAndType        #25:#21        // "<init>":()V
+  #13 = NameAndType        #27:#19        // F:()I
+  #14 = NameAndType        #35:#23        // a:(I)V
+  #15 = NameAndType        #35:#24        // a:(Lap/q;)V
+  #16 = NameAndType        #40:#23        // c:(I)V
+  #17 = NameAndType        #41:#22        // d:()[B
+  #18 = NameAndType        #42:#19        // fr:()I
+  #19 = Utf8               ()I
+  #20 = Utf8               ()Ljava/lang/String;
+  #21 = Utf8               ()V
+  #22 = Utf8               ()[B
+  #23 = Utf8               (I)V
+  #24 = Utf8               (Lap/q;)V
+  #25 = Utf8               <init>
+  #26 = Utf8               Code
+  #27 = Utf8               F
+  #28 = Utf8               Lap/q;
+  #29 = Utf8               Lbe/bk;
+  #30 = Utf8               LineNumberTable
+  #31 = Utf8               LocalVariableTable
+  #32 = Utf8               S_ItemColor
+  #33 = Utf8               S_ItemColor.java
+  #34 = Utf8               SourceFile
+  #35 = Utf8               a
+  #36 = Utf8               ap/q
+  #37 = Utf8               b
+  #38 = Utf8               be/bk
+  #39 = Utf8               be/eu
+  #40 = Utf8               c
+  #41 = Utf8               d
+  #42 = Utf8               fr
+  #43 = Utf8               item
+  #44 = Utf8               this
+{
+  public be.bk(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #11                 // Method be/eu."<init>":()V
+         4: aload_1
+         5: ifnonnull     9
+         8: return
+         9: aload_0
+        10: aload_1
+        11: invokespecial #8                  // Method a:(Lap/q;)V
+        14: return
+      LineNumberTable:
+        line 25: 0
+        line 26: 4
+        line 27: 8
+        line 29: 9
+        line 30: 14
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  this   Lbe/bk;
+            0      15     1  item   Lap/q;
+
+  private void a(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: bipush        18
+         3: invokevirtual #9                  // Method c:(I)V
+         6: aload_0
+         7: aload_1
+         8: invokevirtual #6                  // Method ap/q.fr:()I
+        11: invokevirtual #7                  // Method a:(I)V
+        14: aload_0
+        15: aload_1
+        16: invokevirtual #5                  // Method ap/q.F:()I
+        19: invokevirtual #9                  // Method c:(I)V
+        22: return
+      LineNumberTable:
+        line 35: 0
+        line 36: 6
+        line 43: 14
+        line 44: 22
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      23     0  this   Lbe/bk;
+            0      23     1  item   Lap/q;
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #10                 // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 48: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/bk;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_ItemColor
+         2: areturn
+      LineNumberTable:
+        line 53: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/bk;
+}
+SourceFile: "S_ItemColor.java"

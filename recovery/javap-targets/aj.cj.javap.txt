@@ -1,0 +1,100 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aj/cj.class
+  Last modified Jan 3, 2018; size 585 bytes
+  SHA-256 checksum 5f5729ca35d011c871ca66f87c54d882279401d442d10da117eb405651c248e8
+  Compiled from "C_Teleport.java"
+public class aj.cj extends aj.cv
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // aj/cj
+  super_class: #3                         // aj/cv
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+   #1 = String             #19            // C_Teleport
+   #2 = Class              #32            // aj/cj
+   #3 = Class              #33            // aj/cv
+   #4 = Class              #34            // aq/am
+   #5 = Class              #35            // bj/d
+   #6 = Class              #38            // java/lang/Exception
+   #7 = Methodref          #3.#10         // aj/cv."<init>":([B)V
+   #8 = Methodref          #4.#11         // aq/am.a:(Lap/u;)V
+   #9 = Methodref          #5.#12         // bj/d.f:()Lap/u;
+  #10 = NameAndType        #18:#16        // "<init>":([B)V
+  #11 = NameAndType        #30:#15        // a:(Lap/u;)V
+  #12 = NameAndType        #37:#13        // f:()Lap/u;
+  #13 = Utf8               ()Lap/u;
+  #14 = Utf8               ()Ljava/lang/String;
+  #15 = Utf8               (Lap/u;)V
+  #16 = Utf8               ([B)V
+  #17 = Utf8               ([BLbj/d;)V
+  #18 = Utf8               <init>
+  #19 = Utf8               C_Teleport
+  #20 = Utf8               C_Teleport.java
+  #21 = Utf8               Code
+  #22 = Utf8               Exceptions
+  #23 = Utf8               Laj/cj;
+  #24 = Utf8               Lap/u;
+  #25 = Utf8               Lbj/d;
+  #26 = Utf8               LineNumberTable
+  #27 = Utf8               LocalVariableTable
+  #28 = Utf8               SourceFile
+  #29 = Utf8               [B
+  #30 = Utf8               a
+  #31 = Utf8               abyte0
+  #32 = Utf8               aj/cj
+  #33 = Utf8               aj/cv
+  #34 = Utf8               aq/am
+  #35 = Utf8               bj/d
+  #36 = Utf8               clientthread
+  #37 = Utf8               f
+  #38 = Utf8               java/lang/Exception
+  #39 = Utf8               pc
+  #40 = Utf8               this
+{
+  public aj.cj(byte[], bj.d) throws java.lang.Exception;
+    descriptor: ([BLbj/d;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=4, args_size=3
+         0: aload_0
+         1: aload_1
+         2: invokespecial #7                  // Method aj/cv."<init>":([B)V
+         5: aload_2
+         6: invokevirtual #9                  // Method bj/d.f:()Lap/u;
+         9: astore_3
+        10: aload_3
+        11: ifnonnull     15
+        14: return
+        15: aload_3
+        16: invokestatic  #8                  // Method aq/am.a:(Lap/u;)V
+        19: return
+      LineNumberTable:
+        line 30: 0
+        line 32: 5
+        line 33: 10
+        line 34: 14
+        line 37: 15
+        line 38: 19
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      20     0  this   Laj/cj;
+            0      20     1 abyte0   [B
+            0      20     2 clientthread   Lbj/d;
+           10      10     3    pc   Lap/u;
+    Exceptions:
+      throws java.lang.Exception
+
+  public java.lang.String a();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String C_Teleport
+         2: areturn
+      LineNumberTable:
+        line 42: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Laj/cj;
+}
+SourceFile: "C_Teleport.java"

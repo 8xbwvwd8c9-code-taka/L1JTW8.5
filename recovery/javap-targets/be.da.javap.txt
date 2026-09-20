@@ -1,0 +1,115 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/da.class
+  Last modified Jan 3, 2018; size 563 bytes
+  SHA-256 checksum 02459328a1913c4f3b7a227a5bb8782ed9e400d7af482cb7216d458d17c0ccbd
+  Compiled from "S_Portal.java"
+public class be.da extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #3                          // be/da
+  super_class: #4                         // be/eu
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
+Constant pool:
+   #1 = Integer            32768
+   #2 = String             #24            // S_Portal
+   #3 = Class              #29            // be/da
+   #4 = Class              #30            // be/eu
+   #5 = Methodref          #3.#10         // be/da.b:(I)V
+   #6 = Methodref          #3.#11         // be/da.c:(I)V
+   #7 = Methodref          #3.#12         // be/da.d:()[B
+   #8 = Methodref          #4.#9          // be/eu."<init>":()V
+   #9 = NameAndType        #18:#14        // "<init>":()V
+  #10 = NameAndType        #28:#16        // b:(I)V
+  #11 = NameAndType        #31:#16        // c:(I)V
+  #12 = NameAndType        #32:#15        // d:()[B
+  #13 = Utf8               ()Ljava/lang/String;
+  #14 = Utf8               ()V
+  #15 = Utf8               ()[B
+  #16 = Utf8               (I)V
+  #17 = Utf8               (III)V
+  #18 = Utf8               <init>
+  #19 = Utf8               Code
+  #20 = Utf8               I
+  #21 = Utf8               Lbe/da;
+  #22 = Utf8               LineNumberTable
+  #23 = Utf8               LocalVariableTable
+  #24 = Utf8               S_Portal
+  #25 = Utf8               S_Portal.java
+  #26 = Utf8               SourceFile
+  #27 = Utf8               a
+  #28 = Utf8               b
+  #29 = Utf8               be/da
+  #30 = Utf8               be/eu
+  #31 = Utf8               c
+  #32 = Utf8               d
+  #33 = Utf8               newMapid
+  #34 = Utf8               this
+  #35 = Utf8               x
+  #36 = Utf8               y
+{
+  public be.da(int, int, int);
+    descriptor: (III)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=4, args_size=4
+         0: aload_0
+         1: invokespecial #8                  // Method be/eu."<init>":()V
+         4: aload_0
+         5: sipush        244
+         8: invokevirtual #6                  // Method c:(I)V
+        11: aload_0
+        12: iload_3
+        13: invokevirtual #5                  // Method b:(I)V
+        16: aload_0
+        17: iload_1
+        18: iconst_2
+        19: imul
+        20: invokevirtual #5                  // Method b:(I)V
+        23: aload_0
+        24: iload_2
+        25: ldc           #1                  // int 32768
+        27: iadd
+        28: invokevirtual #5                  // Method b:(I)V
+        31: return
+      LineNumberTable:
+        line 23: 0
+        line 24: 4
+        line 25: 11
+        line 26: 16
+        line 27: 23
+        line 29: 31
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   Lbe/da;
+            0      32     1     x   I
+            0      32     2     y   I
+            0      32     3 newMapid   I
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #7                  // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 33: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/da;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #2                  // String S_Portal
+         2: areturn
+      LineNumberTable:
+        line 38: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/da;
+}
+SourceFile: "S_Portal.java"

@@ -1,0 +1,1881 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/bj/d.class
+  Last modified Jan 3, 2018; size 8809 bytes
+  SHA-256 checksum 7d7e59973b23189753b1283b0631ad5dd81ff815a52c63ae3bb5ec0cb52c84fb
+  Compiled from "ClientThread.java"
+public class bj.d implements java.lang.Runnable
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #31                         // bj/d
+  super_class: #40                        // java/lang/Object
+  interfaces: 1, fields: 20, methods: 26, attributes: 2
+Constant pool:
+    #1 = Integer            65533
+    #2 = Integer            2147483647
+    #3 = String             #223          //  [
+    #4 = String             #224          //  【關閉連線】(
+    #5 = String             #225          //  【關閉連線】客戶端封包長度不符合 ip=
+    #6 = String             #226          //  【關閉連線】客戶端封包長度過大或過小 ip=
+    #7 = String             #227          //  【關閉連線】客戶端斷線了 ip=
+    #8 = String             #228          // (
+    #9 = String             #281          // )
+   #10 = String             #282          // ) 連結到伺服器。
+   #11 = String             #283          // ./data/log/packetLog.txt
+   #12 = String             #314          // MB 的記憶體
+   #13 = String             #320          // ]\r\n
+   #14 = String             #398          // opcode:
+   #15 = String             #421          // 使用了
+   #16 = String             #422          // 使用了:
+   #17 = String             #423          // 等待客戶端連接...
+   #18 = Class              #324          // ai/c
+   #19 = Class              #325          // ai/e
+   #20 = Class              #326          // ao/a
+   #21 = Class              #327          // ap/u
+   #22 = Class              #329          // aq/aq
+   #23 = Class              #332          // be/aj
+   #24 = Class              #333          // be/eu
+   #25 = Class              #334          // bh/a
+   #26 = Class              #335          // bi/e
+   #27 = Class              #336          // bi/g
+   #28 = Class              #337          // bi/i
+   #29 = Class              #338          // bj/b
+   #30 = Class              #339          // bj/c
+   #31 = Class              #340          // bj/d
+   #32 = Class              #341          // bj/d$a
+   #33 = Class              #368          // java/io/BufferedOutputStream
+   #34 = Class              #369          // java/io/IOException
+   #35 = Class              #370          // java/io/InputStream
+   #36 = Class              #371          // java/io/OutputStream
+   #37 = Class              #372          // java/io/PrintStream
+   #38 = Class              #373          // java/lang/Class
+   #39 = Class              #374          // java/lang/Exception
+   #40 = Class              #375          // java/lang/Object
+   #41 = Class              #376          // java/lang/Runnable
+   #42 = Class              #377          // java/lang/String
+   #43 = Class              #378          // java/lang/StringBuilder
+   #44 = Class              #379          // java/lang/System
+   #45 = Class              #380          // java/net/InetAddress
+   #46 = Class              #381          // java/net/Socket
+   #47 = Class              #382          // java/net/SocketException
+   #48 = Class              #383          // java/util/Collection
+   #49 = Class              #384          // java/util/concurrent/CopyOnWriteArrayList
+   #50 = Class              #385          // java/util/logging/Level
+   #51 = Class              #386          // java/util/logging/Logger
+   #52 = Class              #389          // l1j/server/a
+   #53 = Fieldref           #31.#163      // bj/d.a:I
+   #54 = Fieldref           #31.#172      // bj/d.b:J
+   #55 = Fieldref           #31.#175      // bj/d.c:Ljava/util/logging/Logger;
+   #56 = Fieldref           #31.#179      // bj/d.d:Ljava/io/InputStream;
+   #57 = Fieldref           #31.#181      // bj/d.e:Ljava/io/OutputStream;
+   #58 = Fieldref           #31.#182      // bj/d.f:Lai/e;
+   #59 = Fieldref           #31.#184      // bj/d.g:Lbj/d$a;
+   #60 = Fieldref           #31.#193      // bj/d.h:Ljava/net/Socket;
+   #61 = Fieldref           #31.#194      // bj/d.i:Lbj/b;
+   #62 = Fieldref           #31.#196      // bj/d.j:Lbj/c;
+   #63 = Fieldref           #31.#198      // bj/d.k:Lbe/eu;
+   #64 = Fieldref           #31.#200      // bj/d.l:Lbh/a;
+   #65 = Fieldref           #31.#203      // bj/d.m:Lap/u;
+   #66 = Fieldref           #31.#204      // bj/d.n:Ljava/lang/String;
+   #67 = Fieldref           #31.#205      // bj/d.o:J
+   #68 = Fieldref           #31.#208      // bj/d.p:J
+   #69 = Fieldref           #31.#210      // bj/d.q:Lap/u;
+   #70 = Fieldref           #31.#211      // bj/d.r:Ljava/util/concurrent/CopyOnWriteArrayList;
+   #71 = Fieldref           #31.#216      // bj/d.s:Z
+   #72 = Fieldref           #31.#219      // bj/d.t:Z
+   #73 = Fieldref           #44.#206      // java/lang/System.out:Ljava/io/PrintStream;
+   #74 = Fieldref           #50.#148      // java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+   #75 = Fieldref           #52.#215      // l1j/server/a.s:I
+   #76 = Fieldref           #52.#218      // l1j/server/a.t:I
+   #77 = Methodref          #18.#150      // ai/c.a:()Lai/c;
+   #78 = Methodref          #18.#170      // ai/c.b:(Lbj/d;)V
+   #79 = Methodref          #19.#142      // ai/e."<init>":(Lbj/d;)V
+   #80 = Methodref          #19.#162      // ai/e.a:([B)V
+   #81 = Methodref          #20.#151      // ao/a.a:()Lao/a;
+   #82 = Methodref          #20.#157      // ao/a.a:(Lbh/a;Z)V
+   #83 = Methodref          #20.#169      // ao/a.b:(Lbh/a;Z)V
+   #84 = Methodref          #20.#180      // ao/a.e:(Ljava/lang/String;)V
+   #85 = Methodref          #21.#146      // ap/u.I:()V
+   #86 = Methodref          #21.#147      // ap/u.J:()V
+   #87 = Methodref          #21.#207      // ap/u.p:()V
+   #88 = Methodref          #22.#152      // aq/aq.a:()Laq/aq;
+   #89 = Methodref          #22.#173      // aq/aq.c:()Ljava/util/Collection;
+   #90 = Methodref          #23.#141      // be/aj."<init>":(I)V
+   #91 = Methodref          #24.#154      // be/eu.a:()[B
+   #92 = Methodref          #24.#168      // be/eu.b:()Ljava/lang/String;
+   #93 = Methodref          #25.#178      // bh/a.d:()Ljava/lang/String;
+   #94 = Methodref          #26.#153      // bi/e.a:()Lbi/e;
+   #95 = Methodref          #26.#168      // bi/e.b:()Ljava/lang/String;
+   #96 = Methodref          #27.#149      // bi/g.a:()J
+   #97 = Methodref          #27.#160      // bi/g.a:(Ljava/lang/String;Ljava/lang/String;)V
+   #98 = Methodref          #27.#161      // bi/g.a:([B)Ljava/lang/String;
+   #99 = Methodref          #28.#155      // bi/i.a:(I)I
+  #100 = Methodref          #29.#141      // bj/b."<init>":(I)V
+  #101 = Methodref          #29.#171      // bj/b.b:([B)[B
+  #102 = Methodref          #30.#141      // bj/c."<init>":(I)V
+  #103 = Methodref          #31.#156      // bj/d.a:(Lbe/eu;)V
+  #104 = Methodref          #31.#174      // bj/d.c:()V
+  #105 = Methodref          #31.#197      // bj/d.k:()[B
+  #106 = Methodref          #31.#199      // bj/d.l:()V
+  #107 = Methodref          #32.#143      // bj/d$a."<init>":(Lbj/d;Lbj/d$a;)V
+  #108 = Methodref          #32.#158      // bj/d$a.a:(Lbj/d$a;)V
+  #109 = Methodref          #32.#159      // bj/d$a.a:(Lbj/d$a;Lbe/eu;)V
+  #110 = Methodref          #33.#144      // java/io/BufferedOutputStream."<init>":(Ljava/io/OutputStream;)V
+  #111 = Methodref          #35.#212      // java/io/InputStream.read:()I
+  #112 = Methodref          #35.#213      // java/io/InputStream.read:([BII)I
+  #113 = Methodref          #36.#183      // java/io/OutputStream.flush:()V
+  #114 = Methodref          #36.#222      // java/io/OutputStream.write:(I)V
+  #115 = Methodref          #37.#209      // java/io/PrintStream.println:(Ljava/lang/String;)V
+  #116 = Methodref          #38.#191      // java/lang/Class.getName:()Ljava/lang/String;
+  #117 = Methodref          #39.#189      // java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+  #118 = Methodref          #40.#140      // java/lang/Object."<init>":()V
+  #119 = Methodref          #42.#221      // java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+  #120 = Methodref          #43.#145      // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+  #121 = Methodref          #43.#164      // java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+  #122 = Methodref          #43.#165      // java/lang/StringBuilder.append:(J)Ljava/lang/StringBuilder;
+  #123 = Methodref          #43.#166      // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #124 = Methodref          #43.#220      // java/lang/StringBuilder.toString:()Ljava/lang/String;
+  #125 = Methodref          #44.#167      // java/lang/System.arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+  #126 = Methodref          #44.#177      // java/lang/System.currentTimeMillis:()J
+  #127 = Methodref          #45.#186      // java/net/InetAddress.getHostAddress:()Ljava/lang/String;
+  #128 = Methodref          #46.#176      // java/net/Socket.close:()V
+  #129 = Methodref          #46.#187      // java/net/Socket.getInetAddress:()Ljava/net/InetAddress;
+  #130 = Methodref          #46.#188      // java/net/Socket.getInputStream:()Ljava/io/InputStream;
+  #131 = Methodref          #46.#192      // java/net/Socket.getOutputStream:()Ljava/io/OutputStream;
+  #132 = Methodref          #49.#140      // java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+  #133 = Methodref          #49.#185      // java/util/concurrent/CopyOnWriteArrayList.get:(I)Ljava/lang/Object;
+  #134 = Methodref          #49.#195      // java/util/concurrent/CopyOnWriteArrayList.isEmpty:()Z
+  #135 = Methodref          #49.#214      // java/util/concurrent/CopyOnWriteArrayList.remove:(I)Ljava/lang/Object;
+  #136 = Methodref          #51.#190      // java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #137 = Methodref          #51.#201      // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;)V
+  #138 = Methodref          #51.#202      // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #139 = InterfaceMethodref #48.#217      // java/util/Collection.size:()I
+  #140 = NameAndType        #285:#244     // "<init>":()V
+  #141 = NameAndType        #285:#250     // "<init>":(I)V
+  #142 = NameAndType        #285:#260     // "<init>":(Lbj/d;)V
+  #143 = NameAndType        #285:#263     // "<init>":(Lbj/d;Lbj/d$a;)V
+  #144 = NameAndType        #285:#264     // "<init>":(Ljava/io/OutputStream;)V
+  #145 = NameAndType        #285:#269     // "<init>":(Ljava/lang/String;)V
+  #146 = NameAndType        #290:#244     // I:()V
+  #147 = NameAndType        #292:#244     // J:()V
+  #148 = NameAndType        #315:#310     // SEVERE:Ljava/util/logging/Level;
+  #149 = NameAndType        #321:#230     // a:()J
+  #150 = NameAndType        #321:#231     // a:()Lai/c;
+  #151 = NameAndType        #321:#232     // a:()Lao/a;
+  #152 = NameAndType        #321:#234     // a:()Laq/aq;
+  #153 = NameAndType        #321:#236     // a:()Lbi/e;
+  #154 = NameAndType        #321:#246     // a:()[B
+  #155 = NameAndType        #321:#247     // a:(I)I
+  #156 = NameAndType        #321:#253     // a:(Lbe/eu;)V
+  #157 = NameAndType        #321:#255     // a:(Lbh/a;Z)V
+  #158 = NameAndType        #321:#256     // a:(Lbj/d$a;)V
+  #159 = NameAndType        #321:#257     // a:(Lbj/d$a;Lbe/eu;)V
+  #160 = NameAndType        #321:#270     // a:(Ljava/lang/String;Ljava/lang/String;)V
+  #161 = NameAndType        #321:#277     // a:([B)Ljava/lang/String;
+  #162 = NameAndType        #321:#278     // a:([B)V
+  #163 = NameAndType        #321:#290     // a:I
+  #164 = NameAndType        #328:#249     // append:(I)Ljava/lang/StringBuilder;
+  #165 = NameAndType        #328:#251     // append:(J)Ljava/lang/StringBuilder;
+  #166 = NameAndType        #328:#267     // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #167 = NameAndType        #330:#266     // arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+  #168 = NameAndType        #331:#239     // b:()Ljava/lang/String;
+  #169 = NameAndType        #331:#255     // b:(Lbh/a;Z)V
+  #170 = NameAndType        #331:#260     // b:(Lbj/d;)V
+  #171 = NameAndType        #331:#279     // b:([B)[B
+  #172 = NameAndType        #331:#292     // b:J
+  #173 = NameAndType        #342:#241     // c:()Ljava/util/Collection;
+  #174 = NameAndType        #342:#244     // c:()V
+  #175 = NameAndType        #342:#311     // c:Ljava/util/logging/Logger;
+  #176 = NameAndType        #343:#244     // close:()V
+  #177 = NameAndType        #345:#230     // currentTimeMillis:()J
+  #178 = NameAndType        #346:#239     // d:()Ljava/lang/String;
+  #179 = NameAndType        #346:#302     // d:Ljava/io/InputStream;
+  #180 = NameAndType        #350:#269     // e:(Ljava/lang/String;)V
+  #181 = NameAndType        #350:#303     // e:Ljava/io/OutputStream;
+  #182 = NameAndType        #351:#293     // f:Lai/e;
+  #183 = NameAndType        #352:#244     // flush:()V
+  #184 = NameAndType        #353:#299     // g:Lbj/d$a;
+  #185 = NameAndType        #354:#248     // get:(I)Ljava/lang/Object;
+  #186 = NameAndType        #355:#239     // getHostAddress:()Ljava/lang/String;
+  #187 = NameAndType        #356:#240     // getInetAddress:()Ljava/net/InetAddress;
+  #188 = NameAndType        #357:#237     // getInputStream:()Ljava/io/InputStream;
+  #189 = NameAndType        #358:#239     // getLocalizedMessage:()Ljava/lang/String;
+  #190 = NameAndType        #359:#268     // getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #191 = NameAndType        #360:#239     // getName:()Ljava/lang/String;
+  #192 = NameAndType        #361:#238     // getOutputStream:()Ljava/io/OutputStream;
+  #193 = NameAndType        #362:#307     // h:Ljava/net/Socket;
+  #194 = NameAndType        #364:#297     // i:Lbj/b;
+  #195 = NameAndType        #365:#245     // isEmpty:()Z
+  #196 = NameAndType        #367:#298     // j:Lbj/c;
+  #197 = NameAndType        #387:#246     // k:()[B
+  #198 = NameAndType        #387:#295     // k:Lbe/eu;
+  #199 = NameAndType        #388:#244     // l:()V
+  #200 = NameAndType        #388:#296     // l:Lbh/a;
+  #201 = NameAndType        #391:#274     // log:(Ljava/util/logging/Level;Ljava/lang/String;)V
+  #202 = NameAndType        #391:#275     // log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #203 = NameAndType        #392:#294     // m:Lap/u;
+  #204 = NameAndType        #393:#306     // n:Ljava/lang/String;
+  #205 = NameAndType        #396:#292     // o:J
+  #206 = NameAndType        #399:#304     // out:Ljava/io/PrintStream;
+  #207 = NameAndType        #400:#244     // p:()V
+  #208 = NameAndType        #400:#292     // p:J
+  #209 = NameAndType        #402:#269     // println:(Ljava/lang/String;)V
+  #210 = NameAndType        #403:#294     // q:Lap/u;
+  #211 = NameAndType        #404:#308     // r:Ljava/util/concurrent/CopyOnWriteArrayList;
+  #212 = NameAndType        #405:#229     // read:()I
+  #213 = NameAndType        #405:#280     // read:([BII)I
+  #214 = NameAndType        #409:#248     // remove:(I)Ljava/lang/Object;
+  #215 = NameAndType        #412:#290     // s:I
+  #216 = NameAndType        #412:#318     // s:Z
+  #217 = NameAndType        #413:#229     // size:()I
+  #218 = NameAndType        #415:#290     // t:I
+  #219 = NameAndType        #415:#318     // t:Z
+  #220 = NameAndType        #418:#239     // toString:()Ljava/lang/String;
+  #221 = NameAndType        #419:#265     // valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+  #222 = NameAndType        #420:#250     // write:(I)V
+  #223 = Utf8                [
+  #224 = Utf8                【關閉連線】(
+  #225 = Utf8                【關閉連線】客戶端封包長度不符合 ip=
+  #226 = Utf8                【關閉連線】客戶端封包長度過大或過小 ip=
+  #227 = Utf8                【關閉連線】客戶端斷線了 ip=
+  #228 = Utf8               (
+  #229 = Utf8               ()I
+  #230 = Utf8               ()J
+  #231 = Utf8               ()Lai/c;
+  #232 = Utf8               ()Lao/a;
+  #233 = Utf8               ()Lap/u;
+  #234 = Utf8               ()Laq/aq;
+  #235 = Utf8               ()Lbh/a;
+  #236 = Utf8               ()Lbi/e;
+  #237 = Utf8               ()Ljava/io/InputStream;
+  #238 = Utf8               ()Ljava/io/OutputStream;
+  #239 = Utf8               ()Ljava/lang/String;
+  #240 = Utf8               ()Ljava/net/InetAddress;
+  #241 = Utf8               ()Ljava/util/Collection;
+  #242 = Utf8               ()Ljava/util/concurrent/CopyOnWriteArrayList;
+  #243 = Utf8               ()Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;
+  #244 = Utf8               ()V
+  #245 = Utf8               ()Z
+  #246 = Utf8               ()[B
+  #247 = Utf8               (I)I
+  #248 = Utf8               (I)Ljava/lang/Object;
+  #249 = Utf8               (I)Ljava/lang/StringBuilder;
+  #250 = Utf8               (I)V
+  #251 = Utf8               (J)Ljava/lang/StringBuilder;
+  #252 = Utf8               (Lap/u;)V
+  #253 = Utf8               (Lbe/eu;)V
+  #254 = Utf8               (Lbh/a;)V
+  #255 = Utf8               (Lbh/a;Z)V
+  #256 = Utf8               (Lbj/d$a;)V
+  #257 = Utf8               (Lbj/d$a;Lbe/eu;)V
+  #258 = Utf8               (Lbj/d;)Lbj/c;
+  #259 = Utf8               (Lbj/d;)Ljava/io/OutputStream;
+  #260 = Utf8               (Lbj/d;)V
+  #261 = Utf8               (Lbj/d;)Z
+  #262 = Utf8               (Lbj/d;Lbe/eu;)V
+  #263 = Utf8               (Lbj/d;Lbj/d$a;)V
+  #264 = Utf8               (Ljava/io/OutputStream;)V
+  #265 = Utf8               (Ljava/lang/Object;)Ljava/lang/String;
+  #266 = Utf8               (Ljava/lang/Object;ILjava/lang/Object;II)V
+  #267 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #268 = Utf8               (Ljava/lang/String;)Ljava/util/logging/Logger;
+  #269 = Utf8               (Ljava/lang/String;)V
+  #270 = Utf8               (Ljava/lang/String;Ljava/lang/String;)V
+  #271 = Utf8               (Ljava/net/Socket;)V
+  #272 = Utf8               (Ljava/util/concurrent/CopyOnWriteArrayList;)V
+  #273 = Utf8               (Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;)V
+  #274 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;)V
+  #275 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #276 = Utf8               (Z)V
+  #277 = Utf8               ([B)Ljava/lang/String;
+  #278 = Utf8               ([B)V
+  #279 = Utf8               ([B)[B
+  #280 = Utf8               ([BII)I
+  #281 = Utf8               )
+  #282 = Utf8               ) 連結到伺服器。
+  #283 = Utf8               ./data/log/packetLog.txt
+  #284 = Utf8               <clinit>
+  #285 = Utf8               <init>
+  #286 = Utf8               Bogus
+  #287 = Utf8               ClientThread.java
+  #288 = Utf8               Code
+  #289 = Utf8               Exceptions
+  #290 = Utf8               I
+  #291 = Utf8               InnerClasses
+  #292 = Utf8               J
+  #293 = Utf8               Lai/e;
+  #294 = Utf8               Lap/u;
+  #295 = Utf8               Lbe/eu;
+  #296 = Utf8               Lbh/a;
+  #297 = Utf8               Lbj/b;
+  #298 = Utf8               Lbj/c;
+  #299 = Utf8               Lbj/d$a;
+  #300 = Utf8               Lbj/d;
+  #301 = Utf8               LineNumberTable
+  #302 = Utf8               Ljava/io/InputStream;
+  #303 = Utf8               Ljava/io/OutputStream;
+  #304 = Utf8               Ljava/io/PrintStream;
+  #305 = Utf8               Ljava/lang/Exception;
+  #306 = Utf8               Ljava/lang/String;
+  #307 = Utf8               Ljava/net/Socket;
+  #308 = Utf8               Ljava/util/concurrent/CopyOnWriteArrayList;
+  #309 = Utf8               Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;
+  #310 = Utf8               Ljava/util/logging/Level;
+  #311 = Utf8               Ljava/util/logging/Logger;
+  #312 = Utf8               LocalVariableTable
+  #313 = Utf8               LocalVariableTypeTable
+  #314 = Utf8               MB 的記憶體
+  #315 = Utf8               SEVERE
+  #316 = Utf8               Signature
+  #317 = Utf8               SourceFile
+  #318 = Utf8               Z
+  #319 = Utf8               [B
+  #320 = Utf8               ]\r\n
+  #321 = Utf8               a
+  #322 = Utf8               account
+  #323 = Utf8               activeChar
+  #324 = Utf8               ai/c
+  #325 = Utf8               ai/e
+  #326 = Utf8               ao/a
+  #327 = Utf8               ap/u
+  #328 = Utf8               append
+  #329 = Utf8               aq/aq
+  #330 = Utf8               arraycopy
+  #331 = Utf8               b
+  #332 = Utf8               be/aj
+  #333 = Utf8               be/eu
+  #334 = Utf8               bh/a
+  #335 = Utf8               bi/e
+  #336 = Utf8               bi/g
+  #337 = Utf8               bi/i
+  #338 = Utf8               bj/b
+  #339 = Utf8               bj/c
+  #340 = Utf8               bj/d
+  #341 = Utf8               bj/d$a
+  #342 = Utf8               c
+  #343 = Utf8               close
+  #344 = Utf8               content
+  #345 = Utf8               currentTimeMillis
+  #346 = Utf8               d
+  #347 = Utf8               data
+  #348 = Utf8               dataLength
+  #349 = Utf8               dummyCharData
+  #350 = Utf8               e
+  #351 = Utf8               f
+  #352 = Utf8               flush
+  #353 = Utf8               g
+  #354 = Utf8               get
+  #355 = Utf8               getHostAddress
+  #356 = Utf8               getInetAddress
+  #357 = Utf8               getInputStream
+  #358 = Utf8               getLocalizedMessage
+  #359 = Utf8               getLogger
+  #360 = Utf8               getName
+  #361 = Utf8               getOutputStream
+  #362 = Utf8               h
+  #363 = Utf8               hiByte
+  #364 = Utf8               i
+  #365 = Utf8               isEmpty
+  #366 = Utf8               isLoadCraft
+  #367 = Utf8               j
+  #368 = Utf8               java/io/BufferedOutputStream
+  #369 = Utf8               java/io/IOException
+  #370 = Utf8               java/io/InputStream
+  #371 = Utf8               java/io/OutputStream
+  #372 = Utf8               java/io/PrintStream
+  #373 = Utf8               java/lang/Class
+  #374 = Utf8               java/lang/Exception
+  #375 = Utf8               java/lang/Object
+  #376 = Utf8               java/lang/Runnable
+  #377 = Utf8               java/lang/String
+  #378 = Utf8               java/lang/StringBuilder
+  #379 = Utf8               java/lang/System
+  #380 = Utf8               java/net/InetAddress
+  #381 = Utf8               java/net/Socket
+  #382 = Utf8               java/net/SocketException
+  #383 = Utf8               java/util/Collection
+  #384 = Utf8               java/util/concurrent/CopyOnWriteArrayList
+  #385 = Utf8               java/util/logging/Level
+  #386 = Utf8               java/util/logging/Logger
+  #387 = Utf8               k
+  #388 = Utf8               l
+  #389 = Utf8               l1j/server/a
+  #390 = Utf8               loByte
+  #391 = Utf8               log
+  #392 = Utf8               m
+  #393 = Utf8               n
+  #394 = Utf8               newsList
+  #395 = Utf8               now
+  #396 = Utf8               o
+  #397 = Utf8               opcode
+  #398 = Utf8               opcode:
+  #399 = Utf8               out
+  #400 = Utf8               p
+  #401 = Utf8               packet
+  #402 = Utf8               println
+  #403 = Utf8               q
+  #404 = Utf8               r
+  #405 = Utf8               read
+  #406 = Utf8               readSize
+  #407 = Utf8               reason
+  #408 = Utf8               receive
+  #409 = Utf8               remove
+  #410 = Utf8               result
+  #411 = Utf8               run
+  #412 = Utf8               s
+  #413 = Utf8               size
+  #414 = Utf8               socket
+  #415 = Utf8               t
+  #416 = Utf8               text
+  #417 = Utf8               this
+  #418 = Utf8               toString
+  #419 = Utf8               valueOf
+  #420 = Utf8               write
+  #421 = Utf8               使用了
+  #422 = Utf8               使用了:
+  #423 = Utf8               等待客戶端連接...
+{
+  private static final java.util.logging.Logger c;
+    descriptor: Ljava/util/logging/Logger;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  private final java.io.InputStream d;
+    descriptor: Ljava/io/InputStream;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.io.OutputStream e;
+    descriptor: Ljava/io/OutputStream;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final ai.e f;
+    descriptor: Lai/e;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private bj.d$a g;
+    descriptor: Lbj/d$a;
+    flags: (0x0002) ACC_PRIVATE
+
+  private final java.net.Socket h;
+    descriptor: Ljava/net/Socket;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private bj.b i;
+    descriptor: Lbj/b;
+    flags: (0x0002) ACC_PRIVATE
+
+  private bj.c j;
+    descriptor: Lbj/c;
+    flags: (0x0002) ACC_PRIVATE
+
+  public int a;
+    descriptor: I
+    flags: (0x0001) ACC_PUBLIC
+
+  public long b;
+    descriptor: J
+    flags: (0x0001) ACC_PUBLIC
+
+  private be.eu k;
+    descriptor: Lbe/eu;
+    flags: (0x0002) ACC_PRIVATE
+
+  private bh.a l;
+    descriptor: Lbh/a;
+    flags: (0x0002) ACC_PRIVATE
+
+  private ap.u m;
+    descriptor: Lap/u;
+    flags: (0x0002) ACC_PRIVATE
+
+  private final java.lang.String n;
+    descriptor: Ljava/lang/String;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private long o;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private long p;
+    descriptor: J
+    flags: (0x0002) ACC_PRIVATE
+
+  private ap.u q;
+    descriptor: Lap/u;
+    flags: (0x0002) ACC_PRIVATE
+
+  private java.util.concurrent.CopyOnWriteArrayList<java.lang.String> r;
+    descriptor: Ljava/util/concurrent/CopyOnWriteArrayList;
+    flags: (0x0002) ACC_PRIVATE
+    Signature: #309                         // Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;
+
+  private boolean s;
+    descriptor: Z
+    flags: (0x0002) ACC_PRIVATE
+
+  private boolean t;
+    descriptor: Z
+    flags: (0x0002) ACC_PRIVATE
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #31                 // class bj/d
+         2: invokevirtual #116                // Method java/lang/Class.getName:()Ljava/lang/String;
+         5: invokestatic  #136                // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+         8: putstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        11: return
+      LineNumberTable:
+        line 45: 0
+
+  public bj.d(java.net.Socket) throws java.io.IOException;
+    descriptor: (Ljava/net/Socket;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #118                // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: iconst_0
+         6: putfield      #53                 // Field a:I
+         9: aload_0
+        10: lconst_0
+        11: putfield      #54                 // Field b:J
+        14: aload_0
+        15: aconst_null
+        16: putfield      #65                 // Field m:Lap/u;
+        19: aload_0
+        20: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        23: putfield      #67                 // Field o:J
+        26: aload_0
+        27: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        30: putfield      #68                 // Field p:J
+        33: aload_0
+        34: new           #49                 // class java/util/concurrent/CopyOnWriteArrayList
+        37: dup
+        38: invokespecial #132                // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+        41: putfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+        44: aload_0
+        45: iconst_0
+        46: putfield      #71                 // Field s:Z
+        49: aload_0
+        50: iconst_0
+        51: putfield      #72                 // Field t:Z
+        54: aload_0
+        55: aload_1
+        56: putfield      #60                 // Field h:Ljava/net/Socket;
+        59: aload_0
+        60: aload_1
+        61: invokevirtual #129                // Method java/net/Socket.getInetAddress:()Ljava/net/InetAddress;
+        64: invokevirtual #127                // Method java/net/InetAddress.getHostAddress:()Ljava/lang/String;
+        67: putfield      #66                 // Field n:Ljava/lang/String;
+        70: aload_0
+        71: aload_1
+        72: invokevirtual #130                // Method java/net/Socket.getInputStream:()Ljava/io/InputStream;
+        75: putfield      #56                 // Field d:Ljava/io/InputStream;
+        78: aload_0
+        79: new           #33                 // class java/io/BufferedOutputStream
+        82: dup
+        83: aload_1
+        84: invokevirtual #131                // Method java/net/Socket.getOutputStream:()Ljava/io/OutputStream;
+        87: invokespecial #110                // Method java/io/BufferedOutputStream."<init>":(Ljava/io/OutputStream;)V
+        90: putfield      #57                 // Field e:Ljava/io/OutputStream;
+        93: aload_0
+        94: new           #19                 // class ai/e
+        97: dup
+        98: aload_0
+        99: invokespecial #79                 // Method ai/e."<init>":(Lbj/d;)V
+       102: putfield      #58                 // Field f:Lai/e;
+       105: return
+      LineNumberTable:
+        line 56: 0
+        line 108: 4
+        line 207: 9
+        line 297: 14
+        line 302: 19
+        line 304: 26
+        line 331: 33
+        line 353: 44
+        line 431: 49
+        line 57: 54
+        line 58: 59
+        line 59: 70
+        line 60: 78
+        line 62: 93
+        line 64: 105
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     106     0  this   Lbj/d;
+            0     106     1 socket   Ljava/net/Socket;
+    Exceptions:
+      throws java.io.IOException
+
+  private byte[] k() throws java.lang.Exception;
+    descriptor: ()[B
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=5, locals=7, args_size=1
+         0: aload_0
+         1: getfield      #56                 // Field d:Ljava/io/InputStream;
+         4: invokevirtual #111                // Method java/io/InputStream.read:()I
+         7: istore_1
+         8: aload_0
+         9: getfield      #56                 // Field d:Ljava/io/InputStream;
+        12: invokevirtual #111                // Method java/io/InputStream.read:()I
+        15: istore_2
+        16: iload_2
+        17: ifge          50
+        20: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        23: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        26: new           #43                 // class java/lang/StringBuilder
+        29: dup
+        30: ldc           #7                  // String  【關閉連線】客戶端斷線了 ip=
+        32: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+        35: aload_0
+        36: getfield      #66                 // Field n:Ljava/lang/String;
+        39: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        42: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+        45: invokevirtual #137                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;)V
+        48: aconst_null
+        49: areturn
+        50: iload_2
+        51: bipush        8
+        53: ishl
+        54: iload_1
+        55: iadd
+        56: iconst_2
+        57: isub
+        58: istore_3
+        59: iload_3
+        60: ifle          69
+        63: iload_3
+        64: ldc           #1                  // int 65533
+        66: if_icmple     99
+        69: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        72: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        75: new           #43                 // class java/lang/StringBuilder
+        78: dup
+        79: ldc           #6                  // String  【關閉連線】客戶端封包長度過大或過小 ip=
+        81: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+        84: aload_0
+        85: getfield      #66                 // Field n:Ljava/lang/String;
+        88: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        91: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+        94: invokevirtual #137                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;)V
+        97: aconst_null
+        98: areturn
+        99: iload_3
+       100: newarray       byte
+       102: astore        4
+       104: iconst_0
+       105: istore        5
+       107: iconst_0
+       108: istore        6
+       110: goto          137
+       113: aload_0
+       114: getfield      #56                 // Field d:Ljava/io/InputStream;
+       117: aload         4
+       119: iload         5
+       121: iload_3
+       122: iload         5
+       124: isub
+       125: invokevirtual #112                // Method java/io/InputStream.read:([BII)I
+       128: istore        6
+       130: iload         5
+       132: iload         6
+       134: iadd
+       135: istore        5
+       137: iload         6
+       139: iconst_m1
+       140: if_icmpeq     149
+       143: iload         5
+       145: iload_3
+       146: if_icmplt     113
+       149: iload         5
+       151: iload_3
+       152: if_icmpeq     185
+       155: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+       158: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+       161: new           #43                 // class java/lang/StringBuilder
+       164: dup
+       165: ldc           #5                  // String  【關閉連線】客戶端封包長度不符合 ip=
+       167: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       170: aload_0
+       171: getfield      #66                 // Field n:Ljava/lang/String;
+       174: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       177: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       180: invokevirtual #137                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;)V
+       183: aconst_null
+       184: areturn
+       185: aload_0
+       186: getfield      #61                 // Field i:Lbj/b;
+       189: aload         4
+       191: invokevirtual #101                // Method bj/b.b:([B)[B
+       194: areturn
+      LineNumberTable:
+        line 76: 0
+        line 77: 8
+        line 80: 16
+        line 81: 20
+        line 82: 48
+        line 85: 50
+        line 86: 59
+        line 87: 69
+        line 88: 97
+        line 91: 99
+        line 93: 104
+        line 95: 107
+        line 96: 113
+        line 95: 130
+        line 99: 149
+        line 100: 155
+        line 101: 183
+        line 104: 185
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     195     0  this   Lbj/d;
+            8     187     1 hiByte   I
+           16     179     2 loByte   I
+           59     136     3 dataLength   I
+          104      91     4  data   [B
+          107      88     5 readSize   I
+          110      39     6     i   I
+    Exceptions:
+      throws java.lang.Exception
+
+  public void run();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=8, args_size=1
+         0: aload_0
+         1: new           #32                 // class bj/d$a
+         4: dup
+         5: aload_0
+         6: aconst_null
+         7: invokespecial #107                // Method bj/d$a."<init>":(Lbj/d;Lbj/d$a;)V
+        10: putfield      #59                 // Field g:Lbj/d$a;
+        13: aload_0
+        14: getfield      #59                 // Field g:Lbj/d$a;
+        17: invokestatic  #108                // Method bj/d$a.a:(Lbj/d$a;)V
+        20: aload_0
+        21: ldc           #2                  // int 2147483647
+        23: invokestatic  #99                 // Method bi/i.a:(I)I
+        26: iconst_1
+        27: iadd
+        28: putfield      #53                 // Field a:I
+        31: bipush        7
+        33: istore_1
+        34: aload_0
+        35: getfield      #57                 // Field e:Ljava/io/OutputStream;
+        38: bipush        7
+        40: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+        43: aload_0
+        44: getfield      #57                 // Field e:Ljava/io/OutputStream;
+        47: iconst_0
+        48: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+        51: aload_0
+        52: getfield      #57                 // Field e:Ljava/io/OutputStream;
+        55: sipush        165
+        58: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+        61: aload_0
+        62: getfield      #57                 // Field e:Ljava/io/OutputStream;
+        65: aload_0
+        66: getfield      #53                 // Field a:I
+        69: sipush        255
+        72: iand
+        73: i2b
+        74: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+        77: aload_0
+        78: getfield      #57                 // Field e:Ljava/io/OutputStream;
+        81: aload_0
+        82: getfield      #53                 // Field a:I
+        85: bipush        8
+        87: ishr
+        88: sipush        255
+        91: iand
+        92: i2b
+        93: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+        96: aload_0
+        97: getfield      #57                 // Field e:Ljava/io/OutputStream;
+       100: aload_0
+       101: getfield      #53                 // Field a:I
+       104: bipush        16
+       106: ishr
+       107: sipush        255
+       110: iand
+       111: i2b
+       112: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+       115: aload_0
+       116: getfield      #57                 // Field e:Ljava/io/OutputStream;
+       119: aload_0
+       120: getfield      #53                 // Field a:I
+       123: bipush        24
+       125: ishr
+       126: sipush        255
+       129: iand
+       130: i2b
+       131: invokevirtual #114                // Method java/io/OutputStream.write:(I)V
+       134: aload_0
+       135: getfield      #57                 // Field e:Ljava/io/OutputStream;
+       138: invokevirtual #113                // Method java/io/OutputStream.flush:()V
+       141: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       144: new           #43                 // class java/lang/StringBuilder
+       147: dup
+       148: ldc           #8                  // String (
+       150: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       153: aload_0
+       154: getfield      #66                 // Field n:Ljava/lang/String;
+       157: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       160: ldc           #10                 // String ) 連結到伺服器。
+       162: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       165: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       168: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       171: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       174: new           #43                 // class java/lang/StringBuilder
+       177: dup
+       178: ldc           #15                 // String 使用了
+       180: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       183: invokestatic  #96                 // Method bi/g.a:()J
+       186: invokevirtual #122                // Method java/lang/StringBuilder.append:(J)Ljava/lang/StringBuilder;
+       189: ldc           #12                 // String MB 的記憶體
+       191: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       194: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       197: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       200: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       203: invokestatic  #94                 // Method bi/e.a:()Lbi/e;
+       206: invokevirtual #95                 // Method bi/e.b:()Ljava/lang/String;
+       209: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       212: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       215: ldc           #17                 // String 等待客戶端連接...
+       217: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       220: aload_0
+       221: new           #29                 // class bj/b
+       224: dup
+       225: aload_0
+       226: getfield      #53                 // Field a:I
+       229: invokespecial #100                // Method bj/b."<init>":(I)V
+       232: putfield      #61                 // Field i:Lbj/b;
+       235: aload_0
+       236: new           #30                 // class bj/c
+       239: dup
+       240: aload_0
+       241: getfield      #53                 // Field a:I
+       244: invokespecial #102                // Method bj/c."<init>":(I)V
+       247: putfield      #62                 // Field j:Lbj/c;
+       250: goto          432
+       253: aload_0
+       254: invokespecial #106                // Method l:()V
+       257: aload_0
+       258: invokespecial #105                // Method k:()[B
+       261: astore_2
+       262: aload_2
+       263: ifnonnull     355
+       266: aload_0
+       267: getfield      #63                 // Field k:Lbe/eu;
+       270: ifnull        481
+       273: aload_0
+       274: getfield      #63                 // Field k:Lbe/eu;
+       277: invokevirtual #91                 // Method be/eu.a:()[B
+       280: astore_3
+       281: aload_3
+       282: iconst_0
+       283: baload
+       284: sipush        255
+       287: iand
+       288: sipush        207
+       291: if_icmpeq     481
+       294: new           #43                 // class java/lang/StringBuilder
+       297: dup
+       298: ldc           #14                 // String opcode:
+       300: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       303: aload_3
+       304: iconst_0
+       305: baload
+       306: sipush        255
+       309: iand
+       310: invokevirtual #121                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       313: ldc           #3                  // String  [
+       315: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       318: aload_0
+       319: getfield      #63                 // Field k:Lbe/eu;
+       322: invokevirtual #92                 // Method be/eu.b:()Ljava/lang/String;
+       325: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       328: ldc           #13                 // String ]\r\n
+       330: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       333: aload_3
+       334: invokestatic  #98                 // Method bi/g.a:([B)Ljava/lang/String;
+       337: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       340: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       343: astore        4
+       345: ldc           #11                 // String ./data/log/packetLog.txt
+       347: aload         4
+       349: invokestatic  #97                 // Method bi/g.a:(Ljava/lang/String;Ljava/lang/String;)V
+       352: goto          481
+       355: aload_2
+       356: arraylength
+       357: iconst_4
+       358: isub
+       359: newarray       byte
+       361: astore_3
+       362: aload_2
+       363: iconst_4
+       364: aload_3
+       365: iconst_0
+       366: aload_3
+       367: arraylength
+       368: invokestatic  #125                // Method java/lang/System.arraycopy:(Ljava/lang/Object;ILjava/lang/Object;II)V
+       371: aload_3
+       372: iconst_0
+       373: baload
+       374: sipush        255
+       377: iand
+       378: istore        4
+       380: iload         4
+       382: sipush        158
+       385: if_icmpne     398
+       388: aload_0
+       389: getfield      #65                 // Field m:Lap/u;
+       392: ifnull        398
+       395: goto          432
+       398: iload         4
+       400: sipush        171
+       403: if_icmpeq     413
+       406: iload         4
+       408: bipush        72
+       410: if_icmpne     424
+       413: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+       416: lstore        5
+       418: aload_0
+       419: lload         5
+       421: putfield      #54                 // Field b:J
+       424: aload_0
+       425: getfield      #58                 // Field f:Lai/e;
+       428: aload_3
+       429: invokevirtual #80                 // Method ai/e.a:([B)V
+       432: aload_0
+       433: getfield      #71                 // Field s:Z
+       436: ifeq          253
+       439: goto          481
+       442: astore_1
+       443: aload_0
+       444: invokevirtual #104                // Method c:()V
+       447: goto          485
+       450: astore_1
+       451: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+       454: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+       457: aload_1
+       458: invokevirtual #117                // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+       461: aload_1
+       462: invokevirtual #138                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+       465: aload_0
+       466: invokevirtual #104                // Method c:()V
+       469: goto          485
+       472: astore        7
+       474: aload_0
+       475: invokevirtual #104                // Method c:()V
+       478: aload         7
+       480: athrow
+       481: aload_0
+       482: invokevirtual #104                // Method c:()V
+       485: return
+      Exception table:
+         from    to  target type
+             0   439   442   Class java/net/SocketException
+             0   439   450   Class java/lang/Exception
+             0   443   472   any
+           450   465   472   any
+      LineNumberTable:
+        line 113: 0
+        line 114: 13
+        line 116: 20
+        line 118: 31
+        line 119: 34
+        line 120: 43
+        line 121: 51
+        line 122: 61
+        line 123: 77
+        line 124: 96
+        line 125: 115
+        line 127: 134
+        line 130: 141
+        line 131: 171
+        line 132: 200
+        line 133: 212
+        line 138: 220
+        line 139: 235
+        line 141: 250
+        line 142: 253
+        line 144: 257
+        line 145: 262
+        line 149: 266
+        line 150: 273
+        line 151: 281
+        line 152: 294
+        line 153: 345
+        line 156: 352
+        line 160: 355
+        line 161: 362
+        line 163: 371
+        line 166: 380
+        line 167: 388
+        line 168: 395
+        line 173: 398
+        line 175: 413
+        line 180: 418
+        line 191: 424
+        line 141: 432
+        line 196: 439
+        line 202: 443
+        line 198: 450
+        line 199: 451
+        line 202: 465
+        line 200: 472
+        line 202: 474
+        line 203: 478
+        line 202: 481
+        line 205: 485
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     486     0  this   Lbj/d;
+           34     405     1 Bogus   I
+          262     170     2 receive   [B
+          281      71     3 content   [B
+          345       7     4  text   Ljava/lang/String;
+          362      70     3  data   [B
+          380      52     4 opcode   I
+          418       6     5   now   J
+          451      14     1     e   Ljava/lang/Exception;
+
+  public java.lang.String a();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #64                 // Field l:Lbh/a;
+         4: ifnonnull     9
+         7: aconst_null
+         8: areturn
+         9: aload_0
+        10: getfield      #64                 // Field l:Lbh/a;
+        13: invokevirtual #93                 // Method bh/a.d:()Ljava/lang/String;
+        16: areturn
+      LineNumberTable:
+        line 289: 0
+        line 290: 7
+        line 292: 9
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      17     0  this   Lbj/d;
+
+  private void l();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #65                 // Field m:Lap/u;
+         4: ifnonnull     8
+         7: return
+         8: getstatic     #75                 // Field l1j/server/a.s:I
+        11: sipush        1000
+        14: imul
+        15: i2l
+        16: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        19: aload_0
+        20: getfield      #67                 // Field o:J
+        23: lsub
+        24: lcmp
+        25: ifge          42
+        28: aload_0
+        29: getfield      #65                 // Field m:Lap/u;
+        32: invokevirtual #85                 // Method ap/u.I:()V
+        35: aload_0
+        36: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        39: putfield      #67                 // Field o:J
+        42: getstatic     #76                 // Field l1j/server/a.t:I
+        45: sipush        1000
+        48: imul
+        49: i2l
+        50: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        53: aload_0
+        54: getfield      #68                 // Field p:J
+        57: lsub
+        58: lcmp
+        59: ifge          76
+        62: aload_0
+        63: getfield      #65                 // Field m:Lap/u;
+        66: invokevirtual #86                 // Method ap/u.J:()V
+        69: aload_0
+        70: invokestatic  #126                // Method java/lang/System.currentTimeMillis:()J
+        73: putfield      #68                 // Field p:J
+        76: return
+      LineNumberTable:
+        line 307: 0
+        line 308: 7
+        line 312: 8
+        line 313: 28
+        line 314: 35
+        line 318: 42
+        line 319: 62
+        line 320: 69
+        line 323: 76
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      77     0  this   Lbj/d;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=1
+         0: aconst_null
+         1: astore_1
+         2: aload_0
+         3: getfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+         6: invokevirtual #134                // Method java/util/concurrent/CopyOnWriteArrayList.isEmpty:()Z
+         9: ifne          33
+        12: aload_0
+        13: getfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+        16: iconst_0
+        17: invokevirtual #133                // Method java/util/concurrent/CopyOnWriteArrayList.get:(I)Ljava/lang/Object;
+        20: checkcast     #42                 // class java/lang/String
+        23: astore_1
+        24: aload_0
+        25: getfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+        28: iconst_0
+        29: invokevirtual #135                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(I)Ljava/lang/Object;
+        32: pop
+        33: aload_1
+        34: areturn
+      LineNumberTable:
+        line 334: 0
+        line 335: 2
+        line 336: 12
+        line 337: 24
+        line 339: 33
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      35     0  this   Lbj/d;
+            2      33     1 result   Ljava/lang/String;
+
+  public void a(int);
+    descriptor: (I)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=4, args_size=2
+         0: aload_0
+         1: new           #23                 // class be/aj
+         4: dup
+         5: iload_1
+         6: invokespecial #90                 // Method be/aj."<init>":(I)V
+         9: invokevirtual #103                // Method a:(Lbe/eu;)V
+        12: goto          44
+        15: astore_2
+        16: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        19: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        22: aload_2
+        23: invokevirtual #117                // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+        26: aload_2
+        27: invokevirtual #138                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        30: aload_0
+        31: invokevirtual #104                // Method c:()V
+        34: goto          48
+        37: astore_3
+        38: aload_0
+        39: invokevirtual #104                // Method c:()V
+        42: aload_3
+        43: athrow
+        44: aload_0
+        45: invokevirtual #104                // Method c:()V
+        48: return
+      Exception table:
+         from    to  target type
+             0    12    15   Class java/lang/Exception
+             0    30    37   any
+      LineNumberTable:
+        line 345: 0
+        line 346: 12
+        line 347: 16
+        line 349: 30
+        line 348: 37
+        line 349: 38
+        line 350: 42
+        line 349: 44
+        line 351: 48
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      49     0  this   Lbj/d;
+            0      49     1 reason   I
+           16      14     2     e   Ljava/lang/Exception;
+
+  public void c();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: aload_0
+         1: getfield      #71                 // Field s:Z
+         4: ifeq          8
+         7: return
+         8: aload_0
+         9: iconst_1
+        10: putfield      #71                 // Field s:Z
+        13: invokestatic  #77                 // Method ai/c.a:()Lai/c;
+        16: aload_0
+        17: invokevirtual #78                 // Method ai/c.b:(Lbj/d;)V
+        20: aload_0
+        21: getfield      #60                 // Field h:Ljava/net/Socket;
+        24: invokevirtual #128                // Method java/net/Socket.close:()V
+        27: goto          379
+        30: astore_1
+        31: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        34: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        37: aload_1
+        38: invokevirtual #117                // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+        41: aload_1
+        42: invokevirtual #138                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        45: aload_0
+        46: getfield      #65                 // Field m:Lap/u;
+        49: ifnull        79
+        52: aload_0
+        53: getfield      #65                 // Field m:Lap/u;
+        56: dup
+        57: astore_3
+        58: monitorenter
+        59: aload_0
+        60: getfield      #65                 // Field m:Lap/u;
+        63: invokevirtual #87                 // Method ap/u.p:()V
+        66: aload_0
+        67: aconst_null
+        68: putfield      #65                 // Field m:Lap/u;
+        71: aload_3
+        72: monitorexit
+        73: goto          79
+        76: aload_3
+        77: monitorexit
+        78: athrow
+        79: aload_0
+        80: getfield      #64                 // Field l:Lbh/a;
+        83: ifnull        121
+        86: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+        89: aload_0
+        90: getfield      #64                 // Field l:Lbh/a;
+        93: iconst_0
+        94: invokevirtual #82                 // Method ao/a.a:(Lbh/a;Z)V
+        97: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       100: aload_0
+       101: getfield      #64                 // Field l:Lbh/a;
+       104: iconst_0
+       105: invokevirtual #83                 // Method ao/a.b:(Lbh/a;Z)V
+       108: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       111: aload_0
+       112: getfield      #64                 // Field l:Lbh/a;
+       115: invokevirtual #93                 // Method bh/a.d:()Ljava/lang/String;
+       118: invokevirtual #84                 // Method ao/a.e:(Ljava/lang/String;)V
+       121: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       124: new           #43                 // class java/lang/StringBuilder
+       127: dup
+       128: aload_0
+       129: getfield      #66                 // Field n:Ljava/lang/String;
+       132: invokestatic  #119                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       135: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       138: ldc           #4                  // String  【關閉連線】(
+       140: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       143: invokestatic  #88                 // Method aq/aq.a:()Laq/aq;
+       146: invokevirtual #89                 // Method aq/aq.c:()Ljava/util/Collection;
+       149: invokeinterface #139,  1          // InterfaceMethod java/util/Collection.size:()I
+       154: invokevirtual #121                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       157: ldc           #9                  // String )
+       159: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       162: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       165: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       168: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       171: invokestatic  #94                 // Method bi/e.a:()Lbi/e;
+       174: invokevirtual #95                 // Method bi/e.b:()Ljava/lang/String;
+       177: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       180: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       183: new           #43                 // class java/lang/StringBuilder
+       186: dup
+       187: ldc           #16                 // String 使用了:
+       189: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       192: invokestatic  #96                 // Method bi/g.a:()J
+       195: invokevirtual #122                // Method java/lang/StringBuilder.append:(J)Ljava/lang/StringBuilder;
+       198: ldc           #12                 // String MB 的記憶體
+       200: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       203: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       206: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       209: goto          543
+       212: astore_2
+       213: aload_0
+       214: getfield      #65                 // Field m:Lap/u;
+       217: ifnull        247
+       220: aload_0
+       221: getfield      #65                 // Field m:Lap/u;
+       224: dup
+       225: astore_3
+       226: monitorenter
+       227: aload_0
+       228: getfield      #65                 // Field m:Lap/u;
+       231: invokevirtual #87                 // Method ap/u.p:()V
+       234: aload_0
+       235: aconst_null
+       236: putfield      #65                 // Field m:Lap/u;
+       239: aload_3
+       240: monitorexit
+       241: goto          247
+       244: aload_3
+       245: monitorexit
+       246: athrow
+       247: aload_0
+       248: getfield      #64                 // Field l:Lbh/a;
+       251: ifnull        289
+       254: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       257: aload_0
+       258: getfield      #64                 // Field l:Lbh/a;
+       261: iconst_0
+       262: invokevirtual #82                 // Method ao/a.a:(Lbh/a;Z)V
+       265: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       268: aload_0
+       269: getfield      #64                 // Field l:Lbh/a;
+       272: iconst_0
+       273: invokevirtual #83                 // Method ao/a.b:(Lbh/a;Z)V
+       276: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       279: aload_0
+       280: getfield      #64                 // Field l:Lbh/a;
+       283: invokevirtual #93                 // Method bh/a.d:()Ljava/lang/String;
+       286: invokevirtual #84                 // Method ao/a.e:(Ljava/lang/String;)V
+       289: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       292: new           #43                 // class java/lang/StringBuilder
+       295: dup
+       296: aload_0
+       297: getfield      #66                 // Field n:Ljava/lang/String;
+       300: invokestatic  #119                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       303: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       306: ldc           #4                  // String  【關閉連線】(
+       308: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       311: invokestatic  #88                 // Method aq/aq.a:()Laq/aq;
+       314: invokevirtual #89                 // Method aq/aq.c:()Ljava/util/Collection;
+       317: invokeinterface #139,  1          // InterfaceMethod java/util/Collection.size:()I
+       322: invokevirtual #121                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       325: ldc           #9                  // String )
+       327: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       330: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       333: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       336: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       339: invokestatic  #94                 // Method bi/e.a:()Lbi/e;
+       342: invokevirtual #95                 // Method bi/e.b:()Ljava/lang/String;
+       345: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       348: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       351: new           #43                 // class java/lang/StringBuilder
+       354: dup
+       355: ldc           #16                 // String 使用了:
+       357: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       360: invokestatic  #96                 // Method bi/g.a:()J
+       363: invokevirtual #122                // Method java/lang/StringBuilder.append:(J)Ljava/lang/StringBuilder;
+       366: ldc           #12                 // String MB 的記憶體
+       368: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       371: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       374: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       377: aload_2
+       378: athrow
+       379: aload_0
+       380: getfield      #65                 // Field m:Lap/u;
+       383: ifnull        413
+       386: aload_0
+       387: getfield      #65                 // Field m:Lap/u;
+       390: dup
+       391: astore_3
+       392: monitorenter
+       393: aload_0
+       394: getfield      #65                 // Field m:Lap/u;
+       397: invokevirtual #87                 // Method ap/u.p:()V
+       400: aload_0
+       401: aconst_null
+       402: putfield      #65                 // Field m:Lap/u;
+       405: aload_3
+       406: monitorexit
+       407: goto          413
+       410: aload_3
+       411: monitorexit
+       412: athrow
+       413: aload_0
+       414: getfield      #64                 // Field l:Lbh/a;
+       417: ifnull        455
+       420: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       423: aload_0
+       424: getfield      #64                 // Field l:Lbh/a;
+       427: iconst_0
+       428: invokevirtual #82                 // Method ao/a.a:(Lbh/a;Z)V
+       431: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       434: aload_0
+       435: getfield      #64                 // Field l:Lbh/a;
+       438: iconst_0
+       439: invokevirtual #83                 // Method ao/a.b:(Lbh/a;Z)V
+       442: invokestatic  #81                 // Method ao/a.a:()Lao/a;
+       445: aload_0
+       446: getfield      #64                 // Field l:Lbh/a;
+       449: invokevirtual #93                 // Method bh/a.d:()Ljava/lang/String;
+       452: invokevirtual #84                 // Method ao/a.e:(Ljava/lang/String;)V
+       455: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       458: new           #43                 // class java/lang/StringBuilder
+       461: dup
+       462: aload_0
+       463: getfield      #66                 // Field n:Ljava/lang/String;
+       466: invokestatic  #119                // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+       469: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       472: ldc           #4                  // String  【關閉連線】(
+       474: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       477: invokestatic  #88                 // Method aq/aq.a:()Laq/aq;
+       480: invokevirtual #89                 // Method aq/aq.c:()Ljava/util/Collection;
+       483: invokeinterface #139,  1          // InterfaceMethod java/util/Collection.size:()I
+       488: invokevirtual #121                // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       491: ldc           #9                  // String )
+       493: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       496: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       499: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       502: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       505: invokestatic  #94                 // Method bi/e.a:()Lbi/e;
+       508: invokevirtual #95                 // Method bi/e.b:()Ljava/lang/String;
+       511: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       514: getstatic     #73                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       517: new           #43                 // class java/lang/StringBuilder
+       520: dup
+       521: ldc           #16                 // String 使用了:
+       523: invokespecial #120                // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       526: invokestatic  #96                 // Method bi/g.a:()J
+       529: invokevirtual #122                // Method java/lang/StringBuilder.append:(J)Ljava/lang/StringBuilder;
+       532: ldc           #12                 // String MB 的記憶體
+       534: invokevirtual #123                // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       537: invokevirtual #124                // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       540: invokevirtual #115                // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       543: return
+      Exception table:
+         from    to  target type
+            20    27    30   Class java/lang/Exception
+            59    73    76   any
+            76    78    76   any
+            20    45   212   any
+           227   241   244   any
+           244   246   244   any
+           393   407   410   any
+           410   412   410   any
+      LineNumberTable:
+        line 357: 0
+        line 358: 7
+        line 361: 8
+        line 363: 13
+        line 369: 20
+        line 370: 27
+        line 371: 31
+        line 374: 45
+        line 375: 52
+        line 376: 59
+        line 377: 66
+        line 375: 71
+        line 381: 79
+        line 382: 86
+        line 383: 97
+        line 384: 108
+        line 387: 121
+        line 388: 168
+        line 389: 180
+        line 372: 212
+        line 374: 213
+        line 375: 220
+        line 376: 227
+        line 377: 234
+        line 375: 239
+        line 381: 247
+        line 382: 254
+        line 383: 265
+        line 384: 276
+        line 387: 289
+        line 388: 336
+        line 389: 348
+        line 391: 377
+        line 374: 379
+        line 375: 386
+        line 376: 393
+        line 377: 400
+        line 375: 405
+        line 381: 413
+        line 382: 420
+        line 383: 431
+        line 384: 442
+        line 387: 455
+        line 388: 502
+        line 389: 514
+        line 393: 543
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     544     0  this   Lbj/d;
+           31      14     1     e   Ljava/lang/Exception;
+
+  public void d();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=4, args_size=1
+         0: aload_0
+         1: getfield      #71                 // Field s:Z
+         4: ifeq          8
+         7: return
+         8: aload_0
+         9: iconst_1
+        10: putfield      #71                 // Field s:Z
+        13: invokestatic  #77                 // Method ai/c.a:()Lai/c;
+        16: aload_0
+        17: invokevirtual #78                 // Method ai/c.b:(Lbj/d;)V
+        20: aload_0
+        21: getfield      #60                 // Field h:Ljava/net/Socket;
+        24: invokevirtual #128                // Method java/net/Socket.close:()V
+        27: goto          116
+        30: astore_1
+        31: getstatic     #55                 // Field c:Ljava/util/logging/Logger;
+        34: getstatic     #74                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        37: aload_1
+        38: invokevirtual #117                // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+        41: aload_1
+        42: invokevirtual #138                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        45: aload_0
+        46: getfield      #65                 // Field m:Lap/u;
+        49: ifnull        150
+        52: aload_0
+        53: getfield      #65                 // Field m:Lap/u;
+        56: dup
+        57: astore_3
+        58: monitorenter
+        59: aload_0
+        60: getfield      #65                 // Field m:Lap/u;
+        63: invokevirtual #87                 // Method ap/u.p:()V
+        66: aload_0
+        67: aconst_null
+        68: putfield      #65                 // Field m:Lap/u;
+        71: aload_3
+        72: monitorexit
+        73: goto          150
+        76: aload_3
+        77: monitorexit
+        78: athrow
+        79: astore_2
+        80: aload_0
+        81: getfield      #65                 // Field m:Lap/u;
+        84: ifnull        114
+        87: aload_0
+        88: getfield      #65                 // Field m:Lap/u;
+        91: dup
+        92: astore_3
+        93: monitorenter
+        94: aload_0
+        95: getfield      #65                 // Field m:Lap/u;
+        98: invokevirtual #87                 // Method ap/u.p:()V
+       101: aload_0
+       102: aconst_null
+       103: putfield      #65                 // Field m:Lap/u;
+       106: aload_3
+       107: monitorexit
+       108: goto          114
+       111: aload_3
+       112: monitorexit
+       113: athrow
+       114: aload_2
+       115: athrow
+       116: aload_0
+       117: getfield      #65                 // Field m:Lap/u;
+       120: ifnull        150
+       123: aload_0
+       124: getfield      #65                 // Field m:Lap/u;
+       127: dup
+       128: astore_3
+       129: monitorenter
+       130: aload_0
+       131: getfield      #65                 // Field m:Lap/u;
+       134: invokevirtual #87                 // Method ap/u.p:()V
+       137: aload_0
+       138: aconst_null
+       139: putfield      #65                 // Field m:Lap/u;
+       142: aload_3
+       143: monitorexit
+       144: goto          150
+       147: aload_3
+       148: monitorexit
+       149: athrow
+       150: return
+      Exception table:
+         from    to  target type
+            20    27    30   Class java/lang/Exception
+            59    73    76   any
+            76    78    76   any
+            20    45    79   any
+            94   108   111   any
+           111   113   111   any
+           130   144   147   any
+           147   149   147   any
+      LineNumberTable:
+        line 397: 0
+        line 398: 7
+        line 401: 8
+        line 403: 13
+        line 408: 20
+        line 409: 27
+        line 410: 31
+        line 413: 45
+        line 414: 52
+        line 415: 59
+        line 416: 66
+        line 414: 71
+        line 411: 79
+        line 413: 80
+        line 414: 87
+        line 415: 94
+        line 416: 101
+        line 414: 106
+        line 420: 114
+        line 413: 116
+        line 414: 123
+        line 415: 130
+        line 416: 137
+        line 414: 142
+        line 422: 150
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     151     0  this   Lbj/d;
+           31      14     1     e   Ljava/lang/Exception;
+
+  public void a(be.eu);
+    descriptor: (Lbe/eu;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #59                 // Field g:Lbj/d$a;
+         4: aload_1
+         5: invokestatic  #109                // Method bj/d$a.a:(Lbj/d$a;Lbe/eu;)V
+         8: return
+      LineNumberTable:
+        line 425: 0
+        line 427: 8
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Lbj/d;
+            0       9     1 packet   Lbe/eu;
+
+  public bh.a e();
+    descriptor: ()Lbh/a;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #64                 // Field l:Lbh/a;
+         4: areturn
+      LineNumberTable:
+        line 284: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+
+  public void a(bh.a);
+    descriptor: (Lbh/a;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: putfield      #64                 // Field l:Lbh/a;
+         5: return
+      LineNumberTable:
+        line 285: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lbj/d;
+            0       6     1 account   Lbh/a;
+
+  public ap.u f();
+    descriptor: ()Lap/u;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #65                 // Field m:Lap/u;
+         4: areturn
+      LineNumberTable:
+        line 295: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+
+  public void a(ap.u);
+    descriptor: (Lap/u;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: putfield      #65                 // Field m:Lap/u;
+         5: return
+      LineNumberTable:
+        line 296: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lbj/d;
+            0       6     1 activeChar   Lap/u;
+
+  public java.lang.String g();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #66                 // Field n:Ljava/lang/String;
+         4: areturn
+      LineNumberTable:
+        line 299: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+
+  public ap.u h();
+    descriptor: ()Lap/u;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #69                 // Field q:Lap/u;
+         4: areturn
+      LineNumberTable:
+        line 325: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+
+  public void b(ap.u);
+    descriptor: (Lap/u;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: putfield      #69                 // Field q:Lap/u;
+         5: return
+      LineNumberTable:
+        line 326: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lbj/d;
+            0       6     1 dummyCharData   Lap/u;
+
+  public java.util.concurrent.CopyOnWriteArrayList<java.lang.String> i();
+    descriptor: ()Ljava/util/concurrent/CopyOnWriteArrayList;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+         4: areturn
+      LineNumberTable:
+        line 329: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+    Signature: #243                         // ()Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;
+
+  public void a(java.util.concurrent.CopyOnWriteArrayList<java.lang.String>);
+    descriptor: (Ljava/util/concurrent/CopyOnWriteArrayList;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: putfield      #70                 // Field r:Ljava/util/concurrent/CopyOnWriteArrayList;
+         5: return
+      LineNumberTable:
+        line 330: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lbj/d;
+            0       6     1 newsList   Ljava/util/concurrent/CopyOnWriteArrayList;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     1 newsList   Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;
+    Signature: #273                         // (Ljava/util/concurrent/CopyOnWriteArrayList<Ljava/lang/String;>;)V
+
+  public boolean j();
+    descriptor: ()Z
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #72                 // Field t:Z
+         4: ireturn
+      LineNumberTable:
+        line 429: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbj/d;
+
+  public void a(boolean);
+    descriptor: (Z)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: iload_1
+         2: putfield      #72                 // Field t:Z
+         5: return
+      LineNumberTable:
+        line 430: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lbj/d;
+            0       6     1 isLoadCraft   Z
+
+  static boolean a(bj.d);
+    descriptor: (Lbj/d;)Z
+    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #71                 // Field s:Z
+         4: ireturn
+      LineNumberTable:
+        line 353: 0
+
+  static bj.c b(bj.d);
+    descriptor: (Lbj/d;)Lbj/c;
+    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #62                 // Field j:Lbj/c;
+         4: areturn
+      LineNumberTable:
+        line 72: 0
+
+  static java.io.OutputStream c(bj.d);
+    descriptor: (Lbj/d;)Ljava/io/OutputStream;
+    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #57                 // Field e:Ljava/io/OutputStream;
+         4: areturn
+      LineNumberTable:
+        line 50: 0
+
+  static void a(bj.d, be.eu);
+    descriptor: (Lbj/d;Lbe/eu;)V
+    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: putfield      #63                 // Field k:Lbe/eu;
+         5: return
+      LineNumberTable:
+        line 282: 0
+}
+InnerClasses:
+  #321= #32 of #31;                       // a=class bj/d$a of class bj/d
+SourceFile: "ClientThread.java"

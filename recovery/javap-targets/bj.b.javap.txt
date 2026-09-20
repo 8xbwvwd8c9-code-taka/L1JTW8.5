@@ -1,0 +1,566 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/bj/b.class
+  Last modified Jan 3, 2018; size 1491 bytes
+  SHA-256 checksum 5f1566157f7cc40fcc21edc8eb2dc1b50a57478f344fa47652078d752c660882
+  Compiled from "CipherClient.java"
+public final class bj.b
+  minor version: 0
+  major version: 52
+  flags: (0x0031) ACC_PUBLIC, ACC_FINAL, ACC_SUPER
+  this_class: #5                          // bj/b
+  super_class: #7                         // java/lang/Object
+  interfaces: 0, fields: 3, methods: 4, attributes: 1
+Constant pool:
+   #1 = Integer            -1827678238
+   #2 = Integer            -1674521287
+   #3 = Integer            679411651
+   #4 = Integer            2087905683
+   #5 = Class              #37            // bj/b
+   #6 = Class              #42            // java/lang/Integer
+   #7 = Class              #43            // java/lang/Object
+   #8 = Fieldref           #5.#16         // bj/b.a:[B
+   #9 = Fieldref           #5.#17         // bj/b.b:[B
+  #10 = Fieldref           #5.#18         // bj/b.c:[B
+  #11 = Methodref          #5.#15         // bj/b.a:([B[B)V
+  #12 = Methodref          #6.#19         // java/lang/Integer.rotateRight:(II)I
+  #13 = Methodref          #7.#14         // java/lang/Object."<init>":()V
+  #14 = NameAndType        #25:#20        // "<init>":()V
+  #15 = NameAndType        #35:#24        // a:([B[B)V
+  #16 = NameAndType        #35:#33        // a:[B
+  #17 = NameAndType        #36:#33        // b:[B
+  #18 = NameAndType        #38:#33        // c:[B
+  #19 = NameAndType        #47:#22        // rotateRight:(II)I
+  #20 = Utf8               ()V
+  #21 = Utf8               (I)V
+  #22 = Utf8               (II)I
+  #23 = Utf8               ([B)[B
+  #24 = Utf8               ([B[B)V
+  #25 = Utf8               <init>
+  #26 = Utf8               CipherClient.java
+  #27 = Utf8               Code
+  #28 = Utf8               I
+  #29 = Utf8               Lbj/b;
+  #30 = Utf8               LineNumberTable
+  #31 = Utf8               LocalVariableTable
+  #32 = Utf8               SourceFile
+  #33 = Utf8               [B
+  #34 = Utf8               [I
+  #35 = Utf8               a
+  #36 = Utf8               b
+  #37 = Utf8               bj/b
+  #38 = Utf8               c
+  #39 = Utf8               data
+  #40 = Utf8               i
+  #41 = Utf8               j
+  #42 = Utf8               java/lang/Integer
+  #43 = Utf8               java/lang/Object
+  #44 = Utf8               key
+  #45 = Utf8               mask
+  #46 = Utf8               ref
+  #47 = Utf8               rotateRight
+  #48 = Utf8               seed
+  #49 = Utf8               this
+{
+  private final byte[] a;
+    descriptor: [B
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final byte[] b;
+    descriptor: [B
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final byte[] c;
+    descriptor: [B
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  public bj.b(int);
+    descriptor: (I)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=5, args_size=2
+         0: aload_0
+         1: invokespecial #13                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: bipush        8
+         7: newarray       byte
+         9: putfield      #8                  // Field a:[B
+        12: aload_0
+        13: bipush        8
+        15: newarray       byte
+        17: putfield      #9                  // Field b:[B
+        20: aload_0
+        21: iconst_4
+        22: newarray       byte
+        24: putfield      #10                 // Field c:[B
+        27: iconst_2
+        28: newarray       int
+        30: dup
+        31: iconst_0
+        32: iload_1
+        33: iastore
+        34: dup
+        35: iconst_1
+        36: ldc           #1                  // int -1827678238
+        38: iastore
+        39: astore_2
+        40: aload_2
+        41: iconst_0
+        42: aload_2
+        43: iconst_0
+        44: iaload
+        45: ldc           #2                  // int -1674521287
+        47: ixor
+        48: bipush        13
+        50: invokestatic  #12                 // Method java/lang/Integer.rotateRight:(II)I
+        53: iastore
+        54: aload_2
+        55: iconst_1
+        56: dup2
+        57: iaload
+        58: aload_2
+        59: iconst_0
+        60: iaload
+        61: ldc           #4                  // int 2087905683
+        63: ixor
+        64: ixor
+        65: iastore
+        66: iconst_0
+        67: istore_3
+        68: goto          113
+        71: iconst_0
+        72: istore        4
+        74: goto          104
+        77: aload_0
+        78: getfield      #8                  // Field a:[B
+        81: iload_3
+        82: iconst_2
+        83: ishl
+        84: iload         4
+        86: iadd
+        87: aload_2
+        88: iload_3
+        89: iaload
+        90: iload         4
+        92: iconst_3
+        93: ishl
+        94: ishr
+        95: sipush        255
+        98: iand
+        99: i2b
+       100: bastore
+       101: iinc          4, 1
+       104: iload         4
+       106: iconst_4
+       107: if_icmplt     77
+       110: iinc          3, 1
+       113: iload_3
+       114: iconst_2
+       115: if_icmplt     71
+       118: return
+      LineNumberTable:
+        line 33: 0
+        line 14: 4
+        line 16: 12
+        line 21: 20
+        line 38: 27
+        line 41: 40
+        line 44: 54
+        line 47: 66
+        line 48: 71
+        line 49: 77
+        line 48: 101
+        line 47: 110
+        line 55: 118
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     119     0  this   Lbj/b;
+            0     119     1  seed   I
+           40      79     2   key   [I
+           68      50     3     i   I
+           74      36     4     j   I
+
+  public byte[] a(byte[]);
+    descriptor: ([B)[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=7, locals=3, args_size=2
+         0: iconst_0
+         1: istore_2
+         2: goto          19
+         5: aload_0
+         6: getfield      #10                 // Field c:[B
+         9: iload_2
+        10: aload_1
+        11: iload_2
+        12: iconst_4
+        13: iadd
+        14: baload
+        15: bastore
+        16: iinc          2, 1
+        19: iload_2
+        20: aload_0
+        21: getfield      #10                 // Field c:[B
+        24: arraylength
+        25: if_icmplt     5
+        28: aload_1
+        29: iconst_0
+        30: dup2
+        31: baload
+        32: aload_0
+        33: getfield      #9                  // Field b:[B
+        36: iconst_0
+        37: baload
+        38: ixor
+        39: i2b
+        40: bastore
+        41: iconst_1
+        42: istore_2
+        43: goto          71
+        46: aload_1
+        47: iload_2
+        48: dup2
+        49: baload
+        50: aload_1
+        51: iload_2
+        52: iconst_1
+        53: isub
+        54: baload
+        55: aload_0
+        56: getfield      #9                  // Field b:[B
+        59: iload_2
+        60: bipush        7
+        62: iand
+        63: baload
+        64: ixor
+        65: ixor
+        66: i2b
+        67: bastore
+        68: iinc          2, 1
+        71: iload_2
+        72: aload_1
+        73: arraylength
+        74: if_icmplt     46
+        77: aload_1
+        78: iconst_3
+        79: dup2
+        80: baload
+        81: aload_0
+        82: getfield      #9                  // Field b:[B
+        85: iconst_2
+        86: baload
+        87: ixor
+        88: i2b
+        89: bastore
+        90: aload_1
+        91: iconst_2
+        92: dup2
+        93: baload
+        94: aload_0
+        95: getfield      #9                  // Field b:[B
+        98: iconst_3
+        99: baload
+       100: aload_1
+       101: iconst_3
+       102: baload
+       103: ixor
+       104: ixor
+       105: i2b
+       106: bastore
+       107: aload_1
+       108: iconst_1
+       109: dup2
+       110: baload
+       111: aload_0
+       112: getfield      #9                  // Field b:[B
+       115: iconst_4
+       116: baload
+       117: aload_1
+       118: iconst_2
+       119: baload
+       120: ixor
+       121: ixor
+       122: i2b
+       123: bastore
+       124: aload_1
+       125: iconst_0
+       126: dup2
+       127: baload
+       128: aload_0
+       129: getfield      #9                  // Field b:[B
+       132: iconst_5
+       133: baload
+       134: aload_1
+       135: iconst_1
+       136: baload
+       137: ixor
+       138: ixor
+       139: i2b
+       140: bastore
+       141: aload_0
+       142: aload_0
+       143: getfield      #9                  // Field b:[B
+       146: aload_0
+       147: getfield      #10                 // Field c:[B
+       150: invokespecial #11                 // Method a:([B[B)V
+       153: aload_1
+       154: areturn
+      LineNumberTable:
+        line 59: 0
+        line 60: 5
+        line 59: 16
+        line 63: 28
+        line 65: 41
+        line 66: 46
+        line 65: 68
+        line 69: 77
+        line 70: 90
+        line 71: 107
+        line 72: 124
+        line 74: 141
+        line 75: 153
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     155     0  this   Lbj/b;
+            0     155     1  data   [B
+            2      26     2     i   I
+           43      34     2     i   I
+
+  public final byte[] b(byte[]);
+    descriptor: ([B)[B
+    flags: (0x0011) ACC_PUBLIC, ACC_FINAL
+    Code:
+      stack=7, locals=3, args_size=2
+         0: aload_1
+         1: iconst_0
+         2: dup2
+         3: baload
+         4: aload_0
+         5: getfield      #8                  // Field a:[B
+         8: iconst_5
+         9: baload
+        10: aload_1
+        11: iconst_1
+        12: baload
+        13: ixor
+        14: ixor
+        15: i2b
+        16: bastore
+        17: aload_1
+        18: iconst_1
+        19: dup2
+        20: baload
+        21: aload_0
+        22: getfield      #8                  // Field a:[B
+        25: iconst_4
+        26: baload
+        27: aload_1
+        28: iconst_2
+        29: baload
+        30: ixor
+        31: ixor
+        32: i2b
+        33: bastore
+        34: aload_1
+        35: iconst_2
+        36: dup2
+        37: baload
+        38: aload_0
+        39: getfield      #8                  // Field a:[B
+        42: iconst_3
+        43: baload
+        44: aload_1
+        45: iconst_3
+        46: baload
+        47: ixor
+        48: ixor
+        49: i2b
+        50: bastore
+        51: aload_1
+        52: iconst_3
+        53: dup2
+        54: baload
+        55: aload_0
+        56: getfield      #8                  // Field a:[B
+        59: iconst_2
+        60: baload
+        61: ixor
+        62: i2b
+        63: bastore
+        64: aload_1
+        65: arraylength
+        66: iconst_1
+        67: isub
+        68: istore_2
+        69: goto          97
+        72: aload_1
+        73: iload_2
+        74: dup2
+        75: baload
+        76: aload_1
+        77: iload_2
+        78: iconst_1
+        79: isub
+        80: baload
+        81: aload_0
+        82: getfield      #8                  // Field a:[B
+        85: iload_2
+        86: bipush        7
+        88: iand
+        89: baload
+        90: ixor
+        91: ixor
+        92: i2b
+        93: bastore
+        94: iinc          2, -1
+        97: iload_2
+        98: iconst_1
+        99: if_icmpge     72
+       102: aload_1
+       103: iconst_0
+       104: dup2
+       105: baload
+       106: aload_0
+       107: getfield      #8                  // Field a:[B
+       110: iconst_0
+       111: baload
+       112: ixor
+       113: i2b
+       114: bastore
+       115: iconst_0
+       116: istore_2
+       117: goto          134
+       120: aload_0
+       121: getfield      #10                 // Field c:[B
+       124: iload_2
+       125: aload_1
+       126: iload_2
+       127: iconst_4
+       128: iadd
+       129: baload
+       130: bastore
+       131: iinc          2, 1
+       134: iload_2
+       135: iconst_4
+       136: if_icmplt     120
+       139: aload_0
+       140: aload_0
+       141: getfield      #8                  // Field a:[B
+       144: aload_0
+       145: getfield      #10                 // Field c:[B
+       148: invokespecial #11                 // Method a:([B[B)V
+       151: aload_1
+       152: areturn
+      LineNumberTable:
+        line 87: 0
+        line 88: 17
+        line 89: 34
+        line 90: 51
+        line 92: 64
+        line 93: 72
+        line 92: 94
+        line 96: 102
+        line 98: 115
+        line 99: 120
+        line 98: 131
+        line 103: 139
+        line 105: 151
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     153     0  this   Lbj/b;
+            0     153     1  data   [B
+           69      33     2     i   I
+          117      22     2     i   I
+
+  private final void a(byte[], byte[]);
+    descriptor: ([B[B)V
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Code:
+      stack=5, locals=5, args_size=3
+         0: iconst_0
+         1: istore_3
+         2: goto          18
+         5: aload_1
+         6: iload_3
+         7: dup2
+         8: baload
+         9: aload_2
+        10: iload_3
+        11: baload
+        12: ixor
+        13: i2b
+        14: bastore
+        15: iinc          3, 1
+        18: iload_3
+        19: iconst_4
+        20: if_icmplt     5
+        23: aload_1
+        24: bipush        7
+        26: baload
+        27: sipush        255
+        30: iand
+        31: bipush        24
+        33: ishl
+        34: aload_1
+        35: bipush        6
+        37: baload
+        38: sipush        255
+        41: iand
+        42: bipush        16
+        44: ishl
+        45: ior
+        46: aload_1
+        47: iconst_5
+        48: baload
+        49: sipush        255
+        52: iand
+        53: bipush        8
+        55: ishl
+        56: ior
+        57: aload_1
+        58: iconst_4
+        59: baload
+        60: sipush        255
+        63: iand
+        64: ior
+        65: ldc           #3                  // int 679411651
+        67: iadd
+        68: istore_3
+        69: iconst_0
+        70: istore        4
+        72: goto          95
+        75: aload_1
+        76: iload         4
+        78: iconst_4
+        79: iadd
+        80: iload_3
+        81: iload         4
+        83: iconst_3
+        84: ishl
+        85: ishr
+        86: sipush        255
+        89: iand
+        90: i2b
+        91: bastore
+        92: iinc          4, 1
+        95: iload         4
+        97: iconst_4
+        98: if_icmplt     75
+       101: return
+      LineNumberTable:
+        line 127: 0
+        line 128: 5
+        line 127: 15
+        line 139: 23
+        line 141: 69
+        line 142: 75
+        line 141: 92
+        line 145: 101
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     102     0  this   Lbj/b;
+            0     102     1   key   [B
+            0     102     2   ref   [B
+            2      21     3     i   I
+           69      33     3  mask   I
+           72      29     4     i   I
+}
+SourceFile: "CipherClient.java"

@@ -1,0 +1,2424 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aw/a.class
+  Last modified Jan 3, 2018; size 7577 bytes
+  SHA-256 checksum 52bdc307fa885220791368b5ab6c0aa0bfdd7144696f840f20d1b9a7aec1e2d1
+  Compiled from "Enchant.java"
+public class aw.a
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #51                         // aw/a
+  super_class: #55                        // java/lang/Object
+  interfaces: 0, fields: 0, methods: 12, attributes: 1
+Constant pool:
+    #1 = Integer            40127
+    #2 = Integer            40128
+    #3 = Integer            40660
+    #4 = Integer            47137
+    #5 = Integer            47142
+    #6 = Integer            47143
+    #7 = Integer            47148
+    #8 = Integer            47149
+    #9 = Integer            47154
+   #10 = Integer            47155
+   #11 = Integer            47160
+   #12 = Integer            47161
+   #13 = Integer            47166
+   #14 = Integer            47167
+   #15 = Integer            47172
+   #16 = Integer            47173
+   #17 = Integer            47178
+   #18 = Integer            47179
+   #19 = Integer            47184
+   #20 = Integer            47185
+   #21 = Integer            47190
+   #22 = Integer            49311
+   #23 = Integer            49312
+   #24 = Integer            640141
+   #25 = Integer            640142
+   #26 = Integer            640370
+   #27 = Integer            640372
+   #28 = Integer            640425
+   #29 = Integer            640430
+   #30 = Integer            640431
+   #31 = Integer            640436
+   #32 = Integer            640614
+   #33 = Integer            640727
+   #34 = String             #167          //
+   #35 = String             #168          // $245
+   #36 = String             #169          // $246
+   #37 = String             #170          // $247
+   #38 = String             #171          // $248
+   #39 = String             #172          // $252
+   #40 = String             #299          // 強化失敗，失去
+   #41 = String             #300          // 強化成功，獲得
+   #42 = Class              #225          // "[I"
+   #43 = Class              #226          // "[Ljava/lang/String;"
+   #44 = Class              #232          // ao/aa
+   #45 = Class              #233          // ao/ah
+   #46 = Class              #234          // ap/e
+   #47 = Class              #235          // ap/q
+   #48 = Class              #236          // ap/u
+   #49 = Class              #237          // aq/aq
+   #50 = Class              #238          // au/g
+   #51 = Class              #239          // aw/a
+   #52 = Class              #241          // be/ds
+   #53 = Class              #242          // bh/j
+   #54 = Class              #243          // bi/i
+   #55 = Class              #269          // java/lang/Object
+   #56 = Class              #270          // java/lang/String
+   #57 = Class              #271          // java/util/Collection
+   #58 = Class              #272          // java/util/Iterator
+   #59 = Class              #273          // java/util/concurrent/ConcurrentHashMap
+   #60 = Class              #275          // l1j/server/a
+   #61 = Double             2.5d
+   #63 = Fieldref           #60.#123      // l1j/server/a.G:I
+   #64 = Fieldref           #60.#124      // l1j/server/a.H:I
+   #65 = Fieldref           #60.#125      // l1j/server/a.I:I
+   #66 = Methodref          #44.#131      // ao/aa.a:()Lao/aa;
+   #67 = Methodref          #44.#141      // ao/aa.a:(Lap/u;Ljava/lang/String;Lap/q;)V
+   #68 = Methodref          #45.#138      // ao/ah.a:(Lap/u;II)Lap/q;
+   #69 = Methodref          #46.#147      // ap/e.e:()V
+   #70 = Methodref          #46.#149      // ap/e.f:()I
+   #71 = Methodref          #47.#119      // ap/q.D:()Z
+   #72 = Methodref          #47.#120      // ap/q.E:()I
+   #73 = Methodref          #47.#121      // ap/q.F:()I
+   #74 = Methodref          #47.#122      // ap/q.G:()I
+   #75 = Methodref          #47.#126      // ap/q.K:()I
+   #76 = Methodref          #47.#127      // ap/q.L:()I
+   #77 = Methodref          #47.#128      // ap/q.N:()I
+   #78 = Methodref          #47.#133      // ap/q.a:()Lbh/j;
+   #79 = Methodref          #47.#135      // ap/q.a:(I)V
+   #80 = Methodref          #47.#145      // ap/q.b:()Ljava/lang/String;
+   #81 = Methodref          #47.#152      // ap/q.fr:()I
+   #82 = Methodref          #47.#153      // ap/q.g:()Z
+   #83 = Methodref          #47.#154      // ap/q.h:()Z
+   #84 = Methodref          #47.#155      // ap/q.h:(I)V
+   #85 = Methodref          #47.#157      // ap/q.i:()Z
+   #86 = Methodref          #47.#158      // ap/q.i:(I)V
+   #87 = Methodref          #47.#161      // ap/q.j:()Z
+   #88 = Methodref          #47.#164      // ap/q.s:()Ljava/lang/String;
+   #89 = Methodref          #48.#129      // ap/u.O:(I)Z
+   #90 = Methodref          #48.#142      // ap/u.a:(Lbe/eu;)V
+   #91 = Methodref          #48.#148      // ap/u.el:()Ljava/util/concurrent/ConcurrentHashMap;
+   #92 = Methodref          #48.#160      // ap/u.j:()Lau/g;
+   #93 = Methodref          #49.#132      // aq/aq.a:()Laq/aq;
+   #94 = Methodref          #49.#142      // aq/aq.a:(Lbe/eu;)V
+   #95 = Methodref          #50.#137      // au/g.a:(Lap/q;Z)V
+   #96 = Methodref          #50.#146      // au/g.b:(Lap/q;I)I
+   #97 = Methodref          #50.#150      // au/g.f:(Lap/q;)I
+   #98 = Methodref          #50.#162      // au/g.j:(Lap/q;)V
+   #99 = Methodref          #51.#136      // aw/a.a:(II)Z
+  #100 = Methodref          #51.#139      // aw/a.a:(Lap/u;Lap/q;)V
+  #101 = Methodref          #51.#140      // aw/a.a:(Lap/u;Lap/q;I)V
+  #102 = Methodref          #51.#143      // aw/a.a:(ZLap/q;)I
+  #103 = Methodref          #51.#151      // aw/a.f:(Lap/u;Lap/q;Lap/q;)V
+  #104 = Methodref          #52.#117      // be/ds."<init>":(I)V
+  #105 = Methodref          #52.#118      // be/ds."<init>":(I[Ljava/lang/String;)V
+  #106 = Methodref          #53.#130      // bh/j.V:()I
+  #107 = Methodref          #53.#144      // bh/j.aP:()I
+  #108 = Methodref          #53.#149      // bh/j.f:()I
+  #109 = Methodref          #53.#166      // bh/j.x:()I
+  #110 = Methodref          #54.#134      // bi/i.a:(I)I
+  #111 = Methodref          #55.#116      // java/lang/Object."<init>":()V
+  #112 = Methodref          #59.#165      // java/util/concurrent/ConcurrentHashMap.values:()Ljava/util/Collection;
+  #113 = InterfaceMethodref #57.#159      // java/util/Collection.iterator:()Ljava/util/Iterator;
+  #114 = InterfaceMethodref #58.#156      // java/util/Iterator.hasNext:()Z
+  #115 = InterfaceMethodref #58.#163      // java/util/Iterator.next:()Ljava/lang/Object;
+  #116 = NameAndType        #202:#183     // "<init>":()V
+  #117 = NameAndType        #202:#186     // "<init>":(I)V
+  #118 = NameAndType        #202:#189     // "<init>":(I[Ljava/lang/String;)V
+  #119 = NameAndType        #204:#184     // D:()Z
+  #120 = NameAndType        #205:#173     // E:()I
+  #121 = NameAndType        #207:#173     // F:()I
+  #122 = NameAndType        #208:#173     // G:()I
+  #123 = NameAndType        #208:#210     // G:I
+  #124 = NameAndType        #209:#210     // H:I
+  #125 = NameAndType        #210:#210     // I:I
+  #126 = NameAndType        #211:#173     // K:()I
+  #127 = NameAndType        #212:#173     // L:()I
+  #128 = NameAndType        #220:#173     // N:()I
+  #129 = NameAndType        #221:#187     // O:(I)Z
+  #130 = NameAndType        #223:#173     // V:()I
+  #131 = NameAndType        #229:#174     // a:()Lao/aa;
+  #132 = NameAndType        #229:#175     // a:()Laq/aq;
+  #133 = NameAndType        #229:#177     // a:()Lbh/j;
+  #134 = NameAndType        #229:#185     // a:(I)I
+  #135 = NameAndType        #229:#186     // a:(I)V
+  #136 = NameAndType        #229:#188     // a:(II)Z
+  #137 = NameAndType        #229:#193     // a:(Lap/q;Z)V
+  #138 = NameAndType        #229:#194     // a:(Lap/u;II)Lap/q;
+  #139 = NameAndType        #229:#195     // a:(Lap/u;Lap/q;)V
+  #140 = NameAndType        #229:#196     // a:(Lap/u;Lap/q;I)V
+  #141 = NameAndType        #229:#199     // a:(Lap/u;Ljava/lang/String;Lap/q;)V
+  #142 = NameAndType        #229:#200     // a:(Lbe/eu;)V
+  #143 = NameAndType        #229:#201     // a:(ZLap/q;)I
+  #144 = NameAndType        #230:#173     // aP:()I
+  #145 = NameAndType        #240:#179     // b:()Ljava/lang/String;
+  #146 = NameAndType        #240:#192     // b:(Lap/q;I)I
+  #147 = NameAndType        #249:#183     // e:()V
+  #148 = NameAndType        #250:#182     // el:()Ljava/util/concurrent/ConcurrentHashMap;
+  #149 = NameAndType        #251:#173     // f:()I
+  #150 = NameAndType        #251:#190     // f:(Lap/q;)I
+  #151 = NameAndType        #251:#197     // f:(Lap/u;Lap/q;Lap/q;)V
+  #152 = NameAndType        #253:#173     // fr:()I
+  #153 = NameAndType        #254:#184     // g:()Z
+  #154 = NameAndType        #255:#184     // h:()Z
+  #155 = NameAndType        #255:#186     // h:(I)V
+  #156 = NameAndType        #256:#184     // hasNext:()Z
+  #157 = NameAndType        #258:#184     // i:()Z
+  #158 = NameAndType        #258:#186     // i:(I)V
+  #159 = NameAndType        #267:#181     // iterator:()Ljava/util/Iterator;
+  #160 = NameAndType        #268:#176     // j:()Lau/g;
+  #161 = NameAndType        #268:#184     // j:()Z
+  #162 = NameAndType        #268:#191     // j:(Lap/q;)V
+  #163 = NameAndType        #279:#178     // next:()Ljava/lang/Object;
+  #164 = NameAndType        #283:#179     // s:()Ljava/lang/String;
+  #165 = NameAndType        #297:#180     // values:()Ljava/util/Collection;
+  #166 = NameAndType        #298:#173     // x:()I
+  #167 = Utf8
+  #168 = Utf8               $245
+  #169 = Utf8               $246
+  #170 = Utf8               $247
+  #171 = Utf8               $248
+  #172 = Utf8               $252
+  #173 = Utf8               ()I
+  #174 = Utf8               ()Lao/aa;
+  #175 = Utf8               ()Laq/aq;
+  #176 = Utf8               ()Lau/g;
+  #177 = Utf8               ()Lbh/j;
+  #178 = Utf8               ()Ljava/lang/Object;
+  #179 = Utf8               ()Ljava/lang/String;
+  #180 = Utf8               ()Ljava/util/Collection;
+  #181 = Utf8               ()Ljava/util/Iterator;
+  #182 = Utf8               ()Ljava/util/concurrent/ConcurrentHashMap;
+  #183 = Utf8               ()V
+  #184 = Utf8               ()Z
+  #185 = Utf8               (I)I
+  #186 = Utf8               (I)V
+  #187 = Utf8               (I)Z
+  #188 = Utf8               (II)Z
+  #189 = Utf8               (I[Ljava/lang/String;)V
+  #190 = Utf8               (Lap/q;)I
+  #191 = Utf8               (Lap/q;)V
+  #192 = Utf8               (Lap/q;I)I
+  #193 = Utf8               (Lap/q;Z)V
+  #194 = Utf8               (Lap/u;II)Lap/q;
+  #195 = Utf8               (Lap/u;Lap/q;)V
+  #196 = Utf8               (Lap/u;Lap/q;I)V
+  #197 = Utf8               (Lap/u;Lap/q;Lap/q;)V
+  #198 = Utf8               (Lap/u;Lap/q;Lap/q;Z)V
+  #199 = Utf8               (Lap/u;Ljava/lang/String;Lap/q;)V
+  #200 = Utf8               (Lbe/eu;)V
+  #201 = Utf8               (ZLap/q;)I
+  #202 = Utf8               <init>
+  #203 = Utf8               Code
+  #204 = Utf8               D
+  #205 = Utf8               E
+  #206 = Utf8               Enchant.java
+  #207 = Utf8               F
+  #208 = Utf8               G
+  #209 = Utf8               H
+  #210 = Utf8               I
+  #211 = Utf8               K
+  #212 = Utf8               L
+  #213 = Utf8               Lap/e;
+  #214 = Utf8               Lap/q;
+  #215 = Utf8               Lap/u;
+  #216 = Utf8               Law/a;
+  #217 = Utf8               LineNumberTable
+  #218 = Utf8               Ljava/lang/String;
+  #219 = Utf8               LocalVariableTable
+  #220 = Utf8               N
+  #221 = Utf8               O
+  #222 = Utf8               SourceFile
+  #223 = Utf8               V
+  #224 = Utf8               Z
+  #225 = Utf8               [I
+  #226 = Utf8               [Ljava/lang/String;
+  #227 = Utf8               [[I
+  #228 = Utf8               [[Ljava/lang/String;
+  #229 = Utf8               a
+  #230 = Utf8               aP
+  #231 = Utf8               addLevel
+  #232 = Utf8               ao/aa
+  #233 = Utf8               ao/ah
+  #234 = Utf8               ap/e
+  #235 = Utf8               ap/q
+  #236 = Utf8               ap/u
+  #237 = Utf8               aq/aq
+  #238 = Utf8               au/g
+  #239 = Utf8               aw/a
+  #240 = Utf8               b
+  #241 = Utf8               be/ds
+  #242 = Utf8               bh/j
+  #243 = Utf8               bi/i
+  #244 = Utf8               c
+  #245 = Utf8               chance
+  #246 = Utf8               createID
+  #247 = Utf8               d
+  #248 = Utf8               doll
+  #249 = Utf8               e
+  #250 = Utf8               el
+  #251 = Utf8               f
+  #252 = Utf8               failure_rate
+  #253 = Utf8               fr
+  #254 = Utf8               g
+  #255 = Utf8               h
+  #256 = Utf8               hasNext
+  #257 = Utf8               highest
+  #258 = Utf8               i
+  #259 = Utf8               id
+  #260 = Utf8               isBless
+  #261 = Utf8               isEquipped
+  #262 = Utf8               isOnly
+  #263 = Utf8               item
+  #264 = Utf8               itemId
+  #265 = Utf8               itemType2
+  #266 = Utf8               item_attr
+  #267 = Utf8               iterator
+  #268 = Utf8               j
+  #269 = Utf8               java/lang/Object
+  #270 = Utf8               java/lang/String
+  #271 = Utf8               java/util/Collection
+  #272 = Utf8               java/util/Iterator
+  #273 = Utf8               java/util/concurrent/ConcurrentHashMap
+  #274 = Utf8               l1iteminstance
+  #275 = Utf8               l1j/server/a
+  #276 = Utf8               level
+  #277 = Utf8               lowest
+  #278 = Utf8               newEnchantLvl
+  #279 = Utf8               next
+  #280 = Utf8               pc
+  #281 = Utf8               rank
+  #282 = Utf8               rnd
+  #283 = Utf8               s
+  #284 = Utf8               sa
+  #285 = Utf8               sa_temp
+  #286 = Utf8               safe_enchant
+  #287 = Utf8               sb
+  #288 = Utf8               sb_temp
+  #289 = Utf8               scrollID
+  #290 = Utf8               scroll_attr
+  #291 = Utf8               scrollid
+  #292 = Utf8               select
+  #293 = Utf8               selectID
+  #294 = Utf8               specialArmorWeaponList
+  #295 = Utf8               success_rate
+  #296 = Utf8               this
+  #297 = Utf8               values
+  #298 = Utf8               x
+  #299 = Utf8               強化失敗，失去
+  #300 = Utf8               強化成功，獲得
+{
+  public aw.a();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #111                // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 28: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Law/a;
+
+  public static void a(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=12, args_size=3
+         0: aload_2
+         1: ifnonnull     19
+         4: aload_0
+         5: new           #52                 // class be/ds
+         8: dup
+         9: sipush        156
+        12: invokespecial #104                // Method be/ds."<init>":(I)V
+        15: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        18: return
+        19: aload_2
+        20: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        23: invokevirtual #107                // Method bh/j.aP:()I
+        26: bipush        17
+        28: if_icmpeq     58
+        31: aload_2
+        32: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        35: invokevirtual #107                // Method bh/j.aP:()I
+        38: bipush        22
+        40: if_icmpeq     58
+        43: aload_0
+        44: new           #52                 // class be/ds
+        47: dup
+        48: sipush        2477
+        51: invokespecial #104                // Method be/ds."<init>":(I)V
+        54: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        57: return
+        58: aload_2
+        59: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        62: invokevirtual #107                // Method bh/j.aP:()I
+        65: bipush        22
+        67: if_icmpeq     84
+        70: aload_0
+        71: new           #52                 // class be/ds
+        74: dup
+        75: bipush        79
+        77: invokespecial #104                // Method be/ds."<init>":(I)V
+        80: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        83: return
+        84: aload_0
+        85: aload_2
+        86: invokevirtual #81                 // Method ap/q.fr:()I
+        89: invokevirtual #89                 // Method ap/u.O:(I)Z
+        92: ifeq          110
+        95: aload_0
+        96: new           #52                 // class be/ds
+        99: dup
+       100: sipush        1181
+       103: invokespecial #104                // Method be/ds."<init>":(I)V
+       106: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       109: return
+       110: bipush        100
+       112: invokestatic  #110                // Method bi/i.a:(I)I
+       115: iconst_1
+       116: iadd
+       117: istore_3
+       118: bipush        55
+       120: istore        4
+       122: bipush        10
+       124: istore        5
+       126: iconst_0
+       127: istore        6
+       129: iload_3
+       130: bipush        45
+       132: if_icmplt     291
+       135: bipush        11
+       137: newarray       int
+       139: dup
+       140: iconst_0
+       141: ldc           #5                  // int 47142
+       143: iastore
+       144: dup
+       145: iconst_1
+       146: ldc           #7                  // int 47148
+       148: iastore
+       149: dup
+       150: iconst_2
+       151: ldc           #9                  // int 47154
+       153: iastore
+       154: dup
+       155: iconst_3
+       156: ldc           #11                 // int 47160
+       158: iastore
+       159: dup
+       160: iconst_4
+       161: ldc           #13                 // int 47166
+       163: iastore
+       164: dup
+       165: iconst_5
+       166: ldc           #15                 // int 47172
+       168: iastore
+       169: dup
+       170: bipush        6
+       172: ldc           #17                 // int 47178
+       174: iastore
+       175: dup
+       176: bipush        7
+       178: ldc           #19                 // int 47184
+       180: iastore
+       181: dup
+       182: bipush        8
+       184: ldc           #21                 // int 47190
+       186: iastore
+       187: dup
+       188: bipush        9
+       190: ldc           #29                 // int 640430
+       192: iastore
+       193: dup
+       194: bipush        10
+       196: ldc           #31                 // int 640436
+       198: iastore
+       199: astore        7
+       201: aload         7
+       203: dup
+       204: astore        11
+       206: arraylength
+       207: istore        10
+       209: iconst_0
+       210: istore        9
+       212: goto          248
+       215: aload         11
+       217: iload         9
+       219: iaload
+       220: istore        8
+       222: aload_2
+       223: invokevirtual #77                 // Method ap/q.N:()I
+       226: iload         8
+       228: if_icmpne     245
+       231: aload_0
+       232: new           #52                 // class be/ds
+       235: dup
+       236: bipush        79
+       238: invokespecial #104                // Method be/ds."<init>":(I)V
+       241: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       244: return
+       245: iinc          9, 1
+       248: iload         9
+       250: iload         10
+       252: if_icmplt     215
+       255: aload_2
+       256: invokevirtual #77                 // Method ap/q.N:()I
+       259: iconst_1
+       260: iadd
+       261: istore        6
+       263: aload_0
+       264: new           #52                 // class be/ds
+       267: dup
+       268: sipush        403
+       271: iconst_1
+       272: anewarray     #56                 // class java/lang/String
+       275: dup
+       276: iconst_0
+       277: aload_2
+       278: invokevirtual #80                 // Method ap/q.b:()Ljava/lang/String;
+       281: aastore
+       282: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       285: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       288: goto          466
+       291: iload_3
+       292: bipush        10
+       294: if_icmpgt     453
+       297: bipush        11
+       299: newarray       int
+       301: dup
+       302: iconst_0
+       303: ldc           #4                  // int 47137
+       305: iastore
+       306: dup
+       307: iconst_1
+       308: ldc           #6                  // int 47143
+       310: iastore
+       311: dup
+       312: iconst_2
+       313: ldc           #8                  // int 47149
+       315: iastore
+       316: dup
+       317: iconst_3
+       318: ldc           #10                 // int 47155
+       320: iastore
+       321: dup
+       322: iconst_4
+       323: ldc           #12                 // int 47161
+       325: iastore
+       326: dup
+       327: iconst_5
+       328: ldc           #14                 // int 47167
+       330: iastore
+       331: dup
+       332: bipush        6
+       334: ldc           #16                 // int 47173
+       336: iastore
+       337: dup
+       338: bipush        7
+       340: ldc           #18                 // int 47179
+       342: iastore
+       343: dup
+       344: bipush        8
+       346: ldc           #20                 // int 47185
+       348: iastore
+       349: dup
+       350: bipush        9
+       352: ldc           #28                 // int 640425
+       354: iastore
+       355: dup
+       356: bipush        10
+       358: ldc           #30                 // int 640431
+       360: iastore
+       361: astore        7
+       363: aload         7
+       365: dup
+       366: astore        11
+       368: arraylength
+       369: istore        10
+       371: iconst_0
+       372: istore        9
+       374: goto          410
+       377: aload         11
+       379: iload         9
+       381: iaload
+       382: istore        8
+       384: aload_2
+       385: invokevirtual #77                 // Method ap/q.N:()I
+       388: iload         8
+       390: if_icmpne     407
+       393: aload_0
+       394: new           #52                 // class be/ds
+       397: dup
+       398: bipush        79
+       400: invokespecial #104                // Method be/ds."<init>":(I)V
+       403: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       406: return
+       407: iinc          9, 1
+       410: iload         9
+       412: iload         10
+       414: if_icmplt     377
+       417: aload_2
+       418: invokevirtual #77                 // Method ap/q.N:()I
+       421: iconst_1
+       422: isub
+       423: istore        6
+       425: aload_0
+       426: new           #52                 // class be/ds
+       429: dup
+       430: sipush        403
+       433: iconst_1
+       434: anewarray     #56                 // class java/lang/String
+       437: dup
+       438: iconst_0
+       439: aload_2
+       440: invokevirtual #80                 // Method ap/q.b:()Ljava/lang/String;
+       443: aastore
+       444: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       447: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       450: goto          466
+       453: aload_0
+       454: new           #52                 // class be/ds
+       457: dup
+       458: bipush        79
+       460: invokespecial #104                // Method be/ds."<init>":(I)V
+       463: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       466: iload         6
+       468: ifle          544
+       471: aload_0
+       472: iload         6
+       474: iconst_1
+       475: invokestatic  #68                 // Method ao/ah.a:(Lap/u;II)Lap/q;
+       478: pop
+       479: aload_0
+       480: invokevirtual #91                 // Method ap/u.el:()Ljava/util/concurrent/ConcurrentHashMap;
+       483: invokevirtual #112                // Method java/util/concurrent/ConcurrentHashMap.values:()Ljava/util/Collection;
+       486: invokeinterface #113,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+       491: astore        8
+       493: goto          525
+       496: aload         8
+       498: invokeinterface #115,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       503: checkcast     #46                 // class ap/e
+       506: astore        7
+       508: aload         7
+       510: invokevirtual #70                 // Method ap/e.f:()I
+       513: aload_2
+       514: invokevirtual #81                 // Method ap/q.fr:()I
+       517: if_icmpne     525
+       520: aload         7
+       522: invokevirtual #69                 // Method ap/e.e:()V
+       525: aload         8
+       527: invokeinterface #114,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       532: ifne          496
+       535: aload_0
+       536: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       539: aload_2
+       540: invokevirtual #97                 // Method au/g.f:(Lap/q;)I
+       543: pop
+       544: aload_0
+       545: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       548: aload_1
+       549: iconst_1
+       550: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       553: pop
+       554: return
+      LineNumberTable:
+        line 32: 0
+        line 33: 4
+        line 34: 18
+        line 36: 19
+        line 37: 43
+        line 38: 57
+        line 41: 58
+        line 42: 70
+        line 43: 83
+        line 46: 84
+        line 47: 95
+        line 48: 109
+        line 50: 110
+        line 51: 118
+        line 52: 122
+        line 53: 126
+        line 54: 129
+        line 55: 135
+        line 56: 201
+        line 57: 222
+        line 58: 231
+        line 59: 244
+        line 56: 245
+        line 62: 255
+        line 63: 263
+        line 64: 288
+        line 65: 297
+        line 66: 363
+        line 67: 384
+        line 68: 393
+        line 69: 406
+        line 66: 407
+        line 72: 417
+        line 73: 425
+        line 74: 450
+        line 75: 453
+        line 78: 466
+        line 80: 471
+        line 82: 479
+        line 83: 508
+        line 84: 520
+        line 82: 525
+        line 88: 535
+        line 90: 544
+        line 91: 554
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     555     0    pc   Lap/u;
+            0     555     1 l1iteminstance   Lap/q;
+            0     555     2 select   Lap/q;
+          118     437     3   rnd   I
+          122     433     4 success_rate   I
+          126     429     5 failure_rate   I
+          129     426     6 createID   I
+          201      87     7 highest   [I
+          222      23     8     i   I
+          363      87     7 lowest   [I
+          384      23     8     i   I
+          508      17     7  doll   Lap/e;
+
+  private static boolean a(int, int);
+    descriptor: (II)Z
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=7, locals=9, args_size=2
+         0: iconst_5
+         1: newarray       int
+         3: dup
+         4: iconst_0
+         5: ldc           #22                 // int 49311
+         7: iastore
+         8: dup
+         9: iconst_1
+        10: ldc           #3                  // int 40660
+        12: iastore
+        13: dup
+        14: iconst_2
+        15: ldc           #2                  // int 40128
+        17: iastore
+        18: dup
+        19: iconst_3
+        20: ldc           #23                 // int 49312
+        22: iastore
+        23: dup
+        24: iconst_4
+        25: ldc           #1                  // int 40127
+        27: iastore
+        28: astore_2
+        29: iconst_5
+        30: anewarray     #42                 // class "[I"
+        33: dup
+        34: iconst_0
+        35: bipush        11
+        37: newarray       int
+        39: dup
+        40: iconst_0
+        41: sipush        311
+        44: iastore
+        45: dup
+        46: iconst_1
+        47: sipush        312
+        50: iastore
+        51: dup
+        52: iconst_2
+        53: sipush        313
+        56: iastore
+        57: dup
+        58: iconst_3
+        59: sipush        314
+        62: iastore
+        63: dup
+        64: iconst_4
+        65: sipush        315
+        68: iastore
+        69: dup
+        70: iconst_5
+        71: sipush        316
+        74: iastore
+        75: dup
+        76: bipush        6
+        78: sipush        317
+        81: iastore
+        82: dup
+        83: bipush        7
+        85: sipush        318
+        88: iastore
+        89: dup
+        90: bipush        8
+        92: sipush        319
+        95: iastore
+        96: dup
+        97: bipush        9
+        99: sipush        320
+       102: iastore
+       103: dup
+       104: bipush        10
+       106: sipush        321
+       109: iastore
+       110: aastore
+       111: dup
+       112: iconst_1
+       113: iconst_4
+       114: newarray       int
+       116: dup
+       117: iconst_0
+       118: sipush        246
+       121: iastore
+       122: dup
+       123: iconst_1
+       124: sipush        247
+       127: iastore
+       128: dup
+       129: iconst_2
+       130: sipush        248
+       133: iastore
+       134: dup
+       135: iconst_3
+       136: sipush        249
+       139: iastore
+       140: aastore
+       141: dup
+       142: iconst_2
+       143: bipush        8
+       145: newarray       int
+       147: dup
+       148: iconst_0
+       149: bipush        36
+       151: iastore
+       152: dup
+       153: iconst_1
+       154: sipush        183
+       157: iastore
+       158: dup
+       159: iconst_2
+       160: sipush        250
+       163: iastore
+       164: dup
+       165: iconst_3
+       166: sipush        251
+       169: iastore
+       170: dup
+       171: iconst_4
+       172: sipush        252
+       175: iastore
+       176: dup
+       177: iconst_5
+       178: sipush        253
+       181: iastore
+       182: dup
+       183: bipush        6
+       185: sipush        254
+       188: iastore
+       189: dup
+       190: bipush        7
+       192: sipush        255
+       195: iastore
+       196: aastore
+       197: dup
+       198: iconst_3
+       199: bipush        19
+       201: newarray       int
+       203: dup
+       204: iconst_0
+       205: sipush        20028
+       208: iastore
+       209: dup
+       210: iconst_1
+       211: sipush        20082
+       214: iastore
+       215: dup
+       216: iconst_2
+       217: sipush        20126
+       220: iastore
+       221: dup
+       222: iconst_3
+       223: sipush        20173
+       226: iastore
+       227: dup
+       228: iconst_4
+       229: sipush        20206
+       232: iastore
+       233: dup
+       234: iconst_5
+       235: sipush        20232
+       238: iastore
+       239: dup
+       240: bipush        6
+       242: sipush        21138
+       245: iastore
+       246: dup
+       247: bipush        7
+       249: sipush        21184
+       252: iastore
+       253: dup
+       254: bipush        8
+       256: sipush        21185
+       259: iastore
+       260: dup
+       261: bipush        9
+       263: sipush        21186
+       266: iastore
+       267: dup
+       268: bipush        10
+       270: sipush        21187
+       273: iastore
+       274: dup
+       275: bipush        11
+       277: sipush        21188
+       280: iastore
+       281: dup
+       282: bipush        12
+       284: sipush        21189
+       287: iastore
+       288: dup
+       289: bipush        13
+       291: sipush        21190
+       294: iastore
+       295: dup
+       296: bipush        14
+       298: sipush        21191
+       301: iastore
+       302: dup
+       303: bipush        15
+       305: sipush        21192
+       308: iastore
+       309: dup
+       310: bipush        16
+       312: sipush        21193
+       315: iastore
+       316: dup
+       317: bipush        17
+       319: sipush        21194
+       322: iastore
+       323: dup
+       324: bipush        18
+       326: sipush        21195
+       329: iastore
+       330: aastore
+       331: dup
+       332: iconst_4
+       333: iconst_3
+       334: newarray       int
+       336: dup
+       337: iconst_0
+       338: sipush        20161
+       341: iastore
+       342: dup
+       343: iconst_1
+       344: sipush        21035
+       347: iastore
+       348: dup
+       349: iconst_2
+       350: sipush        21038
+       353: iastore
+       354: aastore
+       355: astore_3
+       356: iconst_0
+       357: istore        4
+       359: goto          426
+       362: aload_3
+       363: iload         4
+       365: aaload
+       366: dup
+       367: astore        8
+       369: arraylength
+       370: istore        7
+       372: iconst_0
+       373: istore        6
+       375: goto          406
+       378: aload         8
+       380: iload         6
+       382: iaload
+       383: istore        5
+       385: iload_1
+       386: iload         5
+       388: if_icmpne     403
+       391: iload_0
+       392: aload_2
+       393: iload         4
+       395: iaload
+       396: if_icmpne     401
+       399: iconst_1
+       400: ireturn
+       401: iconst_0
+       402: ireturn
+       403: iinc          6, 1
+       406: iload         6
+       408: iload         7
+       410: if_icmplt     378
+       413: iload_0
+       414: aload_2
+       415: iload         4
+       417: iaload
+       418: if_icmpne     423
+       421: iconst_0
+       422: ireturn
+       423: iinc          4, 1
+       426: iload         4
+       428: aload_2
+       429: arraylength
+       430: if_icmplt     362
+       433: iconst_1
+       434: ireturn
+      LineNumberTable:
+        line 95: 0
+        line 96: 29
+        line 98: 35
+        line 100: 113
+        line 102: 143
+        line 104: 199
+        line 106: 333
+        line 96: 355
+        line 108: 356
+        line 109: 362
+        line 110: 385
+        line 111: 391
+        line 109: 403
+        line 115: 413
+        line 116: 421
+        line 108: 423
+        line 120: 433
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     435     0 scrollID   I
+            0     435     1 selectID   I
+           29     406     2 scrollid   [I
+          356      79     3 specialArmorWeaponList   [[I
+          359      74     4     i   I
+          385      18     5    id   I
+
+  public static void b(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=8, args_size=3
+         0: aload_2
+         1: ifnonnull     19
+         4: aload_0
+         5: new           #52                 // class be/ds
+         8: dup
+         9: sipush        156
+        12: invokespecial #104                // Method be/ds."<init>":(I)V
+        15: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        18: return
+        19: aload_1
+        20: invokevirtual #77                 // Method ap/q.N:()I
+        23: istore_3
+        24: aload_2
+        25: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        28: invokevirtual #109                // Method bh/j.x:()I
+        31: istore        4
+        33: aload_2
+        34: invokevirtual #82                 // Method ap/q.g:()Z
+        37: ifeq          66
+        40: iload         4
+        42: iflt          66
+        45: aload_2
+        46: invokevirtual #73                 // Method ap/q.F:()I
+        49: sipush        128
+        52: if_icmpge     66
+        55: iload_3
+        56: aload_2
+        57: invokevirtual #77                 // Method ap/q.N:()I
+        60: invokestatic  #99                 // Method a:(II)Z
+        63: ifne          80
+        66: aload_0
+        67: new           #52                 // class be/ds
+        70: dup
+        71: bipush        79
+        73: invokespecial #104                // Method be/ds."<init>":(I)V
+        76: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        79: return
+        80: iload_3
+        81: ldc           #22                 // int 49311
+        83: if_icmpne     110
+        86: aload_2
+        87: invokevirtual #74                 // Method ap/q.G:()I
+        90: iload         4
+        92: if_icmplt     110
+        95: aload_0
+        96: new           #52                 // class be/ds
+        99: dup
+       100: sipush        1453
+       103: invokespecial #104                // Method be/ds."<init>":(I)V
+       106: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       109: return
+       110: aload_2
+       111: invokevirtual #74                 // Method ap/q.G:()I
+       114: istore        5
+       116: aload_1
+       117: invokevirtual #73                 // Method ap/q.F:()I
+       120: iconst_2
+       121: if_icmpne     148
+       124: iload         5
+       126: bipush        -6
+       128: if_icmpge     139
+       131: aload_0
+       132: aload_2
+       133: invokestatic  #100                // Method a:(Lap/u;Lap/q;)V
+       136: goto          330
+       139: aload_0
+       140: aload_2
+       141: iconst_m1
+       142: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       145: goto          330
+       148: iload         5
+       150: iload         4
+       152: if_icmpge     179
+       155: aload_0
+       156: aload_2
+       157: aload_1
+       158: invokevirtual #73                 // Method ap/q.F:()I
+       161: ifne          168
+       164: iconst_1
+       165: goto          169
+       168: iconst_0
+       169: aload_2
+       170: invokestatic  #102                // Method a:(ZLap/q;)I
+       173: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       176: goto          330
+       179: bipush        100
+       181: invokestatic  #110                // Method bi/i.a:(I)I
+       184: iconst_1
+       185: iadd
+       186: istore        6
+       188: bipush        100
+       190: iconst_3
+       191: getstatic     #63                 // Field l1j/server/a.G:I
+       194: imul
+       195: iadd
+       196: iload         5
+       198: bipush        10
+       200: if_icmplt     208
+       203: bipush        6
+       205: goto          209
+       208: iconst_3
+       209: idiv
+       210: istore        7
+       212: iload_3
+       213: ldc           #25                 // int 640142
+       215: if_icmpne     228
+       218: iload         7
+       220: i2d
+       221: ldc2_w        #61                 // double 2.5d
+       224: dmul
+       225: d2i
+       226: istore        7
+       228: iload         6
+       230: iload         7
+       232: if_icmpge     259
+       235: aload_0
+       236: aload_2
+       237: aload_1
+       238: invokevirtual #73                 // Method ap/q.F:()I
+       241: ifne          248
+       244: iconst_1
+       245: goto          249
+       248: iconst_0
+       249: aload_2
+       250: invokestatic  #102                // Method a:(ZLap/q;)I
+       253: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       256: goto          330
+       259: iload         5
+       261: bipush        9
+       263: if_icmplt     275
+       266: iload         6
+       268: iload         7
+       270: iconst_2
+       271: imul
+       272: if_icmplt     287
+       275: iload_3
+       276: ldc           #26                 // int 640370
+       278: if_icmplt     325
+       281: iload_3
+       282: ldc           #27                 // int 640372
+       284: if_icmpgt     325
+       287: aload_0
+       288: new           #52                 // class be/ds
+       291: dup
+       292: sipush        160
+       295: iconst_3
+       296: anewarray     #56                 // class java/lang/String
+       299: dup
+       300: iconst_0
+       301: aload_2
+       302: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       305: aastore
+       306: dup
+       307: iconst_1
+       308: ldc           #35                 // String $245
+       310: aastore
+       311: dup
+       312: iconst_2
+       313: ldc           #38                 // String $248
+       315: aastore
+       316: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       319: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       322: goto          330
+       325: aload_0
+       326: aload_2
+       327: invokestatic  #100                // Method a:(Lap/u;Lap/q;)V
+       330: aload_0
+       331: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       334: aload_1
+       335: iconst_1
+       336: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       339: pop
+       340: return
+      LineNumberTable:
+        line 124: 0
+        line 125: 4
+        line 126: 18
+        line 128: 19
+        line 129: 24
+        line 131: 33
+        line 132: 66
+        line 133: 79
+        line 135: 80
+        line 136: 95
+        line 137: 109
+        line 140: 110
+        line 142: 116
+        line 143: 124
+        line 144: 131
+        line 145: 136
+        line 146: 139
+        line 148: 145
+        line 149: 155
+        line 150: 176
+        line 151: 179
+        line 152: 188
+        line 154: 212
+        line 155: 218
+        line 157: 228
+        line 158: 235
+        line 159: 256
+        line 160: 287
+        line 161: 322
+        line 162: 325
+        line 165: 330
+        line 166: 340
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     341     0    pc   Lap/u;
+            0     341     1  item   Lap/q;
+            0     341     2 select   Lap/q;
+           24     317     3 itemId   I
+           33     308     4 safe_enchant   I
+          116     225     5 level   I
+          188     142     6   rnd   I
+          212     118     7 chance   I
+
+  public static void c(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=9, args_size=3
+         0: aload_2
+         1: ifnonnull     19
+         4: aload_0
+         5: new           #52                 // class be/ds
+         8: dup
+         9: sipush        156
+        12: invokespecial #104                // Method be/ds."<init>":(I)V
+        15: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        18: return
+        19: aload_1
+        20: invokevirtual #77                 // Method ap/q.N:()I
+        23: istore_3
+        24: aload_2
+        25: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        28: invokevirtual #109                // Method bh/j.x:()I
+        31: istore        4
+        33: aload_2
+        34: invokevirtual #83                 // Method ap/q.h:()Z
+        37: ifeq          66
+        40: iload         4
+        42: iflt          66
+        45: aload_2
+        46: invokevirtual #73                 // Method ap/q.F:()I
+        49: sipush        128
+        52: if_icmpge     66
+        55: iload_3
+        56: aload_2
+        57: invokevirtual #77                 // Method ap/q.N:()I
+        60: invokestatic  #99                 // Method a:(II)Z
+        63: ifne          80
+        66: aload_0
+        67: new           #52                 // class be/ds
+        70: dup
+        71: bipush        79
+        73: invokespecial #104                // Method be/ds."<init>":(I)V
+        76: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        79: return
+        80: aload_2
+        81: invokevirtual #85                 // Method ap/q.i:()Z
+        84: ifne          94
+        87: aload_2
+        88: invokevirtual #87                 // Method ap/q.j:()Z
+        91: ifeq          108
+        94: aload_0
+        95: new           #52                 // class be/ds
+        98: dup
+        99: bipush        79
+       101: invokespecial #104                // Method be/ds."<init>":(I)V
+       104: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       107: return
+       108: iload_3
+       109: ldc           #23                 // int 49312
+       111: if_icmpne     138
+       114: aload_2
+       115: invokevirtual #74                 // Method ap/q.G:()I
+       118: iload         4
+       120: if_icmplt     138
+       123: aload_0
+       124: new           #52                 // class be/ds
+       127: dup
+       128: sipush        1453
+       131: invokespecial #104                // Method be/ds."<init>":(I)V
+       134: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       137: return
+       138: aload_2
+       139: invokevirtual #74                 // Method ap/q.G:()I
+       142: istore        5
+       144: aload_1
+       145: invokevirtual #73                 // Method ap/q.F:()I
+       148: iconst_2
+       149: if_icmpne     176
+       152: iload         5
+       154: bipush        -4
+       156: if_icmpge     167
+       159: aload_0
+       160: aload_2
+       161: invokestatic  #100                // Method a:(Lap/u;Lap/q;)V
+       164: goto          364
+       167: aload_0
+       168: aload_2
+       169: iconst_m1
+       170: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       173: goto          364
+       176: iload         5
+       178: iload         4
+       180: if_icmpge     207
+       183: aload_0
+       184: aload_2
+       185: aload_1
+       186: invokevirtual #73                 // Method ap/q.F:()I
+       189: ifne          196
+       192: iconst_1
+       193: goto          197
+       196: iconst_0
+       197: aload_2
+       198: invokestatic  #102                // Method a:(ZLap/q;)I
+       201: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       204: goto          364
+       207: bipush        100
+       209: invokestatic  #110                // Method bi/i.a:(I)I
+       212: iconst_1
+       213: iadd
+       214: istore        6
+       216: iload         5
+       218: iload         4
+       220: ifne          227
+       223: iconst_2
+       224: goto          228
+       227: iconst_0
+       228: iadd
+       229: istore        7
+       231: bipush        100
+       233: iload         7
+       235: getstatic     #64                 // Field l1j/server/a.H:I
+       238: imul
+       239: iadd
+       240: iload         7
+       242: idiv
+       243: iload         5
+       245: bipush        9
+       247: if_icmplt     254
+       250: iconst_2
+       251: goto          255
+       254: iconst_1
+       255: imul
+       256: istore        8
+       258: iload_3
+       259: ldc           #24                 // int 640141
+       261: if_icmpne     274
+       264: iload         8
+       266: i2d
+       267: ldc2_w        #61                 // double 2.5d
+       270: dmul
+       271: d2i
+       272: istore        8
+       274: iload         6
+       276: iload         8
+       278: if_icmpge     305
+       281: aload_0
+       282: aload_2
+       283: aload_1
+       284: invokevirtual #73                 // Method ap/q.F:()I
+       287: ifne          294
+       290: iconst_1
+       291: goto          295
+       294: iconst_0
+       295: aload_2
+       296: invokestatic  #102                // Method a:(ZLap/q;)I
+       299: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       302: goto          364
+       305: iload         5
+       307: bipush        9
+       309: if_icmplt     359
+       312: iload         6
+       314: iload         8
+       316: iconst_2
+       317: imul
+       318: if_icmpge     359
+       321: aload_0
+       322: new           #52                 // class be/ds
+       325: dup
+       326: sipush        160
+       329: iconst_3
+       330: anewarray     #56                 // class java/lang/String
+       333: dup
+       334: iconst_0
+       335: aload_2
+       336: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       339: aastore
+       340: dup
+       341: iconst_1
+       342: ldc           #39                 // String $252
+       344: aastore
+       345: dup
+       346: iconst_2
+       347: ldc           #38                 // String $248
+       349: aastore
+       350: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       353: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       356: goto          364
+       359: aload_0
+       360: aload_2
+       361: invokestatic  #100                // Method a:(Lap/u;Lap/q;)V
+       364: aload_0
+       365: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       368: aload_1
+       369: iconst_1
+       370: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       373: pop
+       374: return
+      LineNumberTable:
+        line 170: 0
+        line 171: 4
+        line 172: 18
+        line 174: 19
+        line 175: 24
+        line 177: 33
+        line 178: 66
+        line 179: 79
+        line 181: 80
+        line 182: 94
+        line 183: 107
+        line 185: 108
+        line 186: 123
+        line 187: 137
+        line 190: 138
+        line 192: 144
+        line 193: 152
+        line 194: 159
+        line 195: 164
+        line 196: 167
+        line 198: 173
+        line 199: 183
+        line 200: 204
+        line 201: 207
+        line 202: 216
+        line 203: 231
+        line 205: 258
+        line 206: 264
+        line 208: 274
+        line 209: 281
+        line 210: 302
+        line 211: 321
+        line 212: 356
+        line 213: 359
+        line 216: 364
+        line 217: 374
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     375     0    pc   Lap/u;
+            0     375     1  item   Lap/q;
+            0     375     2 select   Lap/q;
+           24     351     3 itemId   I
+           33     342     4 safe_enchant   I
+          144     231     5 level   I
+          216     148     6   rnd   I
+          231     133     7  rank   I
+          258     106     8 chance   I
+
+  public static void a(ap.u, ap.q, ap.q, boolean);
+    descriptor: (Lap/u;Lap/q;Lap/q;Z)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=4, locals=7, args_size=4
+         0: aload_2
+         1: ifnonnull     19
+         4: aload_0
+         5: new           #52                 // class be/ds
+         8: dup
+         9: sipush        156
+        12: invokespecial #104                // Method be/ds."<init>":(I)V
+        15: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        18: return
+        19: aload_2
+        20: invokevirtual #74                 // Method ap/q.G:()I
+        23: istore        4
+        25: aload_2
+        26: invokevirtual #85                 // Method ap/q.i:()Z
+        29: ifeq          49
+        32: aload_2
+        33: invokevirtual #73                 // Method ap/q.F:()I
+        36: sipush        128
+        39: if_icmpge     49
+        42: iload         4
+        44: bipush        10
+        46: if_icmplt     63
+        49: aload_0
+        50: new           #52                 // class be/ds
+        53: dup
+        54: bipush        79
+        56: invokespecial #104                // Method be/ds."<init>":(I)V
+        59: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        62: return
+        63: iload_3
+        64: ifne          93
+        67: aload_2
+        68: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        71: invokevirtual #109                // Method bh/j.x:()I
+        74: iconst_m1
+        75: if_icmpgt     93
+        78: aload_0
+        79: new           #52                 // class be/ds
+        82: dup
+        83: sipush        1453
+        86: invokespecial #104                // Method be/ds."<init>":(I)V
+        89: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        92: return
+        93: bipush        100
+        95: invokestatic  #110                // Method bi/i.a:(I)I
+        98: iconst_1
+        99: iadd
+       100: istore        5
+       102: bipush        45
+       104: bipush        50
+       106: iload         4
+       108: iadd
+       109: iload         4
+       111: iconst_1
+       112: iadd
+       113: idiv
+       114: iadd
+       115: istore        6
+       117: aload_1
+       118: invokevirtual #73                 // Method ap/q.F:()I
+       121: ifne          130
+       124: iinc          6, 5
+       127: goto          141
+       130: aload_1
+       131: invokevirtual #73                 // Method ap/q.F:()I
+       134: iconst_2
+       135: if_icmpne     141
+       138: iinc          6, -5
+       141: aload_0
+       142: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       145: aload_1
+       146: iconst_1
+       147: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       150: pop
+       151: iload         5
+       153: iload         6
+       155: if_icmplt     191
+       158: aload_1
+       159: invokevirtual #77                 // Method ap/q.N:()I
+       162: ldc           #32                 // int 640614
+       164: if_icmpeq     176
+       167: aload_1
+       168: invokevirtual #77                 // Method ap/q.N:()I
+       171: ldc           #33                 // int 640727
+       173: if_icmpne     185
+       176: aload_0
+       177: aload_1
+       178: aload_2
+       179: invokestatic  #103                // Method f:(Lap/u;Lap/q;Lap/q;)V
+       182: goto          190
+       185: aload_0
+       186: aload_2
+       187: invokestatic  #100                // Method a:(Lap/u;Lap/q;)V
+       190: return
+       191: aload_0
+       192: aload_2
+       193: iconst_1
+       194: invokestatic  #101                // Method a:(Lap/u;Lap/q;I)V
+       197: return
+      LineNumberTable:
+        line 220: 0
+        line 221: 4
+        line 222: 18
+        line 224: 19
+        line 225: 25
+        line 226: 49
+        line 227: 62
+        line 230: 63
+        line 231: 78
+        line 232: 92
+        line 235: 93
+        line 236: 102
+        line 239: 117
+        line 240: 124
+        line 241: 127
+        line 242: 138
+        line 247: 141
+        line 249: 151
+        line 251: 158
+        line 252: 176
+        line 253: 182
+        line 254: 185
+        line 256: 190
+        line 259: 191
+        line 261: 197
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     198     0    pc   Lap/u;
+            0     198     1  item   Lap/q;
+            0     198     2 select   Lap/q;
+            0     198     3 isOnly   Z
+           25     173     4 level   I
+          102      96     5   rnd   I
+          117      81     6 chance   I
+
+  private static void f(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=8, locals=5, args_size=3
+         0: aload_2
+         1: invokevirtual #74                 // Method ap/q.G:()I
+         4: iconst_1
+         5: isub
+         6: istore_3
+         7: aload_1
+         8: invokevirtual #73                 // Method ap/q.F:()I
+        11: ifeq          18
+        14: iload_3
+        15: ifge          49
+        18: aload_0
+        19: new           #52                 // class be/ds
+        22: dup
+        23: sipush        160
+        26: iconst_2
+        27: anewarray     #56                 // class java/lang/String
+        30: dup
+        31: iconst_0
+        32: aload_2
+        33: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+        36: aastore
+        37: dup
+        38: iconst_1
+        39: ldc           #36                 // String $246
+        41: aastore
+        42: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+        45: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        48: return
+        49: aload_2
+        50: invokevirtual #71                 // Method ap/q.D:()Z
+        53: istore        4
+        55: aload_0
+        56: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+        59: aload_2
+        60: iconst_0
+        61: invokevirtual #95                 // Method au/g.a:(Lap/q;Z)V
+        64: aload_2
+        65: iload_3
+        66: invokevirtual #79                 // Method ap/q.a:(I)V
+        69: aload_0
+        70: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+        73: aload_2
+        74: invokevirtual #98                 // Method au/g.j:(Lap/q;)V
+        77: aload_0
+        78: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+        81: aload_2
+        82: iload         4
+        84: invokevirtual #95                 // Method au/g.a:(Lap/q;Z)V
+        87: aload_0
+        88: new           #52                 // class be/ds
+        91: dup
+        92: sipush        161
+        95: iconst_3
+        96: anewarray     #56                 // class java/lang/String
+        99: dup
+       100: iconst_0
+       101: aload_2
+       102: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       105: aastore
+       106: dup
+       107: iconst_1
+       108: ldc           #36                 // String $246
+       110: aastore
+       111: dup
+       112: iconst_2
+       113: ldc           #37                 // String $247
+       115: aastore
+       116: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       119: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       122: return
+      LineNumberTable:
+        line 266: 0
+        line 268: 7
+        line 269: 18
+        line 270: 48
+        line 273: 49
+        line 275: 55
+        line 277: 64
+        line 279: 69
+        line 281: 77
+        line 283: 87
+        line 284: 122
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     123     0    pc   Lap/u;
+            0     123     1 l1iteminstance   Lap/q;
+            0     123     2 select   Lap/q;
+            7     116     3 newEnchantLvl   I
+           55      68     4 isEquipped   Z
+
+  public static void d(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=4, args_size=3
+         0: aload_1
+         1: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+         4: invokevirtual #106                // Method bh/j.V:()I
+         7: istore_3
+         8: aload_2
+         9: invokevirtual #82                 // Method ap/q.g:()Z
+        12: ifne          29
+        15: aload_0
+        16: new           #52                 // class be/ds
+        19: dup
+        20: bipush        79
+        22: invokespecial #104                // Method be/ds."<init>":(I)V
+        25: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        28: return
+        29: aload_2
+        30: invokevirtual #73                 // Method ap/q.F:()I
+        33: sipush        128
+        36: if_icmpge     49
+        39: aload_2
+        40: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        43: invokevirtual #109                // Method bh/j.x:()I
+        46: ifge          64
+        49: aload_0
+        50: new           #52                 // class be/ds
+        53: dup
+        54: sipush        3298
+        57: invokespecial #104                // Method be/ds."<init>":(I)V
+        60: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        63: return
+        64: aload_2
+        65: iload_3
+        66: invokevirtual #84                 // Method ap/q.h:(I)V
+        69: aload_0
+        70: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+        73: aload_2
+        74: invokevirtual #98                 // Method au/g.j:(Lap/q;)V
+        77: aload_0
+        78: new           #52                 // class be/ds
+        81: dup
+        82: sipush        3296
+        85: iconst_1
+        86: anewarray     #56                 // class java/lang/String
+        89: dup
+        90: iconst_0
+        91: aload_2
+        92: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+        95: aastore
+        96: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+        99: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       102: aload_0
+       103: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       106: aload_1
+       107: iconst_1
+       108: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       111: pop
+       112: return
+      LineNumberTable:
+        line 288: 0
+        line 289: 8
+        line 290: 15
+        line 291: 28
+        line 294: 29
+        line 295: 49
+        line 296: 63
+        line 299: 64
+        line 301: 69
+        line 302: 77
+        line 304: 102
+        line 305: 112
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     113     0    pc   Lap/u;
+            0     113     1 l1iteminstance   Lap/q;
+            0     113     2 select   Lap/q;
+            8     105     3 scroll_attr   I
+
+  public static void e(ap.u, ap.q, ap.q);
+    descriptor: (Lap/u;Lap/q;Lap/q;)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=8, args_size=3
+         0: aload_2
+         1: invokevirtual #75                 // Method ap/q.K:()I
+         4: istore_3
+         5: aload_2
+         6: invokevirtual #76                 // Method ap/q.L:()I
+         9: istore        4
+        11: aload_1
+        12: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        15: invokevirtual #106                // Method bh/j.V:()I
+        18: istore        5
+        20: aload_2
+        21: invokevirtual #82                 // Method ap/q.g:()Z
+        24: ifne          41
+        27: aload_0
+        28: new           #52                 // class be/ds
+        31: dup
+        32: bipush        79
+        34: invokespecial #104                // Method be/ds."<init>":(I)V
+        37: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        40: return
+        41: aload_2
+        42: invokevirtual #73                 // Method ap/q.F:()I
+        45: sipush        128
+        48: if_icmpge     61
+        51: aload_2
+        52: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        55: invokevirtual #109                // Method bh/j.x:()I
+        58: ifge          76
+        61: aload_0
+        62: new           #52                 // class be/ds
+        65: dup
+        66: sipush        1453
+        69: invokespecial #104                // Method be/ds."<init>":(I)V
+        72: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        75: return
+        76: iload_3
+        77: iload         5
+        79: if_icmpne     157
+        82: aload_2
+        83: invokevirtual #74                 // Method ap/q.G:()I
+        86: bipush        8
+        88: if_icmpgt     97
+        91: iload         4
+        93: iconst_3
+        94: if_icmpge     142
+        97: aload_2
+        98: invokevirtual #74                 // Method ap/q.G:()I
+       101: bipush        9
+       103: if_icmpgt     112
+       106: iload         4
+       108: iconst_4
+       109: if_icmpge     142
+       112: aload_2
+       113: invokevirtual #74                 // Method ap/q.G:()I
+       116: bipush        10
+       118: if_icmpgt     127
+       121: iload         4
+       123: iconst_5
+       124: if_icmpge     142
+       127: aload_2
+       128: invokevirtual #74                 // Method ap/q.G:()I
+       131: bipush        10
+       133: if_icmple     157
+       136: iload         4
+       138: iconst_5
+       139: if_icmplt     157
+       142: aload_0
+       143: new           #52                 // class be/ds
+       146: dup
+       147: sipush        3319
+       150: invokespecial #104                // Method be/ds."<init>":(I)V
+       153: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       156: return
+       157: bipush        100
+       159: invokestatic  #110                // Method bi/i.a:(I)I
+       162: iconst_1
+       163: iadd
+       164: istore        6
+       166: getstatic     #65                 // Field l1j/server/a.I:I
+       169: istore        7
+       171: aload_1
+       172: invokevirtual #73                 // Method ap/q.F:()I
+       175: ifne          184
+       178: iinc          7, 5
+       181: goto          195
+       184: aload_1
+       185: invokevirtual #73                 // Method ap/q.F:()I
+       188: iconst_2
+       189: if_icmpne     195
+       192: iinc          7, -5
+       195: iload         6
+       197: iload         7
+       199: if_icmpgt     266
+       202: iload_3
+       203: iload         5
+       205: if_icmpne     213
+       208: iload         4
+       210: goto          214
+       213: iconst_0
+       214: iconst_1
+       215: iadd
+       216: istore        4
+       218: aload_2
+       219: iload         5
+       221: invokevirtual #84                 // Method ap/q.h:(I)V
+       224: aload_2
+       225: iload         4
+       227: invokevirtual #86                 // Method ap/q.i:(I)V
+       230: aload_0
+       231: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       234: aload_2
+       235: invokevirtual #98                 // Method au/g.j:(Lap/q;)V
+       238: aload_0
+       239: new           #52                 // class be/ds
+       242: dup
+       243: sipush        1410
+       246: iconst_1
+       247: anewarray     #56                 // class java/lang/String
+       250: dup
+       251: iconst_0
+       252: aload_2
+       253: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       256: aastore
+       257: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       260: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       263: goto          291
+       266: aload_0
+       267: new           #52                 // class be/ds
+       270: dup
+       271: sipush        1411
+       274: iconst_1
+       275: anewarray     #56                 // class java/lang/String
+       278: dup
+       279: iconst_0
+       280: aload_2
+       281: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       284: aastore
+       285: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       288: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       291: aload_0
+       292: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       295: aload_1
+       296: iconst_1
+       297: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+       300: pop
+       301: return
+      LineNumberTable:
+        line 308: 0
+        line 309: 5
+        line 310: 11
+        line 312: 20
+        line 313: 27
+        line 314: 40
+        line 316: 41
+        line 317: 61
+        line 318: 75
+        line 321: 76
+        line 323: 82
+        line 324: 97
+        line 325: 112
+        line 326: 127
+        line 327: 142
+        line 328: 156
+        line 332: 157
+        line 333: 166
+        line 335: 171
+        line 336: 178
+        line 337: 181
+        line 338: 192
+        line 341: 195
+        line 342: 202
+        line 343: 218
+        line 344: 224
+        line 346: 230
+        line 347: 238
+        line 348: 263
+        line 349: 266
+        line 351: 291
+        line 352: 301
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     302     0    pc   Lap/u;
+            0     302     1  item   Lap/q;
+            0     302     2 select   Lap/q;
+            5     297     3 item_attr   I
+           11     291     4 level   I
+           20     282     5 scroll_attr   I
+          166     136     6   rnd   I
+          171     131     7 chance   I
+
+  public static void a(ap.u, ap.q, int);
+    descriptor: (Lap/u;Lap/q;I)V
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=8, locals=10, args_size=3
+         0: aload_1
+         1: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+         4: invokevirtual #108                // Method bh/j.f:()I
+         7: istore_3
+         8: iconst_3
+         9: anewarray     #43                 // class "[Ljava/lang/String;"
+        12: dup
+        13: iconst_0
+        14: iconst_5
+        15: anewarray     #56                 // class java/lang/String
+        18: dup
+        19: iconst_0
+        20: ldc           #34                 // String
+        22: aastore
+        23: dup
+        24: iconst_1
+        25: ldc           #34                 // String
+        27: aastore
+        28: dup
+        29: iconst_2
+        30: ldc           #34                 // String
+        32: aastore
+        33: dup
+        34: iconst_3
+        35: ldc           #34                 // String
+        37: aastore
+        38: dup
+        39: iconst_4
+        40: ldc           #34                 // String
+        42: aastore
+        43: aastore
+        44: dup
+        45: iconst_1
+        46: iconst_5
+        47: anewarray     #56                 // class java/lang/String
+        50: dup
+        51: iconst_0
+        52: ldc           #36                 // String $246
+        54: aastore
+        55: dup
+        56: iconst_1
+        57: ldc           #34                 // String
+        59: aastore
+        60: dup
+        61: iconst_2
+        62: ldc           #35                 // String $245
+        64: aastore
+        65: dup
+        66: iconst_3
+        67: ldc           #35                 // String $245
+        69: aastore
+        70: dup
+        71: iconst_4
+        72: ldc           #35                 // String $245
+        74: aastore
+        75: aastore
+        76: dup
+        77: iconst_2
+        78: iconst_5
+        79: anewarray     #56                 // class java/lang/String
+        82: dup
+        83: iconst_0
+        84: ldc           #36                 // String $246
+        86: aastore
+        87: dup
+        88: iconst_1
+        89: ldc           #34                 // String
+        91: aastore
+        92: dup
+        93: iconst_2
+        94: ldc           #39                 // String $252
+        96: aastore
+        97: dup
+        98: iconst_3
+        99: ldc           #39                 // String $252
+       101: aastore
+       102: dup
+       103: iconst_4
+       104: ldc           #39                 // String $252
+       106: aastore
+       107: aastore
+       108: astore        4
+       110: iconst_3
+       111: anewarray     #43                 // class "[Ljava/lang/String;"
+       114: dup
+       115: iconst_0
+       116: iconst_5
+       117: anewarray     #56                 // class java/lang/String
+       120: dup
+       121: iconst_0
+       122: ldc           #34                 // String
+       124: aastore
+       125: dup
+       126: iconst_1
+       127: ldc           #34                 // String
+       129: aastore
+       130: dup
+       131: iconst_2
+       132: ldc           #34                 // String
+       134: aastore
+       135: dup
+       136: iconst_3
+       137: ldc           #34                 // String
+       139: aastore
+       140: dup
+       141: iconst_4
+       142: ldc           #34                 // String
+       144: aastore
+       145: aastore
+       146: dup
+       147: iconst_1
+       148: iconst_5
+       149: anewarray     #56                 // class java/lang/String
+       152: dup
+       153: iconst_0
+       154: ldc           #37                 // String $247
+       156: aastore
+       157: dup
+       158: iconst_1
+       159: ldc           #34                 // String
+       161: aastore
+       162: dup
+       163: iconst_2
+       164: ldc           #37                 // String $247
+       166: aastore
+       167: dup
+       168: iconst_3
+       169: ldc           #38                 // String $248
+       171: aastore
+       172: dup
+       173: iconst_4
+       174: ldc           #38                 // String $248
+       176: aastore
+       177: aastore
+       178: dup
+       179: iconst_2
+       180: iconst_5
+       181: anewarray     #56                 // class java/lang/String
+       184: dup
+       185: iconst_0
+       186: ldc           #37                 // String $247
+       188: aastore
+       189: dup
+       190: iconst_1
+       191: ldc           #34                 // String
+       193: aastore
+       194: dup
+       195: iconst_2
+       196: ldc           #37                 // String $247
+       198: aastore
+       199: dup
+       200: iconst_3
+       201: ldc           #38                 // String $248
+       203: aastore
+       204: dup
+       205: iconst_4
+       206: ldc           #38                 // String $248
+       208: aastore
+       209: aastore
+       210: astore        5
+       212: aload         4
+       214: iload_3
+       215: aaload
+       216: iload_2
+       217: iconst_1
+       218: iadd
+       219: aaload
+       220: astore        6
+       222: aload         5
+       224: iload_3
+       225: aaload
+       226: iload_2
+       227: iconst_1
+       228: iadd
+       229: aaload
+       230: astore        7
+       232: aload_0
+       233: new           #52                 // class be/ds
+       236: dup
+       237: sipush        161
+       240: iconst_3
+       241: anewarray     #56                 // class java/lang/String
+       244: dup
+       245: iconst_0
+       246: aload_1
+       247: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       250: aastore
+       251: dup
+       252: iconst_1
+       253: aload         6
+       255: aastore
+       256: dup
+       257: iconst_2
+       258: aload         7
+       260: aastore
+       261: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       264: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+       267: aload_1
+       268: invokevirtual #71                 // Method ap/q.D:()Z
+       271: istore        8
+       273: aload_0
+       274: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       277: aload_1
+       278: iconst_0
+       279: invokevirtual #95                 // Method au/g.a:(Lap/q;Z)V
+       282: aload_1
+       283: invokevirtual #74                 // Method ap/q.G:()I
+       286: iload_2
+       287: iadd
+       288: istore        9
+       290: iload         9
+       292: bipush        9
+       294: if_icmplt     337
+       297: invokestatic  #93                 // Method aq/aq.a:()Laq/aq;
+       300: new           #52                 // class be/ds
+       303: dup
+       304: aload_1
+       305: invokevirtual #82                 // Method ap/q.g:()Z
+       308: ifeq          317
+       311: sipush        4444
+       314: goto          320
+       317: sipush        4445
+       320: iconst_1
+       321: anewarray     #56                 // class java/lang/String
+       324: dup
+       325: iconst_0
+       326: aload_1
+       327: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+       330: aastore
+       331: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+       334: invokevirtual #94                 // Method aq/aq.a:(Lbe/eu;)V
+       337: aload_1
+       338: iload         9
+       340: invokevirtual #79                 // Method ap/q.a:(I)V
+       343: aload_0
+       344: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       347: aload_1
+       348: invokevirtual #98                 // Method au/g.j:(Lap/q;)V
+       351: aload_0
+       352: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+       355: aload_1
+       356: iload         8
+       358: invokevirtual #95                 // Method au/g.a:(Lap/q;Z)V
+       361: aload_1
+       362: invokevirtual #74                 // Method ap/q.G:()I
+       365: aload_1
+       366: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+       369: invokevirtual #109                // Method bh/j.x:()I
+       372: isub
+       373: iconst_3
+       374: if_icmplt     387
+       377: invokestatic  #66                 // Method ao/aa.a:()Lao/aa;
+       380: aload_0
+       381: ldc           #41                 // String 強化成功，獲得
+       383: aload_1
+       384: invokevirtual #67                 // Method ao/aa.a:(Lap/u;Ljava/lang/String;Lap/q;)V
+       387: return
+      LineNumberTable:
+        line 356: 0
+        line 358: 8
+        line 359: 110
+        line 360: 212
+        line 361: 222
+        line 363: 232
+        line 365: 267
+        line 367: 273
+        line 369: 282
+        line 371: 290
+        line 375: 297
+        line 378: 337
+        line 380: 343
+        line 382: 351
+        line 384: 361
+        line 385: 377
+        line 388: 387
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     388     0    pc   Lap/u;
+            0     388     1  item   Lap/q;
+            0     388     2 addLevel   I
+            8     380     3 itemType2   I
+          110     278     4    sa   [[Ljava/lang/String;
+          212     176     5    sb   [[Ljava/lang/String;
+          222     166     6 sa_temp   Ljava/lang/String;
+          232     156     7 sb_temp   Ljava/lang/String;
+          273     115     8 isEquipped   Z
+          290      98     9 newEnchantLvl   I
+
+  private static void a(ap.u, ap.q);
+    descriptor: (Lap/u;Lap/q;)V
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=9, locals=4, args_size=2
+         0: iconst_3
+         1: anewarray     #56                 // class java/lang/String
+         4: dup
+         5: iconst_0
+         6: ldc           #34                 // String
+         8: aastore
+         9: dup
+        10: iconst_1
+        11: ldc           #35                 // String $245
+        13: aastore
+        14: dup
+        15: iconst_2
+        16: ldc           #39                 // String $252
+        18: aastore
+        19: astore_2
+        20: aload_1
+        21: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        24: invokevirtual #108                // Method bh/j.f:()I
+        27: istore_3
+        28: aload_1
+        29: invokevirtual #74                 // Method ap/q.G:()I
+        32: ifge          40
+        35: aload_2
+        36: iload_3
+        37: ldc           #36                 // String $246
+        39: aastore
+        40: aload_0
+        41: new           #52                 // class be/ds
+        44: dup
+        45: sipush        164
+        48: iconst_2
+        49: anewarray     #56                 // class java/lang/String
+        52: dup
+        53: iconst_0
+        54: aload_1
+        55: invokevirtual #88                 // Method ap/q.s:()Ljava/lang/String;
+        58: aastore
+        59: dup
+        60: iconst_1
+        61: aload_2
+        62: iload_3
+        63: aaload
+        64: aastore
+        65: invokespecial #105                // Method be/ds."<init>":(I[Ljava/lang/String;)V
+        68: invokevirtual #90                 // Method ap/u.a:(Lbe/eu;)V
+        71: aload_0
+        72: invokevirtual #92                 // Method ap/u.j:()Lau/g;
+        75: aload_1
+        76: aload_1
+        77: invokevirtual #72                 // Method ap/q.E:()I
+        80: invokevirtual #96                 // Method au/g.b:(Lap/q;I)I
+        83: pop
+        84: aload_1
+        85: invokevirtual #74                 // Method ap/q.G:()I
+        88: aload_1
+        89: invokevirtual #78                 // Method ap/q.a:()Lbh/j;
+        92: invokevirtual #109                // Method bh/j.x:()I
+        95: isub
+        96: iconst_2
+        97: if_icmplt     110
+       100: invokestatic  #66                 // Method ao/aa.a:()Lao/aa;
+       103: aload_0
+       104: ldc           #40                 // String 強化失敗，失去
+       106: aload_1
+       107: invokevirtual #67                 // Method ao/aa.a:(Lap/u;Ljava/lang/String;Lap/q;)V
+       110: return
+      LineNumberTable:
+        line 392: 0
+        line 393: 20
+        line 395: 28
+        line 396: 35
+        line 398: 40
+        line 399: 71
+        line 401: 84
+        line 402: 100
+        line 405: 110
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     111     0    pc   Lap/u;
+            0     111     1  item   Lap/q;
+           20      91     2    sa   [Ljava/lang/String;
+           28      83     3 itemType2   I
+
+  private static int a(boolean, ap.q);
+    descriptor: (ZLap/q;)I
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+    Code:
+      stack=2, locals=3, args_size=2
+         0: iload_0
+         1: ifeq          72
+         4: bipush        100
+         6: invokestatic  #110                // Method bi/i.a:(I)I
+         9: iconst_1
+        10: iadd
+        11: istore_2
+        12: aload_1
+        13: invokevirtual #74                 // Method ap/q.G:()I
+        16: iconst_2
+        17: if_icmpgt     48
+        20: iload_2
+        21: bipush        33
+        23: if_icmplt     34
+        26: iload_2
+        27: bipush        76
+        29: if_icmpgt     34
+        32: iconst_2
+        33: ireturn
+        34: iload_2
+        35: bipush        77
+        37: if_icmplt     72
+        40: iload_2
+        41: bipush        100
+        43: if_icmpgt     72
+        46: iconst_3
+        47: ireturn
+        48: aload_1
+        49: invokevirtual #74                 // Method ap/q.G:()I
+        52: iconst_3
+        53: if_icmplt     72
+        56: aload_1
+        57: invokevirtual #74                 // Method ap/q.G:()I
+        60: iconst_5
+        61: if_icmpgt     72
+        64: iload_2
+        65: bipush        50
+        67: if_icmpge     72
+        70: iconst_2
+        71: ireturn
+        72: iconst_1
+        73: ireturn
+      LineNumberTable:
+        line 410: 0
+        line 411: 4
+        line 412: 12
+        line 413: 20
+        line 414: 32
+        line 415: 34
+        line 416: 46
+        line 418: 48
+        line 419: 64
+        line 420: 70
+        line 424: 72
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      74     0 isBless   Z
+            0      74     1 select   Lap/q;
+           12      60     2   rnd   I
+}
+SourceFile: "Enchant.java"

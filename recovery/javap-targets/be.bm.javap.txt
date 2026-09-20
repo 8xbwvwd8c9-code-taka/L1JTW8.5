@@ -1,0 +1,121 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/bm.class
+  Last modified Jan 3, 2018; size 621 bytes
+  SHA-256 checksum a39e1cdeb0b430a91f2cd2d91f4b1f567c6663bb79d8f5232fe1f12ec05c5e58
+  Compiled from "S_ItemName.java"
+public class be.bm extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #3                          // be/bm
+  super_class: #4                         // be/eu
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
+Constant pool:
+   #1 = String             #32            // S_ItemName
+   #2 = Class              #36            // ap/q
+   #3 = Class              #38            // be/bm
+   #4 = Class              #39            // be/eu
+   #5 = Methodref          #2.#17         // ap/q.fr:()I
+   #6 = Methodref          #2.#18         // ap/q.r:()Ljava/lang/String;
+   #7 = Methodref          #3.#13         // be/bm.a:(I)V
+   #8 = Methodref          #3.#14         // be/bm.a:(Ljava/lang/String;)V
+   #9 = Methodref          #3.#15         // be/bm.c:(I)V
+  #10 = Methodref          #3.#16         // be/bm.d:()[B
+  #11 = Methodref          #4.#12         // be/eu."<init>":()V
+  #12 = NameAndType        #26:#21        // "<init>":()V
+  #13 = NameAndType        #35:#23        // a:(I)V
+  #14 = NameAndType        #35:#25        // a:(Ljava/lang/String;)V
+  #15 = NameAndType        #40:#23        // c:(I)V
+  #16 = NameAndType        #41:#22        // d:()[B
+  #17 = NameAndType        #42:#19        // fr:()I
+  #18 = NameAndType        #44:#20        // r:()Ljava/lang/String;
+  #19 = Utf8               ()I
+  #20 = Utf8               ()Ljava/lang/String;
+  #21 = Utf8               ()V
+  #22 = Utf8               ()[B
+  #23 = Utf8               (I)V
+  #24 = Utf8               (Lap/q;)V
+  #25 = Utf8               (Ljava/lang/String;)V
+  #26 = Utf8               <init>
+  #27 = Utf8               Code
+  #28 = Utf8               Lap/q;
+  #29 = Utf8               Lbe/bm;
+  #30 = Utf8               LineNumberTable
+  #31 = Utf8               LocalVariableTable
+  #32 = Utf8               S_ItemName
+  #33 = Utf8               S_ItemName.java
+  #34 = Utf8               SourceFile
+  #35 = Utf8               a
+  #36 = Utf8               ap/q
+  #37 = Utf8               b
+  #38 = Utf8               be/bm
+  #39 = Utf8               be/eu
+  #40 = Utf8               c
+  #41 = Utf8               d
+  #42 = Utf8               fr
+  #43 = Utf8               item
+  #44 = Utf8               r
+  #45 = Utf8               this
+{
+  public be.bm(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #11                 // Method be/eu."<init>":()V
+         4: aload_1
+         5: ifnonnull     9
+         8: return
+         9: aload_0
+        10: bipush        14
+        12: invokevirtual #9                  // Method c:(I)V
+        15: aload_0
+        16: aload_1
+        17: invokevirtual #5                  // Method ap/q.fr:()I
+        20: invokevirtual #7                  // Method a:(I)V
+        23: aload_0
+        24: aload_1
+        25: invokevirtual #6                  // Method ap/q.r:()Ljava/lang/String;
+        28: invokevirtual #8                  // Method a:(Ljava/lang/String;)V
+        31: return
+      LineNumberTable:
+        line 26: 0
+        line 27: 4
+        line 28: 8
+        line 30: 9
+        line 31: 15
+        line 32: 23
+        line 33: 31
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   Lbe/bm;
+            0      32     1  item   Lap/q;
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #10                 // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 37: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/bm;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_ItemName
+         2: areturn
+      LineNumberTable:
+        line 42: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/bm;
+}
+SourceFile: "S_ItemName.java"

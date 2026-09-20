@@ -1,0 +1,238 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/as.class
+  Last modified Jan 3, 2018; size 1443 bytes
+  SHA-256 checksum dd68afc7c1795984df6e5437f33c73d916b11ea4e4aec4305c37cef90356b27b
+  Compiled from "S_EquipmentSlot.java"
+public class be.as extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // be/as
+  super_class: #3                         // be/eu
+  interfaces: 0, fields: 0, methods: 4, attributes: 1
+Constant pool:
+   #1 = String             #58            // S_EquipmentSlot
+   #2 = Class              #65            // be/as
+   #3 = Class              #66            // be/eu
+   #4 = Class              #77            // java/lang/Integer
+   #5 = Class              #78            // java/util/Iterator
+   #6 = Class              #79            // java/util/Map
+   #7 = Class              #80            // java/util/Set
+   #8 = Methodref          #2.#22         // be/as.a:(I)V
+   #9 = Methodref          #2.#23         // be/as.b:(I)V
+  #10 = Methodref          #2.#24         // be/as.c:(I)V
+  #11 = Methodref          #2.#25         // be/as.d:()[B
+  #12 = Methodref          #3.#21         // be/eu."<init>":()V
+  #13 = Methodref          #4.#28         // java/lang/Integer.intValue:()I
+  #14 = Methodref          #4.#33         // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+  #15 = InterfaceMethodref #5.#27         // java/util/Iterator.hasNext:()Z
+  #16 = InterfaceMethodref #5.#31         // java/util/Iterator.next:()Ljava/lang/Object;
+  #17 = InterfaceMethodref #6.#26         // java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #18 = InterfaceMethodref #6.#30         // java/util/Map.keySet:()Ljava/util/Set;
+  #19 = InterfaceMethodref #6.#32         // java/util/Map.size:()I
+  #20 = InterfaceMethodref #7.#29         // java/util/Set.iterator:()Ljava/util/Iterator;
+  #21 = NameAndType        #48:#39        // "<init>":()V
+  #22 = NameAndType        #63:#43        // a:(I)V
+  #23 = NameAndType        #64:#43        // b:(I)V
+  #24 = NameAndType        #67:#43        // c:(I)V
+  #25 = NameAndType        #68:#41        // d:()[B
+  #26 = NameAndType        #70:#45        // get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #27 = NameAndType        #71:#40        // hasNext:()Z
+  #28 = NameAndType        #74:#34        // intValue:()I
+  #29 = NameAndType        #76:#37        // iterator:()Ljava/util/Iterator;
+  #30 = NameAndType        #81:#38        // keySet:()Ljava/util/Set;
+  #31 = NameAndType        #82:#35        // next:()Ljava/lang/Object;
+  #32 = NameAndType        #83:#34        // size:()I
+  #33 = NameAndType        #85:#42        // valueOf:(I)Ljava/lang/Integer;
+  #34 = Utf8               ()I
+  #35 = Utf8               ()Ljava/lang/Object;
+  #36 = Utf8               ()Ljava/lang/String;
+  #37 = Utf8               ()Ljava/util/Iterator;
+  #38 = Utf8               ()Ljava/util/Set;
+  #39 = Utf8               ()V
+  #40 = Utf8               ()Z
+  #41 = Utf8               ()[B
+  #42 = Utf8               (I)Ljava/lang/Integer;
+  #43 = Utf8               (I)V
+  #44 = Utf8               (IIZ)V
+  #45 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #46 = Utf8               (Ljava/util/Map;)V
+  #47 = Utf8               (Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;)V
+  #48 = Utf8               <init>
+  #49 = Utf8               Code
+  #50 = Utf8               I
+  #51 = Utf8               ItemObjid
+  #52 = Utf8               Lbe/as;
+  #53 = Utf8               LineNumberTable
+  #54 = Utf8               Ljava/util/Map;
+  #55 = Utf8               Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;
+  #56 = Utf8               LocalVariableTable
+  #57 = Utf8               LocalVariableTypeTable
+  #58 = Utf8               S_EquipmentSlot
+  #59 = Utf8               S_EquipmentSlot.java
+  #60 = Utf8               Signature
+  #61 = Utf8               SourceFile
+  #62 = Utf8               Z
+  #63 = Utf8               a
+  #64 = Utf8               b
+  #65 = Utf8               be/as
+  #66 = Utf8               be/eu
+  #67 = Utf8               c
+  #68 = Utf8               d
+  #69 = Utf8               equipOnOff
+  #70 = Utf8               get
+  #71 = Utf8               hasNext
+  #72 = Utf8               id
+  #73 = Utf8               index
+  #74 = Utf8               intValue
+  #75 = Utf8               items
+  #76 = Utf8               iterator
+  #77 = Utf8               java/lang/Integer
+  #78 = Utf8               java/util/Iterator
+  #79 = Utf8               java/util/Map
+  #80 = Utf8               java/util/Set
+  #81 = Utf8               keySet
+  #82 = Utf8               next
+  #83 = Utf8               size
+  #84 = Utf8               this
+  #85 = Utf8               valueOf
+{
+  public be.as(int, int, boolean);
+    descriptor: (IIZ)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=4, args_size=4
+         0: aload_0
+         1: invokespecial #12                 // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        42
+         7: invokevirtual #10                 // Method c:(I)V
+        10: aload_0
+        11: bipush        66
+        13: invokevirtual #10                 // Method c:(I)V
+        16: aload_0
+        17: iload_1
+        18: invokevirtual #8                  // Method a:(I)V
+        21: aload_0
+        22: iload_2
+        23: invokevirtual #10                 // Method c:(I)V
+        26: aload_0
+        27: iload_3
+        28: ifeq          35
+        31: iconst_1
+        32: goto          36
+        35: iconst_0
+        36: invokevirtual #10                 // Method c:(I)V
+        39: aload_0
+        40: iconst_0
+        41: invokevirtual #9                  // Method b:(I)V
+        44: return
+      LineNumberTable:
+        line 29: 0
+        line 30: 4
+        line 31: 10
+        line 32: 16
+        line 33: 21
+        line 34: 26
+        line 35: 39
+        line 36: 44
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      45     0  this   Lbe/as;
+            0      45     1 ItemObjid   I
+            0      45     2 index   I
+            0      45     3 equipOnOff   Z
+
+  public be.as(java.util.Map<java.lang.Integer, java.lang.Integer>);
+    descriptor: (Ljava/util/Map;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=4, args_size=2
+         0: aload_0
+         1: invokespecial #12                 // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        42
+         7: invokevirtual #10                 // Method c:(I)V
+        10: aload_0
+        11: bipush        65
+        13: invokevirtual #10                 // Method c:(I)V
+        16: aload_0
+        17: aload_1
+        18: invokeinterface #19,  1           // InterfaceMethod java/util/Map.size:()I
+        23: invokevirtual #10                 // Method c:(I)V
+        26: aload_1
+        27: invokeinterface #18,  1           // InterfaceMethod java/util/Map.keySet:()Ljava/util/Set;
+        32: invokeinterface #20,  1           // InterfaceMethod java/util/Set.iterator:()Ljava/util/Iterator;
+        37: astore_3
+        38: goto          79
+        41: aload_3
+        42: invokeinterface #16,  1           // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        47: checkcast     #4                  // class java/lang/Integer
+        50: invokevirtual #13                 // Method java/lang/Integer.intValue:()I
+        53: istore_2
+        54: aload_0
+        55: iload_2
+        56: invokevirtual #8                  // Method a:(I)V
+        59: aload_0
+        60: aload_1
+        61: iload_2
+        62: invokestatic  #14                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        65: invokeinterface #17,  2           // InterfaceMethod java/util/Map.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        70: checkcast     #4                  // class java/lang/Integer
+        73: invokevirtual #13                 // Method java/lang/Integer.intValue:()I
+        76: invokevirtual #8                  // Method a:(I)V
+        79: aload_3
+        80: invokeinterface #15,  1           // InterfaceMethod java/util/Iterator.hasNext:()Z
+        85: ifne          41
+        88: aload_0
+        89: iconst_0
+        90: invokevirtual #9                  // Method b:(I)V
+        93: return
+      LineNumberTable:
+        line 38: 0
+        line 39: 4
+        line 40: 10
+        line 41: 16
+        line 42: 26
+        line 43: 54
+        line 44: 59
+        line 42: 79
+        line 46: 88
+        line 47: 93
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      94     0  this   Lbe/as;
+            0      94     1 items   Ljava/util/Map;
+           54      25     2    id   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      94     1 items   Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;
+    Signature: #47                          // (Ljava/util/Map<Ljava/lang/Integer;Ljava/lang/Integer;>;)V
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #11                 // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 51: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/as;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_EquipmentSlot
+         2: areturn
+      LineNumberTable:
+        line 56: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/as;
+}
+SourceFile: "S_EquipmentSlot.java"

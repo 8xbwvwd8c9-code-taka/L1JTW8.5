@@ -1,0 +1,241 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aj/an.class
+  Last modified Jan 3, 2018; size 1338 bytes
+  SHA-256 checksum 060c6bb71ef7f93080917c3e3f85933e1d7a1224162196f88abcfb2fed0b4b40
+  Compiled from "C_EnterPortal.java"
+public class aj.an extends aj.cv
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #3                          // aj/an
+  super_class: #4                         // aj/cv
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+    #1 = String             #66           // C_EnterPortal
+    #2 = String             #109          // 座標 (%d, %d, %d) %d
+    #3 = Class              #82           // aj/an
+    #4 = Class              #83           // aj/cv
+    #5 = Class              #84           // ap/u
+    #6 = Class              #85           // aq/l
+    #7 = Class              #86           // ax/b
+    #8 = Class              #87           // ax/d
+    #9 = Class              #89           // be/ei
+   #10 = Class              #90           // bj/d
+   #11 = Class              #98           // java/lang/Exception
+   #12 = Class              #99           // java/lang/Integer
+   #13 = Class              #100          // java/lang/Object
+   #14 = Class              #101          // java/lang/String
+   #15 = Methodref          #3.#42        // aj/an.d:()I
+   #16 = Methodref          #4.#33        // aj/cv."<init>":([B)V
+   #17 = Methodref          #5.#38        // ap/u.a:(Lbe/eu;)V
+   #18 = Methodref          #5.#39        // ap/u.aR:()Z
+   #19 = Methodref          #5.#45        // ap/u.fp:()I
+   #20 = Methodref          #5.#46        // ap/u.fq:()Lax/b;
+   #21 = Methodref          #5.#47        // ap/u.l:()Z
+   #22 = Methodref          #6.#34        // aq/l.a:()Laq/l;
+   #23 = Methodref          #6.#37        // aq/l.a:(IIILap/u;)Z
+   #24 = Methodref          #7.#36        // ax/b.a:(II)I
+   #25 = Methodref          #7.#40        // ax/b.b:()I
+   #26 = Methodref          #8.#35        // ax/d.a:(I)Lax/b;
+   #27 = Methodref          #8.#41        // ax/d.b:()Lax/d;
+   #28 = Methodref          #9.#32        // be/ei."<init>":(Ljava/lang/String;)V
+   #29 = Methodref          #10.#43       // bj/d.f:()Lap/u;
+   #30 = Methodref          #12.#48       // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   #31 = Methodref          #14.#44       // java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+   #32 = NameAndType        #65:#61       // "<init>":(Ljava/lang/String;)V
+   #33 = NameAndType        #65:#63       // "<init>":([B)V
+   #34 = NameAndType        #79:#51       // a:()Laq/l;
+   #35 = NameAndType        #79:#56       // a:(I)Lax/b;
+   #36 = NameAndType        #79:#58       // a:(II)I
+   #37 = NameAndType        #79:#59       // a:(IIILap/u;)Z
+   #38 = NameAndType        #79:#60       // a:(Lbe/eu;)V
+   #39 = NameAndType        #80:#55       // aR:()Z
+   #40 = NameAndType        #88:#49       // b:()I
+   #41 = NameAndType        #88:#53       // b:()Lax/d;
+   #42 = NameAndType        #92:#49       // d:()I
+   #43 = NameAndType        #93:#50       // f:()Lap/u;
+   #44 = NameAndType        #94:#62       // format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+   #45 = NameAndType        #95:#49       // fp:()I
+   #46 = NameAndType        #96:#52       // fq:()Lax/b;
+   #47 = NameAndType        #102:#55      // l:()Z
+   #48 = NameAndType        #108:#57      // valueOf:(I)Ljava/lang/Integer;
+   #49 = Utf8               ()I
+   #50 = Utf8               ()Lap/u;
+   #51 = Utf8               ()Laq/l;
+   #52 = Utf8               ()Lax/b;
+   #53 = Utf8               ()Lax/d;
+   #54 = Utf8               ()Ljava/lang/String;
+   #55 = Utf8               ()Z
+   #56 = Utf8               (I)Lax/b;
+   #57 = Utf8               (I)Ljava/lang/Integer;
+   #58 = Utf8               (II)I
+   #59 = Utf8               (IIILap/u;)Z
+   #60 = Utf8               (Lbe/eu;)V
+   #61 = Utf8               (Ljava/lang/String;)V
+   #62 = Utf8               (Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+   #63 = Utf8               ([B)V
+   #64 = Utf8               ([BLbj/d;)V
+   #65 = Utf8               <init>
+   #66 = Utf8               C_EnterPortal
+   #67 = Utf8               C_EnterPortal.java
+   #68 = Utf8               Code
+   #69 = Utf8               Exceptions
+   #70 = Utf8               I
+   #71 = Utf8               Laj/an;
+   #72 = Utf8               Lap/u;
+   #73 = Utf8               Lbj/d;
+   #74 = Utf8               LineNumberTable
+   #75 = Utf8               Ljava/lang/String;
+   #76 = Utf8               LocalVariableTable
+   #77 = Utf8               SourceFile
+   #78 = Utf8               [B
+   #79 = Utf8               a
+   #80 = Utf8               aR
+   #81 = Utf8               abyte0
+   #82 = Utf8               aj/an
+   #83 = Utf8               aj/cv
+   #84 = Utf8               ap/u
+   #85 = Utf8               aq/l
+   #86 = Utf8               ax/b
+   #87 = Utf8               ax/d
+   #88 = Utf8               b
+   #89 = Utf8               be/ei
+   #90 = Utf8               bj/d
+   #91 = Utf8               client
+   #92 = Utf8               d
+   #93 = Utf8               f
+   #94 = Utf8               format
+   #95 = Utf8               fp
+   #96 = Utf8               fq
+   #97 = Utf8               gab
+   #98 = Utf8               java/lang/Exception
+   #99 = Utf8               java/lang/Integer
+  #100 = Utf8               java/lang/Object
+  #101 = Utf8               java/lang/String
+  #102 = Utf8               l
+  #103 = Utf8               locx
+  #104 = Utf8               locy
+  #105 = Utf8               msg
+  #106 = Utf8               pc
+  #107 = Utf8               this
+  #108 = Utf8               valueOf
+  #109 = Utf8               座標 (%d, %d, %d) %d
+{
+  public aj.an(byte[], bj.d) throws java.lang.Exception;
+    descriptor: ([BLbj/d;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=8, args_size=3
+         0: aload_0
+         1: aload_1
+         2: invokespecial #16                 // Method aj/cv."<init>":([B)V
+         5: aload_2
+         6: invokevirtual #29                 // Method bj/d.f:()Lap/u;
+         9: astore_3
+        10: aload_3
+        11: ifnonnull     15
+        14: return
+        15: aload_0
+        16: invokevirtual #15                 // Method d:()I
+        19: istore        4
+        21: aload_0
+        22: invokevirtual #15                 // Method d:()I
+        25: istore        5
+        27: aload_3
+        28: invokevirtual #18                 // Method ap/u.aR:()Z
+        31: ifeq          35
+        34: return
+        35: invokestatic  #22                 // Method aq/l.a:()Laq/l;
+        38: iload         4
+        40: iload         5
+        42: aload_3
+        43: invokevirtual #20                 // Method ap/u.fq:()Lax/b;
+        46: invokevirtual #25                 // Method ax/b.b:()I
+        49: aload_3
+        50: invokevirtual #23                 // Method aq/l.a:(IIILap/u;)Z
+        53: pop
+        54: aload_3
+        55: invokevirtual #21                 // Method ap/u.l:()Z
+        58: ifeq          138
+        61: invokestatic  #27                 // Method ax/d.b:()Lax/d;
+        64: aload_3
+        65: invokevirtual #19                 // Method ap/u.fp:()I
+        68: invokevirtual #26                 // Method ax/d.a:(I)Lax/b;
+        71: iload         4
+        73: iload         5
+        75: invokevirtual #24                 // Method ax/b.a:(II)I
+        78: istore        6
+        80: ldc           #2                  // String 座標 (%d, %d, %d) %d
+        82: iconst_4
+        83: anewarray     #13                 // class java/lang/Object
+        86: dup
+        87: iconst_0
+        88: iload         4
+        90: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        93: aastore
+        94: dup
+        95: iconst_1
+        96: iload         5
+        98: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       101: aastore
+       102: dup
+       103: iconst_2
+       104: aload_3
+       105: invokevirtual #19                 // Method ap/u.fp:()I
+       108: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       111: aastore
+       112: dup
+       113: iconst_3
+       114: iload         6
+       116: invokestatic  #30                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       119: aastore
+       120: invokestatic  #31                 // Method java/lang/String.format:(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;
+       123: astore        7
+       125: aload_3
+       126: new           #9                  // class be/ei
+       129: dup
+       130: aload         7
+       132: invokespecial #28                 // Method be/ei."<init>":(Ljava/lang/String;)V
+       135: invokevirtual #17                 // Method ap/u.a:(Lbe/eu;)V
+       138: return
+      LineNumberTable:
+        line 30: 0
+        line 32: 5
+        line 33: 10
+        line 34: 14
+        line 37: 15
+        line 38: 21
+        line 40: 27
+        line 41: 34
+        line 44: 35
+        line 46: 54
+        line 47: 61
+        line 48: 80
+        line 49: 125
+        line 52: 138
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     139     0  this   Laj/an;
+            0     139     1 abyte0   [B
+            0     139     2 client   Lbj/d;
+           10     129     3    pc   Lap/u;
+           21     118     4  locx   I
+           27     112     5  locy   I
+           80      58     6   gab   I
+          125      13     7   msg   Ljava/lang/String;
+    Exceptions:
+      throws java.lang.Exception
+
+  public java.lang.String a();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String C_EnterPortal
+         2: areturn
+      LineNumberTable:
+        line 56: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Laj/an;
+}
+SourceFile: "C_EnterPortal.java"

@@ -1,0 +1,130 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/dr.class
+  Last modified Jan 3, 2018; size 706 bytes
+  SHA-256 checksum 706e5797dc0744128d5863b73b68fc39ff8da5a3fa1d02226933ef03ebda1c66
+  Compiled from "S_SendLocation.java"
+public class be.dr extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // be/dr
+  super_class: #3                         // be/eu
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
+Constant pool:
+   #1 = String             #27            // S_SendLocation
+   #2 = Class              #32            // be/dr
+   #3 = Class              #33            // be/eu
+   #4 = Methodref          #2.#10         // be/dr.a:(Ljava/lang/String;)V
+   #5 = Methodref          #2.#11         // be/dr.b:(I)V
+   #6 = Methodref          #2.#12         // be/dr.c:(I)V
+   #7 = Methodref          #2.#13         // be/dr.d:()[B
+   #8 = Methodref          #3.#9          // be/eu."<init>":()V
+   #9 = NameAndType        #20:#15        // "<init>":()V
+  #10 = NameAndType        #30:#18        // a:(Ljava/lang/String;)V
+  #11 = NameAndType        #31:#17        // b:(I)V
+  #12 = NameAndType        #34:#17        // c:(I)V
+  #13 = NameAndType        #35:#16        // d:()[B
+  #14 = Utf8               ()Ljava/lang/String;
+  #15 = Utf8               ()V
+  #16 = Utf8               ()[B
+  #17 = Utf8               (I)V
+  #18 = Utf8               (Ljava/lang/String;)V
+  #19 = Utf8               (Ljava/lang/String;IIII)V
+  #20 = Utf8               <init>
+  #21 = Utf8               Code
+  #22 = Utf8               I
+  #23 = Utf8               Lbe/dr;
+  #24 = Utf8               LineNumberTable
+  #25 = Utf8               Ljava/lang/String;
+  #26 = Utf8               LocalVariableTable
+  #27 = Utf8               S_SendLocation
+  #28 = Utf8               S_SendLocation.java
+  #29 = Utf8               SourceFile
+  #30 = Utf8               a
+  #31 = Utf8               b
+  #32 = Utf8               be/dr
+  #33 = Utf8               be/eu
+  #34 = Utf8               c
+  #35 = Utf8               d
+  #36 = Utf8               mapId
+  #37 = Utf8               msgId
+  #38 = Utf8               senderName
+  #39 = Utf8               this
+  #40 = Utf8               x
+  #41 = Utf8               y
+{
+  public be.dr(java.lang.String, int, int, int, int);
+    descriptor: (Ljava/lang/String;IIII)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=6, args_size=6
+         0: aload_0
+         1: invokespecial #8                  // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        121
+         7: invokevirtual #6                  // Method c:(I)V
+        10: aload_0
+        11: bipush        111
+        13: invokevirtual #6                  // Method c:(I)V
+        16: aload_0
+        17: aload_1
+        18: invokevirtual #4                  // Method a:(Ljava/lang/String;)V
+        21: aload_0
+        22: iload_2
+        23: invokevirtual #5                  // Method b:(I)V
+        26: aload_0
+        27: iload_3
+        28: invokevirtual #5                  // Method b:(I)V
+        31: aload_0
+        32: iload         4
+        34: invokevirtual #5                  // Method b:(I)V
+        37: aload_0
+        38: iload         5
+        40: invokevirtual #6                  // Method c:(I)V
+        43: return
+      LineNumberTable:
+        line 21: 0
+        line 22: 4
+        line 23: 10
+        line 24: 16
+        line 25: 21
+        line 26: 26
+        line 27: 31
+        line 28: 37
+        line 29: 43
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      44     0  this   Lbe/dr;
+            0      44     1 senderName   Ljava/lang/String;
+            0      44     2 mapId   I
+            0      44     3     x   I
+            0      44     4     y   I
+            0      44     5 msgId   I
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #7                  // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 33: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/dr;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_SendLocation
+         2: areturn
+      LineNumberTable:
+        line 38: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/dr;
+}
+SourceFile: "S_SendLocation.java"

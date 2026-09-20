@@ -1,0 +1,468 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/bi/c.class
+  Last modified Jan 3, 2018; size 1634 bytes
+  SHA-256 checksum 832435c231445fc7521050ec35af71fed928297991f45981c0f1d58baa78dc0f
+  Compiled from "CalcInitHpMp.java"
+public class bi.c
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // bi/c
+  super_class: #3                         // java/lang/Object
+  interfaces: 0, fields: 0, methods: 4, attributes: 1
+Constant pool:
+   #1 = Class              #44            // ap/u
+   #2 = Class              #46            // bi/c
+   #3 = Class              #50            // java/lang/Object
+   #4 = Methodref          #1.#15         // ap/u.A:()Z
+   #5 = Methodref          #1.#16         // ap/u.B:()Z
+   #6 = Methodref          #1.#17         // ap/u.C:()Z
+   #7 = Methodref          #1.#18         // ap/u.D:()Z
+   #8 = Methodref          #1.#19         // ap/u.E:()Z
+   #9 = Methodref          #1.#20         // ap/u.F:()Z
+  #10 = Methodref          #1.#21         // ap/u.eE:()B
+  #11 = Methodref          #1.#22         // ap/u.x:()Z
+  #12 = Methodref          #1.#23         // ap/u.z:()Z
+  #13 = Methodref          #3.#14         // java/lang/Object."<init>":()V
+  #14 = NameAndType        #28:#25        // "<init>":()V
+  #15 = NameAndType        #29:#26        // A:()Z
+  #16 = NameAndType        #30:#26        // B:()Z
+  #17 = NameAndType        #31:#26        // C:()Z
+  #18 = NameAndType        #34:#26        // D:()Z
+  #19 = NameAndType        #35:#26        // E:()Z
+  #20 = NameAndType        #36:#26        // F:()Z
+  #21 = NameAndType        #48:#24        // eE:()B
+  #22 = NameAndType        #54:#26        // x:()Z
+  #23 = NameAndType        #55:#26        // z:()Z
+  #24 = Utf8               ()B
+  #25 = Utf8               ()V
+  #26 = Utf8               ()Z
+  #27 = Utf8               (Lap/u;)I
+  #28 = Utf8               <init>
+  #29 = Utf8               A
+  #30 = Utf8               B
+  #31 = Utf8               C
+  #32 = Utf8               CalcInitHpMp.java
+  #33 = Utf8               Code
+  #34 = Utf8               D
+  #35 = Utf8               E
+  #36 = Utf8               F
+  #37 = Utf8               I
+  #38 = Utf8               Lap/u;
+  #39 = Utf8               Lbi/c;
+  #40 = Utf8               LineNumberTable
+  #41 = Utf8               LocalVariableTable
+  #42 = Utf8               SourceFile
+  #43 = Utf8               a
+  #44 = Utf8               ap/u
+  #45 = Utf8               b
+  #46 = Utf8               bi/c
+  #47 = Utf8               c
+  #48 = Utf8               eE
+  #49 = Utf8               hp
+  #50 = Utf8               java/lang/Object
+  #51 = Utf8               mp
+  #52 = Utf8               pc
+  #53 = Utf8               this
+  #54 = Utf8               x
+  #55 = Utf8               z
+{
+  private bi.c();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #13                 // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 21: 0
+        line 22: 4
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbi/c;
+
+  public static int a(ap.u);
+    descriptor: (Lap/u;)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=2, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: aload_0
+         3: invokevirtual #11                 // Method ap/u.x:()Z
+         6: ifeq          15
+         9: bipush        14
+        11: istore_1
+        12: goto          103
+        15: aload_0
+        16: invokevirtual #12                 // Method ap/u.z:()Z
+        19: ifeq          28
+        22: bipush        16
+        24: istore_1
+        25: goto          103
+        28: aload_0
+        29: invokevirtual #4                  // Method ap/u.A:()Z
+        32: ifeq          41
+        35: bipush        15
+        37: istore_1
+        38: goto          103
+        41: aload_0
+        42: invokevirtual #5                  // Method ap/u.B:()Z
+        45: ifeq          54
+        48: bipush        12
+        50: istore_1
+        51: goto          103
+        54: aload_0
+        55: invokevirtual #6                  // Method ap/u.C:()Z
+        58: ifeq          67
+        61: bipush        12
+        63: istore_1
+        64: goto          103
+        67: aload_0
+        68: invokevirtual #7                  // Method ap/u.D:()Z
+        71: ifeq          80
+        74: bipush        16
+        76: istore_1
+        77: goto          103
+        80: aload_0
+        81: invokevirtual #8                  // Method ap/u.E:()Z
+        84: ifeq          93
+        87: bipush        14
+        89: istore_1
+        90: goto          103
+        93: aload_0
+        94: invokevirtual #9                  // Method ap/u.F:()Z
+        97: ifeq          103
+       100: bipush        16
+       102: istore_1
+       103: iload_1
+       104: ireturn
+      LineNumberTable:
+        line 32: 0
+        line 33: 2
+        line 34: 9
+        line 35: 12
+        line 36: 22
+        line 37: 25
+        line 38: 35
+        line 39: 38
+        line 40: 48
+        line 41: 51
+        line 42: 61
+        line 43: 64
+        line 44: 74
+        line 45: 77
+        line 46: 87
+        line 47: 90
+        line 48: 100
+        line 50: 103
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     105     0    pc   Lap/u;
+            2     103     1    hp   I
+
+  public static int b(ap.u);
+    descriptor: (Lap/u;)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=2, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: aload_0
+         3: invokevirtual #11                 // Method ap/u.x:()Z
+         6: ifeq          14
+         9: iconst_2
+        10: istore_1
+        11: goto          96
+        14: aload_0
+        15: invokevirtual #12                 // Method ap/u.z:()Z
+        18: ifeq          26
+        21: iconst_1
+        22: istore_1
+        23: goto          96
+        26: aload_0
+        27: invokevirtual #4                  // Method ap/u.A:()Z
+        30: ifeq          38
+        33: iconst_4
+        34: istore_1
+        35: goto          96
+        38: aload_0
+        39: invokevirtual #5                  // Method ap/u.B:()Z
+        42: ifeq          51
+        45: bipush        6
+        47: istore_1
+        48: goto          96
+        51: aload_0
+        52: invokevirtual #6                  // Method ap/u.C:()Z
+        55: ifeq          63
+        58: iconst_3
+        59: istore_1
+        60: goto          96
+        63: aload_0
+        64: invokevirtual #7                  // Method ap/u.D:()Z
+        67: ifeq          75
+        70: iconst_2
+        71: istore_1
+        72: goto          96
+        75: aload_0
+        76: invokevirtual #8                  // Method ap/u.E:()Z
+        79: ifeq          87
+        82: iconst_5
+        83: istore_1
+        84: goto          96
+        87: aload_0
+        88: invokevirtual #9                  // Method ap/u.F:()Z
+        91: ifeq          96
+        94: iconst_1
+        95: istore_1
+        96: iload_1
+        97: ireturn
+      LineNumberTable:
+        line 54: 0
+        line 55: 2
+        line 56: 9
+        line 57: 11
+        line 58: 21
+        line 59: 23
+        line 60: 33
+        line 61: 35
+        line 62: 45
+        line 63: 48
+        line 64: 58
+        line 65: 60
+        line 66: 70
+        line 67: 72
+        line 68: 82
+        line 69: 84
+        line 70: 94
+        line 72: 96
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      98     0    pc   Lap/u;
+            2      96     1    mp   I
+
+  public static int c(ap.u);
+    descriptor: (Lap/u;)I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=1, locals=2, args_size=1
+         0: iconst_1
+         1: istore_1
+         2: aload_0
+         3: invokevirtual #11                 // Method ap/u.x:()Z
+         6: ifeq          80
+         9: aload_0
+        10: invokevirtual #10                 // Method ap/u.eE:()B
+        13: tableswitch   { // 11 to 18
+                      11: 60
+                      12: 65
+                      13: 65
+                      14: 65
+                      15: 65
+                      16: 70
+                      17: 70
+                      18: 70
+                 default: 75
+            }
+        60: iconst_2
+        61: istore_1
+        62: goto          449
+        65: iconst_3
+        66: istore_1
+        67: goto          449
+        70: iconst_4
+        71: istore_1
+        72: goto          449
+        75: iconst_2
+        76: istore_1
+        77: goto          449
+        80: aload_0
+        81: invokevirtual #12                 // Method ap/u.z:()Z
+        84: ifne          94
+        87: aload_0
+        88: invokevirtual #9                  // Method ap/u.F:()Z
+        91: ifeq          147
+        94: aload_0
+        95: invokevirtual #10                 // Method ap/u.eE:()B
+        98: tableswitch   { // 9 to 13
+                       9: 132
+                      10: 132
+                      11: 132
+                      12: 137
+                      13: 137
+                 default: 142
+            }
+       132: iconst_1
+       133: istore_1
+       134: goto          449
+       137: iconst_2
+       138: istore_1
+       139: goto          449
+       142: iconst_1
+       143: istore_1
+       144: goto          449
+       147: aload_0
+       148: invokevirtual #4                  // Method ap/u.A:()Z
+       151: ifeq          216
+       154: aload_0
+       155: invokevirtual #10                 // Method ap/u.eE:()B
+       158: tableswitch   { // 12 to 18
+                      12: 200
+                      13: 200
+                      14: 200
+                      15: 200
+                      16: 205
+                      17: 205
+                      18: 205
+                 default: 211
+            }
+       200: iconst_4
+       201: istore_1
+       202: goto          449
+       205: bipush        6
+       207: istore_1
+       208: goto          449
+       211: iconst_4
+       212: istore_1
+       213: goto          449
+       216: aload_0
+       217: invokevirtual #5                  // Method ap/u.B:()Z
+       220: ifeq          286
+       223: aload_0
+       224: invokevirtual #10                 // Method ap/u.eE:()B
+       227: tableswitch   { // 12 to 18
+                      12: 268
+                      13: 268
+                      14: 268
+                      15: 268
+                      16: 274
+                      17: 274
+                      18: 274
+                 default: 280
+            }
+       268: bipush        6
+       270: istore_1
+       271: goto          449
+       274: bipush        8
+       276: istore_1
+       277: goto          449
+       280: bipush        6
+       282: istore_1
+       283: goto          449
+       286: aload_0
+       287: invokevirtual #6                  // Method ap/u.C:()Z
+       290: ifeq          369
+       293: aload_0
+       294: invokevirtual #10                 // Method ap/u.eE:()B
+       297: tableswitch   { // 10 to 18
+                      10: 348
+                      11: 348
+                      12: 353
+                      13: 353
+                      14: 353
+                      15: 353
+                      16: 358
+                      17: 358
+                      18: 358
+                 default: 364
+            }
+       348: iconst_3
+       349: istore_1
+       350: goto          449
+       353: iconst_4
+       354: istore_1
+       355: goto          449
+       358: bipush        6
+       360: istore_1
+       361: goto          449
+       364: iconst_3
+       365: istore_1
+       366: goto          449
+       369: aload_0
+       370: invokevirtual #7                  // Method ap/u.D:()Z
+       373: ifeq          381
+       376: iconst_2
+       377: istore_1
+       378: goto          449
+       381: aload_0
+       382: invokevirtual #8                  // Method ap/u.E:()Z
+       385: ifeq          449
+       388: aload_0
+       389: invokevirtual #10                 // Method ap/u.eE:()B
+       392: tableswitch   { // 12 to 18
+                      12: 436
+                      13: 436
+                      14: 436
+                      15: 436
+                      16: 441
+                      17: 441
+                      18: 441
+                 default: 447
+            }
+       436: iconst_5
+       437: istore_1
+       438: goto          449
+       441: bipush        6
+       443: istore_1
+       444: goto          449
+       447: iconst_5
+       448: istore_1
+       449: iload_1
+       450: ireturn
+      LineNumberTable:
+        line 83: 0
+        line 84: 2
+        line 85: 9
+        line 87: 60
+        line 88: 62
+        line 93: 65
+        line 94: 67
+        line 98: 70
+        line 99: 72
+        line 101: 75
+        line 104: 77
+        line 105: 94
+        line 109: 132
+        line 110: 134
+        line 113: 137
+        line 114: 139
+        line 116: 142
+        line 119: 144
+        line 120: 154
+        line 125: 200
+        line 126: 202
+        line 130: 205
+        line 131: 208
+        line 133: 211
+        line 136: 213
+        line 137: 223
+        line 142: 268
+        line 143: 271
+        line 147: 274
+        line 148: 277
+        line 150: 280
+        line 153: 283
+        line 154: 293
+        line 157: 348
+        line 158: 350
+        line 163: 353
+        line 164: 355
+        line 168: 358
+        line 169: 361
+        line 171: 364
+        line 174: 366
+        line 175: 376
+        line 176: 378
+        line 177: 388
+        line 182: 436
+        line 183: 438
+        line 187: 441
+        line 188: 444
+        line 190: 447
+        line 194: 449
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     451     0    pc   Lap/u;
+            2     449     1    mp   I
+}
+SourceFile: "CalcInitHpMp.java"

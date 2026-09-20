@@ -1,0 +1,988 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/ao/s.class
+  Last modified Jan 3, 2018; size 6074 bytes
+  SHA-256 checksum 95147a426d04bb662a58c5083736c19a21fe225a00f2ba6b49d564a5bcfd9c32
+  Compiled from "CraftListTable.java"
+public class ao.s
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #39                         // ao/s
+  super_class: #48                        // java/lang/Object
+  interfaces: 0, fields: 3, methods: 5, attributes: 1
+Constant pool:
+    #1 = String             #169          //  is not exist
+    #2 = String             #170          //  repeat!!
+    #3 = String             #205          // ,
+    #4 = String             #209          // Craft table [
+    #5 = String             #210          // CraftListTable : craft ID =
+    #6 = String             #233          // SELECT * FROM craft
+    #7 = String             #234          // SELECT * FROM craft_exchange
+    #8 = String             #239          // ] errer : check craft item
+    #9 = String             #240          // ] errer : check material
+   #10 = String             #243          // add_chance_itemid
+   #11 = String             #253          // change
+   #12 = String             #257          // craft_count
+   #13 = String             #258          // craft_enchant
+   #14 = String             #259          // craft_exchange Table: craftID
+   #15 = String             #260          // craft_id
+   #16 = String             #267          // craft_itemid
+   #17 = String             #268          // craft_nameid
+   #18 = String             #271          // exchange_bless
+   #19 = String             #272          // exchange_count
+   #20 = String             #273          // exchange_enchant
+   #21 = String             #274          // exchange_itemid
+   #22 = String             #276          // fail_item_count
+   #23 = String             #277          // fail_itemid
+   #24 = String             #287          // id
+   #25 = String             #311          // material
+   #26 = String             #320          // material_bless
+   #27 = String             #321          // material_count
+   #28 = String             #322          // material_enchant
+   #29 = String             #323          // material_itemid
+   #30 = String             #324          // max_count
+   #31 = String             #325          // max_karma
+   #32 = String             #326          // max_lawful
+   #33 = String             #327          // max_level
+   #34 = String             #328          // min_karma
+   #35 = String             #329          // min_lawful
+   #36 = String             #330          // min_level
+   #37 = String             #332          // note
+   #38 = String             #335          // perfect_chance
+   #39 = Class              #245          // ao/s
+   #40 = Class              #246          // ap/q
+   #41 = Class              #248          // aq/k
+   #42 = Class              #251          // bi/j
+   #43 = Class              #290          // java/io/PrintStream
+   #44 = Class              #291          // java/lang/ArrayIndexOutOfBoundsException
+   #45 = Class              #292          // java/lang/Class
+   #46 = Class              #293          // java/lang/Exception
+   #47 = Class              #294          // java/lang/Integer
+   #48 = Class              #295          // java/lang/Object
+   #49 = Class              #296          // java/lang/String
+   #50 = Class              #297          // java/lang/StringBuilder
+   #51 = Class              #298          // java/lang/System
+   #52 = Class              #299          // java/sql/Connection
+   #53 = Class              #300          // java/sql/PreparedStatement
+   #54 = Class              #301          // java/sql/ResultSet
+   #55 = Class              #302          // java/util/ArrayList
+   #56 = Class              #303          // java/util/Collection
+   #57 = Class              #304          // java/util/HashMap
+   #58 = Class              #305          // java/util/Iterator
+   #59 = Class              #306          // java/util/logging/Level
+   #60 = Class              #307          // java/util/logging/Logger
+   #61 = Class              #308          // l1j/server/b
+   #62 = Fieldref           #39.#130      // ao/s.a:Ljava/util/logging/Logger;
+   #63 = Fieldref           #39.#137      // ao/s.b:Lao/s;
+   #64 = Fieldref           #39.#140      // ao/s.c:Ljava/util/HashMap;
+   #65 = Fieldref           #51.#159      // java/lang/System.out:Ljava/io/PrintStream;
+   #66 = Fieldref           #59.#121      // java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+   #67 = Methodref          #39.#117      // ao/s."<init>":()V
+   #68 = Methodref          #40.#120      // ap/q.N:()I
+   #69 = Methodref          #41.#118      // aq/k."<init>":(I)V
+   #70 = Methodref          #41.#122      // aq/k.a:()I
+   #71 = Methodref          #41.#124      // aq/k.a:(I)V
+   #72 = Methodref          #41.#125      // aq/k.a:(II)V
+   #73 = Methodref          #41.#126      // aq/k.a:(III)V
+   #74 = Methodref          #41.#127      // aq/k.a:(IIII)V
+   #75 = Methodref          #41.#128      // aq/k.a:(IIIII)V
+   #76 = Methodref          #41.#135      // aq/k.b:(I)V
+   #77 = Methodref          #41.#136      // aq/k.b:(II)V
+   #78 = Methodref          #41.#138      // aq/k.c:(I)V
+   #79 = Methodref          #41.#139      // aq/k.c:(II)V
+   #80 = Methodref          #41.#142      // aq/k.d:(I)V
+   #81 = Methodref          #41.#143      // aq/k.d:(II)V
+   #82 = Methodref          #41.#144      // aq/k.e:(I)V
+   #83 = Methodref          #41.#146      // aq/k.g:()Ljava/util/HashMap;
+   #84 = Methodref          #42.#129      // bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+   #85 = Methodref          #43.#162      // java/io/PrintStream.println:(Ljava/lang/String;)V
+   #86 = Methodref          #45.#151      // java/lang/Class.getName:()Ljava/lang/String;
+   #87 = Methodref          #46.#149      // java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+   #88 = Methodref          #47.#160      // java/lang/Integer.parseInt:(Ljava/lang/String;)I
+   #89 = Methodref          #47.#167      // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   #90 = Methodref          #48.#117      // java/lang/Object."<init>":()V
+   #91 = Methodref          #49.#155      // java/lang/String.length:()I
+   #92 = Methodref          #49.#164      // java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+   #93 = Methodref          #49.#166      // java/lang/String.trim:()Ljava/lang/String;
+   #94 = Methodref          #50.#119      // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+   #95 = Methodref          #50.#132      // java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+   #96 = Methodref          #50.#133      // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #97 = Methodref          #50.#165      // java/lang/StringBuilder.toString:()Ljava/lang/String;
+   #98 = Methodref          #55.#117      // java/util/ArrayList."<init>":()V
+   #99 = Methodref          #55.#131      // java/util/ArrayList.add:(Ljava/lang/Object;)Z
+  #100 = Methodref          #57.#117      // java/util/HashMap."<init>":()V
+  #101 = Methodref          #57.#141      // java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+  #102 = Methodref          #57.#147      // java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #103 = Methodref          #57.#163      // java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #104 = Methodref          #57.#168      // java/util/HashMap.values:()Ljava/util/Collection;
+  #105 = Methodref          #60.#150      // java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #106 = Methodref          #60.#156      // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #107 = Methodref          #61.#123      // l1j/server/b.a:()Ll1j/server/b;
+  #108 = Methodref          #61.#134      // l1j/server/b.b:()Ljava/sql/Connection;
+  #109 = InterfaceMethodref #52.#161      // java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #110 = InterfaceMethodref #53.#145      // java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+  #111 = InterfaceMethodref #54.#148      // java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+  #112 = InterfaceMethodref #54.#152      // java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+  #113 = InterfaceMethodref #54.#158      // java/sql/ResultSet.next:()Z
+  #114 = InterfaceMethodref #56.#154      // java/util/Collection.iterator:()Ljava/util/Iterator;
+  #115 = InterfaceMethodref #58.#153      // java/util/Iterator.hasNext:()Z
+  #116 = InterfaceMethodref #58.#157      // java/util/Iterator.next:()Ljava/lang/Object;
+  #117 = NameAndType        #207:#183     // "<init>":()V
+  #118 = NameAndType        #207:#188     // "<init>":(I)V
+  #119 = NameAndType        #207:#201     // "<init>":(Ljava/lang/String;)V
+  #120 = NameAndType        #232:#171     // N:()I
+  #121 = NameAndType        #235:#228     // SEVERE:Ljava/util/logging/Level;
+  #122 = NameAndType        #241:#171     // a:()I
+  #123 = NameAndType        #241:#182     // a:()Ll1j/server/b;
+  #124 = NameAndType        #241:#188     // a:(I)V
+  #125 = NameAndType        #241:#189     // a:(II)V
+  #126 = NameAndType        #241:#190     // a:(III)V
+  #127 = NameAndType        #241:#191     // a:(IIII)V
+  #128 = NameAndType        #241:#192     // a:(IIIII)V
+  #129 = NameAndType        #241:#203     // a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #130 = NameAndType        #241:#229     // a:Ljava/util/logging/Logger;
+  #131 = NameAndType        #242:#194     // add:(Ljava/lang/Object;)Z
+  #132 = NameAndType        #247:#187     // append:(I)Ljava/lang/StringBuilder;
+  #133 = NameAndType        #247:#198     // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #134 = NameAndType        #250:#175     // b:()Ljava/sql/Connection;
+  #135 = NameAndType        #250:#188     // b:(I)V
+  #136 = NameAndType        #250:#189     // b:(II)V
+  #137 = NameAndType        #250:#213     // b:Lao/s;
+  #138 = NameAndType        #252:#188     // c:(I)V
+  #139 = NameAndType        #252:#189     // c:(II)V
+  #140 = NameAndType        #252:#226     // c:Ljava/util/HashMap;
+  #141 = NameAndType        #255:#194     // containsKey:(Ljava/lang/Object;)Z
+  #142 = NameAndType        #269:#188     // d:(I)V
+  #143 = NameAndType        #269:#189     // d:(II)V
+  #144 = NameAndType        #270:#188     // e:(I)V
+  #145 = NameAndType        #275:#176     // executeQuery:()Ljava/sql/ResultSet;
+  #146 = NameAndType        #278:#180     // g:()Ljava/util/HashMap;
+  #147 = NameAndType        #279:#193     // get:(Ljava/lang/Object;)Ljava/lang/Object;
+  #148 = NameAndType        #280:#196     // getInt:(Ljava/lang/String;)I
+  #149 = NameAndType        #281:#174     // getLocalizedMessage:()Ljava/lang/String;
+  #150 = NameAndType        #282:#200     // getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+  #151 = NameAndType        #283:#174     // getName:()Ljava/lang/String;
+  #152 = NameAndType        #284:#197     // getString:(Ljava/lang/String;)Ljava/lang/String;
+  #153 = NameAndType        #285:#184     // hasNext:()Z
+  #154 = NameAndType        #289:#181     // iterator:()Ljava/util/Iterator;
+  #155 = NameAndType        #309:#171     // length:()I
+  #156 = NameAndType        #310:#204     // log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #157 = NameAndType        #331:#173     // next:()Ljava/lang/Object;
+  #158 = NameAndType        #331:#184     // next:()Z
+  #159 = NameAndType        #333:#217     // out:Ljava/io/PrintStream;
+  #160 = NameAndType        #334:#196     // parseInt:(Ljava/lang/String;)I
+  #161 = NameAndType        #336:#199     // prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #162 = NameAndType        #337:#201     // println:(Ljava/lang/String;)V
+  #163 = NameAndType        #339:#195     // put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #164 = NameAndType        #341:#202     // split:(Ljava/lang/String;)[Ljava/lang/String;
+  #165 = NameAndType        #343:#174     // toString:()Ljava/lang/String;
+  #166 = NameAndType        #344:#174     // trim:()Ljava/lang/String;
+  #167 = NameAndType        #345:#186     // valueOf:(I)Ljava/lang/Integer;
+  #168 = NameAndType        #346:#179     // values:()Ljava/util/Collection;
+  #169 = Utf8                is not exist
+  #170 = Utf8                repeat!!
+  #171 = Utf8               ()I
+  #172 = Utf8               ()Lao/s;
+  #173 = Utf8               ()Ljava/lang/Object;
+  #174 = Utf8               ()Ljava/lang/String;
+  #175 = Utf8               ()Ljava/sql/Connection;
+  #176 = Utf8               ()Ljava/sql/ResultSet;
+  #177 = Utf8               ()Ljava/util/ArrayList;
+  #178 = Utf8               ()Ljava/util/ArrayList<Laq/k;>;
+  #179 = Utf8               ()Ljava/util/Collection;
+  #180 = Utf8               ()Ljava/util/HashMap;
+  #181 = Utf8               ()Ljava/util/Iterator;
+  #182 = Utf8               ()Ll1j/server/b;
+  #183 = Utf8               ()V
+  #184 = Utf8               ()Z
+  #185 = Utf8               (I)Laq/k;
+  #186 = Utf8               (I)Ljava/lang/Integer;
+  #187 = Utf8               (I)Ljava/lang/StringBuilder;
+  #188 = Utf8               (I)V
+  #189 = Utf8               (II)V
+  #190 = Utf8               (III)V
+  #191 = Utf8               (IIII)V
+  #192 = Utf8               (IIIII)V
+  #193 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+  #194 = Utf8               (Ljava/lang/Object;)Z
+  #195 = Utf8               (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+  #196 = Utf8               (Ljava/lang/String;)I
+  #197 = Utf8               (Ljava/lang/String;)Ljava/lang/String;
+  #198 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+  #199 = Utf8               (Ljava/lang/String;)Ljava/sql/PreparedStatement;
+  #200 = Utf8               (Ljava/lang/String;)Ljava/util/logging/Logger;
+  #201 = Utf8               (Ljava/lang/String;)V
+  #202 = Utf8               (Ljava/lang/String;)[Ljava/lang/String;
+  #203 = Utf8               (Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #204 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #205 = Utf8               ,
+  #206 = Utf8               <clinit>
+  #207 = Utf8               <init>
+  #208 = Utf8               Code
+  #209 = Utf8               Craft table [
+  #210 = Utf8               CraftListTable : craft ID =
+  #211 = Utf8               CraftListTable.java
+  #212 = Utf8               I
+  #213 = Utf8               Lao/s;
+  #214 = Utf8               Lap/q;
+  #215 = Utf8               Laq/k;
+  #216 = Utf8               LineNumberTable
+  #217 = Utf8               Ljava/io/PrintStream;
+  #218 = Utf8               Ljava/lang/ArrayIndexOutOfBoundsException;
+  #219 = Utf8               Ljava/lang/Exception;
+  #220 = Utf8               Ljava/lang/String;
+  #221 = Utf8               Ljava/sql/Connection;
+  #222 = Utf8               Ljava/sql/PreparedStatement;
+  #223 = Utf8               Ljava/sql/ResultSet;
+  #224 = Utf8               Ljava/util/ArrayList;
+  #225 = Utf8               Ljava/util/ArrayList<Laq/k;>;
+  #226 = Utf8               Ljava/util/HashMap;
+  #227 = Utf8               Ljava/util/HashMap<Ljava/lang/Integer;Laq/k;>;
+  #228 = Utf8               Ljava/util/logging/Level;
+  #229 = Utf8               Ljava/util/logging/Logger;
+  #230 = Utf8               LocalVariableTable
+  #231 = Utf8               LocalVariableTypeTable
+  #232 = Utf8               N
+  #233 = Utf8               SELECT * FROM craft
+  #234 = Utf8               SELECT * FROM craft_exchange
+  #235 = Utf8               SEVERE
+  #236 = Utf8               Signature
+  #237 = Utf8               SourceFile
+  #238 = Utf8               [Ljava/lang/String;
+  #239 = Utf8               ] errer : check craft item
+  #240 = Utf8               ] errer : check material
+  #241 = Utf8               a
+  #242 = Utf8               add
+  #243 = Utf8               add_chance_itemid
+  #244 = Utf8               ae
+  #245 = Utf8               ao/s
+  #246 = Utf8               ap/q
+  #247 = Utf8               append
+  #248 = Utf8               aq/k
+  #249 = Utf8               array
+  #250 = Utf8               b
+  #251 = Utf8               bi/j
+  #252 = Utf8               c
+  #253 = Utf8               change
+  #254 = Utf8               con
+  #255 = Utf8               containsKey
+  #256 = Utf8               craft
+  #257 = Utf8               craft_count
+  #258 = Utf8               craft_enchant
+  #259 = Utf8               craft_exchange Table: craftID
+  #260 = Utf8               craft_id
+  #261 = Utf8               craft_itemCount
+  #262 = Utf8               craft_itemCount_List
+  #263 = Utf8               craft_itemEnchant
+  #264 = Utf8               craft_itemEnchant_List
+  #265 = Utf8               craft_itemID
+  #266 = Utf8               craft_itemID_List
+  #267 = Utf8               craft_itemid
+  #268 = Utf8               craft_nameid
+  #269 = Utf8               d
+  #270 = Utf8               e
+  #271 = Utf8               exchange_bless
+  #272 = Utf8               exchange_count
+  #273 = Utf8               exchange_enchant
+  #274 = Utf8               exchange_itemid
+  #275 = Utf8               executeQuery
+  #276 = Utf8               fail_item_count
+  #277 = Utf8               fail_itemid
+  #278 = Utf8               g
+  #279 = Utf8               get
+  #280 = Utf8               getInt
+  #281 = Utf8               getLocalizedMessage
+  #282 = Utf8               getLogger
+  #283 = Utf8               getName
+  #284 = Utf8               getString
+  #285 = Utf8               hasNext
+  #286 = Utf8               i
+  #287 = Utf8               id
+  #288 = Utf8               item
+  #289 = Utf8               iterator
+  #290 = Utf8               java/io/PrintStream
+  #291 = Utf8               java/lang/ArrayIndexOutOfBoundsException
+  #292 = Utf8               java/lang/Class
+  #293 = Utf8               java/lang/Exception
+  #294 = Utf8               java/lang/Integer
+  #295 = Utf8               java/lang/Object
+  #296 = Utf8               java/lang/String
+  #297 = Utf8               java/lang/StringBuilder
+  #298 = Utf8               java/lang/System
+  #299 = Utf8               java/sql/Connection
+  #300 = Utf8               java/sql/PreparedStatement
+  #301 = Utf8               java/sql/ResultSet
+  #302 = Utf8               java/util/ArrayList
+  #303 = Utf8               java/util/Collection
+  #304 = Utf8               java/util/HashMap
+  #305 = Utf8               java/util/Iterator
+  #306 = Utf8               java/util/logging/Level
+  #307 = Utf8               java/util/logging/Logger
+  #308 = Utf8               l1j/server/b
+  #309 = Utf8               length
+  #310 = Utf8               log
+  #311 = Utf8               material
+  #312 = Utf8               materialBless
+  #313 = Utf8               materialBless_List
+  #314 = Utf8               materialCount
+  #315 = Utf8               materialCount_List
+  #316 = Utf8               materialEnchant
+  #317 = Utf8               materialEnchant_List
+  #318 = Utf8               materialID
+  #319 = Utf8               materialID_List
+  #320 = Utf8               material_bless
+  #321 = Utf8               material_count
+  #322 = Utf8               material_enchant
+  #323 = Utf8               material_itemid
+  #324 = Utf8               max_count
+  #325 = Utf8               max_karma
+  #326 = Utf8               max_lawful
+  #327 = Utf8               max_level
+  #328 = Utf8               min_karma
+  #329 = Utf8               min_lawful
+  #330 = Utf8               min_level
+  #331 = Utf8               next
+  #332 = Utf8               note
+  #333 = Utf8               out
+  #334 = Utf8               parseInt
+  #335 = Utf8               perfect_chance
+  #336 = Utf8               prepareStatement
+  #337 = Utf8               println
+  #338 = Utf8               pstm
+  #339 = Utf8               put
+  #340 = Utf8               rs
+  #341 = Utf8               split
+  #342 = Utf8               this
+  #343 = Utf8               toString
+  #344 = Utf8               trim
+  #345 = Utf8               valueOf
+  #346 = Utf8               values
+{
+  private static final java.util.logging.Logger a;
+    descriptor: Ljava/util/logging/Logger;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  private static ao.s b;
+    descriptor: Lao/s;
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+
+  private final java.util.HashMap<java.lang.Integer, aq.k> c;
+    descriptor: Ljava/util/HashMap;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #227                         // Ljava/util/HashMap<Ljava/lang/Integer;Laq/k;>;
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #39                 // class ao/s
+         2: invokevirtual #86                 // Method java/lang/Class.getName:()Ljava/lang/String;
+         5: invokestatic  #105                // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+         8: putstatic     #62                 // Field a:Ljava/util/logging/Logger;
+        11: return
+      LineNumberTable:
+        line 16: 0
+        line 18: 11
+
+  public static ao.s a();
+    descriptor: ()Lao/s;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: getstatic     #63                 // Field b:Lao/s;
+         3: ifnonnull     16
+         6: new           #39                 // class ao/s
+         9: dup
+        10: invokespecial #67                 // Method "<init>":()V
+        13: putstatic     #63                 // Field b:Lao/s;
+        16: getstatic     #63                 // Field b:Lao/s;
+        19: areturn
+      LineNumberTable:
+        line 21: 0
+        line 22: 6
+        line 24: 16
+
+  private ao.s();
+    descriptor: ()V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=26, args_size=1
+         0: aload_0
+         1: invokespecial #90                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #57                 // class java/util/HashMap
+         8: dup
+         9: invokespecial #100                // Method java/util/HashMap."<init>":()V
+        12: putfield      #64                 // Field c:Ljava/util/HashMap;
+        15: aconst_null
+        16: astore_1
+        17: aconst_null
+        18: astore_2
+        19: aconst_null
+        20: astore_3
+        21: invokestatic  #107                // Method l1j/server/b.a:()Ll1j/server/b;
+        24: invokevirtual #108                // Method l1j/server/b.b:()Ljava/sql/Connection;
+        27: astore_1
+        28: aload_1
+        29: ldc           #6                  // String SELECT * FROM craft
+        31: invokeinterface #109,  2          // InterfaceMethod java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+        36: astore_2
+        37: aload_2
+        38: invokeinterface #110,  1          // InterfaceMethod java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+        43: astore_3
+        44: goto          652
+        47: aload_3
+        48: ldc           #24                 // String id
+        50: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        55: istore        4
+        57: aload_3
+        58: ldc           #37                 // String note
+        60: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+        65: astore        5
+        67: new           #41                 // class aq/k
+        70: dup
+        71: iload         4
+        73: invokespecial #69                 // Method aq/k."<init>":(I)V
+        76: astore        6
+        78: aload_3
+        79: ldc           #16                 // String craft_itemid
+        81: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+        86: astore        7
+        88: aload_3
+        89: ldc           #12                 // String craft_count
+        91: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+        96: astore        8
+        98: aload_3
+        99: ldc           #13                 // String craft_enchant
+       101: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+       106: astore        9
+       108: aload         7
+       110: ldc           #3                  // String ,
+       112: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       115: astore        10
+       117: aload         8
+       119: ldc           #3                  // String ,
+       121: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       124: astore        11
+       126: aload         9
+       128: ldc           #3                  // String ,
+       130: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       133: astore        12
+       135: iconst_0
+       136: istore        13
+       138: goto          232
+       141: aload         10
+       143: iload         13
+       145: aaload
+       146: invokevirtual #93                 // Method java/lang/String.trim:()Ljava/lang/String;
+       149: invokevirtual #91                 // Method java/lang/String.length:()I
+       152: ifle          229
+       155: aload         10
+       157: iload         13
+       159: aaload
+       160: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       163: istore        14
+       165: aload         11
+       167: iload         13
+       169: aaload
+       170: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       173: istore        15
+       175: aload         12
+       177: iload         13
+       179: aaload
+       180: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       183: istore        16
+       185: aload         6
+       187: iload         14
+       189: iload         15
+       191: iload         16
+       193: invokevirtual #73                 // Method aq/k.a:(III)V
+       196: goto          229
+       199: astore        14
+       201: getstatic     #65                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       204: new           #50                 // class java/lang/StringBuilder
+       207: dup
+       208: ldc           #4                  // String Craft table [
+       210: invokespecial #94                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       213: aload         5
+       215: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       218: ldc           #8                  // String ] errer : check craft item
+       220: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       223: invokevirtual #97                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       226: invokevirtual #85                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       229: iinc          13, 1
+       232: iload         13
+       234: aload         10
+       236: arraylength
+       237: if_icmplt     141
+       240: aload_3
+       241: ldc           #25                 // String material
+       243: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+       248: astore        13
+       250: aload_3
+       251: ldc           #27                 // String material_count
+       253: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+       258: astore        14
+       260: aload_3
+       261: ldc           #28                 // String material_enchant
+       263: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+       268: astore        15
+       270: aload_3
+       271: ldc           #26                 // String material_bless
+       273: invokeinterface #112,  2          // InterfaceMethod java/sql/ResultSet.getString:(Ljava/lang/String;)Ljava/lang/String;
+       278: astore        16
+       280: aload         13
+       282: ldc           #3                  // String ,
+       284: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       287: astore        17
+       289: aload         14
+       291: ldc           #3                  // String ,
+       293: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       296: astore        18
+       298: aload         15
+       300: ldc           #3                  // String ,
+       302: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       305: astore        19
+       307: aload         16
+       309: ldc           #3                  // String ,
+       311: invokevirtual #92                 // Method java/lang/String.split:(Ljava/lang/String;)[Ljava/lang/String;
+       314: astore        20
+       316: iconst_0
+       317: istore        21
+       319: goto          425
+       322: aload         17
+       324: iload         21
+       326: aaload
+       327: invokevirtual #93                 // Method java/lang/String.trim:()Ljava/lang/String;
+       330: invokevirtual #91                 // Method java/lang/String.length:()I
+       333: ifle          422
+       336: aload         17
+       338: iload         21
+       340: aaload
+       341: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       344: istore        22
+       346: aload         18
+       348: iload         21
+       350: aaload
+       351: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       354: istore        23
+       356: aload         19
+       358: iload         21
+       360: aaload
+       361: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       364: istore        24
+       366: aload         20
+       368: iload         21
+       370: aaload
+       371: invokestatic  #88                 // Method java/lang/Integer.parseInt:(Ljava/lang/String;)I
+       374: istore        25
+       376: aload         6
+       378: iload         22
+       380: iload         23
+       382: iload         24
+       384: iload         25
+       386: invokevirtual #74                 // Method aq/k.a:(IIII)V
+       389: goto          422
+       392: astore        22
+       394: getstatic     #65                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       397: new           #50                 // class java/lang/StringBuilder
+       400: dup
+       401: ldc           #4                  // String Craft table [
+       403: invokespecial #94                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       406: aload         5
+       408: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       411: ldc           #9                  // String ] errer : check material
+       413: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       416: invokevirtual #97                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       419: invokevirtual #85                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       422: iinc          21, 1
+       425: iload         21
+       427: aload         17
+       429: arraylength
+       430: if_icmplt     322
+       433: aload         6
+       435: aload_3
+       436: ldc           #36                 // String min_level
+       438: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       443: aload_3
+       444: ldc           #33                 // String max_level
+       446: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       451: invokevirtual #77                 // Method aq/k.b:(II)V
+       454: aload         6
+       456: aload_3
+       457: ldc           #35                 // String min_lawful
+       459: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       464: aload_3
+       465: ldc           #32                 // String max_lawful
+       467: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       472: invokevirtual #79                 // Method aq/k.c:(II)V
+       475: aload         6
+       477: aload_3
+       478: ldc           #34                 // String min_karma
+       480: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       485: aload_3
+       486: ldc           #31                 // String max_karma
+       488: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       493: invokevirtual #81                 // Method aq/k.d:(II)V
+       496: aload         6
+       498: aload_3
+       499: ldc           #30                 // String max_count
+       501: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       506: invokevirtual #82                 // Method aq/k.e:(I)V
+       509: aload         6
+       511: aload_3
+       512: ldc           #11                 // String change
+       514: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       519: invokevirtual #80                 // Method aq/k.d:(I)V
+       522: aload         6
+       524: aload_3
+       525: ldc           #10                 // String add_chance_itemid
+       527: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       532: invokevirtual #78                 // Method aq/k.c:(I)V
+       535: aload         6
+       537: aload_3
+       538: ldc           #23                 // String fail_itemid
+       540: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       545: aload_3
+       546: ldc           #22                 // String fail_item_count
+       548: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       553: invokevirtual #72                 // Method aq/k.a:(II)V
+       556: aload         6
+       558: aload_3
+       559: ldc           #38                 // String perfect_chance
+       561: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       566: invokevirtual #71                 // Method aq/k.a:(I)V
+       569: aload         6
+       571: aload_3
+       572: ldc           #17                 // String craft_nameid
+       574: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       579: invokevirtual #76                 // Method aq/k.b:(I)V
+       582: aload_0
+       583: getfield      #64                 // Field c:Ljava/util/HashMap;
+       586: aload         6
+       588: invokevirtual #70                 // Method aq/k.a:()I
+       591: invokestatic  #89                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       594: invokevirtual #101                // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+       597: ifeq          634
+       600: getstatic     #65                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       603: new           #50                 // class java/lang/StringBuilder
+       606: dup
+       607: ldc           #5                  // String CraftListTable : craft ID =
+       609: invokespecial #94                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       612: aload         6
+       614: invokevirtual #70                 // Method aq/k.a:()I
+       617: invokevirtual #95                 // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       620: ldc           #2                  // String  repeat!!
+       622: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       625: invokevirtual #97                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       628: invokevirtual #85                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       631: goto          652
+       634: aload_0
+       635: getfield      #64                 // Field c:Ljava/util/HashMap;
+       638: aload         6
+       640: invokevirtual #70                 // Method aq/k.a:()I
+       643: invokestatic  #89                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       646: aload         6
+       648: invokevirtual #103                // Method java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       651: pop
+       652: aload_3
+       653: invokeinterface #113,  1          // InterfaceMethod java/sql/ResultSet.next:()Z
+       658: ifne          47
+       661: invokestatic  #107                // Method l1j/server/b.a:()Ll1j/server/b;
+       664: invokevirtual #108                // Method l1j/server/b.b:()Ljava/sql/Connection;
+       667: astore_1
+       668: aload_1
+       669: ldc           #7                  // String SELECT * FROM craft_exchange
+       671: invokeinterface #109,  2          // InterfaceMethod java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+       676: astore_2
+       677: aload_2
+       678: invokeinterface #110,  1          // InterfaceMethod java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+       683: astore_3
+       684: goto          878
+       687: aload_3
+       688: ldc           #15                 // String craft_id
+       690: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       695: istore        4
+       697: aload_3
+       698: ldc           #29                 // String material_itemid
+       700: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       705: istore        5
+       707: aload_3
+       708: ldc           #21                 // String exchange_itemid
+       710: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       715: istore        6
+       717: aload_3
+       718: ldc           #19                 // String exchange_count
+       720: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       725: istore        7
+       727: aload_3
+       728: ldc           #20                 // String exchange_enchant
+       730: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       735: istore        8
+       737: aload_3
+       738: ldc           #18                 // String exchange_bless
+       740: invokeinterface #111,  2          // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+       745: istore        9
+       747: aload_0
+       748: getfield      #64                 // Field c:Ljava/util/HashMap;
+       751: iload         4
+       753: invokestatic  #89                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       756: invokevirtual #101                // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+       759: ifne          793
+       762: getstatic     #65                 // Field java/lang/System.out:Ljava/io/PrintStream;
+       765: new           #50                 // class java/lang/StringBuilder
+       768: dup
+       769: ldc           #14                 // String craft_exchange Table: craftID
+       771: invokespecial #94                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       774: iload         4
+       776: invokevirtual #95                 // Method java/lang/StringBuilder.append:(I)Ljava/lang/StringBuilder;
+       779: ldc           #1                  // String  is not exist
+       781: invokevirtual #96                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       784: invokevirtual #97                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       787: invokevirtual #85                 // Method java/io/PrintStream.println:(Ljava/lang/String;)V
+       790: goto          878
+       793: aload_0
+       794: getfield      #64                 // Field c:Ljava/util/HashMap;
+       797: iload         4
+       799: invokestatic  #89                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       802: invokevirtual #102                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+       805: checkcast     #41                 // class aq/k
+       808: astore        10
+       810: aload         10
+       812: invokevirtual #83                 // Method aq/k.g:()Ljava/util/HashMap;
+       815: invokevirtual #104                // Method java/util/HashMap.values:()Ljava/util/Collection;
+       818: invokeinterface #114,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+       823: astore        12
+       825: goto          868
+       828: aload         12
+       830: invokeinterface #116,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       835: checkcast     #40                 // class ap/q
+       838: astore        11
+       840: aload         11
+       842: invokevirtual #68                 // Method ap/q.N:()I
+       845: iload         5
+       847: if_icmpne     868
+       850: aload         10
+       852: iload         5
+       854: iload         6
+       856: iload         7
+       858: iload         8
+       860: iload         9
+       862: invokevirtual #75                 // Method aq/k.a:(IIIII)V
+       865: goto          878
+       868: aload         12
+       870: invokeinterface #115,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       875: ifne          828
+       878: aload_3
+       879: invokeinterface #113,  1          // InterfaceMethod java/sql/ResultSet.next:()Z
+       884: ifne          687
+       887: goto          908
+       890: astore        4
+       892: getstatic     #62                 // Field a:Ljava/util/logging/Logger;
+       895: getstatic     #66                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+       898: aload         4
+       900: invokevirtual #87                 // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+       903: aload         4
+       905: invokevirtual #106                // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+       908: aload_3
+       909: aload_2
+       910: aload_1
+       911: invokestatic  #84                 // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+       914: return
+      Exception table:
+         from    to  target type
+           141   196   199   Class java/lang/ArrayIndexOutOfBoundsException
+           322   389   392   Class java/lang/ArrayIndexOutOfBoundsException
+            21   887   890   Class java/lang/Exception
+      LineNumberTable:
+        line 29: 0
+        line 27: 4
+        line 31: 15
+        line 32: 17
+        line 33: 19
+        line 36: 21
+        line 37: 28
+        line 38: 37
+        line 39: 44
+        line 40: 47
+        line 41: 57
+        line 42: 67
+        line 44: 78
+        line 45: 88
+        line 46: 98
+        line 48: 108
+        line 49: 117
+        line 50: 126
+        line 52: 135
+        line 54: 141
+        line 55: 155
+        line 56: 165
+        line 57: 175
+        line 59: 185
+        line 61: 196
+        line 62: 201
+        line 52: 229
+        line 67: 240
+        line 68: 250
+        line 69: 260
+        line 70: 270
+        line 72: 280
+        line 73: 289
+        line 74: 298
+        line 75: 307
+        line 77: 316
+        line 79: 322
+        line 80: 336
+        line 81: 346
+        line 82: 356
+        line 83: 366
+        line 85: 376
+        line 88: 389
+        line 89: 394
+        line 77: 422
+        line 93: 433
+        line 94: 454
+        line 95: 475
+        line 96: 496
+        line 97: 509
+        line 99: 522
+        line 101: 535
+        line 103: 556
+        line 106: 569
+        line 108: 582
+        line 109: 600
+        line 110: 631
+        line 112: 634
+        line 39: 652
+        line 116: 661
+        line 117: 668
+        line 118: 677
+        line 119: 684
+        line 120: 687
+        line 121: 697
+        line 122: 707
+        line 123: 717
+        line 124: 727
+        line 125: 737
+        line 127: 747
+        line 128: 762
+        line 129: 790
+        line 132: 793
+        line 134: 810
+        line 136: 840
+        line 137: 850
+        line 138: 865
+        line 134: 868
+        line 119: 878
+        line 144: 887
+        line 145: 892
+        line 147: 908
+        line 149: 914
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     915     0  this   Lao/s;
+           17     898     1   con   Ljava/sql/Connection;
+           19     896     2  pstm   Ljava/sql/PreparedStatement;
+           21     894     3    rs   Ljava/sql/ResultSet;
+           57     595     4    id   I
+           67     585     5  note   Ljava/lang/String;
+           78     574     6 craft   Laq/k;
+           88     564     7 craft_itemid   Ljava/lang/String;
+           98     554     8 craft_count   Ljava/lang/String;
+          108     544     9 craft_enchant   Ljava/lang/String;
+          117     535    10 craft_itemID_List   [Ljava/lang/String;
+          126     526    11 craft_itemCount_List   [Ljava/lang/String;
+          135     517    12 craft_itemEnchant_List   [Ljava/lang/String;
+          138     102    13     i   I
+          165      31    14 craft_itemID   I
+          175      21    15 craft_itemCount   I
+          185      11    16 craft_itemEnchant   I
+          201      28    14    ae   Ljava/lang/ArrayIndexOutOfBoundsException;
+          250     402    13 material   Ljava/lang/String;
+          260     392    14 material_count   Ljava/lang/String;
+          270     382    15 material_enchant   Ljava/lang/String;
+          280     372    16 material_bless   Ljava/lang/String;
+          289     363    17 materialID_List   [Ljava/lang/String;
+          298     354    18 materialCount_List   [Ljava/lang/String;
+          307     345    19 materialEnchant_List   [Ljava/lang/String;
+          316     336    20 materialBless_List   [Ljava/lang/String;
+          319     114    21     i   I
+          346      43    22 materialID   I
+          356      33    23 materialCount   I
+          366      23    24 materialEnchant   I
+          376      13    25 materialBless   I
+          394      28    22    ae   Ljava/lang/ArrayIndexOutOfBoundsException;
+          697     181     4 craft_id   I
+          707     171     5 material_itemid   I
+          717     161     6 exchange_itemid   I
+          727     151     7 exchange_count   I
+          737     141     8 exchange_enchant   I
+          747     131     9 exchange_bless   I
+          810      68    10 craft   Laq/k;
+          840      28    11  item   Lap/q;
+          892      16     4     e   Ljava/lang/Exception;
+
+  public java.util.ArrayList<aq.k> b();
+    descriptor: ()Ljava/util/ArrayList;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=4, args_size=1
+         0: new           #55                 // class java/util/ArrayList
+         3: dup
+         4: invokespecial #98                 // Method java/util/ArrayList."<init>":()V
+         7: astore_1
+         8: aload_0
+         9: getfield      #64                 // Field c:Ljava/util/HashMap;
+        12: invokevirtual #104                // Method java/util/HashMap.values:()Ljava/util/Collection;
+        15: invokeinterface #114,  1          // InterfaceMethod java/util/Collection.iterator:()Ljava/util/Iterator;
+        20: astore_3
+        21: goto          40
+        24: aload_3
+        25: invokeinterface #116,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+        30: checkcast     #41                 // class aq/k
+        33: astore_2
+        34: aload_1
+        35: aload_2
+        36: invokevirtual #99                 // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+        39: pop
+        40: aload_3
+        41: invokeinterface #115,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+        46: ifne          24
+        49: aload_1
+        50: areturn
+      LineNumberTable:
+        line 152: 0
+        line 153: 8
+        line 154: 34
+        line 153: 40
+        line 156: 49
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      51     0  this   Lao/s;
+            8      43     1 array   Ljava/util/ArrayList;
+           34       6     2 craft   Laq/k;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            8      43     1 array   Ljava/util/ArrayList<Laq/k;>;
+    Signature: #178                         // ()Ljava/util/ArrayList<Laq/k;>;
+
+  public aq.k a(int);
+    descriptor: (I)Laq/k;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #64                 // Field c:Ljava/util/HashMap;
+         4: iload_1
+         5: invokestatic  #89                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+         8: invokevirtual #102                // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        11: checkcast     #41                 // class aq/k
+        14: areturn
+      LineNumberTable:
+        line 160: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      15     0  this   Lao/s;
+            0      15     1    id   I
+}
+SourceFile: "CraftListTable.java"

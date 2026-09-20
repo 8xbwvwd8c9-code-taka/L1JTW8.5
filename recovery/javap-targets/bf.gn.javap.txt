@@ -1,0 +1,369 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/bf/gn.class
+  Last modified Jan 3, 2018; size 1784 bytes
+  SHA-256 checksum fdc7485e291395b463e699021e54083c02d185976191274eee42d865b2a9987d
+  Compiled from "S_230.java"
+public class bf.gn extends bf.a
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #14                         // bf/gn
+  super_class: #13                        // bf/a
+  interfaces: 0, fields: 2, methods: 4, attributes: 1
+Constant pool:
+    #1 = Integer            230
+    #2 = Class              #102          // ao/be
+    #3 = Class              #103          // ap/s
+    #4 = Class              #104          // ap/t
+    #5 = Class              #105          // ap/u
+    #6 = Class              #106          // ap/v
+    #7 = Class              #107          // ap/z
+    #8 = Class              #108          // aq/ai
+    #9 = Class              #109          // aq/aq
+   #10 = Class              #110          // aq/f
+   #11 = Class              #111          // aq/w
+   #12 = Class              #114          // be/cn
+   #13 = Class              #115          // bf/a
+   #14 = Class              #116          // bf/gn
+   #15 = Class              #117          // bh/v
+   #16 = Fieldref           #14.#52       // bf/gn.a:I
+   #17 = Fieldref           #14.#54       // bf/gn.b:Lbh/v;
+   #18 = Methodref          #2.#43        // ao/be.a:()Lao/be;
+   #19 = Methodref          #2.#47        // ao/be.a:(I)Lbh/v;
+   #20 = Methodref          #4.#42        // ap/t.V:(Z)V
+   #21 = Methodref          #5.#51        // ap/u.a:(Lbe/eu;)V
+   #22 = Methodref          #8.#44        // aq/ai.a:()Laq/ai;
+   #23 = Methodref          #8.#49        // aq/ai.a:(IIIII)Lap/h;
+   #24 = Methodref          #9.#45        // aq/aq.a:()Laq/aq;
+   #25 = Methodref          #9.#46        // aq/aq.a:(I)Laq/aa;
+   #26 = Methodref          #10.#55       // aq/f.bB:(I)Z
+   #27 = Methodref          #10.#56       // aq/f.fp:()I
+   #28 = Methodref          #10.#57       // aq/f.fs:()I
+   #29 = Methodref          #10.#58       // aq/f.ft:()I
+   #30 = Methodref          #10.#59       // aq/f.j:(II)V
+   #31 = Methodref          #11.#41       // aq/w."<init>":(Laq/f;Laq/f;)V
+   #32 = Methodref          #11.#48       // aq/w.a:(I)Z
+   #33 = Methodref          #12.#40       // be/cn."<init>":(IZ)V
+   #34 = Methodref          #13.#39       // bf/a."<init>":()V
+   #35 = Methodref          #14.#50       // bf/gn.a:(Laq/f;Lbh/v;)V
+   #36 = Methodref          #14.#53       // bf/gn.b:(Laq/f;Lbh/v;)V
+   #37 = Methodref          #15.#60       // bh/v.u:()I
+   #38 = Methodref          #15.#61       // bh/v.v:()I
+   #39 = NameAndType        #80:#66       // "<init>":()V
+   #40 = NameAndType        #80:#72       // "<init>":(IZ)V
+   #41 = NameAndType        #80:#76       // "<init>":(Laq/f;Laq/f;)V
+   #42 = NameAndType        #96:#79       // V:(Z)V
+   #43 = NameAndType        #101:#63      // a:()Lao/be;
+   #44 = NameAndType        #101:#64      // a:()Laq/ai;
+   #45 = NameAndType        #101:#65      // a:()Laq/aq;
+   #46 = NameAndType        #101:#67      // a:(I)Laq/aa;
+   #47 = NameAndType        #101:#68      // a:(I)Lbh/v;
+   #48 = NameAndType        #101:#69      // a:(I)Z
+   #49 = NameAndType        #101:#71      // a:(IIIII)Lap/h;
+   #50 = NameAndType        #101:#77      // a:(Laq/f;Lbh/v;)V
+   #51 = NameAndType        #101:#78      // a:(Lbe/eu;)V
+   #52 = NameAndType        #101:#83      // a:I
+   #53 = NameAndType        #112:#77      // b:(Laq/f;Lbh/v;)V
+   #54 = NameAndType        #112:#90      // b:Lbh/v;
+   #55 = NameAndType        #113:#69      // bB:(I)Z
+   #56 = NameAndType        #119:#62      // fp:()I
+   #57 = NameAndType        #120:#62      // fs:()I
+   #58 = NameAndType        #121:#62      // ft:()I
+   #59 = NameAndType        #123:#70      // j:(II)V
+   #60 = NameAndType        #133:#62      // u:()I
+   #61 = NameAndType        #134:#62      // v:()I
+   #62 = Utf8               ()I
+   #63 = Utf8               ()Lao/be;
+   #64 = Utf8               ()Laq/ai;
+   #65 = Utf8               ()Laq/aq;
+   #66 = Utf8               ()V
+   #67 = Utf8               (I)Laq/aa;
+   #68 = Utf8               (I)Lbh/v;
+   #69 = Utf8               (I)Z
+   #70 = Utf8               (II)V
+   #71 = Utf8               (IIIII)Lap/h;
+   #72 = Utf8               (IZ)V
+   #73 = Utf8               (Laq/f;)V
+   #74 = Utf8               (Laq/f;I)V
+   #75 = Utf8               (Laq/f;IIILjava/lang/String;)V
+   #76 = Utf8               (Laq/f;Laq/f;)V
+   #77 = Utf8               (Laq/f;Lbh/v;)V
+   #78 = Utf8               (Lbe/eu;)V
+   #79 = Utf8               (Z)V
+   #80 = Utf8               <init>
+   #81 = Utf8               Code
+   #82 = Utf8               ConstantValue
+   #83 = Utf8               I
+   #84 = Utf8               Lap/t;
+   #85 = Utf8               Lap/u;
+   #86 = Utf8               Laq/aa;
+   #87 = Utf8               Laq/f;
+   #88 = Utf8               Laq/w;
+   #89 = Utf8               Lbf/gn;
+   #90 = Utf8               Lbh/v;
+   #91 = Utf8               LineNumberTable
+   #92 = Utf8               Ljava/lang/String;
+   #93 = Utf8               LocalVariableTable
+   #94 = Utf8               S_230.java
+   #95 = Utf8               SourceFile
+   #96 = Utf8               V
+   #97 = Utf8               Z
+   #98 = Utf8               _target
+   #99 = Utf8               _targetId
+  #100 = Utf8               _user
+  #101 = Utf8               a
+  #102 = Utf8               ao/be
+  #103 = Utf8               ap/s
+  #104 = Utf8               ap/t
+  #105 = Utf8               ap/u
+  #106 = Utf8               ap/v
+  #107 = Utf8               ap/z
+  #108 = Utf8               aq/ai
+  #109 = Utf8               aq/aq
+  #110 = Utf8               aq/f
+  #111 = Utf8               aq/w
+  #112 = Utf8               b
+  #113 = Utf8               bB
+  #114 = Utf8               be/cn
+  #115 = Utf8               bf/a
+  #116 = Utf8               bf/gn
+  #117 = Utf8               bh/v
+  #118 = Utf8               cha
+  #119 = Utf8               fp
+  #120 = Utf8               fs
+  #121 = Utf8               ft
+  #122 = Utf8               isSuccess
+  #123 = Utf8               j
+  #124 = Utf8               magic
+  #125 = Utf8               message
+  #126 = Utf8               npc
+  #127 = Utf8               obj
+  #128 = Utf8               pc
+  #129 = Utf8               target
+  #130 = Utf8               this
+  #131 = Utf8               timeSecs
+  #132 = Utf8               tpc
+  #133 = Utf8               u
+  #134 = Utf8               v
+  #135 = Utf8               x
+  #136 = Utf8               y
+{
+  private final int a;
+    descriptor: I
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    ConstantValue: int 230
+
+  private final bh.v b;
+    descriptor: Lbh/v;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  public bf.gn();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #34                 // Method bf/a."<init>":()V
+         4: aload_0
+         5: sipush        230
+         8: putfield      #16                 // Field a:I
+        11: aload_0
+        12: invokestatic  #18                 // Method ao/be.a:()Lao/be;
+        15: sipush        230
+        18: invokevirtual #19                 // Method ao/be.a:(I)Lbh/v;
+        21: putfield      #17                 // Field b:Lbh/v;
+        24: return
+      LineNumberTable:
+        line 25: 0
+        line 21: 4
+        line 26: 11
+        line 27: 24
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      25     0  this   Lbf/gn;
+
+  public void a(aq.f, int);
+    descriptor: (Laq/f;I)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=0, locals=3, args_size=3
+         0: return
+      LineNumberTable:
+        line 32: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  this   Lbf/gn;
+            0       1     1 _target   Laq/f;
+            0       1     2 timeSecs   I
+
+  public void a(aq.f, int, int, int, java.lang.String);
+    descriptor: (Laq/f;IIILjava/lang/String;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=11, args_size=6
+         0: invokestatic  #24                 // Method aq/aq.a:()Laq/aq;
+         3: iload_2
+         4: invokevirtual #25                 // Method aq/aq.a:(I)Laq/aa;
+         7: astore        6
+         9: aload         6
+        11: instanceof    #10                 // class aq/f
+        14: ifne          18
+        17: return
+        18: aload         6
+        20: checkcast     #10                 // class aq/f
+        23: astore        7
+        25: aload_0
+        26: aload_1
+        27: aload_0
+        28: getfield      #17                 // Field b:Lbh/v;
+        31: invokevirtual #36                 // Method b:(Laq/f;Lbh/v;)V
+        34: aload_0
+        35: aload         7
+        37: aload_0
+        38: getfield      #17                 // Field b:Lbh/v;
+        41: invokevirtual #35                 // Method a:(Laq/f;Lbh/v;)V
+        44: new           #11                 // class aq/w
+        47: dup
+        48: aload_1
+        49: aload         7
+        51: invokespecial #31                 // Method aq/w."<init>":(Laq/f;Laq/f;)V
+        54: astore        8
+        56: aload         8
+        58: sipush        230
+        61: invokevirtual #32                 // Method aq/w.a:(I)Z
+        64: istore        9
+        66: iload         9
+        68: ifeq          187
+        71: aload         7
+        73: sipush        230
+        76: invokevirtual #26                 // Method aq/f.bB:(I)Z
+        79: ifne          187
+        82: aload         7
+        84: sipush        230
+        87: aload_0
+        88: getfield      #17                 // Field b:Lbh/v;
+        91: invokevirtual #38                 // Method bh/v.v:()I
+        94: sipush        1000
+        97: imul
+        98: invokevirtual #30                 // Method aq/f.j:(II)V
+       101: aload         7
+       103: instanceof    #5                  // class ap/u
+       106: ifeq          134
+       109: aload         7
+       111: checkcast     #5                  // class ap/u
+       114: astore        10
+       116: aload         10
+       118: new           #12                 // class be/cn
+       121: dup
+       122: bipush        9
+       124: iconst_1
+       125: invokespecial #33                 // Method be/cn."<init>":(IZ)V
+       128: invokevirtual #21                 // Method ap/u.a:(Lbe/eu;)V
+       131: goto          155
+       134: aload         7
+       136: instanceof    #4                  // class ap/t
+       139: ifeq          155
+       142: aload         7
+       144: checkcast     #4                  // class ap/t
+       147: astore        10
+       149: aload         10
+       151: iconst_1
+       152: invokevirtual #20                 // Method ap/t.V:(Z)V
+       155: invokestatic  #22                 // Method aq/ai.a:()Laq/ai;
+       158: aload_0
+       159: getfield      #17                 // Field b:Lbh/v;
+       162: invokevirtual #37                 // Method bh/v.u:()I
+       165: sipush        6000
+       168: aload         7
+       170: invokevirtual #28                 // Method aq/f.fs:()I
+       173: aload         7
+       175: invokevirtual #29                 // Method aq/f.ft:()I
+       178: aload         7
+       180: invokevirtual #27                 // Method aq/f.fp:()I
+       183: invokevirtual #23                 // Method aq/ai.a:(IIIII)Lap/h;
+       186: pop
+       187: return
+      LineNumberTable:
+        line 41: 0
+        line 42: 9
+        line 43: 17
+        line 45: 18
+        line 47: 25
+        line 48: 34
+        line 50: 44
+        line 51: 56
+        line 52: 66
+        line 54: 82
+        line 56: 101
+        line 57: 109
+        line 58: 116
+        line 60: 131
+        line 61: 142
+        line 62: 149
+        line 67: 155
+        line 70: 187
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     188     0  this   Lbf/gn;
+            0     188     1 _user   Laq/f;
+            0     188     2 _targetId   I
+            0     188     3     x   I
+            0     188     4     y   I
+            0     188     5 message   Ljava/lang/String;
+            9     179     6   obj   Laq/aa;
+           25     163     7 target   Laq/f;
+           56     132     8 magic   Laq/w;
+           66     122     9 isSuccess   Z
+          116      15    10   tpc   Lap/u;
+          149       6    10   npc   Lap/t;
+
+  public void a(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=3, args_size=2
+         0: aload_1
+         1: instanceof    #5                  // class ap/u
+         4: ifeq          29
+         7: aload_1
+         8: checkcast     #5                  // class ap/u
+        11: astore_2
+        12: aload_2
+        13: new           #12                 // class be/cn
+        16: dup
+        17: bipush        9
+        19: iconst_0
+        20: invokespecial #33                 // Method be/cn."<init>":(IZ)V
+        23: invokevirtual #21                 // Method ap/u.a:(Lbe/eu;)V
+        26: goto          60
+        29: aload_1
+        30: instanceof    #3                  // class ap/s
+        33: ifne          50
+        36: aload_1
+        37: instanceof    #7                  // class ap/z
+        40: ifne          50
+        43: aload_1
+        44: instanceof    #6                  // class ap/v
+        47: ifeq          60
+        50: aload_1
+        51: checkcast     #4                  // class ap/t
+        54: astore_2
+        55: aload_2
+        56: iconst_0
+        57: invokevirtual #20                 // Method ap/t.V:(Z)V
+        60: return
+      LineNumberTable:
+        line 74: 0
+        line 75: 7
+        line 76: 12
+        line 77: 26
+        line 78: 50
+        line 79: 55
+        line 81: 60
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      61     0  this   Lbf/gn;
+            0      61     1   cha   Laq/f;
+           12      14     2    pc   Lap/u;
+           55       5     2   npc   Lap/t;
+}
+SourceFile: "S_230.java"

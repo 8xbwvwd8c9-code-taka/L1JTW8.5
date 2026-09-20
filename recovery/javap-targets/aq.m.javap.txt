@@ -1,0 +1,3817 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aq/m.class
+  Last modified Jan 3, 2018; size 12183 bytes
+  SHA-256 checksum 3f60c961c0146ba1ad590bb0d35cfc1311a3b8d091bc204f2cfe52becddacf96
+  Compiled from "L1EquipmentSlot.java"
+public class aq.m
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #7                          // aq/m
+  super_class: #19                        // java/lang/Object
+  interfaces: 0, fields: 4, methods: 10, attributes: 2
+Constant pool:
+    #1 = Integer            120077
+    #2 = Class              #603          // ao/be
+    #3 = Class              #604          // ao/c
+    #4 = Class              #605          // ao/c$a
+    #5 = Class              #607          // ap/q
+    #6 = Class              #608          // ap/u
+    #7 = Class              #610          // aq/m
+    #8 = Class              #617          // au/g
+    #9 = Class              #641          // be/a
+   #10 = Class              #642          // be/ae
+   #11 = Class              #643          // be/cm
+   #12 = Class              #644          // be/d
+   #13 = Class              #645          // be/dc
+   #14 = Class              #646          // be/do
+   #15 = Class              #647          // be/dx
+   #16 = Class              #648          // be/ea
+   #17 = Class              #650          // bf/bi
+   #18 = Class              #653          // bh/j
+   #19 = Class              #696          // java/lang/Object
+   #20 = Class              #697          // java/util/ArrayList
+   #21 = Class              #698          // java/util/Iterator
+   #22 = Class              #699          // java/util/concurrent/CopyOnWriteArrayList
+   #23 = Fieldref           #7.#348       // aq/m.a:Lap/u;
+   #24 = Fieldref           #7.#406       // aq/m.b:Ljava/util/concurrent/CopyOnWriteArrayList;
+   #25 = Fieldref           #7.#443       // aq/m.c:Ljava/util/concurrent/CopyOnWriteArrayList;
+   #26 = Fieldref           #7.#461       // aq/m.d:Ljava/util/ArrayList;
+   #27 = Methodref          #2.#337       // ao/be.a:()Lao/be;
+   #28 = Methodref          #2.#341       // ao/be.a:(II)Z
+   #29 = Methodref          #3.#338       // ao/c.a:()Lao/c;
+   #30 = Methodref          #3.#402       // ao/c.b:()Ljava/util/ArrayList;
+   #31 = Methodref          #4.#340       // ao/c$a.a:(I)Z
+   #32 = Methodref          #4.#343       // ao/c$a.a:(Lap/u;)Z
+   #33 = Methodref          #4.#344       // ao/c$a.a:(Lap/u;Lap/q;Z)V
+   #34 = Methodref          #4.#404       // ao/c$a.b:(Lap/u;)V
+   #35 = Methodref          #4.#442       // ao/c$a.c:(Lap/u;)V
+   #36 = Methodref          #4.#460       // ao/c$a.d:(Lap/u;)Z
+   #37 = Methodref          #5.#280       // ap/q.B:()Z
+   #38 = Methodref          #5.#291       // ap/q.G:()I
+   #39 = Methodref          #5.#298       // ap/q.I:()I
+   #40 = Methodref          #5.#310       // ap/q.N:()I
+   #41 = Methodref          #5.#312       // ap/q.O:()I
+   #42 = Methodref          #5.#339       // ap/q.a:()Lbh/j;
+   #43 = Methodref          #5.#349       // ap/q.aA:()I
+   #44 = Methodref          #5.#350       // ap/q.aB:()I
+   #45 = Methodref          #5.#351       // ap/q.aC:()I
+   #46 = Methodref          #5.#352       // ap/q.aD:()I
+   #47 = Methodref          #5.#353       // ap/q.aE:()I
+   #48 = Methodref          #5.#354       // ap/q.aF:()I
+   #49 = Methodref          #5.#355       // ap/q.aG:()I
+   #50 = Methodref          #5.#356       // ap/q.aH:()I
+   #51 = Methodref          #5.#357       // ap/q.aK:()I
+   #52 = Methodref          #5.#358       // ap/q.aL:()I
+   #53 = Methodref          #5.#359       // ap/q.aM:()I
+   #54 = Methodref          #5.#360       // ap/q.aN:()I
+   #55 = Methodref          #5.#361       // ap/q.aO:()I
+   #56 = Methodref          #5.#362       // ap/q.aP:()I
+   #57 = Methodref          #5.#363       // ap/q.aQ:()I
+   #58 = Methodref          #5.#364       // ap/q.aR:()I
+   #59 = Methodref          #5.#365       // ap/q.aS:()I
+   #60 = Methodref          #5.#366       // ap/q.aT:()I
+   #61 = Methodref          #5.#367       // ap/q.aU:()Z
+   #62 = Methodref          #5.#368       // ap/q.aV:()Z
+   #63 = Methodref          #5.#369       // ap/q.aW:()Z
+   #64 = Methodref          #5.#370       // ap/q.aY:()I
+   #65 = Methodref          #5.#371       // ap/q.aZ:()I
+   #66 = Methodref          #5.#374       // ap/q.ab:()I
+   #67 = Methodref          #5.#376       // ap/q.ac:()I
+   #68 = Methodref          #5.#378       // ap/q.ad:()I
+   #69 = Methodref          #5.#380       // ap/q.ae:()I
+   #70 = Methodref          #5.#381       // ap/q.af:()I
+   #71 = Methodref          #5.#384       // ap/q.ai:()I
+   #72 = Methodref          #5.#385       // ap/q.aj:()I
+   #73 = Methodref          #5.#386       // ap/q.ak:()I
+   #74 = Methodref          #5.#387       // ap/q.al:()I
+   #75 = Methodref          #5.#388       // ap/q.am:()I
+   #76 = Methodref          #5.#389       // ap/q.an:()I
+   #77 = Methodref          #5.#390       // ap/q.ao:()I
+   #78 = Methodref          #5.#391       // ap/q.ap:()I
+   #79 = Methodref          #5.#392       // ap/q.aq:()I
+   #80 = Methodref          #5.#393       // ap/q.ar:()I
+   #81 = Methodref          #5.#394       // ap/q.as:()I
+   #82 = Methodref          #5.#395       // ap/q.at:()I
+   #83 = Methodref          #5.#396       // ap/q.au:()I
+   #84 = Methodref          #5.#397       // ap/q.av:()I
+   #85 = Methodref          #5.#398       // ap/q.aw:()I
+   #86 = Methodref          #5.#399       // ap/q.ax:()I
+   #87 = Methodref          #5.#400       // ap/q.ay:()I
+   #88 = Methodref          #5.#401       // ap/q.az:()I
+   #89 = Methodref          #5.#422       // ap/q.ba:()I
+   #90 = Methodref          #5.#423       // ap/q.be:()I
+   #91 = Methodref          #5.#424       // ap/q.bf:()I
+   #92 = Methodref          #5.#425       // ap/q.bg:()I
+   #93 = Methodref          #5.#426       // ap/q.bh:()I
+   #94 = Methodref          #5.#427       // ap/q.bi:()I
+   #95 = Methodref          #5.#428       // ap/q.bj:()I
+   #96 = Methodref          #5.#429       // ap/q.bk:()I
+   #97 = Methodref          #5.#430       // ap/q.bl:()I
+   #98 = Methodref          #5.#431       // ap/q.bm:()I
+   #99 = Methodref          #5.#433       // ap/q.bn:()I
+  #100 = Methodref          #5.#435       // ap/q.bo:()I
+  #101 = Methodref          #5.#437       // ap/q.bp:()I
+  #102 = Methodref          #5.#463       // ap/q.e:(Lap/u;)V
+  #103 = Methodref          #5.#464       // ap/q.f:()Z
+  #104 = Methodref          #5.#469       // ap/q.fr:()I
+  #105 = Methodref          #5.#471       // ap/q.g:()Z
+  #106 = Methodref          #5.#472       // ap/q.g:(I)V
+  #107 = Methodref          #5.#474       // ap/q.h:()Z
+  #108 = Methodref          #5.#476       // ap/q.i:()Z
+  #109 = Methodref          #5.#480       // ap/q.o:()I
+  #110 = Methodref          #5.#483       // ap/q.u:()V
+  #111 = Methodref          #6.#278       // ap/u.A:()Z
+  #112 = Methodref          #6.#279       // ap/u.A:(Z)V
+  #113 = Methodref          #6.#281       // ap/u.B:(Z)V
+  #114 = Methodref          #6.#282       // ap/u.C:(I)V
+  #115 = Methodref          #6.#283       // ap/u.C:(Z)V
+  #116 = Methodref          #6.#284       // ap/u.D:(I)V
+  #117 = Methodref          #6.#285       // ap/u.D:(Z)V
+  #118 = Methodref          #6.#286       // ap/u.E:(I)V
+  #119 = Methodref          #6.#287       // ap/u.E:(Z)V
+  #120 = Methodref          #6.#288       // ap/u.F:(I)V
+  #121 = Methodref          #6.#289       // ap/u.F:(Z)V
+  #122 = Methodref          #6.#292       // ap/u.G:(I)V
+  #123 = Methodref          #6.#293       // ap/u.G:(Z)V
+  #124 = Methodref          #6.#295       // ap/u.H:(I)V
+  #125 = Methodref          #6.#296       // ap/u.H:(Z)V
+  #126 = Methodref          #6.#299       // ap/u.I:(I)V
+  #127 = Methodref          #6.#300       // ap/u.I:(Z)V
+  #128 = Methodref          #6.#302       // ap/u.J:(I)V
+  #129 = Methodref          #6.#303       // ap/u.J:(Z)V
+  #130 = Methodref          #6.#305       // ap/u.K:(Z)V
+  #131 = Methodref          #6.#307       // ap/u.L:(Z)V
+  #132 = Methodref          #6.#309       // ap/u.M:(Z)V
+  #133 = Methodref          #6.#311       // ap/u.N:(Z)V
+  #134 = Methodref          #6.#313       // ap/u.O:(Z)V
+  #135 = Methodref          #6.#314       // ap/u.P:(I)V
+  #136 = Methodref          #6.#315       // ap/u.P:(Z)V
+  #137 = Methodref          #6.#317       // ap/u.Q:(I)V
+  #138 = Methodref          #6.#318       // ap/u.Q:(Z)V
+  #139 = Methodref          #6.#319       // ap/u.R:(I)V
+  #140 = Methodref          #6.#320       // ap/u.R:(Z)V
+  #141 = Methodref          #6.#322       // ap/u.S:(I)V
+  #142 = Methodref          #6.#323       // ap/u.S:(Z)V
+  #143 = Methodref          #6.#324       // ap/u.T:(I)V
+  #144 = Methodref          #6.#325       // ap/u.T:(Z)V
+  #145 = Methodref          #6.#326       // ap/u.U:(I)V
+  #146 = Methodref          #6.#327       // ap/u.V:()V
+  #147 = Methodref          #6.#328       // ap/u.V:(I)V
+  #148 = Methodref          #6.#329       // ap/u.W:(I)V
+  #149 = Methodref          #6.#331       // ap/u.X:(I)V
+  #150 = Methodref          #6.#333       // ap/u.Y:()V
+  #151 = Methodref          #6.#334       // ap/u.Y:(I)V
+  #152 = Methodref          #6.#336       // ap/u.Z:(I)V
+  #153 = Methodref          #6.#346       // ap/u.a:(Lbe/eu;)V
+  #154 = Methodref          #6.#347       // ap/u.a:(Ljava/util/concurrent/CopyOnWriteArrayList;)V
+  #155 = Methodref          #6.#373       // ap/u.aa:(I)V
+  #156 = Methodref          #6.#375       // ap/u.ab:(I)V
+  #157 = Methodref          #6.#377       // ap/u.ac:(I)V
+  #158 = Methodref          #6.#405       // ap/u.b:(Lbe/eu;)V
+  #159 = Methodref          #6.#407       // ap/u.bA:(I)V
+  #160 = Methodref          #6.#408       // ap/u.bB:(I)Z
+  #161 = Methodref          #6.#409       // ap/u.bH:(I)V
+  #162 = Methodref          #6.#410       // ap/u.bJ:(I)V
+  #163 = Methodref          #6.#411       // ap/u.bK:()Laq/m;
+  #164 = Methodref          #6.#412       // ap/u.bL:(I)V
+  #165 = Methodref          #6.#413       // ap/u.bN:(I)V
+  #166 = Methodref          #6.#414       // ap/u.bP:(I)V
+  #167 = Methodref          #6.#415       // ap/u.bR:(I)V
+  #168 = Methodref          #6.#416       // ap/u.bT:(I)V
+  #169 = Methodref          #6.#417       // ap/u.bU:()I
+  #170 = Methodref          #6.#418       // ap/u.bV:(I)V
+  #171 = Methodref          #6.#419       // ap/u.bX:(I)V
+  #172 = Methodref          #6.#420       // ap/u.bY:(I)V
+  #173 = Methodref          #6.#421       // ap/u.bZ:(I)V
+  #174 = Methodref          #6.#432       // ap/u.bm:(I)V
+  #175 = Methodref          #6.#434       // ap/u.bn:(I)V
+  #176 = Methodref          #6.#436       // ap/u.bo:(I)V
+  #177 = Methodref          #6.#438       // ap/u.bp:(I)V
+  #178 = Methodref          #6.#439       // ap/u.bq:(I)V
+  #179 = Methodref          #6.#440       // ap/u.bz:(I)V
+  #180 = Methodref          #6.#444       // ap/u.cA:(I)V
+  #181 = Methodref          #6.#445       // ap/u.ca:(I)V
+  #182 = Methodref          #6.#446       // ap/u.cb:(I)V
+  #183 = Methodref          #6.#447       // ap/u.cd:(I)V
+  #184 = Methodref          #6.#448       // ap/u.ce:(I)V
+  #185 = Methodref          #6.#449       // ap/u.cf:(I)V
+  #186 = Methodref          #6.#450       // ap/u.cg:(I)V
+  #187 = Methodref          #6.#451       // ap/u.ch:(I)V
+  #188 = Methodref          #6.#452       // ap/u.ci:(I)V
+  #189 = Methodref          #6.#453       // ap/u.cj:(I)V
+  #190 = Methodref          #6.#454       // ap/u.co:(I)V
+  #191 = Methodref          #6.#456       // ap/u.cp:(I)V
+  #192 = Methodref          #6.#457       // ap/u.cu:(I)V
+  #193 = Methodref          #6.#458       // ap/u.cv:(I)V
+  #194 = Methodref          #6.#465       // ap/u.f:(I)V
+  #195 = Methodref          #6.#467       // ap/u.fc:()I
+  #196 = Methodref          #6.#468       // ap/u.fk:()I
+  #197 = Methodref          #6.#469       // ap/u.fr:()I
+  #198 = Methodref          #6.#472       // ap/u.g:(I)V
+  #199 = Methodref          #6.#478       // ap/u.j:()Lau/g;
+  #200 = Methodref          #6.#482       // ap/u.s:()V
+  #201 = Methodref          #6.#484       // ap/u.z:(Z)V
+  #202 = Methodref          #7.#342       // aq/m.a:(ILap/q;)V
+  #203 = Methodref          #7.#441       // aq/m.c:(Lap/q;)V
+  #204 = Methodref          #7.#459       // aq/m.d:(Lap/q;)V
+  #205 = Methodref          #7.#462       // aq/m.e:(Lap/q;)V
+  #206 = Methodref          #7.#466       // aq/m.f:(Lap/q;)V
+  #207 = Methodref          #7.#473       // aq/m.g:(Lap/q;)V
+  #208 = Methodref          #8.#403       // au/g.b:(Lap/q;)V
+  #209 = Methodref          #9.#274       // be/a."<init>":(IZ)V
+  #210 = Methodref          #10.#277      // be/ae."<init>":([I)V
+  #211 = Methodref          #11.#271      // be/cm."<init>":(II)V
+  #212 = Methodref          #11.#272      // be/cm."<init>":(III)V
+  #213 = Methodref          #12.#276      // be/d."<init>":(Lap/u;[I)V
+  #214 = Methodref          #13.#273      // be/dc."<init>":(IIIIIIIII)V
+  #215 = Methodref          #14.#275      // be/do."<init>":(Lap/u;)V
+  #216 = Methodref          #15.#272      // be/dx."<init>":(III)V
+  #217 = Methodref          #16.#272      // be/ea."<init>":(III)V
+  #218 = Methodref          #17.#270      // bf/bi."<init>":()V
+  #219 = Methodref          #17.#345      // bf/bi.a:(Laq/f;I)V
+  #220 = Methodref          #18.#290      // bh/j.G:()B
+  #221 = Methodref          #18.#294      // bh/j.H:()B
+  #222 = Methodref          #18.#297      // bh/j.I:()B
+  #223 = Methodref          #18.#301      // bh/j.J:()B
+  #224 = Methodref          #18.#304      // bh/j.K:()B
+  #225 = Methodref          #18.#306      // bh/j.L:()B
+  #226 = Methodref          #18.#308      // bh/j.M:()I
+  #227 = Methodref          #18.#310      // bh/j.N:()I
+  #228 = Methodref          #18.#316      // bh/j.Q:()I
+  #229 = Methodref          #18.#321      // bh/j.S:()Z
+  #230 = Methodref          #18.#330      // bh/j.X:()I
+  #231 = Methodref          #18.#332      // bh/j.Y:()I
+  #232 = Methodref          #18.#335      // bh/j.Z:()I
+  #233 = Methodref          #18.#350      // bh/j.aB:()I
+  #234 = Methodref          #18.#362      // bh/j.aP:()I
+  #235 = Methodref          #18.#372      // bh/j.aa:()I
+  #236 = Methodref          #18.#374      // bh/j.ab:()I
+  #237 = Methodref          #18.#376      // bh/j.ac:()I
+  #238 = Methodref          #18.#378      // bh/j.ad:()I
+  #239 = Methodref          #18.#380      // bh/j.ae:()I
+  #240 = Methodref          #18.#381      // bh/j.af:()I
+  #241 = Methodref          #18.#382      // bh/j.ag:()I
+  #242 = Methodref          #18.#383      // bh/j.ah:()I
+  #243 = Methodref          #18.#384      // bh/j.ai:()I
+  #244 = Methodref          #18.#385      // bh/j.aj:()I
+  #245 = Methodref          #18.#386      // bh/j.ak:()I
+  #246 = Methodref          #18.#387      // bh/j.al:()I
+  #247 = Methodref          #18.#388      // bh/j.am:()I
+  #248 = Methodref          #18.#389      // bh/j.an:()I
+  #249 = Methodref          #18.#390      // bh/j.ao:()I
+  #250 = Methodref          #18.#392      // bh/j.aq:()I
+  #251 = Methodref          #18.#393      // bh/j.ar:()I
+  #252 = Methodref          #18.#394      // bh/j.as:()I
+  #253 = Methodref          #18.#395      // bh/j.at:()I
+  #254 = Methodref          #18.#396      // bh/j.au:()I
+  #255 = Methodref          #18.#397      // bh/j.av:()I
+  #256 = Methodref          #18.#398      // bh/j.aw:()I
+  #257 = Methodref          #18.#400      // bh/j.ay:()I
+  #258 = Methodref          #18.#470      // bh/j.g:()I
+  #259 = Methodref          #19.#270      // java/lang/Object."<init>":()V
+  #260 = Methodref          #20.#270      // java/util/ArrayList."<init>":()V
+  #261 = Methodref          #20.#379      // java/util/ArrayList.add:(Ljava/lang/Object;)Z
+  #262 = Methodref          #20.#477      // java/util/ArrayList.iterator:()Ljava/util/Iterator;
+  #263 = Methodref          #20.#481      // java/util/ArrayList.remove:(Ljava/lang/Object;)Z
+  #264 = Methodref          #22.#270      // java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+  #265 = Methodref          #22.#379      // java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+  #266 = Methodref          #22.#455      // java/util/concurrent/CopyOnWriteArrayList.contains:(Ljava/lang/Object;)Z
+  #267 = Methodref          #22.#481      // java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+  #268 = InterfaceMethodref #21.#475      // java/util/Iterator.hasNext:()Z
+  #269 = InterfaceMethodref #21.#479      // java/util/Iterator.next:()Ljava/lang/Object;
+  #270 = NameAndType        #518:#497     // "<init>":()V
+  #271 = NameAndType        #518:#501     // "<init>":(II)V
+  #272 = NameAndType        #518:#503     // "<init>":(III)V
+  #273 = NameAndType        #518:#504     // "<init>":(IIIIIIIII)V
+  #274 = NameAndType        #518:#506     // "<init>":(IZ)V
+  #275 = NameAndType        #518:#508     // "<init>":(Lap/u;)V
+  #276 = NameAndType        #518:#511     // "<init>":(Lap/u;[I)V
+  #277 = NameAndType        #518:#517     // "<init>":([I)V
+  #278 = NameAndType        #519:#498     // A:()Z
+  #279 = NameAndType        #519:#516     // A:(Z)V
+  #280 = NameAndType        #520:#498     // B:()Z
+  #281 = NameAndType        #520:#516     // B:(Z)V
+  #282 = NameAndType        #521:#499     // C:(I)V
+  #283 = NameAndType        #521:#516     // C:(Z)V
+  #284 = NameAndType        #523:#499     // D:(I)V
+  #285 = NameAndType        #523:#516     // D:(Z)V
+  #286 = NameAndType        #524:#499     // E:(I)V
+  #287 = NameAndType        #524:#516     // E:(Z)V
+  #288 = NameAndType        #525:#499     // F:(I)V
+  #289 = NameAndType        #525:#516     // F:(Z)V
+  #290 = NameAndType        #526:#485     // G:()B
+  #291 = NameAndType        #526:#486     // G:()I
+  #292 = NameAndType        #526:#499     // G:(I)V
+  #293 = NameAndType        #526:#516     // G:(Z)V
+  #294 = NameAndType        #527:#485     // H:()B
+  #295 = NameAndType        #527:#499     // H:(I)V
+  #296 = NameAndType        #527:#516     // H:(Z)V
+  #297 = NameAndType        #528:#485     // I:()B
+  #298 = NameAndType        #528:#486     // I:()I
+  #299 = NameAndType        #528:#499     // I:(I)V
+  #300 = NameAndType        #528:#516     // I:(Z)V
+  #301 = NameAndType        #530:#485     // J:()B
+  #302 = NameAndType        #530:#499     // J:(I)V
+  #303 = NameAndType        #530:#516     // J:(Z)V
+  #304 = NameAndType        #531:#485     // K:()B
+  #305 = NameAndType        #531:#516     // K:(Z)V
+  #306 = NameAndType        #532:#485     // L:()B
+  #307 = NameAndType        #532:#516     // L:(Z)V
+  #308 = NameAndType        #546:#486     // M:()I
+  #309 = NameAndType        #546:#516     // M:(Z)V
+  #310 = NameAndType        #547:#486     // N:()I
+  #311 = NameAndType        #547:#516     // N:(Z)V
+  #312 = NameAndType        #548:#486     // O:()I
+  #313 = NameAndType        #548:#516     // O:(Z)V
+  #314 = NameAndType        #549:#499     // P:(I)V
+  #315 = NameAndType        #549:#516     // P:(Z)V
+  #316 = NameAndType        #550:#486     // Q:()I
+  #317 = NameAndType        #550:#499     // Q:(I)V
+  #318 = NameAndType        #550:#516     // Q:(Z)V
+  #319 = NameAndType        #551:#499     // R:(I)V
+  #320 = NameAndType        #551:#516     // R:(Z)V
+  #321 = NameAndType        #552:#498     // S:()Z
+  #322 = NameAndType        #552:#499     // S:(I)V
+  #323 = NameAndType        #552:#516     // S:(Z)V
+  #324 = NameAndType        #555:#499     // T:(I)V
+  #325 = NameAndType        #555:#516     // T:(Z)V
+  #326 = NameAndType        #556:#499     // U:(I)V
+  #327 = NameAndType        #557:#497     // V:()V
+  #328 = NameAndType        #557:#499     // V:(I)V
+  #329 = NameAndType        #558:#499     // W:(I)V
+  #330 = NameAndType        #559:#486     // X:()I
+  #331 = NameAndType        #559:#499     // X:(I)V
+  #332 = NameAndType        #560:#486     // Y:()I
+  #333 = NameAndType        #560:#497     // Y:()V
+  #334 = NameAndType        #560:#499     // Y:(I)V
+  #335 = NameAndType        #561:#486     // Z:()I
+  #336 = NameAndType        #561:#499     // Z:(I)V
+  #337 = NameAndType        #562:#487     // a:()Lao/be;
+  #338 = NameAndType        #562:#488     // a:()Lao/c;
+  #339 = NameAndType        #562:#491     // a:()Lbh/j;
+  #340 = NameAndType        #562:#500     // a:(I)Z
+  #341 = NameAndType        #562:#502     // a:(II)Z
+  #342 = NameAndType        #562:#505     // a:(ILap/q;)V
+  #343 = NameAndType        #562:#509     // a:(Lap/u;)Z
+  #344 = NameAndType        #562:#510     // a:(Lap/u;Lap/q;Z)V
+  #345 = NameAndType        #562:#512     // a:(Laq/f;I)V
+  #346 = NameAndType        #562:#513     // a:(Lbe/eu;)V
+  #347 = NameAndType        #562:#515     // a:(Ljava/util/concurrent/CopyOnWriteArrayList;)V
+  #348 = NameAndType        #562:#536     // a:Lap/u;
+  #349 = NameAndType        #563:#486     // aA:()I
+  #350 = NameAndType        #564:#486     // aB:()I
+  #351 = NameAndType        #565:#486     // aC:()I
+  #352 = NameAndType        #566:#486     // aD:()I
+  #353 = NameAndType        #567:#486     // aE:()I
+  #354 = NameAndType        #568:#486     // aF:()I
+  #355 = NameAndType        #569:#486     // aG:()I
+  #356 = NameAndType        #570:#486     // aH:()I
+  #357 = NameAndType        #571:#486     // aK:()I
+  #358 = NameAndType        #572:#486     // aL:()I
+  #359 = NameAndType        #573:#486     // aM:()I
+  #360 = NameAndType        #574:#486     // aN:()I
+  #361 = NameAndType        #575:#486     // aO:()I
+  #362 = NameAndType        #576:#486     // aP:()I
+  #363 = NameAndType        #577:#486     // aQ:()I
+  #364 = NameAndType        #578:#486     // aR:()I
+  #365 = NameAndType        #579:#486     // aS:()I
+  #366 = NameAndType        #580:#486     // aT:()I
+  #367 = NameAndType        #581:#498     // aU:()Z
+  #368 = NameAndType        #582:#498     // aV:()Z
+  #369 = NameAndType        #583:#498     // aW:()Z
+  #370 = NameAndType        #584:#486     // aY:()I
+  #371 = NameAndType        #585:#486     // aZ:()I
+  #372 = NameAndType        #586:#486     // aa:()I
+  #373 = NameAndType        #586:#499     // aa:(I)V
+  #374 = NameAndType        #587:#486     // ab:()I
+  #375 = NameAndType        #587:#499     // ab:(I)V
+  #376 = NameAndType        #588:#486     // ac:()I
+  #377 = NameAndType        #588:#499     // ac:(I)V
+  #378 = NameAndType        #589:#486     // ad:()I
+  #379 = NameAndType        #590:#514     // add:(Ljava/lang/Object;)Z
+  #380 = NameAndType        #592:#486     // ae:()I
+  #381 = NameAndType        #593:#486     // af:()I
+  #382 = NameAndType        #594:#486     // ag:()I
+  #383 = NameAndType        #595:#486     // ah:()I
+  #384 = NameAndType        #596:#486     // ai:()I
+  #385 = NameAndType        #597:#486     // aj:()I
+  #386 = NameAndType        #598:#486     // ak:()I
+  #387 = NameAndType        #599:#486     // al:()I
+  #388 = NameAndType        #600:#486     // am:()I
+  #389 = NameAndType        #601:#486     // an:()I
+  #390 = NameAndType        #602:#486     // ao:()I
+  #391 = NameAndType        #606:#486     // ap:()I
+  #392 = NameAndType        #609:#486     // aq:()I
+  #393 = NameAndType        #611:#486     // ar:()I
+  #394 = NameAndType        #614:#486     // as:()I
+  #395 = NameAndType        #615:#486     // at:()I
+  #396 = NameAndType        #616:#486     // au:()I
+  #397 = NameAndType        #618:#486     // av:()I
+  #398 = NameAndType        #619:#486     // aw:()I
+  #399 = NameAndType        #620:#486     // ax:()I
+  #400 = NameAndType        #621:#486     // ay:()I
+  #401 = NameAndType        #622:#486     // az:()I
+  #402 = NameAndType        #623:#493     // b:()Ljava/util/ArrayList;
+  #403 = NameAndType        #623:#507     // b:(Lap/q;)V
+  #404 = NameAndType        #623:#508     // b:(Lap/u;)V
+  #405 = NameAndType        #623:#513     // b:(Lbe/eu;)V
+  #406 = NameAndType        #623:#542     // b:Ljava/util/concurrent/CopyOnWriteArrayList;
+  #407 = NameAndType        #624:#499     // bA:(I)V
+  #408 = NameAndType        #625:#500     // bB:(I)Z
+  #409 = NameAndType        #626:#499     // bH:(I)V
+  #410 = NameAndType        #627:#499     // bJ:(I)V
+  #411 = NameAndType        #628:#489     // bK:()Laq/m;
+  #412 = NameAndType        #629:#499     // bL:(I)V
+  #413 = NameAndType        #630:#499     // bN:(I)V
+  #414 = NameAndType        #631:#499     // bP:(I)V
+  #415 = NameAndType        #632:#499     // bR:(I)V
+  #416 = NameAndType        #633:#499     // bT:(I)V
+  #417 = NameAndType        #634:#486     // bU:()I
+  #418 = NameAndType        #635:#499     // bV:(I)V
+  #419 = NameAndType        #636:#499     // bX:(I)V
+  #420 = NameAndType        #637:#499     // bY:(I)V
+  #421 = NameAndType        #638:#499     // bZ:(I)V
+  #422 = NameAndType        #639:#486     // ba:()I
+  #423 = NameAndType        #640:#486     // be:()I
+  #424 = NameAndType        #649:#486     // bf:()I
+  #425 = NameAndType        #651:#486     // bg:()I
+  #426 = NameAndType        #652:#486     // bh:()I
+  #427 = NameAndType        #654:#486     // bi:()I
+  #428 = NameAndType        #655:#486     // bj:()I
+  #429 = NameAndType        #656:#486     // bk:()I
+  #430 = NameAndType        #657:#486     // bl:()I
+  #431 = NameAndType        #658:#486     // bm:()I
+  #432 = NameAndType        #658:#499     // bm:(I)V
+  #433 = NameAndType        #659:#486     // bn:()I
+  #434 = NameAndType        #659:#499     // bn:(I)V
+  #435 = NameAndType        #660:#486     // bo:()I
+  #436 = NameAndType        #660:#499     // bo:(I)V
+  #437 = NameAndType        #661:#486     // bp:()I
+  #438 = NameAndType        #661:#499     // bp:(I)V
+  #439 = NameAndType        #662:#499     // bq:(I)V
+  #440 = NameAndType        #663:#499     // bz:(I)V
+  #441 = NameAndType        #664:#507     // c:(Lap/q;)V
+  #442 = NameAndType        #664:#508     // c:(Lap/u;)V
+  #443 = NameAndType        #664:#542     // c:Ljava/util/concurrent/CopyOnWriteArrayList;
+  #444 = NameAndType        #665:#499     // cA:(I)V
+  #445 = NameAndType        #666:#499     // ca:(I)V
+  #446 = NameAndType        #667:#499     // cb:(I)V
+  #447 = NameAndType        #668:#499     // cd:(I)V
+  #448 = NameAndType        #669:#499     // ce:(I)V
+  #449 = NameAndType        #670:#499     // cf:(I)V
+  #450 = NameAndType        #671:#499     // cg:(I)V
+  #451 = NameAndType        #672:#499     // ch:(I)V
+  #452 = NameAndType        #673:#499     // ci:(I)V
+  #453 = NameAndType        #674:#499     // cj:(I)V
+  #454 = NameAndType        #675:#499     // co:(I)V
+  #455 = NameAndType        #676:#514     // contains:(Ljava/lang/Object;)Z
+  #456 = NameAndType        #677:#499     // cp:(I)V
+  #457 = NameAndType        #678:#499     // cu:(I)V
+  #458 = NameAndType        #679:#499     // cv:(I)V
+  #459 = NameAndType        #680:#507     // d:(Lap/q;)V
+  #460 = NameAndType        #680:#509     // d:(Lap/u;)Z
+  #461 = NameAndType        #680:#540     // d:Ljava/util/ArrayList;
+  #462 = NameAndType        #681:#507     // e:(Lap/q;)V
+  #463 = NameAndType        #681:#508     // e:(Lap/u;)V
+  #464 = NameAndType        #683:#498     // f:()Z
+  #465 = NameAndType        #683:#499     // f:(I)V
+  #466 = NameAndType        #683:#507     // f:(Lap/q;)V
+  #467 = NameAndType        #684:#486     // fc:()I
+  #468 = NameAndType        #685:#486     // fk:()I
+  #469 = NameAndType        #686:#486     // fr:()I
+  #470 = NameAndType        #687:#486     // g:()I
+  #471 = NameAndType        #687:#498     // g:()Z
+  #472 = NameAndType        #687:#499     // g:(I)V
+  #473 = NameAndType        #687:#507     // g:(Lap/q;)V
+  #474 = NameAndType        #688:#498     // h:()Z
+  #475 = NameAndType        #689:#498     // hasNext:()Z
+  #476 = NameAndType        #690:#498     // i:()Z
+  #477 = NameAndType        #694:#494     // iterator:()Ljava/util/Iterator;
+  #478 = NameAndType        #695:#490     // j:()Lau/g;
+  #479 = NameAndType        #700:#492     // next:()Ljava/lang/Object;
+  #480 = NameAndType        #701:#486     // o:()I
+  #481 = NameAndType        #706:#514     // remove:(Ljava/lang/Object;)Z
+  #482 = NameAndType        #707:#497     // s:()V
+  #483 = NameAndType        #710:#497     // u:()V
+  #484 = NameAndType        #712:#516     // z:(Z)V
+  #485 = Utf8               ()B
+  #486 = Utf8               ()I
+  #487 = Utf8               ()Lao/be;
+  #488 = Utf8               ()Lao/c;
+  #489 = Utf8               ()Laq/m;
+  #490 = Utf8               ()Lau/g;
+  #491 = Utf8               ()Lbh/j;
+  #492 = Utf8               ()Ljava/lang/Object;
+  #493 = Utf8               ()Ljava/util/ArrayList;
+  #494 = Utf8               ()Ljava/util/Iterator;
+  #495 = Utf8               ()Ljava/util/List;
+  #496 = Utf8               ()Ljava/util/List<Lap/q;>;
+  #497 = Utf8               ()V
+  #498 = Utf8               ()Z
+  #499 = Utf8               (I)V
+  #500 = Utf8               (I)Z
+  #501 = Utf8               (II)V
+  #502 = Utf8               (II)Z
+  #503 = Utf8               (III)V
+  #504 = Utf8               (IIIIIIIII)V
+  #505 = Utf8               (ILap/q;)V
+  #506 = Utf8               (IZ)V
+  #507 = Utf8               (Lap/q;)V
+  #508 = Utf8               (Lap/u;)V
+  #509 = Utf8               (Lap/u;)Z
+  #510 = Utf8               (Lap/u;Lap/q;Z)V
+  #511 = Utf8               (Lap/u;[I)V
+  #512 = Utf8               (Laq/f;I)V
+  #513 = Utf8               (Lbe/eu;)V
+  #514 = Utf8               (Ljava/lang/Object;)Z
+  #515 = Utf8               (Ljava/util/concurrent/CopyOnWriteArrayList;)V
+  #516 = Utf8               (Z)V
+  #517 = Utf8               ([I)V
+  #518 = Utf8               <init>
+  #519 = Utf8               A
+  #520 = Utf8               B
+  #521 = Utf8               C
+  #522 = Utf8               Code
+  #523 = Utf8               D
+  #524 = Utf8               E
+  #525 = Utf8               F
+  #526 = Utf8               G
+  #527 = Utf8               H
+  #528 = Utf8               I
+  #529 = Utf8               InnerClasses
+  #530 = Utf8               J
+  #531 = Utf8               K
+  #532 = Utf8               L
+  #533 = Utf8               L1EquipmentSlot.java
+  #534 = Utf8               Lao/c$a;
+  #535 = Utf8               Lap/q;
+  #536 = Utf8               Lap/u;
+  #537 = Utf8               Laq/m;
+  #538 = Utf8               Lbh/j;
+  #539 = Utf8               LineNumberTable
+  #540 = Utf8               Ljava/util/ArrayList;
+  #541 = Utf8               Ljava/util/ArrayList<Lap/q;>;
+  #542 = Utf8               Ljava/util/concurrent/CopyOnWriteArrayList;
+  #543 = Utf8               Ljava/util/concurrent/CopyOnWriteArrayList<Lao/c$a;>;
+  #544 = Utf8               Ljava/util/concurrent/CopyOnWriteArrayList<Lap/q;>;
+  #545 = Utf8               LocalVariableTable
+  #546 = Utf8               M
+  #547 = Utf8               N
+  #548 = Utf8               O
+  #549 = Utf8               P
+  #550 = Utf8               Q
+  #551 = Utf8               R
+  #552 = Utf8               S
+  #553 = Utf8               Signature
+  #554 = Utf8               SourceFile
+  #555 = Utf8               T
+  #556 = Utf8               U
+  #557 = Utf8               V
+  #558 = Utf8               W
+  #559 = Utf8               X
+  #560 = Utf8               Y
+  #561 = Utf8               Z
+  #562 = Utf8               a
+  #563 = Utf8               aA
+  #564 = Utf8               aB
+  #565 = Utf8               aC
+  #566 = Utf8               aD
+  #567 = Utf8               aE
+  #568 = Utf8               aF
+  #569 = Utf8               aG
+  #570 = Utf8               aH
+  #571 = Utf8               aK
+  #572 = Utf8               aL
+  #573 = Utf8               aM
+  #574 = Utf8               aN
+  #575 = Utf8               aO
+  #576 = Utf8               aP
+  #577 = Utf8               aQ
+  #578 = Utf8               aR
+  #579 = Utf8               aS
+  #580 = Utf8               aT
+  #581 = Utf8               aU
+  #582 = Utf8               aV
+  #583 = Utf8               aW
+  #584 = Utf8               aY
+  #585 = Utf8               aZ
+  #586 = Utf8               aa
+  #587 = Utf8               ab
+  #588 = Utf8               ac
+  #589 = Utf8               ad
+  #590 = Utf8               add
+  #591 = Utf8               addMr
+  #592 = Utf8               ae
+  #593 = Utf8               af
+  #594 = Utf8               ag
+  #595 = Utf8               ah
+  #596 = Utf8               ai
+  #597 = Utf8               aj
+  #598 = Utf8               ak
+  #599 = Utf8               al
+  #600 = Utf8               am
+  #601 = Utf8               an
+  #602 = Utf8               ao
+  #603 = Utf8               ao/be
+  #604 = Utf8               ao/c
+  #605 = Utf8               ao/c$a
+  #606 = Utf8               ap
+  #607 = Utf8               ap/q
+  #608 = Utf8               ap/u
+  #609 = Utf8               aq
+  #610 = Utf8               aq/m
+  #611 = Utf8               ar
+  #612 = Utf8               armor
+  #613 = Utf8               armorSet
+  #614 = Utf8               as
+  #615 = Utf8               at
+  #616 = Utf8               au
+  #617 = Utf8               au/g
+  #618 = Utf8               av
+  #619 = Utf8               aw
+  #620 = Utf8               ax
+  #621 = Utf8               ay
+  #622 = Utf8               az
+  #623 = Utf8               b
+  #624 = Utf8               bA
+  #625 = Utf8               bB
+  #626 = Utf8               bH
+  #627 = Utf8               bJ
+  #628 = Utf8               bK
+  #629 = Utf8               bL
+  #630 = Utf8               bN
+  #631 = Utf8               bP
+  #632 = Utf8               bR
+  #633 = Utf8               bT
+  #634 = Utf8               bU
+  #635 = Utf8               bV
+  #636 = Utf8               bX
+  #637 = Utf8               bY
+  #638 = Utf8               bZ
+  #639 = Utf8               ba
+  #640 = Utf8               be
+  #641 = Utf8               be/a
+  #642 = Utf8               be/ae
+  #643 = Utf8               be/cm
+  #644 = Utf8               be/d
+  #645 = Utf8               be/dc
+  #646 = Utf8               be/do
+  #647 = Utf8               be/dx
+  #648 = Utf8               be/ea
+  #649 = Utf8               bf
+  #650 = Utf8               bf/bi
+  #651 = Utf8               bg
+  #652 = Utf8               bh
+  #653 = Utf8               bh/j
+  #654 = Utf8               bi
+  #655 = Utf8               bj
+  #656 = Utf8               bk
+  #657 = Utf8               bl
+  #658 = Utf8               bm
+  #659 = Utf8               bn
+  #660 = Utf8               bo
+  #661 = Utf8               bp
+  #662 = Utf8               bq
+  #663 = Utf8               bz
+  #664 = Utf8               c
+  #665 = Utf8               cA
+  #666 = Utf8               ca
+  #667 = Utf8               cb
+  #668 = Utf8               cd
+  #669 = Utf8               ce
+  #670 = Utf8               cf
+  #671 = Utf8               cg
+  #672 = Utf8               ch
+  #673 = Utf8               ci
+  #674 = Utf8               cj
+  #675 = Utf8               co
+  #676 = Utf8               contains
+  #677 = Utf8               cp
+  #678 = Utf8               cu
+  #679 = Utf8               cv
+  #680 = Utf8               d
+  #681 = Utf8               e
+  #682 = Utf8               equipment
+  #683 = Utf8               f
+  #684 = Utf8               fc
+  #685 = Utf8               fk
+  #686 = Utf8               fr
+  #687 = Utf8               g
+  #688 = Utf8               h
+  #689 = Utf8               hasNext
+  #690 = Utf8               i
+  #691 = Utf8               isAnother
+  #692 = Utf8               item
+  #693 = Utf8               itemId
+  #694 = Utf8               iterator
+  #695 = Utf8               j
+  #696 = Utf8               java/lang/Object
+  #697 = Utf8               java/util/ArrayList
+  #698 = Utf8               java/util/Iterator
+  #699 = Utf8               java/util/concurrent/CopyOnWriteArrayList
+  #700 = Utf8               next
+  #701 = Utf8               o
+  #702 = Utf8               objectId
+  #703 = Utf8               other
+  #704 = Utf8               owner
+  #705 = Utf8               range
+  #706 = Utf8               remove
+  #707 = Utf8               s
+  #708 = Utf8               this
+  #709 = Utf8               type
+  #710 = Utf8               u
+  #711 = Utf8               weapon
+  #712 = Utf8               z
+{
+  private final ap.u a;
+    descriptor: Lap/u;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  private final java.util.concurrent.CopyOnWriteArrayList<ao.c$a> b;
+    descriptor: Ljava/util/concurrent/CopyOnWriteArrayList;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #543                         // Ljava/util/concurrent/CopyOnWriteArrayList<Lao/c$a;>;
+
+  private final java.util.concurrent.CopyOnWriteArrayList<ap.q> c;
+    descriptor: Ljava/util/concurrent/CopyOnWriteArrayList;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #544                         // Ljava/util/concurrent/CopyOnWriteArrayList<Lap/q;>;
+
+  private final java.util.ArrayList<ap.q> d;
+    descriptor: Ljava/util/ArrayList;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #541                         // Ljava/util/ArrayList<Lap/q;>;
+
+  public aq.m(ap.u);
+    descriptor: (Lap/u;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #259                // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: aload_1
+         6: putfield      #23                 // Field a:Lap/u;
+         9: aload_0
+        10: new           #22                 // class java/util/concurrent/CopyOnWriteArrayList
+        13: dup
+        14: invokespecial #264                // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+        17: putfield      #25                 // Field c:Ljava/util/concurrent/CopyOnWriteArrayList;
+        20: aload_0
+        21: new           #20                 // class java/util/ArrayList
+        24: dup
+        25: invokespecial #260                // Method java/util/ArrayList."<init>":()V
+        28: putfield      #26                 // Field d:Ljava/util/ArrayList;
+        31: aload_0
+        32: new           #22                 // class java/util/concurrent/CopyOnWriteArrayList
+        35: dup
+        36: invokespecial #264                // Method java/util/concurrent/CopyOnWriteArrayList."<init>":()V
+        39: putfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+        42: return
+      LineNumberTable:
+        line 62: 0
+        line 63: 4
+        line 64: 9
+        line 65: 20
+        line 66: 31
+        line 68: 42
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      43     0  this   Laq/m;
+            0      43     1 owner   Lap/u;
+
+  private void d(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=6, args_size=2
+         0: aload_1
+         1: aload_0
+         2: getfield      #23                 // Field a:Lap/u;
+         5: invokevirtual #102                // Method ap/q.e:(Lap/u;)V
+         8: aload_0
+         9: getfield      #25                 // Field c:Ljava/util/concurrent/CopyOnWriteArrayList;
+        12: aload_1
+        13: invokevirtual #265                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+        16: pop
+        17: aload_0
+        18: getfield      #23                 // Field a:Lap/u;
+        21: aload_0
+        22: getfield      #25                 // Field c:Ljava/util/concurrent/CopyOnWriteArrayList;
+        25: invokevirtual #154                // Method ap/u.a:(Ljava/util/concurrent/CopyOnWriteArrayList;)V
+        28: aload_1
+        29: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+        32: invokevirtual #234                // Method bh/j.aP:()I
+        35: istore_2
+        36: aload_1
+        37: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+        40: invokevirtual #233                // Method bh/j.aB:()I
+        43: istore_3
+        44: iload_3
+        45: ifge          53
+        48: bipush        15
+        50: goto          54
+        53: iload_3
+        54: istore_3
+        55: aload_0
+        56: getfield      #23                 // Field a:Lap/u;
+        59: new           #11                 // class be/cm
+        62: dup
+        63: sipush        160
+        66: iload_3
+        67: iload_2
+        68: invokespecial #212                // Method be/cm."<init>":(III)V
+        71: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+        74: aload_1
+        75: invokevirtual #40                 // Method ap/q.N:()I
+        78: sipush        145
+        81: if_icmpeq     94
+        84: aload_1
+        85: invokevirtual #40                 // Method ap/q.N:()I
+        88: sipush        149
+        91: if_icmpne     102
+        94: aload_0
+        95: getfield      #23                 // Field a:Lap/u;
+        98: iconst_1
+        99: invokevirtual #115                // Method ap/u.C:(Z)V
+       102: invokestatic  #29                 // Method ao/c.a:()Lao/c;
+       105: invokevirtual #30                 // Method ao/c.b:()Ljava/util/ArrayList;
+       108: invokevirtual #262                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       111: astore        5
+       113: goto          182
+       116: aload         5
+       118: invokeinterface #269,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       123: checkcast     #4                  // class ao/c$a
+       126: astore        4
+       128: aload         4
+       130: aload_1
+       131: invokevirtual #40                 // Method ap/q.N:()I
+       134: invokevirtual #31                 // Method ao/c$a.a:(I)Z
+       137: ifeq          182
+       140: aload         4
+       142: aload_0
+       143: getfield      #23                 // Field a:Lap/u;
+       146: invokevirtual #32                 // Method ao/c$a.a:(Lap/u;)Z
+       149: ifeq          182
+       152: aload         4
+       154: aload_0
+       155: getfield      #23                 // Field a:Lap/u;
+       158: aload_1
+       159: iconst_1
+       160: invokevirtual #33                 // Method ao/c$a.a:(Lap/u;Lap/q;Z)V
+       163: aload         4
+       165: aload_0
+       166: getfield      #23                 // Field a:Lap/u;
+       169: invokevirtual #34                 // Method ao/c$a.b:(Lap/u;)V
+       172: aload_0
+       173: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       176: aload         4
+       178: invokevirtual #265                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+       181: pop
+       182: aload         5
+       184: invokeinterface #268,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       189: ifne          116
+       192: return
+      LineNumberTable:
+        line 71: 0
+        line 72: 8
+        line 73: 17
+        line 76: 28
+        line 77: 36
+        line 78: 44
+        line 79: 55
+        line 81: 74
+        line 82: 94
+        line 86: 102
+        line 87: 128
+        line 90: 152
+        line 92: 163
+        line 93: 172
+        line 86: 182
+        line 98: 192
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     193     0  this   Laq/m;
+            0     193     1 weapon   Lap/q;
+           36     157     2  type   I
+           44     149     3 range   I
+          128      54     4 armorSet   Lao/c$a;
+
+  private void e(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=6, locals=4, args_size=2
+         0: aload_1
+         1: invokevirtual #110                // Method ap/q.u:()V
+         4: aload_0
+         5: getfield      #25                 // Field c:Ljava/util/concurrent/CopyOnWriteArrayList;
+         8: aload_1
+         9: invokevirtual #267                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+        12: pop
+        13: aload_0
+        14: getfield      #23                 // Field a:Lap/u;
+        17: bipush        91
+        19: invokevirtual #160                // Method ap/u.bB:(I)Z
+        22: ifeq          34
+        25: aload_0
+        26: getfield      #23                 // Field a:Lap/u;
+        29: bipush        91
+        31: invokevirtual #179                // Method ap/u.bz:(I)V
+        34: aload_0
+        35: getfield      #23                 // Field a:Lap/u;
+        38: aload_0
+        39: getfield      #25                 // Field c:Ljava/util/concurrent/CopyOnWriteArrayList;
+        42: invokevirtual #154                // Method ap/u.a:(Ljava/util/concurrent/CopyOnWriteArrayList;)V
+        45: aload_0
+        46: getfield      #23                 // Field a:Lap/u;
+        49: new           #11                 // class be/cm
+        52: dup
+        53: sipush        160
+        56: iconst_1
+        57: iconst_0
+        58: invokespecial #212                // Method be/cm."<init>":(III)V
+        61: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+        64: aload_1
+        65: invokevirtual #40                 // Method ap/q.N:()I
+        68: sipush        145
+        71: if_icmpeq     84
+        74: aload_1
+        75: invokevirtual #40                 // Method ap/q.N:()I
+        78: sipush        149
+        81: if_icmpne     92
+        84: aload_0
+        85: getfield      #23                 // Field a:Lap/u;
+        88: iconst_0
+        89: invokevirtual #115                // Method ap/u.C:(Z)V
+        92: invokestatic  #29                 // Method ao/c.a:()Lao/c;
+        95: invokevirtual #30                 // Method ao/c.b:()Ljava/util/ArrayList;
+        98: invokevirtual #262                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       101: astore_3
+       102: goto          175
+       105: aload_3
+       106: invokeinterface #269,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       111: checkcast     #4                  // class ao/c$a
+       114: astore_2
+       115: aload_2
+       116: aload_1
+       117: invokevirtual #40                 // Method ap/q.N:()I
+       120: invokevirtual #31                 // Method ao/c$a.a:(I)Z
+       123: ifeq          175
+       126: aload_0
+       127: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       130: aload_2
+       131: invokevirtual #266                // Method java/util/concurrent/CopyOnWriteArrayList.contains:(Ljava/lang/Object;)Z
+       134: ifeq          175
+       137: aload_2
+       138: aload_0
+       139: getfield      #23                 // Field a:Lap/u;
+       142: invokevirtual #32                 // Method ao/c$a.a:(Lap/u;)Z
+       145: ifne          175
+       148: aload_2
+       149: aload_0
+       150: getfield      #23                 // Field a:Lap/u;
+       153: aload_1
+       154: iconst_0
+       155: invokevirtual #33                 // Method ao/c$a.a:(Lap/u;Lap/q;Z)V
+       158: aload_2
+       159: aload_0
+       160: getfield      #23                 // Field a:Lap/u;
+       163: invokevirtual #35                 // Method ao/c$a.c:(Lap/u;)V
+       166: aload_0
+       167: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       170: aload_2
+       171: invokevirtual #267                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+       174: pop
+       175: aload_3
+       176: invokeinterface #268,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       181: ifne          105
+       184: return
+      LineNumberTable:
+        line 101: 0
+        line 102: 4
+        line 103: 13
+        line 104: 25
+        line 106: 34
+        line 109: 45
+        line 111: 64
+        line 112: 84
+        line 115: 92
+        line 116: 115
+        line 121: 148
+        line 122: 158
+        line 123: 166
+        line 115: 175
+        line 127: 184
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     185     0  this   Laq/m;
+            0     185     1 weapon   Lap/q;
+          115      60     2 armorSet   Lao/c$a;
+
+  private void f(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=12, locals=6, args_size=2
+         0: aload_1
+         1: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+         4: astore_2
+         5: aload_1
+         6: invokevirtual #40                 // Method ap/q.N:()I
+         9: istore_3
+        10: aload_1
+        11: invokevirtual #108                // Method ap/q.i:()Z
+        14: ifeq          41
+        17: aload_0
+        18: getfield      #23                 // Field a:Lap/u;
+        21: aload_2
+        22: invokevirtual #230                // Method bh/j.X:()I
+        25: aload_1
+        26: invokevirtual #41                 // Method ap/q.O:()I
+        29: isub
+        30: aload_1
+        31: invokevirtual #68                 // Method ap/q.ad:()I
+        34: isub
+        35: invokevirtual #164                // Method ap/u.bL:(I)V
+        38: goto          67
+        41: aload_0
+        42: getfield      #23                 // Field a:Lap/u;
+        45: aload_2
+        46: invokevirtual #230                // Method bh/j.X:()I
+        49: aload_1
+        50: invokevirtual #38                 // Method ap/q.G:()I
+        53: isub
+        54: aload_1
+        55: invokevirtual #41                 // Method ap/q.O:()I
+        58: isub
+        59: aload_1
+        60: invokevirtual #68                 // Method ap/q.ad:()I
+        63: isub
+        64: invokevirtual #164                // Method ap/u.bL:(I)V
+        67: aload_0
+        68: getfield      #23                 // Field a:Lap/u;
+        71: aload_2
+        72: invokevirtual #231                // Method bh/j.Y:()I
+        75: aload_1
+        76: invokevirtual #78                 // Method ap/q.ap:()I
+        79: iadd
+        80: invokevirtual #120                // Method ap/u.F:(I)V
+        83: aload_0
+        84: getfield      #23                 // Field a:Lap/u;
+        87: aload_1
+        88: invokevirtual #60                 // Method ap/q.aT:()I
+        91: invokevirtual #114                // Method ap/u.C:(I)V
+        94: aload_0
+        95: getfield      #23                 // Field a:Lap/u;
+        98: aload_2
+        99: invokevirtual #232                // Method bh/j.Z:()I
+       102: invokevirtual #116                // Method ap/u.D:(I)V
+       105: aload_0
+       106: getfield      #23                 // Field a:Lap/u;
+       109: aload_2
+       110: invokevirtual #235                // Method bh/j.aa:()I
+       113: aload_1
+       114: invokevirtual #81                 // Method ap/q.as:()I
+       117: iadd
+       118: invokevirtual #122                // Method ap/u.G:(I)V
+       121: aload_0
+       122: getfield      #23                 // Field a:Lap/u;
+       125: aload_2
+       126: invokevirtual #237                // Method bh/j.ac:()I
+       129: aload_1
+       130: invokevirtual #83                 // Method ap/q.au:()I
+       133: iadd
+       134: aload_1
+       135: invokevirtual #97                 // Method ap/q.bl:()I
+       138: iadd
+       139: invokevirtual #124                // Method ap/u.H:(I)V
+       142: aload_0
+       143: getfield      #23                 // Field a:Lap/u;
+       146: aload_2
+       147: invokevirtual #236                // Method bh/j.ab:()I
+       150: aload_1
+       151: invokevirtual #82                 // Method ap/q.at:()I
+       154: iadd
+       155: invokevirtual #126                // Method ap/u.I:(I)V
+       158: aload_0
+       159: getfield      #23                 // Field a:Lap/u;
+       162: aload_2
+       163: invokevirtual #238                // Method bh/j.ad:()I
+       166: aload_1
+       167: invokevirtual #84                 // Method ap/q.av:()I
+       170: iadd
+       171: aload_1
+       172: invokevirtual #98                 // Method ap/q.bm:()I
+       175: iadd
+       176: invokevirtual #128                // Method ap/u.J:(I)V
+       179: aload_0
+       180: getfield      #23                 // Field a:Lap/u;
+       183: aload_2
+       184: invokevirtual #243                // Method bh/j.ai:()I
+       187: aload_1
+       188: invokevirtual #48                 // Method ap/q.aF:()I
+       191: iadd
+       192: aload_1
+       193: invokevirtual #96                 // Method ap/q.bk:()I
+       196: iadd
+       197: invokevirtual #183                // Method ap/u.cd:(I)V
+       200: aload_0
+       201: getfield      #23                 // Field a:Lap/u;
+       204: aload_2
+       205: invokevirtual #244                // Method bh/j.aj:()I
+       208: aload_1
+       209: invokevirtual #43                 // Method ap/q.aA:()I
+       212: iadd
+       213: invokevirtual #184                // Method ap/u.ce:(I)V
+       216: aload_0
+       217: getfield      #23                 // Field a:Lap/u;
+       220: aload_2
+       221: invokevirtual #245                // Method bh/j.ak:()I
+       224: aload_1
+       225: invokevirtual #44                 // Method ap/q.aB:()I
+       228: iadd
+       229: invokevirtual #185                // Method ap/u.cf:(I)V
+       232: aload_0
+       233: getfield      #23                 // Field a:Lap/u;
+       236: aload_2
+       237: invokevirtual #246                // Method bh/j.al:()I
+       240: aload_1
+       241: invokevirtual #45                 // Method ap/q.aC:()I
+       244: iadd
+       245: invokevirtual #186                // Method ap/u.cg:(I)V
+       248: aload_0
+       249: getfield      #23                 // Field a:Lap/u;
+       252: aload_2
+       253: invokevirtual #247                // Method bh/j.am:()I
+       256: aload_1
+       257: invokevirtual #47                 // Method ap/q.aE:()I
+       260: iadd
+       261: aload_1
+       262: invokevirtual #95                 // Method ap/q.bj:()I
+       265: iadd
+       266: invokevirtual #187                // Method ap/u.ch:(I)V
+       269: aload_0
+       270: getfield      #23                 // Field a:Lap/u;
+       273: aload_2
+       274: invokevirtual #248                // Method bh/j.an:()I
+       277: aload_1
+       278: invokevirtual #46                 // Method ap/q.aD:()I
+       281: iadd
+       282: invokevirtual #188                // Method ap/u.ci:(I)V
+       285: aload_0
+       286: getfield      #23                 // Field a:Lap/u;
+       289: aload_2
+       290: invokevirtual #249                // Method bh/j.ao:()I
+       293: aload_1
+       294: invokevirtual #49                 // Method ap/q.aG:()I
+       297: iadd
+       298: invokevirtual #189                // Method ap/u.cj:(I)V
+       301: aload_0
+       302: getfield      #23                 // Field a:Lap/u;
+       305: aload_2
+       306: invokevirtual #242                // Method bh/j.ah:()I
+       309: aload_1
+       310: invokevirtual #88                 // Method ap/q.az:()I
+       313: iadd
+       314: aload_1
+       315: invokevirtual #94                 // Method ap/q.bi:()I
+       318: iadd
+       319: invokevirtual #182                // Method ap/u.cb:(I)V
+       322: aload_0
+       323: getfield      #23                 // Field a:Lap/u;
+       326: aload_2
+       327: invokevirtual #240                // Method bh/j.af:()I
+       330: aload_1
+       331: invokevirtual #86                 // Method ap/q.ax:()I
+       334: iadd
+       335: aload_1
+       336: invokevirtual #92                 // Method ap/q.bg:()I
+       339: iadd
+       340: invokevirtual #172                // Method ap/u.bY:(I)V
+       343: aload_0
+       344: getfield      #23                 // Field a:Lap/u;
+       347: aload_2
+       348: invokevirtual #239                // Method bh/j.ae:()I
+       351: aload_1
+       352: invokevirtual #85                 // Method ap/q.aw:()I
+       355: iadd
+       356: aload_1
+       357: invokevirtual #91                 // Method ap/q.bf:()I
+       360: iadd
+       361: invokevirtual #173                // Method ap/u.bZ:(I)V
+       364: aload_0
+       365: getfield      #23                 // Field a:Lap/u;
+       368: aload_2
+       369: invokevirtual #241                // Method bh/j.ag:()I
+       372: aload_1
+       373: invokevirtual #87                 // Method ap/q.ay:()I
+       376: iadd
+       377: aload_1
+       378: invokevirtual #93                 // Method ap/q.bh:()I
+       381: iadd
+       382: invokevirtual #181                // Method ap/u.ca:(I)V
+       385: aload_0
+       386: getfield      #23                 // Field a:Lap/u;
+       389: aload_1
+       390: invokevirtual #52                 // Method ap/q.aL:()I
+       393: aload_1
+       394: invokevirtual #100                // Method ap/q.bo:()I
+       397: iadd
+       398: invokevirtual #135                // Method ap/u.P:(I)V
+       401: aload_0
+       402: getfield      #23                 // Field a:Lap/u;
+       405: aload_1
+       406: invokevirtual #51                 // Method ap/q.aK:()I
+       409: aload_1
+       410: invokevirtual #99                 // Method ap/q.bn:()I
+       413: iadd
+       414: invokevirtual #180                // Method ap/u.cA:(I)V
+       417: aload_0
+       418: getfield      #23                 // Field a:Lap/u;
+       421: aload_2
+       422: invokevirtual #254                // Method bh/j.au:()I
+       425: aload_1
+       426: invokevirtual #77                 // Method ap/q.ao:()I
+       429: iadd
+       430: invokevirtual #137                // Method ap/u.Q:(I)V
+       433: aload_0
+       434: getfield      #23                 // Field a:Lap/u;
+       437: aload_2
+       438: invokevirtual #252                // Method bh/j.as:()I
+       441: aload_1
+       442: invokevirtual #80                 // Method ap/q.ar:()I
+       445: iadd
+       446: invokevirtual #145                // Method ap/u.U:(I)V
+       449: aload_0
+       450: getfield      #23                 // Field a:Lap/u;
+       453: aload_1
+       454: invokevirtual #56                 // Method ap/q.aP:()I
+       457: invokevirtual #147                // Method ap/u.V:(I)V
+       460: aload_0
+       461: getfield      #23                 // Field a:Lap/u;
+       464: aload_1
+       465: invokevirtual #57                 // Method ap/q.aQ:()I
+       468: invokevirtual #148                // Method ap/u.W:(I)V
+       471: aload_0
+       472: getfield      #23                 // Field a:Lap/u;
+       475: aload_2
+       476: invokevirtual #253                // Method bh/j.at:()I
+       479: aload_1
+       480: invokevirtual #58                 // Method ap/q.aR:()I
+       483: iadd
+       484: invokevirtual #149                // Method ap/u.X:(I)V
+       487: aload_0
+       488: getfield      #23                 // Field a:Lap/u;
+       491: aload_2
+       492: invokevirtual #256                // Method bh/j.aw:()I
+       495: aload_1
+       496: invokevirtual #59                 // Method ap/q.aS:()I
+       499: iadd
+       500: invokevirtual #157                // Method ap/u.ac:(I)V
+       503: aload_0
+       504: getfield      #23                 // Field a:Lap/u;
+       507: aload_2
+       508: invokevirtual #250                // Method bh/j.aq:()I
+       511: aload_1
+       512: invokevirtual #53                 // Method ap/q.aM:()I
+       515: iadd
+       516: invokevirtual #139                // Method ap/u.R:(I)V
+       519: aload_0
+       520: getfield      #23                 // Field a:Lap/u;
+       523: aload_2
+       524: invokevirtual #251                // Method bh/j.ar:()I
+       527: aload_1
+       528: invokevirtual #54                 // Method ap/q.aN:()I
+       531: iadd
+       532: invokevirtual #141                // Method ap/u.S:(I)V
+       535: aload_0
+       536: getfield      #23                 // Field a:Lap/u;
+       539: aload_1
+       540: invokevirtual #55                 // Method ap/q.aO:()I
+       543: invokevirtual #143                // Method ap/u.T:(I)V
+       546: aload_0
+       547: getfield      #23                 // Field a:Lap/u;
+       550: aload_1
+       551: invokevirtual #64                 // Method ap/q.aY:()I
+       554: invokevirtual #151                // Method ap/u.Y:(I)V
+       557: aload_0
+       558: getfield      #23                 // Field a:Lap/u;
+       561: aload_1
+       562: invokevirtual #89                 // Method ap/q.ba:()I
+       565: invokevirtual #152                // Method ap/u.Z:(I)V
+       568: aload_1
+       569: invokevirtual #37                 // Method ap/q.B:()Z
+       572: ifeq          583
+       575: aload_0
+       576: getfield      #23                 // Field a:Lap/u;
+       579: iconst_1
+       580: invokevirtual #144                // Method ap/u.T:(Z)V
+       583: aload_1
+       584: invokevirtual #51                 // Method ap/q.aK:()I
+       587: aload_1
+       588: invokevirtual #99                 // Method ap/q.bn:()I
+       591: iadd
+       592: ifeq          618
+       595: aload_0
+       596: getfield      #23                 // Field a:Lap/u;
+       599: new           #11                 // class be/cm
+       602: dup
+       603: bipush        88
+       605: aload_0
+       606: getfield      #23                 // Field a:Lap/u;
+       609: invokevirtual #196                // Method ap/u.fk:()I
+       612: invokespecial #211                // Method be/cm."<init>":(II)V
+       615: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       618: aload_0
+       619: getfield      #26                 // Field d:Ljava/util/ArrayList;
+       622: aload_1
+       623: invokevirtual #261                // Method java/util/ArrayList.add:(Ljava/lang/Object;)Z
+       626: pop
+       627: invokestatic  #29                 // Method ao/c.a:()Lao/c;
+       630: invokevirtual #30                 // Method ao/c.b:()Ljava/util/ArrayList;
+       633: invokevirtual #262                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       636: astore        5
+       638: goto          757
+       641: aload         5
+       643: invokeinterface #269,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       648: checkcast     #4                  // class ao/c$a
+       651: astore        4
+       653: aload         4
+       655: iload_3
+       656: invokevirtual #31                 // Method ao/c$a.a:(I)Z
+       659: ifeq          757
+       662: aload         4
+       664: aload_0
+       665: getfield      #23                 // Field a:Lap/u;
+       668: invokevirtual #32                 // Method ao/c$a.a:(Lap/u;)Z
+       671: ifeq          757
+       674: aload         4
+       676: aload_0
+       677: getfield      #23                 // Field a:Lap/u;
+       680: aload_1
+       681: iconst_1
+       682: invokevirtual #33                 // Method ao/c$a.a:(Lap/u;Lap/q;Z)V
+       685: aload_1
+       686: invokevirtual #107                // Method ap/q.h:()Z
+       689: ifeq          738
+       692: aload_1
+       693: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+       696: invokevirtual #234                // Method bh/j.aP:()I
+       699: bipush        9
+       701: if_icmpne     738
+       704: aload         4
+       706: aload_0
+       707: getfield      #23                 // Field a:Lap/u;
+       710: invokevirtual #36                 // Method ao/c$a.d:(Lap/u;)Z
+       713: ifne          757
+       716: aload         4
+       718: aload_0
+       719: getfield      #23                 // Field a:Lap/u;
+       722: invokevirtual #34                 // Method ao/c$a.b:(Lap/u;)V
+       725: aload_0
+       726: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       729: aload         4
+       731: invokevirtual #265                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+       734: pop
+       735: goto          757
+       738: aload         4
+       740: aload_0
+       741: getfield      #23                 // Field a:Lap/u;
+       744: invokevirtual #34                 // Method ao/c$a.b:(Lap/u;)V
+       747: aload_0
+       748: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       751: aload         4
+       753: invokevirtual #265                // Method java/util/concurrent/CopyOnWriteArrayList.add:(Ljava/lang/Object;)Z
+       756: pop
+       757: aload         5
+       759: invokeinterface #268,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       764: ifne          641
+       767: iload_3
+       768: sipush        20077
+       771: if_icmpeq     787
+       774: iload_3
+       775: sipush        20062
+       778: if_icmpeq     787
+       781: iload_3
+       782: ldc           #1                  // int 120077
+       784: if_icmpne     805
+       787: new           #17                 // class bf/bi
+       790: dup
+       791: invokespecial #218                // Method bf/bi."<init>":()V
+       794: aload_0
+       795: getfield      #23                 // Field a:Lap/u;
+       798: iconst_m1
+       799: invokevirtual #219                // Method bf/bi.a:(Laq/f;I)V
+       802: goto          1475
+       805: iload_3
+       806: sipush        20281
+       809: if_icmpne     831
+       812: aload_0
+       813: getfield      #23                 // Field a:Lap/u;
+       816: new           #9                  // class be/a
+       819: dup
+       820: iconst_2
+       821: iconst_1
+       822: invokespecial #209                // Method be/a."<init>":(IZ)V
+       825: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       828: goto          1475
+       831: iload_3
+       832: sipush        20288
+       835: if_icmpeq     845
+       838: iload_3
+       839: sipush        21418
+       842: if_icmpne     864
+       845: aload_0
+       846: getfield      #23                 // Field a:Lap/u;
+       849: new           #9                  // class be/a
+       852: dup
+       853: iconst_1
+       854: iconst_1
+       855: invokespecial #209                // Method be/a."<init>":(IZ)V
+       858: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       861: goto          1475
+       864: iload_3
+       865: sipush        20284
+       868: if_icmpne     890
+       871: aload_0
+       872: getfield      #23                 // Field a:Lap/u;
+       875: new           #9                  // class be/a
+       878: dup
+       879: iconst_5
+       880: iconst_1
+       881: invokespecial #209                // Method be/a."<init>":(IZ)V
+       884: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       887: goto          1475
+       890: iload_3
+       891: sipush        20383
+       894: if_icmpne     928
+       897: aload_1
+       898: invokevirtual #39                 // Method ap/q.I:()I
+       901: ifeq          1475
+       904: aload_1
+       905: aload_1
+       906: invokevirtual #39                 // Method ap/q.I:()I
+       909: iconst_1
+       910: isub
+       911: invokevirtual #106                // Method ap/q.g:(I)V
+       914: aload_0
+       915: getfield      #23                 // Field a:Lap/u;
+       918: invokevirtual #199                // Method ap/u.j:()Lau/g;
+       921: aload_1
+       922: invokevirtual #208                // Method au/g.b:(Lap/q;)V
+       925: goto          1475
+       928: iload_3
+       929: sipush        21397
+       932: if_icmpne     972
+       935: aload_0
+       936: getfield      #23                 // Field a:Lap/u;
+       939: new           #13                 // class be/dc
+       942: dup
+       943: aload_2
+       944: invokevirtual #258                // Method bh/j.g:()I
+       947: iconst_m1
+       948: iconst_0
+       949: sipush        5934
+       952: sipush        5934
+       955: sipush        4647
+       958: sipush        4647
+       961: iconst_0
+       962: iconst_1
+       963: invokespecial #214                // Method be/dc."<init>":(IIIIIIIII)V
+       966: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       969: goto          1475
+       972: iload_3
+       973: sipush        21123
+       976: if_icmplt     997
+       979: iload_3
+       980: sipush        21126
+       983: if_icmpgt     997
+       986: aload_0
+       987: getfield      #23                 // Field a:Lap/u;
+       990: iconst_1
+       991: invokevirtual #119                // Method ap/u.E:(Z)V
+       994: goto          1475
+       997: iload_3
+       998: sipush        21119
+      1001: if_icmplt     1022
+      1004: iload_3
+      1005: sipush        21122
+      1008: if_icmpgt     1022
+      1011: aload_0
+      1012: getfield      #23                 // Field a:Lap/u;
+      1015: iconst_1
+      1016: invokevirtual #117                // Method ap/u.D:(Z)V
+      1019: goto          1475
+      1022: iload_3
+      1023: sipush        21446
+      1026: if_icmpne     1040
+      1029: aload_0
+      1030: getfield      #23                 // Field a:Lap/u;
+      1033: iconst_1
+      1034: invokevirtual #117                // Method ap/u.D:(Z)V
+      1037: goto          1475
+      1040: iload_3
+      1041: sipush        21484
+      1044: if_icmpne     1058
+      1047: aload_0
+      1048: getfield      #23                 // Field a:Lap/u;
+      1051: iconst_1
+      1052: invokevirtual #136                // Method ap/u.P:(Z)V
+      1055: goto          1475
+      1058: iload_3
+      1059: sipush        21485
+      1062: if_icmpne     1076
+      1065: aload_0
+      1066: getfield      #23                 // Field a:Lap/u;
+      1069: iconst_1
+      1070: invokevirtual #138                // Method ap/u.Q:(Z)V
+      1073: goto          1475
+      1076: iload_3
+      1077: sipush        21486
+      1080: if_icmpne     1094
+      1083: aload_0
+      1084: getfield      #23                 // Field a:Lap/u;
+      1087: iconst_1
+      1088: invokevirtual #140                // Method ap/u.R:(Z)V
+      1091: goto          1475
+      1094: iload_3
+      1095: sipush        21205
+      1098: if_icmpeq     1108
+      1101: iload_3
+      1102: sipush        21517
+      1105: if_icmpne     1124
+      1108: aload_0
+      1109: getfield      #23                 // Field a:Lap/u;
+      1112: aload_1
+      1113: invokevirtual #38                 // Method ap/q.G:()I
+      1116: iconst_2
+      1117: imul
+      1118: invokevirtual #174                // Method ap/u.bm:(I)V
+      1121: goto          1475
+      1124: iload_3
+      1125: sipush        21509
+      1128: if_icmpne     1153
+      1131: aload_0
+      1132: getfield      #23                 // Field a:Lap/u;
+      1135: aload_1
+      1136: invokevirtual #38                 // Method ap/q.G:()I
+      1139: invokevirtual #175                // Method ap/u.bn:(I)V
+      1142: aload_0
+      1143: getfield      #23                 // Field a:Lap/u;
+      1146: iconst_1
+      1147: invokevirtual #132                // Method ap/u.M:(Z)V
+      1150: goto          1475
+      1153: iload_3
+      1154: sipush        21510
+      1157: if_icmpeq     1167
+      1160: iload_3
+      1161: sipush        21511
+      1164: if_icmpne     1192
+      1167: aload_0
+      1168: getfield      #23                 // Field a:Lap/u;
+      1171: aload_1
+      1172: invokevirtual #38                 // Method ap/q.G:()I
+      1175: invokevirtual #176                // Method ap/u.bo:(I)V
+      1178: aload_0
+      1179: getfield      #23                 // Field a:Lap/u;
+      1182: aload_1
+      1183: invokevirtual #38                 // Method ap/q.G:()I
+      1186: invokevirtual #177                // Method ap/u.bp:(I)V
+      1189: goto          1475
+      1192: iload_3
+      1193: sipush        21473
+      1196: if_icmpne     1218
+      1199: aload_0
+      1200: getfield      #23                 // Field a:Lap/u;
+      1203: iconst_1
+      1204: invokevirtual #125                // Method ap/u.H:(Z)V
+      1207: aload_0
+      1208: getfield      #23                 // Field a:Lap/u;
+      1211: iconst_1
+      1212: invokevirtual #123                // Method ap/u.G:(Z)V
+      1215: goto          1475
+      1218: iload_3
+      1219: sipush        21206
+      1222: if_icmpne     1244
+      1225: aload_0
+      1226: getfield      #23                 // Field a:Lap/u;
+      1229: iconst_1
+      1230: invokevirtual #121                // Method ap/u.F:(Z)V
+      1233: aload_0
+      1234: getfield      #23                 // Field a:Lap/u;
+      1237: iconst_1
+      1238: invokevirtual #123                // Method ap/u.G:(Z)V
+      1241: goto          1475
+      1244: iload_3
+      1245: sipush        21207
+      1248: if_icmpeq     1258
+      1251: iload_3
+      1252: sipush        21208
+      1255: if_icmpne     1269
+      1258: aload_0
+      1259: getfield      #23                 // Field a:Lap/u;
+      1262: iconst_1
+      1263: invokevirtual #123                // Method ap/u.G:(Z)V
+      1266: goto          1475
+      1269: iload_3
+      1270: sipush        21527
+      1273: if_icmplt     1297
+      1276: iload_3
+      1277: sipush        21530
+      1280: if_icmpgt     1297
+      1283: aload_0
+      1284: getfield      #23                 // Field a:Lap/u;
+      1287: aload_1
+      1288: invokevirtual #65                 // Method ap/q.aZ:()I
+      1291: invokevirtual #178                // Method ap/u.bq:(I)V
+      1294: goto          1475
+      1297: iload_3
+      1298: sipush        21213
+      1301: if_icmplt     1322
+      1304: iload_3
+      1305: sipush        21221
+      1308: if_icmpgt     1322
+      1311: aload_0
+      1312: getfield      #23                 // Field a:Lap/u;
+      1315: iconst_1
+      1316: invokevirtual #127                // Method ap/u.I:(Z)V
+      1319: goto          1475
+      1322: iload_3
+      1323: sipush        21474
+      1326: if_icmpne     1340
+      1329: aload_0
+      1330: getfield      #23                 // Field a:Lap/u;
+      1333: iconst_1
+      1334: invokevirtual #129                // Method ap/u.J:(Z)V
+      1337: goto          1475
+      1340: iload_3
+      1341: sipush        21500
+      1344: if_icmpne     1358
+      1347: aload_0
+      1348: getfield      #23                 // Field a:Lap/u;
+      1351: iconst_1
+      1352: invokevirtual #142                // Method ap/u.S:(Z)V
+      1355: goto          1475
+      1358: iload_3
+      1359: sipush        21437
+      1362: if_icmplt     1383
+      1365: iload_3
+      1366: sipush        21440
+      1369: if_icmpgt     1383
+      1372: aload_0
+      1373: getfield      #23                 // Field a:Lap/u;
+      1376: iconst_1
+      1377: invokevirtual #130                // Method ap/u.K:(Z)V
+      1380: goto          1475
+      1383: iload_3
+      1384: sipush        21420
+      1387: if_icmplt     1408
+      1390: iload_3
+      1391: sipush        21423
+      1394: if_icmpgt     1408
+      1397: aload_0
+      1398: getfield      #23                 // Field a:Lap/u;
+      1401: iconst_1
+      1402: invokevirtual #131                // Method ap/u.L:(Z)V
+      1405: goto          1475
+      1408: iload_3
+      1409: sipush        21369
+      1412: if_icmplt     1433
+      1415: iload_3
+      1416: sipush        21371
+      1419: if_icmpgt     1433
+      1422: aload_0
+      1423: getfield      #23                 // Field a:Lap/u;
+      1426: iconst_1
+      1427: invokevirtual #134                // Method ap/u.O:(Z)V
+      1430: goto          1475
+      1433: iload_3
+      1434: sipush        21363
+      1437: if_icmplt     1475
+      1440: iload_3
+      1441: sipush        21365
+      1444: if_icmpgt     1475
+      1447: aload_1
+      1448: invokevirtual #38                 // Method ap/q.G:()I
+      1451: bipush        10
+      1453: if_icmplt     1467
+      1456: aload_0
+      1457: getfield      #23                 // Field a:Lap/u;
+      1460: iconst_1
+      1461: invokevirtual #132                // Method ap/u.M:(Z)V
+      1464: goto          1475
+      1467: aload_0
+      1468: getfield      #23                 // Field a:Lap/u;
+      1471: iconst_1
+      1472: invokevirtual #133                // Method ap/u.N:(Z)V
+      1475: aload_1
+      1476: aload_0
+      1477: getfield      #23                 // Field a:Lap/u;
+      1480: invokevirtual #102                // Method ap/q.e:(Lap/u;)V
+      1483: return
+      LineNumberTable:
+        line 130: 0
+        line 131: 5
+        line 133: 10
+        line 134: 17
+        line 135: 38
+        line 136: 41
+        line 138: 67
+        line 139: 83
+        line 140: 94
+        line 141: 105
+        line 142: 121
+        line 143: 142
+        line 144: 158
+        line 145: 179
+        line 146: 200
+        line 147: 216
+        line 148: 232
+        line 149: 248
+        line 150: 269
+        line 151: 285
+        line 153: 301
+        line 154: 322
+        line 155: 343
+        line 156: 364
+        line 157: 385
+        line 158: 401
+        line 159: 417
+        line 160: 433
+        line 163: 449
+        line 164: 460
+        line 165: 471
+        line 167: 487
+        line 169: 503
+        line 170: 519
+        line 172: 535
+        line 174: 546
+        line 175: 557
+        line 178: 568
+        line 179: 575
+        line 181: 583
+        line 182: 595
+        line 185: 618
+        line 188: 627
+        line 189: 653
+        line 192: 674
+        line 193: 685
+        line 195: 704
+        line 196: 716
+        line 197: 725
+        line 199: 735
+        line 200: 738
+        line 201: 747
+        line 188: 757
+        line 206: 767
+        line 207: 787
+        line 208: 802
+        line 209: 812
+        line 210: 828
+        line 211: 845
+        line 212: 861
+        line 213: 871
+        line 214: 887
+        line 215: 897
+        line 216: 904
+        line 217: 914
+        line 219: 925
+        line 220: 935
+        line 222: 969
+        line 223: 986
+        line 224: 994
+        line 225: 1011
+        line 226: 1019
+        line 227: 1029
+        line 229: 1037
+        line 230: 1047
+        line 231: 1055
+        line 232: 1065
+        line 233: 1073
+        line 234: 1083
+        line 236: 1091
+        line 237: 1108
+        line 239: 1121
+        line 240: 1131
+        line 241: 1142
+        line 243: 1150
+        line 244: 1167
+        line 245: 1178
+        line 247: 1189
+        line 248: 1199
+        line 249: 1207
+        line 250: 1215
+        line 251: 1225
+        line 252: 1233
+        line 253: 1241
+        line 254: 1258
+        line 256: 1266
+        line 257: 1283
+        line 258: 1294
+        line 259: 1311
+        line 260: 1319
+        line 261: 1329
+        line 262: 1337
+        line 263: 1347
+        line 264: 1355
+        line 265: 1372
+        line 266: 1380
+        line 267: 1397
+        line 268: 1405
+        line 269: 1422
+        line 270: 1430
+        line 271: 1447
+        line 272: 1456
+        line 273: 1464
+        line 274: 1467
+        line 277: 1475
+        line 278: 1483
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0    1484     0  this   Laq/m;
+            0    1484     1 armor   Lap/q;
+            5    1479     2  item   Lbh/j;
+           10    1474     3 itemId   I
+          653     104     4 armorSet   Lao/c$a;
+
+  public java.util.List<ap.q> a();
+    descriptor: ()Ljava/util/List;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #26                 // Field d:Ljava/util/ArrayList;
+         4: areturn
+      LineNumberTable:
+        line 281: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Laq/m;
+    Signature: #496                         // ()Ljava/util/List<Lap/q;>;
+
+  private void g(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=12, locals=7, args_size=2
+         0: aload_1
+         1: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+         4: astore_2
+         5: aload_1
+         6: invokevirtual #40                 // Method ap/q.N:()I
+         9: istore_3
+        10: aload_1
+        11: invokevirtual #108                // Method ap/q.i:()Z
+        14: ifeq          42
+        17: aload_0
+        18: getfield      #23                 // Field a:Lap/u;
+        21: aload_2
+        22: invokevirtual #230                // Method bh/j.X:()I
+        25: aload_1
+        26: invokevirtual #41                 // Method ap/q.O:()I
+        29: isub
+        30: aload_1
+        31: invokevirtual #68                 // Method ap/q.ad:()I
+        34: isub
+        35: ineg
+        36: invokevirtual #164                // Method ap/u.bL:(I)V
+        39: goto          69
+        42: aload_0
+        43: getfield      #23                 // Field a:Lap/u;
+        46: aload_2
+        47: invokevirtual #230                // Method bh/j.X:()I
+        50: aload_1
+        51: invokevirtual #38                 // Method ap/q.G:()I
+        54: isub
+        55: aload_1
+        56: invokevirtual #41                 // Method ap/q.O:()I
+        59: isub
+        60: aload_1
+        61: invokevirtual #68                 // Method ap/q.ad:()I
+        64: isub
+        65: ineg
+        66: invokevirtual #164                // Method ap/u.bL:(I)V
+        69: aload_0
+        70: getfield      #23                 // Field a:Lap/u;
+        73: aload_2
+        74: invokevirtual #231                // Method bh/j.Y:()I
+        77: ineg
+        78: aload_1
+        79: invokevirtual #78                 // Method ap/q.ap:()I
+        82: isub
+        83: invokevirtual #120                // Method ap/u.F:(I)V
+        86: aload_0
+        87: getfield      #23                 // Field a:Lap/u;
+        90: aload_1
+        91: invokevirtual #60                 // Method ap/q.aT:()I
+        94: ineg
+        95: invokevirtual #114                // Method ap/u.C:(I)V
+        98: aload_0
+        99: getfield      #23                 // Field a:Lap/u;
+       102: aload_2
+       103: invokevirtual #232                // Method bh/j.Z:()I
+       106: ineg
+       107: invokevirtual #116                // Method ap/u.D:(I)V
+       110: aload_0
+       111: getfield      #23                 // Field a:Lap/u;
+       114: aload_2
+       115: invokevirtual #235                // Method bh/j.aa:()I
+       118: ineg
+       119: aload_1
+       120: invokevirtual #81                 // Method ap/q.as:()I
+       123: isub
+       124: invokevirtual #122                // Method ap/u.G:(I)V
+       127: aload_0
+       128: getfield      #23                 // Field a:Lap/u;
+       131: aload_2
+       132: invokevirtual #237                // Method bh/j.ac:()I
+       135: ineg
+       136: aload_1
+       137: invokevirtual #83                 // Method ap/q.au:()I
+       140: isub
+       141: aload_1
+       142: invokevirtual #97                 // Method ap/q.bl:()I
+       145: isub
+       146: invokevirtual #124                // Method ap/u.H:(I)V
+       149: aload_0
+       150: getfield      #23                 // Field a:Lap/u;
+       153: aload_2
+       154: invokevirtual #236                // Method bh/j.ab:()I
+       157: ineg
+       158: aload_1
+       159: invokevirtual #82                 // Method ap/q.at:()I
+       162: isub
+       163: invokevirtual #126                // Method ap/u.I:(I)V
+       166: aload_0
+       167: getfield      #23                 // Field a:Lap/u;
+       170: aload_2
+       171: invokevirtual #238                // Method bh/j.ad:()I
+       174: ineg
+       175: aload_1
+       176: invokevirtual #84                 // Method ap/q.av:()I
+       179: isub
+       180: aload_1
+       181: invokevirtual #98                 // Method ap/q.bm:()I
+       184: isub
+       185: invokevirtual #128                // Method ap/u.J:(I)V
+       188: aload_0
+       189: getfield      #23                 // Field a:Lap/u;
+       192: aload_2
+       193: invokevirtual #243                // Method bh/j.ai:()I
+       196: ineg
+       197: aload_1
+       198: invokevirtual #48                 // Method ap/q.aF:()I
+       201: isub
+       202: aload_1
+       203: invokevirtual #96                 // Method ap/q.bk:()I
+       206: isub
+       207: invokevirtual #183                // Method ap/u.cd:(I)V
+       210: aload_0
+       211: getfield      #23                 // Field a:Lap/u;
+       214: aload_2
+       215: invokevirtual #244                // Method bh/j.aj:()I
+       218: ineg
+       219: aload_1
+       220: invokevirtual #43                 // Method ap/q.aA:()I
+       223: isub
+       224: invokevirtual #184                // Method ap/u.ce:(I)V
+       227: aload_0
+       228: getfield      #23                 // Field a:Lap/u;
+       231: aload_2
+       232: invokevirtual #245                // Method bh/j.ak:()I
+       235: ineg
+       236: aload_1
+       237: invokevirtual #44                 // Method ap/q.aB:()I
+       240: isub
+       241: invokevirtual #185                // Method ap/u.cf:(I)V
+       244: aload_0
+       245: getfield      #23                 // Field a:Lap/u;
+       248: aload_2
+       249: invokevirtual #246                // Method bh/j.al:()I
+       252: ineg
+       253: aload_1
+       254: invokevirtual #45                 // Method ap/q.aC:()I
+       257: isub
+       258: invokevirtual #186                // Method ap/u.cg:(I)V
+       261: aload_0
+       262: getfield      #23                 // Field a:Lap/u;
+       265: aload_2
+       266: invokevirtual #247                // Method bh/j.am:()I
+       269: ineg
+       270: aload_1
+       271: invokevirtual #47                 // Method ap/q.aE:()I
+       274: isub
+       275: aload_1
+       276: invokevirtual #95                 // Method ap/q.bj:()I
+       279: isub
+       280: invokevirtual #187                // Method ap/u.ch:(I)V
+       283: aload_0
+       284: getfield      #23                 // Field a:Lap/u;
+       287: aload_2
+       288: invokevirtual #248                // Method bh/j.an:()I
+       291: ineg
+       292: aload_1
+       293: invokevirtual #46                 // Method ap/q.aD:()I
+       296: isub
+       297: invokevirtual #188                // Method ap/u.ci:(I)V
+       300: aload_0
+       301: getfield      #23                 // Field a:Lap/u;
+       304: aload_2
+       305: invokevirtual #249                // Method bh/j.ao:()I
+       308: ineg
+       309: aload_1
+       310: invokevirtual #49                 // Method ap/q.aG:()I
+       313: isub
+       314: invokevirtual #189                // Method ap/u.cj:(I)V
+       317: aload_0
+       318: getfield      #23                 // Field a:Lap/u;
+       321: aload_2
+       322: invokevirtual #242                // Method bh/j.ah:()I
+       325: ineg
+       326: aload_1
+       327: invokevirtual #88                 // Method ap/q.az:()I
+       330: isub
+       331: aload_1
+       332: invokevirtual #94                 // Method ap/q.bi:()I
+       335: isub
+       336: invokevirtual #182                // Method ap/u.cb:(I)V
+       339: aload_0
+       340: getfield      #23                 // Field a:Lap/u;
+       343: aload_2
+       344: invokevirtual #240                // Method bh/j.af:()I
+       347: ineg
+       348: aload_1
+       349: invokevirtual #86                 // Method ap/q.ax:()I
+       352: isub
+       353: aload_1
+       354: invokevirtual #92                 // Method ap/q.bg:()I
+       357: isub
+       358: invokevirtual #172                // Method ap/u.bY:(I)V
+       361: aload_0
+       362: getfield      #23                 // Field a:Lap/u;
+       365: aload_2
+       366: invokevirtual #239                // Method bh/j.ae:()I
+       369: ineg
+       370: aload_1
+       371: invokevirtual #85                 // Method ap/q.aw:()I
+       374: isub
+       375: aload_1
+       376: invokevirtual #91                 // Method ap/q.bf:()I
+       379: isub
+       380: invokevirtual #173                // Method ap/u.bZ:(I)V
+       383: aload_0
+       384: getfield      #23                 // Field a:Lap/u;
+       387: aload_2
+       388: invokevirtual #241                // Method bh/j.ag:()I
+       391: ineg
+       392: aload_1
+       393: invokevirtual #87                 // Method ap/q.ay:()I
+       396: isub
+       397: aload_1
+       398: invokevirtual #93                 // Method ap/q.bh:()I
+       401: isub
+       402: invokevirtual #181                // Method ap/u.ca:(I)V
+       405: aload_0
+       406: getfield      #23                 // Field a:Lap/u;
+       409: aload_1
+       410: invokevirtual #52                 // Method ap/q.aL:()I
+       413: ineg
+       414: aload_1
+       415: invokevirtual #100                // Method ap/q.bo:()I
+       418: isub
+       419: invokevirtual #135                // Method ap/u.P:(I)V
+       422: aload_0
+       423: getfield      #23                 // Field a:Lap/u;
+       426: aload_1
+       427: invokevirtual #51                 // Method ap/q.aK:()I
+       430: ineg
+       431: aload_1
+       432: invokevirtual #99                 // Method ap/q.bn:()I
+       435: isub
+       436: invokevirtual #180                // Method ap/u.cA:(I)V
+       439: aload_0
+       440: getfield      #23                 // Field a:Lap/u;
+       443: aload_2
+       444: invokevirtual #254                // Method bh/j.au:()I
+       447: ineg
+       448: aload_1
+       449: invokevirtual #77                 // Method ap/q.ao:()I
+       452: isub
+       453: invokevirtual #137                // Method ap/u.Q:(I)V
+       456: aload_0
+       457: getfield      #23                 // Field a:Lap/u;
+       460: aload_2
+       461: invokevirtual #252                // Method bh/j.as:()I
+       464: ineg
+       465: aload_1
+       466: invokevirtual #80                 // Method ap/q.ar:()I
+       469: isub
+       470: invokevirtual #145                // Method ap/u.U:(I)V
+       473: aload_0
+       474: getfield      #23                 // Field a:Lap/u;
+       477: aload_1
+       478: invokevirtual #56                 // Method ap/q.aP:()I
+       481: ineg
+       482: invokevirtual #147                // Method ap/u.V:(I)V
+       485: aload_0
+       486: getfield      #23                 // Field a:Lap/u;
+       489: aload_1
+       490: invokevirtual #57                 // Method ap/q.aQ:()I
+       493: ineg
+       494: invokevirtual #148                // Method ap/u.W:(I)V
+       497: aload_0
+       498: getfield      #23                 // Field a:Lap/u;
+       501: aload_2
+       502: invokevirtual #253                // Method bh/j.at:()I
+       505: ineg
+       506: aload_1
+       507: invokevirtual #58                 // Method ap/q.aR:()I
+       510: isub
+       511: invokevirtual #149                // Method ap/u.X:(I)V
+       514: aload_0
+       515: getfield      #23                 // Field a:Lap/u;
+       518: aload_2
+       519: invokevirtual #256                // Method bh/j.aw:()I
+       522: ineg
+       523: aload_1
+       524: invokevirtual #59                 // Method ap/q.aS:()I
+       527: isub
+       528: invokevirtual #157                // Method ap/u.ac:(I)V
+       531: aload_0
+       532: getfield      #23                 // Field a:Lap/u;
+       535: aload_2
+       536: invokevirtual #250                // Method bh/j.aq:()I
+       539: ineg
+       540: aload_1
+       541: invokevirtual #53                 // Method ap/q.aM:()I
+       544: isub
+       545: invokevirtual #139                // Method ap/u.R:(I)V
+       548: aload_0
+       549: getfield      #23                 // Field a:Lap/u;
+       552: aload_2
+       553: invokevirtual #251                // Method bh/j.ar:()I
+       556: ineg
+       557: aload_1
+       558: invokevirtual #54                 // Method ap/q.aN:()I
+       561: isub
+       562: invokevirtual #141                // Method ap/u.S:(I)V
+       565: aload_0
+       566: getfield      #23                 // Field a:Lap/u;
+       569: aload_1
+       570: invokevirtual #55                 // Method ap/q.aO:()I
+       573: ineg
+       574: invokevirtual #143                // Method ap/u.T:(I)V
+       577: aload_0
+       578: getfield      #23                 // Field a:Lap/u;
+       581: aload_1
+       582: invokevirtual #64                 // Method ap/q.aY:()I
+       585: ineg
+       586: invokevirtual #151                // Method ap/u.Y:(I)V
+       589: aload_0
+       590: getfield      #23                 // Field a:Lap/u;
+       593: aload_1
+       594: invokevirtual #89                 // Method ap/q.ba:()I
+       597: ineg
+       598: invokevirtual #152                // Method ap/u.Z:(I)V
+       601: aload_1
+       602: invokevirtual #37                 // Method ap/q.B:()Z
+       605: ifeq          680
+       608: iconst_0
+       609: istore        4
+       611: aload_0
+       612: getfield      #26                 // Field d:Ljava/util/ArrayList;
+       615: invokevirtual #262                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       618: astore        6
+       620: goto          661
+       623: aload         6
+       625: invokeinterface #269,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       630: checkcast     #5                  // class ap/q
+       633: astore        5
+       635: aload         5
+       637: invokevirtual #104                // Method ap/q.fr:()I
+       640: aload_1
+       641: invokevirtual #104                // Method ap/q.fr:()I
+       644: if_icmpeq     661
+       647: aload         5
+       649: invokevirtual #37                 // Method ap/q.B:()Z
+       652: ifeq          661
+       655: iconst_1
+       656: istore        4
+       658: goto          671
+       661: aload         6
+       663: invokeinterface #268,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       668: ifne          623
+       671: aload_0
+       672: getfield      #23                 // Field a:Lap/u;
+       675: iload         4
+       677: invokevirtual #144                // Method ap/u.T:(Z)V
+       680: aload_1
+       681: invokevirtual #51                 // Method ap/q.aK:()I
+       684: aload_1
+       685: invokevirtual #99                 // Method ap/q.bn:()I
+       688: iadd
+       689: ifeq          715
+       692: aload_0
+       693: getfield      #23                 // Field a:Lap/u;
+       696: new           #11                 // class be/cm
+       699: dup
+       700: bipush        88
+       702: aload_0
+       703: getfield      #23                 // Field a:Lap/u;
+       706: invokevirtual #196                // Method ap/u.fk:()I
+       709: invokespecial #211                // Method be/cm."<init>":(II)V
+       712: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       715: invokestatic  #29                 // Method ao/c.a:()Lao/c;
+       718: invokevirtual #30                 // Method ao/c.b:()Ljava/util/ArrayList;
+       721: invokevirtual #262                // Method java/util/ArrayList.iterator:()Ljava/util/Iterator;
+       724: astore        5
+       726: goto          804
+       729: aload         5
+       731: invokeinterface #269,  1          // InterfaceMethod java/util/Iterator.next:()Ljava/lang/Object;
+       736: checkcast     #4                  // class ao/c$a
+       739: astore        4
+       741: aload         4
+       743: iload_3
+       744: invokevirtual #31                 // Method ao/c$a.a:(I)Z
+       747: ifeq          804
+       750: aload_0
+       751: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       754: aload         4
+       756: invokevirtual #266                // Method java/util/concurrent/CopyOnWriteArrayList.contains:(Ljava/lang/Object;)Z
+       759: ifeq          804
+       762: aload         4
+       764: aload_0
+       765: getfield      #23                 // Field a:Lap/u;
+       768: invokevirtual #32                 // Method ao/c$a.a:(Lap/u;)Z
+       771: ifne          804
+       774: aload         4
+       776: aload_0
+       777: getfield      #23                 // Field a:Lap/u;
+       780: aload_1
+       781: iconst_0
+       782: invokevirtual #33                 // Method ao/c$a.a:(Lap/u;Lap/q;Z)V
+       785: aload         4
+       787: aload_0
+       788: getfield      #23                 // Field a:Lap/u;
+       791: invokevirtual #35                 // Method ao/c$a.c:(Lap/u;)V
+       794: aload_0
+       795: getfield      #24                 // Field b:Ljava/util/concurrent/CopyOnWriteArrayList;
+       798: aload         4
+       800: invokevirtual #267                // Method java/util/concurrent/CopyOnWriteArrayList.remove:(Ljava/lang/Object;)Z
+       803: pop
+       804: aload         5
+       806: invokeinterface #268,  1          // InterfaceMethod java/util/Iterator.hasNext:()Z
+       811: ifne          729
+       814: iload_3
+       815: sipush        20077
+       818: if_icmpeq     834
+       821: iload_3
+       822: sipush        20062
+       825: if_icmpeq     834
+       828: iload_3
+       829: ldc           #1                  // int 120077
+       831: if_icmpne     844
+       834: aload_0
+       835: getfield      #23                 // Field a:Lap/u;
+       838: invokevirtual #200                // Method ap/u.s:()V
+       841: goto          1455
+       844: iload_3
+       845: sipush        20281
+       848: if_icmpne     870
+       851: aload_0
+       852: getfield      #23                 // Field a:Lap/u;
+       855: new           #9                  // class be/a
+       858: dup
+       859: iconst_2
+       860: iconst_0
+       861: invokespecial #209                // Method be/a."<init>":(IZ)V
+       864: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       867: goto          1455
+       870: iload_3
+       871: sipush        20288
+       874: if_icmpeq     884
+       877: iload_3
+       878: sipush        21418
+       881: if_icmpne     903
+       884: aload_0
+       885: getfield      #23                 // Field a:Lap/u;
+       888: new           #9                  // class be/a
+       891: dup
+       892: iconst_1
+       893: iconst_0
+       894: invokespecial #209                // Method be/a."<init>":(IZ)V
+       897: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       900: goto          1455
+       903: iload_3
+       904: sipush        20284
+       907: if_icmpne     929
+       910: aload_0
+       911: getfield      #23                 // Field a:Lap/u;
+       914: new           #9                  // class be/a
+       917: dup
+       918: iconst_5
+       919: iconst_0
+       920: invokespecial #209                // Method be/a."<init>":(IZ)V
+       923: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       926: goto          1455
+       929: iload_3
+       930: sipush        21397
+       933: if_icmpne     969
+       936: aload_0
+       937: getfield      #23                 // Field a:Lap/u;
+       940: new           #13                 // class be/dc
+       943: dup
+       944: aload_2
+       945: invokevirtual #258                // Method bh/j.g:()I
+       948: iconst_0
+       949: iconst_0
+       950: sipush        5934
+       953: sipush        5934
+       956: iconst_0
+       957: iconst_0
+       958: iconst_0
+       959: iconst_1
+       960: invokespecial #214                // Method be/dc."<init>":(IIIIIIIII)V
+       963: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       966: goto          1455
+       969: iload_3
+       970: sipush        21123
+       973: if_icmplt     994
+       976: iload_3
+       977: sipush        21126
+       980: if_icmpgt     994
+       983: aload_0
+       984: getfield      #23                 // Field a:Lap/u;
+       987: iconst_0
+       988: invokevirtual #119                // Method ap/u.E:(Z)V
+       991: goto          1455
+       994: iload_3
+       995: sipush        21119
+       998: if_icmplt     1019
+      1001: iload_3
+      1002: sipush        21122
+      1005: if_icmpgt     1019
+      1008: aload_0
+      1009: getfield      #23                 // Field a:Lap/u;
+      1012: iconst_0
+      1013: invokevirtual #117                // Method ap/u.D:(Z)V
+      1016: goto          1455
+      1019: iload_3
+      1020: sipush        21446
+      1023: if_icmpne     1037
+      1026: aload_0
+      1027: getfield      #23                 // Field a:Lap/u;
+      1030: iconst_0
+      1031: invokevirtual #117                // Method ap/u.D:(Z)V
+      1034: goto          1455
+      1037: iload_3
+      1038: sipush        21484
+      1041: if_icmpne     1055
+      1044: aload_0
+      1045: getfield      #23                 // Field a:Lap/u;
+      1048: iconst_0
+      1049: invokevirtual #136                // Method ap/u.P:(Z)V
+      1052: goto          1455
+      1055: iload_3
+      1056: sipush        21485
+      1059: if_icmpne     1073
+      1062: aload_0
+      1063: getfield      #23                 // Field a:Lap/u;
+      1066: iconst_0
+      1067: invokevirtual #138                // Method ap/u.Q:(Z)V
+      1070: goto          1455
+      1073: iload_3
+      1074: sipush        21486
+      1077: if_icmpne     1091
+      1080: aload_0
+      1081: getfield      #23                 // Field a:Lap/u;
+      1084: iconst_0
+      1085: invokevirtual #140                // Method ap/u.R:(Z)V
+      1088: goto          1455
+      1091: iload_3
+      1092: sipush        21205
+      1095: if_icmpeq     1105
+      1098: iload_3
+      1099: sipush        21517
+      1102: if_icmpne     1116
+      1105: aload_0
+      1106: getfield      #23                 // Field a:Lap/u;
+      1109: iconst_0
+      1110: invokevirtual #174                // Method ap/u.bm:(I)V
+      1113: goto          1455
+      1116: iload_3
+      1117: sipush        21509
+      1120: if_icmpne     1142
+      1123: aload_0
+      1124: getfield      #23                 // Field a:Lap/u;
+      1127: iconst_0
+      1128: invokevirtual #175                // Method ap/u.bn:(I)V
+      1131: aload_0
+      1132: getfield      #23                 // Field a:Lap/u;
+      1135: iconst_0
+      1136: invokevirtual #132                // Method ap/u.M:(Z)V
+      1139: goto          1455
+      1142: iload_3
+      1143: sipush        21510
+      1146: if_icmpeq     1156
+      1149: iload_3
+      1150: sipush        21511
+      1153: if_icmpne     1175
+      1156: aload_0
+      1157: getfield      #23                 // Field a:Lap/u;
+      1160: iconst_0
+      1161: invokevirtual #176                // Method ap/u.bo:(I)V
+      1164: aload_0
+      1165: getfield      #23                 // Field a:Lap/u;
+      1168: iconst_0
+      1169: invokevirtual #177                // Method ap/u.bp:(I)V
+      1172: goto          1455
+      1175: iload_3
+      1176: sipush        21527
+      1179: if_icmplt     1200
+      1182: iload_3
+      1183: sipush        21530
+      1186: if_icmpgt     1200
+      1189: aload_0
+      1190: getfield      #23                 // Field a:Lap/u;
+      1193: iconst_0
+      1194: invokevirtual #178                // Method ap/u.bq:(I)V
+      1197: goto          1455
+      1200: iload_3
+      1201: sipush        21473
+      1204: if_icmpne     1226
+      1207: aload_0
+      1208: getfield      #23                 // Field a:Lap/u;
+      1211: iconst_0
+      1212: invokevirtual #125                // Method ap/u.H:(Z)V
+      1215: aload_0
+      1216: getfield      #23                 // Field a:Lap/u;
+      1219: iconst_0
+      1220: invokevirtual #123                // Method ap/u.G:(Z)V
+      1223: goto          1455
+      1226: iload_3
+      1227: sipush        21206
+      1230: if_icmpne     1252
+      1233: aload_0
+      1234: getfield      #23                 // Field a:Lap/u;
+      1237: iconst_0
+      1238: invokevirtual #121                // Method ap/u.F:(Z)V
+      1241: aload_0
+      1242: getfield      #23                 // Field a:Lap/u;
+      1245: iconst_0
+      1246: invokevirtual #123                // Method ap/u.G:(Z)V
+      1249: goto          1455
+      1252: iload_3
+      1253: sipush        21207
+      1256: if_icmpeq     1266
+      1259: iload_3
+      1260: sipush        21208
+      1263: if_icmpne     1277
+      1266: aload_0
+      1267: getfield      #23                 // Field a:Lap/u;
+      1270: iconst_0
+      1271: invokevirtual #123                // Method ap/u.G:(Z)V
+      1274: goto          1455
+      1277: iload_3
+      1278: sipush        21213
+      1281: if_icmplt     1302
+      1284: iload_3
+      1285: sipush        21221
+      1288: if_icmpgt     1302
+      1291: aload_0
+      1292: getfield      #23                 // Field a:Lap/u;
+      1295: iconst_0
+      1296: invokevirtual #127                // Method ap/u.I:(Z)V
+      1299: goto          1455
+      1302: iload_3
+      1303: sipush        21474
+      1306: if_icmpne     1320
+      1309: aload_0
+      1310: getfield      #23                 // Field a:Lap/u;
+      1313: iconst_0
+      1314: invokevirtual #129                // Method ap/u.J:(Z)V
+      1317: goto          1455
+      1320: iload_3
+      1321: sipush        21500
+      1324: if_icmpne     1338
+      1327: aload_0
+      1328: getfield      #23                 // Field a:Lap/u;
+      1331: iconst_0
+      1332: invokevirtual #142                // Method ap/u.S:(Z)V
+      1335: goto          1455
+      1338: iload_3
+      1339: sipush        21437
+      1342: if_icmplt     1363
+      1345: iload_3
+      1346: sipush        21440
+      1349: if_icmpgt     1363
+      1352: aload_0
+      1353: getfield      #23                 // Field a:Lap/u;
+      1356: iconst_0
+      1357: invokevirtual #130                // Method ap/u.K:(Z)V
+      1360: goto          1455
+      1363: iload_3
+      1364: sipush        21420
+      1367: if_icmplt     1388
+      1370: iload_3
+      1371: sipush        21423
+      1374: if_icmpgt     1388
+      1377: aload_0
+      1378: getfield      #23                 // Field a:Lap/u;
+      1381: iconst_0
+      1382: invokevirtual #131                // Method ap/u.L:(Z)V
+      1385: goto          1455
+      1388: iload_3
+      1389: sipush        21369
+      1392: if_icmplt     1413
+      1395: iload_3
+      1396: sipush        21371
+      1399: if_icmpgt     1413
+      1402: aload_0
+      1403: getfield      #23                 // Field a:Lap/u;
+      1406: iconst_0
+      1407: invokevirtual #134                // Method ap/u.O:(Z)V
+      1410: goto          1455
+      1413: iload_3
+      1414: sipush        21363
+      1417: if_icmplt     1455
+      1420: iload_3
+      1421: sipush        21365
+      1424: if_icmpgt     1455
+      1427: aload_1
+      1428: invokevirtual #38                 // Method ap/q.G:()I
+      1431: bipush        10
+      1433: if_icmplt     1447
+      1436: aload_0
+      1437: getfield      #23                 // Field a:Lap/u;
+      1440: iconst_0
+      1441: invokevirtual #132                // Method ap/u.M:(Z)V
+      1444: goto          1455
+      1447: aload_0
+      1448: getfield      #23                 // Field a:Lap/u;
+      1451: iconst_0
+      1452: invokevirtual #133                // Method ap/u.N:(Z)V
+      1455: aload_1
+      1456: invokevirtual #110                // Method ap/q.u:()V
+      1459: aload_0
+      1460: getfield      #26                 // Field d:Ljava/util/ArrayList;
+      1463: aload_1
+      1464: invokevirtual #263                // Method java/util/ArrayList.remove:(Ljava/lang/Object;)Z
+      1467: pop
+      1468: return
+      LineNumberTable:
+        line 285: 0
+        line 286: 5
+        line 288: 10
+        line 289: 17
+        line 290: 39
+        line 291: 42
+        line 293: 69
+        line 294: 86
+        line 295: 98
+        line 296: 110
+        line 297: 127
+        line 298: 149
+        line 299: 166
+        line 300: 188
+        line 301: 210
+        line 302: 227
+        line 303: 244
+        line 304: 261
+        line 305: 283
+        line 306: 300
+        line 309: 317
+        line 310: 339
+        line 311: 361
+        line 312: 383
+        line 313: 405
+        line 314: 422
+        line 315: 439
+        line 316: 456
+        line 319: 473
+        line 320: 485
+        line 321: 497
+        line 323: 514
+        line 325: 531
+        line 326: 548
+        line 328: 565
+        line 330: 577
+        line 331: 589
+        line 334: 601
+        line 335: 608
+        line 336: 611
+        line 337: 635
+        line 338: 655
+        line 339: 658
+        line 336: 661
+        line 342: 671
+        line 344: 680
+        line 345: 692
+        line 348: 715
+        line 349: 741
+        line 351: 774
+        line 352: 785
+        line 353: 794
+        line 348: 804
+        line 357: 814
+        line 358: 834
+        line 359: 841
+        line 360: 851
+        line 361: 867
+        line 362: 884
+        line 363: 900
+        line 364: 910
+        line 365: 926
+        line 366: 936
+        line 368: 966
+        line 369: 983
+        line 370: 991
+        line 371: 1008
+        line 372: 1016
+        line 373: 1026
+        line 375: 1034
+        line 376: 1044
+        line 377: 1052
+        line 378: 1062
+        line 379: 1070
+        line 380: 1080
+        line 382: 1088
+        line 383: 1105
+        line 385: 1113
+        line 386: 1123
+        line 387: 1131
+        line 389: 1139
+        line 390: 1156
+        line 391: 1164
+        line 392: 1172
+        line 393: 1189
+        line 394: 1197
+        line 395: 1207
+        line 396: 1215
+        line 397: 1223
+        line 398: 1233
+        line 399: 1241
+        line 400: 1249
+        line 401: 1266
+        line 403: 1274
+        line 404: 1291
+        line 405: 1299
+        line 406: 1309
+        line 407: 1317
+        line 408: 1327
+        line 409: 1335
+        line 410: 1352
+        line 411: 1360
+        line 412: 1377
+        line 413: 1385
+        line 414: 1402
+        line 415: 1410
+        line 416: 1427
+        line 417: 1436
+        line 418: 1444
+        line 419: 1447
+        line 423: 1455
+        line 425: 1459
+        line 426: 1468
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0    1469     0  this   Laq/m;
+            0    1469     1 armor   Lap/q;
+            5    1464     2  item   Lbh/j;
+           10    1459     3 itemId   I
+          611      69     4 isAnother   Z
+          635      26     5 other   Lap/q;
+          741      63     4 armorSet   Lao/c$a;
+
+  public void a(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=4, args_size=2
+         0: aload_1
+         1: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+         4: astore_2
+         5: aload_1
+         6: invokevirtual #103                // Method ap/q.f:()Z
+         9: ifeq          13
+        12: return
+        13: aload_2
+        14: invokevirtual #226                // Method bh/j.M:()I
+        17: ifeq          31
+        20: aload_0
+        21: getfield      #23                 // Field a:Lap/u;
+        24: aload_2
+        25: invokevirtual #226                // Method bh/j.M:()I
+        28: invokevirtual #161                // Method ap/u.bH:(I)V
+        31: aload_2
+        32: invokevirtual #227                // Method bh/j.N:()I
+        35: ifeq          49
+        38: aload_0
+        39: getfield      #23                 // Field a:Lap/u;
+        42: aload_2
+        43: invokevirtual #227                // Method bh/j.N:()I
+        46: invokevirtual #162                // Method ap/u.bJ:(I)V
+        49: aload_1
+        50: invokevirtual #66                 // Method ap/q.ab:()I
+        53: ifeq          67
+        56: aload_0
+        57: getfield      #23                 // Field a:Lap/u;
+        60: aload_1
+        61: invokevirtual #66                 // Method ap/q.ab:()I
+        64: invokevirtual #161                // Method ap/u.bH:(I)V
+        67: aload_1
+        68: invokevirtual #67                 // Method ap/q.ac:()I
+        71: ifeq          85
+        74: aload_0
+        75: getfield      #23                 // Field a:Lap/u;
+        78: aload_1
+        79: invokevirtual #67                 // Method ap/q.ac:()I
+        82: invokevirtual #162                // Method ap/u.bJ:(I)V
+        85: aload_0
+        86: getfield      #23                 // Field a:Lap/u;
+        89: aload_2
+        90: invokevirtual #220                // Method bh/j.G:()B
+        93: aload_1
+        94: invokevirtual #71                 // Method ap/q.ai:()I
+        97: iadd
+        98: invokevirtual #165                // Method ap/u.bN:(I)V
+       101: aload_0
+       102: getfield      #23                 // Field a:Lap/u;
+       105: aload_2
+       106: invokevirtual #222                // Method bh/j.I:()B
+       109: aload_1
+       110: invokevirtual #73                 // Method ap/q.ak:()I
+       113: iadd
+       114: invokevirtual #166                // Method ap/u.bP:(I)V
+       117: aload_0
+       118: getfield      #23                 // Field a:Lap/u;
+       121: aload_2
+       122: invokevirtual #221                // Method bh/j.H:()B
+       125: aload_1
+       126: invokevirtual #72                 // Method ap/q.aj:()I
+       129: iadd
+       130: invokevirtual #167                // Method ap/u.bR:(I)V
+       133: aload_0
+       134: getfield      #23                 // Field a:Lap/u;
+       137: aload_2
+       138: invokevirtual #223                // Method bh/j.J:()B
+       141: aload_1
+       142: invokevirtual #74                 // Method ap/q.al:()I
+       145: iadd
+       146: invokevirtual #170                // Method ap/u.bV:(I)V
+       149: aload_0
+       150: getfield      #23                 // Field a:Lap/u;
+       153: aload_2
+       154: invokevirtual #224                // Method bh/j.K:()B
+       157: aload_1
+       158: invokevirtual #75                 // Method ap/q.am:()I
+       161: iadd
+       162: invokevirtual #171                // Method ap/u.bX:(I)V
+       165: aload_2
+       166: invokevirtual #224                // Method bh/j.K:()B
+       169: aload_1
+       170: invokevirtual #75                 // Method ap/q.am:()I
+       173: iadd
+       174: ifeq          184
+       177: aload_0
+       178: getfield      #23                 // Field a:Lap/u;
+       181: invokevirtual #150                // Method ap/u.Y:()V
+       184: aload_0
+       185: getfield      #23                 // Field a:Lap/u;
+       188: aload_2
+       189: invokevirtual #225                // Method bh/j.L:()B
+       192: aload_1
+       193: invokevirtual #76                 // Method ap/q.an:()I
+       196: iadd
+       197: invokevirtual #168                // Method ap/u.bT:(I)V
+       200: iconst_0
+       201: istore_3
+       202: iload_3
+       203: aload_1
+       204: invokevirtual #109                // Method ap/q.o:()I
+       207: aload_1
+       208: invokevirtual #70                 // Method ap/q.af:()I
+       211: iadd
+       212: aload_1
+       213: invokevirtual #90                 // Method ap/q.be:()I
+       216: iadd
+       217: iadd
+       218: istore_3
+       219: aload_1
+       220: invokevirtual #40                 // Method ap/q.N:()I
+       223: sipush        20236
+       226: if_icmpne     242
+       229: aload_0
+       230: getfield      #23                 // Field a:Lap/u;
+       233: invokevirtual #111                // Method ap/u.A:()Z
+       236: ifeq          242
+       239: iinc          3, 5
+       242: iload_3
+       243: ifeq          254
+       246: aload_0
+       247: getfield      #23                 // Field a:Lap/u;
+       250: iload_3
+       251: invokevirtual #190                // Method ap/u.co:(I)V
+       254: aload_2
+       255: invokevirtual #228                // Method bh/j.Q:()I
+       258: aload_1
+       259: invokevirtual #69                 // Method ap/q.ae:()I
+       262: iadd
+       263: aload_1
+       264: invokevirtual #101                // Method ap/q.bp:()I
+       267: iadd
+       268: ifeq          292
+       271: aload_0
+       272: getfield      #23                 // Field a:Lap/u;
+       275: aload_2
+       276: invokevirtual #228                // Method bh/j.Q:()I
+       279: aload_1
+       280: invokevirtual #69                 // Method ap/q.ae:()I
+       283: iadd
+       284: aload_1
+       285: invokevirtual #101                // Method ap/q.bp:()I
+       288: iadd
+       289: invokevirtual #191                // Method ap/u.cp:(I)V
+       292: aload_0
+       293: getfield      #23                 // Field a:Lap/u;
+       296: aload_2
+       297: invokevirtual #257                // Method bh/j.ay:()I
+       300: aload_1
+       301: invokevirtual #50                 // Method ap/q.aH:()I
+       304: iadd
+       305: invokevirtual #156                // Method ap/u.ab:(I)V
+       308: aload_0
+       309: getfield      #23                 // Field a:Lap/u;
+       312: aload_2
+       313: invokevirtual #255                // Method bh/j.av:()I
+       316: aload_1
+       317: invokevirtual #79                 // Method ap/q.aq:()I
+       320: iadd
+       321: invokevirtual #155                // Method ap/u.aa:(I)V
+       324: aload_2
+       325: invokevirtual #229                // Method bh/j.S:()Z
+       328: ifeq          411
+       331: aload_0
+       332: getfield      #23                 // Field a:Lap/u;
+       335: iconst_1
+       336: invokevirtual #118                // Method ap/u.E:(I)V
+       339: aload_0
+       340: getfield      #23                 // Field a:Lap/u;
+       343: invokevirtual #146                // Method ap/u.V:()V
+       346: aload_0
+       347: getfield      #23                 // Field a:Lap/u;
+       350: invokevirtual #195                // Method ap/u.fc:()I
+       353: iconst_1
+       354: if_icmpeq     411
+       357: aload_0
+       358: getfield      #23                 // Field a:Lap/u;
+       361: iconst_1
+       362: invokevirtual #192                // Method ap/u.cu:(I)V
+       365: aload_0
+       366: getfield      #23                 // Field a:Lap/u;
+       369: new           #16                 // class be/ea
+       372: dup
+       373: aload_0
+       374: getfield      #23                 // Field a:Lap/u;
+       377: invokevirtual #197                // Method ap/u.fr:()I
+       380: iconst_1
+       381: iconst_m1
+       382: invokespecial #217                // Method be/ea."<init>":(III)V
+       385: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       388: aload_0
+       389: getfield      #23                 // Field a:Lap/u;
+       392: new           #16                 // class be/ea
+       395: dup
+       396: aload_0
+       397: getfield      #23                 // Field a:Lap/u;
+       400: invokevirtual #197                // Method ap/u.fr:()I
+       403: iconst_1
+       404: iconst_m1
+       405: invokespecial #217                // Method be/ea."<init>":(III)V
+       408: invokevirtual #158                // Method ap/u.b:(Lbe/eu;)V
+       411: aload_1
+       412: invokevirtual #61                 // Method ap/q.aU:()Z
+       415: ifeq          426
+       418: aload_0
+       419: getfield      #23                 // Field a:Lap/u;
+       422: iconst_1
+       423: invokevirtual #201                // Method ap/u.z:(Z)V
+       426: aload_1
+       427: invokevirtual #62                 // Method ap/q.aV:()Z
+       430: ifeq          441
+       433: aload_0
+       434: getfield      #23                 // Field a:Lap/u;
+       437: iconst_1
+       438: invokevirtual #112                // Method ap/u.A:(Z)V
+       441: aload_1
+       442: invokevirtual #63                 // Method ap/q.aW:()Z
+       445: ifeq          456
+       448: aload_0
+       449: getfield      #23                 // Field a:Lap/u;
+       452: iconst_1
+       453: invokevirtual #113                // Method ap/u.B:(Z)V
+       456: aload_1
+       457: invokevirtual #40                 // Method ap/q.N:()I
+       460: sipush        20383
+       463: if_icmpne     543
+       466: aload_0
+       467: getfield      #23                 // Field a:Lap/u;
+       470: sipush        1000
+       473: invokevirtual #160                // Method ap/u.bB:(I)Z
+       476: ifeq          543
+       479: aload_0
+       480: getfield      #23                 // Field a:Lap/u;
+       483: sipush        1000
+       486: invokevirtual #159                // Method ap/u.bA:(I)V
+       489: aload_0
+       490: getfield      #23                 // Field a:Lap/u;
+       493: new           #15                 // class be/dx
+       496: dup
+       497: aload_0
+       498: getfield      #23                 // Field a:Lap/u;
+       501: invokevirtual #197                // Method ap/u.fr:()I
+       504: iconst_0
+       505: iconst_0
+       506: invokespecial #216                // Method be/dx."<init>":(III)V
+       509: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       512: aload_0
+       513: getfield      #23                 // Field a:Lap/u;
+       516: new           #15                 // class be/dx
+       519: dup
+       520: aload_0
+       521: getfield      #23                 // Field a:Lap/u;
+       524: invokevirtual #197                // Method ap/u.fr:()I
+       527: iconst_0
+       528: iconst_0
+       529: invokespecial #216                // Method be/dx."<init>":(III)V
+       532: invokevirtual #158                // Method ap/u.b:(Lbe/eu;)V
+       535: aload_0
+       536: getfield      #23                 // Field a:Lap/u;
+       539: iconst_0
+       540: invokevirtual #193                // Method ap/u.cv:(I)V
+       543: aload_0
+       544: getfield      #23                 // Field a:Lap/u;
+       547: invokevirtual #163                // Method ap/u.bK:()Laq/m;
+       550: aload_1
+       551: invokevirtual #203                // Method c:(Lap/q;)V
+       554: aload_1
+       555: invokevirtual #105                // Method ap/q.g:()Z
+       558: ifeq          569
+       561: aload_0
+       562: aload_1
+       563: invokespecial #204                // Method d:(Lap/q;)V
+       566: goto          581
+       569: aload_1
+       570: invokevirtual #107                // Method ap/q.h:()Z
+       573: ifeq          581
+       576: aload_0
+       577: aload_1
+       578: invokespecial #206                // Method f:(Lap/q;)V
+       581: aload_0
+       582: getfield      #23                 // Field a:Lap/u;
+       585: new           #14                 // class be/do
+       588: dup
+       589: aload_0
+       590: getfield      #23                 // Field a:Lap/u;
+       593: invokespecial #215                // Method be/do."<init>":(Lap/u;)V
+       596: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       599: return
+      LineNumberTable:
+        line 430: 0
+        line 431: 5
+        line 432: 12
+        line 435: 13
+        line 436: 20
+        line 438: 31
+        line 439: 38
+        line 442: 49
+        line 443: 56
+        line 445: 67
+        line 446: 74
+        line 449: 85
+        line 450: 101
+        line 451: 117
+        line 452: 133
+        line 453: 149
+        line 454: 165
+        line 455: 177
+        line 457: 184
+        line 459: 200
+        line 460: 202
+        line 461: 219
+        line 462: 239
+        line 465: 242
+        line 466: 246
+        line 468: 254
+        line 469: 271
+        line 471: 292
+        line 472: 308
+        line 474: 324
+        line 475: 331
+        line 476: 339
+        line 477: 346
+        line 478: 357
+        line 479: 365
+        line 480: 388
+        line 483: 411
+        line 484: 418
+        line 486: 426
+        line 487: 433
+        line 489: 441
+        line 490: 448
+        line 493: 456
+        line 494: 466
+        line 495: 479
+        line 496: 489
+        line 497: 512
+        line 498: 535
+        line 501: 543
+        line 503: 554
+        line 504: 561
+        line 505: 566
+        line 506: 576
+        line 508: 581
+        line 509: 599
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     600     0  this   Laq/m;
+            0     600     1 equipment   Lap/q;
+            5     595     2  item   Lbh/j;
+          202     398     3 addMr   I
+
+  public void b(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=4, args_size=2
+         0: aload_1
+         1: invokevirtual #42                 // Method ap/q.a:()Lbh/j;
+         4: astore_2
+         5: aload_1
+         6: invokevirtual #103                // Method ap/q.f:()Z
+         9: ifeq          13
+        12: return
+        13: aload_2
+        14: invokevirtual #226                // Method bh/j.M:()I
+        17: ifeq          32
+        20: aload_0
+        21: getfield      #23                 // Field a:Lap/u;
+        24: aload_2
+        25: invokevirtual #226                // Method bh/j.M:()I
+        28: ineg
+        29: invokevirtual #161                // Method ap/u.bH:(I)V
+        32: aload_2
+        33: invokevirtual #227                // Method bh/j.N:()I
+        36: ifeq          51
+        39: aload_0
+        40: getfield      #23                 // Field a:Lap/u;
+        43: aload_2
+        44: invokevirtual #227                // Method bh/j.N:()I
+        47: ineg
+        48: invokevirtual #162                // Method ap/u.bJ:(I)V
+        51: aload_1
+        52: invokevirtual #66                 // Method ap/q.ab:()I
+        55: ifeq          70
+        58: aload_0
+        59: getfield      #23                 // Field a:Lap/u;
+        62: aload_1
+        63: invokevirtual #66                 // Method ap/q.ab:()I
+        66: ineg
+        67: invokevirtual #161                // Method ap/u.bH:(I)V
+        70: aload_1
+        71: invokevirtual #67                 // Method ap/q.ac:()I
+        74: ifeq          89
+        77: aload_0
+        78: getfield      #23                 // Field a:Lap/u;
+        81: aload_1
+        82: invokevirtual #67                 // Method ap/q.ac:()I
+        85: ineg
+        86: invokevirtual #162                // Method ap/u.bJ:(I)V
+        89: aload_0
+        90: getfield      #23                 // Field a:Lap/u;
+        93: aload_2
+        94: invokevirtual #220                // Method bh/j.G:()B
+        97: ineg
+        98: aload_1
+        99: invokevirtual #71                 // Method ap/q.ai:()I
+       102: isub
+       103: invokevirtual #165                // Method ap/u.bN:(I)V
+       106: aload_0
+       107: getfield      #23                 // Field a:Lap/u;
+       110: aload_2
+       111: invokevirtual #222                // Method bh/j.I:()B
+       114: ineg
+       115: aload_1
+       116: invokevirtual #73                 // Method ap/q.ak:()I
+       119: isub
+       120: invokevirtual #166                // Method ap/u.bP:(I)V
+       123: aload_0
+       124: getfield      #23                 // Field a:Lap/u;
+       127: aload_2
+       128: invokevirtual #221                // Method bh/j.H:()B
+       131: ineg
+       132: aload_1
+       133: invokevirtual #72                 // Method ap/q.aj:()I
+       136: isub
+       137: invokevirtual #167                // Method ap/u.bR:(I)V
+       140: aload_0
+       141: getfield      #23                 // Field a:Lap/u;
+       144: aload_2
+       145: invokevirtual #223                // Method bh/j.J:()B
+       148: ineg
+       149: aload_1
+       150: invokevirtual #74                 // Method ap/q.al:()I
+       153: isub
+       154: invokevirtual #170                // Method ap/u.bV:(I)V
+       157: aload_0
+       158: getfield      #23                 // Field a:Lap/u;
+       161: aload_2
+       162: invokevirtual #224                // Method bh/j.K:()B
+       165: ineg
+       166: aload_1
+       167: invokevirtual #75                 // Method ap/q.am:()I
+       170: isub
+       171: invokevirtual #171                // Method ap/u.bX:(I)V
+       174: aload_2
+       175: invokevirtual #224                // Method bh/j.K:()B
+       178: aload_1
+       179: invokevirtual #75                 // Method ap/q.am:()I
+       182: iadd
+       183: ifeq          193
+       186: aload_0
+       187: getfield      #23                 // Field a:Lap/u;
+       190: invokevirtual #150                // Method ap/u.Y:()V
+       193: aload_0
+       194: getfield      #23                 // Field a:Lap/u;
+       197: aload_2
+       198: invokevirtual #225                // Method bh/j.L:()B
+       201: ineg
+       202: aload_1
+       203: invokevirtual #76                 // Method ap/q.an:()I
+       206: isub
+       207: invokevirtual #168                // Method ap/u.bT:(I)V
+       210: iconst_0
+       211: istore_3
+       212: iload_3
+       213: aload_1
+       214: invokevirtual #109                // Method ap/q.o:()I
+       217: aload_1
+       218: invokevirtual #70                 // Method ap/q.af:()I
+       221: iadd
+       222: aload_1
+       223: invokevirtual #90                 // Method ap/q.be:()I
+       226: iadd
+       227: isub
+       228: istore_3
+       229: aload_1
+       230: invokevirtual #40                 // Method ap/q.N:()I
+       233: sipush        20236
+       236: if_icmpne     252
+       239: aload_0
+       240: getfield      #23                 // Field a:Lap/u;
+       243: invokevirtual #111                // Method ap/u.A:()Z
+       246: ifeq          252
+       249: iinc          3, -5
+       252: iload_3
+       253: ifeq          264
+       256: aload_0
+       257: getfield      #23                 // Field a:Lap/u;
+       260: iload_3
+       261: invokevirtual #190                // Method ap/u.co:(I)V
+       264: aload_2
+       265: invokevirtual #228                // Method bh/j.Q:()I
+       268: aload_1
+       269: invokevirtual #69                 // Method ap/q.ae:()I
+       272: iadd
+       273: aload_1
+       274: invokevirtual #101                // Method ap/q.bp:()I
+       277: iadd
+       278: ifeq          303
+       281: aload_0
+       282: getfield      #23                 // Field a:Lap/u;
+       285: aload_2
+       286: invokevirtual #228                // Method bh/j.Q:()I
+       289: ineg
+       290: aload_1
+       291: invokevirtual #69                 // Method ap/q.ae:()I
+       294: isub
+       295: aload_1
+       296: invokevirtual #101                // Method ap/q.bp:()I
+       299: isub
+       300: invokevirtual #191                // Method ap/u.cp:(I)V
+       303: aload_0
+       304: getfield      #23                 // Field a:Lap/u;
+       307: aload_2
+       308: invokevirtual #257                // Method bh/j.ay:()I
+       311: ineg
+       312: aload_1
+       313: invokevirtual #50                 // Method ap/q.aH:()I
+       316: isub
+       317: invokevirtual #156                // Method ap/u.ab:(I)V
+       320: aload_0
+       321: getfield      #23                 // Field a:Lap/u;
+       324: aload_2
+       325: invokevirtual #255                // Method bh/j.av:()I
+       328: ineg
+       329: aload_1
+       330: invokevirtual #79                 // Method ap/q.aq:()I
+       333: isub
+       334: invokevirtual #155                // Method ap/u.aa:(I)V
+       337: aload_2
+       338: invokevirtual #229                // Method bh/j.S:()Z
+       341: ifeq          416
+       344: aload_0
+       345: getfield      #23                 // Field a:Lap/u;
+       348: iconst_m1
+       349: invokevirtual #118                // Method ap/u.E:(I)V
+       352: aload_0
+       353: getfield      #23                 // Field a:Lap/u;
+       356: invokevirtual #169                // Method ap/u.bU:()I
+       359: ifne          416
+       362: aload_0
+       363: getfield      #23                 // Field a:Lap/u;
+       366: iconst_0
+       367: invokevirtual #192                // Method ap/u.cu:(I)V
+       370: aload_0
+       371: getfield      #23                 // Field a:Lap/u;
+       374: new           #16                 // class be/ea
+       377: dup
+       378: aload_0
+       379: getfield      #23                 // Field a:Lap/u;
+       382: invokevirtual #197                // Method ap/u.fr:()I
+       385: iconst_0
+       386: iconst_0
+       387: invokespecial #217                // Method be/ea."<init>":(III)V
+       390: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       393: aload_0
+       394: getfield      #23                 // Field a:Lap/u;
+       397: new           #16                 // class be/ea
+       400: dup
+       401: aload_0
+       402: getfield      #23                 // Field a:Lap/u;
+       405: invokevirtual #197                // Method ap/u.fr:()I
+       408: iconst_0
+       409: iconst_0
+       410: invokespecial #217                // Method be/ea."<init>":(III)V
+       413: invokevirtual #158                // Method ap/u.b:(Lbe/eu;)V
+       416: aload_1
+       417: invokevirtual #61                 // Method ap/q.aU:()Z
+       420: ifeq          431
+       423: aload_0
+       424: getfield      #23                 // Field a:Lap/u;
+       427: iconst_0
+       428: invokevirtual #201                // Method ap/u.z:(Z)V
+       431: aload_1
+       432: invokevirtual #62                 // Method ap/q.aV:()Z
+       435: ifeq          446
+       438: aload_0
+       439: getfield      #23                 // Field a:Lap/u;
+       442: iconst_0
+       443: invokevirtual #112                // Method ap/u.A:(Z)V
+       446: aload_1
+       447: invokevirtual #63                 // Method ap/q.aW:()Z
+       450: ifeq          461
+       453: aload_0
+       454: getfield      #23                 // Field a:Lap/u;
+       457: iconst_0
+       458: invokevirtual #113                // Method ap/u.B:(Z)V
+       461: aload_0
+       462: getfield      #23                 // Field a:Lap/u;
+       465: invokevirtual #163                // Method ap/u.bK:()Laq/m;
+       468: aload_0
+       469: getfield      #23                 // Field a:Lap/u;
+       472: invokevirtual #197                // Method ap/u.fr:()I
+       475: aload_1
+       476: invokespecial #202                // Method a:(ILap/q;)V
+       479: aload_1
+       480: invokevirtual #105                // Method ap/q.g:()Z
+       483: ifeq          494
+       486: aload_0
+       487: aload_1
+       488: invokespecial #205                // Method e:(Lap/q;)V
+       491: goto          506
+       494: aload_1
+       495: invokevirtual #107                // Method ap/q.h:()Z
+       498: ifeq          506
+       501: aload_0
+       502: aload_1
+       503: invokespecial #207                // Method g:(Lap/q;)V
+       506: aload_0
+       507: getfield      #23                 // Field a:Lap/u;
+       510: new           #14                 // class be/do
+       513: dup
+       514: aload_0
+       515: getfield      #23                 // Field a:Lap/u;
+       518: invokespecial #215                // Method be/do."<init>":(Lap/u;)V
+       521: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       524: return
+      LineNumberTable:
+        line 512: 0
+        line 513: 5
+        line 514: 12
+        line 517: 13
+        line 518: 20
+        line 520: 32
+        line 521: 39
+        line 524: 51
+        line 525: 58
+        line 527: 70
+        line 528: 77
+        line 530: 89
+        line 531: 106
+        line 532: 123
+        line 533: 140
+        line 534: 157
+        line 535: 174
+        line 536: 186
+        line 538: 193
+        line 540: 210
+        line 541: 212
+        line 542: 229
+        line 543: 249
+        line 545: 252
+        line 546: 256
+        line 548: 264
+        line 549: 281
+        line 551: 303
+        line 552: 320
+        line 554: 337
+        line 555: 344
+        line 556: 352
+        line 557: 362
+        line 558: 370
+        line 559: 393
+        line 562: 416
+        line 563: 423
+        line 565: 431
+        line 566: 438
+        line 568: 446
+        line 569: 453
+        line 572: 461
+        line 574: 479
+        line 575: 486
+        line 576: 491
+        line 577: 501
+        line 579: 506
+        line 580: 524
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     525     0  this   Laq/m;
+            0     525     1 equipment   Lap/q;
+            5     520     2  item   Lbh/j;
+          212     313     3 addMr   I
+
+  public void c(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=8, locals=2, args_size=2
+         0: aload_1
+         1: invokevirtual #40                 // Method ap/q.N:()I
+         4: lookupswitch  { // 5
+                   20008: 224
+                   20013: 56
+                   20014: 108
+                   20015: 158
+                   20023: 262
+                 default: 311
+            }
+        56: aload_0
+        57: getfield      #23                 // Field a:Lap/u;
+        60: bipush        26
+        62: invokevirtual #194                // Method ap/u.f:(I)V
+        65: aload_0
+        66: getfield      #23                 // Field a:Lap/u;
+        69: bipush        43
+        71: invokevirtual #194                // Method ap/u.f:(I)V
+        74: aload_0
+        75: getfield      #23                 // Field a:Lap/u;
+        78: new           #12                 // class be/d
+        81: dup
+        82: aload_0
+        83: getfield      #23                 // Field a:Lap/u;
+        86: iconst_2
+        87: newarray       int
+        89: dup
+        90: iconst_0
+        91: bipush        26
+        93: iastore
+        94: dup
+        95: iconst_1
+        96: bipush        43
+        98: iastore
+        99: invokespecial #213                // Method be/d."<init>":(Lap/u;[I)V
+       102: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       105: goto          311
+       108: aload_0
+       109: getfield      #23                 // Field a:Lap/u;
+       112: iconst_1
+       113: invokevirtual #194                // Method ap/u.f:(I)V
+       116: aload_0
+       117: getfield      #23                 // Field a:Lap/u;
+       120: bipush        19
+       122: invokevirtual #194                // Method ap/u.f:(I)V
+       125: aload_0
+       126: getfield      #23                 // Field a:Lap/u;
+       129: new           #12                 // class be/d
+       132: dup
+       133: aload_0
+       134: getfield      #23                 // Field a:Lap/u;
+       137: iconst_2
+       138: newarray       int
+       140: dup
+       141: iconst_0
+       142: iconst_1
+       143: iastore
+       144: dup
+       145: iconst_1
+       146: bipush        19
+       148: iastore
+       149: invokespecial #213                // Method be/d."<init>":(Lap/u;[I)V
+       152: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       155: goto          311
+       158: aload_0
+       159: getfield      #23                 // Field a:Lap/u;
+       162: bipush        12
+       164: invokevirtual #194                // Method ap/u.f:(I)V
+       167: aload_0
+       168: getfield      #23                 // Field a:Lap/u;
+       171: bipush        13
+       173: invokevirtual #194                // Method ap/u.f:(I)V
+       176: aload_0
+       177: getfield      #23                 // Field a:Lap/u;
+       180: bipush        42
+       182: invokevirtual #194                // Method ap/u.f:(I)V
+       185: aload_0
+       186: getfield      #23                 // Field a:Lap/u;
+       189: new           #12                 // class be/d
+       192: dup
+       193: aload_0
+       194: getfield      #23                 // Field a:Lap/u;
+       197: iconst_3
+       198: newarray       int
+       200: dup
+       201: iconst_0
+       202: bipush        12
+       204: iastore
+       205: dup
+       206: iconst_1
+       207: bipush        13
+       209: iastore
+       210: dup
+       211: iconst_2
+       212: bipush        42
+       214: iastore
+       215: invokespecial #213                // Method be/d."<init>":(Lap/u;[I)V
+       218: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       221: goto          311
+       224: aload_0
+       225: getfield      #23                 // Field a:Lap/u;
+       228: bipush        43
+       230: invokevirtual #194                // Method ap/u.f:(I)V
+       233: aload_0
+       234: getfield      #23                 // Field a:Lap/u;
+       237: new           #12                 // class be/d
+       240: dup
+       241: aload_0
+       242: getfield      #23                 // Field a:Lap/u;
+       245: iconst_1
+       246: newarray       int
+       248: dup
+       249: iconst_0
+       250: bipush        43
+       252: iastore
+       253: invokespecial #213                // Method be/d."<init>":(Lap/u;[I)V
+       256: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       259: goto          311
+       262: aload_0
+       263: getfield      #23                 // Field a:Lap/u;
+       266: bipush        43
+       268: invokevirtual #194                // Method ap/u.f:(I)V
+       271: aload_0
+       272: getfield      #23                 // Field a:Lap/u;
+       275: bipush        54
+       277: invokevirtual #194                // Method ap/u.f:(I)V
+       280: aload_0
+       281: getfield      #23                 // Field a:Lap/u;
+       284: new           #12                 // class be/d
+       287: dup
+       288: aload_0
+       289: getfield      #23                 // Field a:Lap/u;
+       292: iconst_2
+       293: newarray       int
+       295: dup
+       296: iconst_0
+       297: bipush        43
+       299: iastore
+       300: dup
+       301: iconst_1
+       302: bipush        54
+       304: iastore
+       305: invokespecial #213                // Method be/d."<init>":(Lap/u;[I)V
+       308: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       311: return
+      LineNumberTable:
+        line 583: 0
+        line 585: 56
+        line 586: 65
+        line 587: 74
+        line 588: 105
+        line 590: 108
+        line 591: 116
+        line 592: 125
+        line 593: 155
+        line 595: 158
+        line 596: 167
+        line 597: 176
+        line 598: 185
+        line 599: 221
+        line 601: 224
+        line 602: 233
+        line 603: 259
+        line 605: 262
+        line 606: 271
+        line 607: 280
+        line 610: 311
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     312     0  this   Laq/m;
+            0     312     1  item   Lap/q;
+
+  private void a(int, ap.q);
+    descriptor: (ILap/q;)V
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=7, locals=3, args_size=3
+         0: aload_2
+         1: invokevirtual #40                 // Method ap/q.N:()I
+         4: lookupswitch  { // 5
+                   20008: 363
+                   20013: 56
+                   20014: 145
+                   20015: 231
+                   20023: 409
+                 default: 495
+            }
+        56: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+        59: iload_1
+        60: bipush        26
+        62: invokevirtual #28                 // Method ao/be.a:(II)Z
+        65: ifne          99
+        68: aload_0
+        69: getfield      #23                 // Field a:Lap/u;
+        72: bipush        26
+        74: invokevirtual #198                // Method ap/u.g:(I)V
+        77: aload_0
+        78: getfield      #23                 // Field a:Lap/u;
+        81: new           #10                 // class be/ae
+        84: dup
+        85: iconst_1
+        86: newarray       int
+        88: dup
+        89: iconst_0
+        90: bipush        26
+        92: iastore
+        93: invokespecial #210                // Method be/ae."<init>":([I)V
+        96: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+        99: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       102: iload_1
+       103: bipush        43
+       105: invokevirtual #28                 // Method ao/be.a:(II)Z
+       108: ifne          495
+       111: aload_0
+       112: getfield      #23                 // Field a:Lap/u;
+       115: bipush        43
+       117: invokevirtual #198                // Method ap/u.g:(I)V
+       120: aload_0
+       121: getfield      #23                 // Field a:Lap/u;
+       124: new           #10                 // class be/ae
+       127: dup
+       128: iconst_1
+       129: newarray       int
+       131: dup
+       132: iconst_0
+       133: bipush        43
+       135: iastore
+       136: invokespecial #210                // Method be/ae."<init>":([I)V
+       139: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       142: goto          495
+       145: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       148: iload_1
+       149: iconst_1
+       150: invokevirtual #28                 // Method ao/be.a:(II)Z
+       153: ifne          185
+       156: aload_0
+       157: getfield      #23                 // Field a:Lap/u;
+       160: iconst_1
+       161: invokevirtual #198                // Method ap/u.g:(I)V
+       164: aload_0
+       165: getfield      #23                 // Field a:Lap/u;
+       168: new           #10                 // class be/ae
+       171: dup
+       172: iconst_1
+       173: newarray       int
+       175: dup
+       176: iconst_0
+       177: iconst_1
+       178: iastore
+       179: invokespecial #210                // Method be/ae."<init>":([I)V
+       182: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       185: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       188: iload_1
+       189: bipush        19
+       191: invokevirtual #28                 // Method ao/be.a:(II)Z
+       194: ifne          495
+       197: aload_0
+       198: getfield      #23                 // Field a:Lap/u;
+       201: bipush        19
+       203: invokevirtual #198                // Method ap/u.g:(I)V
+       206: aload_0
+       207: getfield      #23                 // Field a:Lap/u;
+       210: new           #10                 // class be/ae
+       213: dup
+       214: iconst_1
+       215: newarray       int
+       217: dup
+       218: iconst_0
+       219: bipush        19
+       221: iastore
+       222: invokespecial #210                // Method be/ae."<init>":([I)V
+       225: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       228: goto          495
+       231: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       234: iload_1
+       235: bipush        12
+       237: invokevirtual #28                 // Method ao/be.a:(II)Z
+       240: ifne          274
+       243: aload_0
+       244: getfield      #23                 // Field a:Lap/u;
+       247: bipush        12
+       249: invokevirtual #198                // Method ap/u.g:(I)V
+       252: aload_0
+       253: getfield      #23                 // Field a:Lap/u;
+       256: new           #10                 // class be/ae
+       259: dup
+       260: iconst_1
+       261: newarray       int
+       263: dup
+       264: iconst_0
+       265: bipush        12
+       267: iastore
+       268: invokespecial #210                // Method be/ae."<init>":([I)V
+       271: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       274: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       277: iload_1
+       278: bipush        13
+       280: invokevirtual #28                 // Method ao/be.a:(II)Z
+       283: ifne          317
+       286: aload_0
+       287: getfield      #23                 // Field a:Lap/u;
+       290: bipush        13
+       292: invokevirtual #198                // Method ap/u.g:(I)V
+       295: aload_0
+       296: getfield      #23                 // Field a:Lap/u;
+       299: new           #10                 // class be/ae
+       302: dup
+       303: iconst_1
+       304: newarray       int
+       306: dup
+       307: iconst_0
+       308: bipush        13
+       310: iastore
+       311: invokespecial #210                // Method be/ae."<init>":([I)V
+       314: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       317: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       320: iload_1
+       321: bipush        42
+       323: invokevirtual #28                 // Method ao/be.a:(II)Z
+       326: ifne          495
+       329: aload_0
+       330: getfield      #23                 // Field a:Lap/u;
+       333: bipush        42
+       335: invokevirtual #198                // Method ap/u.g:(I)V
+       338: aload_0
+       339: getfield      #23                 // Field a:Lap/u;
+       342: new           #10                 // class be/ae
+       345: dup
+       346: iconst_1
+       347: newarray       int
+       349: dup
+       350: iconst_0
+       351: bipush        42
+       353: iastore
+       354: invokespecial #210                // Method be/ae."<init>":([I)V
+       357: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       360: goto          495
+       363: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       366: iload_1
+       367: bipush        43
+       369: invokevirtual #28                 // Method ao/be.a:(II)Z
+       372: ifne          495
+       375: aload_0
+       376: getfield      #23                 // Field a:Lap/u;
+       379: bipush        43
+       381: invokevirtual #198                // Method ap/u.g:(I)V
+       384: aload_0
+       385: getfield      #23                 // Field a:Lap/u;
+       388: new           #10                 // class be/ae
+       391: dup
+       392: iconst_1
+       393: newarray       int
+       395: dup
+       396: iconst_0
+       397: bipush        43
+       399: iastore
+       400: invokespecial #210                // Method be/ae."<init>":([I)V
+       403: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       406: goto          495
+       409: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       412: iload_1
+       413: bipush        43
+       415: invokevirtual #28                 // Method ao/be.a:(II)Z
+       418: ifne          452
+       421: aload_0
+       422: getfield      #23                 // Field a:Lap/u;
+       425: bipush        43
+       427: invokevirtual #198                // Method ap/u.g:(I)V
+       430: aload_0
+       431: getfield      #23                 // Field a:Lap/u;
+       434: new           #10                 // class be/ae
+       437: dup
+       438: iconst_1
+       439: newarray       int
+       441: dup
+       442: iconst_0
+       443: bipush        43
+       445: iastore
+       446: invokespecial #210                // Method be/ae."<init>":([I)V
+       449: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       452: invokestatic  #27                 // Method ao/be.a:()Lao/be;
+       455: iload_1
+       456: bipush        54
+       458: invokevirtual #28                 // Method ao/be.a:(II)Z
+       461: ifne          495
+       464: aload_0
+       465: getfield      #23                 // Field a:Lap/u;
+       468: bipush        54
+       470: invokevirtual #198                // Method ap/u.g:(I)V
+       473: aload_0
+       474: getfield      #23                 // Field a:Lap/u;
+       477: new           #10                 // class be/ae
+       480: dup
+       481: iconst_1
+       482: newarray       int
+       484: dup
+       485: iconst_0
+       486: bipush        54
+       488: iastore
+       489: invokespecial #210                // Method be/ae."<init>":([I)V
+       492: invokevirtual #153                // Method ap/u.a:(Lbe/eu;)V
+       495: return
+      LineNumberTable:
+        line 613: 0
+        line 615: 56
+        line 616: 68
+        line 617: 77
+        line 619: 99
+        line 620: 111
+        line 621: 120
+        line 623: 142
+        line 625: 145
+        line 626: 156
+        line 627: 164
+        line 629: 185
+        line 630: 197
+        line 631: 206
+        line 633: 228
+        line 635: 231
+        line 636: 243
+        line 637: 252
+        line 639: 274
+        line 640: 286
+        line 641: 295
+        line 643: 317
+        line 644: 329
+        line 645: 338
+        line 647: 360
+        line 649: 363
+        line 650: 375
+        line 651: 384
+        line 653: 406
+        line 655: 409
+        line 656: 421
+        line 657: 430
+        line 659: 452
+        line 660: 464
+        line 661: 473
+        line 665: 495
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     496     0  this   Laq/m;
+            0     496     1 objectId   I
+            0     496     2  item   Lap/q;
+}
+InnerClasses:
+  public #562= #4 of #3;                  // a=class ao/c$a of class ao/c
+SourceFile: "L1EquipmentSlot.java"

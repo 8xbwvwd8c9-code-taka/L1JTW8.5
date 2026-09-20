@@ -1,0 +1,283 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/bj.class
+  Last modified Jan 3, 2018; size 1120 bytes
+  SHA-256 checksum fd04b41555f88f1a1608d512b76876e8e4dba9b78b5d752954ca4667d6e0e5a2
+  Compiled from "S_ItemAttribute.java"
+public class be.bj extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #3                          // be/bj
+  super_class: #4                         // be/eu
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
+Constant pool:
+   #1 = String             #55            // S_ItemAttribute
+   #2 = Class              #61            // ap/q
+   #3 = Class              #63            // be/bj
+   #4 = Class              #64            // be/eu
+   #5 = Class              #65            // bh/j
+   #6 = Class              #71            // java/lang/Math
+   #7 = Methodref          #2.#23         // ap/q.F:()I
+   #8 = Methodref          #2.#24         // ap/q.G:()I
+   #9 = Methodref          #2.#26         // ap/q.a:()Lbh/j;
+  #10 = Methodref          #2.#32         // ap/q.fr:()I
+  #11 = Methodref          #2.#36         // ap/q.v:()I
+  #12 = Methodref          #3.#27         // be/bj.a:(I)V
+  #13 = Methodref          #3.#29         // be/bj.b:(I)V
+  #14 = Methodref          #3.#30         // be/bj.c:(I)V
+  #15 = Methodref          #3.#31         // be/bj.d:()[B
+  #16 = Methodref          #4.#22         // be/eu."<init>":()V
+  #17 = Methodref          #5.#25         // bh/j.V:()I
+  #18 = Methodref          #5.#28         // bh/j.aP:()I
+  #19 = Methodref          #5.#35         // bh/j.s:()Z
+  #20 = Methodref          #6.#33         // java/lang/Math.max:(II)I
+  #21 = Methodref          #6.#34         // java/lang/Math.min:(II)I
+  #22 = NameAndType        #46:#40        // "<init>":()V
+  #23 = NameAndType        #48:#37        // F:()I
+  #24 = NameAndType        #49:#37        // G:()I
+  #25 = NameAndType        #58:#37        // V:()I
+  #26 = NameAndType        #59:#38        // a:()Lbh/j;
+  #27 = NameAndType        #59:#43        // a:(I)V
+  #28 = NameAndType        #60:#37        // aP:()I
+  #29 = NameAndType        #62:#43        // b:(I)V
+  #30 = NameAndType        #66:#43        // c:(I)V
+  #31 = NameAndType        #67:#42        // d:()[B
+  #32 = NameAndType        #68:#37        // fr:()I
+  #33 = NameAndType        #72:#44        // max:(II)I
+  #34 = NameAndType        #73:#44        // min:(II)I
+  #35 = NameAndType        #74:#41        // s:()Z
+  #36 = NameAndType        #76:#37        // v:()I
+  #37 = Utf8               ()I
+  #38 = Utf8               ()Lbh/j;
+  #39 = Utf8               ()Ljava/lang/String;
+  #40 = Utf8               ()V
+  #41 = Utf8               ()Z
+  #42 = Utf8               ()[B
+  #43 = Utf8               (I)V
+  #44 = Utf8               (II)I
+  #45 = Utf8               (Lap/q;)V
+  #46 = Utf8               <init>
+  #47 = Utf8               Code
+  #48 = Utf8               F
+  #49 = Utf8               G
+  #50 = Utf8               I
+  #51 = Utf8               Lap/q;
+  #52 = Utf8               Lbe/bj;
+  #53 = Utf8               LineNumberTable
+  #54 = Utf8               LocalVariableTable
+  #55 = Utf8               S_ItemAttribute
+  #56 = Utf8               S_ItemAttribute.java
+  #57 = Utf8               SourceFile
+  #58 = Utf8               V
+  #59 = Utf8               a
+  #60 = Utf8               aP
+  #61 = Utf8               ap/q
+  #62 = Utf8               b
+  #63 = Utf8               be/bj
+  #64 = Utf8               be/eu
+  #65 = Utf8               bh/j
+  #66 = Utf8               c
+  #67 = Utf8               d
+  #68 = Utf8               fr
+  #69 = Utf8               img
+  #70 = Utf8               item
+  #71 = Utf8               java/lang/Math
+  #72 = Utf8               max
+  #73 = Utf8               min
+  #74 = Utf8               s
+  #75 = Utf8               this
+  #76 = Utf8               v
+{
+  public be.bj(ap.q);
+    descriptor: (Lap/q;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=2
+         0: aload_0
+         1: invokespecial #16                 // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        121
+         7: invokevirtual #14                 // Method c:(I)V
+        10: aload_0
+        11: sipush        149
+        14: invokevirtual #14                 // Method c:(I)V
+        17: aload_0
+        18: aload_1
+        19: invokevirtual #10                 // Method ap/q.fr:()I
+        22: invokevirtual #12                 // Method a:(I)V
+        25: aload_0
+        26: aload_1
+        27: invokevirtual #11                 // Method ap/q.v:()I
+        30: invokevirtual #14                 // Method c:(I)V
+        33: aload_0
+        34: bipush        24
+        36: invokevirtual #14                 // Method c:(I)V
+        39: aload_0
+        40: iconst_0
+        41: invokevirtual #14                 // Method c:(I)V
+        44: aload_0
+        45: iconst_0
+        46: invokevirtual #13                 // Method b:(I)V
+        49: aload_0
+        50: iconst_0
+        51: invokevirtual #13                 // Method b:(I)V
+        54: aload_1
+        55: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+        58: invokevirtual #18                 // Method bh/j.aP:()I
+        61: bipush        28
+        63: if_icmpne     82
+        66: aload_0
+        67: aload_1
+        68: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+        71: invokevirtual #17                 // Method bh/j.V:()I
+        74: iconst_1
+        75: isub
+        76: invokevirtual #14                 // Method c:(I)V
+        79: goto          90
+        82: aload_0
+        83: aload_1
+        84: invokevirtual #8                  // Method ap/q.G:()I
+        87: invokevirtual #14                 // Method c:(I)V
+        90: aload_0
+        91: aload_1
+        92: invokevirtual #10                 // Method ap/q.fr:()I
+        95: invokevirtual #12                 // Method a:(I)V
+        98: aload_0
+        99: bipush        8
+       101: invokevirtual #12                 // Method a:(I)V
+       104: aload_0
+       105: iconst_0
+       106: invokevirtual #12                 // Method a:(I)V
+       109: aload_0
+       110: aload_1
+       111: invokevirtual #7                  // Method ap/q.F:()I
+       114: sipush        128
+       117: if_icmplt     124
+       120: iconst_3
+       121: goto          140
+       124: aload_1
+       125: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+       128: invokevirtual #19                 // Method bh/j.s:()Z
+       131: ifeq          139
+       134: bipush        7
+       136: goto          140
+       139: iconst_2
+       140: invokevirtual #14                 // Method c:(I)V
+       143: aload_1
+       144: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+       147: invokevirtual #18                 // Method bh/j.aP:()I
+       150: bipush        15
+       152: if_icmpne     165
+       155: aload_0
+       156: sipush        7738
+       159: invokevirtual #12                 // Method a:(I)V
+       162: goto          250
+       165: aload_1
+       166: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+       169: invokevirtual #18                 // Method bh/j.aP:()I
+       172: bipush        18
+       174: if_icmpne     187
+       177: aload_0
+       178: sipush        7739
+       181: invokevirtual #12                 // Method a:(I)V
+       184: goto          250
+       187: aload_1
+       188: invokevirtual #9                  // Method ap/q.a:()Lbh/j;
+       191: invokevirtual #18                 // Method bh/j.aP:()I
+       194: bipush        16
+       196: if_icmpne     209
+       199: aload_0
+       200: sipush        7740
+       203: invokevirtual #12                 // Method a:(I)V
+       206: goto          250
+       209: aload_1
+       210: invokevirtual #8                  // Method ap/q.G:()I
+       213: ifle          245
+       216: aload_1
+       217: invokevirtual #8                  // Method ap/q.G:()I
+       220: sipush        8042
+       223: iadd
+       224: istore_2
+       225: aload_0
+       226: sipush        8042
+       229: iload_2
+       230: sipush        8056
+       233: invokestatic  #21                 // Method java/lang/Math.min:(II)I
+       236: invokestatic  #20                 // Method java/lang/Math.max:(II)I
+       239: invokevirtual #12                 // Method a:(I)V
+       242: goto          250
+       245: aload_0
+       246: iconst_0
+       247: invokevirtual #12                 // Method a:(I)V
+       250: aload_0
+       251: iconst_0
+       252: invokevirtual #14                 // Method c:(I)V
+       255: aload_0
+       256: iconst_0
+       257: invokevirtual #13                 // Method b:(I)V
+       260: return
+      LineNumberTable:
+        line 31: 0
+        line 32: 4
+        line 33: 10
+        line 35: 17
+        line 36: 25
+        line 38: 33
+        line 40: 39
+        line 41: 44
+        line 42: 49
+        line 43: 54
+        line 44: 66
+        line 45: 79
+        line 46: 82
+        line 48: 90
+        line 49: 98
+        line 50: 104
+        line 52: 109
+        line 54: 143
+        line 55: 155
+        line 56: 162
+        line 57: 177
+        line 58: 184
+        line 59: 199
+        line 60: 206
+        line 61: 216
+        line 62: 225
+        line 63: 242
+        line 64: 245
+        line 66: 250
+        line 67: 255
+        line 69: 260
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     261     0  this   Lbe/bj;
+            0     261     1  item   Lap/q;
+          225      17     2   img   I
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #15                 // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 73: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/bj;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_ItemAttribute
+         2: areturn
+      LineNumberTable:
+        line 78: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/bj;
+}
+SourceFile: "S_ItemAttribute.java"

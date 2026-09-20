@@ -1,0 +1,543 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/eu.class
+  Last modified Jan 3, 2018; size 2635 bytes
+  SHA-256 checksum 87c1f92ec6a27845a7de1759ef2dc1e5bb5f0acc357a8b9bd74f4bced89d08e3
+  Compiled from "ServerBasePacket.java"
+public abstract class be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0421) ACC_PUBLIC, ACC_SUPER, ACC_ABSTRACT
+  this_class: #1                          // be/eu
+  super_class: #7                         // java/lang/Object
+  interfaces: 0, fields: 3, methods: 14, attributes: 1
+Constant pool:
+    #1 = Class              #88           // be/eu
+    #2 = Class              #99           // java/io/ByteArrayOutputStream
+    #3 = Class              #100          // java/io/IOException
+    #4 = Class              #101          // java/lang/Class
+    #5 = Class              #102          // java/lang/Double
+    #6 = Class              #103          // java/lang/Exception
+    #7 = Class              #104          // java/lang/Object
+    #8 = Class              #105          // java/lang/String
+    #9 = Class              #106          // java/util/logging/Level
+   #10 = Class              #107          // java/util/logging/Logger
+   #11 = Class              #109          // l1j/server/a
+   #12 = Long               255l
+   #14 = Fieldref           #1.#35        // be/eu.a:Ljava/util/logging/Logger;
+   #15 = Fieldref           #1.#36        // be/eu.aV:Ljava/lang/String;
+   #16 = Fieldref           #1.#37        // be/eu.aW:Ljava/io/ByteArrayOutputStream;
+   #17 = Fieldref           #9.#34        // java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+   #18 = Fieldref           #11.#45       // l1j/server/a.k:Ljava/lang/String;
+   #19 = Methodref          #2.#33        // java/io/ByteArrayOutputStream."<init>":()V
+   #20 = Methodref          #2.#47        // java/io/ByteArrayOutputStream.size:()I
+   #21 = Methodref          #2.#48        // java/io/ByteArrayOutputStream.toByteArray:()[B
+   #22 = Methodref          #2.#49        // java/io/ByteArrayOutputStream.write:(I)V
+   #23 = Methodref          #2.#50        // java/io/ByteArrayOutputStream.write:([B)V
+   #24 = Methodref          #4.#43        // java/lang/Class.getName:()Ljava/lang/String;
+   #25 = Methodref          #4.#44        // java/lang/Class.getSimpleName:()Ljava/lang/String;
+   #26 = Methodref          #5.#38        // java/lang/Double.doubleToRawLongBits:(D)J
+   #27 = Methodref          #6.#41        // java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+   #28 = Methodref          #7.#33        // java/lang/Object."<init>":()V
+   #29 = Methodref          #7.#40        // java/lang/Object.getClass:()Ljava/lang/Class;
+   #30 = Methodref          #8.#39        // java/lang/String.getBytes:(Ljava/lang/String;)[B
+   #31 = Methodref          #10.#42       // java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+   #32 = Methodref          #10.#46       // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+   #33 = NameAndType        #66:#54       // "<init>":()V
+   #34 = NameAndType        #80:#77       // SEVERE:Ljava/util/logging/Level;
+   #35 = NameAndType        #84:#78       // a:Ljava/util/logging/Logger;
+   #36 = NameAndType        #85:#76       // aV:Ljava/lang/String;
+   #37 = NameAndType        #86:#74       // aW:Ljava/io/ByteArrayOutputStream;
+   #38 = NameAndType        #91:#56       // doubleToRawLongBits:(D)J
+   #39 = NameAndType        #93:#62       // getBytes:(Ljava/lang/String;)[B
+   #40 = NameAndType        #94:#52       // getClass:()Ljava/lang/Class;
+   #41 = NameAndType        #95:#53       // getLocalizedMessage:()Ljava/lang/String;
+   #42 = NameAndType        #96:#60       // getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+   #43 = NameAndType        #97:#53       // getName:()Ljava/lang/String;
+   #44 = NameAndType        #98:#53       // getSimpleName:()Ljava/lang/String;
+   #45 = NameAndType        #108:#76      // k:Ljava/lang/String;
+   #46 = NameAndType        #110:#63      // log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+   #47 = NameAndType        #112:#51      // size:()I
+   #48 = NameAndType        #115:#55      // toByteArray:()[B
+   #49 = NameAndType        #117:#58      // write:(I)V
+   #50 = NameAndType        #117:#64      // write:([B)V
+   #51 = Utf8               ()I
+   #52 = Utf8               ()Ljava/lang/Class;
+   #53 = Utf8               ()Ljava/lang/String;
+   #54 = Utf8               ()V
+   #55 = Utf8               ()[B
+   #56 = Utf8               (D)J
+   #57 = Utf8               (D)V
+   #58 = Utf8               (I)V
+   #59 = Utf8               (J)V
+   #60 = Utf8               (Ljava/lang/String;)Ljava/util/logging/Logger;
+   #61 = Utf8               (Ljava/lang/String;)V
+   #62 = Utf8               (Ljava/lang/String;)[B
+   #63 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+   #64 = Utf8               ([B)V
+   #65 = Utf8               <clinit>
+   #66 = Utf8               <init>
+   #67 = Utf8               Code
+   #68 = Utf8               D
+   #69 = Utf8               Exceptions
+   #70 = Utf8               I
+   #71 = Utf8               J
+   #72 = Utf8               Lbe/eu;
+   #73 = Utf8               LineNumberTable
+   #74 = Utf8               Ljava/io/ByteArrayOutputStream;
+   #75 = Utf8               Ljava/lang/Exception;
+   #76 = Utf8               Ljava/lang/String;
+   #77 = Utf8               Ljava/util/logging/Level;
+   #78 = Utf8               Ljava/util/logging/Logger;
+   #79 = Utf8               LocalVariableTable
+   #80 = Utf8               SEVERE
+   #81 = Utf8               ServerBasePacket.java
+   #82 = Utf8               SourceFile
+   #83 = Utf8               [B
+   #84 = Utf8               a
+   #85 = Utf8               aV
+   #86 = Utf8               aW
+   #87 = Utf8               b
+   #88 = Utf8               be/eu
+   #89 = Utf8               c
+   #90 = Utf8               d
+   #91 = Utf8               doubleToRawLongBits
+   #92 = Utf8               e
+   #93 = Utf8               getBytes
+   #94 = Utf8               getClass
+   #95 = Utf8               getLocalizedMessage
+   #96 = Utf8               getLogger
+   #97 = Utf8               getName
+   #98 = Utf8               getSimpleName
+   #99 = Utf8               java/io/ByteArrayOutputStream
+  #100 = Utf8               java/io/IOException
+  #101 = Utf8               java/lang/Class
+  #102 = Utf8               java/lang/Double
+  #103 = Utf8               java/lang/Exception
+  #104 = Utf8               java/lang/Object
+  #105 = Utf8               java/lang/String
+  #106 = Utf8               java/util/logging/Level
+  #107 = Utf8               java/util/logging/Logger
+  #108 = Utf8               k
+  #109 = Utf8               l1j/server/a
+  #110 = Utf8               log
+  #111 = Utf8               org
+  #112 = Utf8               size
+  #113 = Utf8               text
+  #114 = Utf8               this
+  #115 = Utf8               toByteArray
+  #116 = Utf8               value
+  #117 = Utf8               write
+{
+  private static final java.util.logging.Logger a;
+    descriptor: Ljava/util/logging/Logger;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  protected static final java.lang.String aV;
+    descriptor: Ljava/lang/String;
+    flags: (0x001c) ACC_PROTECTED, ACC_STATIC, ACC_FINAL
+
+  java.io.ByteArrayOutputStream aW;
+    descriptor: Ljava/io/ByteArrayOutputStream;
+    flags: (0x0000)
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #1                  // class be/eu
+         2: invokevirtual #24                 // Method java/lang/Class.getName:()Ljava/lang/String;
+         5: invokestatic  #31                 // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+         8: putstatic     #14                 // Field a:Ljava/util/logging/Logger;
+        11: getstatic     #18                 // Field l1j/server/a.k:Ljava/lang/String;
+        14: putstatic     #15                 // Field aV:Ljava/lang/String;
+        17: return
+      LineNumberTable:
+        line 24: 0
+        line 27: 11
+
+  protected be.eu();
+    descriptor: ()V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #28                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #2                  // class java/io/ByteArrayOutputStream
+         8: dup
+         9: invokespecial #19                 // Method java/io/ByteArrayOutputStream."<init>":()V
+        12: putfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        15: return
+      LineNumberTable:
+        line 31: 0
+        line 29: 4
+        line 32: 15
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      16     0  this   Lbe/eu;
+
+  protected void a(int);
+    descriptor: (I)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: iload_1
+         5: sipush        255
+         8: iand
+         9: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        12: aload_0
+        13: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        16: iload_1
+        17: bipush        8
+        19: ishr
+        20: sipush        255
+        23: iand
+        24: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        27: aload_0
+        28: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        31: iload_1
+        32: bipush        16
+        34: ishr
+        35: sipush        255
+        38: iand
+        39: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        42: aload_0
+        43: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        46: iload_1
+        47: bipush        24
+        49: ishr
+        50: sipush        255
+        53: iand
+        54: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        57: return
+      LineNumberTable:
+        line 35: 0
+        line 36: 12
+        line 37: 27
+        line 38: 42
+        line 39: 57
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      58     0  this   Lbe/eu;
+            0      58     1 value   I
+
+  protected void b(int);
+    descriptor: (I)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: iload_1
+         5: sipush        255
+         8: iand
+         9: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        12: aload_0
+        13: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        16: iload_1
+        17: bipush        8
+        19: ishr
+        20: sipush        255
+        23: iand
+        24: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        27: return
+      LineNumberTable:
+        line 42: 0
+        line 43: 12
+        line 44: 27
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      28     0  this   Lbe/eu;
+            0      28     1 value   I
+
+  protected void c(int);
+    descriptor: (I)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: iload_1
+         5: sipush        255
+         8: iand
+         9: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        12: return
+      LineNumberTable:
+        line 47: 0
+        line 48: 12
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      13     0  this   Lbe/eu;
+            0      13     1 value   I
+
+  protected void d(int);
+    descriptor: (I)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: iload_1
+         5: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+         8: return
+      LineNumberTable:
+        line 51: 0
+        line 52: 8
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Lbe/eu;
+            0       9     1 value   I
+
+  protected void a(long);
+    descriptor: (J)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=5, locals=3, args_size=2
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: lload_1
+         5: ldc2_w        #12                 // long 255l
+         8: land
+         9: l2i
+        10: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        13: return
+      LineNumberTable:
+        line 55: 0
+        line 56: 13
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Lbe/eu;
+            0      14     1 value   J
+
+  protected void a(double);
+    descriptor: (D)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=5, locals=5, args_size=2
+         0: dload_1
+         1: invokestatic  #26                 // Method java/lang/Double.doubleToRawLongBits:(D)J
+         4: lstore_3
+         5: aload_0
+         6: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         9: lload_3
+        10: ldc2_w        #12                 // long 255l
+        13: land
+        14: l2i
+        15: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        18: aload_0
+        19: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        22: lload_3
+        23: bipush        8
+        25: lshr
+        26: ldc2_w        #12                 // long 255l
+        29: land
+        30: l2i
+        31: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        34: aload_0
+        35: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        38: lload_3
+        39: bipush        16
+        41: lshr
+        42: ldc2_w        #12                 // long 255l
+        45: land
+        46: l2i
+        47: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        50: aload_0
+        51: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        54: lload_3
+        55: bipush        24
+        57: lshr
+        58: ldc2_w        #12                 // long 255l
+        61: land
+        62: l2i
+        63: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        66: aload_0
+        67: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        70: lload_3
+        71: bipush        32
+        73: lshr
+        74: ldc2_w        #12                 // long 255l
+        77: land
+        78: l2i
+        79: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        82: aload_0
+        83: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        86: lload_3
+        87: bipush        40
+        89: lshr
+        90: ldc2_w        #12                 // long 255l
+        93: land
+        94: l2i
+        95: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        98: aload_0
+        99: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+       102: lload_3
+       103: bipush        48
+       105: lshr
+       106: ldc2_w        #12                 // long 255l
+       109: land
+       110: l2i
+       111: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+       114: aload_0
+       115: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+       118: lload_3
+       119: bipush        56
+       121: lshr
+       122: ldc2_w        #12                 // long 255l
+       125: land
+       126: l2i
+       127: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+       130: return
+      LineNumberTable:
+        line 59: 0
+        line 60: 5
+        line 61: 18
+        line 62: 34
+        line 63: 50
+        line 64: 66
+        line 65: 82
+        line 66: 98
+        line 67: 114
+        line 68: 130
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     131     0  this   Lbe/eu;
+            0     131     1   org   D
+            5     126     3 value   J
+
+  protected void a(java.lang.String);
+    descriptor: (Ljava/lang/String;)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=4, locals=3, args_size=2
+         0: aload_1
+         1: ifnull        36
+         4: aload_0
+         5: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         8: aload_1
+         9: getstatic     #15                 // Field aV:Ljava/lang/String;
+        12: invokevirtual #30                 // Method java/lang/String.getBytes:(Ljava/lang/String;)[B
+        15: invokevirtual #23                 // Method java/io/ByteArrayOutputStream.write:([B)V
+        18: goto          36
+        21: astore_2
+        22: getstatic     #14                 // Field a:Ljava/util/logging/Logger;
+        25: getstatic     #17                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        28: aload_2
+        29: invokevirtual #27                 // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+        32: aload_2
+        33: invokevirtual #32                 // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        36: aload_0
+        37: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        40: iconst_0
+        41: invokevirtual #22                 // Method java/io/ByteArrayOutputStream.write:(I)V
+        44: return
+      Exception table:
+         from    to  target type
+             0    18    21   Class java/lang/Exception
+      LineNumberTable:
+        line 72: 0
+        line 73: 4
+        line 75: 18
+        line 76: 22
+        line 79: 36
+        line 80: 44
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      45     0  this   Lbe/eu;
+            0      45     1  text   Ljava/lang/String;
+           22      14     2     e   Ljava/lang/Exception;
+
+  protected void a(byte[]);
+    descriptor: ([B)V
+    flags: (0x0004) ACC_PROTECTED
+    Code:
+      stack=4, locals=3, args_size=2
+         0: aload_1
+         1: ifnull        35
+         4: aload_1
+         5: arraylength
+         6: ifle          35
+         9: aload_0
+        10: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+        13: aload_1
+        14: invokevirtual #23                 // Method java/io/ByteArrayOutputStream.write:([B)V
+        17: goto          35
+        20: astore_2
+        21: getstatic     #14                 // Field a:Ljava/util/logging/Logger;
+        24: getstatic     #17                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+        27: aload_2
+        28: invokevirtual #27                 // Method java/lang/Exception.getLocalizedMessage:()Ljava/lang/String;
+        31: aload_2
+        32: invokevirtual #32                 // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+        35: return
+      Exception table:
+         from    to  target type
+             0    17    20   Class java/lang/Exception
+      LineNumberTable:
+        line 84: 0
+        line 85: 9
+        line 87: 17
+        line 88: 21
+        line 90: 35
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      36     0  this   Lbe/eu;
+            0      36     1  text   [B
+           21      14     2     e   Ljava/lang/Exception;
+
+  public int c();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: invokevirtual #20                 // Method java/io/ByteArrayOutputStream.size:()I
+         7: iconst_2
+         8: iadd
+         9: ireturn
+      LineNumberTable:
+        line 106: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Lbe/eu;
+
+  public byte[] d();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #16                 // Field aW:Ljava/io/ByteArrayOutputStream;
+         4: invokevirtual #21                 // Method java/io/ByteArrayOutputStream.toByteArray:()[B
+         7: areturn
+      LineNumberTable:
+        line 117: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Lbe/eu;
+
+  public abstract byte[] a() throws java.io.IOException;
+    descriptor: ()[B
+    flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT
+    Exceptions:
+      throws java.io.IOException
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #29                 // Method java/lang/Object.getClass:()Ljava/lang/Class;
+         4: invokevirtual #25                 // Method java/lang/Class.getSimpleName:()Ljava/lang/String;
+         7: areturn
+      LineNumberTable:
+        line 123: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Lbe/eu;
+}
+SourceFile: "ServerBasePacket.java"

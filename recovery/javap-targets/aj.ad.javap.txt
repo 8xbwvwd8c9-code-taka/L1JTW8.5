@@ -1,0 +1,112 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aj/ad.class
+  Last modified Jan 3, 2018; size 669 bytes
+  SHA-256 checksum b75c64166995402620452cfa19f335549f7432863df775eacf1a781f5bb7c840
+  Compiled from "C_DeleteBookmark.java"
+public class aj.ad extends aj.cv
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // aj/ad
+  super_class: #3                         // aj/cv
+  interfaces: 0, fields: 1, methods: 2, attributes: 1
+Constant pool:
+   #1 = String             #31            // [C] C_DeleteBookmark
+   #2 = Class              #33            // aj/ad
+   #3 = Class              #34            // aj/cv
+   #4 = Class              #35            // bh/c
+   #5 = Class              #36            // bj/d
+   #6 = Methodref          #2.#13         // aj/ad.g:()Ljava/lang/String;
+   #7 = Methodref          #3.#10         // aj/cv."<init>":([B)V
+   #8 = Methodref          #4.#11         // bh/c.a:(Lap/u;Ljava/lang/String;)V
+   #9 = Methodref          #5.#12         // bj/d.f:()Lap/u;
+  #10 = NameAndType        #19:#17        // "<init>":([B)V
+  #11 = NameAndType        #32:#16        // a:(Lap/u;Ljava/lang/String;)V
+  #12 = NameAndType        #40:#14        // f:()Lap/u;
+  #13 = NameAndType        #41:#15        // g:()Ljava/lang/String;
+  #14 = Utf8               ()Lap/u;
+  #15 = Utf8               ()Ljava/lang/String;
+  #16 = Utf8               (Lap/u;Ljava/lang/String;)V
+  #17 = Utf8               ([B)V
+  #18 = Utf8               ([BLbj/d;)V
+  #19 = Utf8               <init>
+  #20 = Utf8               C_DeleteBookmark.java
+  #21 = Utf8               Code
+  #22 = Utf8               ConstantValue
+  #23 = Utf8               Laj/ad;
+  #24 = Utf8               Lap/u;
+  #25 = Utf8               Lbj/d;
+  #26 = Utf8               LineNumberTable
+  #27 = Utf8               Ljava/lang/String;
+  #28 = Utf8               LocalVariableTable
+  #29 = Utf8               SourceFile
+  #30 = Utf8               [B
+  #31 = Utf8               [C] C_DeleteBookmark
+  #32 = Utf8               a
+  #33 = Utf8               aj/ad
+  #34 = Utf8               aj/cv
+  #35 = Utf8               bh/c
+  #36 = Utf8               bj/d
+  #37 = Utf8               bookmarkname
+  #38 = Utf8               client
+  #39 = Utf8               decrypt
+  #40 = Utf8               f
+  #41 = Utf8               g
+  #42 = Utf8               pc
+  #43 = Utf8               this
+{
+  private static final java.lang.String a;
+    descriptor: Ljava/lang/String;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+    ConstantValue: String [C] C_DeleteBookmark
+
+  public aj.ad(byte[], bj.d);
+    descriptor: ([BLbj/d;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=5, args_size=3
+         0: aload_0
+         1: aload_1
+         2: invokespecial #7                  // Method aj/cv."<init>":([B)V
+         5: aload_2
+         6: invokevirtual #9                  // Method bj/d.f:()Lap/u;
+         9: astore_3
+        10: aload_3
+        11: ifnonnull     15
+        14: return
+        15: aload_0
+        16: invokevirtual #6                  // Method g:()Ljava/lang/String;
+        19: astore        4
+        21: aload_3
+        22: aload         4
+        24: invokestatic  #8                  // Method bh/c.a:(Lap/u;Ljava/lang/String;)V
+        27: return
+      LineNumberTable:
+        line 28: 0
+        line 30: 5
+        line 31: 10
+        line 32: 14
+        line 34: 15
+        line 35: 21
+        line 36: 27
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      28     0  this   Laj/ad;
+            0      28     1 decrypt   [B
+            0      28     2 client   Lbj/d;
+           10      18     3    pc   Lap/u;
+           21       7     4 bookmarkname   Ljava/lang/String;
+
+  public java.lang.String a();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String [C] C_DeleteBookmark
+         2: areturn
+      LineNumberTable:
+        line 40: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Laj/ad;
+}
+SourceFile: "C_DeleteBookmark.java"

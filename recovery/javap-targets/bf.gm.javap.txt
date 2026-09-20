@@ -1,0 +1,225 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/bf/gm.class
+  Last modified Jan 3, 2018; size 1220 bytes
+  SHA-256 checksum 29ba639559424caf7069c51cbadaf81d341e337192d8d24ae7c0178f6275d436
+  Compiled from "S_229.java"
+public class bf.gm extends bf.a
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #6                          // bf/gm
+  super_class: #5                         // bf/a
+  interfaces: 0, fields: 2, methods: 4, attributes: 2
+Constant pool:
+   #1 = Integer            229
+   #2 = Class              #65            // ao/be
+   #3 = Class              #66            // aq/aq
+   #4 = Class              #67            // aq/f
+   #5 = Class              #69            // bf/a
+   #6 = Class              #70            // bf/gm
+   #7 = Class              #71            // bf/gm$a
+   #8 = Class              #72            // bh/v
+   #9 = Fieldref           #6.#29         // bf/gm.a:I
+  #10 = Fieldref           #6.#31         // bf/gm.b:Lbh/v;
+  #11 = Methodref          #2.#24         // ao/be.a:()Lao/be;
+  #12 = Methodref          #2.#28         // ao/be.a:(I)Lbh/v;
+  #13 = Methodref          #3.#25         // aq/aq.a:()Laq/aq;
+  #14 = Methodref          #3.#27         // aq/aq.a:(I)Laq/aa;
+  #15 = Methodref          #4.#32         // aq/f.j:(II)V
+  #16 = Methodref          #5.#22         // bf/a."<init>":()V
+  #17 = Methodref          #6.#30         // bf/gm.b:(Laq/f;Laq/f;Lbh/v;I)V
+  #18 = Methodref          #7.#23         // bf/gm$a."<init>":(Lbf/gm;Laq/f;Laq/f;II)V
+  #19 = Methodref          #7.#26         // bf/gm$a.a:()V
+  #20 = Methodref          #8.#33         // bh/v.u:()I
+  #21 = Methodref          #8.#34         // bh/v.v:()I
+  #22 = NameAndType        #47:#38        // "<init>":()V
+  #23 = NameAndType        #47:#46        // "<init>":(Lbf/gm;Laq/f;Laq/f;II)V
+  #24 = NameAndType        #64:#36        // a:()Lao/be;
+  #25 = NameAndType        #64:#37        // a:()Laq/aq;
+  #26 = NameAndType        #64:#38        // a:()V
+  #27 = NameAndType        #64:#39        // a:(I)Laq/aa;
+  #28 = NameAndType        #64:#40        // a:(I)Lbh/v;
+  #29 = NameAndType        #64:#50        // a:I
+  #30 = NameAndType        #68:#45        // b:(Laq/f;Laq/f;Lbh/v;I)V
+  #31 = NameAndType        #68:#55        // b:Lbh/v;
+  #32 = NameAndType        #74:#41        // j:(II)V
+  #33 = NameAndType        #80:#35        // u:()I
+  #34 = NameAndType        #81:#35        // v:()I
+  #35 = Utf8               ()I
+  #36 = Utf8               ()Lao/be;
+  #37 = Utf8               ()Laq/aq;
+  #38 = Utf8               ()V
+  #39 = Utf8               (I)Laq/aa;
+  #40 = Utf8               (I)Lbh/v;
+  #41 = Utf8               (II)V
+  #42 = Utf8               (Laq/f;)V
+  #43 = Utf8               (Laq/f;I)V
+  #44 = Utf8               (Laq/f;IIILjava/lang/String;)V
+  #45 = Utf8               (Laq/f;Laq/f;Lbh/v;I)V
+  #46 = Utf8               (Lbf/gm;Laq/f;Laq/f;II)V
+  #47 = Utf8               <init>
+  #48 = Utf8               Code
+  #49 = Utf8               ConstantValue
+  #50 = Utf8               I
+  #51 = Utf8               InnerClasses
+  #52 = Utf8               Laq/aa;
+  #53 = Utf8               Laq/f;
+  #54 = Utf8               Lbf/gm;
+  #55 = Utf8               Lbh/v;
+  #56 = Utf8               LineNumberTable
+  #57 = Utf8               Ljava/lang/String;
+  #58 = Utf8               LocalVariableTable
+  #59 = Utf8               S_229.java
+  #60 = Utf8               SourceFile
+  #61 = Utf8               _target
+  #62 = Utf8               _targetId
+  #63 = Utf8               _user
+  #64 = Utf8               a
+  #65 = Utf8               ao/be
+  #66 = Utf8               aq/aq
+  #67 = Utf8               aq/f
+  #68 = Utf8               b
+  #69 = Utf8               bf/a
+  #70 = Utf8               bf/gm
+  #71 = Utf8               bf/gm$a
+  #72 = Utf8               bh/v
+  #73 = Utf8               cha
+  #74 = Utf8               j
+  #75 = Utf8               message
+  #76 = Utf8               obj
+  #77 = Utf8               target
+  #78 = Utf8               this
+  #79 = Utf8               timeSecs
+  #80 = Utf8               u
+  #81 = Utf8               v
+  #82 = Utf8               x
+  #83 = Utf8               y
+{
+  private final int a;
+    descriptor: I
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    ConstantValue: int 229
+
+  private final bh.v b;
+    descriptor: Lbh/v;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+
+  public bf.gm();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #16                 // Method bf/a."<init>":()V
+         4: aload_0
+         5: sipush        229
+         8: putfield      #9                  // Field a:I
+        11: aload_0
+        12: invokestatic  #11                 // Method ao/be.a:()Lao/be;
+        15: sipush        229
+        18: invokevirtual #12                 // Method ao/be.a:(I)Lbh/v;
+        21: putfield      #10                 // Field b:Lbh/v;
+        24: return
+      LineNumberTable:
+        line 22: 0
+        line 18: 4
+        line 23: 11
+        line 24: 24
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      25     0  this   Lbf/gm;
+
+  public void a(aq.f, int);
+    descriptor: (Laq/f;I)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=0, locals=3, args_size=3
+         0: return
+      LineNumberTable:
+        line 29: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  this   Lbf/gm;
+            0       1     1 _target   Laq/f;
+            0       1     2 timeSecs   I
+
+  public void a(aq.f, int, int, int, java.lang.String);
+    descriptor: (Laq/f;IIILjava/lang/String;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=7, locals=8, args_size=6
+         0: invokestatic  #13                 // Method aq/aq.a:()Laq/aq;
+         3: iload_2
+         4: invokevirtual #14                 // Method aq/aq.a:(I)Laq/aa;
+         7: astore        6
+         9: aload         6
+        11: instanceof    #4                  // class aq/f
+        14: ifne          18
+        17: return
+        18: aload         6
+        20: checkcast     #4                  // class aq/f
+        23: astore        7
+        25: aload         7
+        27: sipush        229
+        30: aload_0
+        31: getfield      #10                 // Field b:Lbh/v;
+        34: invokevirtual #21                 // Method bh/v.v:()I
+        37: sipush        1000
+        40: imul
+        41: invokevirtual #15                 // Method aq/f.j:(II)V
+        44: aload_0
+        45: aload_1
+        46: aload         7
+        48: aload_0
+        49: getfield      #10                 // Field b:Lbh/v;
+        52: iconst_1
+        53: invokevirtual #17                 // Method b:(Laq/f;Laq/f;Lbh/v;I)V
+        56: new           #7                  // class bf/gm$a
+        59: dup
+        60: aload_0
+        61: aload_1
+        62: aload         7
+        64: aload_0
+        65: getfield      #10                 // Field b:Lbh/v;
+        68: invokevirtual #21                 // Method bh/v.v:()I
+        71: aload_0
+        72: getfield      #10                 // Field b:Lbh/v;
+        75: invokevirtual #20                 // Method bh/v.u:()I
+        78: invokespecial #18                 // Method bf/gm$a."<init>":(Lbf/gm;Laq/f;Laq/f;II)V
+        81: invokevirtual #19                 // Method bf/gm$a.a:()V
+        84: return
+      LineNumberTable:
+        line 37: 0
+        line 38: 9
+        line 39: 17
+        line 41: 18
+        line 44: 25
+        line 46: 44
+        line 48: 56
+        line 49: 84
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      85     0  this   Lbf/gm;
+            0      85     1 _user   Laq/f;
+            0      85     2 _targetId   I
+            0      85     3     x   I
+            0      85     4     y   I
+            0      85     5 message   Ljava/lang/String;
+            9      76     6   obj   Laq/aa;
+           25      60     7 target   Laq/f;
+
+  public void a(aq.f);
+    descriptor: (Laq/f;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=0, locals=2, args_size=2
+         0: return
+      LineNumberTable:
+        line 106: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       1     0  this   Lbf/gm;
+            0       1     1   cha   Laq/f;
+}
+InnerClasses:
+  private #64= #7 of #6;                  // a=class bf/gm$a of class bf/gm
+SourceFile: "S_229.java"

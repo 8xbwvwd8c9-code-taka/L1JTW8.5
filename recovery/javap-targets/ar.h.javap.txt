@@ -1,0 +1,605 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/ar/h.class
+  Last modified Jan 3, 2018; size 2171 bytes
+  SHA-256 checksum 34a6b2a11390a48e615eacf350c24476f2e98ba07626d876ae562d4bd7a8bd0f
+  Compiled from "L1WarriorClassFeature.java"
+class ar.h extends ar.a
+  minor version: 0
+  major version: 52
+  flags: (0x0020) ACC_SUPER
+  this_class: #3                          // ar/h
+  super_class: #2                         // ar/a
+  interfaces: 0, fields: 0, methods: 19, attributes: 1
+Constant pool:
+   #1 = String             #23            // O
+   #2 = Class              #29            // ar/a
+   #3 = Class              #30            // ar/h
+   #4 = Class              #41            // l1j/server/a
+   #5 = Fieldref           #4.#9          // l1j/server/a.aL:I
+   #6 = Fieldref           #4.#10         // l1j/server/a.aM:I
+   #7 = Methodref          #2.#8          // ar/a."<init>":()V
+   #8 = NameAndType        #16:#13        // "<init>":()V
+   #9 = NameAndType        #26:#18        // aL:I
+  #10 = NameAndType        #27:#18        // aM:I
+  #11 = Utf8               ()I
+  #12 = Utf8               ()Ljava/lang/String;
+  #13 = Utf8               ()V
+  #14 = Utf8               ()[I
+  #15 = Utf8               (I)I
+  #16 = Utf8               <init>
+  #17 = Utf8               Code
+  #18 = Utf8               I
+  #19 = Utf8               L1WarriorClassFeature.java
+  #20 = Utf8               Lar/h;
+  #21 = Utf8               LineNumberTable
+  #22 = Utf8               LocalVariableTable
+  #23 = Utf8               O
+  #24 = Utf8               SourceFile
+  #25 = Utf8               a
+  #26 = Utf8               aL
+  #27 = Utf8               aM
+  #28 = Utf8               ac
+  #29 = Utf8               ar/a
+  #30 = Utf8               ar/h
+  #31 = Utf8               b
+  #32 = Utf8               c
+  #33 = Utf8               d
+  #34 = Utf8               e
+  #35 = Utf8               f
+  #36 = Utf8               g
+  #37 = Utf8               h
+  #38 = Utf8               i
+  #39 = Utf8               j
+  #40 = Utf8               k
+  #41 = Utf8               l1j/server/a
+  #42 = Utf8               level
+  #43 = Utf8               playerLevel
+  #44 = Utf8               this
+  #45 = Utf8               wis
+{
+  ar.h();
+    descriptor: ()V
+    flags: (0x0000)
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #7                  // Method ar/a."<init>":()V
+         4: return
+      LineNumberTable:
+        line 5: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lar/h;
+
+  public int b(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: iconst_3
+         2: idiv
+         3: ireturn
+      LineNumberTable:
+        line 8: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+            0       4     1    ac   I
+
+  public int c(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        50
+         3: idiv
+         4: ireturn
+      LineNumberTable:
+        line 13: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lar/h;
+            0       5     1 playerLevel   I
+
+  public int[] a();
+    descriptor: ()[I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=1, args_size=1
+         0: bipush        6
+         2: newarray       int
+         4: dup
+         5: iconst_0
+         6: bipush        16
+         8: iastore
+         9: dup
+        10: iconst_1
+        11: bipush        13
+        13: iastore
+        14: dup
+        15: iconst_2
+        16: bipush        16
+        18: iastore
+        19: dup
+        20: iconst_3
+        21: bipush        10
+        23: iastore
+        24: dup
+        25: iconst_4
+        26: bipush        7
+        28: iastore
+        29: dup
+        30: iconst_5
+        31: bipush        9
+        33: iastore
+        34: areturn
+      LineNumberTable:
+        line 18: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      35     0  this   Lar/h;
+
+  public int b();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: iconst_4
+         1: ireturn
+      LineNumberTable:
+        line 23: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0  this   Lar/h;
+
+  public int c();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: iconst_0
+         1: ireturn
+      LineNumberTable:
+        line 28: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0  this   Lar/h;
+
+  public int d();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: iconst_0
+         1: ireturn
+      LineNumberTable:
+        line 33: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0  this   Lar/h;
+
+  public int d(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        6
+         3: idiv
+         4: ineg
+         5: ireturn
+      LineNumberTable:
+        line 38: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Lar/h;
+            0       6     1 level   I
+
+  public int e(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: iconst_4
+         2: idiv
+         3: ireturn
+      LineNumberTable:
+        line 43: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+            0       4     1 level   I
+
+  public int f(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        10
+         3: idiv
+         4: ireturn
+      LineNumberTable:
+        line 48: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lar/h;
+            0       5     1 level   I
+
+  public int g(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=2, args_size=2
+         0: iconst_0
+         1: ireturn
+      LineNumberTable:
+        line 53: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       2     0  this   Lar/h;
+            0       2     1 level   I
+
+  public int h(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: iconst_3
+         2: idiv
+         3: ireturn
+      LineNumberTable:
+        line 58: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+            0       4     1 level   I
+
+  public int i(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: iconst_3
+         2: idiv
+         3: ireturn
+      LineNumberTable:
+        line 63: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+            0       4     1 level   I
+
+  public int e();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: bipush        21
+         2: ireturn
+      LineNumberTable:
+        line 68: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lar/h;
+
+  public int f();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: getstatic     #5                  // Field l1j/server/a.aL:I
+         3: ireturn
+      LineNumberTable:
+        line 73: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+
+  public int g();
+    descriptor: ()I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: getstatic     #6                  // Field l1j/server/a.aM:I
+         3: ireturn
+      LineNumberTable:
+        line 78: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       4     0  this   Lar/h;
+
+  public int j(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        9
+         3: if_icmpgt     8
+         6: iconst_0
+         7: ireturn
+         8: iload_1
+         9: bipush        10
+        11: if_icmplt     22
+        14: iload_1
+        15: bipush        14
+        17: if_icmpgt     22
+        20: iconst_1
+        21: ireturn
+        22: iload_1
+        23: bipush        15
+        25: if_icmplt     36
+        28: iload_1
+        29: bipush        17
+        31: if_icmpgt     36
+        34: iconst_2
+        35: ireturn
+        36: iload_1
+        37: bipush        18
+        39: if_icmplt     50
+        42: iload_1
+        43: bipush        23
+        45: if_icmpgt     50
+        48: iconst_2
+        49: ireturn
+        50: iload_1
+        51: bipush        24
+        53: if_icmplt     64
+        56: iload_1
+        57: bipush        24
+        59: if_icmpgt     64
+        62: iconst_2
+        63: ireturn
+        64: iload_1
+        65: bipush        25
+        67: if_icmplt     78
+        70: iload_1
+        71: bipush        26
+        73: if_icmpgt     78
+        76: iconst_3
+        77: ireturn
+        78: iload_1
+        79: bipush        27
+        81: if_icmplt     92
+        84: iload_1
+        85: bipush        29
+        87: if_icmpgt     92
+        90: iconst_3
+        91: ireturn
+        92: iload_1
+        93: bipush        30
+        95: if_icmplt     106
+        98: iload_1
+        99: bipush        32
+       101: if_icmpgt     106
+       104: iconst_4
+       105: ireturn
+       106: iload_1
+       107: bipush        33
+       109: if_icmplt     120
+       112: iload_1
+       113: bipush        35
+       115: if_icmpgt     120
+       118: iconst_4
+       119: ireturn
+       120: iload_1
+       121: bipush        36
+       123: if_icmplt     134
+       126: iload_1
+       127: bipush        39
+       129: if_icmpgt     134
+       132: iconst_4
+       133: ireturn
+       134: iload_1
+       135: bipush        40
+       137: if_icmplt     148
+       140: iload_1
+       141: bipush        41
+       143: if_icmpgt     148
+       146: iconst_5
+       147: ireturn
+       148: iload_1
+       149: bipush        42
+       151: if_icmplt     162
+       154: iload_1
+       155: bipush        44
+       157: if_icmpgt     162
+       160: iconst_5
+       161: ireturn
+       162: iload_1
+       163: bipush        45
+       165: if_icmplt     171
+       168: bipush        6
+       170: ireturn
+       171: iconst_0
+       172: ireturn
+      LineNumberTable:
+        line 84: 0
+        line 85: 6
+        line 86: 8
+        line 87: 20
+        line 88: 22
+        line 89: 34
+        line 90: 36
+        line 91: 48
+        line 92: 50
+        line 93: 62
+        line 94: 64
+        line 95: 76
+        line 96: 78
+        line 97: 90
+        line 98: 92
+        line 99: 104
+        line 100: 106
+        line 101: 118
+        line 102: 120
+        line 103: 132
+        line 104: 134
+        line 105: 146
+        line 106: 148
+        line 107: 160
+        line 108: 162
+        line 109: 168
+        line 112: 171
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     173     0  this   Lar/h;
+            0     173     1   wis   I
+
+  public int k(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: iload_1
+         1: bipush        9
+         3: if_icmpgt     8
+         6: iconst_3
+         7: ireturn
+         8: iload_1
+         9: bipush        10
+        11: if_icmplt     22
+        14: iload_1
+        15: bipush        14
+        17: if_icmpgt     22
+        20: iconst_2
+        21: ireturn
+        22: iload_1
+        23: bipush        15
+        25: if_icmplt     36
+        28: iload_1
+        29: bipush        17
+        31: if_icmpgt     36
+        34: iconst_2
+        35: ireturn
+        36: iload_1
+        37: bipush        18
+        39: if_icmplt     50
+        42: iload_1
+        43: bipush        23
+        45: if_icmpgt     50
+        48: iconst_3
+        49: ireturn
+        50: iload_1
+        51: bipush        24
+        53: if_icmplt     64
+        56: iload_1
+        57: bipush        24
+        59: if_icmpgt     64
+        62: iconst_4
+        63: ireturn
+        64: iload_1
+        65: bipush        25
+        67: if_icmplt     78
+        70: iload_1
+        71: bipush        26
+        73: if_icmpgt     78
+        76: iconst_3
+        77: ireturn
+        78: iload_1
+        79: bipush        27
+        81: if_icmplt     92
+        84: iload_1
+        85: bipush        29
+        87: if_icmpgt     92
+        90: iconst_4
+        91: ireturn
+        92: iload_1
+        93: bipush        30
+        95: if_icmplt     106
+        98: iload_1
+        99: bipush        32
+       101: if_icmpgt     106
+       104: iconst_3
+       105: ireturn
+       106: iload_1
+       107: bipush        33
+       109: if_icmplt     120
+       112: iload_1
+       113: bipush        35
+       115: if_icmpgt     120
+       118: iconst_4
+       119: ireturn
+       120: iload_1
+       121: bipush        36
+       123: if_icmplt     134
+       126: iload_1
+       127: bipush        39
+       129: if_icmpgt     134
+       132: iconst_5
+       133: ireturn
+       134: iload_1
+       135: bipush        40
+       137: if_icmplt     148
+       140: iload_1
+       141: bipush        41
+       143: if_icmpgt     148
+       146: iconst_4
+       147: ireturn
+       148: iload_1
+       149: bipush        42
+       151: if_icmplt     162
+       154: iload_1
+       155: bipush        44
+       157: if_icmpgt     162
+       160: iconst_5
+       161: ireturn
+       162: iload_1
+       163: bipush        45
+       165: if_icmplt     170
+       168: iconst_5
+       169: ireturn
+       170: iconst_0
+       171: ireturn
+      LineNumberTable:
+        line 118: 0
+        line 119: 6
+        line 120: 8
+        line 121: 20
+        line 122: 22
+        line 123: 34
+        line 124: 36
+        line 125: 48
+        line 126: 50
+        line 127: 62
+        line 128: 64
+        line 129: 76
+        line 130: 78
+        line 131: 90
+        line 132: 92
+        line 133: 104
+        line 134: 106
+        line 135: 118
+        line 136: 120
+        line 137: 132
+        line 138: 134
+        line 139: 146
+        line 140: 148
+        line 141: 160
+        line 142: 162
+        line 143: 168
+        line 146: 170
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     172     0  this   Lar/h;
+            0     172     1   wis   I
+
+  public java.lang.String h();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String O
+         2: areturn
+      LineNumberTable:
+        line 151: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lar/h;
+}
+SourceFile: "L1WarriorClassFeature.java"

@@ -1,0 +1,243 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/dn.class
+  Last modified Jan 3, 2018; size 988 bytes
+  SHA-256 checksum 461015fa26cb154199bf9f1b6ca567e49293760cc94eda2be2b9ee3ebb52a0f8
+  Compiled from "S_RuneSlot.java"
+public class be.dn extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // be/dn
+  super_class: #3                         // be/eu
+  interfaces: 0, fields: 8, methods: 5, attributes: 1
+Constant pool:
+   #1 = String             #45            // S_RuneSlot
+   #2 = Class              #50            // be/dn
+   #3 = Class              #51            // be/eu
+   #4 = Fieldref           #2.#21         // be/dn.a:I
+   #5 = Fieldref           #2.#23         // be/dn.b:I
+   #6 = Fieldref           #2.#25         // be/dn.c:I
+   #7 = Fieldref           #2.#27         // be/dn.d:I
+   #8 = Fieldref           #2.#28         // be/dn.e:I
+   #9 = Fieldref           #2.#29         // be/dn.f:I
+  #10 = Fieldref           #2.#30         // be/dn.g:I
+  #11 = Fieldref           #2.#31         // be/dn.h:I
+  #12 = Methodref          #2.#19         // be/dn.a:(I)V
+  #13 = Methodref          #2.#20         // be/dn.a:([B)V
+  #14 = Methodref          #2.#22         // be/dn.b:(I)V
+  #15 = Methodref          #2.#24         // be/dn.c:(I)V
+  #16 = Methodref          #2.#26         // be/dn.d:()[B
+  #17 = Methodref          #3.#18         // be/eu."<init>":()V
+  #18 = NameAndType        #39:#33        // "<init>":()V
+  #19 = NameAndType        #48:#35        // a:(I)V
+  #20 = NameAndType        #48:#37        // a:([B)V
+  #21 = NameAndType        #48:#41        // a:I
+  #22 = NameAndType        #49:#35        // b:(I)V
+  #23 = NameAndType        #49:#41        // b:I
+  #24 = NameAndType        #52:#35        // c:(I)V
+  #25 = NameAndType        #52:#41        // c:I
+  #26 = NameAndType        #53:#34        // d:()[B
+  #27 = NameAndType        #53:#41        // d:I
+  #28 = NameAndType        #54:#41        // e:I
+  #29 = NameAndType        #55:#41        // f:I
+  #30 = NameAndType        #56:#41        // g:I
+  #31 = NameAndType        #57:#41        // h:I
+  #32 = Utf8               ()Ljava/lang/String;
+  #33 = Utf8               ()V
+  #34 = Utf8               ()[B
+  #35 = Utf8               (I)V
+  #36 = Utf8               (II)V
+  #37 = Utf8               ([B)V
+  #38 = Utf8               <clinit>
+  #39 = Utf8               <init>
+  #40 = Utf8               Code
+  #41 = Utf8               I
+  #42 = Utf8               Lbe/dn;
+  #43 = Utf8               LineNumberTable
+  #44 = Utf8               LocalVariableTable
+  #45 = Utf8               S_RuneSlot
+  #46 = Utf8               S_RuneSlot.java
+  #47 = Utf8               SourceFile
+  #48 = Utf8               a
+  #49 = Utf8               b
+  #50 = Utf8               be/dn
+  #51 = Utf8               be/eu
+  #52 = Utf8               c
+  #53 = Utf8               d
+  #54 = Utf8               e
+  #55 = Utf8               f
+  #56 = Utf8               g
+  #57 = Utf8               h
+  #58 = Utf8               this
+  #59 = Utf8               type
+  #60 = Utf8               value
+{
+  public static int a;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int b;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int c;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int d;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int e;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int f;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int g;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  public static int h;
+    descriptor: I
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: iconst_1
+         1: putstatic     #4                  // Field a:I
+         4: iconst_2
+         5: putstatic     #5                  // Field b:I
+         8: iconst_4
+         9: putstatic     #6                  // Field c:I
+        12: bipush        8
+        14: putstatic     #7                  // Field d:I
+        17: bipush        16
+        19: putstatic     #8                  // Field e:I
+        22: bipush        32
+        24: putstatic     #9                  // Field f:I
+        27: bipush        64
+        29: putstatic     #10                 // Field g:I
+        32: sipush        128
+        35: putstatic     #11                 // Field h:I
+        38: return
+      LineNumberTable:
+        line 31: 0
+        line 32: 4
+        line 33: 8
+        line 34: 12
+        line 35: 17
+        line 36: 22
+        line 37: 27
+        line 38: 32
+
+  public be.dn(int);
+    descriptor: (I)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: invokespecial #17                 // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        42
+         7: invokevirtual #15                 // Method c:(I)V
+        10: aload_0
+        11: iload_1
+        12: invokevirtual #15                 // Method c:(I)V
+        15: aload_0
+        16: iconst_1
+        17: invokevirtual #12                 // Method a:(I)V
+        20: aload_0
+        21: bipush        60
+        23: invokevirtual #15                 // Method c:(I)V
+        26: aload_0
+        27: iconst_0
+        28: invokevirtual #14                 // Method b:(I)V
+        31: return
+      LineNumberTable:
+        line 44: 0
+        line 45: 4
+        line 46: 10
+        line 47: 15
+        line 48: 20
+        line 49: 26
+        line 50: 31
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      32     0  this   Lbe/dn;
+            0      32     1  type   I
+
+  public be.dn(int, int);
+    descriptor: (II)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=3, args_size=3
+         0: aload_0
+         1: invokespecial #17                 // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        42
+         7: invokevirtual #15                 // Method c:(I)V
+        10: aload_0
+        11: iload_1
+        12: invokevirtual #15                 // Method c:(I)V
+        15: aload_0
+        16: iconst_1
+        17: invokevirtual #12                 // Method a:(I)V
+        20: aload_0
+        21: iload_2
+        22: invokevirtual #15                 // Method c:(I)V
+        25: aload_0
+        26: bipush        32
+        28: newarray       byte
+        30: invokevirtual #13                 // Method a:([B)V
+        33: aload_0
+        34: iconst_0
+        35: invokevirtual #14                 // Method b:(I)V
+        38: return
+      LineNumberTable:
+        line 57: 0
+        line 58: 4
+        line 59: 10
+        line 60: 15
+        line 61: 20
+        line 63: 25
+        line 64: 33
+        line 65: 38
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      39     0  this   Lbe/dn;
+            0      39     1  type   I
+            0      39     2 value   I
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #16                 // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 69: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/dn;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_RuneSlot
+         2: areturn
+      LineNumberTable:
+        line 74: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/dn;
+}
+SourceFile: "S_RuneSlot.java"

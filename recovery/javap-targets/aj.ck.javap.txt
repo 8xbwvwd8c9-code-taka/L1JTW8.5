@@ -1,0 +1,271 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/aj/ck.class
+  Last modified Jan 3, 2018; size 1493 bytes
+  SHA-256 checksum 9194880da811605814ab5d023689db3ae3a32ee6fdccfc77e3218b8052b37424
+  Compiled from "C_TeleportUser.java"
+public class aj.ck extends aj.cv
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #5                          // aj/ck
+  super_class: #6                         // aj/cv
+  interfaces: 0, fields: 0, methods: 2, attributes: 1
+Constant pool:
+    #1 = String             #78           // C_TeleportUser
+    #2 = String             #90           // ]身邊。
+    #3 = String             #122          // 已不在線上。
+    #4 = String             #123          // 移動到玩家[
+    #5 = Class              #92           // aj/ck
+    #6 = Class              #93           // aj/cv
+    #7 = Class              #94           // ap/u
+    #8 = Class              #96           // aq/am
+    #9 = Class              #97           // aq/aq
+   #10 = Class              #98           // aq/u
+   #11 = Class              #100          // be/ee
+   #12 = Class              #101          // be/ei
+   #13 = Class              #102          // bj/d
+   #14 = Class              #112          // java/lang/String
+   #15 = Class              #113          // java/lang/StringBuilder
+   #16 = Methodref          #5.#56        // aj/ck.g:()Ljava/lang/String;
+   #17 = Methodref          #6.#41        // aj/cv."<init>":([B)V
+   #18 = Methodref          #7.#45        // ap/u.a:(Lbe/eu;)V
+   #19 = Methodref          #7.#48        // ap/u.b:(Lbe/eu;)V
+   #20 = Methodref          #7.#51        // ap/u.fb:()I
+   #21 = Methodref          #7.#52        // ap/u.fp:()I
+   #22 = Methodref          #7.#53        // ap/u.fr:()I
+   #23 = Methodref          #7.#54        // ap/u.fu:()Laq/u;
+   #24 = Methodref          #7.#58        // ap/u.l:()Z
+   #25 = Methodref          #8.#43        // aq/am.a:(Lap/u;IIIIZ)V
+   #26 = Methodref          #9.#42        // aq/aq.a:()Laq/aq;
+   #27 = Methodref          #9.#46        // aq/aq.a:(Ljava/lang/String;)Lap/u;
+   #28 = Methodref          #10.#44       // aq/u.a:(Laq/u;IIZ)Laq/u;
+   #29 = Methodref          #10.#49       // aq/u.f:()I
+   #30 = Methodref          #10.#55       // aq/u.g:()I
+   #31 = Methodref          #11.#39       // be/ee."<init>":(II)V
+   #32 = Methodref          #12.#40       // be/ei."<init>":(Ljava/lang/String;)V
+   #33 = Methodref          #13.#50       // bj/d.f:()Lap/u;
+   #34 = Methodref          #14.#57       // java/lang/String.isEmpty:()Z
+   #35 = Methodref          #14.#60       // java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+   #36 = Methodref          #15.#40       // java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+   #37 = Methodref          #15.#47       // java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #38 = Methodref          #15.#59       // java/lang/StringBuilder.toString:()Ljava/lang/String;
+   #39 = NameAndType        #77:#67       // "<init>":(II)V
+   #40 = NameAndType        #77:#74       // "<init>":(Ljava/lang/String;)V
+   #41 = NameAndType        #77:#75       // "<init>":([B)V
+   #42 = NameAndType        #91:#63       // a:()Laq/aq;
+   #43 = NameAndType        #91:#68       // a:(Lap/u;IIIIZ)V
+   #44 = NameAndType        #91:#69       // a:(Laq/u;IIZ)Laq/u;
+   #45 = NameAndType        #91:#70       // a:(Lbe/eu;)V
+   #46 = NameAndType        #91:#72       // a:(Ljava/lang/String;)Lap/u;
+   #47 = NameAndType        #95:#73       // append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #48 = NameAndType        #99:#70       // b:(Lbe/eu;)V
+   #49 = NameAndType        #105:#61      // f:()I
+   #50 = NameAndType        #105:#62      // f:()Lap/u;
+   #51 = NameAndType        #106:#61      // fb:()I
+   #52 = NameAndType        #107:#61      // fp:()I
+   #53 = NameAndType        #108:#61      // fr:()I
+   #54 = NameAndType        #109:#64      // fu:()Laq/u;
+   #55 = NameAndType        #110:#61      // g:()I
+   #56 = NameAndType        #110:#65      // g:()Ljava/lang/String;
+   #57 = NameAndType        #111:#66      // isEmpty:()Z
+   #58 = NameAndType        #114:#66      // l:()Z
+   #59 = NameAndType        #120:#65      // toString:()Ljava/lang/String;
+   #60 = NameAndType        #121:#71      // valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+   #61 = Utf8               ()I
+   #62 = Utf8               ()Lap/u;
+   #63 = Utf8               ()Laq/aq;
+   #64 = Utf8               ()Laq/u;
+   #65 = Utf8               ()Ljava/lang/String;
+   #66 = Utf8               ()Z
+   #67 = Utf8               (II)V
+   #68 = Utf8               (Lap/u;IIIIZ)V
+   #69 = Utf8               (Laq/u;IIZ)Laq/u;
+   #70 = Utf8               (Lbe/eu;)V
+   #71 = Utf8               (Ljava/lang/Object;)Ljava/lang/String;
+   #72 = Utf8               (Ljava/lang/String;)Lap/u;
+   #73 = Utf8               (Ljava/lang/String;)Ljava/lang/StringBuilder;
+   #74 = Utf8               (Ljava/lang/String;)V
+   #75 = Utf8               ([B)V
+   #76 = Utf8               ([BLbj/d;)V
+   #77 = Utf8               <init>
+   #78 = Utf8               C_TeleportUser
+   #79 = Utf8               C_TeleportUser.java
+   #80 = Utf8               Code
+   #81 = Utf8               Laj/ck;
+   #82 = Utf8               Lap/u;
+   #83 = Utf8               Laq/u;
+   #84 = Utf8               Lbj/d;
+   #85 = Utf8               LineNumberTable
+   #86 = Utf8               Ljava/lang/String;
+   #87 = Utf8               LocalVariableTable
+   #88 = Utf8               SourceFile
+   #89 = Utf8               [B
+   #90 = Utf8               ]身邊。
+   #91 = Utf8               a
+   #92 = Utf8               aj/ck
+   #93 = Utf8               aj/cv
+   #94 = Utf8               ap/u
+   #95 = Utf8               append
+   #96 = Utf8               aq/am
+   #97 = Utf8               aq/aq
+   #98 = Utf8               aq/u
+   #99 = Utf8               b
+  #100 = Utf8               be/ee
+  #101 = Utf8               be/ei
+  #102 = Utf8               bj/d
+  #103 = Utf8               client
+  #104 = Utf8               decrypt
+  #105 = Utf8               f
+  #106 = Utf8               fb
+  #107 = Utf8               fp
+  #108 = Utf8               fr
+  #109 = Utf8               fu
+  #110 = Utf8               g
+  #111 = Utf8               isEmpty
+  #112 = Utf8               java/lang/String
+  #113 = Utf8               java/lang/StringBuilder
+  #114 = Utf8               l
+  #115 = Utf8               loc
+  #116 = Utf8               name
+  #117 = Utf8               pc
+  #118 = Utf8               target
+  #119 = Utf8               this
+  #120 = Utf8               toString
+  #121 = Utf8               valueOf
+  #122 = Utf8               已不在線上。
+  #123 = Utf8               移動到玩家[
+{
+  public aj.ck(byte[], bj.d);
+    descriptor: ([BLbj/d;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=7, args_size=3
+         0: aload_0
+         1: aload_1
+         2: invokespecial #17                 // Method aj/cv."<init>":([B)V
+         5: aload_2
+         6: invokevirtual #33                 // Method bj/d.f:()Lap/u;
+         9: astore_3
+        10: aload_3
+        11: ifnull        21
+        14: aload_3
+        15: invokevirtual #24                 // Method ap/u.l:()Z
+        18: ifne          22
+        21: return
+        22: aload_0
+        23: invokevirtual #16                 // Method g:()Ljava/lang/String;
+        26: astore        4
+        28: aload         4
+        30: invokevirtual #34                 // Method java/lang/String.isEmpty:()Z
+        33: ifeq          37
+        36: return
+        37: invokestatic  #26                 // Method aq/aq.a:()Laq/aq;
+        40: aload         4
+        42: invokevirtual #27                 // Method aq/aq.a:(Ljava/lang/String;)Lap/u;
+        45: astore        5
+        47: aload         5
+        49: ifnonnull     84
+        52: aload_3
+        53: new           #12                 // class be/ei
+        56: dup
+        57: new           #15                 // class java/lang/StringBuilder
+        60: dup
+        61: aload         4
+        63: invokestatic  #35                 // Method java/lang/String.valueOf:(Ljava/lang/Object;)Ljava/lang/String;
+        66: invokespecial #36                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+        69: ldc           #3                  // String 已不在線上。
+        71: invokevirtual #37                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+        74: invokevirtual #38                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+        77: invokespecial #32                 // Method be/ei."<init>":(Ljava/lang/String;)V
+        80: invokevirtual #18                 // Method ap/u.a:(Lbe/eu;)V
+        83: return
+        84: aload         5
+        86: invokevirtual #23                 // Method ap/u.fu:()Laq/u;
+        89: iconst_1
+        90: iconst_2
+        91: iconst_0
+        92: invokestatic  #28                 // Method aq/u.a:(Laq/u;IIZ)Laq/u;
+        95: astore        6
+        97: aload_3
+        98: aload         6
+       100: invokevirtual #29                 // Method aq/u.f:()I
+       103: aload         6
+       105: invokevirtual #30                 // Method aq/u.g:()I
+       108: aload         5
+       110: invokevirtual #21                 // Method ap/u.fp:()I
+       113: aload_3
+       114: invokevirtual #20                 // Method ap/u.fb:()I
+       117: iconst_1
+       118: invokestatic  #25                 // Method aq/am.a:(Lap/u;IIIIZ)V
+       121: aload_3
+       122: new           #11                 // class be/ee
+       125: dup
+       126: aload_3
+       127: invokevirtual #22                 // Method ap/u.fr:()I
+       130: sipush        12446
+       133: invokespecial #31                 // Method be/ee."<init>":(II)V
+       136: invokevirtual #18                 // Method ap/u.a:(Lbe/eu;)V
+       139: aload_3
+       140: new           #11                 // class be/ee
+       143: dup
+       144: aload_3
+       145: invokevirtual #22                 // Method ap/u.fr:()I
+       148: sipush        12446
+       151: invokespecial #31                 // Method be/ee."<init>":(II)V
+       154: invokevirtual #19                 // Method ap/u.b:(Lbe/eu;)V
+       157: aload_3
+       158: new           #12                 // class be/ei
+       161: dup
+       162: new           #15                 // class java/lang/StringBuilder
+       165: dup
+       166: ldc           #4                  // String 移動到玩家[
+       168: invokespecial #36                 // Method java/lang/StringBuilder."<init>":(Ljava/lang/String;)V
+       171: aload         4
+       173: invokevirtual #37                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       176: ldc           #2                  // String ]身邊。
+       178: invokevirtual #37                 // Method java/lang/StringBuilder.append:(Ljava/lang/String;)Ljava/lang/StringBuilder;
+       181: invokevirtual #38                 // Method java/lang/StringBuilder.toString:()Ljava/lang/String;
+       184: invokespecial #32                 // Method be/ei."<init>":(Ljava/lang/String;)V
+       187: invokevirtual #18                 // Method ap/u.a:(Lbe/eu;)V
+       190: return
+      LineNumberTable:
+        line 34: 0
+        line 36: 5
+        line 37: 10
+        line 38: 21
+        line 41: 22
+        line 42: 28
+        line 43: 36
+        line 46: 37
+        line 48: 47
+        line 49: 52
+        line 50: 83
+        line 53: 84
+        line 54: 97
+        line 56: 121
+        line 57: 139
+        line 58: 157
+        line 59: 190
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     191     0  this   Laj/ck;
+            0     191     1 decrypt   [B
+            0     191     2 client   Lbj/d;
+           10     181     3    pc   Lap/u;
+           28     163     4  name   Ljava/lang/String;
+           47     144     5 target   Lap/u;
+           97      94     6   loc   Laq/u;
+
+  public java.lang.String a();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String C_TeleportUser
+         2: areturn
+      LineNumberTable:
+        line 63: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Laj/ck;
+}
+SourceFile: "C_TeleportUser.java"

@@ -1,0 +1,88 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/be/ek.class
+  Last modified Jan 3, 2018; size 457 bytes
+  SHA-256 checksum bf13dbc98f869c65443037280e147ff871bee384d5251b17b2ac44d839014b39
+  Compiled from "S_Teleport.java"
+public class be.ek extends be.eu
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #2                          // be/ek
+  super_class: #3                         // be/eu
+  interfaces: 0, fields: 0, methods: 3, attributes: 1
+Constant pool:
+   #1 = String             #19            // S_Teleport
+   #2 = Class              #24            // be/ek
+   #3 = Class              #25            // be/eu
+   #4 = Methodref          #2.#8          // be/ek.c:(I)V
+   #5 = Methodref          #2.#9          // be/ek.d:()[B
+   #6 = Methodref          #3.#7          // be/eu."<init>":()V
+   #7 = NameAndType        #14:#11        // "<init>":()V
+   #8 = NameAndType        #26:#13        // c:(I)V
+   #9 = NameAndType        #27:#12        // d:()[B
+  #10 = Utf8               ()Ljava/lang/String;
+  #11 = Utf8               ()V
+  #12 = Utf8               ()[B
+  #13 = Utf8               (I)V
+  #14 = Utf8               <init>
+  #15 = Utf8               Code
+  #16 = Utf8               Lbe/ek;
+  #17 = Utf8               LineNumberTable
+  #18 = Utf8               LocalVariableTable
+  #19 = Utf8               S_Teleport
+  #20 = Utf8               S_Teleport.java
+  #21 = Utf8               SourceFile
+  #22 = Utf8               a
+  #23 = Utf8               b
+  #24 = Utf8               be/ek
+  #25 = Utf8               be/eu
+  #26 = Utf8               c
+  #27 = Utf8               d
+  #28 = Utf8               this
+{
+  public be.ek();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #6                  // Method be/eu."<init>":()V
+         4: aload_0
+         5: bipush        29
+         7: invokevirtual #4                  // Method c:(I)V
+        10: return
+      LineNumberTable:
+        line 25: 0
+        line 26: 4
+        line 27: 10
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Lbe/ek;
+
+  public byte[] a();
+    descriptor: ()[B
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokevirtual #5                  // Method d:()[B
+         4: areturn
+      LineNumberTable:
+        line 31: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lbe/ek;
+
+  public java.lang.String b();
+    descriptor: ()Ljava/lang/String;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: ldc           #1                  // String S_Teleport
+         2: areturn
+      LineNumberTable:
+        line 36: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       3     0  this   Lbe/ek;
+}
+SourceFile: "S_Teleport.java"

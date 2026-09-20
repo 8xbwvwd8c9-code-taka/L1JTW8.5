@@ -1,0 +1,477 @@
+Classfile jar:file:/home/runner/work/L1JTW8.5/L1JTW8.5/l1jserver2.jar!/ao/ak.class
+  Last modified Jan 3, 2018; size 3044 bytes
+  SHA-256 checksum 919b371937a11cf4d5f60234fb7edb56b3174d594db9a8c37e8dd88f9df773c4
+  Compiled from "LostPowerItemTable.java"
+public class ao.ak
+  minor version: 0
+  major version: 52
+  flags: (0x0021) ACC_PUBLIC, ACC_SUPER
+  this_class: #6                          // ao/ak
+  super_class: #12                        // java/lang/Object
+  interfaces: 0, fields: 4, methods: 6, attributes: 1
+Constant pool:
+    #1 = Integer            1000000
+    #2 = String             #120          // SELECT * FROM lost_power_item
+    #3 = String             #133          // change_itemid
+    #4 = String             #149          // itemid
+    #5 = Class              #125          // ao/ah
+    #6 = Class              #126          // ao/ak
+    #7 = Class              #127          // au/f
+    #8 = Class              #129          // bi/i
+    #9 = Class              #130          // bi/j
+   #10 = Class              #150          // java/lang/Class
+   #11 = Class              #151          // java/lang/Integer
+   #12 = Class              #152          // java/lang/Object
+   #13 = Class              #153          // java/sql/Connection
+   #14 = Class              #154          // java/sql/PreparedStatement
+   #15 = Class              #155          // java/sql/ResultSet
+   #16 = Class              #156          // java/sql/SQLException
+   #17 = Class              #157          // java/util/HashMap
+   #18 = Class              #158          // java/util/logging/Level
+   #19 = Class              #159          // java/util/logging/Logger
+   #20 = Class              #160          // l1j/server/b
+   #21 = Double             5.0d
+   #23 = Fieldref           #6.#57        // ao/ak.a:Ljava/util/logging/Logger;
+   #24 = Fieldref           #6.#60        // ao/ak.b:Ljava/util/HashMap;
+   #25 = Fieldref           #6.#61        // ao/ak.c:Ljava/util/HashMap;
+   #26 = Fieldref           #6.#64        // ao/ak.d:Lao/ak;
+   #27 = Fieldref           #18.#52       // java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+   #28 = Methodref          #5.#53        // ao/ah.a:()Lao/ah;
+   #29 = Methodref          #5.#59        // ao/ah.b:(I)Lap/q;
+   #30 = Methodref          #6.#51        // ao/ak."<init>":()V
+   #31 = Methodref          #7.#63        // au/f.d:(Lap/q;)Lap/q;
+   #32 = Methodref          #8.#55        // bi/i.a:(I)I
+   #33 = Methodref          #9.#56        // bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+   #34 = Methodref          #10.#70       // java/lang/Class.getName:()Ljava/lang/String;
+   #35 = Methodref          #11.#71       // java/lang/Integer.intValue:()I
+   #36 = Methodref          #11.#76       // java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+   #37 = Methodref          #12.#51       // java/lang/Object."<init>":()V
+   #38 = Methodref          #16.#68       // java/sql/SQLException.getLocalizedMessage:()Ljava/lang/String;
+   #39 = Methodref          #17.#51       // java/util/HashMap."<init>":()V
+   #40 = Methodref          #17.#62       // java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+   #41 = Methodref          #17.#66       // java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+   #42 = Methodref          #17.#75       // java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+   #43 = Methodref          #19.#69       // java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+   #44 = Methodref          #19.#72       // java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+   #45 = Methodref          #20.#54       // l1j/server/b.a:()Ll1j/server/b;
+   #46 = Methodref          #20.#58       // l1j/server/b.b:()Ljava/sql/Connection;
+   #47 = InterfaceMethodref #13.#74       // java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+   #48 = InterfaceMethodref #14.#65       // java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+   #49 = InterfaceMethodref #15.#67       // java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+   #50 = InterfaceMethodref #15.#73       // java/sql/ResultSet.next:()Z
+   #51 = NameAndType        #102:#86      // "<init>":()V
+   #52 = NameAndType        #121:#116     // SEVERE:Ljava/util/logging/Level;
+   #53 = NameAndType        #124:#78      // a:()Lao/ah;
+   #54 = NameAndType        #124:#85      // a:()Ll1j/server/b;
+   #55 = NameAndType        #124:#88      // a:(I)I
+   #56 = NameAndType        #124:#99      // a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+   #57 = NameAndType        #124:#117     // a:Ljava/util/logging/Logger;
+   #58 = NameAndType        #128:#81      // b:()Ljava/sql/Connection;
+   #59 = NameAndType        #128:#89      // b:(I)Lap/q;
+   #60 = NameAndType        #128:#114     // b:Ljava/util/HashMap;
+   #61 = NameAndType        #131:#114     // c:Ljava/util/HashMap;
+   #62 = NameAndType        #135:#94      // containsKey:(Ljava/lang/Object;)Z
+   #63 = NameAndType        #136:#92      // d:(Lap/q;)Lap/q;
+   #64 = NameAndType        #136:#106     // d:Lao/ak;
+   #65 = NameAndType        #140:#82      // executeQuery:()Ljava/sql/ResultSet;
+   #66 = NameAndType        #141:#93      // get:(Ljava/lang/Object;)Ljava/lang/Object;
+   #67 = NameAndType        #142:#96      // getInt:(Ljava/lang/String;)I
+   #68 = NameAndType        #143:#80      // getLocalizedMessage:()Ljava/lang/String;
+   #69 = NameAndType        #144:#98      // getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+   #70 = NameAndType        #145:#80      // getName:()Ljava/lang/String;
+   #71 = NameAndType        #146:#77      // intValue:()I
+   #72 = NameAndType        #161:#100     // log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+   #73 = NameAndType        #162:#87      // next:()Z
+   #74 = NameAndType        #163:#97      // prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+   #75 = NameAndType        #165:#95      // put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+   #76 = NameAndType        #168:#90      // valueOf:(I)Ljava/lang/Integer;
+   #77 = Utf8               ()I
+   #78 = Utf8               ()Lao/ah;
+   #79 = Utf8               ()Lao/ak;
+   #80 = Utf8               ()Ljava/lang/String;
+   #81 = Utf8               ()Ljava/sql/Connection;
+   #82 = Utf8               ()Ljava/sql/ResultSet;
+   #83 = Utf8               ()Ljava/util/HashMap;
+   #84 = Utf8               ()Ljava/util/HashMap<Ljava/lang/Integer;Ljava/lang/Integer;>;
+   #85 = Utf8               ()Ll1j/server/b;
+   #86 = Utf8               ()V
+   #87 = Utf8               ()Z
+   #88 = Utf8               (I)I
+   #89 = Utf8               (I)Lap/q;
+   #90 = Utf8               (I)Ljava/lang/Integer;
+   #91 = Utf8               (IDLau/f;)V
+   #92 = Utf8               (Lap/q;)Lap/q;
+   #93 = Utf8               (Ljava/lang/Object;)Ljava/lang/Object;
+   #94 = Utf8               (Ljava/lang/Object;)Z
+   #95 = Utf8               (Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+   #96 = Utf8               (Ljava/lang/String;)I
+   #97 = Utf8               (Ljava/lang/String;)Ljava/sql/PreparedStatement;
+   #98 = Utf8               (Ljava/lang/String;)Ljava/util/logging/Logger;
+   #99 = Utf8               (Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+  #100 = Utf8               (Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+  #101 = Utf8               <clinit>
+  #102 = Utf8               <init>
+  #103 = Utf8               Code
+  #104 = Utf8               D
+  #105 = Utf8               I
+  #106 = Utf8               Lao/ak;
+  #107 = Utf8               Lap/q;
+  #108 = Utf8               Lau/f;
+  #109 = Utf8               LineNumberTable
+  #110 = Utf8               Ljava/sql/Connection;
+  #111 = Utf8               Ljava/sql/PreparedStatement;
+  #112 = Utf8               Ljava/sql/ResultSet;
+  #113 = Utf8               Ljava/sql/SQLException;
+  #114 = Utf8               Ljava/util/HashMap;
+  #115 = Utf8               Ljava/util/HashMap<Ljava/lang/Integer;Ljava/lang/Integer;>;
+  #116 = Utf8               Ljava/util/logging/Level;
+  #117 = Utf8               Ljava/util/logging/Logger;
+  #118 = Utf8               LocalVariableTable
+  #119 = Utf8               LostPowerItemTable.java
+  #120 = Utf8               SELECT * FROM lost_power_item
+  #121 = Utf8               SEVERE
+  #122 = Utf8               Signature
+  #123 = Utf8               SourceFile
+  #124 = Utf8               a
+  #125 = Utf8               ao/ah
+  #126 = Utf8               ao/ak
+  #127 = Utf8               au/f
+  #128 = Utf8               b
+  #129 = Utf8               bi/i
+  #130 = Utf8               bi/j
+  #131 = Utf8               c
+  #132 = Utf8               chande_itemid
+  #133 = Utf8               change_itemid
+  #134 = Utf8               con
+  #135 = Utf8               containsKey
+  #136 = Utf8               d
+  #137 = Utf8               dropitemid
+  #138 = Utf8               droprate
+  #139 = Utf8               e
+  #140 = Utf8               executeQuery
+  #141 = Utf8               get
+  #142 = Utf8               getInt
+  #143 = Utf8               getLocalizedMessage
+  #144 = Utf8               getLogger
+  #145 = Utf8               getName
+  #146 = Utf8               intValue
+  #147 = Utf8               inventory
+  #148 = Utf8               item
+  #149 = Utf8               itemid
+  #150 = Utf8               java/lang/Class
+  #151 = Utf8               java/lang/Integer
+  #152 = Utf8               java/lang/Object
+  #153 = Utf8               java/sql/Connection
+  #154 = Utf8               java/sql/PreparedStatement
+  #155 = Utf8               java/sql/ResultSet
+  #156 = Utf8               java/sql/SQLException
+  #157 = Utf8               java/util/HashMap
+  #158 = Utf8               java/util/logging/Level
+  #159 = Utf8               java/util/logging/Logger
+  #160 = Utf8               l1j/server/b
+  #161 = Utf8               log
+  #162 = Utf8               next
+  #163 = Utf8               prepareStatement
+  #164 = Utf8               pstm
+  #165 = Utf8               put
+  #166 = Utf8               rs
+  #167 = Utf8               this
+  #168 = Utf8               valueOf
+{
+  private static final java.util.logging.Logger a;
+    descriptor: Ljava/util/logging/Logger;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  private final java.util.HashMap<java.lang.Integer, java.lang.Integer> b;
+    descriptor: Ljava/util/HashMap;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #115                         // Ljava/util/HashMap<Ljava/lang/Integer;Ljava/lang/Integer;>;
+
+  private final java.util.HashMap<java.lang.Integer, java.lang.Integer> c;
+    descriptor: Ljava/util/HashMap;
+    flags: (0x0012) ACC_PRIVATE, ACC_FINAL
+    Signature: #115                         // Ljava/util/HashMap<Ljava/lang/Integer;Ljava/lang/Integer;>;
+
+  private static ao.ak d;
+    descriptor: Lao/ak;
+    flags: (0x000a) ACC_PRIVATE, ACC_STATIC
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: ldc           #6                  // class ao/ak
+         2: invokevirtual #34                 // Method java/lang/Class.getName:()Ljava/lang/String;
+         5: invokestatic  #43                 // Method java/util/logging/Logger.getLogger:(Ljava/lang/String;)Ljava/util/logging/Logger;
+         8: putstatic     #23                 // Field a:Ljava/util/logging/Logger;
+        11: return
+      LineNumberTable:
+        line 18: 0
+        line 26: 11
+
+  public static ao.ak a();
+    descriptor: ()Lao/ak;
+    flags: (0x0009) ACC_PUBLIC, ACC_STATIC
+    Code:
+      stack=2, locals=0, args_size=0
+         0: getstatic     #26                 // Field d:Lao/ak;
+         3: ifnonnull     16
+         6: new           #6                  // class ao/ak
+         9: dup
+        10: invokespecial #30                 // Method "<init>":()V
+        13: putstatic     #26                 // Field d:Lao/ak;
+        16: getstatic     #26                 // Field d:Lao/ak;
+        19: areturn
+      LineNumberTable:
+        line 29: 0
+        line 30: 6
+        line 32: 16
+
+  public ao.ak();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=7, args_size=1
+         0: aload_0
+         1: invokespecial #37                 // Method java/lang/Object."<init>":()V
+         4: aload_0
+         5: new           #17                 // class java/util/HashMap
+         8: dup
+         9: invokespecial #39                 // Method java/util/HashMap."<init>":()V
+        12: putfield      #24                 // Field b:Ljava/util/HashMap;
+        15: aload_0
+        16: new           #17                 // class java/util/HashMap
+        19: dup
+        20: invokespecial #39                 // Method java/util/HashMap."<init>":()V
+        23: putfield      #25                 // Field c:Ljava/util/HashMap;
+        26: aconst_null
+        27: astore_1
+        28: aconst_null
+        29: astore_2
+        30: aconst_null
+        31: astore_3
+        32: invokestatic  #45                 // Method l1j/server/b.a:()Ll1j/server/b;
+        35: invokevirtual #46                 // Method l1j/server/b.b:()Ljava/sql/Connection;
+        38: astore_1
+        39: aload_1
+        40: ldc           #2                  // String SELECT * FROM lost_power_item
+        42: invokeinterface #47,  2           // InterfaceMethod java/sql/Connection.prepareStatement:(Ljava/lang/String;)Ljava/sql/PreparedStatement;
+        47: astore_2
+        48: aload_2
+        49: invokeinterface #48,  1           // InterfaceMethod java/sql/PreparedStatement.executeQuery:()Ljava/sql/ResultSet;
+        54: astore_3
+        55: goto          157
+        58: aload_3
+        59: ldc           #4                  // String itemid
+        61: invokeinterface #49,  2           // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        66: istore        4
+        68: aload_3
+        69: ldc           #3                  // String change_itemid
+        71: invokeinterface #49,  2           // InterfaceMethod java/sql/ResultSet.getInt:(Ljava/lang/String;)I
+        76: istore        5
+        78: iload         4
+        80: ifle          157
+        83: iload         5
+        85: ifgt          91
+        88: goto          157
+        91: aload_0
+        92: getfield      #24                 // Field b:Ljava/util/HashMap;
+        95: iload         4
+        97: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       100: invokevirtual #40                 // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+       103: ifne          124
+       106: aload_0
+       107: getfield      #24                 // Field b:Ljava/util/HashMap;
+       110: iload         4
+       112: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       115: iload         5
+       117: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       120: invokevirtual #42                 // Method java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       123: pop
+       124: aload_0
+       125: getfield      #25                 // Field c:Ljava/util/HashMap;
+       128: iload         5
+       130: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       133: invokevirtual #40                 // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+       136: ifne          157
+       139: aload_0
+       140: getfield      #25                 // Field c:Ljava/util/HashMap;
+       143: iload         5
+       145: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       148: iload         4
+       150: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+       153: invokevirtual #42                 // Method java/util/HashMap.put:(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;
+       156: pop
+       157: aload_3
+       158: invokeinterface #50,  1           // InterfaceMethod java/sql/ResultSet.next:()Z
+       163: ifne          58
+       166: goto          207
+       169: astore        4
+       171: getstatic     #23                 // Field a:Ljava/util/logging/Logger;
+       174: getstatic     #27                 // Field java/util/logging/Level.SEVERE:Ljava/util/logging/Level;
+       177: aload         4
+       179: invokevirtual #38                 // Method java/sql/SQLException.getLocalizedMessage:()Ljava/lang/String;
+       182: aload         4
+       184: invokevirtual #44                 // Method java/util/logging/Logger.log:(Ljava/util/logging/Level;Ljava/lang/String;Ljava/lang/Throwable;)V
+       187: aload_3
+       188: aload_2
+       189: aload_1
+       190: invokestatic  #33                 // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+       193: goto          213
+       196: astore        6
+       198: aload_3
+       199: aload_2
+       200: aload_1
+       201: invokestatic  #33                 // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+       204: aload         6
+       206: athrow
+       207: aload_3
+       208: aload_2
+       209: aload_1
+       210: invokestatic  #33                 // Method bi/j.a:(Ljava/sql/ResultSet;Ljava/sql/Statement;Ljava/sql/Connection;)V
+       213: return
+      Exception table:
+         from    to  target type
+            32   166   169   Class java/sql/SQLException
+            32   187   196   any
+      LineNumberTable:
+        line 35: 0
+        line 22: 4
+        line 24: 15
+        line 36: 26
+        line 37: 28
+        line 38: 30
+        line 41: 32
+        line 42: 39
+        line 43: 48
+        line 44: 55
+        line 45: 58
+        line 46: 68
+        line 48: 78
+        line 49: 88
+        line 51: 91
+        line 52: 106
+        line 55: 124
+        line 56: 139
+        line 44: 157
+        line 59: 166
+        line 60: 171
+        line 62: 187
+        line 61: 196
+        line 62: 198
+        line 63: 204
+        line 62: 207
+        line 64: 213
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0     214     0  this   Lao/ak;
+           28     186     1   con   Ljava/sql/Connection;
+           30     184     2  pstm   Ljava/sql/PreparedStatement;
+           32     182     3    rs   Ljava/sql/ResultSet;
+           68      89     4 itemid   I
+           78      79     5 chande_itemid   I
+          171      16     4     e   Ljava/sql/SQLException;
+
+  public int a(int);
+    descriptor: (I)I
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: getfield      #24                 // Field b:Ljava/util/HashMap;
+         4: iload_1
+         5: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+         8: invokevirtual #40                 // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+        11: ifeq          32
+        14: aload_0
+        15: getfield      #24                 // Field b:Ljava/util/HashMap;
+        18: iload_1
+        19: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        22: invokevirtual #41                 // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        25: checkcast     #11                 // class java/lang/Integer
+        28: invokevirtual #35                 // Method java/lang/Integer.intValue:()I
+        31: ireturn
+        32: iconst_0
+        33: ireturn
+      LineNumberTable:
+        line 68: 0
+        line 69: 14
+        line 72: 32
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      34     0  this   Lao/ak;
+            0      34     1 itemid   I
+
+  public void a(int, double, au.f);
+    descriptor: (IDLau/f;)V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=7, args_size=4
+         0: aload_0
+         1: getfield      #25                 // Field c:Ljava/util/HashMap;
+         4: iload_1
+         5: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+         8: invokevirtual #40                 // Method java/util/HashMap.containsKey:(Ljava/lang/Object;)Z
+        11: ifne          15
+        14: return
+        15: aload_0
+        16: getfield      #25                 // Field c:Ljava/util/HashMap;
+        19: iload_1
+        20: invokestatic  #36                 // Method java/lang/Integer.valueOf:(I)Ljava/lang/Integer;
+        23: invokevirtual #41                 // Method java/util/HashMap.get:(Ljava/lang/Object;)Ljava/lang/Object;
+        26: checkcast     #11                 // class java/lang/Integer
+        29: invokevirtual #35                 // Method java/lang/Integer.intValue:()I
+        32: istore        5
+        34: dload_2
+        35: ldc2_w        #21                 // double 5.0d
+        38: dmul
+        39: ldc           #1                  // int 1000000
+        41: invokestatic  #32                 // Method bi/i.a:(I)I
+        44: iconst_1
+        45: iadd
+        46: i2d
+        47: dcmpl
+        48: ifle          69
+        51: invokestatic  #28                 // Method ao/ah.a:()Lao/ah;
+        54: iload         5
+        56: invokevirtual #29                 // Method ao/ah.b:(I)Lap/q;
+        59: astore        6
+        61: aload         4
+        63: aload         6
+        65: invokevirtual #31                 // Method au/f.d:(Lap/q;)Lap/q;
+        68: pop
+        69: return
+      LineNumberTable:
+        line 77: 0
+        line 78: 14
+        line 80: 15
+        line 82: 34
+        line 84: 51
+        line 86: 61
+        line 89: 69
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      70     0  this   Lao/ak;
+            0      70     1 dropitemid   I
+            0      70     2 droprate   D
+            0      70     4 inventory   Lau/f;
+           34      36     5 itemid   I
+           61       8     6  item   Lap/q;
+
+  public java.util.HashMap<java.lang.Integer, java.lang.Integer> b();
+    descriptor: ()Ljava/util/HashMap;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: getfield      #24                 // Field b:Ljava/util/HashMap;
+         4: areturn
+      LineNumberTable:
+        line 21: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Lao/ak;
+    Signature: #84                          // ()Ljava/util/HashMap<Ljava/lang/Integer;Ljava/lang/Integer;>;
+}
+SourceFile: "LostPowerItemTable.java"
