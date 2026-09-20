@@ -141,6 +141,20 @@ for p in SRC.rglob("*.java"):
         protobuf_g_shadow_files.append(p.as_posix())
 
 
+# L1Craft has an instance field named 'g', so the imported simple type name g
+# is shadowed inside instance methods. Donor javap for aq/k proves all affected
+# calls target static a/g.a(String|byte[]) -> a/g. Use the fully-qualified
+# owner only in this class; do not apply globally because other sources may
+# have a local/field named 'a' that would make a.g ambiguous.
+l1craft_shadow_repairs = 0
+l1craft = SRC / "l1r/aq/L1Craft.java"
+if l1craft.exists():
+    text = l1craft.read_text(encoding="utf-8", errors="replace")
+    text2, l1craft_shadow_repairs = re.subn(r"\bg\.a\s*\(", "a.g.a(", text)
+    if l1craft_shadow_repairs:
+        l1craft.write_text(text2, encoding="utf-8")
+
+
 # Vineflower preserves obfuscator-generated Comparator bridge methods as
 # compare(Object,Object), while the typed implementation remains under its
 # obfuscated name (usually a(T,T)). That shape is legal JVM bytecode but
@@ -206,6 +220,7 @@ state={
     "constant_refs_rewritten":constant_refs,
     "protobuf_g_shadow_repairs":protobuf_g_shadow_repairs,
     "protobuf_g_shadow_files":protobuf_g_shadow_files,
+    "l1craft_static_owner_repairs":l1craft_shadow_repairs,
     "comparator_bridge_repairs":len(comparator_bridge_repairs),
     "comparator_bridge_files":sorted({x["file"] for x in comparator_bridge_repairs}),
     "residual_invalid_forms":residuals,
@@ -220,6 +235,7 @@ md=[
     f"- L1SkillId/Opcodes constant references rewritten: **{constant_refs}**",
     f"- Embedded protobuf a.g package-shadow calls repaired: **{protobuf_g_shadow_repairs}**",
     f"- Package-shadow files: **{len(protobuf_g_shadow_files)}**",
+    f"- L1Craft static a/g owner repairs: **{l1craft_shadow_repairs}**",
     f"- Comparator bridge source repairs: **{len(comparator_bridge_repairs)}**",
     f"- Comparator bridge files: **{len({x['file'] for x in comparator_bridge_repairs})}**",
     f"- Residual known-invalid forms: **{len(residuals)}**",
