@@ -1,4 +1,5 @@
 name: L1JTW8.5 Recovery
+# recovery-fast trigger: runtime bridge descriptor probe
 
 on:
   push:
