@@ -1,0 +1,9 @@
+{
+  "source": "recovery/l1jserver2-source-normalized.jar",
+  "output": "recovery/compile-ref-normalized-proto.jar",
+  "runtime_a_classes": 246,
+  "normalized_message_classes": 194,
+  "other_game_packages_included": false,
+  "purpose": "NORMALIZED_CORE_DIAGNOSTIC_ONLY",
+  "final_source_only_gate": false
+}

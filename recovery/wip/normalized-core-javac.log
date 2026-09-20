@@ -1,0 +1,984 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+recovery/normalized-src-vf/l1r/bh/L1Account.java:15: error: cannot find symbol
+import sun.misc.BASE64Encoder;
+               ^
+  symbol:   class BASE64Encoder
+  location: package sun.misc
+recovery/normalized-src-vf/l1r/aj/C_Login.java:9: error: package javl1r.ax.L1MapArearypto does not exist
+import javl1r.ax.L1MapArearypto.Cipher;
+                               ^
+recovery/normalized-src-vf/l1r/aq/L1Character.java:197: error: incompatible types: void cannot be converted to boolean
+         if (var2.b(this)) {
+                   ^
+recovery/normalized-src-vf/l1r/aq/L1Character.java:205: error: incompatible types: void cannot be converted to boolean
+         if (var3.b(this)) {
+                   ^
+recovery/normalized-src-vf/l1r/aq/L1Character.java:213: error: 'void' type not allowed here
+         if (var2.b(this) && var2.bB(26003)) {
+                   ^
+recovery/normalized-src-vf/l1r/aq/L1Character.java:221: error: incompatible types: void cannot be converted to boolean
+         if (var2.b(this)) {
+                   ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:344: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:508: error: incompatible types: void cannot be converted to boolean
+            if (var4.d(this)) {
+                      ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:920: error: 'void' type not allowed here
+         if (!this.b(var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {
+                    ^
+recovery/normalized-src-vf/l1r/au/L1Inventory.java:486: error: incompatible types: Object[] cannot be converted to L1ItemInstance[]
+      return var3.toArray(new L1ItemInstance[var3.size()]);
+                         ^
+recovery/normalized-src-vf/l1r/au/L1Inventory.java:498: error: incompatible types: Object[] cannot be converted to L1ItemInstance[]
+      return var2.toArray(new L1ItemInstance[var2.size()]);
+                         ^
+recovery/normalized-src-vf/l1r/au/L1Inventory.java:652: error: L1Inventory.L1R_a is not abstract and does not override abstract method compare(L1ItemInstance,L1ItemInstance) in Comparator
+   private class L1R_a<T> implements Comparator<L1ItemInstance> {
+           ^
+recovery/normalized-src-vf/l1r/au/L1Inventory.java:662: error: name clash: compare(Object,Object) in L1Inventory.L1R_a and compare(L1ItemInstance,L1ItemInstance) in Comparator have the same erasure, yet neither overrides the other
+      public int compare(Object var1, Object var2) {
+                 ^
+recovery/normalized-src-vf/l1r/au/L1Inventory.java:661: error: method does not override or implement a method from a supertype
+      @Override
+      ^
+recovery/normalized-src-vf/l1r/ap/L1ItemInstance.java:1162: error: incompatible types: Object cannot be converted to ArmorSetTable.L1R_a
+         for (ArmorSetTable.L1R_a var26 : var24) {
+                                          ^
+recovery/normalized-src-vf/l1r/bh/L1Account.java:86: error: cannot find symbol
+      return new BASE64Encoder().encode(var1);
+                 ^
+  symbol:   class BASE64Encoder
+  location: class L1Account
+recovery/normalized-src-vf/l1r/ap/L1NpcInstance.java:393: error: cannot find symbol
+         for (L1ItemInstance var6 : var1.get(var5).d()) {
+                                                  ^
+  symbol:   method d()
+  location: class Object
+recovery/normalized-src-vf/l1r/ap/L1NpcInstance.java:414: error: cannot find symbol
+         for (L1ItemInstance var6 : var1.get(var5).d()) {
+                                                  ^
+  symbol:   method d()
+  location: class Object
+recovery/normalized-src-vf/l1r/ap/L1NpcInstance.java:928: error: incompatible types: Object cannot be converted to int[]
+         var6 = var18.removeFirst();
+                                 ^
+recovery/normalized-src-vf/l1r/ap/L1PetInstance.java:235: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1PetInstance.java:334: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1PetInstance.java:386: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1PetInstance.java:627: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:70: error: reference to d is ambiguous
+      this.d(null);
+          ^
+  both method d(ServerBasePacket) in L1Character and method d(L1PcInstance) in L1DoorInstance match
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:145: error: reference to d is ambiguous
+      this.d(null);
+          ^
+  both method d(ServerBasePacket) in L1Character and method d(L1PcInstance) in L1DoorInstance match
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:194: error: reference to d is ambiguous
+         this.d(null);
+             ^
+  both method d(ServerBasePacket) in L1Character and method d(L1PcInstance) in L1DoorInstance match
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:202: error: reference to d is ambiguous
+         this.d(null);
+             ^
+  both method d(ServerBasePacket) in L1Character and method d(L1PcInstance) in L1DoorInstance match
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:228: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1DoorInstance.java:249: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/aj/C_ItemUSe.java:906: error: 'void' type not allowed here
+                              var3.ct(var3.a(var183));
+                                            ^
+recovery/normalized-src-vf/l1r/aj/C_ItemUSe.java:1837: error: 'void' type not allowed here
+                                          var3.ct(var3.a(var150));
+                                                        ^
+recovery/normalized-src-vf/l1r/aj/C_Login.java:35: error: cannot find symbol
+      Cipher var9 = Cipher.getInstance("RSA");
+      ^
+  symbol:   class Cipher
+  location: class C_Login
+recovery/normalized-src-vf/l1r/aj/C_Login.java:35: error: cannot find symbol
+      Cipher var9 = Cipher.getInstance("RSA");
+                    ^
+  symbol:   variable Cipher
+  location: class C_Login
+recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java:399: error: incompatible types: Object cannot be converted to L1ItemInstance
+                  for (L1ItemInstance var161 : var152) {
+                                               ^
+recovery/normalized-src-vf/l1r/aj/C_Result.java:44: error: incompatible types: Object cannot be converted to L1ItemInstance
+               L1ItemInstance var39 = var32.get(var30);
+                                               ^
+recovery/normalized-src-vf/l1r/aj/C_Result.java:100: error: incompatible types: Object cannot be converted to L1PrivateShopSellList
+                                 L1PrivateShopSellList var65 = var44.get(var60);
+                                                                        ^
+recovery/normalized-src-vf/l1r/aj/C_Result.java:222: error: incompatible types: Object cannot be converted to L1PrivateShopBuyList
+                                 L1PrivateShopBuyList var66 = var41.get(var62);
+                                                                       ^
+recovery/normalized-src-vf/l1r/aj/C_ShopWorld.java:94: error: incompatible types: Object cannot be converted to L1ItemInstance
+                  L1ItemInstance var29 = var28.get(var26);
+                                                  ^
+recovery/normalized-src-vf/l1r/aj/C_SkillBuyItemOK.java:64: error: incompatible types: Object cannot be converted to int
+            for (int var14 : var5) {
+                             ^
+recovery/normalized-src-vf/l1r/aj/C_SkillBuyOK.java:36: error: incompatible types: Object cannot be converted to int
+               for (int var12 : var6) {
+                                ^
+recovery/normalized-src-vf/l1r/al/L1Buff.java:45: error: incompatible types: Object cannot be converted to L1PcInstance
+         for (L1PcInstance var10 : var5) {
+                                   ^
+recovery/normalized-src-vf/l1r/al/L1GfxNpc.java:78: error: incompatible types: Object cannot be converted to int
+         for (int var25 : var24) {
+                          ^
+recovery/normalized-src-vf/l1r/al/L1GfxNpc.java:80: error: incompatible types: Object cannot be converted to int[]
+               int[] var27 = var20.get(var22);
+                                      ^
+recovery/normalized-src-vf/l1r/al/L1Recall.java:37: error: incompatible types: Object cannot be converted to L1PcInstance
+         for (L1PcInstance var6 : var4) {
+                                  ^
+recovery/normalized-src-vf/l1r/aq/L1Buddy.java:32: error: incompatible types: Object cannot be converted to String
+         if (var1.equalsIgnoreCase(var3.getValue())) {
+                                                ^
+recovery/normalized-src-vf/l1r/aq/L1Buddy.java:33: error: incompatible types: Object cannot be converted to int
+            var2 = var3.getKey();
+                              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: int cannot be dereferenced
+      var3.f(a.g.a(""));
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: int cannot be dereferenced
+      var3.g(a.g.a(var1.t()));
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: int cannot be dereferenced
+      return a.g.a(var3.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: int cannot be dereferenced
+      return a.g.a(var3.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: int cannot be dereferenced
+      var1.f(a.g.a(""));
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: int cannot be dereferenced
+      var1.g(a.g.a(this.i.t()));
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: int cannot be dereferenced
+      return a.g.a(var2.M().g());
+              ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: int cannot be dereferenced
+      return a.g.a(var5.M().g());
+              ^
+recovery/normalized-src-vf/l1r/ao/DropTable.java:67: error: incompatible types: Object cannot be converted to ArrayList
+            ArrayList var14 = var1.get(var13.e());
+                                      ^
+recovery/normalized-src-vf/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               var1.put(new Integer(var13.e()), var14);
+                        ^
+recovery/normalized-src-vf/l1r/ao/DropTable.java:100: error: incompatible types: Object cannot be converted to L1Drop
+            for (L1Drop var15 : var4) {
+                                ^
+recovery/normalized-src-vf/l1r/ao/DropTable.java:164: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+         for (L1HateList.L1R_a var6 : var4) {
+                                      ^
+recovery/normalized-src-vf/l1r/ao/DropTable.java:204: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+               for (L1HateList.L1R_a var12 : var4) {
+                                             ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:108: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("none", new Integer(0));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:109: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("weapon", new Integer(1));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:110: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor", new Integer(2));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:111: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("spell_long", new Integer(5));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:112: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ntele", new Integer(6));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:113: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("identify", new Integer(7));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:114: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("res", new Integer(8));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:115: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("nts", new Integer(9));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:116: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("letter", new Integer(12));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:117: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("letter_w", new Integer(13));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:118: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("choice", new Integer(14));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:119: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("instrument", new Integer(15));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:120: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("sosc", new Integer(16));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:121: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("spell_short", new Integer(17));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:122: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_T", new Integer(18));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:123: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Cloak", new Integer(19));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:124: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Glove", new Integer(20));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:125: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Boots", new Integer(21));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:126: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Helm", new Integer(22));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:127: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Ring", new Integer(23));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:128: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Amulet", new Integer(24));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:129: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Shield", new Integer(25));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:130: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("dai", new Integer(26));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:131: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("zel", new Integer(27));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:132: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("blank", new Integer(28));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:133: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("btele", new Integer(29));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:134: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("skill", new Integer(30));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:135: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ccard", new Integer(31));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:136: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ccard_w", new Integer(32));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:137: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("vcard", new Integer(33));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:138: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("vcard_w", new Integer(34));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:139: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("wcard", new Integer(35));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:140: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("wcard_w", new Integer(36));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:141: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Belt", new Integer(37));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:142: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("select_short", new Integer(39));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:143: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Earring", new Integer(40));
+                             ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:144: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("fishing_rod", new Integer(42));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:145: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("del", new Integer(46));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:146: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("select_short", new Integer(50));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:147: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("normal", new Integer(51));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:148: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("cook_book", new Integer(52));
+                         ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:149: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("doll_s", new Integer(55));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:150: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("telbook", new Integer(56));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:151: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("flute_color", new Integer(59));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:152: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("flute", new Integer(60));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:153: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ras2", new Integer(61));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:154: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ticket_1", new Integer(62));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:155: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ticket_2", new Integer(65));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:156: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Rune", new Integer(66));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:157: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("tam", new Integer(68));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:158: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Greaves", new Integer(70));
+                             ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:159: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Shoulder", new Integer(75));
+                              ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:160: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Badge", new Integer(76));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:179: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("none", new Integer(0));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:180: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("liquid", new Integer(1));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:181: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("web", new Integer(2));
+                   ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:182: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("vegetation", new Integer(3));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:183: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("animalmatter", new Integer(4));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:184: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("paper", new Integer(5));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:185: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("cloth", new Integer(6));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:186: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("leather", new Integer(7));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:187: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("wood", new Integer(8));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:188: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("bone", new Integer(9));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:189: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("dragonscale", new Integer(10));
+                           ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:190: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("iron", new Integer(11));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:191: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("steel", new Integer(12));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:192: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("copper", new Integer(13));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:193: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("silver", new Integer(14));
+                      ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:194: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("gold", new Integer(15));
+                    ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:195: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("platinum", new Integer(16));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:196: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("mithril", new Integer(17));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:197: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("blackmithril", new Integer(18));
+                            ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:198: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("glass", new Integer(19));
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:199: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("gemstone", new Integer(20));
+                        ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:200: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("mineral", new Integer(21));
+                       ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:201: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("oriharukon", new Integer(22));
+                          ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:660: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:745: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+recovery/normalized-src-vf/l1r/ao/ItemTable.java:905: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+recovery/normalized-src-vf/l1r/ao/MapsTable.java:62: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4), var6);
+                          ^
+recovery/normalized-src-vf/l1r/ao/MobQuestWeekTable.java:62: error: incompatible types: Object cannot be converted to MobQuestWeekTable.L1R_a
+         MobQuestWeekTable.L1R_a var4 = var2.get(var5);
+                                                ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:61: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4.a()), var4);
+                          ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:63: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.d.put(new Integer(var4.a()), var4);
+                          ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:65: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.e.put(new Integer(var4.a()), var4);
+                          ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:76: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:80: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.d.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/NpcChatTable.java:84: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.e.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/NpcSpawnTable.java:74: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var13.b()), var13);
+                          ^
+recovery/normalized-src-vf/l1r/ao/PetItemTable.java:21: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      d.put("armor", new Integer(0));
+                     ^
+recovery/normalized-src-vf/l1r/ao/PetItemTable.java:22: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      d.put("tooth", new Integer(1));
+                     ^
+recovery/normalized-src-vf/l1r/ao/PetTable.java:60: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var5), var4);
+                       ^
+recovery/normalized-src-vf/l1r/ao/PetTable.java:82: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var2), var4);
+                 ^
+recovery/normalized-src-vf/l1r/ao/PetTable.java:120: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var3), var4);
+                 ^
+recovery/normalized-src-vf/l1r/ao/PetTable.java:262: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var3), var7);
+                 ^
+recovery/normalized-src-vf/l1r/ao/PetTable.java:289: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/RankingTable.java:218: error: incompatible types: Object cannot be converted to int
+               int var7 = var3.get(var6);
+                                  ^
+recovery/normalized-src-vf/l1r/ao/RankingTable.java:230: error: <anonymous l1r.ao.RankingTable$1> is not abstract and does not override abstract method compare(RankingTable.L1R_a,RankingTable.L1R_a) in Comparator
+      Collections.sort(var1, new Comparator<RankingTable.L1R_a>() {
+                                                                  ^
+recovery/normalized-src-vf/l1r/ao/RankingTable.java:237: error: name clash: compare(Object,Object) in <anonymous l1r.ao.RankingTable$1> and compare(RankingTable.L1R_a,RankingTable.L1R_a) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/ao/RankingTable.java:236: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/ao/ResolventTable.java:92: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var4), var5);
+                       ^
+recovery/normalized-src-vf/l1r/ao/ShopTable.java:97: error: incompatible types: Object cannot be converted to L1Item
+      for (L1Item var6 : var4.values()) {
+                                    ^
+recovery/normalized-src-vf/l1r/ao/ShopTable.java:110: error: <anonymous l1r.ao.ShopTable$1> is not abstract and does not override abstract method compare(L1ShopItem,L1ShopItem) in Comparator
+      Collections.sort(var5, new Comparator<L1ShopItem>() {
+                                                          ^
+recovery/normalized-src-vf/l1r/ao/ShopTable.java:117: error: name clash: compare(Object,Object) in <anonymous l1r.ao.ShopTable$1> and compare(L1ShopItem,L1ShopItem) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/ao/ShopTable.java:116: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/ao/ShopTable.java:135: error: incompatible types: Object cannot be converted to L1ShopItem
+            for (L1ShopItem var7 : var6) {
+                                   ^
+recovery/normalized-src-vf/l1r/ao/SkillsTable.java:77: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+         this.c.put(new Integer(var3), var2);
+                    ^
+recovery/normalized-src-vf/l1r/ao/SkillsTable.java:136: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/SoulTowerTable.java:79: error: <anonymous l1r.ao.SoulTowerTable$1> is not abstract and does not override abstract method compare(SoulTowerTable.L1R_a,SoulTowerTable.L1R_a) in Comparator
+         Collections.sort(this.c, new Comparator<SoulTowerTable.L1R_a>() {
+                                                                         ^
+recovery/normalized-src-vf/l1r/ao/SoulTowerTable.java:86: error: name clash: compare(Object,Object) in <anonymous l1r.ao.SoulTowerTable$1> and compare(SoulTowerTable.L1R_a,SoulTowerTable.L1R_a) in Comparator have the same erasure, yet neither overrides the other
+            public int compare(Object var1, Object var2) {
+                       ^
+recovery/normalized-src-vf/l1r/ao/SoulTowerTable.java:85: error: method does not override or implement a method from a supertype
+            @Override
+            ^
+recovery/normalized-src-vf/l1r/ao/SpawnTable.java:113: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4.b()), var4);
+                          ^
+recovery/normalized-src-vf/l1r/ao/SpawnTable.java:127: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+recovery/normalized-src-vf/l1r/ao/TownTable.java:56: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var4), var5);
+                       ^
+recovery/normalized-src-vf/l1r/ao/TreasureBoxTable.java:122: error: <anonymous l1r.ao.TreasureBoxTable$L1R_b$1> is not abstract and does not override abstract method compare(TreasureBoxTable.L1R_a,TreasureBoxTable.L1R_a) in Comparator
+         Collections.sort(this.c, new Comparator<TreasureBoxTable.L1R_a>() {
+                                                                           ^
+recovery/normalized-src-vf/l1r/ao/TreasureBoxTable.java:129: error: name clash: compare(Object,Object) in <anonymous l1r.ao.TreasureBoxTable$L1R_b$1> and compare(TreasureBoxTable.L1R_a,TreasureBoxTable.L1R_a) in Comparator have the same erasure, yet neither overrides the other
+            public int compare(Object var1, Object var2) {
+                       ^
+recovery/normalized-src-vf/l1r/ao/TreasureBoxTable.java:128: error: method does not override or implement a method from a supertype
+            @Override
+            ^
+recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java:493: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java:497: error: 'void' type not allowed here
+            if (!var6.b(this)) {
+                       ^
+recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java:514: error: 'void' type not allowed here
+            if (!var5.b(this)) {
+                       ^
+recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java:527: error: 'void' type not allowed here
+            if (!var4.b(this)) {
+                       ^
+recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java:543: error: 'void' type not allowed here
+            if (!var2.b(this)) {
+                       ^
+recovery/normalized-src-vf/l1r/ap/L1TowerInstance.java:173: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/bf/L1SkillExecutor.java:383: error: incompatible types: Object cannot be converted to L1Object
+      for (L1Object var6 : var5) {
+                           ^
+recovery/normalized-src-vf/l1r/ap/L1GfxInstance.java:27: error: 'void' type not allowed here
+      var1.ct(var1.a(var2));
+                    ^
+recovery/normalized-src-vf/l1r/ap/L1SummonInstance.java:497: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:168: error: incompatible types: Object cannot be converted to L1Item
+      for (L1Item var4 : var2) {
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:195: error: incompatible types: Object cannot be converted to L1Item
+      for (L1Item var4 : var2) {
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:237: error: incompatible types: Object cannot be converted to L1Item
+            L1Item var10 = var9.get(Random.a(var9.size()));
+                                   ^
+recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:263: error: incompatible types: Object cannot be converted to L1Item
+            L1Item var18 = var17.get(Random.a(var17.size()));
+                                    ^
+recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:143: error: incompatible types: Object cannot be converted to int
+            return var1.getKey();
+                              ^
+recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:156: error: cannot find symbol
+         if (var1.getValue().a(var0)) {
+                            ^
+  symbol:   method a(L1Location)
+  location: class Object
+recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:157: error: incompatible types: Object cannot be converted to int
+            return var1.getKey();
+                              ^
+recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:162: error: bad operand types for binary operator '=='
+         if (var3.getValue() == var0.b()) {
+                             ^
+  first type:  Object
+  second type: int
+recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:163: error: incompatible types: Object cannot be converted to int
+            return var3.getKey();
+                              ^
+recovery/normalized-src-vf/l1r/aq/L1Getback.java:97: error: incompatible types: Object cannot be converted to L1Getback
+         for (L1Getback var8 : var6) {
+                               ^
+recovery/normalized-src-vf/l1r/aq/L1SpawnBoss.java:37: error: method does not override or implement a method from a supertype
+   @Override
+   ^
+recovery/normalized-src-vf/l1r/aq/L1Teleport.java:148: error: incompatible types: Object cannot be converted to L1PcInstance
+            for (L1PcInstance var17 : var7) {
+                                      ^
+recovery/normalized-src-vf/l1r/as/L1BugBearRace.java:186: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.m.put(new Integer(var4.c), var4);
+                 ^
+recovery/normalized-src-vf/l1r/as/L1HardinBattle.java:614: error: no suitable method found for a(Object)
+                     DoorTable.b().a(var67.get(var68));
+                                  ^
+    method DoorTable.a(L1DoorInstance) is not applicable
+      (argument mismatch; Object cannot be converted to L1DoorInstance)
+    method DoorTable.a(L1Location) is not applicable
+      (argument mismatch; Object cannot be converted to L1Location)
+recovery/normalized-src-vf/l1r/as/L1OrimBattle.java:188: error: incompatible types: Object cannot be converted to L1NpcInstance
+            for (L1NpcInstance var11 : var5) {
+                                       ^
+recovery/normalized-src-vf/l1r/as/L1OrimBattle.java:204: error: incompatible types: Object cannot be converted to L1NpcInstance
+            for (L1NpcInstance var15 : var3) {
+                                       ^
+recovery/normalized-src-vf/l1r/as/L1OrimBattle.java:229: error: incompatible types: Object cannot be converted to L1NpcInstance
+      for (L1NpcInstance var17 : var5) {
+                                 ^
+recovery/normalized-src-vf/l1r/as/L1SoulTower.java:215: error: incompatible types: Object cannot be converted to L1DoorInstance
+            for (L1DoorInstance var18 : var15) {
+                                        ^
+recovery/normalized-src-vf/l1r/as/L1SoulTower.java:236: error: incompatible types: Object cannot be converted to L1DoorInstance
+            for (L1DoorInstance var35 : var33) {
+                                        ^
+recovery/normalized-src-vf/l1r/as/L1SoulTower.java:262: error: incompatible types: Object cannot be converted to L1DoorInstance
+            for (L1DoorInstance var40 : var36) {
+                                        ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:183: error: <anonymous l1r.as.L1ThebesBattle$1> is not abstract and does not override abstract method compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator
+      Collections.sort(var1, new Comparator<L1ThebesBattle.L1R_g>() {
+                                                                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:190: error: name clash: compare(Object,Object) in <anonymous l1r.as.L1ThebesBattle$1> and compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:189: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:194: error: <anonymous l1r.as.L1ThebesBattle$2> is not abstract and does not override abstract method compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator
+      Collections.sort(var2, new Comparator<L1ThebesBattle.L1R_g>() {
+                                                                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:201: error: name clash: compare(Object,Object) in <anonymous l1r.as.L1ThebesBattle$2> and compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:200: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:205: error: <anonymous l1r.as.L1ThebesBattle$3> is not abstract and does not override abstract method compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator
+      Collections.sort(var3, new Comparator<L1ThebesBattle.L1R_g>() {
+                                                                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:212: error: name clash: compare(Object,Object) in <anonymous l1r.as.L1ThebesBattle$3> and compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:211: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:220: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+               var13.a(new S_ProtoBuffers(this.e, var13.et(), var1.toArray(new L1ThebesBattle.L1R_g[0])));
+                       ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:222: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+               var13.a(new S_ProtoBuffers(this.f, var13.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
+                       ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:224: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+               var13.a(new S_ProtoBuffers(this.g, var13.et(), var3.toArray(new L1ThebesBattle.L1R_g[0])));
+                       ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:238: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+         var1.a(new S_ProtoBuffers(this.e, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
+                ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:240: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+         var1.a(new S_ProtoBuffers(this.f, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
+                ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:242: error: no suitable constructor found for S_ProtoBuffers(int,String,Object[])
+         var1.a(new S_ProtoBuffers(this.g, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
+                ^
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,int) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Craft,int) is not applicable
+      (argument mismatch; String cannot be converted to L1Craft)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to String)
+    constructor S_ProtoBuffers.S_ProtoBuffers(SoulTowerTable.L1R_a...) is not applicable
+      (varargs mismatch; int cannot be converted to SoulTowerTable.L1R_a)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,L1Castle...) is not applicable
+      (varargs mismatch; String cannot be converted to L1Castle)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,int,String) is not applicable
+      (argument mismatch; String cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,int...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to int)
+    constructor S_ProtoBuffers.S_ProtoBuffers(L1PcInstance,String,int) is not applicable
+      (argument mismatch; int cannot be converted to L1PcInstance)
+    constructor S_ProtoBuffers.S_ProtoBuffers(ArrayList<Integer>,ArrayList<Integer>,int) is not applicable
+      (argument mismatch; int cannot be converted to ArrayList<Integer>)
+    constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
+      (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
+recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:67: error: incompatible types: Object cannot be converted to L1PcInstance
+      for (L1PcInstance var2 : var1) {
+                               ^
+recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:76: error: incompatible types: Object cannot be converted to L1PcInstance
+            for (L1PcInstance var5 : var1) {
+                                     ^
+recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:87: error: incompatible types: Object cannot be converted to L1PcInstance
+      for (L1PcInstance var8 : var1) {
+                               ^
+recovery/normalized-src-vf/l1r/bd/L1MonsterTrap.java:56: error: incompatible types: Object cannot be converted to Point
+               for (Point var5 : var3) {
+                                 ^
+recovery/normalized-src-vf/l1r/be/S_Board.java:34: error: incompatible types: Object cannot be converted to L1BoardTopic
+      for (L1BoardTopic var4 : var3) {
+                               ^
+recovery/normalized-src-vf/l1r/be/S_Bookmarks.java:64: error: incompatible types: Object cannot be converted to L1BookMark
+         for (L1BookMark var16 : var2) {
+                                 ^
+recovery/normalized-src-vf/l1r/be/S_Bookmarks.java:75: error: incompatible types: Object cannot be converted to L1BookMark
+         for (L1BookMark var17 : var2) {
+                                 ^
+recovery/normalized-src-vf/l1r/be/S_CharEvent.java:76: error: <anonymous l1r.be.S_CharEvent$1> is not abstract and does not override abstract method compare(ShopWorldTable.L1R_b,ShopWorldTable.L1R_b) in Comparator
+      Collections.sort(var2, new Comparator<ShopWorldTable.L1R_b>() {
+                                                                    ^
+recovery/normalized-src-vf/l1r/be/S_CharEvent.java:83: error: name clash: compare(Object,Object) in <anonymous l1r.be.S_CharEvent$1> and compare(ShopWorldTable.L1R_b,ShopWorldTable.L1R_b) in Comparator have the same erasure, yet neither overrides the other
+         public int compare(Object var1, Object var2) {
+                    ^
+recovery/normalized-src-vf/l1r/be/S_CharEvent.java:82: error: method does not override or implement a method from a supertype
+         @Override
+         ^
+recovery/normalized-src-vf/l1r/be/S_CharEvent.java:88: error: incompatible types: Object cannot be converted to ShopWorldTable.L1R_b
+      for (ShopWorldTable.L1R_b var3 : var2) {
+                                       ^
+recovery/normalized-src-vf/l1r/be/S_FixWeaponList.java:21: error: incompatible types: Object cannot be converted to L1ItemInstance
+      for (L1ItemInstance var6 : var2) {
+                                 ^
+recovery/normalized-src-vf/l1r/be/S_Mail.java:19: error: incompatible types: Object cannot be converted to L1Mail
+      for (L1Mail var4 : var3) {
+                         ^
+recovery/normalized-src-vf/l1r/be/S_PacketBox.java:328: error: incompatible types: Object cannot be converted to L1PcInstance
+               for (L1PcInstance var4 : var3) {
+                                        ^
+recovery/normalized-src-vf/l1r/be/S_Party.java:46: error: incompatible types: Object cannot be converted to L1PcInstance
+         L1PcInstance var5 = var3.get(var4);
+                                     ^
+recovery/normalized-src-vf/l1r/be/S_Party.java:89: error: incompatible types: Object cannot be converted to L1PcInstance
+         for (L1PcInstance var3 : var2) {
+                                  ^
+recovery/normalized-src-vf/l1r/be/S_PetList.java:29: error: incompatible types: Object cannot be converted to L1ItemInstance
+         for (L1ItemInstance var6 : var3) {
+                                    ^
+recovery/normalized-src-vf/l1r/be/S_PledgeWarehouseHistory.java:23: error: incompatible types: Object cannot be converted to S_PledgeWarehouseHistory.L1R_a
+      for (S_PledgeWarehouseHistory.L1R_a var3 : var2) {
+                                                 ^
+recovery/normalized-src-vf/l1r/be/S_PrivateShop.java:24: error: incompatible types: Object cannot be converted to L1PrivateShopSellList
+               L1PrivateShopSellList var8 = var5.get(var7);
+                                                    ^
+recovery/normalized-src-vf/l1r/be/S_PrivateShop.java:55: error: incompatible types: Object cannot be converted to L1PrivateShopBuyList
+               L1PrivateShopBuyList var21 = var18.get(var20);
+                                                     ^
+recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:272: error: int cannot be dereferenced
+            var16.e(a.g.a(new byte[]{-30, 112, -1}));
+                     ^
+recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:448: error: int cannot be dereferenced
+            var19.e(a.g.a(var18.s()));
+                     ^
+recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:477: error: int cannot be dereferenced
+                  var28.e(a.g.a(var27.getString("char_name").getBytes(Config.k)));
+                           ^
+recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:806: error: int cannot be dereferenced
+            var5.e(a.g.a(new byte[]{-1, 0, -1}));
+                    ^
+recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:50: error: incompatible types: Object cannot be converted to L1ShopItem
+            L1ShopItem var6 = var4.get(var5);
+                                      ^
+recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:132: error: incompatible types: Object cannot be converted to L1ShopItem
+            L1ShopItem var5 = var3.get(var4);
+                                      ^
+recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:250: error: incompatible types: Object cannot be converted to L1ShopItem
+            L1ShopItem var11 = var5.get(var7);
+                                       ^
+recovery/normalized-src-vf/l1r/be/S_ShopSellList.java:46: error: incompatible types: Object cannot be converted to int[]
+            for (int[] var13 : var4) {
+                               ^
+recovery/normalized-src-vf/l1r/be/S_SkillBuy.java:13: error: incompatible types: Object cannot be converted to int
+      for (int var3 : var2) {
+                      ^
+recovery/normalized-src-vf/l1r/be/S_SkillBuyItem.java:17: error: incompatible types: Object cannot be converted to int
+      for (int var3 : var2) {
+                      ^
+recovery/normalized-src-vf/l1r/bf/S_000.java:42: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var6 : var5) {
+                                 ^
+recovery/normalized-src-vf/l1r/bf/S_000.java:45: error: 'void' type not allowed here
+            } else if (var3.r && var6.e(var1) > 5.0) {
+                                       ^
+recovery/normalized-src-vf/l1r/bf/S_000.java:73: error: incompatible types: Object cannot be converted to L1Character
+               L1Character var12 = var5.get(var10);
+                                           ^
+recovery/normalized-src-vf/l1r/bf/S_000.java:91: error: 'void' type not allowed here
+         var1.ct(var1.a(var2));
+                       ^
+recovery/normalized-src-vf/l1r/bf/S_017.java:26: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var9 : var8) {
+                                 ^
+recovery/normalized-src-vf/l1r/bf/S_022.java:26: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var9 : var8) {
+                                 ^
+recovery/normalized-src-vf/l1r/bf/S_025.java:27: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var10 : var9) {
+                                  ^
+recovery/normalized-src-vf/l1r/bf/S_030.java:27: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var10 : var9) {
+                                  ^
+recovery/normalized-src-vf/l1r/bf/S_044.java:49: error: incompatible types: Object cannot be converted to int
+      for (int var4 : var6.keySet()) {
+                                 ^
+recovery/normalized-src-vf/l1r/bf/S_044.java:93: error: incompatible types: Object cannot be converted to int
+            for (int var10 : var13.keySet()) {
+                                         ^
+recovery/normalized-src-vf/l1r/bf/S_065.java:27: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var10 : var9) {
+                                  ^
+recovery/normalized-src-vf/l1r/bf/S_074.java:27: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var10 : var9) {
+                                  ^
+recovery/normalized-src-vf/l1r/bf/S_184.java:27: error: incompatible types: Object cannot be converted to L1Character
+         for (L1Character var10 : var9) {
+                                  ^
+recovery/normalized-src-vf/l1r/bi/CalcExp.java:29: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+         for (L1HateList.L1R_a var6 : var5) {
+                                      ^
+recovery/normalized-src-vf/l1r/bi/CalcExp.java:52: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+               for (L1HateList.L1R_a var43 : var5) {
+                                             ^
+recovery/normalized-src-vf/l1r/bi/CalcExp.java:67: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+               for (L1HateList.L1R_a var12 : var5) {
+                                             ^
+recovery/normalized-src-vf/l1r/bi/CalcExp.java:134: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+                     for (L1HateList.L1R_a var26 : var5) {
+                                                   ^
+recovery/normalized-src-vf/l1r/bi/CalcExp.java:152: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
+                        for (L1HateList.L1R_a var57 : var5) {
+                                                      ^
+recovery/normalized-src-vf/l1r/bi/LineageUtil.java:601: error: incompatible types: Object cannot be converted to L1PcInstance
+      for (L1PcInstance var6 : var5) {
+                               ^
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
+176 errors
+103 warnings

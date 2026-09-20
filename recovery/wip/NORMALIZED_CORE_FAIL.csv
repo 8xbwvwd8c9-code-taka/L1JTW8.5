@@ -1,0 +1,69 @@
+File,ErrorHeaders,PrimaryError
+l1r/aq/L1Craft.java,18,int cannot be dereferenced
+l1r/as/L1ThebesBattle.java,15,"<anonymous l1r.as.L1ThebesBattle$1> is not abstract and does not override abstract method compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator"
+l1r/ap/L1DoorInstance.java,6,reference to d is ambiguous
+l1r/ao/ShopTable.java,5,incompatible types: Object cannot be converted to L1Item
+l1r/ap/L1MonsterInstance.java,5,method does not override or implement a method from a supertype
+l1r/aq/L1CastleLocation.java,5,incompatible types: Object cannot be converted to int
+l1r/au/L1Inventory.java,5,incompatible types: Object[] cannot be converted to L1ItemInstance[]
+l1r/bi/CalcExp.java,5,incompatible types: Object cannot be converted to L1HateList.L1R_a
+l1r/ao/DropTable.java,4,incompatible types: Object cannot be converted to ArrayList
+l1r/ao/RankingTable.java,4,incompatible types: Object cannot be converted to int
+l1r/ap/L1PetInstance.java,4,method does not override or implement a method from a supertype
+l1r/aq/L1Alchemy.java,4,incompatible types: Object cannot be converted to L1Item
+l1r/aq/L1Character.java,4,incompatible types: void cannot be converted to boolean
+l1r/be/S_CharEvent.java,4,"<anonymous l1r.be.S_CharEvent$1> is not abstract and does not override abstract method compare(ShopWorldTable.L1R_b,ShopWorldTable.L1R_b) in Comparator"
+l1r/be/S_ProtoBuffers.java,4,int cannot be dereferenced
+l1r/bf/S_000.java,4,incompatible types: Object cannot be converted to L1Character
+l1r/aj/C_Login.java,3,package javl1r.ax.L1MapArearypto does not exist
+l1r/aj/C_Result.java,3,incompatible types: Object cannot be converted to L1ItemInstance
+l1r/ao/SoulTowerTable.java,3,"<anonymous l1r.ao.SoulTowerTable$1> is not abstract and does not override abstract method compare(SoulTowerTable.L1R_a,SoulTowerTable.L1R_a) in Comparator"
+l1r/ao/TreasureBoxTable.java,3,"<anonymous l1r.ao.TreasureBoxTable$L1R_b$1> is not abstract and does not override abstract method compare(TreasureBoxTable.L1R_a,TreasureBoxTable.L1R_a) in Comparator"
+l1r/ap/L1NpcInstance.java,3,cannot find symbol
+l1r/ap/L1PcInstance.java,3,method does not override or implement a method from a supertype
+l1r/as/L1OrimBattle.java,3,incompatible types: Object cannot be converted to L1NpcInstance
+l1r/as/L1SoulTower.java,3,incompatible types: Object cannot be converted to L1DoorInstance
+l1r/ba/HomeTownTimer.java,3,incompatible types: Object cannot be converted to L1PcInstance
+l1r/be/S_ShopBuyList.java,3,incompatible types: Object cannot be converted to L1ShopItem
+l1r/aj/C_ItemUSe.java,2,'void' type not allowed here
+l1r/al/L1GfxNpc.java,2,incompatible types: Object cannot be converted to int
+l1r/aq/L1Buddy.java,2,incompatible types: Object cannot be converted to String
+l1r/be/S_Bookmarks.java,2,incompatible types: Object cannot be converted to L1BookMark
+l1r/be/S_Party.java,2,incompatible types: Object cannot be converted to L1PcInstance
+l1r/be/S_PrivateShop.java,2,incompatible types: Object cannot be converted to L1PrivateShopSellList
+l1r/bf/S_044.java,2,incompatible types: Object cannot be converted to int
+l1r/bh/L1Account.java,2,cannot find symbol
+l1r/aj/C_ProtoBuffers.java,1,incompatible types: Object cannot be converted to L1ItemInstance
+l1r/aj/C_ShopWorld.java,1,incompatible types: Object cannot be converted to L1ItemInstance
+l1r/aj/C_SkillBuyItemOK.java,1,incompatible types: Object cannot be converted to int
+l1r/aj/C_SkillBuyOK.java,1,incompatible types: Object cannot be converted to int
+l1r/al/L1Buff.java,1,incompatible types: Object cannot be converted to L1PcInstance
+l1r/al/L1Recall.java,1,incompatible types: Object cannot be converted to L1PcInstance
+l1r/ao/MobQuestWeekTable.java,1,incompatible types: Object cannot be converted to MobQuestWeekTable.L1R_a
+l1r/ap/L1GfxInstance.java,1,'void' type not allowed here
+l1r/ap/L1ItemInstance.java,1,incompatible types: Object cannot be converted to ArmorSetTable.L1R_a
+l1r/ap/L1SummonInstance.java,1,method does not override or implement a method from a supertype
+l1r/ap/L1TowerInstance.java,1,method does not override or implement a method from a supertype
+l1r/aq/L1Getback.java,1,incompatible types: Object cannot be converted to L1Getback
+l1r/aq/L1SpawnBoss.java,1,method does not override or implement a method from a supertype
+l1r/aq/L1Teleport.java,1,incompatible types: Object cannot be converted to L1PcInstance
+l1r/as/L1HardinBattle.java,1,no suitable method found for a(Object)
+l1r/bd/L1MonsterTrap.java,1,incompatible types: Object cannot be converted to Point
+l1r/be/S_Board.java,1,incompatible types: Object cannot be converted to L1BoardTopic
+l1r/be/S_FixWeaponList.java,1,incompatible types: Object cannot be converted to L1ItemInstance
+l1r/be/S_Mail.java,1,incompatible types: Object cannot be converted to L1Mail
+l1r/be/S_PacketBox.java,1,incompatible types: Object cannot be converted to L1PcInstance
+l1r/be/S_PetList.java,1,incompatible types: Object cannot be converted to L1ItemInstance
+l1r/be/S_PledgeWarehouseHistory.java,1,incompatible types: Object cannot be converted to S_PledgeWarehouseHistory.L1R_a
+l1r/be/S_ShopSellList.java,1,incompatible types: Object cannot be converted to int[]
+l1r/be/S_SkillBuy.java,1,incompatible types: Object cannot be converted to int
+l1r/be/S_SkillBuyItem.java,1,incompatible types: Object cannot be converted to int
+l1r/bf/L1SkillExecutor.java,1,incompatible types: Object cannot be converted to L1Object
+l1r/bf/S_017.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_022.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_025.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_030.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_065.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_074.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bf/S_184.java,1,incompatible types: Object cannot be converted to L1Character
+l1r/bi/LineageUtil.java,1,incompatible types: Object cannot be converted to L1PcInstance
