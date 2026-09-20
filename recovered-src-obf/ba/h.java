@@ -210,42 +210,59 @@ public class h {
     }
 
     public static int a(int objid) {
-        int pay;
-        block6: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            PreparedStatement pstm2 = null;
-            ResultSet rs = null;
-            pay = 0;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("SELECT Pay FROM characters WHERE objid = ? FOR UPDATE");
-                    pstm.setInt(1, objid);
-                    rs = pstm.executeQuery();
-                    if (rs.next()) {
-                        pay = rs.getInt("Pay");
-                    }
-                    pstm2 = con.prepareStatement("UPDATE characters SET Pay = 0 WHERE objid = ?");
-                    pstm2.setInt(1, objid);
-                    pstm2.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm2);
-                    j.a(rs, pstm, con);
-                    break block6;
-                }
+        Connection con = null;
+        PreparedStatement pstm = null;
+        PreparedStatement pstm2 = null;
+        ResultSet rs = null;
+        int pay = 0;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            pstm = con.prepareStatement("SELECT Pay FROM characters WHERE objid = ? FOR UPDATE");
+            pstm.setInt(1, objid);
+            rs = pstm.executeQuery();
+            if (!rs.next()) {
+                con.rollback();
+                return 0;
             }
-            catch (Throwable throwable) {
-                j.a(pstm2);
-                j.a(rs, pstm, con);
-                throw throwable;
+            pay = rs.getInt("Pay");
+            if (pay <= 0) {
+                con.rollback();
+                return 0;
             }
-            j.a(pstm2);
-            j.a(rs, pstm, con);
+            pstm2 = con.prepareStatement("UPDATE characters SET Pay = 0 WHERE objid = ? AND Pay = ?");
+            pstm2.setInt(1, objid);
+            pstm2.setInt(2, pay);
+            if (pstm2.executeUpdate() != 1) {
+                con.rollback();
+                return 0;
+            }
+            con.commit();
+            return pay;
         }
-        return pay;
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            return 0;
+        }
+        finally {
+            j.a(pstm2);
+            j.a(rs, pstm);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            j.a(con);
+        }
     }
 
     private class a
