@@ -170,39 +170,31 @@ public class q {
         return clan;
     }
 
-    public void b(i clan) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE clan_data SET clan_id=?, leader_id=?, leader_name=?, hascastle=?, hashouse=?, found_date=?, announcement=?, emblem_id=?, emblem_status=?, watch_clanid=? WHERE clan_name=?");
-                    pstm.setInt(1, clan.e());
-                    pstm.setInt(2, clan.k());
-                    pstm.setString(3, clan.l());
-                    pstm.setInt(4, clan.m());
-                    pstm.setInt(5, clan.n());
-                    pstm.setTimestamp(6, clan.g());
-                    pstm.setString(7, clan.h());
-                    pstm.setInt(8, clan.i());
-                    pstm.setInt(9, clan.j());
-                    pstm.setString(10, clan.d());
-                    pstm.setString(11, clan.f());
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+    public boolean b(i clan) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE clan_data SET clan_id=?, leader_id=?, leader_name=?, hascastle=?, hashouse=?, found_date=?, announcement=?, emblem_id=?, emblem_status=?, watch_clanid=? WHERE clan_name=?");
+            pstm.setInt(1, clan.e());
+            pstm.setInt(2, clan.k());
+            pstm.setString(3, clan.l());
+            pstm.setInt(4, clan.m());
+            pstm.setInt(5, clan.n());
+            pstm.setTimestamp(6, clan.g());
+            pstm.setString(7, clan.h());
+            pstm.setInt(8, clan.i());
+            pstm.setInt(9, clan.j());
+            pstm.setString(10, clan.d());
+            pstm.setString(11, clan.f());
+            pstm.execute();
+            return true;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }
