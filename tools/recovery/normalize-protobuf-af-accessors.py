@@ -1,68 +1,99 @@
 #!/usr/bin/env python3
-import json
-import re
+import csv,json,re
 from pathlib import Path
 
 STAGE=Path('_normalized-stage-src/l1r/an')
 REC=Path('recovery')
+CSV=REC/'synthetic_members.csv'
 OUT=REC/'normalized_af_accessor_transform.json'
 MD=REC/'NORMALIZED_AF_ACCESSOR_TRANSFORM.md'
 
-call_rx=re.compile(r'(?P<outer>PBMessageALL\d*)\.(?P<inner>L1R_[acegi])\.af\(\);')
+# Build the exact donor accessor map from audited synthetic ()Z members.
+# Donor probe gate established 44/44 as: getstatic m:Z -> ireturn.
+source_to_outer={
+  'PBMessageALL.java':'PBMessageALL',
+  'PBMessageALL2.java':'PBMessageALL2',
+  'PBMessageALL3.java':'PBMessageALL3',
+  'PBMessageALL4.java':'PBMessageALL4',
+  'PBMessageALL5.java':'PBMessageALL5',
+  'PBMessageALL6.java':'PBMessageALL6',
+  'PBMessageALL7.java':'PBMessageALL7',
+  'PBMessageALL8.java':'PBMessageALL8',
+  'PBMessageALL9.java':'PBMessageALL9',
+}
+accessors=[]
+with CSV.open(encoding='utf-8-sig',newline='') as fh:
+    for r in csv.DictReader(fh):
+        if not (r['Class'].startswith('an.') and r['MemberKind']=='method' and r['Descriptor']=='()Z' and r['Synthetic']=='1'):
+            continue
+        outer=source_to_outer.get(r['SourceFile'])
+        if not outer: continue
+        inner_obf=r['Class'].split('$',1)[1]
+        if inner_obf not in {'a','c','e','g','i'}: continue
+        accessors.append({
+          'outer':outer,
+          'inner':'L1R_'+inner_obf,
+          'method':r['Name'],
+          'donor_class':r['Class'],
+        })
 
-replacements=[]
-injected=[]
-for p in sorted(STAGE.glob('PBMessageALL*.java')):
+if len(accessors)!=44:
+    raise SystemExit(f'expected 44 donor synthetic ()Z accessors, got {len(accessors)}')
+
+by_file={}
+for a in accessors:
+    by_file.setdefault(a['outer']+'.java',[]).append(a)
+
+replacements=[]; injected=[]
+for filename,items in sorted(by_file.items()):
+    p=STAGE/filename
     text=p.read_text(encoding='utf-8',errors='replace')
-    calls=list(call_rx.finditer(text))
-    if not calls:
-        continue
-    targets=sorted({(m.group('outer'),m.group('inner')) for m in calls})
+    for a in items:
+        fq=f"{a['outer']}.{a['inner']}"
+        call=f"{fq}.{a['method']}();"
+        count=text.count(call)
+        if count!=1:
+            raise SystemExit(f'expected exactly one accessor call {call} in {p}, got {count}')
 
-    # Preserve the donor getstatic side effect with a source-safe field name.
-    # The donor m:Z is never written (33 classes, total putstatic m:Z = 0),
-    # therefore its JVM-default value is false. Reading this field still
-    # triggers class initialization exactly as a getstatic does.
-    for outer,inner in targets:
-        decl_rx=re.compile(r'(public static final class '+re.escape(inner)+r'\b[^\{]*\{)')
+        decl_rx=re.compile(r'(public static final class '+re.escape(a['inner'])+r'\b[^\{]*\{)')
         m=decl_rx.search(text)
         if not m:
-            raise SystemExit(f'message class declaration not found: {p} {outer}.{inner}')
-        insert='\n      private static boolean l1r_m_Z; // recovery-only name for donor m:Z'
-        text=text[:m.end()] + insert + text[m.end():]
-        injected.append(f'{outer}.{inner}')
+            raise SystemExit(f'message class declaration not found: {p} {fq}')
+        marker='private static boolean l1r_m_Z;'
+        if marker not in text[m.end():m.end()+240]:
+            insert='\n      private static boolean l1r_m_Z; // recovery-only name for donor m:Z'
+            text=text[:m.end()] + insert + text[m.end():]
+            injected.append(fq)
 
-    def repl(m):
-        fq=f"{m.group('outer')}.{m.group('inner')}"
-        replacements.append(fq)
-        return f"if ({fq}.l1r_m_Z) {{}}"
-    text=call_rx.sub(repl,text)
+        text=text.replace(call,f"if ({fq}.l1r_m_Z) {{}}",1)
+        replacements.append({**a,'source_identity':fq})
+
     p.write_text(text,encoding='utf-8')
 
 state={
   'error_family':'PROTOBUF_SYNTHETIC_BOOLEAN_ACCESSOR_SOURCE_REPRESENTATION',
-  'expected_accessor_sites':33,
+  'expected_accessor_sites':44,
   'replaced_accessor_sites':len(replacements),
-  'expected_safe_fields':33,
+  'expected_safe_fields':44,
   'injected_safe_fields':len(injected),
   'safe_field_name':'l1r_m_Z',
   'donor_field_identity':'m:Z',
-  'donor_total_putstatic_m_z':0,
   'donor_accessor_semantics':'getstatic m:Z -> ireturn; caller pop',
+  'donor_accessor_probe_count':44,
   'class_initialization_read_preserved':True,
   'gameplay_logic_changed':False,
   'normalization_required_for_donor_compare':True,
-  'classes':injected,
+  'accessors':replacements,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-status='PASS' if len(replacements)==33 and len(injected)==33 else 'FAIL'
+status='PASS' if len(replacements)==44 and len(injected)==44 else 'FAIL'
 MD.write_text(
-  '# Normalized Protobuf af() Accessor Transform\n\n'
+  '# Normalized Protobuf Synthetic Boolean Accessor Transform\n\n'
   f'Status: **{status}**\n\n'
-  f'- Accessor sites: **{len(replacements)} / 33**\n'
-  f'- Recovery-safe fields: **{len(injected)} / 33**\n'
-  '- Donor accessor: `getstatic m:Z -> ireturn`; caller discards result.\n'
-  '- Donor writes to m:Z: **0**.\n'
+  f'- Accessor sites: **{len(replacements)} / 44**\n'
+  f'- Recovery-safe fields: **{len(injected)} / 44**\n'
+  '- Donor probe: **44/44** `getstatic m:Z -> ireturn`.\n'
+  '- Caller discards the boolean result.\n'
   '- Recovery representation: `l1r_m_Z` + empty-if read.\n'
   '- getstatic/class initialization behavior preserved: **YES**\n'
   '- Gameplay logic changed: **NO**\n'
@@ -71,4 +102,4 @@ MD.write_text(
 )
 print(json.dumps(state,indent=2))
 if status!='PASS':
-    raise SystemExit(f'expected 33 af accessor sites/fields, got {len(replacements)}/{len(injected)}')
+    raise SystemExit(f'expected 44 accessor sites/fields, got {len(replacements)}/{len(injected)}')
