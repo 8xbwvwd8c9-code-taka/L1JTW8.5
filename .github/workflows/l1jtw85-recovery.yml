@@ -36,6 +36,19 @@ jobs:
         shell: bash
         run: python ./tools/recovery/audit-classfile-protection.py
 
+      - name: Commit protection audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/class_inventory.csv recovery/jvm_signature_collisions.csv \
+            recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
+          if ! git diff --cached --quiet; then
+            git commit -m "research: record L1JTW8.5 classfile protection audit [skip ci]"
+            git push
+          fi
+
       - name: Export target javap
         shell: pwsh
         run: ./tools/recovery/export-target-javap.ps1
@@ -54,7 +67,14 @@ jobs:
 
       - name: Decompile JAR
         shell: pwsh
-        run: ./tools/recovery/decompile-cfr.ps1 -CfrJar "$env:RUNNER_TEMP/cfr.jar"
+        run: |
+          $existing = @(Get-ChildItem -LiteralPath "./recovered-src-obf" -Recurse -File -Filter *.java -ErrorAction SilentlyContinue).Count
+          if ($existing -gt 0) {
+            Write-Host "DECOMPILE=SKIP_EXISTING_BASELINE"
+            Write-Host "JAVA_COUNT=$existing"
+          } else {
+            ./tools/recovery/decompile-cfr.ps1 -CfrJar "$env:RUNNER_TEMP/cfr.jar"
+          }
 
       - name: Keep application core only
         shell: python
@@ -89,6 +109,7 @@ jobs:
         run: |
           from pathlib import Path
           import csv
+          import json
           from collections import Counter
 
           src = Path("recovered-src-obf")
@@ -105,11 +126,23 @@ jobs:
               with db_index.open(encoding="utf-8-sig", newline="") as f:
                   tables = list(csv.DictReader(f))
 
+          audit = {}
+          audit_path = Path("recovery/protection_audit.json")
+          if audit_path.exists():
+              audit = json.loads(audit_path.read_text(encoding="utf-8"))
+
           out = [
               "# Generated Recovery Summary",
               "",
               f"- Core mapping rows: **{len(rows)}**",
-              f"- Decompiled Java files retained: **{len(java)}**",
+              f"- Decompiled top-level Java files retained: **{len(java)}**",
+              f"- Application class files: **{audit.get('application_class_files', 'UNKNOWN')}**",
+              f"- Top-level classes: **{audit.get('top_level_classes', 'UNKNOWN')}**",
+              f"- Inner classes: **{audit.get('inner_classes', 'UNKNOWN')}**",
+              f"- Anonymous classes: **{audit.get('anonymous_classes', 'UNKNOWN')}**",
+              f"- Synthetic-affected classes: **{audit.get('synthetic_affected_classes', 'UNKNOWN')}**",
+              f"- Synthetic fields/methods/constructors: **{audit.get('synthetic_fields', 'UNKNOWN')} / {audit.get('synthetic_methods', 'UNKNOWN')} / {audit.get('synthetic_constructors', 'UNKNOWN')}**",
+              f"- JVM return-type-only method collisions: **{audit.get('jvm_return_type_only_method_collisions', 'UNKNOWN')}**",
               f"- Target javap files: **{len(javap)}**",
               f"- DB tables indexed: **{len(tables)}**",
               "",
