@@ -63,10 +63,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-runtime-bridge-flags.py
 
-      - name: Parser-only generic Signature experiment
-        shell: bash
-        run: python ./tools/recovery/experiment-strip-ab-method-signatures.py
-
       - name: Probe protobuf protected nested type visibility
         shell: bash
         run: python ./tools/recovery/probe-protobuf-p-b-visibility.py
