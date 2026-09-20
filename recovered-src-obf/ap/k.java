@@ -98,7 +98,12 @@ extends t {
 
     @Override
     public synchronized void aa_() {
-        this.k.em().remove(this.fr());
+        if (this.ah()) {
+            return;
+        }
+        if (this.k != null) {
+            this.k.em().remove(this.fr());
+        }
         super.aa_();
     }
 
