@@ -67,6 +67,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-boolean-accessors.py
 
+      - name: Probe protobuf bridge delegate targets
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-bridge-delegates.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
