@@ -269,7 +269,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             PBMessageALL4.L1R_g.L1R_a var16 = PBMessageALL4.L1R_g.aa();
             var16.a(14144);
             var16.b(var2 * 2);
-            var16.e(a.g.a(new byte[]{-30, 112, -1}));
+            var16.e(g.a(new byte[]{-30, 112, -1}));
             var16.c(20);
             this.a(var16.M().g());
             this.b(0);
@@ -445,7 +445,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             var19.a(1);
             var19.b(var18.q());
             var19.c(var18.r());
-            var19.e(a.g.a(var18.s()));
+            var19.e(g.a(var18.s()));
             this.a(var19.M().g());
             this.b(0);
             break;
@@ -474,7 +474,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
                   }
 
                   var28.d(0);
-                  var28.e(a.g.a(var27.getString("char_name").getBytes(Config.k)));
+                  var28.e(g.a(var27.getString("char_name").getBytes(Config.k)));
                   var28.e(var27.getInt("level"));
                   var28.f(var27.getInt("Type"));
                   var28.g(var27.getInt("Sex"));
@@ -803,7 +803,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             PBMessageALL4.L1R_g.L1R_a var5 = PBMessageALL4.L1R_g.aa();
             var5.a(6298);
             var5.b(3755);
-            var5.e(a.g.a(new byte[]{-1, 0, -1}));
+            var5.e(g.a(new byte[]{-1, 0, -1}));
             var5.c(10);
             var5.d(var2 * 2);
             var5.f(LineageUtil.a(var3));

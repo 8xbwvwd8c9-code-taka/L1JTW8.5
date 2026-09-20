@@ -4,9 +4,6 @@ import sun.misc.BASE64Encoder;
                ^
   symbol:   class BASE64Encoder
   location: package sun.misc
-recovery/normalized-src-vf/l1r/aj/C_Login.java:9: error: package javl1r.ax.L1MapArearypto does not exist
-import javl1r.ax.L1MapArearypto.Cipher;
-                               ^
 recovery/normalized-src-vf/l1r/aq/L1Character.java:197: error: incompatible types: void cannot be converted to boolean
          if (var2.b(this)) {
                    ^
@@ -104,16 +101,6 @@ recovery/normalized-src-vf/l1r/aj/C_ItemUSe.java:906: error: 'void' type not all
 recovery/normalized-src-vf/l1r/aj/C_ItemUSe.java:1837: error: 'void' type not allowed here
                                           var3.ct(var3.a(var150));
                                                         ^
-recovery/normalized-src-vf/l1r/aj/C_Login.java:35: error: cannot find symbol
-      Cipher var9 = Cipher.getInstance("RSA");
-      ^
-  symbol:   class Cipher
-  location: class C_Login
-recovery/normalized-src-vf/l1r/aj/C_Login.java:35: error: cannot find symbol
-      Cipher var9 = Cipher.getInstance("RSA");
-                    ^
-  symbol:   variable Cipher
-  location: class C_Login
 recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java:399: error: incompatible types: Object cannot be converted to L1ItemInstance
                   for (L1ItemInstance var161 : var152) {
                                                ^
@@ -153,60 +140,96 @@ recovery/normalized-src-vf/l1r/aq/L1Buddy.java:32: error: incompatible types: Ob
 recovery/normalized-src-vf/l1r/aq/L1Buddy.java:33: error: incompatible types: Object cannot be converted to int
             var2 = var3.getKey();
                               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: int cannot be dereferenced
-      var3.f(a.g.a(""));
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: cannot find symbol
+      var3.f(g.a(""));
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: int cannot be dereferenced
-      var3.g(a.g.a(var1.t()));
+  symbol:   method a(String)
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: cannot find symbol
+      var3.g(g.a(var1.t()));
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: int cannot be dereferenced
-      return a.g.a(var3.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: cannot find symbol
+      return g.a(var3.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: int cannot be dereferenced
-      return a.g.a(var3.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: cannot find symbol
+      return g.a(var3.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: int cannot be dereferenced
-      var1.f(a.g.a(""));
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: cannot find symbol
+      var1.f(g.a(""));
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: int cannot be dereferenced
-      var1.g(a.g.a(this.i.t()));
+  symbol:   method a(String)
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: cannot find symbol
+      var1.g(g.a(this.i.t()));
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: cannot find symbol
+      return g.a(var1.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: int cannot be dereferenced
-      return a.g.a(var2.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: cannot find symbol
+      return g.a(var2.M().g());
               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: int cannot be dereferenced
-      return a.g.a(var5.M().g());
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: cannot find symbol
+      return g.a(var5.M().g());
               ^
+  symbol:   method a(byte[])
+  location: variable g of type ArrayList<Integer>
 recovery/normalized-src-vf/l1r/ao/DropTable.java:67: error: incompatible types: Object cannot be converted to ArrayList
             ArrayList var14 = var1.get(var13.e());
                                       ^
@@ -891,94 +914,14 @@ recovery/normalized-src-vf/l1r/be/S_PrivateShop.java:55: error: incompatible typ
                L1PrivateShopBuyList var21 = var18.get(var20);
                                                      ^
 recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:272: error: int cannot be dereferenced
-            var16.e(a.g.a(new byte[]{-30, 112, -1}));
+            var16.e(g.a(new byte[]{-30, 112, -1}));
                      ^
 recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:448: error: int cannot be dereferenced
-            var19.e(a.g.a(var18.s()));
+            var19.e(g.a(var18.s()));
                      ^
-recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:477: error: int cannot be dereferenced
-                  var28.e(a.g.a(var27.getString("char_name").getBytes(Config.k)));
-                           ^
-recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:806: error: int cannot be dereferenced
-            var5.e(a.g.a(new byte[]{-1, 0, -1}));
-                    ^
-recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:50: error: incompatible types: Object cannot be converted to L1ShopItem
-            L1ShopItem var6 = var4.get(var5);
-                                      ^
-recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:132: error: incompatible types: Object cannot be converted to L1ShopItem
-            L1ShopItem var5 = var3.get(var4);
-                                      ^
-recovery/normalized-src-vf/l1r/be/S_ShopBuyList.java:250: error: incompatible types: Object cannot be converted to L1ShopItem
-            L1ShopItem var11 = var5.get(var7);
-                                       ^
-recovery/normalized-src-vf/l1r/be/S_ShopSellList.java:46: error: incompatible types: Object cannot be converted to int[]
-            for (int[] var13 : var4) {
-                               ^
-recovery/normalized-src-vf/l1r/be/S_SkillBuy.java:13: error: incompatible types: Object cannot be converted to int
-      for (int var3 : var2) {
-                      ^
-recovery/normalized-src-vf/l1r/be/S_SkillBuyItem.java:17: error: incompatible types: Object cannot be converted to int
-      for (int var3 : var2) {
-                      ^
-recovery/normalized-src-vf/l1r/bf/S_000.java:42: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var6 : var5) {
-                                 ^
-recovery/normalized-src-vf/l1r/bf/S_000.java:45: error: 'void' type not allowed here
-            } else if (var3.r && var6.e(var1) > 5.0) {
-                                       ^
-recovery/normalized-src-vf/l1r/bf/S_000.java:73: error: incompatible types: Object cannot be converted to L1Character
-               L1Character var12 = var5.get(var10);
-                                           ^
-recovery/normalized-src-vf/l1r/bf/S_000.java:91: error: 'void' type not allowed here
-         var1.ct(var1.a(var2));
-                       ^
-recovery/normalized-src-vf/l1r/bf/S_017.java:26: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var9 : var8) {
-                                 ^
-recovery/normalized-src-vf/l1r/bf/S_022.java:26: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var9 : var8) {
-                                 ^
-recovery/normalized-src-vf/l1r/bf/S_025.java:27: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var10 : var9) {
-                                  ^
-recovery/normalized-src-vf/l1r/bf/S_030.java:27: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var10 : var9) {
-                                  ^
-recovery/normalized-src-vf/l1r/bf/S_044.java:49: error: incompatible types: Object cannot be converted to int
-      for (int var4 : var6.keySet()) {
-                                 ^
-recovery/normalized-src-vf/l1r/bf/S_044.java:93: error: incompatible types: Object cannot be converted to int
-            for (int var10 : var13.keySet()) {
-                                         ^
-recovery/normalized-src-vf/l1r/bf/S_065.java:27: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var10 : var9) {
-                                  ^
-recovery/normalized-src-vf/l1r/bf/S_074.java:27: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var10 : var9) {
-                                  ^
-recovery/normalized-src-vf/l1r/bf/S_184.java:27: error: incompatible types: Object cannot be converted to L1Character
-         for (L1Character var10 : var9) {
-                                  ^
-recovery/normalized-src-vf/l1r/bi/CalcExp.java:29: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
-         for (L1HateList.L1R_a var6 : var5) {
-                                      ^
-recovery/normalized-src-vf/l1r/bi/CalcExp.java:52: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
-               for (L1HateList.L1R_a var43 : var5) {
-                                             ^
-recovery/normalized-src-vf/l1r/bi/CalcExp.java:67: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
-               for (L1HateList.L1R_a var12 : var5) {
-                                             ^
-recovery/normalized-src-vf/l1r/bi/CalcExp.java:134: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
-                     for (L1HateList.L1R_a var26 : var5) {
-                                                   ^
-recovery/normalized-src-vf/l1r/bi/CalcExp.java:152: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
-                        for (L1HateList.L1R_a var57 : var5) {
-                                                      ^
-recovery/normalized-src-vf/l1r/bi/LineageUtil.java:601: error: incompatible types: Object cannot be converted to L1PcInstance
-      for (L1PcInstance var6 : var5) {
-                               ^
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-176 errors
+146 errors
 103 warnings
+printing javac parameters to: /home/runner/work/L1JTW8.5/L1JTW8.5/javac.20260920_113401.args

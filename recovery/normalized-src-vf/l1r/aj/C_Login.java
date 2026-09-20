@@ -6,7 +6,7 @@ import java.security.PrivateKey;
 import java.security.spec.RSAPrivateKeySpec;
 import java.util.logging.Level;
 import java.util.logging.Logger;
-import javl1r.ax.L1MapArearypto.Cipher;
+import javax.crypto.Cipher;
 import l1r.ai.GameServer;
 import l1r.ao.AccountTable;
 import l1r.ao.AnnounceTable;

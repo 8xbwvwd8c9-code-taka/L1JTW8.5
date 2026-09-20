@@ -8,7 +8,7 @@ Recovery-only class/package normalization. Original donor JAR remains unchanged.
 - Renamed class entries: **1109**
 - InnerClasses name-index patches: **898**
 - Inner-name UTF8 entries added: **786**
-- Rewritten structural UTF8 entries: **20871**
+- Rewritten structural UTF8 entries: **20868**
 - Preserved string-constant hits: **0**
 - Duplicate SourceFile groups: **3**
 

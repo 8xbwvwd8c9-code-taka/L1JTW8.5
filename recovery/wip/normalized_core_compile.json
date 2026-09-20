@@ -1,8 +1,8 @@
 {
-  "compiler_exit": 1,
+  "compiler_exit": 4,
   "java_sources_excluding_pbmessage": 779,
-  "javac_error_headers": 176,
-  "javac_error_files": 68,
+  "javac_error_headers": 146,
+  "javac_error_files": 52,
   "generated_classes": 0,
   "donor_core_classes_excluding_an": 915,
   "built_donor_core_classes": 0,
@@ -12,36 +12,24 @@
   "final_source_only_gate": false,
   "top_failure_families": [
     [
-      "int cannot be dereferenced",
-      22
+      "cannot find symbol",
+      23
     ],
     [
       "method does not override or implement a method from a supertype",
       20
     ],
     [
-      "incompatible types: Object cannot be converted to int",
-      12
-    ],
-    [
       "'void' type not allowed here",
-      11
-    ],
-    [
-      "incompatible types: Object cannot be converted to L1PcInstance",
-      10
-    ],
-    [
-      "incompatible types: Object cannot be converted to L1Character",
       9
     ],
     [
-      "cannot find symbol",
-      7
+      "incompatible types: Object cannot be converted to L1PcInstance",
+      9
     ],
     [
-      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
-      7
+      "incompatible types: Object cannot be converted to int",
+      8
     ],
     [
       "no suitable constructor found for S_ProtoBuffers(int,String,Object[])",
@@ -64,14 +52,6 @@
       4
     ],
     [
-      "incompatible types: Object cannot be converted to L1ShopItem",
-      4
-    ],
-    [
-      "incompatible types: Object cannot be converted to int[]",
-      3
-    ],
-    [
       "incompatible types: Object cannot be converted to L1NpcInstance",
       3
     ],
@@ -84,6 +64,10 @@
       2
     ],
     [
+      "incompatible types: Object cannot be converted to int[]",
+      2
+    ],
+    [
       "incompatible types: Object cannot be converted to L1PrivateShopSellList",
       2
     ],
@@ -92,12 +76,16 @@
       2
     ],
     [
+      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
+      2
+    ],
+    [
       "incompatible types: Object cannot be converted to L1BookMark",
       2
     ],
     [
-      "package javl1r.ax.L1MapArearypto does not exist",
-      1
+      "int cannot be dereferenced",
+      2
     ],
     [
       "L1Inventory.L1R_a is not abstract and does not override abstract method compare(L1ItemInstance,L1ItemInstance) in Comparator",
@@ -144,6 +132,10 @@
       1
     ],
     [
+      "incompatible types: Object cannot be converted to L1ShopItem",
+      1
+    ],
+    [
       "<anonymous l1r.ao.SoulTowerTable$1> is not abstract and does not override abstract method compare(SoulTowerTable.L1R_a,SoulTowerTable.L1R_a) in Comparator",
       1
     ],
@@ -169,6 +161,14 @@
     ],
     [
       "incompatible types: Object cannot be converted to L1Getback",
+      1
+    ],
+    [
+      "no suitable method found for a(Object)",
+      1
+    ],
+    [
+      "<anonymous l1r.as.L1ThebesBattle$1> is not abstract and does not override abstract method compare(L1ThebesBattle.L1R_g,L1ThebesBattle.L1R_g) in Comparator",
       1
     ]
   ]
