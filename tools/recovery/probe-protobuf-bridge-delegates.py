@@ -20,7 +20,7 @@ for cls in classes:
             re.search(r'\bb\(a\.h, a\.n\)',st) or re.search(r'\be\(java\.io\.InputStream, a\.n\)',st)):
             block=lines[i:min(len(lines),i+28)]
             hits.append({'decl':st,'context':block})
-    rows.append({'class':cls,'hits':hits})
+    rows.append({'class':cls,'hits':hits,'javap':cp.stdout if cls in ('an.d$a$a','an.d$c$a') else None})
 state={'classes':rows}
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 md=['# Protobuf Bridge Delegate Probe','']
