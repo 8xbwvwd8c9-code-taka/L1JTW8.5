@@ -99,6 +99,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-external-builder-alias-refs.py
 
+      - name: Normalize non-Protobuf runtime g call shadows
+        shell: bash
+        run: python ./tools/recovery/normalize-nonprotobuf-runtime-g-calls.py
+
       - name: Normalize protobuf synthetic boolean accessors
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-af-accessors.py
