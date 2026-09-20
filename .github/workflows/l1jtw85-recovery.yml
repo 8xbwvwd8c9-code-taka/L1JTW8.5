@@ -104,6 +104,10 @@ jobs:
                   else:
                       child.unlink()
 
+      - name: Scan hard-tail source
+        shell: bash
+        run: python ./tools/recovery/scan-hard-tail.py
+
       - name: Source-only full-tree compile
         shell: bash
         run: python ./tools/recovery/full-tree-compile.py
@@ -185,7 +189,9 @@ jobs:
             recovery/class_inventory.csv recovery/synthetic_members.csv recovery/jvm_signature_collisions.csv \
             recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md \
             recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
-            recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt
+            recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt \
+            recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
+            recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
