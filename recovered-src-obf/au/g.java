@@ -112,7 +112,7 @@ extends f {
 
     @Override
     public synchronized q d(q item) {
-        if (item.E() <= 0) {
+        if (item == null || item.E() <= 0) {
             return null;
         }
         int itemId = item.N();
@@ -124,8 +124,16 @@ extends f {
                 findItem = this.c(itemId);
             }
             if (findItem != null && findItem.F() == item.F()) {
-                findItem.e(findItem.E() + item.E());
+                int oldCount = findItem.E();
+                int newCount = oldCount + item.E();
+                if (newCount <= 0 || newCount > 1500000000) {
+                    return null;
+                }
+                findItem.e(newCount);
                 this.b(findItem);
+                if (findItem.E() != newCount) {
+                    return null;
+                }
                 return findItem;
             }
         }
@@ -148,24 +156,38 @@ extends f {
         item.n();
         this.a.add(item);
         this.a(item);
+        if (!this.a.contains(item)) {
+            return null;
+        }
         return item;
     }
 
     @Override
     public synchronized q e(q item) {
+        if (item == null || item.E() <= 0) {
+            return null;
+        }
         if (item.N() == 40312) {
             q findItem = this.c(item.M());
             if (findItem != null) {
-                findItem.e(findItem.E() + item.E());
+                int newCount = findItem.E() + item.E();
+                if (newCount <= 0 || newCount > 1500000000) {
+                    return null;
+                }
+                findItem.e(newCount);
                 this.b(findItem);
-                return findItem;
+                return findItem.E() == newCount ? findItem : null;
             }
         } else if (item.d()) {
             q findItem = this.d(item.N(), item.F());
             if (findItem != null && findItem.F() == item.F()) {
-                findItem.e(findItem.E() + item.E());
+                int newCount = findItem.E() + item.E();
+                if (newCount <= 0 || newCount > 1500000000) {
+                    return null;
+                }
+                findItem.e(newCount);
                 this.b(findItem);
-                return findItem;
+                return findItem.E() == newCount ? findItem : null;
             }
         } else if (item.bb() != null) {
             Timestamp current = new Timestamp(System.currentTimeMillis());
@@ -190,13 +212,15 @@ extends f {
                 } else if (item.N() >= 21261 && item.N() <= 21300) {
                     item.b((Timestamp)null);
                 } else {
-                    this.c(item);
                     return null;
                 }
             }
         }
         this.a.add(item);
         this.a(item);
+        if (!this.a.contains(item)) {
+            return null;
+        }
         return item;
     }
 
