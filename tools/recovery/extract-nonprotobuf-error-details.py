@@ -63,4 +63,5 @@ print(json.dumps({
   'top_files':files.most_common(20),
   'top_messages':messages.most_common(20),
   'focus_rows':focus,
+  'all_rows':rows,
 },indent=2))
