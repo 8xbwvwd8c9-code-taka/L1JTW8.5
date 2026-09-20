@@ -42,6 +42,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
 
+      - name: Normalize protobuf protected inner visibility
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-inner-visibility.py
+
       - name: Export normalized protobuf runtime parent ABI
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
