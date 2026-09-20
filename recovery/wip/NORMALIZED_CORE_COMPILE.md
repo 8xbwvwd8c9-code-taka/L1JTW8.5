@@ -14,12 +14,13 @@ Diagnostic gate: compile normalized game core while PBMessage source is isolated
 
 | Error | Files/headers |
 |---|---:|
-| cannot find symbol | 23 |
+| int cannot be dereferenced | 20 |
 | method does not override or implement a method from a supertype | 11 |
 | 'void' type not allowed here | 9 |
 | incompatible types: Object cannot be converted to L1PcInstance | 9 |
 | incompatible types: Object cannot be converted to int | 8 |
 | no suitable constructor found for S_ProtoBuffers(int,String,Object[]) | 6 |
+| cannot find symbol | 5 |
 | incompatible types: Object cannot be converted to L1ItemInstance | 5 |
 | incompatible types: Object cannot be converted to L1Item | 5 |
 | incompatible types: void cannot be converted to boolean | 4 |
@@ -32,7 +33,6 @@ Diagnostic gate: compile normalized game core while PBMessage source is isolated
 | incompatible types: Object cannot be converted to L1PrivateShopBuyList | 2 |
 | incompatible types: Object cannot be converted to L1HateList.L1R_a | 2 |
 | incompatible types: Object cannot be converted to L1BookMark | 2 |
-| int cannot be dereferenced | 2 |
 | incompatible types: Object cannot be converted to ArmorSetTable.L1R_a | 1 |
 | incompatible types: Object cannot be converted to String | 1 |
 | incompatible types: Object cannot be converted to ArrayList | 1 |

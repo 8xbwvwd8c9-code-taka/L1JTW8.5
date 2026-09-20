@@ -131,96 +131,60 @@ recovery/normalized-src-vf/l1r/aq/L1Buddy.java:32: error: incompatible types: Ob
 recovery/normalized-src-vf/l1r/aq/L1Buddy.java:33: error: incompatible types: Object cannot be converted to int
             var2 = var3.getKey();
                               ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: cannot find symbol
-      var3.f(g.a(""));
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: int cannot be dereferenced
+      var3.f(a.g.a(""));
               ^
-  symbol:   method a(String)
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: cannot find symbol
-      var3.g(g.a(var1.t()));
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: int cannot be dereferenced
+      var3.g(a.g.a(var1.t()));
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: cannot find symbol
-      return g.a(var3.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: int cannot be dereferenced
+      return a.g.a(var3.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: cannot find symbol
-      return g.a(var3.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: int cannot be dereferenced
+      return a.g.a(var3.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: cannot find symbol
-      var1.f(g.a(""));
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: int cannot be dereferenced
+      var1.f(a.g.a(""));
               ^
-  symbol:   method a(String)
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: cannot find symbol
-      var1.g(g.a(this.i.t()));
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: int cannot be dereferenced
+      var1.g(a.g.a(this.i.t()));
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: cannot find symbol
-      return g.a(var1.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: int cannot be dereferenced
+      return a.g.a(var1.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: cannot find symbol
-      return g.a(var2.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: int cannot be dereferenced
+      return a.g.a(var2.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: cannot find symbol
-      return g.a(var5.M().g());
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: int cannot be dereferenced
+      return a.g.a(var5.M().g());
               ^
-  symbol:   method a(byte[])
-  location: variable g of type ArrayList<Integer>
 recovery/normalized-src-vf/l1r/ao/DropTable.java:67: error: incompatible types: Object cannot be converted to ArrayList
             ArrayList var14 = var1.get(var13.e());
                                       ^
@@ -843,4 +807,4 @@ Note: Recompile with -Xlint:unchecked for details.
 Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
 119 errors
 103 warnings
-printing javac parameters to: /home/runner/work/L1JTW8.5/L1JTW8.5/javac.20260920_115402.args
+printing javac parameters to: /home/runner/work/L1JTW8.5/L1JTW8.5/javac.20260920_123513.args

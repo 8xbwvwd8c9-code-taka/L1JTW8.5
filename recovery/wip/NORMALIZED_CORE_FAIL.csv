@@ -1,5 +1,5 @@
 File,ErrorHeaders,PrimaryError
-l1r/aq/L1Craft.java,18,cannot find symbol
+l1r/aq/L1Craft.java,18,int cannot be dereferenced
 l1r/ap/L1DoorInstance.java,6,reference to d is ambiguous
 l1r/as/L1ThebesBattle.java,6,"no suitable constructor found for S_ProtoBuffers(int,String,Object[])"
 l1r/ap/L1MonsterInstance.java,5,method does not override or implement a method from a supertype

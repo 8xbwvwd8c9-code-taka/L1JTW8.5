@@ -12,8 +12,8 @@
   "final_source_only_gate": false,
   "top_failure_families": [
     [
-      "cannot find symbol",
-      23
+      "int cannot be dereferenced",
+      20
     ],
     [
       "method does not override or implement a method from a supertype",
@@ -34,6 +34,10 @@
     [
       "no suitable constructor found for S_ProtoBuffers(int,String,Object[])",
       6
+    ],
+    [
+      "cannot find symbol",
+      5
     ],
     [
       "incompatible types: Object cannot be converted to L1ItemInstance",
@@ -81,10 +85,6 @@
     ],
     [
       "incompatible types: Object cannot be converted to L1BookMark",
-      2
-    ],
-    [
-      "int cannot be dereferenced",
       2
     ],
     [
