@@ -185,10 +185,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/build-sanitized-reference.py
 
-      - name: Per-class compile triage
-        shell: bash
-        run: python ./tools/recovery/per-class-compile.py
-
       - name: Normalized non-protobuf diagnostic compile
         shell: bash
         run: python ./tools/recovery/compile-normalized-nonproto.py
@@ -208,6 +204,10 @@ jobs:
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
+
+      - name: Per-class compile triage
+        shell: bash
+        run: python ./tools/recovery/per-class-compile.py
 
       - name: Candidate source-only full-tree compile
         shell: bash
