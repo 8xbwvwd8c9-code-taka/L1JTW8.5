@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import csv
 import re
+from collections import Counter
 from pathlib import Path
 
 SRC = Path("recovery/protobuf-builder-javap.txt")
@@ -10,104 +11,86 @@ MD_OUT = Path("recovery/PROTOBUF_BUILDER_BYTECODE_SUMMARY.md")
 text = SRC.read_text(encoding="utf-8-sig", errors="replace")
 lines = text.splitlines()
 
-rows = []
-current_class = None
-i = 0
-
-method_header_rx = re.compile(r"^\s*(private|public|protected).*\([^;]*\);\s*$")
+class_rx = re.compile(r"^===== CLASS (.+) =====$")
 insn_rx = re.compile(r"^\s*(\d+):\s+([a-z][a-z0-9_]*)\s*(.*)$")
 
-while i < len(lines):
-    line = lines[i]
-    if line.startswith("===== CLASS ") and line.endswith(" ====="):
-        current_class = line[len("===== CLASS "):-len(" =====")]
-        i += 1
+current_class = ""
+current_method = ""
+entries = []
+method_like_rx = re.compile(r"^\s{2,}[^ ].*\(.*\).*$")
+
+for i,line in enumerate(lines):
+    m = class_rx.match(line)
+    if m:
+        current_class = m.group(1)
+        current_method = ""
         continue
 
-    if current_class and method_header_rx.match(line) and "(" in line:
-        header = line.strip()
-        descriptor = ""
-        instructions = []
-        j = i + 1
-        while j < len(lines):
-            s = lines[j]
-            if s.startswith("===== CLASS "):
-                break
-            if j > i + 1 and method_header_rx.match(s):
-                break
-            if s.strip().startswith("descriptor:"):
-                descriptor = s.split("descriptor:",1)[1].strip()
-            m = insn_rx.match(s)
-            if m:
-                instructions.append((int(m.group(1)), m.group(2), m.group(3).strip()))
-            # stop after Code block when next member-like header begins
-            if instructions and j + 1 < len(lines):
-                nxt = lines[j+1]
-                if method_header_rx.match(nxt):
-                    j += 1
-                    break
-            j += 1
+    if method_like_rx.match(line) and not line.strip().startswith(("descriptor:","Code:","LineNumberTable:","LocalVariableTable:")):
+        current_method = line.strip()
 
-        if header.startswith("private void ") and descriptor == "()V":
-            getstatic = [x for x in instructions if x[1] == "getstatic"]
-            if getstatic:
-                rows.append({
-                    "Class": current_class,
-                    "MethodHeader": header,
-                    "Descriptor": descriptor,
-                    "InstructionCount": len(instructions),
-                    "GetstaticCount": len(getstatic),
-                    "GetstaticOperands": " | ".join(x[2] for x in getstatic),
-                    "Instructions": " ; ".join(f"{off}:{op} {arg}".strip() for off,op,arg in instructions),
-                })
-        i = max(i + 1, j)
+    ins = insn_rx.match(line)
+    if not ins or ins.group(2) != "getstatic":
         continue
-    i += 1
+
+    context = []
+    for j in range(max(0,i-4), min(len(lines),i+7)):
+        mi = insn_rx.match(lines[j])
+        if mi:
+            context.append((int(mi.group(1)),mi.group(2),mi.group(3).strip()))
+
+    entries.append({
+        "Class": current_class,
+        "Method": current_method,
+        "Offset": int(ins.group(1)),
+        "Operand": ins.group(3).strip(),
+        "Context": " ; ".join(f"{off}:{op} {arg}".strip() for off,op,arg in context),
+    })
 
 with CSV_OUT.open("w", encoding="utf-8", newline="") as f:
-    fields = ["Class","MethodHeader","Descriptor","InstructionCount","GetstaticCount","GetstaticOperands","Instructions"]
-    w = csv.DictWriter(f, fieldnames=fields)
+    fields=["Class","Method","Offset","Operand","Context"]
+    w=csv.DictWriter(f,fieldnames=fields)
     w.writeheader()
-    w.writerows(rows)
+    w.writerows(entries)
 
-patterns = {}
-for r in rows:
-    ops = []
-    for part in r["Instructions"].split(" ; "):
-        bits = part.split(":",1)
-        if len(bits) == 2:
-            op = bits[1].strip().split(" ",1)[0]
-            ops.append(op)
-    key = " -> ".join(ops)
-    patterns[key] = patterns.get(key, 0) + 1
+operand_counts=Counter(e["Operand"] for e in entries)
+pattern_counts=Counter()
+for e in entries:
+    ops=[]
+    for part in e["Context"].split(" ; "):
+        if ":" in part:
+            ops.append(part.split(":",1)[1].strip().split(" ",1)[0])
+    pattern_counts[" -> ".join(ops)] += 1
 
-md = [
+md=[
     "# L1JTW8.5 Protobuf Builder Bytecode Summary",
     "",
-    f"- Builder private-void methods with GETSTATIC: **{len(rows)}**",
-    f"- Distinct opcode patterns: **{len(patterns)}**",
+    f"- Total GETSTATIC instructions: **{len(entries)}**",
+    f"- Unique GETSTATIC operands: **{len(operand_counts)}**",
     "",
-    "## Opcode patterns",
+    "## GETSTATIC operands",
     "",
-    "| Pattern | Count |",
+    "| Operand | Count |",
     "|---|---:|",
 ]
-for k,v in sorted(patterns.items(), key=lambda kv:(-kv[1],kv[0])):
-    md.append(f"| `{k}` | {v} |")
+for operand,count in operand_counts.most_common():
+    md.append(f"| `{operand.replace('|','\\|')}` | {count} |")
 
-md += ["", "## Methods", ""]
-for r in rows:
+md += ["", "## Context opcode patterns", "", "| Pattern | Count |", "|---|---:|"]
+for pattern,count in pattern_counts.most_common():
+    md.append(f"| `{pattern}` | {count} |")
+
+md += ["", "## GETSTATIC contexts", ""]
+for e in entries:
     md += [
-        f"### {r['Class']} :: {r['MethodHeader']}",
+        f"### {e['Class']} :: {e['Method'] or 'UNKNOWN_METHOD'}",
         "",
-        f"- Descriptor: `{r['Descriptor']}`",
-        f"- GETSTATIC: `{r['GetstaticOperands']}`",
-        f"- Instructions: `{r['Instructions']}`",
+        f"- Operand: `{e['Operand']}`",
+        f"- Context: `{e['Context']}`",
         "",
     ]
 
-MD_OUT.write_text("\n".join(md) + "\n", encoding="utf-8")
-
-print(f"ROWS={len(rows)}")
-for k,v in sorted(patterns.items(), key=lambda kv:(-kv[1],kv[0])):
-    print(f"PATTERN {v} {k}")
+MD_OUT.write_text("\n".join(md)+"\n",encoding="utf-8")
+print(f"GETSTATIC={len(entries)}")
+for operand,count in operand_counts.most_common(20):
+    print(f"OPERAND {count} {operand}")
