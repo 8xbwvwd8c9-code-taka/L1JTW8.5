@@ -71,6 +71,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-bridge-delegates.py
 
+      - name: Probe builder InputStream bridges
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-builder-inputstream.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
