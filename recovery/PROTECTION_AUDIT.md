@@ -24,6 +24,7 @@ Ground truth: `l1jserver2.jar`. This report is generated directly from classfile
 - Bridge methods: **0** across **0** classes
 - Same-name/same-args methods differentiated only by return descriptor: **0**
 - Same-name fields with multiple descriptors in one class: **0**
+- Java-keyword field/method names: **4** across **3** classes
 
 ## Interpretation gate
 

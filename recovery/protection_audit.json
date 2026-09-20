@@ -20,5 +20,7 @@
   "bridge_methods": 0,
   "bridge_affected_classes": 0,
   "jvm_return_type_only_method_collisions": 0,
-  "field_name_descriptor_collisions": 0
+  "field_name_descriptor_collisions": 0,
+  "java_keyword_members": 4,
+  "java_keyword_member_classes": 3
 }
