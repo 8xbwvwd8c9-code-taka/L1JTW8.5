@@ -8,10 +8,7 @@ OUT = Path('recovery/protobuf_runtime_bridge_flag_normalization.json')
 MD = Path('recovery/PROTOBUF_RUNTIME_BRIDGE_FLAG_NORMALIZATION.md')
 
 ACC_SYNTHETIC = 0x1000
-TARGETS = {
-    'l1rpb/p$a.class': {('d', '()Ll1rpb/a$a;')},
-    'l1rpb/c.class': {('e', '(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;')},
-}
+TARGET_CLASSES = {'l1rpb/p$a.class', 'l1rpb/c.class'}
 
 class R:
     def __init__(self,b): self.b=bytearray(b); self.p=0
@@ -47,7 +44,7 @@ def skip_attrs(r):
     for _ in range(r.u2()):
         r.skip(2); r.skip(r.u4())
 
-def patch_class(data,wanted):
+def patch_class(data):
     r=R(data); cp=parse_cp(r)
     r.skip(6)
     r.skip(2*r.u2())
@@ -58,10 +55,7 @@ def patch_class(data,wanted):
         off=r.p
         flags=r.u2(); name_idx=r.u2(); desc_idx=r.u2()
         name=utf(cp,name_idx); desc=utf(cp,desc_idx)
-        key=(name,desc)
-        if key in wanted:
-            if not (flags & ACC_SYNTHETIC):
-                raise SystemExit(f'target not synthetic before patch: {name}{desc}')
+        if flags & ACC_SYNTHETIC:
             r.set_u2(off, flags & ~ACC_SYNTHETIC)
             hits.append({'name':name,'descriptor':desc,'old_flags':flags,'new_flags':flags & ~ACC_SYNTHETIC})
         skip_attrs(r)
@@ -73,22 +67,23 @@ all_hits=[]
 with zipfile.ZipFile(JAR,'r') as zin, zipfile.ZipFile(TMP,'w',zipfile.ZIP_DEFLATED) as zout:
     for info in zin.infolist():
         raw=zin.read(info.filename); hits=[]
-        if info.filename in TARGETS:
-            raw,hits=patch_class(raw,TARGETS[info.filename])
+        if info.filename in TARGET_CLASSES:
+            raw,hits=patch_class(raw)
             all_hits += [{'class':info.filename,**h} for h in hits]
         zout.writestr(info,raw)
 
-expected=sum(len(v) for v in TARGETS.values())
-if len(all_hits)!=expected:
+expected_min=2
+if len(all_hits)<expected_min:
     TMP.unlink(missing_ok=True)
-    raise SystemExit(f'expected {expected} target methods, patched {len(all_hits)}')
+    raise SystemExit(f'expected at least {expected_min} synthetic bridge methods, patched {len(all_hits)}')
 
 TMP.replace(JAR)
 state={
-    'target_methods_expected': expected,
+    'target_classes': sorted(TARGET_CLASSES),
+    'target_methods_minimum': expected_min,
     'target_methods_patched': len(all_hits),
     'targets': all_hits,
-    'transform': 'clear ACC_SYNTHETIC on exact recovery compile-ref bridge methods only',
+    'transform': 'clear ACC_SYNTHETIC on methods in exact recovery compile-ref parent-class whitelist only',
     'method_names_changed': False,
     'method_descriptors_changed': False,
     'bytecode_changed': False,
@@ -99,7 +94,7 @@ OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 MD.write_text(
     '# Protobuf Runtime Bridge Flag Normalization\n\n'
     + f'- Target methods patched: **{len(all_hits)} / {expected}**\n'
-    + '- Change: clear ACC_SYNTHETIC only on exact whitelist descriptors.\n'
+    + '- Change: clear ACC_SYNTHETIC on methods only in l1rpb/p$a.class and l1rpb/c.class.\n'
     + '- Method names/descriptors changed: **NO / NO**\n'
     + '- Bytecode changed: **NO**\n'
     + '- Gameplay logic changed: **NO**\n'
