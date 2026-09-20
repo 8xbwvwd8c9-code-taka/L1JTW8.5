@@ -1592,6 +1592,7 @@ extends aq.f {
             }
             catch (Exception e2) {
                 y.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                t.this.i(false);
             }
         }
 
