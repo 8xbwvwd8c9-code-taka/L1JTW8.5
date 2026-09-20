@@ -50,6 +50,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
 
+      - name: Normalize residual protobuf runtime imports
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-runtime-imports.py
+
       - name: Repair normalized protobuf builder collisions
         shell: bash
         run: python ./tools/recovery/repair-normalized-builder-collisions.py
@@ -266,6 +270,10 @@ jobs:
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
+
+      - name: Normalize residual protobuf runtime imports
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-runtime-imports.py
 
       - name: Repair normalized protobuf builder collisions
         shell: bash
