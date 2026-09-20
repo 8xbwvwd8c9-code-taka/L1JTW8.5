@@ -8,7 +8,7 @@ JAR = REC / "compile-ref-protobuf-l1rpb.jar"
 OUT = REC / "protobuf_runtime_parent_javap.txt"
 STATE = REC / "protobuf_runtime_parent_javap.json"
 
-targets = ["l1rpb.p$a", "l1rpb.a$a", "l1rpb.x$a", "l1rpb.y$a"]
+targets = ["l1rpb.p$a", "l1rpb.a$a", "l1rpb.x$a", "l1rpb.y$a", "l1rpb.c", "l1rpb.ab"]
 chunks = []
 rows = []
 for cls in targets:
