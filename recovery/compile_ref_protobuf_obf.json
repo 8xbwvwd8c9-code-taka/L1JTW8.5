@@ -1,0 +1,8 @@
+{
+  "source_jar": "l1jserver2.jar",
+  "output_jar": "recovery/compile-ref-protobuf-obf.jar",
+  "class_files": 246,
+  "top_level_classes": 71,
+  "scope": "a/** only",
+  "game_core_classes_included": false
+}

@@ -14,6 +14,9 @@
     "lib/slf4j-api-1.5.2.jar",
     "lib/slf4j-jdk14-1.5.2.jar"
   ],
+  "embedded_compile_refs": [
+    "recovery/compile-ref-protobuf-obf.jar"
+  ],
   "java_sources_submitted": 788,
   "compile_exit_code": 1,
   "generated_class_files_total": 0,

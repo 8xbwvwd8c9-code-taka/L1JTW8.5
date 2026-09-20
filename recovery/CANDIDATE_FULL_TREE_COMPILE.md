@@ -11,7 +11,9 @@ Status: **FAIL**
 ## Build boundary
 
 - Game donor JAR on compile classpath: **NO**
-- Only repository third-party JARs under lib/ are used as binary dependencies.
+- Repository third-party JARs under lib/ are binary dependencies.
+- recovery/compile-ref-protobuf-obf.jar supplies only donor-embedded obfuscated Protobuf package a/**.
+- No ai..bj or l1j.server game classes are included in that compile reference.
 - Candidate source root: **_recovery-stage-src**
 
 ## Result
