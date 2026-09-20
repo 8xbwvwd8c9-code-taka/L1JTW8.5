@@ -1,0 +1,12 @@
+{
+  "source": "l1jserver2.jar",
+  "output": "recovery/l1jserver2-sanitized-ref.jar",
+  "purpose": "PER_CLASS_COMPILE_REFERENCE_ONLY",
+  "logic_changed": false,
+  "class_count": 2659,
+  "changed_classes": 739,
+  "class_flags_stripped": 26,
+  "field_flags_stripped": 486,
+  "method_flags_stripped": 4105,
+  "final_full_tree_reference": false
+}

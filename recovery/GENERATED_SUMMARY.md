@@ -12,6 +12,8 @@
 - Non-protobuf diagnostic compile: **FAIL**
 - Non-protobuf javac errors/files: **14781 / 570**
 - Non-protobuf built/missing/extra classes: **0 / 915 / 0**
+- Per-class sanitized-reference compile PASS/FAIL: **584 / 204**
+- Per-class PASS rate: **0.741117**
 - Candidate full-tree source compile: **FAIL**
 - Candidate javac exit: **1**
 - Built application classes (normalized): **0**
