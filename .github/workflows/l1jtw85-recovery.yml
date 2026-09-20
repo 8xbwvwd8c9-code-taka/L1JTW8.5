@@ -33,7 +33,7 @@ jobs:
           java-version: "17"
 
       - name: Audit classfile protection
-        shell: python
+        shell: bash
         run: python ./tools/recovery/audit-classfile-protection.py
 
       - name: Export target javap
