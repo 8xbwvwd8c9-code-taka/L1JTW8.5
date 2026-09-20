@@ -8,16 +8,16 @@ from pathlib import Path
 
 JAR = Path("l1jserver2.jar")
 OUT = Path("recovery/vineflower-stage2")
-TARGETS = [
-    "an/a","an/b","an/c","an/d","an/e","an/f","an/g","an/h","an/i",
-    "ap/u","aq/c","bg/b","bj/e",
-]
+TARGETS = ["an/a","an/b","an/c","an/d","an/e","an/f","an/g","an/h","an/i"]
 
 if len(sys.argv) != 2:
     raise SystemExit("usage: decompile-stage2-vineflower.py <vineflower.jar>")
 VF = Path(sys.argv[1])
 
+if OUT.exists():
+    shutil.rmtree(OUT)
 OUT.mkdir(parents=True, exist_ok=True)
+
 tmp_root = Path(tempfile.mkdtemp(prefix="l1jtw85-vf2-"))
 classes_root = tmp_root / "classes"
 vf_out = tmp_root / "out"
@@ -46,7 +46,7 @@ try:
         "--remove-synthetic=0",
         "--remove-bridge=0",
         "--skip-extra-files=1",
-        "--rename-members=1",
+        "--rename-members=0",
         f"-e={JAR}",
         str(classes_root),
         str(vf_out),
@@ -57,9 +57,6 @@ try:
     copied = 0
     for target in TARGETS:
         expected = vf_out / (target + ".java")
-        if not expected.exists():
-            fallbacks = list(vf_out.rglob(Path(target).name + ".java"))
-            expected = fallbacks[0] if fallbacks else expected
         if expected.exists():
             dst = OUT / (target + ".java")
             dst.parent.mkdir(parents=True, exist_ok=True)
@@ -69,6 +66,10 @@ try:
         else:
             print(f"MISS {target}")
 
+    (OUT / "RESULT.txt").write_text(
+        f"VINEFLOWER_EXIT={proc.returncode}\nCOPIED={copied}/{len(TARGETS)}\n",
+        encoding="utf-8",
+    )
     print(f"VINEFLOWER_EXIT={proc.returncode}")
     print(f"COPIED={copied}/{len(TARGETS)}")
 finally:
