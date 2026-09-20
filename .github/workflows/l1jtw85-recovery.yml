@@ -119,6 +119,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-overload-shadows.py
 
+      - name: Normalize L1Thebes local generics
+        shell: bash
+        run: python ./tools/recovery/normalize-l1thebes-local-generics.py
+
       - name: Normalize protobuf synthetic boolean accessors
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-af-accessors.py
