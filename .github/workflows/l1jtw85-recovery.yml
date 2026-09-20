@@ -39,6 +39,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-normalized-nonproto.py
 
+      - name: Probe donor non-Protobuf overload descriptors
+        shell: bash
+        run: python ./tools/recovery/probe-nonprotobuf-overload-descriptors.py
+
       - name: Relocate embedded Protobuf runtime
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
@@ -110,6 +114,10 @@ jobs:
       - name: Normalize remaining non-Protobuf local generics
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-local-generics.py
+
+      - name: Normalize non-Protobuf overload shadows
+        shell: bash
+        run: python ./tools/recovery/normalize-nonprotobuf-overload-shadows.py
 
       - name: Normalize protobuf synthetic boolean accessors
         shell: bash
