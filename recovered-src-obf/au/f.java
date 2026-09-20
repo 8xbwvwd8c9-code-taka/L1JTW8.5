@@ -295,10 +295,18 @@ extends aa {
                 ((g)this).k(null);
             }
             this.c(item);
+            if (this.a.contains(item)) {
+                return 0;
+            }
             aq.a().b(item);
         } else {
-            item.e(item.E() - count);
+            int oldCount = item.E();
+            int newCount = oldCount - count;
+            item.e(newCount);
             this.b(item);
+            if (item.E() != newCount) {
+                return 0;
+            }
         }
         return count;
     }
