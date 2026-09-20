@@ -14,6 +14,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 import java.util.logging.Level;
@@ -125,126 +126,144 @@ public class c {
         return true;
     }
 
-    public static void a(CopyOnWriteArrayList<c> bookMarkList) {
-        block6: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
+    public static boolean a(CopyOnWriteArrayList<c> bookMarkList) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            pstm = con.prepareStatement("UPDATE character_teleport SET order_id=?, order_id_fast=?, name=? WHERE id=?");
+            for (c bookmark : bookMarkList) {
+                pstm.setInt(1, bookmark.i);
+                pstm.setInt(2, bookmark.j);
+                pstm.setString(3, bookmark.f);
+                pstm.setInt(4, bookmark.e);
+                pstm.addBatch();
+            }
+            pstm.executeBatch();
+            con.commit();
+            return true;
+        }
+        catch (SQLException e2) {
+            c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
                 try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE  character_teleport  SET order_id =?,order_id_fast =?,name =? WHERE id=?");
-                    for (c bookmark : bookMarkList) {
-                        pstm.setInt(1, bookmark.i);
-                        pstm.setInt(2, bookmark.j);
-                        pstm.setString(3, bookmark.f);
-                        pstm.setInt(4, bookmark.e);
-                        pstm.execute();
-                    }
+                    con.rollback();
                 }
-                catch (SQLException e2) {
-                    c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    bi.j.a(pstm);
-                    bi.j.a(con);
-                    break block6;
+                catch (SQLException ignored) {
                 }
             }
-            catch (Throwable throwable) {
-                bi.j.a(pstm);
-                bi.j.a(con);
-                throw throwable;
-            }
+            return false;
+        }
+        finally {
             bi.j.a(pstm);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
             bi.j.a(con);
         }
     }
 
     public static void a(u pc, String s2) {
-        block7: {
-            c book = pc.a(s2);
-            if (book != null) {
-                Connection con = null;
-                PreparedStatement pstm = null;
+        c book = pc.a(s2);
+        if (book == null) {
+            return;
+        }
+        int order = book.f();
+        Connection con = null;
+        PreparedStatement del = null;
+        PreparedStatement reorder = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            del = con.prepareStatement("DELETE FROM character_teleport WHERE id=? AND char_id=?");
+            del.setInt(1, book.a());
+            del.setInt(2, pc.fr());
+            if (del.executeUpdate() != 1) {
+                con.rollback();
+                return;
+            }
+            reorder = con.prepareStatement("UPDATE character_teleport SET order_id=order_id-1 WHERE char_id=? AND order_id>?");
+            reorder.setInt(1, pc.fr());
+            reorder.setInt(2, order);
+            reorder.executeUpdate();
+            con.commit();
+        }
+        catch (SQLException e2) {
+            c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
                 try {
-                    try {
-                        con = l1j.server.b.a().b();
-                        pstm = con.prepareStatement("DELETE FROM character_teleport WHERE id=?");
-                        pstm.setInt(1, book.a());
-                        pstm.execute();
-                        int order = book.f();
-                        pc.ba().remove(book);
-                        for (c bookmark : pc.ba()) {
-                            if (bookmark.f() <= order) continue;
-                            bookmark.e(bookmark.f() - 1);
-                        }
-                        bh.c.a(pc.ba());
-                    }
-                    catch (SQLException e2) {
-                        c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                        bi.j.a(pstm);
-                        bi.j.a(con);
-                        break block7;
-                    }
+                    con.rollback();
                 }
-                catch (Throwable throwable) {
-                    bi.j.a(pstm);
-                    bi.j.a(con);
-                    throw throwable;
+                catch (SQLException ignored) {
                 }
-                bi.j.a(pstm);
-                bi.j.a(con);
+            }
+            return;
+        }
+        finally {
+            bi.j.a(reorder);
+            bi.j.a(del);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            bi.j.a(con);
+        }
+        pc.ba().remove(book);
+        for (c bookmark : pc.ba()) {
+            if (bookmark.f() > order) {
+                bookmark.e(bookmark.f() - 1);
             }
         }
     }
 
     public static void b(u pc, String s2) {
-        c bookmark;
-        block8: {
-            if (!pc.fq().h()) {
-                pc.a(new ds(214));
-                return;
-            }
-            int size = pc.ba().size();
-            if (size > 60) {
-                return;
-            }
-            if (pc.a(s2) != null) {
-                pc.a(new ds(327));
-            }
-            bookmark = new c();
-            bookmark.a(ai.d.a().d());
-            bookmark.b(pc.fr());
-            bookmark.a(s2);
-            bookmark.c(pc.fs());
-            bookmark.d(pc.ft());
-            bookmark.g(pc.fp());
-            bookmark.e(pc.ba().size());
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO character_teleport SET id = ?, char_id = ?, name = ?, locx = ?, locy = ?, mapid = ?,order_id=?");
-                    pstm.setInt(1, bookmark.a());
-                    pstm.setInt(2, bookmark.b());
-                    pstm.setString(3, bookmark.c());
-                    pstm.setInt(4, bookmark.d());
-                    pstm.setInt(5, bookmark.e());
-                    pstm.setInt(6, bookmark.h());
-                    pstm.setInt(7, bookmark.f());
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    bi.j.a(pstm);
-                    bi.j.a(con);
-                    break block8;
-                }
-            }
-            catch (Throwable throwable) {
-                bi.j.a(pstm);
-                bi.j.a(con);
-                throw throwable;
-            }
+        if (!pc.fq().h()) {
+            pc.a(new ds(214));
+            return;
+        }
+        if (pc.ba().size() >= pc.cI()) {
+            return;
+        }
+        if (pc.a(s2) != null) {
+            pc.a(new ds(327));
+            return;
+        }
+        c bookmark = new c();
+        bookmark.a(ai.d.a().d());
+        bookmark.b(pc.fr());
+        bookmark.a(s2);
+        bookmark.c(pc.fs());
+        bookmark.d(pc.ft());
+        bookmark.g(pc.fp());
+        bookmark.e(pc.ba().size());
+
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO character_teleport SET id=?, char_id=?, name=?, locx=?, locy=?, mapid=?, order_id=?");
+            pstm.setInt(1, bookmark.a());
+            pstm.setInt(2, bookmark.b());
+            pstm.setString(3, bookmark.c());
+            pstm.setInt(4, bookmark.d());
+            pstm.setInt(5, bookmark.e());
+            pstm.setInt(6, bookmark.h());
+            pstm.setInt(7, bookmark.f());
+            pstm.executeUpdate();
+        }
+        catch (SQLException e2) {
+            c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return;
+        }
+        finally {
             bi.j.a(pstm);
             bi.j.a(con);
         }
@@ -252,130 +271,236 @@ public class c {
         pc.a(new n(s2, bookmark.h(), bookmark.a(), bookmark.d(), bookmark.e()));
     }
 
-    public static void a(u pc, HashMap<String, aq.u> bookmark_list) {
-        for (String s2 : bookmark_list.keySet()) {
-            c bookmark;
-            short mapid;
-            int y2;
-            int x2;
-            block6: {
-                x2 = bookmark_list.get(s2).f();
-                y2 = bookmark_list.get(s2).g();
-                mapid = (short)bookmark_list.get(s2).b();
-                bookmark = new c();
-                bookmark.a(ai.d.a().d());
-                bookmark.b(pc.fr());
-                bookmark.a(s2);
-                bookmark.c(x2);
-                bookmark.d(y2);
-                bookmark.g(mapid);
-                bookmark.e(pc.ba().size());
-                Connection con = null;
-                PreparedStatement pstm = null;
-                try {
-                    try {
-                        con = l1j.server.b.a().b();
-                        pstm = con.prepareStatement("INSERT INTO character_teleport SET id = ?, char_id = ?, name = ?, locx = ?, locy = ?, mapid = ?,order_id=?");
-                        pstm.setInt(1, bookmark.a());
-                        pstm.setInt(2, bookmark.b());
-                        pstm.setString(3, bookmark.c());
-                        pstm.setInt(4, bookmark.d());
-                        pstm.setInt(5, bookmark.e());
-                        pstm.setInt(6, bookmark.h());
-                        pstm.setInt(7, bookmark.f());
-                        pstm.execute();
-                    }
-                    catch (SQLException e2) {
-                        c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                        bi.j.a(pstm);
-                        bi.j.a(con);
-                        break block6;
-                    }
-                }
-                catch (Throwable throwable) {
-                    bi.j.a(pstm);
-                    bi.j.a(con);
-                    throw throwable;
-                }
-                bi.j.a(pstm);
-                bi.j.a(con);
-            }
-            pc.ba().add(bookmark);
-            pc.a(new n(s2, mapid, bookmark.a(), x2, y2));
+    public static boolean a(u pc, HashMap<String, aq.u> bookmark_list) {
+        if (bookmark_list == null || bookmark_list.isEmpty()) {
+            return false;
         }
+        ArrayList<c> pending = new ArrayList<c>();
+        int order = pc.ba().size();
+        for (String s2 : bookmark_list.keySet()) {
+            if (pc.a(s2) != null) {
+                continue;
+            }
+            if (order >= pc.cI()) {
+                return false;
+            }
+            aq.u loc = bookmark_list.get(s2);
+            c bookmark = new c();
+            bookmark.a(ai.d.a().d());
+            bookmark.b(pc.fr());
+            bookmark.a(s2);
+            bookmark.c(loc.f());
+            bookmark.d(loc.g());
+            bookmark.g((short)loc.b());
+            bookmark.e(order++);
+            pending.add(bookmark);
+        }
+        if (pending.isEmpty()) {
+            return false;
+        }
+
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            pstm = con.prepareStatement("INSERT INTO character_teleport SET id=?, char_id=?, name=?, locx=?, locy=?, mapid=?, order_id=?");
+            for (c bookmark : pending) {
+                pstm.setInt(1, bookmark.a());
+                pstm.setInt(2, bookmark.b());
+                pstm.setString(3, bookmark.c());
+                pstm.setInt(4, bookmark.d());
+                pstm.setInt(5, bookmark.e());
+                pstm.setInt(6, bookmark.h());
+                pstm.setInt(7, bookmark.f());
+                pstm.addBatch();
+            }
+            pstm.executeBatch();
+            con.commit();
+        }
+        catch (SQLException e2) {
+            c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            return false;
+        }
+        finally {
+            bi.j.a(pstm);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            bi.j.a(con);
+        }
+
+        for (c bookmark : pending) {
+            pc.ba().add(bookmark);
+            pc.a(new n(bookmark.c(), (short)bookmark.h(), bookmark.a(), bookmark.d(), bookmark.e()));
+        }
+        return true;
     }
 
     public static void a(u pc, q item) {
+        if (pc == null || item == null) {
+            return;
+        }
         Connection con = null;
-        PreparedStatement pstm = null;
-        for (c bookmark : pc.ba()) {
-            try {
+        PreparedStatement delete = null;
+        PreparedStatement insert = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            delete = con.prepareStatement("DELETE FROM character_teleport WHERE char_id=?");
+            delete.setInt(1, item.fr());
+            delete.executeUpdate();
+            insert = con.prepareStatement("INSERT INTO character_teleport SET id=?, char_id=?, name=?, locx=?, locy=?, mapid=?, order_id=?");
+            for (c bookmark : pc.ba()) {
+                insert.setInt(1, ai.d.a().d());
+                insert.setInt(2, item.fr());
+                insert.setString(3, bookmark.c());
+                insert.setInt(4, bookmark.d());
+                insert.setInt(5, bookmark.e());
+                insert.setInt(6, bookmark.h());
+                insert.setInt(7, bookmark.f());
+                insert.addBatch();
+            }
+            insert.executeBatch();
+            con.commit();
+        }
+        catch (SQLException e2) {
+            c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
                 try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO character_teleport SET id = ?, char_id = ?, name = ?, locx = ?, locy = ?, mapid = ?,order_id=?");
-                    pstm.setInt(1, ai.d.a().d());
-                    pstm.setInt(2, item.fr());
-                    pstm.setString(3, bookmark.c());
-                    pstm.setInt(4, bookmark.d());
-                    pstm.setInt(5, bookmark.e());
-                    pstm.setInt(6, bookmark.h());
-                    pstm.setInt(7, bookmark.f());
-                    pstm.execute();
+                    con.rollback();
                 }
-                catch (SQLException e2) {
-                    c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    bi.j.a(pstm);
-                    bi.j.a(con);
-                    continue;
+                catch (SQLException ignored) {
                 }
             }
-            catch (Throwable throwable) {
-                bi.j.a(pstm);
-                bi.j.a(con);
-                throw throwable;
+        }
+        finally {
+            bi.j.a(insert);
+            bi.j.a(delete);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
             }
-            bi.j.a(pstm);
             bi.j.a(con);
         }
     }
 
     public static void a(q item, u pc) {
-        HashMap<String, aq.u> list = new HashMap<String, aq.u>();
+        if (item == null || pc == null) {
+            return;
+        }
+        ArrayList<c> pending = new ArrayList<c>();
         Connection con = null;
-        PreparedStatement pstm = null;
+        PreparedStatement select = null;
+        PreparedStatement insert = null;
+        PreparedStatement deleteBookmarks = null;
+        PreparedStatement deleteItem = null;
         ResultSet rs = null;
         try {
             con = l1j.server.b.a().b();
-            pstm = con.prepareStatement("SELECT * FROM character_teleport WHERE char_id=? ORDER BY order_id");
-            pstm.setInt(1, item.fr());
-            rs = pstm.executeQuery();
+            con.setAutoCommit(false);
+
+            select = con.prepareStatement("SELECT name,locx,locy,mapid FROM character_teleport WHERE char_id=? ORDER BY order_id");
+            select.setInt(1, item.fr());
+            rs = select.executeQuery();
+            int order = pc.ba().size();
             while (rs.next()) {
                 String name = rs.getString("name");
-                int x2 = rs.getInt("locx");
-                int y2 = rs.getInt("locy");
-                short mapid = rs.getShort("mapid");
-                list.put(name, new aq.u(x2, y2, mapid));
+                if (pc.a(name) != null) {
+                    continue;
+                }
+                if (order >= pc.cI()) {
+                    con.rollback();
+                    pc.a(new ds(2961, "1"));
+                    return;
+                }
+                c bookmark = new c();
+                bookmark.a(ai.d.a().d());
+                bookmark.b(pc.fr());
+                bookmark.a(name);
+                bookmark.c(rs.getInt("locx"));
+                bookmark.d(rs.getInt("locy"));
+                bookmark.g(rs.getShort("mapid"));
+                bookmark.e(order++);
+                pending.add(bookmark);
             }
-            if (list.size() <= 0) {
+            if (pending.isEmpty()) {
+                con.rollback();
                 pc.a(new ds(2963));
                 return;
             }
-            int max_space = pc.cI();
-            if (max_space - pc.ba().size() < list.size()) {
-                int need_space = list.size() - (max_space - pc.ba().size());
-                pc.a(new ds(2961, "" + need_space));
+
+            insert = con.prepareStatement("INSERT INTO character_teleport SET id=?, char_id=?, name=?, locx=?, locy=?, mapid=?, order_id=?");
+            for (c bookmark : pending) {
+                insert.setInt(1, bookmark.a());
+                insert.setInt(2, bookmark.b());
+                insert.setString(3, bookmark.c());
+                insert.setInt(4, bookmark.d());
+                insert.setInt(5, bookmark.e());
+                insert.setInt(6, bookmark.h());
+                insert.setInt(7, bookmark.f());
+                insert.addBatch();
+            }
+            insert.executeBatch();
+
+            deleteBookmarks = con.prepareStatement("DELETE FROM character_teleport WHERE char_id=?");
+            deleteBookmarks.setInt(1, item.fr());
+            deleteBookmarks.executeUpdate();
+
+            deleteItem = con.prepareStatement("DELETE FROM character_items WHERE id=? AND char_id=?");
+            deleteItem.setInt(1, item.fr());
+            deleteItem.setInt(2, pc.fr());
+            if (deleteItem.executeUpdate() != 1) {
+                con.rollback();
                 return;
             }
-            bh.c.a(pc, list);
-            pstm = con.prepareStatement("DELETE FROM character_teleport WHERE char_id=?");
-            pstm.setInt(1, item.fr());
-            pstm.execute();
-            pc.j().f(item);
+            con.commit();
         }
         catch (SQLException e2) {
             c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            return;
         }
-        bi.j.a(rs, pstm, con);
+        finally {
+            bi.j.a(rs, select);
+            bi.j.a(insert);
+            bi.j.a(deleteBookmarks);
+            bi.j.a(deleteItem);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            bi.j.a(con);
+        }
+
+        for (c bookmark : pending) {
+            pc.ba().add(bookmark);
+            pc.a(new n(bookmark.c(), (short)bookmark.h(), bookmark.a(), bookmark.d(), bookmark.e()));
+        }
+        pc.j().f(item);
     }
 
     public static void a(u pc) {
