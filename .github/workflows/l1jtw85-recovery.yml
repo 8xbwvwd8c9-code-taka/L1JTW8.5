@@ -104,6 +104,18 @@ jobs:
                   else:
                       child.unlink()
 
+      - name: Download Vineflower
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/vineflower.jar" \
+            "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.12.0/vineflower-1.12.0.jar"
+
+      - name: Decompile hard-tail with Vineflower
+        shell: bash
+        run: python ./tools/recovery/decompile-hard-tail-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+
       - name: Scan hard-tail source
         shell: bash
         run: python ./tools/recovery/scan-hard-tail.py
@@ -191,7 +203,8 @@ jobs:
             recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
             recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt \
             recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
-            recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md
+            recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
+            recovery/vineflower-hard-tail
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
