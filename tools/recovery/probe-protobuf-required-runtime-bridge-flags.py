@@ -18,7 +18,7 @@ for cls,wanted in targets.items():
         found=[]
         for i,line in enumerate(lines):
             st=line.strip()
-            if not re.search(r'\b'+re.escape(name)+r'\([^;]*\);$',st): continue
+            if not re.search(r'\b'+re.escape(name)+r'\s*\(',st): continue
             d=''; flags=''
             for x in lines[i+1:i+9]:
                 xs=x.strip()
