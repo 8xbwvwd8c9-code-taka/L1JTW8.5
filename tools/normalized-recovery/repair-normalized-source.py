@@ -123,6 +123,23 @@ for p in SRC.rglob("*.java"):
         p.write_text(text2,encoding="utf-8")
         constant_refs += n1+n2
 
+# Package-shadow repair: embedded protobuf class a.g is imported as g, while
+# some game classes also declare a field/local named 'a'. In Java source,
+# a.g.a(...) is then parsed as dereferencing that primitive/local 'a'.
+# Using the imported type name g.a(...) is bytecode-equivalent and avoids
+# the namespace shadowing. Only apply in files that explicitly import a.g.
+protobuf_g_shadow_repairs = 0
+protobuf_g_shadow_files = []
+for p in SRC.rglob("*.java"):
+    text = p.read_text(encoding="utf-8", errors="replace")
+    if not re.search(r"(?m)^import\s+a\.g\s*;\s*$", text):
+        continue
+    text2, n = re.subn(r"\ba\.g\.a\s*\(", "g.a(", text)
+    if n:
+        p.write_text(text2, encoding="utf-8")
+        protobuf_g_shadow_repairs += n
+        protobuf_g_shadow_files.append(p.as_posix())
+
 # Fail fast on the exact known invalid forms.
 residuals=[]
 checks=[
@@ -147,6 +164,8 @@ state={
     "keyword_member_repairs":4,
     "l1pc_method_call_sites_rewritten":method_calls,
     "constant_refs_rewritten":constant_refs,
+    "protobuf_g_shadow_repairs":protobuf_g_shadow_repairs,
+    "protobuf_g_shadow_files":protobuf_g_shadow_files,
     "residual_invalid_forms":residuals,
 }
 OUT_JSON.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
@@ -157,6 +176,8 @@ md=[
     "- Java-keyword member identities repaired: **4**",
     f"- L1PcInstance method call sites rewritten: **{method_calls}**",
     f"- L1SkillId/Opcodes constant references rewritten: **{constant_refs}**",
+    f"- Embedded protobuf a.g package-shadow calls repaired: **{protobuf_g_shadow_repairs}**",
+    f"- Package-shadow files: **{len(protobuf_g_shadow_files)}**",
     f"- Residual known-invalid forms: **{len(residuals)}**",
     "",
     "Protobuf repair authority: donor javap. Each repaired builder initializer is invokestatic ()Z, pop, return.",
