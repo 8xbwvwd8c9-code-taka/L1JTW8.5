@@ -103,6 +103,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-parser-bridges.py
 
+      - name: Normalize protobuf duplicate local names
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-duplicate-locals.py
+
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
