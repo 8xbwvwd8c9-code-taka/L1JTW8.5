@@ -22,7 +22,7 @@ rows=[]
 patterns=Counter()
 for cls,txt in classes:
     lines=txt.splitlines()
-    field=[]; clinit=[]
+    field=[]; clinit=[]; all_putstatic=[]
     for i,line in enumerate(lines):
         if re.match(r'^\s+(?:private|protected|public).*\bboolean m;$',line):
             field=lines[i:min(len(lines),i+4)]
@@ -33,18 +33,18 @@ for cls,txt in classes:
                 if j>i and lines[j].startswith('}'): break
                 j+=1
             clinit=buf
-    putctx=[]
+    all_putstatic=[ln.strip() for ln in lines if 'putstatic' in ln and '// Field m:Z' in ln]\n    putctx=[]
     for i,line in enumerate(clinit):
         if 'putstatic' in line and '// Field m:Z' in line:
             putctx=clinit[max(0,i-8):min(len(clinit),i+4)]
             break
     pat=' | '.join(x.strip() for x in putctx)
     patterns[pat]+=1
-    rows.append({'class':cls,'field':field,'putstatic_context':putctx})
+    rows.append({'class':cls,'field':field,'putstatic_context':putctx,'all_putstatic_m_z':all_putstatic})
 
-state={'classes_with_static_boolean_af':len(classes),'rows':rows,'putstatic_patterns':patterns.most_common()}
+total_putstatic=sum(len(x['all_putstatic_m_z']) for x in rows)\nstate={'classes_with_static_boolean_af':len(classes),'total_putstatic_m_z':total_putstatic,'rows':rows,'putstatic_patterns':patterns.most_common()}
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 md=['# Protobuf m:Z Field Probe','',f'- Classes with static boolean af(): **{len(classes)}**','','## putstatic patterns','']
 for pat,n in patterns.most_common(): md.append(f'- **{n}x** `{pat}`')
 MD.write_text('\n'.join(md)+'\n',encoding='utf-8')
-print(json.dumps({'classes_with_static_boolean_af':len(classes),'putstatic_patterns':patterns.most_common()},indent=2))
+print(json.dumps({'classes_with_static_boolean_af':len(classes),'total_putstatic_m_z':total_putstatic,'putstatic_patterns':patterns.most_common()},indent=2))
