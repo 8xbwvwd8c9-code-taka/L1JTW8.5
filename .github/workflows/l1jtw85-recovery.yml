@@ -82,6 +82,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-af-accessors.py
 
+      - name: Normalize protobuf builder generic superclass
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-builder-superclass.py
+
       - name: Normalize protobuf parser synthetic bridges
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-parser-bridges.py
