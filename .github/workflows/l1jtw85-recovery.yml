@@ -201,6 +201,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
 
+      - name: Repair normalized protobuf builder collisions
+        shell: bash
+        run: python ./tools/recovery/repair-normalized-builder-collisions.py
+
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
@@ -328,7 +332,9 @@ jobs:
             recovery/COMPILE_REF_PROTOBUF_L1RPB.md recovery/normalized_stage_transform.json \
             recovery/NORMALIZED_STAGE_TRANSFORM.md recovery/normalized_stage_compile.json \
             recovery/NORMALIZED_STAGE_COMPILE.md recovery/normalized_stage_javac.log \
-            recovery/normalized_stage_source_files.txt
+            recovery/normalized_stage_source_files.txt \
+            recovery/normalized_builder_collision_transform.json \
+            recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
