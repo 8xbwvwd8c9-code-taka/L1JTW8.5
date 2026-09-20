@@ -26,10 +26,19 @@ changes.append({'file':'l1r/aq/L1Craft.java','counts':craft_counts})
 # S_ProtoBuffers: instance int field `g` shadows imported runtime type g at two static call sites.
 p=STAGE/'l1r/be/S_ProtoBuffers.java'
 text=p.read_text(encoding='utf-8',errors='replace')
-rx=re.compile(r'(?<![A-Za-z0-9_.$])g\.a\((new byte\[\]\{[^\n]+?\}|var\d+\.s\(\))\)')
-text,n=rx.subn(lambda m:'l1rpb.g.a('+m.group(1)+')',text)
+spb_targets=[
+  'g.a(new byte[]{-30, 112, -1})',
+  'g.a(var18.s())',
+]
+n=0
+for old in spb_targets:
+    count=text.count(old)
+    if count!=1:
+        raise SystemExit(f'expected exactly one S_ProtoBuffers target {old}, got {count}')
+    text=text.replace(old,'l1rpb.'+old,1)
+    n+=1
 p.write_text(text,encoding='utf-8')
-changes.append({'file':'l1r/be/S_ProtoBuffers.java','runtime_g_sites':n})
+changes.append({'file':'l1r/be/S_ProtoBuffers.java','runtime_g_sites':n,'targets':spb_targets})
 
 craft_total=sum(craft_counts.values())
 state={
@@ -44,12 +53,12 @@ state={
   'normalization_required_for_donor_compare':True,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-# Known current javac family: 13 byte[]->int + 2 String->int in L1Craft, 2 g-shadow sites in S_ProtoBuffers.
-ok=(craft_total==15 and craft_counts.get('empty_string')==2 and n==2)
+# Current javac evidence: 18 L1Craft overload-resolution failures and 2 S_ProtoBuffers g-shadow failures.
+ok=(craft_total==18 and craft_counts.get('message_bytes')==14 and craft_counts.get('item_bytes')==2 and craft_counts.get('empty_string')==2 and n==2)
 MD.write_text(
  '# Non-Protobuf Runtime g Call Normalization\n\n'
  + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
- + f'- L1Craft runtime `g.a(...)` sites: **{craft_total} / 15**\n'
+ + f'- L1Craft runtime `g.a(...)` sites: **{craft_total} / 18**\n'
  + f'- S_ProtoBuffers runtime `g.a(...)` sites: **{n} / 2**\n'
  + '- Call target changed: **NO** (static import made explicit)\n'
  + '- Argument expressions changed: **NO**\n'
