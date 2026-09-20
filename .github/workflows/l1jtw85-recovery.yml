@@ -46,18 +46,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
-      - name: Probe protobuf donor builder ABI
-        shell: bash
-        run: python ./tools/recovery/probe-protobuf-donor-abi.py
-
-      - name: Probe protobuf af synthetic bytecode
-        shell: bash
-        run: python ./tools/recovery/probe-protobuf-af-bytecode.py
-
-      - name: Probe protobuf m synthetic field
-        shell: bash
-        run: python ./tools/recovery/probe-protobuf-m-field.py
-
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
@@ -65,6 +53,10 @@ jobs:
       - name: Repair normalized protobuf builder collisions
         shell: bash
         run: python ./tools/recovery/repair-normalized-builder-collisions.py
+
+      - name: Normalize protobuf synthetic boolean accessors
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-af-accessors.py
 
       - name: Normalize protobuf builder generic superclass
         shell: bash
@@ -421,6 +413,8 @@ jobs:
             recovery/normalized_stage_source_files.txt \
             recovery/normalized_builder_collision_transform.json \
             recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md \
+            recovery/normalized_af_accessor_transform.json \
+            recovery/NORMALIZED_AF_ACCESSOR_TRANSFORM.md \
             recovery/normalized_protobuf_raw_super_transform.json \
             recovery/NORMALIZED_PROTOBUF_RAW_SUPER_TRANSFORM.md \
             recovery/normalized_parser_bridge_transform.json \
