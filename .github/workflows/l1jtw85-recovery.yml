@@ -119,6 +119,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
 
+      - name: Extract current non-Protobuf errors
+        shell: bash
+        run: python ./tools/recovery/extract-nonprotobuf-error-details.py
+
       - name: Extract protobuf override conflicts
         shell: bash
         run: python ./tools/recovery/extract-protobuf-override-conflicts.py
