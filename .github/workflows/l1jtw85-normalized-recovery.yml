@@ -1,0 +1,56 @@
+name: L1JTW8.5 Normalized Recovery
+
+on:
+  push:
+    branches:
+      - analysis/l1jtw85-recovery
+    paths:
+      - ".github/workflows/l1jtw85-normalized-recovery.yml"
+      - "tools/normalized-recovery/**"
+      - "recovery/core_class_map.csv"
+      - "recovery/class_inventory.csv"
+      - "l1jserver2.jar"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  normalized-recovery:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+      - name: Build normalized recovery JAR
+        shell: bash
+        run: python tools/normalized-recovery/build-normalized-jar.py
+      - name: Download Vineflower
+        shell: bash
+        run: |
+          curl -fL --retry 3 --retry-delay 2 -o "$RUNNER_TEMP/vineflower.jar" "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.12.0/vineflower-1.12.0.jar"
+      - name: Decompile normalized app
+        shell: bash
+        run: python tools/normalized-recovery/decompile-normalized-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+      - name: Compile normalized source
+        shell: bash
+        run: python tools/normalized-recovery/compile-normalized-source.py
+      - name: Commit normalized recovery artifacts
+        shell: bash
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/l1jserver2-source-normalized.jar recovery/l1jserver2-nonapp-ref.jar             recovery/source_namespace_map.csv recovery/source_namespace_state.json             recovery/SOURCE_NAMESPACE_NORMALIZATION.md recovery/normalized-src-vf             recovery/normalized-vineflower.log recovery/NORMALIZED_DECOMPILE.md             recovery/normalized-javac.log recovery/normalized_compile.json             recovery/NORMALIZED_COMPILE.md recovery/normalized-source-files.txt             recovery/normalized-class-missing.txt recovery/normalized-class-extra.txt
+          if git diff --cached --quiet; then
+            echo "No normalized recovery changes."
+            exit 0
+          fi
+          git commit -m "research: generate normalized L1JTW8.5 source recovery [skip ci]"
+          git push
