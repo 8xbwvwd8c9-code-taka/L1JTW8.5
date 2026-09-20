@@ -1,0 +1,14 @@
+{
+  "source": "l1jserver2.jar",
+  "normalized_jar": "recovery/l1jserver2-source-normalized.jar",
+  "nonapp_reference": "recovery/l1jserver2-nonapp-ref.jar",
+  "top_level_mappings": 788,
+  "application_class_mappings": 1109,
+  "renamed_class_entries": 1109,
+  "utf8_entries_rewritten": 20871,
+  "string_constant_hits_preserved": 0,
+  "duplicate_sourcefile_groups": 3,
+  "logic_changed": false,
+  "runtime_intended": false,
+  "purpose": "SOURCE_RECOVERY_ONLY"
+}

@@ -1,0 +1,23 @@
+{
+  "compiler_exit": 1,
+  "java_sources": 788,
+  "generated_classes": 0,
+  "donor_application_classes": 1109,
+  "built_donor_classes_normalized": 0,
+  "missing_classes": 1109,
+  "extra_classes": 0,
+  "javac_error_headers": 72,
+  "javac_error_files": 13,
+  "donor_game_jar_on_classpath": false,
+  "dependencies": [
+    "lib/c3p0-0.9.5.2.jar",
+    "lib/c3p0-oracle-thin-extras-0.9.5.2.jar",
+    "lib/lombok-1.16.6.jar",
+    "lib/mchange-commons-java-0.2.11.jar",
+    "lib/mysql-connector-java-5.1.40-bin.jar",
+    "lib/protobuf-java-2.5.0.jar",
+    "lib/slf4j-api-1.5.2.jar",
+    "lib/slf4j-jdk14-1.5.2.jar",
+    "recovery/compile-ref-protobuf-obf.jar"
+  ]
+}

@@ -1,0 +1,219 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+recovery/normalized-src-vf/l1r/an/PBMessageALL.java:817: error: not a statement
+            PBMessageALL.a.m;
+                          ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL.java:2264: error: not a statement
+            PBMessageALL.c.m;
+                          ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL.java:3765: error: not a statement
+            PBMessageALL.e.m;
+                          ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL.java:5246: error: not a statement
+            PBMessageALL.g.m;
+                          ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL.java:6696: error: not a statement
+            PBMessageALL.i.m;
+                          ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL2.java:561: error: not a statement
+            PBMessageALL2.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL2.java:1300: error: not a statement
+            PBMessageALL2.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL2.java:2757: error: not a statement
+            PBMessageALL2.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL2.java:5443: error: not a statement
+            PBMessageALL2.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL2.java:7805: error: not a statement
+            PBMessageALL2.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL3.java:833: error: not a statement
+            PBMessageALL3.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL3.java:2308: error: not a statement
+            PBMessageALL3.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL3.java:3762: error: not a statement
+            PBMessageALL3.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL3.java:5214: error: not a statement
+            PBMessageALL3.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL3.java:6689: error: not a statement
+            PBMessageALL3.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL4.java:816: error: not a statement
+            PBMessageALL4.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL4.java:2250: error: not a statement
+            PBMessageALL4.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL4.java:3688: error: not a statement
+            PBMessageALL4.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL4.java:5128: error: not a statement
+            PBMessageALL4.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL4.java:6605: error: not a statement
+            PBMessageALL4.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL5.java:833: error: not a statement
+            PBMessageALL5.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL5.java:2312: error: not a statement
+            PBMessageALL5.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL5.java:3750: error: not a statement
+            PBMessageALL5.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL5.java:5196: error: not a statement
+            PBMessageALL5.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL5.java:6654: error: not a statement
+            PBMessageALL5.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL6.java:820: error: not a statement
+            PBMessageALL6.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL6.java:2270: error: not a statement
+            PBMessageALL6.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL6.java:3762: error: not a statement
+            PBMessageALL6.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL6.java:5271: error: not a statement
+            PBMessageALL6.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL6.java:6812: error: not a statement
+            PBMessageALL6.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL7.java:855: error: not a statement
+            PBMessageALL7.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL7.java:2517: error: not a statement
+            PBMessageALL7.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL7.java:4383: error: not a statement
+            PBMessageALL7.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL7.java:6032: error: not a statement
+            PBMessageALL7.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL7.java:7569: error: not a statement
+            PBMessageALL7.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL8.java:850: error: not a statement
+            PBMessageALL8.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL8.java:2382: error: not a statement
+            PBMessageALL8.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL8.java:3842: error: not a statement
+            PBMessageALL8.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL8.java:5298: error: not a statement
+            PBMessageALL8.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL8.java:6756: error: not a statement
+            PBMessageALL8.i.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL9.java:624: error: not a statement
+            PBMessageALL9.a.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL9.java:1973: error: not a statement
+            PBMessageALL9.c.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL9.java:3428: error: not a statement
+            PBMessageALL9.e.m;
+                           ^
+recovery/normalized-src-vf/l1r/an/PBMessageALL9.java:4773: error: not a statement
+            PBMessageALL9.g.m;
+                           ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:328: error: <identifier> expected
+   private int do = 0;
+              ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:2038: error: <identifier> expected
+      this.do += var1;
+           ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:2038: error: not a statement
+      this.do += var1;
+          ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:2038: error: illegal start of expression
+      this.do += var1;
+              ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:2038: error: while expected
+      this.do += var1;
+                      ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:2039: error: illegal start of expression
+   }
+   ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:3109: error: <identifier> expected
+   public int do() {
+             ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:3238: error: <identifier> expected
+      return this.do;
+                  ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:3238: error: while expected
+      return this.do;
+                     ^
+recovery/normalized-src-vf/l1r/ap/L1PcInstance.java:3239: error: illegal start of expression
+   }
+   ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: <identifier> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                 ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: -> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                     ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: illegal start of expression
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                      ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: <identifier> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                    ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: not a statement
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                   ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: -> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                        ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: not a statement
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                      ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:601: error: ';' expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                         ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: <identifier> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                 ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: -> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                     ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: illegal start of expression
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                      ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: <identifier> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                    ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: not a statement
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                   ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: -> expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                        ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: not a statement
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                      ^
+recovery/normalized-src-vf/l1r/aq/L1Attack.java:965: error: ';' expected
+      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+                                                         ^
+recovery/normalized-src-vf/l1r/bg/L1SkillId.java:226: error: <identifier> expected
+   public static final int do = 1014;
+                          ^
+recovery/normalized-src-vf/l1r/bj/Opcodes.java:226: error: <identifier> expected
+   public static final int do = 157;
+                          ^
+72 errors
+1 warning
