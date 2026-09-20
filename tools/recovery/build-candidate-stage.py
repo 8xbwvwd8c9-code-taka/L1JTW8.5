@@ -115,6 +115,38 @@ for p in STAGE.rglob("*.java"):
         p.write_text(text, encoding="utf-8")
         changed_files.append(p.relative_to(STAGE).as_posix())
 
+# Protobuf builder legality repair.
+# Donor bytecode proves these 44 sites are:
+#   invokestatic <message synthetic accessor>():Z -> pop -> return
+# Both CFR and Vineflower inline that accessor as an illegal bare boolean field read.
+# Re-expressing it as an empty if preserves the field read side effect and lets javac
+# regenerate the required synthetic accessor automatically.
+protobuf_empty_if_repairs = []
+protobuf_rx = re.compile(r"^(\s*)([A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+\.m);\s*$")
+for rel in PROTOBUF_STAGE2:
+    p = STAGE / rel
+    lines = p.read_text(encoding="utf-8", errors="replace").splitlines()
+    out_lines = []
+    for lineno, line in enumerate(lines, 1):
+        m = protobuf_rx.match(line)
+        if m:
+            indent, expr = m.groups()
+            out_lines.append(f"{indent}if ({expr}) {{}}")
+            protobuf_empty_if_repairs.append({
+                "file": rel,
+                "line": lineno,
+                "expression": expr,
+            })
+        else:
+            out_lines.append(line)
+    p.write_text("\n".join(out_lines) + "\n", encoding="utf-8")
+
+if len(protobuf_empty_if_repairs) != 44:
+    raise SystemExit(
+        f"protobuf empty-if repair count mismatch: "
+        f"{len(protobuf_empty_if_repairs)} != 44"
+    )
+
 # Precise declaration/private-field repairs.
 p = STAGE / "ap/u.java"
 text = p.read_text(encoding="utf-8", errors="replace")
@@ -162,6 +194,8 @@ state = {
     "recovery_only_class_renames": CLASS_RENAMES,
     "recovery_only_member_renames": MEMBER_RENAMES,
     "reference_files_changed_by_class_rename": sorted(changed_files),
+    "protobuf_empty_if_repairs": protobuf_empty_if_repairs,
+    "protobuf_empty_if_repair_count": len(protobuf_empty_if_repairs),
     "keyword_member_residuals": keyword_residuals,
 }
 (REC / "stage_transform.json").write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
@@ -187,6 +221,12 @@ md += [
     "- ap.u method do:()I -> l1r_do_effect_heal",
     "- bg.b field do:I -> l1r_do_1014",
     "- bj.e field do:I -> l1r_do_157",
+    "",
+    "## Protobuf builder legality repair",
+    "",
+    f"- Donor-verified empty boolean-read sites repaired: **{len(protobuf_empty_if_repairs)}**",
+    "- Repair form: bare boolean field read -> empty if expression.",
+    "- Donor proof: synthetic accessor ()Z -> pop -> return.",
     "",
     f"Keyword-member residuals before javac: **{len(keyword_residuals)}**",
 ]
