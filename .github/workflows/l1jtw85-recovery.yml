@@ -165,6 +165,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-nonproto-stage.py
 
+      - name: Build sanitized donor reference
+        shell: bash
+        run: python ./tools/recovery/build-sanitized-reference.py
+
+      - name: Per-class compile triage
+        shell: bash
+        run: python ./tools/recovery/per-class-compile.py
+
       - name: Candidate source-only full-tree compile
         shell: bash
         run: python ./tools/recovery/compile-candidate-stage.py
@@ -206,6 +214,11 @@ jobs:
           if nonproto_path.exists():
               nonproto_state = json.loads(nonproto_path.read_text(encoding="utf-8"))
 
+          perclass_state = {}
+          perclass_path = Path("recovery/per_class_compile.json")
+          if perclass_path.exists():
+              perclass_state = json.loads(perclass_path.read_text(encoding="utf-8"))
+
           out = [
               "# Generated Recovery Summary",
               "",
@@ -221,6 +234,8 @@ jobs:
               f"- Non-protobuf diagnostic compile: **{'PASS' if nonproto_state.get('compile_exit_code') == 0 else 'FAIL'}**",
               f"- Non-protobuf javac errors/files: **{nonproto_state.get('javac_error_headers', 'UNKNOWN')} / {nonproto_state.get('error_file_count', 'UNKNOWN')}**",
               f"- Non-protobuf built/missing/extra classes: **{nonproto_state.get('built_nonproto_application_classes_normalized', 'UNKNOWN')} / {nonproto_state.get('missing_nonproto_application_classes', 'UNKNOWN')} / {nonproto_state.get('extra_nonproto_application_classes', 'UNKNOWN')}**",
+              f"- Per-class sanitized-reference compile PASS/FAIL: **{perclass_state.get('pass', 'UNKNOWN')} / {perclass_state.get('fail', 'UNKNOWN')}**",
+              f"- Per-class PASS rate: **{perclass_state.get('pass_rate', 'UNKNOWN')}**",
               f"- Candidate full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
               f"- Candidate javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
               f"- Built application classes (normalized): **{compile_state.get('built_application_classes_normalized', 'UNKNOWN')}**",
@@ -271,7 +286,10 @@ jobs:
             recovery/compile-ref-proto-messages.jar recovery/compile_ref_proto_messages.json \
             recovery/COMPILE_REF_PROTO_MESSAGES.md recovery/nonproto_compile.json \
             recovery/NONPROTO_COMPILE.md recovery/nonproto_javac.log recovery/nonproto_source_files.txt \
-            recovery/nonproto_class_set_missing.txt recovery/nonproto_class_set_extra.txt
+            recovery/nonproto_class_set_missing.txt recovery/nonproto_class_set_extra.txt \
+            recovery/l1jserver2-sanitized-ref.jar recovery/sanitized_ref.json recovery/SANITIZED_REF.md \
+            recovery/per_class_compile.csv recovery/per_class_compile.json recovery/PER_CLASS_COMPILE.md \
+            recovery/per_class_failures.log
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
