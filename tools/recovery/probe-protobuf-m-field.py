@@ -43,7 +43,8 @@ for cls,txt in classes:
     patterns[pat]+=1
     rows.append({'class':cls,'field':field,'putstatic_context':putctx,'all_putstatic_m_z':all_putstatic})
 
-total_putstatic=sum(len(x['all_putstatic_m_z']) for x in rows)\nstate={'classes_with_static_boolean_af':len(classes),'total_putstatic_m_z':total_putstatic,'rows':rows,'putstatic_patterns':patterns.most_common()}
+total_putstatic=sum(len(x['all_putstatic_m_z']) for x in rows)
+state={'classes_with_static_boolean_af':len(classes),'total_putstatic_m_z':total_putstatic,'rows':rows,'putstatic_patterns':patterns.most_common()}
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 md=['# Protobuf m:Z Field Probe','',f'- Classes with static boolean af(): **{len(classes)}**','','## putstatic patterns','']
 for pat,n in patterns.most_common(): md.append(f'- **{n}x** `{pat}`')
