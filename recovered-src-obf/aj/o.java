@@ -5,6 +5,8 @@ package aj;
 
 import aj.cv;
 import ap.u;
+import ao.ah;
+import be.ds;
 import aq.aa;
 import aq.aq;
 import bh.b;
@@ -25,8 +27,23 @@ extends cv {
             return;
         }
         u pc = client.f();
-        b.a(pc.et(), title, content);
-        pc.j().b(40308, 300);
+        if (pc == null) {
+            return;
+        }
+        if (title == null || title.length() > 16) {
+            pc.a(new ds(166, "標題過長"));
+            return;
+        }
+        if (content == null || content.length() > 1000) {
+            pc.a(new ds(166, "內容過長"));
+            return;
+        }
+        if (!pc.j().b(40308, 300)) {
+            return;
+        }
+        if (b.a(pc.et(), title, content) == null) {
+            ah.a(pc, 40308, 300, 0, false);
+        }
     }
 
     @Override
