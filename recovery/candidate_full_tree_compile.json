@@ -1,0 +1,30 @@
+{
+  "compiler": "javac 17.0.20.1",
+  "source_level": "8",
+  "target_level": "8",
+  "source_root": "_recovery-stage-src",
+  "donor_jar_on_classpath": false,
+  "third_party_jars": [
+    "lib/c3p0-0.9.5.2.jar",
+    "lib/c3p0-oracle-thin-extras-0.9.5.2.jar",
+    "lib/lombok-1.16.6.jar",
+    "lib/mchange-commons-java-0.2.11.jar",
+    "lib/mysql-connector-java-5.1.40-bin.jar",
+    "lib/protobuf-java-2.5.0.jar",
+    "lib/slf4j-api-1.5.2.jar",
+    "lib/slf4j-jdk14-1.5.2.jar"
+  ],
+  "java_sources_submitted": 788,
+  "compile_exit_code": 1,
+  "generated_class_files_total": 0,
+  "donor_application_classes": 1109,
+  "built_application_classes_normalized": 0,
+  "missing_application_classes_normalized": 1109,
+  "extra_application_classes_normalized": 0,
+  "raw_missing_application_classes": 1109,
+  "raw_extra_application_classes": 0,
+  "recovery_only_renames": {
+    "be.do": "be.l1r_do_spmr",
+    "bf.do": "bf.l1r_do_s134"
+  }
+}

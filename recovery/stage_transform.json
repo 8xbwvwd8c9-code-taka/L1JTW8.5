@@ -1,0 +1,35 @@
+{
+  "hard_tail_overrides": [
+    "aj/aw.java",
+    "aj/bx.java",
+    "al/ab.java",
+    "ao/aw.java",
+    "ao/v.java",
+    "be/dc.java",
+    "bf/b.java"
+  ],
+  "recovery_only_class_renames": {
+    "be.do": "be.l1r_do_spmr",
+    "bf.do": "bf.l1r_do_s134"
+  },
+  "reference_files_changed_by_rename": [
+    "aj/az.java",
+    "aj/bf.java",
+    "ap/e.java",
+    "ap/u.java",
+    "aq/j.java",
+    "aq/m.java",
+    "aq/p.java",
+    "aq/s.java",
+    "aq/x.java",
+    "bc/d.java",
+    "bf/cl.java",
+    "bf/dh.java",
+    "bf/dj.java",
+    "bf/dq.java",
+    "bf/ea.java",
+    "bf/fw.java",
+    "bg/c.java",
+    "bi/g.java"
+  ]
+}
