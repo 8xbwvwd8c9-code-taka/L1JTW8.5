@@ -55,6 +55,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-required-runtime-bridge-flags.py
 
+      - name: Normalize required protobuf runtime bridge flags
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-runtime-bridge-flags.py
+
       - name: Probe protobuf protected nested type visibility
         shell: bash
         run: python ./tools/recovery/probe-protobuf-p-b-visibility.py
