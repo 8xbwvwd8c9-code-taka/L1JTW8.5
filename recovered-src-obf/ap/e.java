@@ -136,7 +136,10 @@ extends t {
         pc.j().b(this.A);
     }
 
-    public void e() {
+    public synchronized void e() {
+        if (this.ah()) {
+            return;
+        }
         this.b(new ee(this.fr(), 5936));
         if (this.k != null) {
             u pc = (u)this.k;
