@@ -185,6 +185,7 @@ affected_synthetic = set()
 affected_bridge = set()
 method_collisions = []
 field_collisions = []
+synthetic_members = []
 
 for c in parsed:
     name = c["name"]
@@ -203,6 +204,19 @@ for c in parsed:
         affected_synthetic.add(name)
     if bridges:
         affected_bridge.add(name)
+
+    for member in c["fields"] + c["methods"]:
+        if member["synthetic"] or member.get("bridge"):
+            synthetic_members.append({
+                "Class": name.replace("/", "."),
+                "ClassKind": "ANONYMOUS" if is_anon else ("INNER" if is_inner else "TOP_LEVEL"),
+                "SourceFile": c["source_file"] or "",
+                "MemberKind": member["kind"],
+                "Name": member["name"],
+                "Descriptor": member["descriptor"],
+                "Synthetic": int(member["synthetic"]),
+                "Bridge": int(member.get("bridge", False)),
+            })
 
     inventory_rows.append({
         "ClassPath": c["path"],
@@ -253,6 +267,12 @@ with (OUT / "class_inventory.csv").open("w", encoding="utf-8", newline="") as f:
     w = csv.DictWriter(f, fieldnames=list(inventory_rows[0].keys()))
     w.writeheader()
     w.writerows(sorted(inventory_rows, key=lambda r: r["InternalName"]))
+
+with (OUT / "synthetic_members.csv").open("w", encoding="utf-8", newline="") as f:
+    fields = ["Class","ClassKind","SourceFile","MemberKind","Name","Descriptor","Synthetic","Bridge"]
+    w = csv.DictWriter(f, fieldnames=fields)
+    w.writeheader()
+    w.writerows(sorted(synthetic_members, key=lambda r: (r["Class"], r["MemberKind"], r["Name"], r["Descriptor"])))
 
 with (OUT / "jvm_signature_collisions.csv").open("w", encoding="utf-8", newline="") as f:
     fields = ["Class","Method","ArgsDescriptor","ReturnDescriptors","ReturnVariantCount"]
