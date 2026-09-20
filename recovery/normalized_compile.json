@@ -1,13 +1,13 @@
 {
-  "compiler_exit": 4,
+  "compiler_exit": 1,
   "java_sources": 788,
   "generated_classes": 0,
   "donor_application_classes": 1109,
   "built_donor_classes_normalized": 0,
   "missing_classes": 1109,
   "extra_classes": 0,
-  "javac_error_headers": 4030,
-  "javac_error_files": 74,
+  "javac_error_headers": 3738,
+  "javac_error_files": 76,
   "donor_game_jar_on_classpath": false,
   "dependencies": [
     "lib/c3p0-0.9.5.2.jar",

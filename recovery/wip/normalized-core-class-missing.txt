@@ -1,5 +1,3 @@
-ai/a.class
-ai/b.class
 ai/c$a.class
 ai/c$b.class
 ai/c$c.class
