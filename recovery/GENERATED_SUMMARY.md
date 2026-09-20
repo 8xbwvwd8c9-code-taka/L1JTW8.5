@@ -9,6 +9,9 @@
 - Synthetic-affected classes: **322**
 - Synthetic fields/methods/constructors: **132 / 2460 / 229**
 - JVM return-type-only method collisions: **0**
+- Non-protobuf diagnostic compile: **FAIL**
+- Non-protobuf javac errors/files: **14781 / 570**
+- Non-protobuf built/missing/extra classes: **0 / 915 / 0**
 - Candidate full-tree source compile: **FAIL**
 - Candidate javac exit: **1**
 - Built application classes (normalized): **0**

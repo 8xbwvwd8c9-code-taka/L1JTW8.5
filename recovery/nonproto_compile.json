@@ -1,0 +1,262 @@
+{
+  "gate": "NON_PROTO_DIAGNOSTIC_ONLY",
+  "compiler": "javac 17.0.20.1",
+  "source_level": "8",
+  "target_level": "8",
+  "donor_jar_on_classpath": false,
+  "excluded_source_package": "an/**",
+  "compile_reference": "recovery/compile-ref-proto-messages.jar",
+  "java_sources_submitted": 779,
+  "compile_exit_code": 1,
+  "generated_class_files_total": 0,
+  "donor_nonproto_application_classes": 915,
+  "built_nonproto_application_classes_normalized": 0,
+  "missing_nonproto_application_classes": 915,
+  "extra_nonproto_application_classes": 0,
+  "javac_error_headers": 14781,
+  "error_file_count": 570,
+  "top_error_files": [
+    [
+      "aj/bk.java",
+      921
+    ],
+    [
+      "bg/c.java",
+      629
+    ],
+    [
+      "ap/u.java",
+      612
+    ],
+    [
+      "aq/c.java",
+      529
+    ],
+    [
+      "aq/z.java",
+      462
+    ],
+    [
+      "aj/bf.java",
+      334
+    ],
+    [
+      "ap/s.java",
+      320
+    ],
+    [
+      "ap/t.java",
+      317
+    ],
+    [
+      "aj/az.java",
+      300
+    ],
+    [
+      "ap/v.java",
+      292
+    ],
+    [
+      "be/dc.java",
+      247
+    ],
+    [
+      "aj/bs.java",
+      230
+    ],
+    [
+      "aj/f.java",
+      218
+    ],
+    [
+      "aq/s.java",
+      205
+    ],
+    [
+      "ap/q.java",
+      186
+    ],
+    [
+      "aq/m.java",
+      170
+    ],
+    [
+      "aq/j.java",
+      145
+    ],
+    [
+      "bi/g.java",
+      143
+    ],
+    [
+      "ap/z.java",
+      141
+    ],
+    [
+      "as/e.java",
+      133
+    ],
+    [
+      "bf/a.java",
+      121
+    ],
+    [
+      "aq/w.java",
+      117
+    ],
+    [
+      "ai/c.java",
+      116
+    ],
+    [
+      "as/g.java",
+      109
+    ],
+    [
+      "as/i.java",
+      107
+    ],
+    [
+      "bc/d.java",
+      99
+    ],
+    [
+      "ao/bl.java",
+      93
+    ],
+    [
+      "ap/e.java",
+      90
+    ],
+    [
+      "au/g.java",
+      90
+    ],
+    [
+      "as/k.java",
+      88
+    ]
+  ],
+  "top_error_messages": [
+    [
+      "cannot find symbol",
+      6619
+    ],
+    [
+      "reference to a is ambiguous",
+      1934
+    ],
+    [
+      "incompatible types: f cannot be converted to u",
+      957
+    ],
+    [
+      "'void' type not allowed here",
+      366
+    ],
+    [
+      "method f in class t cannot be applied to given types;",
+      359
+    ],
+    [
+      "method bB in class u cannot be applied to given types;",
+      275
+    ],
+    [
+      "int cannot be dereferenced",
+      200
+    ],
+    [
+      "incompatible types: u cannot be converted to f",
+      153
+    ],
+    [
+      "package be does not exist",
+      143
+    ],
+    [
+      "incompatible types: void cannot be converted to boolean",
+      128
+    ],
+    [
+      "incompatible types: void cannot be converted to aa",
+      114
+    ],
+    [
+      "no suitable method found for j(int,int)",
+      108
+    ],
+    [
+      "method bH in class u cannot be applied to given types;",
+      101
+    ],
+    [
+      "method bJ in class u cannot be applied to given types;",
+      99
+    ],
+    [
+      "reference to dc is ambiguous",
+      90
+    ],
+    [
+      "incompatible types: aa cannot be converted to u",
+      83
+    ],
+    [
+      "incompatible types: boolean cannot be converted to int",
+      78
+    ],
+    [
+      "incompatible types: f cannot be converted to t",
+      76
+    ],
+    [
+      "method co in class u cannot be applied to given types;",
+      68
+    ],
+    [
+      "incompatible types: aa cannot be converted to t",
+      61
+    ],
+    [
+      "method bL in class u cannot be applied to given types;",
+      55
+    ],
+    [
+      "method ck in class u cannot be applied to given types;",
+      50
+    ],
+    [
+      "package bi does not exist",
+      48
+    ],
+    [
+      "method bz in class u cannot be applied to given types;",
+      47
+    ],
+    [
+      "method does not override or implement a method from a supertype",
+      46
+    ],
+    [
+      "method cl in class u cannot be applied to given types;",
+      44
+    ],
+    [
+      "method cp in class u cannot be applied to given types;",
+      44
+    ],
+    [
+      "incompatible types: void cannot be converted to u",
+      42
+    ],
+    [
+      "package bh does not exist",
+      41
+    ],
+    [
+      "boolean cannot be dereferenced",
+      39
+    ]
+  ]
+}

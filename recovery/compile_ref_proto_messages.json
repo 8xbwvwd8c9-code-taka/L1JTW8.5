@@ -1,0 +1,15 @@
+{
+  "source_jar": "l1jserver2.jar",
+  "output_jar": "recovery/compile-ref-proto-messages.jar",
+  "scope": [
+    "a/**",
+    "an/**"
+  ],
+  "a_class_files": 246,
+  "a_top_level_classes": 71,
+  "an_class_files": 194,
+  "an_top_level_classes": 18,
+  "purpose": "NON_PROTO_DIAGNOSTIC_ONLY",
+  "final_source_only_gate": false,
+  "other_game_packages_included": false
+}
