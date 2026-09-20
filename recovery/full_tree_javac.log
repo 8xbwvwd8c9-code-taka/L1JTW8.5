@@ -1,0 +1,304 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+recovered-src-obf/aj/aw.java:117: error: illegal start of expression
+        if (pet.fj() < 100) ** GOTO lbl9
+                            ^
+recovered-src-obf/aj/aw.java:117: error: illegal start of expression
+        if (pet.fj() < 100) ** GOTO lbl9
+                             ^
+recovered-src-obf/aj/aw.java:117: error: ';' expected
+        if (pet.fj() < 100) ** GOTO lbl9
+                                   ^
+recovered-src-obf/aj/aw.java:117: error: not a statement
+        if (pet.fj() < 100) ** GOTO lbl9
+                                    ^
+recovered-src-obf/aj/aw.java:117: error: ';' expected
+        if (pet.fj() < 100) ** GOTO lbl9
+                                        ^
+recovered-src-obf/aj/az.java:50: error: <identifier> expected
+import be.do;
+          ^
+recovered-src-obf/aj/az.java:1174: error: <identifier> expected
+                    pc.a(new do(pc));
+                            ^
+recovered-src-obf/aj/az.java:1174: error: '(' or '[' expected
+                    pc.a(new do(pc));
+                             ^
+recovered-src-obf/aj/az.java:1174: error: not a statement
+                    pc.a(new do(pc));
+                               ^
+recovered-src-obf/aj/az.java:1174: error: ';' expected
+                    pc.a(new do(pc));
+                                   ^
+recovered-src-obf/aj/az.java:2224: error: <identifier> expected
+        pc.a(new do(pc));
+                ^
+recovered-src-obf/aj/az.java:2224: error: '(' or '[' expected
+        pc.a(new do(pc));
+                 ^
+recovered-src-obf/aj/az.java:2224: error: not a statement
+        pc.a(new do(pc));
+                   ^
+recovered-src-obf/aj/az.java:2224: error: ';' expected
+        pc.a(new do(pc));
+                       ^
+recovered-src-obf/aj/bf.java:52: error: <identifier> expected
+import bf.do;
+          ^
+recovered-src-obf/aj/bf.java:198: error: <identifier> expected
+        pc.a(new be.do(pc));
+                    ^
+recovered-src-obf/aj/bf.java:198: error: not a statement
+        pc.a(new be.do(pc));
+                      ^
+recovered-src-obf/aj/bf.java:198: error: ';' expected
+        pc.a(new be.do(pc));
+                          ^
+recovered-src-obf/aj/bf.java:582: error: <identifier> expected
+                                pc.a(new be.do(pc));
+                                            ^
+recovered-src-obf/aj/bf.java:582: error: not a statement
+                                pc.a(new be.do(pc));
+                                              ^
+recovered-src-obf/aj/bf.java:582: error: ';' expected
+                                pc.a(new be.do(pc));
+                                                  ^
+recovered-src-obf/aj/bf.java:742: error: <identifier> expected
+                            new do().a((f)pc, remaining_time);
+                               ^
+recovered-src-obf/aj/bf.java:742: error: '(' or '[' expected
+                            new do().a((f)pc, remaining_time);
+                                ^
+recovered-src-obf/aj/bf.java:742: error: -> expected
+                            new do().a((f)pc, remaining_time);
+                                    ^
+recovered-src-obf/aj/bf.java:742: error: while expected
+                            new do().a((f)pc, remaining_time);
+                                                              ^
+recovered-src-obf/aj/bf.java:743: error: illegal start of expression
+                            break;
+                            ^
+recovered-src-obf/aj/bx.java:132: error: illegal start of expression
+                        if (item == null) ** GOTO lbl128
+                                          ^
+recovered-src-obf/aj/bx.java:132: error: illegal start of expression
+                        if (item == null) ** GOTO lbl128
+                                           ^
+recovered-src-obf/aj/bx.java:132: error: ';' expected
+                        if (item == null) ** GOTO lbl128
+                                                 ^
+recovered-src-obf/aj/bx.java:132: error: not a statement
+                        if (item == null) ** GOTO lbl128
+                                                  ^
+recovered-src-obf/aj/bx.java:132: error: ';' expected
+                        if (item == null) ** GOTO lbl128
+                                                        ^
+recovered-src-obf/aj/bx.java:136: error: illegal start of expression
+                        if (count == 0) ** GOTO lbl128
+                                        ^
+recovered-src-obf/aj/bx.java:136: error: illegal start of expression
+                        if (count == 0) ** GOTO lbl128
+                                         ^
+recovered-src-obf/aj/bx.java:136: error: ';' expected
+                        if (count == 0) ** GOTO lbl128
+                                               ^
+recovered-src-obf/aj/bx.java:136: error: not a statement
+                        if (count == 0) ** GOTO lbl128
+                                                ^
+recovered-src-obf/aj/bx.java:136: error: ';' expected
+                        if (count == 0) ** GOTO lbl128
+                                                      ^
+recovered-src-obf/aj/bx.java:137: error: illegal start of expression
+                        if (pc.j().a(item, count) != 0) ** GOTO lbl126
+                                                        ^
+recovered-src-obf/aj/bx.java:137: error: illegal start of expression
+                        if (pc.j().a(item, count) != 0) ** GOTO lbl126
+                                                         ^
+recovered-src-obf/aj/bx.java:137: error: ';' expected
+                        if (pc.j().a(item, count) != 0) ** GOTO lbl126
+                                                               ^
+recovered-src-obf/aj/bx.java:148: error: illegal start of expression
+                        if (!pc.j().g(40308, price)) ** GOTO lbl124
+                                                     ^
+recovered-src-obf/aj/bx.java:148: error: illegal start of expression
+                        if (!pc.j().g(40308, price)) ** GOTO lbl124
+                                                      ^
+recovered-src-obf/aj/bx.java:148: error: ';' expected
+                        if (!pc.j().g(40308, price)) ** GOTO lbl124
+                                                            ^
+recovered-src-obf/aj/bx.java:150: error: illegal start of expression
+                        if (adena == null) ** GOTO lbl128
+                                           ^
+recovered-src-obf/aj/bx.java:150: error: illegal start of expression
+                        if (adena == null) ** GOTO lbl128
+                                            ^
+recovered-src-obf/aj/bx.java:150: error: ';' expected
+                        if (adena == null) ** GOTO lbl128
+                                                  ^
+recovered-src-obf/aj/bx.java:150: error: not a statement
+                        if (adena == null) ** GOTO lbl128
+                                                   ^
+recovered-src-obf/aj/bx.java:150: error: ';' expected
+                        if (adena == null) ** GOTO lbl128
+                                                         ^
+recovered-src-obf/aj/bx.java:160: error: illegal start of expression
+                        if (pssl.d() != pssl.b()) ** GOTO lbl128
+                                                  ^
+recovered-src-obf/aj/bx.java:160: error: illegal start of expression
+                        if (pssl.d() != pssl.b()) ** GOTO lbl128
+                                                   ^
+recovered-src-obf/aj/bx.java:160: error: ';' expected
+                        if (pssl.d() != pssl.b()) ** GOTO lbl128
+                                                         ^
+recovered-src-obf/aj/bx.java:161: error: ']' expected
+                        isRemoveFromList[order] = true;
+                                         ^
+recovered-src-obf/aj/bx.java:161: error: ';' expected
+                        isRemoveFromList[order] = true;
+                                              ^
+recovered-src-obf/aj/bx.java:162: error: illegal start of expression
+                        ** GOTO lbl128
+                        ^
+recovered-src-obf/aj/bx.java:162: error: illegal start of expression
+                        ** GOTO lbl128
+                         ^
+recovered-src-obf/aj/bx.java:162: error: ';' expected
+                        ** GOTO lbl128
+                               ^
+recovered-src-obf/aj/bx.java:163: error: ';' expected
+lbl124:
+      ^
+recovered-src-obf/aj/bx.java:219: error: illegal start of expression
+                    if (item == null) ** GOTO lbl204
+                                      ^
+recovered-src-obf/aj/bx.java:219: error: illegal start of expression
+                    if (item == null) ** GOTO lbl204
+                                       ^
+recovered-src-obf/aj/bx.java:219: error: ';' expected
+                    if (item == null) ** GOTO lbl204
+                                             ^
+recovered-src-obf/aj/bx.java:226: error: illegal start of expression
+                    if (!item.D()) ** GOTO lbl178
+                                   ^
+recovered-src-obf/aj/bx.java:226: error: illegal start of expression
+                    if (!item.D()) ** GOTO lbl178
+                                    ^
+recovered-src-obf/aj/bx.java:226: error: ';' expected
+                    if (!item.D()) ** GOTO lbl178
+                                          ^
+recovered-src-obf/aj/bx.java:227: error: ';' expected
+                    pc.a(new ds(905));
+                      ^
+recovered-src-obf/aj/bx.java:228: error: illegal start of expression
+                    ** GOTO lbl204
+                    ^
+recovered-src-obf/aj/bx.java:228: error: illegal start of expression
+                    ** GOTO lbl204
+                     ^
+recovered-src-obf/aj/bx.java:228: error: ';' expected
+                    ** GOTO lbl204
+                           ^
+recovered-src-obf/aj/bx.java:229: error: ';' expected
+lbl178:
+      ^
+recovered-src-obf/aj/bx.java:232: error: illegal start of expression
+                    if (item.F() >= 128) ** GOTO lbl204
+                                         ^
+recovered-src-obf/aj/bx.java:232: error: illegal start of expression
+                    if (item.F() >= 128) ** GOTO lbl204
+                                          ^
+recovered-src-obf/aj/bx.java:232: error: ';' expected
+                    if (item.F() >= 128) ** GOTO lbl204
+                                                ^
+recovered-src-obf/aj/bx.java:232: error: not a statement
+                    if (item.F() >= 128) ** GOTO lbl204
+                                                 ^
+recovered-src-obf/aj/bx.java:232: error: ';' expected
+                    if (item.F() >= 128) ** GOTO lbl204
+                                                       ^
+recovered-src-obf/aj/bx.java:233: error: illegal start of expression
+                    if (targetPc.j().a(item, count) != 0) ** GOTO lbl202
+                                                          ^
+recovered-src-obf/aj/bx.java:233: error: illegal start of expression
+                    if (targetPc.j().a(item, count) != 0) ** GOTO lbl202
+                                                           ^
+recovered-src-obf/aj/bx.java:233: error: ';' expected
+                    if (targetPc.j().a(item, count) != 0) ** GOTO lbl202
+                                                                 ^
+recovered-src-obf/aj/bx.java:242: error: illegal start of expression
+                    if (!targetPc.j().g(40308, count * buyPrice)) ** GOTO lbl200
+                                                                  ^
+recovered-src-obf/aj/bx.java:242: error: illegal start of expression
+                    if (!targetPc.j().g(40308, count * buyPrice)) ** GOTO lbl200
+                                                                   ^
+recovered-src-obf/aj/bx.java:242: error: ';' expected
+                    if (!targetPc.j().g(40308, count * buyPrice)) ** GOTO lbl200
+                                                                         ^
+recovered-src-obf/aj/bx.java:244: error: illegal start of expression
+                    if (adena == null) ** GOTO lbl204
+                                       ^
+recovered-src-obf/aj/bx.java:244: error: illegal start of expression
+                    if (adena == null) ** GOTO lbl204
+                                        ^
+recovered-src-obf/aj/bx.java:244: error: ';' expected
+                    if (adena == null) ** GOTO lbl204
+                                              ^
+recovered-src-obf/aj/bx.java:245: error: ';' expected
+                    targetPc.j().a(adena, count * buyPrice, (f)pc.j());
+                            ^
+recovered-src-obf/aj/bx.java:249: error: illegal start of expression
+                    if (psbl.d() != psbl.b()) ** GOTO lbl204
+                                              ^
+recovered-src-obf/aj/bx.java:249: error: illegal start of expression
+                    if (psbl.d() != psbl.b()) ** GOTO lbl204
+                                               ^
+recovered-src-obf/aj/bx.java:249: error: ';' expected
+                    if (psbl.d() != psbl.b()) ** GOTO lbl204
+                                                     ^
+recovered-src-obf/aj/bx.java:250: error: ']' expected
+                    isRemoveFromList[order] = true;
+                                     ^
+recovered-src-obf/aj/bx.java:250: error: ';' expected
+                    isRemoveFromList[order] = true;
+                                          ^
+recovered-src-obf/aj/bx.java:251: error: illegal start of expression
+                    ** GOTO lbl204
+                    ^
+recovered-src-obf/aj/bx.java:251: error: illegal start of expression
+                    ** GOTO lbl204
+                     ^
+recovered-src-obf/aj/bx.java:251: error: ';' expected
+                    ** GOTO lbl204
+                           ^
+recovered-src-obf/aj/bx.java:252: error: ';' expected
+lbl200:
+      ^
+recovered-src-obf/al/ab.java:42: error: illegal start of expression
+            if (!type.equalsIgnoreCase("mob")) ** GOTO lbl25
+                                               ^
+recovered-src-obf/al/ab.java:42: error: illegal start of expression
+            if (!type.equalsIgnoreCase("mob")) ** GOTO lbl25
+                                                ^
+recovered-src-obf/al/ab.java:42: error: ';' expected
+            if (!type.equalsIgnoreCase("mob")) ** GOTO lbl25
+                                                      ^
+recovered-src-obf/al/ab.java:42: error: not a statement
+            if (!type.equalsIgnoreCase("mob")) ** GOTO lbl25
+                                                       ^
+recovered-src-obf/al/ab.java:42: error: ';' expected
+            if (!type.equalsIgnoreCase("mob")) ** GOTO lbl25
+                                                            ^
+recovered-src-obf/al/ab.java:67: error: illegal start of expression
+                if (msg == null) ** GOTO lbl43
+                                 ^
+recovered-src-obf/al/ab.java:67: error: illegal start of expression
+                if (msg == null) ** GOTO lbl43
+                                  ^
+recovered-src-obf/al/ab.java:67: error: ';' expected
+                if (msg == null) ** GOTO lbl43
+                                        ^
+recovered-src-obf/al/ab.java:68: error: ';' expected
+                pc.a(new ei(msg));
+                  ^
+100 errors
+1 warning
+only showing the first 100 errors, of 404 total; use -Xmaxerrs if you would like to see more

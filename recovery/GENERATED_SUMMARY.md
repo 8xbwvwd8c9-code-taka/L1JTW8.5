@@ -9,6 +9,10 @@
 - Synthetic-affected classes: **322**
 - Synthetic fields/methods/constructors: **132 / 2460 / 229**
 - JVM return-type-only method collisions: **0**
+- Full-tree source compile: **FAIL**
+- Full-tree javac exit: **1**
+- Built application classes: **0**
+- Missing / extra application classes: **1109 / 0**
 - Target javap files: **55**
 - DB tables indexed: **99**
 
