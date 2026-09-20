@@ -20,6 +20,51 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  normalized-fast:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Normalized non-protobuf diagnostic compile
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-nonproto.py
+
+      - name: Relocate embedded Protobuf runtime
+        shell: bash
+        run: python ./tools/recovery/relocate-protobuf-runtime.py
+
+      - name: Build normalized source stage
+        shell: bash
+        run: python ./tools/recovery/build-normalized-stage.py
+
+      - name: Repair normalized protobuf builder collisions
+        shell: bash
+        run: python ./tools/recovery/repair-normalized-builder-collisions.py
+
+      - name: Compile normalized source stage
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-stage.py
+
+      - name: Summarize normalized compile error families
+        shell: bash
+        run: python ./tools/recovery/summarize-normalized-stage-errors.py
+
+      - name: Print normalized fast result
+        shell: bash
+        run: |
+          cat recovery/normalized_builder_collision_transform.json
+          cat recovery/normalized_stage_compile.json
+          cat recovery/normalized_stage_error_families.json
+
   recover:
     runs-on: ubuntu-latest
     timeout-minutes: 30
