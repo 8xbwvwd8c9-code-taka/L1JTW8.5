@@ -45,12 +45,6 @@ jobs:
       - name: Build normalized protobuf compile reference
         shell: bash
         run: python tools/normalized-recovery/build-normalized-proto-ref.py
-      - name: Setup Java 8 compile gate
-        uses: actions/setup-java@v4
-        with:
-          distribution: temurin
-          java-version: "8"
-
       - name: Compile normalized core with PBMessage isolated
         shell: bash
         run: python tools/normalized-recovery/compile-normalized-core.py
