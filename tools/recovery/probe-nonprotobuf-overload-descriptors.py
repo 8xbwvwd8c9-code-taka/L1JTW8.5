@@ -11,7 +11,7 @@ checks=[
  ('ap.s', r'\.b:\(Laq/aa;\)Z', 'monster visibility calls boolean b(L1Object)'),
  ('ap.u', r'\.d:\(Laq/f;\)Z', 'monster hate/visibility boolean d(L1Character)'),
  ('aj.az', r'\.a:\(Laq/aa;\)I', 'heading/direction int a(L1Object)'),
- ('ap.f', r'\.d:\(Lap/u;\)V', 'door private update d(L1PcInstance)'),
+ ('ap.f', r'\bd:\(Lap/u;\)V', 'door private update d(L1PcInstance)'),
 ]
 rows=[]
 for cls,pat,label in checks:
