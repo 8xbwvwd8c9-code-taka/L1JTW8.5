@@ -140,6 +140,46 @@ for p in SRC.rglob("*.java"):
         protobuf_g_shadow_repairs += n
         protobuf_g_shadow_files.append(p.as_posix())
 
+
+# Vineflower preserves obfuscator-generated Comparator bridge methods as
+# compare(Object,Object), while the typed implementation remains under its
+# obfuscated name (usually a(T,T)). That shape is legal JVM bytecode but
+# illegal Java source for Comparator<T>. Reconstruct a typed compare(T,T)
+# wrapper that delegates to the preserved implementation. This is a
+# recovery-only source representation repair; donor bytecode remains ground truth.
+comparator_bridge_repairs = []
+bridge_rx = re.compile(
+    r"(?ms)^(?P<indent>\s*)// \$VF: synthetic method\s*\n"
+    r"(?P=indent)@Override\s*\n"
+    r"(?P=indent)public int compare\(Object (?P<v1>[A-Za-z_$][\w$]*), Object (?P<v2>[A-Za-z_$][\w$]*)\) \{\s*\n"
+    r"(?P=indent)\s*return this\.(?P<delegate>[A-Za-z_$][\w$]*)\(\((?P<t1>[^)]+)\)(?P=v1), \((?P<t2>[^)]+)\)(?P=v2)\);\s*\n"
+    r"(?P=indent)\}"
+)
+for p in SRC.rglob("*.java"):
+    text = p.read_text(encoding="utf-8", errors="replace")
+    def _bridge_repl(m):
+        t1 = m.group("t1").strip()
+        t2 = m.group("t2").strip()
+        if t1 != t2:
+            return m.group(0)
+        comparator_bridge_repairs.append({
+            "file": p.as_posix(),
+            "type": t1,
+            "delegate": m.group("delegate"),
+        })
+        ind = m.group("indent")
+        v1 = m.group("v1")
+        v2 = m.group("v2")
+        return (
+            f"{ind}@Override\n"
+            f"{ind}public int compare({t1} {v1}, {t1} {v2}) {{\n"
+            f"{ind}   return this.{m.group('delegate')}({v1}, {v2});\n"
+            f"{ind}}}"
+        )
+    text2 = bridge_rx.sub(_bridge_repl, text)
+    if text2 != text:
+        p.write_text(text2, encoding="utf-8")
+
 # Fail fast on the exact known invalid forms.
 residuals=[]
 checks=[
@@ -166,6 +206,8 @@ state={
     "constant_refs_rewritten":constant_refs,
     "protobuf_g_shadow_repairs":protobuf_g_shadow_repairs,
     "protobuf_g_shadow_files":protobuf_g_shadow_files,
+    "comparator_bridge_repairs":len(comparator_bridge_repairs),
+    "comparator_bridge_files":sorted({x["file"] for x in comparator_bridge_repairs}),
     "residual_invalid_forms":residuals,
 }
 OUT_JSON.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
@@ -178,6 +220,8 @@ md=[
     f"- L1SkillId/Opcodes constant references rewritten: **{constant_refs}**",
     f"- Embedded protobuf a.g package-shadow calls repaired: **{protobuf_g_shadow_repairs}**",
     f"- Package-shadow files: **{len(protobuf_g_shadow_files)}**",
+    f"- Comparator bridge source repairs: **{len(comparator_bridge_repairs)}**",
+    f"- Comparator bridge files: **{len({x['file'] for x in comparator_bridge_repairs})}**",
     f"- Residual known-invalid forms: **{len(residuals)}**",
     "",
     "Protobuf repair authority: donor javap. Each repaired builder initializer is invokestatic ()Z, pop, return.",
