@@ -42,8 +42,9 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/class_inventory.csv recovery/synthetic_members.csv recovery/jvm_signature_collisions.csv \
-            recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
+          git add recovery/class_inventory.csv recovery/synthetic_members.csv recovery/java_keyword_members.csv \
+            recovery/jvm_signature_collisions.csv recovery/field_name_collisions.csv \
+            recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
           if ! git diff --cached --quiet; then
             git commit -m "research: record L1JTW8.5 classfile protection audit [skip ci]"
             git push
@@ -52,6 +53,10 @@ jobs:
       - name: Export target javap
         shell: pwsh
         run: ./tools/recovery/export-target-javap.ps1
+
+      - name: Export protobuf builder javap
+        shell: pwsh
+        run: ./tools/recovery/export-protobuf-builder-javap.ps1
 
       - name: Extract DB table index
         shell: pwsh
@@ -205,8 +210,10 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/db_table_index.csv recovery/javap-targets recovery/GENERATED_SUMMARY.md recovered-src-obf \
-            recovery/class_inventory.csv recovery/synthetic_members.csv recovery/jvm_signature_collisions.csv \
+          git add recovery/db_table_index.csv recovery/javap-targets recovery/protobuf-builder-javap.txt \
+            recovery/GENERATED_SUMMARY.md recovered-src-obf \
+            recovery/class_inventory.csv recovery/synthetic_members.csv recovery/java_keyword_members.csv \
+            recovery/jvm_signature_collisions.csv \
             recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md \
             recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
             recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt \
