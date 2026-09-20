@@ -617,8 +617,9 @@ extends aq.f {
                 aq.ao.b(this);
             }
             if (this.cp() != 0) {
+                int fightId = this.cp();
                 this.aN(0);
-                u fightPc = (u)aq.aq.a().a(this.cp());
+                u fightPc = (u)aq.aq.a().a(fightId);
                 if (fightPc != null) {
                     fightPc.aN(0);
                     fightPc.a(new cm(5, 0, 0));
