@@ -107,6 +107,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-l1alchemy-local-generics.py
 
+      - name: Normalize remaining non-Protobuf local generics
+        shell: bash
+        run: python ./tools/recovery/normalize-nonprotobuf-local-generics.py
+
       - name: Normalize protobuf synthetic boolean accessors
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-af-accessors.py
