@@ -141,18 +141,101 @@ for p in SRC.rglob("*.java"):
         protobuf_g_shadow_files.append(p.as_posix())
 
 
-# L1Craft has an instance field named 'g', so the imported simple type name g
-# is shadowed inside instance methods. Donor javap for aq/k proves all affected
-# calls target static a/g.a(String|byte[]) -> a/g. Use the fully-qualified
-# owner only in this class; do not apply globally because other sources may
-# have a local/field named 'a' that would make a.g ambiguous.
+# L1Craft has both an instance field named 'g' and an instance field named 'a'.
+# Donor javap for aq/k proves these calls target static a/g.a(String|byte[]).
+# Neither g.a(...) nor a.g.a(...) is source-safe inside this class because the
+# fields shadow those expression names. Static-import only that donor method
+# and rewrite the confirmed call sites to unqualified a(...). No helper method
+# is added, so the recovered class ABI is not expanded.
 l1craft_shadow_repairs = 0
 l1craft = SRC / "l1r/aq/L1Craft.java"
 if l1craft.exists():
     text = l1craft.read_text(encoding="utf-8", errors="replace")
-    text2, l1craft_shadow_repairs = re.subn(r"\bg\.a\s*\(", "a.g.a(", text)
-    if l1craft_shadow_repairs:
-        l1craft.write_text(text2, encoding="utf-8")
+    if "import static a.g.a;" not in text:
+        text, n_import = re.subn(
+            r"(?m)^(import\s+a\.g\s*;\s*)$",
+            r"\1\nimport static a.g.a;",
+            text,
+            count=1,
+        )
+        if n_import != 1:
+            raise SystemExit("L1Craft static import insertion failed")
+    text, l1craft_shadow_repairs = re.subn(r"\bg\.a\s*\(", "a(", text)
+    if l1craft_shadow_repairs != 18:
+        raise SystemExit(f"L1Craft expected 18 a/g call repairs, got {l1craft_shadow_repairs}")
+    l1craft.write_text(text, encoding="utf-8")
+
+
+# Generic type arguments lost by decompilation. These repairs are limited to
+# collections whose field/method declarations already expose the concrete
+# element types; no gameplay inference is used.
+generic_repairs = []
+
+def exact_replace(rel, old, new, expected=1):
+    p = SRC / rel
+    text = p.read_text(encoding="utf-8", errors="replace")
+    count = text.count(old)
+    if count != expected:
+        raise SystemExit(f"generic repair mismatch {rel}: expected {expected}, got {count}: {old}")
+    p.write_text(text.replace(old, new), encoding="utf-8")
+    generic_repairs.append({"file": rel, "count": count, "old": old, "new": new})
+
+exact_replace("l1r/aq/L1CastleLocation.java",
+              "for (Entry var1 : aI.entrySet())",
+              "for (Entry<Integer, L1Location> var1 : aI.entrySet())")
+exact_replace("l1r/aq/L1CastleLocation.java",
+              "for (Entry var1 : aJ.entrySet())",
+              "for (Entry<Integer, L1MapArea> var1 : aJ.entrySet())")
+exact_replace("l1r/aq/L1CastleLocation.java",
+              "for (Entry var3 : aK.entrySet())",
+              "for (Entry<Integer, Integer> var3 : aK.entrySet())")
+
+exact_replace("l1r/ao/DropTable.java",
+              "HashMap var1 = new HashMap<>();",
+              "HashMap<Integer, ArrayList<L1Drop>> var1 = new HashMap<>();")
+exact_replace("l1r/ao/DropTable.java",
+              "ArrayList var14 = var1.get(var13.e());",
+              "ArrayList<L1Drop> var14 = var1.get(var13.e());")
+exact_replace("l1r/ao/DropTable.java",
+              "List var4 = this.c.get(var3);",
+              "List<L1Drop> var4 = this.c.get(var3);")
+
+exact_replace("l1r/aq/L1Getback.java",
+              "ArrayList var5 = b.get(var4.g);",
+              "ArrayList<L1Getback> var5 = b.get(var4.g);")
+exact_replace("l1r/aq/L1Getback.java",
+              "List var6 = b.get(var5);",
+              "List<L1Getback> var6 = b.get(var5);")
+
+exact_replace("l1r/be/S_Bookmarks.java",
+              "ArrayList var2 = new ArrayList<>();",
+              "ArrayList<L1BookMark> var2 = new ArrayList<>();")
+
+exact_replace("l1r/be/S_Party.java",
+              "CopyOnWriteArrayList var3 = var1.aL().c();",
+              "CopyOnWriteArrayList<L1PcInstance> var3 = var1.aL().c();")
+exact_replace("l1r/be/S_Party.java",
+              "CopyOnWriteArrayList var2 = var1.aL().c();",
+              "CopyOnWriteArrayList<L1PcInstance> var2 = var1.aL().c();")
+
+exact_replace("l1r/be/S_PrivateShop.java",
+              "List var5 = var4.aU();",
+              "List<L1PrivateShopSellList> var5 = var4.aU();")
+exact_replace("l1r/be/S_PrivateShop.java",
+              "List var18 = var4.aV();",
+              "List<L1PrivateShopBuyList> var18 = var4.aV();")
+
+exact_replace("l1r/aq/L1Buddy.java",
+              "for (Entry var3 : this.b.entrySet())",
+              "for (Entry<Integer, String> var3 : this.b.entrySet())")
+
+exact_replace("l1r/ba/HomeTownTimer.java",
+              "Collection var1 = L1World.a().c();",
+              "Collection<L1PcInstance> var1 = L1World.a().c();")
+
+exact_replace("l1r/aq/L1Teleport.java",
+              "HashSet var7 = new HashSet<>();",
+              "HashSet<L1PcInstance> var7 = new HashSet<>();")
 
 
 # Vineflower preserves obfuscator-generated Comparator bridge methods as
@@ -221,6 +304,8 @@ state={
     "protobuf_g_shadow_repairs":protobuf_g_shadow_repairs,
     "protobuf_g_shadow_files":protobuf_g_shadow_files,
     "l1craft_static_owner_repairs":l1craft_shadow_repairs,
+    "generic_type_repairs":sum(x["count"] for x in generic_repairs),
+    "generic_type_repair_files":sorted({x["file"] for x in generic_repairs}),
     "comparator_bridge_repairs":len(comparator_bridge_repairs),
     "comparator_bridge_files":sorted({x["file"] for x in comparator_bridge_repairs}),
     "residual_invalid_forms":residuals,
@@ -236,6 +321,7 @@ md=[
     f"- Embedded protobuf a.g package-shadow calls repaired: **{protobuf_g_shadow_repairs}**",
     f"- Package-shadow files: **{len(protobuf_g_shadow_files)}**",
     f"- L1Craft static a/g owner repairs: **{l1craft_shadow_repairs}**",
+    f"- Generic type repairs: **{sum(x['count'] for x in generic_repairs)}** across **{len({x['file'] for x in generic_repairs})}** files",
     f"- Comparator bridge source repairs: **{len(comparator_bridge_repairs)}**",
     f"- Comparator bridge files: **{len({x['file'] for x in comparator_bridge_repairs})}**",
     f"- Residual known-invalid forms: **{len(residuals)}**",
