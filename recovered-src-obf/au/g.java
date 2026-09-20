@@ -275,6 +275,15 @@ extends f {
 
     @Override
     public void a(q item) {
+        try {
+            ao.l.a().a(this.i.fr(), item);
+        }
+        catch (Exception e2) {
+            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            this.a.remove(item);
+            aq.a().b(item);
+            return;
+        }
         for (s qn : this.i.dS().values()) {
             int i2 = 0;
             while (i2 < qn.r().length) {
@@ -291,16 +300,13 @@ extends f {
         if (item.a().l() != 0) {
             this.i.a(new dc(485, this.i));
         }
-        try {
-            ao.l.a().a(this.i.fr(), item);
-        }
-        catch (Exception e2) {
-            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-        }
     }
 
     @Override
     public void b(q item) {
+        if (item.a().u() && !this.i(item)) {
+            return;
+        }
         for (s qn : this.i.dS().values()) {
             int i2 = 0;
             while (i2 < qn.r().length) {
@@ -375,94 +381,70 @@ extends f {
             this.i.a(new bk(item));
             item.f[1] = item.C();
         }
-        if (item.a().u()) {
-            this.i(item);
-        }
     }
 
-    public void i(q item) {
+    public boolean i(q item) {
         try {
-            l storage = ao.l.a();
-            if (item.o[0] != item.X() || item.p[0] != item.Y() || item.q[0] != item.Z() || item.r[0] != item.aa()) {
-                storage.o(item);
-                item.o[0] = item.X();
-                item.p[0] = item.Y();
-                item.q[0] = item.Z();
-                item.r[0] = item.aa();
-            }
-            if (item.n[0] != item.L()) {
-                storage.n(item);
-                item.n[0] = item.L();
-            }
-            if (item.m[0] != item.K()) {
-                storage.m(item);
-                item.m[0] = item.K();
-            }
-            if (item.l[0] != item.F()) {
-                storage.l(item);
-                item.l[0] = item.F();
-            }
-            if (item.i[0] != item.M()) {
-                storage.f(item);
-                item.i[0] = item.M();
-            }
-            if (item.j[0] != item.bb()) {
-                storage.g(item);
-                item.j[0] = item.bb();
-            }
-            if (item.h[0] != item.I()) {
-                storage.e(item);
-                item.h[0] = item.I();
-            }
-            if (item.b[0] != item.N()) {
-                storage.b(item);
-                item.b[0] = item.N();
-            }
-            if (item.k[0] != item.J()) {
-                storage.k(item);
-                item.k[0] = item.J();
-            }
-            if (item.a[0] != item.E()) {
-                storage.c(item);
-                item.a[0] = item.E();
-            }
-            if (item.c[0] != item.D()) {
-                storage.i(item);
-                item.c[0] = item.D();
-            }
-            if (item.e[0] != item.G()) {
-                storage.h(item);
-                item.e[0] = item.G();
-            }
-            if (item.f[0] != item.C()) {
-                storage.j(item);
-                item.f[0] = item.C();
-            }
-            if (item.g[0] != item.H()) {
-                storage.d(item);
-                item.g[0] = item.H();
-            }
+            ao.l.a().p(item);
+            item.o[0] = item.X();
+            item.p[0] = item.Y();
+            item.q[0] = item.Z();
+            item.r[0] = item.aa();
+            item.n[0] = item.L();
+            item.m[0] = item.K();
+            item.l[0] = item.F();
+            item.i[0] = item.M();
+            item.j[0] = item.bb();
+            item.h[0] = item.I();
+            item.b[0] = item.N();
+            item.k[0] = item.J();
+            item.a[0] = item.E();
+            item.c[0] = item.D();
+            item.e[0] = item.G();
+            item.f[0] = item.C();
+            item.g[0] = item.H();
+            return true;
         }
         catch (Exception e2) {
             g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            item.l(item.o[0]);
+            item.m(item.p[0]);
+            item.n(item.q[0]);
+            item.o(item.r[0]);
+            item.i(item.n[0]);
+            item.h(item.m[0]);
+            item.f(item.l[0]);
+            item.j(item.i[0]);
+            item.b(item.j[0]);
+            item.g(item.h[0]);
+            item.a(item.k[0]);
+            item.e(item.a[0]);
+            item.b(item.c[0]);
+            item.a(item.e[0]);
+            item.a(item.f[0]);
+            item.b(item.g[0]);
+            return false;
         }
     }
 
     public void j(q item) {
         this.b(item);
-        this.i(item);
     }
 
     @Override
     public void c(q item) {
+        if (item.D()) {
+            this.a(item, false);
+            if (item.D()) {
+                return;
+            }
+        }
         try {
             ao.l.a().a(item);
         }
         catch (Exception e2) {
             g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-        }
-        if (item.D()) {
-            this.a(item, false);
+            return;
         }
         if (item.a().l() != 0) {
             this.i.a(new dc(485, this.i));
