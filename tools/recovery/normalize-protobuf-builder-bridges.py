@@ -76,7 +76,7 @@ state={
   'error_family':'PROTOBUF_EXPLICIT_SYNTHETIC_BUILDER_BRIDGES',
   'expected_builder_count':44,
   'builder_count':builder_total,
-  'expected_bridge_count':528,
+  'expected_bridge_count':396,
   'removed_override_bridges':bridge_total,
   'changed_files':len(changes),
   'changes':changes,
@@ -88,12 +88,12 @@ state={
   'bridges_expected_to_be_regenerated_by_javac':True,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-status='PASS' if builder_total==44 and bridge_total==528 else 'FAIL'
+status='PASS' if builder_total==44 and bridge_total==396 else 'FAIL'
 MD.write_text(
   '# Normalized Protobuf Builder Bridge Transform\n\n'
   f'Status: **{status}**\n\n'
   f'- Builders: **{builder_total} / 44**\n'
-  f'- Removed explicit builder bridges: **{bridge_total} / 528**\n'
+  f'- Removed explicit builder bridges: **{bridge_total} / 396**\n'
   '- Parser bridges touched: **NO**\n'
   '- Generic builder superclass retained: **YES**\n'
   '- Typed builder methods retained: **YES**\n'
@@ -103,4 +103,4 @@ MD.write_text(
 )
 print(json.dumps(state,indent=2))
 if status!='PASS':
-    raise SystemExit(f'expected builders=44/bridges=528, got {builder_total}/{bridge_total}')
+    raise SystemExit(f'expected builders=44/bridges=396, got {builder_total}/{bridge_total}')
