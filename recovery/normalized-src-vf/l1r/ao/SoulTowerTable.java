@@ -81,10 +81,9 @@ public class SoulTowerTable {
                return var1.c - var2x.c;
             }
 
-            // $VF: synthetic method
             @Override
-            public int compare(Object var1, Object var2) {
-               return this.a((SoulTowerTable.L1R_a)var1, (SoulTowerTable.L1R_a)var2);
+            public int compare(SoulTowerTable.L1R_a var1, SoulTowerTable.L1R_a var2) {
+               return this.a(var1, var2);
             }
          });
          Connection var7 = null;

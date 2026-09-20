@@ -185,10 +185,9 @@ public class L1ThebesBattle {
             return var2.b - var1.b;
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
+         public int compare(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
+            return this.a(var1, var2);
          }
       });
       Collections.sort(var2, new Comparator<L1ThebesBattle.L1R_g>() {
@@ -196,10 +195,9 @@ public class L1ThebesBattle {
             return var2.b - var1.b;
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
+         public int compare(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
+            return this.a(var1, var2);
          }
       });
       Collections.sort(var3, new Comparator<L1ThebesBattle.L1R_g>() {
@@ -207,10 +205,9 @@ public class L1ThebesBattle {
             return var2.b - var1.b;
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
+         public int compare(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
+            return this.a(var1, var2);
          }
       });
 

@@ -124,10 +124,9 @@ public class TreasureBoxTable {
                return var1.d - var2.d;
             }
 
-            // $VF: synthetic method
             @Override
-            public int compare(Object var1, Object var2) {
-               return this.a((TreasureBoxTable.L1R_a)var1, (TreasureBoxTable.L1R_a)var2);
+            public int compare(TreasureBoxTable.L1R_a var1, TreasureBoxTable.L1R_a var2) {
+               return this.a(var1, var2);
             }
          });
       }

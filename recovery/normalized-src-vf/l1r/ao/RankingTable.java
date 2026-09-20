@@ -232,10 +232,9 @@ public class RankingTable {
             return var2.c == var1.c ? var2.d - var1.d : var2.c - var1.c;
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((RankingTable.L1R_a)var1, (RankingTable.L1R_a)var2);
+         public int compare(RankingTable.L1R_a var1, RankingTable.L1R_a var2) {
+            return this.a(var1, var2);
          }
       });
    }

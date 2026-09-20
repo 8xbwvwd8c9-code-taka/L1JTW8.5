@@ -657,10 +657,9 @@ public class L1Inventory extends L1Object {
          return var1.G() - var2.G();
       }
 
-      // $VF: synthetic method
       @Override
-      public int compare(Object var1, Object var2) {
-         return this.a((L1ItemInstance)var1, (L1ItemInstance)var2);
+      public int compare(L1ItemInstance var1, L1ItemInstance var2) {
+         return this.a(var1, var2);
       }
 
       // $VF: synthetic method

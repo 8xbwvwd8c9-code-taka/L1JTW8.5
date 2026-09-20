@@ -112,10 +112,9 @@ public class ShopTable {
             return var1.a() - var2x.a();
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((L1ShopItem)var1, (L1ShopItem)var2);
+         public int compare(L1ShopItem var1, L1ShopItem var2) {
+            return this.a(var1, var2);
          }
       });
       this.c.put(var1, new L1Shop(var1, var5, new ArrayList<>()));

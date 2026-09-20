@@ -78,10 +78,9 @@ public class S_CharEvent extends ServerBasePacket {
             return var2.f && var1.f ? var2.a.N() - var1.a.N() : (var2.f ? 1 : 0) - (var1.f ? 1 : 0);
          }
 
-         // $VF: synthetic method
          @Override
-         public int compare(Object var1, Object var2) {
-            return this.a((ShopWorldTable.L1R_b)var1, (ShopWorldTable.L1R_b)var2);
+         public int compare(ShopWorldTable.L1R_b var1, ShopWorldTable.L1R_b var2) {
+            return this.a(var1, var2);
          }
       });
 

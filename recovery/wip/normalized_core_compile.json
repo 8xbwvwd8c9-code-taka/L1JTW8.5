@@ -1,43 +1,35 @@
 {
-  "compiler_exit": 1,
+  "compiler_exit": 4,
   "java_sources_excluding_pbmessage": 779,
-  "javac_error_headers": 171,
-  "javac_error_files": 66,
-  "generated_classes": 2,
+  "javac_error_headers": 119,
+  "javac_error_files": 50,
+  "generated_classes": 0,
   "donor_core_classes_excluding_an": 915,
-  "built_donor_core_classes": 2,
-  "missing_core_classes": 913,
+  "built_donor_core_classes": 0,
+  "missing_core_classes": 915,
   "extra_core_classes": 0,
   "normalized_proto_reference_used": true,
   "final_source_only_gate": false,
   "top_failure_families": [
     [
       "cannot find symbol",
-      21
+      23
     ],
     [
       "method does not override or implement a method from a supertype",
-      20
-    ],
-    [
-      "incompatible types: Object cannot be converted to int",
-      12
-    ],
-    [
-      "'void' type not allowed here",
       11
     ],
     [
-      "incompatible types: Object cannot be converted to L1PcInstance",
-      10
-    ],
-    [
-      "incompatible types: Object cannot be converted to L1Character",
+      "'void' type not allowed here",
       9
     ],
     [
-      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
-      7
+      "incompatible types: Object cannot be converted to L1PcInstance",
+      9
+    ],
+    [
+      "incompatible types: Object cannot be converted to int",
+      8
     ],
     [
       "no suitable constructor found for S_ProtoBuffers(int,String,Object[])",
@@ -60,18 +52,6 @@
       4
     ],
     [
-      "incompatible types: Object cannot be converted to L1ShopItem",
-      4
-    ],
-    [
-      "int cannot be dereferenced",
-      4
-    ],
-    [
-      "incompatible types: Object cannot be converted to int[]",
-      3
-    ],
-    [
       "incompatible types: Object cannot be converted to L1NpcInstance",
       3
     ],
@@ -84,6 +64,10 @@
       2
     ],
     [
+      "incompatible types: Object cannot be converted to int[]",
+      2
+    ],
+    [
       "incompatible types: Object cannot be converted to L1PrivateShopSellList",
       2
     ],
@@ -92,16 +76,16 @@
       2
     ],
     [
+      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
+      2
+    ],
+    [
       "incompatible types: Object cannot be converted to L1BookMark",
       2
     ],
     [
-      "L1Inventory.L1R_a is not abstract and does not override abstract method compare(L1ItemInstance,L1ItemInstance) in Comparator",
-      1
-    ],
-    [
-      "name clash: compare(Object,Object) in L1Inventory.L1R_a and compare(T,T) in Comparator have the same erasure, yet neither overrides the other",
-      1
+      "int cannot be dereferenced",
+      2
     ],
     [
       "incompatible types: Object cannot be converted to ArmorSetTable.L1R_a",
@@ -124,35 +108,7 @@
       1
     ],
     [
-      "<anonymous l1r.ao.RankingTable$1> is not abstract and does not override abstract method compare(RankingTable.L1R_a,RankingTable.L1R_a) in Comparator",
-      1
-    ],
-    [
-      "name clash: compare(Object,Object) in <anonymous l1r.ao.RankingTable$1> and compare(T,T) in Comparator have the same erasure, yet neither overrides the other",
-      1
-    ],
-    [
-      "<anonymous l1r.ao.ShopTable$1> is not abstract and does not override abstract method compare(L1ShopItem,L1ShopItem) in Comparator",
-      1
-    ],
-    [
-      "name clash: compare(Object,Object) in <anonymous l1r.ao.ShopTable$1> and compare(T,T) in Comparator have the same erasure, yet neither overrides the other",
-      1
-    ],
-    [
-      "<anonymous l1r.ao.SoulTowerTable$1> is not abstract and does not override abstract method compare(SoulTowerTable.L1R_a,SoulTowerTable.L1R_a) in Comparator",
-      1
-    ],
-    [
-      "name clash: compare(Object,Object) in <anonymous l1r.ao.SoulTowerTable$1> and compare(T,T) in Comparator have the same erasure, yet neither overrides the other",
-      1
-    ],
-    [
-      "<anonymous l1r.ao.TreasureBoxTable$L1R_b$1> is not abstract and does not override abstract method compare(TreasureBoxTable.L1R_a,TreasureBoxTable.L1R_a) in Comparator",
-      1
-    ],
-    [
-      "name clash: compare(Object,Object) in <anonymous l1r.ao.TreasureBoxTable$L1R_b$1> and compare(T,T) in Comparator have the same erasure, yet neither overrides the other",
+      "incompatible types: Object cannot be converted to L1ShopItem",
       1
     ],
     [
@@ -160,7 +116,7 @@
       1
     ],
     [
-      "incomparable types: Object and int",
+      "bad operand types for binary operator '=='",
       1
     ],
     [
@@ -169,6 +125,26 @@
     ],
     [
       "no suitable method found for a(Object)",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to Point",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1BoardTopic",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to ShopWorldTable.L1R_b",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1Mail",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to S_PledgeWarehouseHistory.L1R_a",
       1
     ]
   ]
