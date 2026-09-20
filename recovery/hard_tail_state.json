@@ -1,0 +1,11 @@
+{
+  "java_sources_scanned": 788,
+  "files_with_hard_tail_markers": 7,
+  "marker_counts": {
+    "PSEUDO_GOTO": 32,
+    "UNABLE_STRUCTURE": 6,
+    "VOID_LOCAL": 1
+  },
+  "java_keyword_top_level_classes": 2,
+  "java_keyword_references": 102
+}

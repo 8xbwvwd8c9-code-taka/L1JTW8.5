@@ -1,0 +1,40 @@
+File,Line,Type,Snippet
+recovered-src-obf/aj/aw.java,117,PSEUDO_GOTO,if (pet.fj() < 100) ** GOTO lbl9
+recovered-src-obf/aj/aw.java,122,PSEUDO_GOTO,lbl9:
+recovered-src-obf/aj/aw.java,110,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/aj/bx.java,132,PSEUDO_GOTO,if (item == null) ** GOTO lbl128
+recovered-src-obf/aj/bx.java,136,PSEUDO_GOTO,if (count == 0) ** GOTO lbl128
+recovered-src-obf/aj/bx.java,137,PSEUDO_GOTO,"if (pc.j().a(item, count) != 0) ** GOTO lbl126"
+recovered-src-obf/aj/bx.java,148,PSEUDO_GOTO,"if (!pc.j().g(40308, price)) ** GOTO lbl124"
+recovered-src-obf/aj/bx.java,150,PSEUDO_GOTO,if (adena == null) ** GOTO lbl128
+recovered-src-obf/aj/bx.java,160,PSEUDO_GOTO,if (pssl.d() != pssl.b()) ** GOTO lbl128
+recovered-src-obf/aj/bx.java,162,PSEUDO_GOTO,** GOTO lbl128
+recovered-src-obf/aj/bx.java,163,PSEUDO_GOTO,lbl124:
+recovered-src-obf/aj/bx.java,168,PSEUDO_GOTO,lbl126:
+recovered-src-obf/aj/bx.java,173,PSEUDO_GOTO,lbl128:
+recovered-src-obf/aj/bx.java,219,PSEUDO_GOTO,if (item == null) ** GOTO lbl204
+recovered-src-obf/aj/bx.java,226,PSEUDO_GOTO,if (!item.D()) ** GOTO lbl178
+recovered-src-obf/aj/bx.java,228,PSEUDO_GOTO,** GOTO lbl204
+recovered-src-obf/aj/bx.java,229,PSEUDO_GOTO,lbl178:
+recovered-src-obf/aj/bx.java,232,PSEUDO_GOTO,if (item.F() >= 128) ** GOTO lbl204
+recovered-src-obf/aj/bx.java,233,PSEUDO_GOTO,"if (targetPc.j().a(item, count) != 0) ** GOTO lbl202"
+recovered-src-obf/aj/bx.java,242,PSEUDO_GOTO,"if (!targetPc.j().g(40308, count * buyPrice)) ** GOTO lbl200"
+recovered-src-obf/aj/bx.java,244,PSEUDO_GOTO,if (adena == null) ** GOTO lbl204
+recovered-src-obf/aj/bx.java,249,PSEUDO_GOTO,if (psbl.d() != psbl.b()) ** GOTO lbl204
+recovered-src-obf/aj/bx.java,251,PSEUDO_GOTO,** GOTO lbl204
+recovered-src-obf/aj/bx.java,252,PSEUDO_GOTO,lbl200:
+recovered-src-obf/aj/bx.java,257,PSEUDO_GOTO,lbl202:
+recovered-src-obf/aj/bx.java,262,PSEUDO_GOTO,lbl204:
+recovered-src-obf/aj/bx.java,29,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/al/ab.java,42,PSEUDO_GOTO,"if (!type.equalsIgnoreCase(""mob"")) ** GOTO lbl25"
+recovered-src-obf/al/ab.java,55,PSEUDO_GOTO,lbl25:
+recovered-src-obf/al/ab.java,67,PSEUDO_GOTO,if (msg == null) ** GOTO lbl43
+recovered-src-obf/al/ab.java,80,PSEUDO_GOTO,lbl43:
+recovered-src-obf/al/ab.java,24,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/ao/aw.java,276,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/ao/v.java,202,PSEUDO_GOTO,if (itemId < 40131 || itemId > 40135) ** GOTO lbl-1000
+recovered-src-obf/ao/v.java,162,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/be/dc.java,599,PSEUDO_GOTO,** GOTO lbl239
+recovered-src-obf/be/dc.java,607,PSEUDO_GOTO,lbl239:
+recovered-src-obf/be/dc.java,403,UNABLE_STRUCTURE,* Unable to fully structure code
+recovered-src-obf/bf/b.java,83,VOID_LOCAL,void var6_9;
