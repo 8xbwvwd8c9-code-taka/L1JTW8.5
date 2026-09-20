@@ -1,0 +1,22 @@
+{
+  "source_root": "recovery/normalized-src-vf",
+  "stage_root": "_normalized-stage-src",
+  "error_family": "PROTOBUF_ROOT_PACKAGE_SHADOW",
+  "old_runtime_package": "a/**",
+  "new_runtime_package": "l1rpb/**",
+  "changed_files": [
+    "l1r/an/PBMessageALL.java",
+    "l1r/an/PBMessageALL2.java",
+    "l1r/an/PBMessageALL3.java",
+    "l1r/an/PBMessageALL4.java",
+    "l1r/an/PBMessageALL5.java",
+    "l1r/an/PBMessageALL6.java",
+    "l1r/an/PBMessageALL7.java",
+    "l1r/an/PBMessageALL8.java",
+    "l1r/an/PBMessageALL9.java"
+  ],
+  "changed_file_count": 9,
+  "replacement_count": 3067,
+  "nested_identity_collisions_repaired": false,
+  "gameplay_logic_changed": false
+}

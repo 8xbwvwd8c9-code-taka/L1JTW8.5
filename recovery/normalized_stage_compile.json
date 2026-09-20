@@ -1,0 +1,415 @@
+{
+  "gate": "NORMALIZED_STAGE_SOURCE_COMPILE",
+  "source_root": "_normalized-stage-src",
+  "runtime_reference": "recovery/compile-ref-protobuf-l1rpb.jar",
+  "full_donor_game_jar_on_classpath": false,
+  "java_sources_submitted": 788,
+  "compile_exit_code": 4,
+  "generated_class_files_total": 0,
+  "javac_error_headers": 1507,
+  "error_file_count": 58,
+  "top_error_files": [
+    [
+      "l1r/an/PBMessageALL7.java",
+      166
+    ],
+    [
+      "l1r/an/PBMessageALL6.java",
+      156
+    ],
+    [
+      "l1r/an/PBMessageALL8.java",
+      156
+    ],
+    [
+      "l1r/an/PBMessageALL3.java",
+      155
+    ],
+    [
+      "l1r/an/PBMessageALL4.java",
+      154
+    ],
+    [
+      "l1r/an/PBMessageALL5.java",
+      154
+    ],
+    [
+      "l1r/an/PBMessageALL.java",
+      153
+    ],
+    [
+      "l1r/an/PBMessageALL2.java",
+      139
+    ],
+    [
+      "l1r/an/PBMessageALL9.java",
+      122
+    ],
+    [
+      "l1r/aq/L1Craft.java",
+      35
+    ],
+    [
+      "l1r/am/MonsterListReader.java",
+      10
+    ],
+    [
+      "l1r/aq/L1Alchemy.java",
+      9
+    ],
+    [
+      "l1r/aj/C_ProtoBuffers.java",
+      8
+    ],
+    [
+      "l1r/ap/L1DoorInstance.java",
+      6
+    ],
+    [
+      "l1r/as/L1ThebesBattle.java",
+      6
+    ],
+    [
+      "l1r/ap/L1MonsterInstance.java",
+      5
+    ],
+    [
+      "l1r/aq/L1Character.java",
+      4
+    ],
+    [
+      "l1r/ap/L1PetInstance.java",
+      4
+    ],
+    [
+      "l1r/be/S_AddItem.java",
+      3
+    ],
+    [
+      "l1r/be/S_ProtoBuffers.java",
+      3
+    ],
+    [
+      "l1r/ap/L1PcInstance.java",
+      3
+    ],
+    [
+      "l1r/ap/L1NpcInstance.java",
+      3
+    ],
+    [
+      "l1r/aj/C_Result.java",
+      3
+    ],
+    [
+      "l1r/as/L1OrimBattle.java",
+      3
+    ],
+    [
+      "l1r/as/L1SoulTower.java",
+      3
+    ],
+    [
+      "l1r/bh/L1Account.java",
+      2
+    ],
+    [
+      "l1r/ao/CharacterEquipment.java",
+      2
+    ],
+    [
+      "l1r/ao/CharacterMobsTable.java",
+      2
+    ],
+    [
+      "l1r/ao/QuestNewTable.java",
+      2
+    ],
+    [
+      "l1r/be/S_InvList.java",
+      2
+    ],
+    [
+      "l1r/bi/LineageUtil.java",
+      2
+    ],
+    [
+      "l1r/au/L1Inventory.java",
+      2
+    ],
+    [
+      "l1r/aj/C_ItemUSe.java",
+      2
+    ],
+    [
+      "l1r/al/L1GfxNpc.java",
+      2
+    ],
+    [
+      "l1r/ao/DropTable.java",
+      2
+    ],
+    [
+      "l1r/ao/ShopTable.java",
+      2
+    ],
+    [
+      "l1r/ap/L1ItemInstance.java",
+      1
+    ],
+    [
+      "l1r/aj/C_ShopWorld.java",
+      1
+    ],
+    [
+      "l1r/aj/C_SkillBuyItemOK.java",
+      1
+    ],
+    [
+      "l1r/aj/C_SkillBuyOK.java",
+      1
+    ],
+    [
+      "l1r/al/L1Buff.java",
+      1
+    ],
+    [
+      "l1r/al/L1Recall.java",
+      1
+    ],
+    [
+      "l1r/ao/MobQuestWeekTable.java",
+      1
+    ],
+    [
+      "l1r/ao/RankingTable.java",
+      1
+    ],
+    [
+      "l1r/ap/L1TowerInstance.java",
+      1
+    ],
+    [
+      "l1r/bf/L1SkillExecutor.java",
+      1
+    ],
+    [
+      "l1r/ap/L1GfxInstance.java",
+      1
+    ],
+    [
+      "l1r/ap/L1SummonInstance.java",
+      1
+    ],
+    [
+      "l1r/aq/L1SpawnBoss.java",
+      1
+    ],
+    [
+      "l1r/as/L1HardinBattle.java",
+      1
+    ]
+  ],
+  "top_error_messages": [
+    [
+      "cannot find symbol",
+      581
+    ],
+    [
+      "method does not override or implement a method from a supertype",
+      475
+    ],
+    [
+      "ai() in L1R_a cannot override ai() in a",
+      44
+    ],
+    [
+      "a(h,n) in L1R_a cannot override a(h,n) in a",
+      44
+    ],
+    [
+      "a(x) in L1R_a cannot override a(x) in a",
+      44
+    ],
+    [
+      "ah() in L1R_a cannot override ah() in a",
+      44
+    ],
+    [
+      "L1R_a is not abstract and does not override abstract method d() in a",
+      35
+    ],
+    [
+      "int cannot be dereferenced",
+      33
+    ],
+    [
+      "incompatible types: byte[] cannot be converted to int",
+      16
+    ],
+    [
+      "package a does not exist",
+      13
+    ],
+    [
+      "b has protected access in p",
+      9
+    ],
+    [
+      "'void' type not allowed here",
+      9
+    ],
+    [
+      "no suitable constructor found for S_ProtoBuffers(int,String,Object[])",
+      6
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1ItemInstance",
+      5
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1Item",
+      5
+    ],
+    [
+      "incompatible types: void cannot be converted to boolean",
+      4
+    ],
+    [
+      "reference to d is ambiguous",
+      4
+    ],
+    [
+      "incompatible types: Object cannot be converted to int",
+      4
+    ],
+    [
+      "variable lengthx is already defined in constructor L1R_e(h,n)",
+      3
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1PcInstance",
+      3
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1NpcInstance",
+      3
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1DoorInstance",
+      3
+    ],
+    [
+      "non-static variable p cannot be referenced from a static context",
+      2
+    ],
+    [
+      "incompatible types: Object[] cannot be converted to L1ItemInstance[]",
+      2
+    ],
+    [
+      "incompatible types: Object cannot be converted to int[]",
+      2
+    ],
+    [
+      "incompatible types: String cannot be converted to int",
+      2
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
+      2
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL2",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL3",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL4",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL5",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL6",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL7",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL8",
+      1
+    ],
+    [
+      "class L1R_a is already defined in class PBMessageALL9",
+      1
+    ],
+    [
+      "static import only from classes and interfaces",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL$L1R_a$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_a$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL$L1R_c$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_c$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL$L1R_e$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_e$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL$L1R_g$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_g$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL$L1R_i$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_i$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL2$L1R_a$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ],
+    [
+      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_a$1> cannot implement d(h,n) in ab",
+      1
+    ],
+    [
+      "<anonymous l1r.an.PBMessageALL2$L1R_c$1> is not abstract and does not override abstract method e(InputStream,n) in ab",
+      1
+    ]
+  ]
+}

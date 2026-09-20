@@ -1,0 +1,12 @@
+{
+  "source": "recovery/compile-ref-protobuf-obf.jar",
+  "output": "recovery/compile-ref-protobuf-l1rpb.jar",
+  "old_runtime_package": "a/**",
+  "new_runtime_package": "l1rpb/**",
+  "class_files": 246,
+  "changed_classes": 246,
+  "changed_constant_pool_utf8_entries": 8343,
+  "purpose": "RECOVERY_SOURCE_REPRESENTATION_ONLY",
+  "gameplay_logic_changed": false,
+  "final_runtime_artifact": false
+}

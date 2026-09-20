@@ -1,0 +1,304 @@
+{
+  "gate": "NORMALIZED_NONPROTO_DIAGNOSTIC_ONLY",
+  "source_root": "recovery/normalized-src-vf",
+  "excluded_source_package": "l1r/an/**",
+  "compile_reference": "recovery/compile-ref-normalized-proto.jar",
+  "donor_full_game_jar_on_classpath": false,
+  "java_sources_submitted": 779,
+  "compile_exit_code": 4,
+  "generated_class_files_total": 0,
+  "javac_error_headers": 99,
+  "error_file_count": 42,
+  "top_error_files": [
+    [
+      "l1r/aq/L1Craft.java",
+      18
+    ],
+    [
+      "l1r/ap/L1DoorInstance.java",
+      6
+    ],
+    [
+      "l1r/as/L1ThebesBattle.java",
+      6
+    ],
+    [
+      "l1r/ap/L1MonsterInstance.java",
+      5
+    ],
+    [
+      "l1r/aq/L1Character.java",
+      4
+    ],
+    [
+      "l1r/ap/L1PetInstance.java",
+      4
+    ],
+    [
+      "l1r/aq/L1Alchemy.java",
+      4
+    ],
+    [
+      "l1r/ap/L1PcInstance.java",
+      3
+    ],
+    [
+      "l1r/ap/L1NpcInstance.java",
+      3
+    ],
+    [
+      "l1r/aj/C_Result.java",
+      3
+    ],
+    [
+      "l1r/as/L1OrimBattle.java",
+      3
+    ],
+    [
+      "l1r/as/L1SoulTower.java",
+      3
+    ],
+    [
+      "l1r/bh/L1Account.java",
+      2
+    ],
+    [
+      "l1r/au/L1Inventory.java",
+      2
+    ],
+    [
+      "l1r/aj/C_ItemUSe.java",
+      2
+    ],
+    [
+      "l1r/al/L1GfxNpc.java",
+      2
+    ],
+    [
+      "l1r/ao/DropTable.java",
+      2
+    ],
+    [
+      "l1r/ao/ShopTable.java",
+      2
+    ],
+    [
+      "l1r/be/S_ProtoBuffers.java",
+      2
+    ],
+    [
+      "l1r/ap/L1ItemInstance.java",
+      1
+    ],
+    [
+      "l1r/aj/C_ProtoBuffers.java",
+      1
+    ],
+    [
+      "l1r/aj/C_ShopWorld.java",
+      1
+    ],
+    [
+      "l1r/aj/C_SkillBuyItemOK.java",
+      1
+    ],
+    [
+      "l1r/aj/C_SkillBuyOK.java",
+      1
+    ],
+    [
+      "l1r/al/L1Buff.java",
+      1
+    ],
+    [
+      "l1r/al/L1Recall.java",
+      1
+    ],
+    [
+      "l1r/ao/MobQuestWeekTable.java",
+      1
+    ],
+    [
+      "l1r/ao/RankingTable.java",
+      1
+    ],
+    [
+      "l1r/ap/L1TowerInstance.java",
+      1
+    ],
+    [
+      "l1r/bf/L1SkillExecutor.java",
+      1
+    ],
+    [
+      "l1r/ap/L1GfxInstance.java",
+      1
+    ],
+    [
+      "l1r/ap/L1SummonInstance.java",
+      1
+    ],
+    [
+      "l1r/aq/L1SpawnBoss.java",
+      1
+    ],
+    [
+      "l1r/as/L1HardinBattle.java",
+      1
+    ],
+    [
+      "l1r/bd/L1MonsterTrap.java",
+      1
+    ],
+    [
+      "l1r/be/S_Board.java",
+      1
+    ],
+    [
+      "l1r/be/S_CharEvent.java",
+      1
+    ],
+    [
+      "l1r/be/S_FixWeaponList.java",
+      1
+    ],
+    [
+      "l1r/be/S_Mail.java",
+      1
+    ],
+    [
+      "l1r/be/S_PacketBox.java",
+      1
+    ],
+    [
+      "l1r/be/S_PetList.java",
+      1
+    ],
+    [
+      "l1r/be/S_PledgeWarehouseHistory.java",
+      1
+    ]
+  ],
+  "top_error_messages": [
+    [
+      "incompatible types: byte[] cannot be converted to int",
+      16
+    ],
+    [
+      "method does not override or implement a method from a supertype",
+      11
+    ],
+    [
+      "'void' type not allowed here",
+      9
+    ],
+    [
+      "no suitable constructor found for S_ProtoBuffers(int,String,Object[])",
+      6
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1ItemInstance",
+      5
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1Item",
+      5
+    ],
+    [
+      "cannot find symbol",
+      4
+    ],
+    [
+      "incompatible types: void cannot be converted to boolean",
+      4
+    ],
+    [
+      "reference to d is ambiguous",
+      4
+    ],
+    [
+      "incompatible types: Object cannot be converted to int",
+      4
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1PcInstance",
+      3
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1NpcInstance",
+      3
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1DoorInstance",
+      3
+    ],
+    [
+      "incompatible types: Object[] cannot be converted to L1ItemInstance[]",
+      2
+    ],
+    [
+      "incompatible types: Object cannot be converted to int[]",
+      2
+    ],
+    [
+      "incompatible types: String cannot be converted to int",
+      2
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1HateList.L1R_a",
+      2
+    ],
+    [
+      "int cannot be dereferenced",
+      2
+    ],
+    [
+      "incompatible types: Object cannot be converted to ArmorSetTable.L1R_a",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1PrivateShopSellList",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1PrivateShopBuyList",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to MobQuestWeekTable.L1R_a",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1ShopItem",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1Object",
+      1
+    ],
+    [
+      "no suitable method found for a(Object)",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to Point",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1BoardTopic",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to ShopWorldTable.L1R_b",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to L1Mail",
+      1
+    ],
+    [
+      "incompatible types: Object cannot be converted to S_PledgeWarehouseHistory.L1R_a",
+      1
+    ]
+  ]
+}
