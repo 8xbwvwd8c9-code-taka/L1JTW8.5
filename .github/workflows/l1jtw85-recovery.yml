@@ -66,6 +66,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-runtime-imports.py
 
+      - name: Normalize protobuf runtime type shadows
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-runtime-type-shadows.py
+
       - name: Repair normalized protobuf builder collisions
         shell: bash
         run: python ./tools/recovery/repair-normalized-builder-collisions.py
