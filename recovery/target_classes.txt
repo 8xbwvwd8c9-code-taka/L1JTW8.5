@@ -1,0 +1,67 @@
+# BOOTSTRAP / NETWORK
+l1j.server.a
+l1j.server.b
+ai.c
+ai.e
+bj.a
+bj.b
+bj.c
+bj.d
+bj.e
+aj.cv
+be.eu
+
+# WARRIOR / CHARACTER / COMBAT
+ar.h
+bi.c
+bi.d
+ap.u
+aq.c
+aq.m
+aq.w
+bg.b
+bf.gl
+bf.gm
+bf.gn
+bf.go
+
+# CRAFT / PROTO
+ao.s
+ao.ac
+aq.k
+aj.bs
+be.dc
+
+# TELEPORT / BOOKMARK / PORTAL
+aj.a
+aj.ad
+aj.an
+aj.ax
+aj.ay
+aj.cj
+aj.ck
+bh.c
+aq.am
+be.n
+be.da
+be.dr
+be.ek
+
+# ITEM / EQUIPMENT / ATTRIBUTE / RUNE
+ao.ah
+ao.ak
+ao.bl
+ap.q
+aq.m
+aw.a
+be.as
+be.bj
+be.bk
+be.bl
+be.bm
+be.dn
+
+# SOUL TOWER
+ao.bf
+as.h
+as.i
