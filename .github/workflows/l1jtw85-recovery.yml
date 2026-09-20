@@ -193,6 +193,18 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-normalized-nonproto.py
 
+      - name: Relocate embedded Protobuf runtime for source recovery
+        shell: bash
+        run: python ./tools/recovery/relocate-protobuf-runtime.py
+
+      - name: Build normalized source stage
+        shell: bash
+        run: python ./tools/recovery/build-normalized-stage.py
+
+      - name: Compile normalized source stage
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-stage.py
+
       - name: Candidate source-only full-tree compile
         shell: bash
         run: python ./tools/recovery/compile-candidate-stage.py
@@ -311,7 +323,12 @@ jobs:
             recovery/per_class_compile.csv recovery/per_class_compile.json recovery/PER_CLASS_COMPILE.md \
             recovery/per_class_failures.log \
             recovery/normalized_nonproto_compile.json recovery/NORMALIZED_NONPROTO_COMPILE.md \
-            recovery/normalized_nonproto_javac.log recovery/normalized_nonproto_source_files.txt
+            recovery/normalized_nonproto_javac.log recovery/normalized_nonproto_source_files.txt \
+            recovery/compile-ref-protobuf-l1rpb.jar recovery/compile_ref_protobuf_l1rpb.json \
+            recovery/COMPILE_REF_PROTOBUF_L1RPB.md recovery/normalized_stage_transform.json \
+            recovery/NORMALIZED_STAGE_TRANSFORM.md recovery/normalized_stage_compile.json \
+            recovery/NORMALIZED_STAGE_COMPILE.md recovery/normalized_stage_javac.log \
+            recovery/normalized_stage_source_files.txt
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
