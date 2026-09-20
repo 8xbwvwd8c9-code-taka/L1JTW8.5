@@ -46,6 +46,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
+      - name: Probe protobuf donor builder ABI
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-donor-abi.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
