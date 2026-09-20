@@ -1,0 +1,404 @@
+{
+  "inventory_class_paths": 1109,
+  "java_keyword_top_level_classes": [
+    "be/do.class",
+    "bf/do.class"
+  ],
+  "java_keyword_top_level_count": 2,
+  "nested_enclosing_name_collision_count": 37,
+  "nested_enclosing_name_collisions": [
+    {
+      "class_path": "ai/c$c.class",
+      "nested_simple_name": "c",
+      "ancestor_chain": [
+        "c"
+      ]
+    },
+    {
+      "class_path": "am/d$d.class",
+      "nested_simple_name": "d",
+      "ancestor_chain": [
+        "d"
+      ]
+    },
+    {
+      "class_path": "an/a$a$1.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/a$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/a$c$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a",
+        "c"
+      ]
+    },
+    {
+      "class_path": "an/a$e$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a",
+        "e"
+      ]
+    },
+    {
+      "class_path": "an/a$g$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a",
+        "g"
+      ]
+    },
+    {
+      "class_path": "an/a$i$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a",
+        "i"
+      ]
+    },
+    {
+      "class_path": "an/b$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "b",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/b$b.class",
+      "nested_simple_name": "b",
+      "ancestor_chain": [
+        "b"
+      ]
+    },
+    {
+      "class_path": "an/c$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "c",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/c$c$1.class",
+      "nested_simple_name": "c",
+      "ancestor_chain": [
+        "c"
+      ]
+    },
+    {
+      "class_path": "an/c$c$a.class",
+      "nested_simple_name": "c",
+      "ancestor_chain": [
+        "c"
+      ]
+    },
+    {
+      "class_path": "an/c$c.class",
+      "nested_simple_name": "c",
+      "ancestor_chain": [
+        "c"
+      ]
+    },
+    {
+      "class_path": "an/d$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "d",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/d$d.class",
+      "nested_simple_name": "d",
+      "ancestor_chain": [
+        "d"
+      ]
+    },
+    {
+      "class_path": "an/e$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "e",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/e$e$1.class",
+      "nested_simple_name": "e",
+      "ancestor_chain": [
+        "e"
+      ]
+    },
+    {
+      "class_path": "an/e$e$a.class",
+      "nested_simple_name": "e",
+      "ancestor_chain": [
+        "e"
+      ]
+    },
+    {
+      "class_path": "an/e$e.class",
+      "nested_simple_name": "e",
+      "ancestor_chain": [
+        "e"
+      ]
+    },
+    {
+      "class_path": "an/f$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "f",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/f$f.class",
+      "nested_simple_name": "f",
+      "ancestor_chain": [
+        "f"
+      ]
+    },
+    {
+      "class_path": "an/g$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "g",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/g$g$1.class",
+      "nested_simple_name": "g",
+      "ancestor_chain": [
+        "g"
+      ]
+    },
+    {
+      "class_path": "an/g$g$a.class",
+      "nested_simple_name": "g",
+      "ancestor_chain": [
+        "g"
+      ]
+    },
+    {
+      "class_path": "an/g$g.class",
+      "nested_simple_name": "g",
+      "ancestor_chain": [
+        "g"
+      ]
+    },
+    {
+      "class_path": "an/h$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "h",
+        "a"
+      ]
+    },
+    {
+      "class_path": "an/h$h.class",
+      "nested_simple_name": "h",
+      "ancestor_chain": [
+        "h"
+      ]
+    },
+    {
+      "class_path": "an/i$a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "i",
+        "a"
+      ]
+    },
+    {
+      "class_path": "as/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "av/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "az/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "az/b$b.class",
+      "nested_simple_name": "b",
+      "ancestor_chain": [
+        "b"
+      ]
+    },
+    {
+      "class_path": "ba/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "bc/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    },
+    {
+      "class_path": "bg/a$a.class",
+      "nested_simple_name": "a",
+      "ancestor_chain": [
+        "a"
+      ]
+    }
+  ],
+  "nested_adjacent_name_collision_count": 33,
+  "nested_adjacent_name_collisions": [
+    "ai/c$c.class",
+    "am/d$d.class",
+    "an/a$a$1.class",
+    "an/a$a$a.class",
+    "an/a$a.class",
+    "an/b$a$a.class",
+    "an/b$b.class",
+    "an/c$a$a.class",
+    "an/c$c$1.class",
+    "an/c$c$a.class",
+    "an/c$c.class",
+    "an/d$a$a.class",
+    "an/d$d.class",
+    "an/e$a$a.class",
+    "an/e$e$1.class",
+    "an/e$e$a.class",
+    "an/e$e.class",
+    "an/f$a$a.class",
+    "an/f$f.class",
+    "an/g$a$a.class",
+    "an/g$g$1.class",
+    "an/g$g$a.class",
+    "an/g$g.class",
+    "an/h$a$a.class",
+    "an/h$h.class",
+    "an/i$a$a.class",
+    "as/a$a.class",
+    "av/a$a.class",
+    "az/a$a.class",
+    "az/b$b.class",
+    "ba/a$a.class",
+    "bc/a$a.class",
+    "bg/a$a.class"
+  ],
+  "protobuf_runtime_root_package": "a",
+  "protobuf_shadow_class_count": 77,
+  "protobuf_shadow_classes": [
+    "an/a$1.class",
+    "an/a$a$1.class",
+    "an/a$a$a.class",
+    "an/a$a.class",
+    "an/a$b.class",
+    "an/a$c$1.class",
+    "an/a$c$a.class",
+    "an/a$c.class",
+    "an/a$d.class",
+    "an/a$e$1.class",
+    "an/a$e$a.class",
+    "an/a$e.class",
+    "an/a$f.class",
+    "an/a$g$1.class",
+    "an/a$g$a.class",
+    "an/a$g.class",
+    "an/a$h.class",
+    "an/a$i$1.class",
+    "an/a$i$a.class",
+    "an/a$i.class",
+    "an/a$j.class",
+    "an/a.class",
+    "an/b$a$1.class",
+    "an/b$a$a.class",
+    "an/b$a.class",
+    "an/b$c$a.class",
+    "an/b$e$a.class",
+    "an/b$g$a.class",
+    "an/b$i$a.class",
+    "an/c$a$1.class",
+    "an/c$a$a.class",
+    "an/c$a.class",
+    "an/c$c$a.class",
+    "an/c$e$a.class",
+    "an/c$g$a.class",
+    "an/c$i$a.class",
+    "an/d$a$1.class",
+    "an/d$a$a.class",
+    "an/d$a.class",
+    "an/d$c$a.class",
+    "an/d$e$a.class",
+    "an/d$g$a.class",
+    "an/d$i$a.class",
+    "an/e$a$1.class",
+    "an/e$a$a.class",
+    "an/e$a.class",
+    "an/e$c$a.class",
+    "an/e$e$a.class",
+    "an/e$g$a.class",
+    "an/e$i$a.class",
+    "an/f$a$1.class",
+    "an/f$a$a.class",
+    "an/f$a.class",
+    "an/f$c$a.class",
+    "an/f$e$a.class",
+    "an/f$g$a.class",
+    "an/f$i$a.class",
+    "an/g$a$1.class",
+    "an/g$a$a.class",
+    "an/g$a.class",
+    "an/g$c$a.class",
+    "an/g$e$a.class",
+    "an/g$g$a.class",
+    "an/g$i$a.class",
+    "an/h$a$1.class",
+    "an/h$a$a.class",
+    "an/h$a.class",
+    "an/h$c$a.class",
+    "an/h$e$a.class",
+    "an/h$g$a.class",
+    "an/h$i$a.class",
+    "an/i$a$1.class",
+    "an/i$a$a.class",
+    "an/i$a.class",
+    "an/i$c$a.class",
+    "an/i$e$a.class",
+    "an/i$g$a.class"
+  ],
+  "interpretation": {
+    "donor_bytecode_valid": true,
+    "java_source_representation_requires_normalization": true,
+    "gameplay_logic_change_required": false
+  }
+}
