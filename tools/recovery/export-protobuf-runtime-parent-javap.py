@@ -21,3 +21,6 @@ for cls in targets:
 OUT.write_text("\n".join(chunks), encoding="utf-8")
 STATE.write_text(json.dumps({"jar": str(JAR), "targets": rows}, indent=2)+"\n", encoding="utf-8")
 print(OUT.read_text(encoding="utf-8"))
+failed = [x for x in rows if x["exit_code"] != 0]
+if failed:
+    raise SystemExit(f"javap validation failed: {failed}")
