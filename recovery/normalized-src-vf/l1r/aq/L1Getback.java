@@ -69,7 +69,7 @@ public class L1Getback {
             var4.p = var2.getInt("getback_townid_elf");
             var4.q = var2.getInt("getback_townid_darkelf");
             var2.getBoolean("scrollescape");
-            ArrayList var5 = b.get(var4.g);
+            ArrayList<L1Getback> var5 = b.get(var4.g);
             if (var5 == null) {
                var5 = new ArrayList<>();
                b.put(var4.g, var5);
@@ -90,7 +90,7 @@ public class L1Getback {
       int var3 = var0.fs();
       int var4 = var0.ft();
       int var5 = var0.fp();
-      List var6 = b.get(var5);
+      List<L1Getback> var6 = b.get(var5);
       if (var6 != null) {
          L1Getback var7 = null;
 

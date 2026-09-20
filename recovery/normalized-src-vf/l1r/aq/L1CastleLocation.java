@@ -138,7 +138,7 @@ public class L1CastleLocation {
    }
 
    private static int b(L1Location var0) {
-      for (Entry var1 : aI.entrySet()) {
+      for (Entry<Integer, L1Location> var1 : aI.entrySet()) {
          if (var1.getValue().equals(var0)) {
             return var1.getKey();
          }
@@ -152,13 +152,13 @@ public class L1CastleLocation {
    }
 
    private static int c(L1Location var0) {
-      for (Entry var1 : aJ.entrySet()) {
+      for (Entry<Integer, L1MapArea> var1 : aJ.entrySet()) {
          if (var1.getValue().a(var0)) {
             return var1.getKey();
          }
       }
 
-      for (Entry var3 : aK.entrySet()) {
+      for (Entry<Integer, Integer> var3 : aK.entrySet()) {
          if (var3.getValue() == var0.b()) {
             return var3.getKey();
          }

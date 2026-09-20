@@ -26,7 +26,7 @@ public class S_Bookmarks extends ServerBasePacket {
    }
 
    public S_Bookmarks(L1PcInstance var1) {
-      ArrayList var2 = new ArrayList<>();
+      ArrayList<L1BookMark> var2 = new ArrayList<>();
       Connection var3 = null;
       PreparedStatement var4 = null;
       ResultSet var5 = null;

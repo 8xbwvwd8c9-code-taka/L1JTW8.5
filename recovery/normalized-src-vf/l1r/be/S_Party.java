@@ -26,7 +26,7 @@ public class S_Party extends ServerBasePacket {
 
    private void a(L1PcInstance var1) {
       L1PcInstance var2 = var1.aL().a();
-      CopyOnWriteArrayList var3 = var1.aL().c();
+      CopyOnWriteArrayList<L1PcInstance> var3 = var1.aL().c();
       this.c(121);
       this.c(104);
       this.c(var3.size() - 1);
@@ -81,7 +81,7 @@ public class S_Party extends ServerBasePacket {
 
    private void d(L1PcInstance var1) {
       if (var1.aL() != null) {
-         CopyOnWriteArrayList var2 = var1.aL().c();
+         CopyOnWriteArrayList<L1PcInstance> var2 = var1.aL().c();
          this.c(121);
          this.c(110);
          this.c(var2.size());

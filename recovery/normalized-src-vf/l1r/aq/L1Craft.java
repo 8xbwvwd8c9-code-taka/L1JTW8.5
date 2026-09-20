@@ -1,6 +1,7 @@
 package l1r.aq;
 
 import a.g;
+import static a.g.a;
 import java.util.ArrayList;
 import java.util.HashMap;
 import l1r.an.PBMessageALL;
@@ -149,7 +150,7 @@ public class L1Craft {
       var1.i(this.p());
       var1.j(this.o());
       var1.c(3);
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g m() {
@@ -165,7 +166,7 @@ public class L1Craft {
          var1.e(var4.M().f());
       }
 
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g n() {
@@ -186,7 +187,7 @@ public class L1Craft {
       var1.g(this.q);
       var1.h(this.r);
       var1.i(this.p);
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    public g a(L1ItemInstance var1, boolean var2) {
@@ -202,12 +203,12 @@ public class L1Craft {
       var3.h(0);
       var3.i(0);
       var3.j(var1.e());
-      var3.f(a.g.a(""));
-      var3.g(a.g.a(var1.t()));
+      var3.f(a(""));
+      var3.g(a(var1.t()));
       var3.k(0);
       var3.l(0);
       var3.m(this.j > 0 ? 1 : 0);
-      return a.g.a(var3.M().g());
+      return a(var3.M().g());
    }
 
    public g j() {
@@ -216,7 +217,7 @@ public class L1Craft {
       var1.b(0);
       var1.c(1);
       var1.e(this.a(this.c.get(0), true));
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g a(int var1, L1ItemInstance var2) {
@@ -228,7 +229,7 @@ public class L1Craft {
       var3.e(var2.F());
       var3.e(LineageUtil.a(var2.s()));
       var3.f(var2.e());
-      return a.g.a(var3.M().g());
+      return a(var3.M().g());
    }
 
    private g o() {
@@ -236,7 +237,7 @@ public class L1Craft {
       var1.e(this.s());
       var1.f(this.r());
       var1.a(this.s * 10000);
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g p() {
@@ -257,7 +258,7 @@ public class L1Craft {
          var1.f(this.a(++var2, this.h));
       }
 
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g q() {
@@ -265,7 +266,7 @@ public class L1Craft {
       var1.b(1);
       var1.c(0);
       var1.e(this.a(0L, 0L));
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g r() {
@@ -280,7 +281,7 @@ public class L1Craft {
       }
 
       var1.c(0);
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    public g k() {
@@ -296,9 +297,9 @@ public class L1Craft {
       var1.h(0);
       var1.i(0);
       var1.j(this.i.e());
-      var1.f(a.g.a(""));
-      var1.g(a.g.a(this.i.t()));
-      return a.g.a(var1.M().g());
+      var1.f(a(""));
+      var1.g(a(this.i.t()));
+      return a(var1.M().g());
    }
 
    private g s() {
@@ -318,20 +319,20 @@ public class L1Craft {
       }
 
       var1.d(0);
-      return a.g.a(var1.M().g());
+      return a(var1.M().g());
    }
 
    private g f(int var1) {
       PBMessageALL4.L1R_a.L1R_a var2 = PBMessageALL4.L1R_a.aa();
       var2.a(var1);
-      return a.g.a(var2.M().g());
+      return a(var2.M().g());
    }
 
    public g a(long var1, long var3) {
       PBMessageALL4.L1R_a.L1R_a var5 = PBMessageALL4.L1R_a.aa();
       var5.a(var1);
       var5.b(var3);
-      return a.g.a(var5.M().g());
+      return a(var5.M().g());
    }
 
    public void d(int var1) {

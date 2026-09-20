@@ -44,7 +44,7 @@ public class DropTable {
    }
 
    private HashMap<Integer, ArrayList<L1Drop>> b() {
-      HashMap var1 = new HashMap<>();
+      HashMap<Integer, ArrayList<L1Drop>> var1 = new HashMap<>();
       Connection var2 = null;
       PreparedStatement var3 = null;
       ResultSet var4 = null;
@@ -64,7 +64,7 @@ public class DropTable {
             int var11 = var4.getInt("bless_change");
             int var12 = var4.getInt("unbless_change");
             L1Drop var13 = new L1Drop(var5, var6, var7, var8, var9, var10, var11, var12);
-            ArrayList var14 = var1.get(var13.e());
+            ArrayList<L1Drop> var14 = var1.get(var13.e());
             if (var14 == null) {
                var14 = new ArrayList<>();
                var1.put(new Integer(var13.e()), var14);
@@ -84,7 +84,7 @@ public class DropTable {
    public void a(L1NpcInstance var1, L1Inventory var2) {
       DropMapTable.a().a(var1);
       int var3 = var1.U_().b();
-      List var4 = this.c.get(var3);
+      List<L1Drop> var4 = this.c.get(var3);
       if (var4 != null) {
          double var5 = Config.F;
          if (var5 <= 0.0) {

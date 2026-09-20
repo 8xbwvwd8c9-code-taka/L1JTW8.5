@@ -62,7 +62,7 @@ public class HomeTownTimer {
    public void c() {
       System.out.println("城鎮系統：開始處理每月事項");
       L1World.a().b(true);
-      Collection var1 = L1World.a().c();
+      Collection<L1PcInstance> var1 = L1World.a().c();
 
       for (L1PcInstance var2 : var1) {
          var2.I();

@@ -17504,12 +17504,6 @@ recovery/normalized-src-vf/l1r/am/MonsterListReader.java:204: error: reference t
                PBMessageALL8.L1R_c var64 = PBMessageALL8.L1R_c.a(var56);
                                                               ^
   both method a(g) in L1R_c and method a(h) in L1R_c match
-recovery/normalized-src-vf/l1r/aq/L1Buddy.java:32: error: incompatible types: Object cannot be converted to String
-         if (var1.equalsIgnoreCase(var3.getValue())) {
-                                                ^
-recovery/normalized-src-vf/l1r/aq/L1Buddy.java:33: error: incompatible types: Object cannot be converted to int
-            var2 = var3.getKey();
-                              ^
 recovery/normalized-src-vf/l1r/ao/CharacterEquipment.java:62: error: reference to a is ambiguous
             PBMessageALL3.L1R_a var6 = PBMessageALL3.L1R_a.a(var5);
                                                           ^
@@ -17529,69 +17523,63 @@ recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java:101: error: reference 
 recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java:101: error: incompatible types: L1R_e cannot be converted to int
                var2[var8] = var7.a(var8);
                                   ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:152: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:168: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:189: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:205: error: int cannot be dereferenced
-      var3.f(a.g.a(""));
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: int cannot be dereferenced
-      var3.g(a.g.a(var1.t()));
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:210: error: int cannot be dereferenced
-      return a.g.a(var3.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:219: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:231: error: int cannot be dereferenced
-      return a.g.a(var3.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:239: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:260: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:268: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:283: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:299: error: int cannot be dereferenced
-      var1.f(a.g.a(""));
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: int cannot be dereferenced
-      var1.g(a.g.a(this.i.t()));
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:321: error: int cannot be dereferenced
-      return a.g.a(var1.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:327: error: int cannot be dereferenced
-      return a.g.a(var2.M().g());
-              ^
-recovery/normalized-src-vf/l1r/aq/L1Craft.java:334: error: int cannot be dereferenced
-      return a.g.a(var5.M().g());
-              ^
-recovery/normalized-src-vf/l1r/ao/DropTable.java:67: error: incompatible types: Object cannot be converted to ArrayList
-            ArrayList var14 = var1.get(var13.e());
-                                      ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:153: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:169: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:190: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:206: error: incompatible types: String cannot be converted to int
+      var3.f(a(""));
+               ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:207: error: incompatible types: byte[] cannot be converted to int
+      var3.g(a(var1.t()));
+                     ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:211: error: incompatible types: byte[] cannot be converted to int
+      return a(var3.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:220: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:232: error: incompatible types: byte[] cannot be converted to int
+      return a(var3.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:240: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:261: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:269: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:284: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:300: error: incompatible types: String cannot be converted to int
+      var1.f(a(""));
+               ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:301: error: incompatible types: byte[] cannot be converted to int
+      var1.g(a(this.i.t()));
+                       ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:302: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:322: error: incompatible types: byte[] cannot be converted to int
+      return a(var1.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:328: error: incompatible types: byte[] cannot be converted to int
+      return a(var2.M().g());
+                         ^
+recovery/normalized-src-vf/l1r/aq/L1Craft.java:335: error: incompatible types: byte[] cannot be converted to int
+      return a(var5.M().g());
+                         ^
 recovery/normalized-src-vf/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
                var1.put(new Integer(var13.e()), var14);
                         ^
-recovery/normalized-src-vf/l1r/ao/DropTable.java:100: error: incompatible types: Object cannot be converted to L1Drop
-            for (L1Drop var15 : var4) {
-                                ^
 recovery/normalized-src-vf/l1r/ao/DropTable.java:164: error: incompatible types: Object cannot be converted to L1HateList.L1R_a
          for (L1HateList.L1R_a var6 : var4) {
                                       ^
@@ -17964,34 +17952,9 @@ recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:237: error: incompatible types:
 recovery/normalized-src-vf/l1r/aq/L1Alchemy.java:263: error: incompatible types: Object cannot be converted to L1Item
             L1Item var18 = var17.get(Random.a(var17.size()));
                                     ^
-recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:143: error: incompatible types: Object cannot be converted to int
-            return var1.getKey();
-                              ^
-recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:156: error: cannot find symbol
-         if (var1.getValue().a(var0)) {
-                            ^
-  symbol:   method a(L1Location)
-  location: class Object
-recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:157: error: incompatible types: Object cannot be converted to int
-            return var1.getKey();
-                              ^
-recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:162: error: bad operand types for binary operator '=='
-         if (var3.getValue() == var0.b()) {
-                             ^
-  first type:  Object
-  second type: int
-recovery/normalized-src-vf/l1r/aq/L1CastleLocation.java:163: error: incompatible types: Object cannot be converted to int
-            return var3.getKey();
-                              ^
-recovery/normalized-src-vf/l1r/aq/L1Getback.java:97: error: incompatible types: Object cannot be converted to L1Getback
-         for (L1Getback var8 : var6) {
-                               ^
 recovery/normalized-src-vf/l1r/aq/L1SpawnBoss.java:37: error: method does not override or implement a method from a supertype
    @Override
    ^
-recovery/normalized-src-vf/l1r/aq/L1Teleport.java:148: error: incompatible types: Object cannot be converted to L1PcInstance
-            for (L1PcInstance var17 : var7) {
-                                      ^
 recovery/normalized-src-vf/l1r/as/L1BugBearRace.java:186: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
       this.m.put(new Integer(var4.c), var4);
                  ^
@@ -18158,27 +18121,12 @@ recovery/normalized-src-vf/l1r/as/L1ThebesBattle.java:239: error: no suitable co
       (argument mismatch; int cannot be converted to ArrayList<Integer>)
     constructor S_ProtoBuffers.S_ProtoBuffers(int,String,L1ThebesBattle.L1R_g...) is not applicable
       (varargs mismatch; Object[] cannot be converted to L1ThebesBattle.L1R_g)
-recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:67: error: incompatible types: Object cannot be converted to L1PcInstance
-      for (L1PcInstance var2 : var1) {
-                               ^
-recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:76: error: incompatible types: Object cannot be converted to L1PcInstance
-            for (L1PcInstance var5 : var1) {
-                                     ^
-recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java:87: error: incompatible types: Object cannot be converted to L1PcInstance
-      for (L1PcInstance var8 : var1) {
-                               ^
 recovery/normalized-src-vf/l1r/bd/L1MonsterTrap.java:56: error: incompatible types: Object cannot be converted to Point
                for (Point var5 : var3) {
                                  ^
 recovery/normalized-src-vf/l1r/be/S_Board.java:34: error: incompatible types: Object cannot be converted to L1BoardTopic
       for (L1BoardTopic var4 : var3) {
                                ^
-recovery/normalized-src-vf/l1r/be/S_Bookmarks.java:64: error: incompatible types: Object cannot be converted to L1BookMark
-         for (L1BookMark var16 : var2) {
-                                 ^
-recovery/normalized-src-vf/l1r/be/S_Bookmarks.java:75: error: incompatible types: Object cannot be converted to L1BookMark
-         for (L1BookMark var17 : var2) {
-                                 ^
 recovery/normalized-src-vf/l1r/be/S_CharEvent.java:87: error: incompatible types: Object cannot be converted to ShopWorldTable.L1R_b
       for (ShopWorldTable.L1R_b var3 : var2) {
                                        ^
@@ -18255,12 +18203,6 @@ recovery/normalized-src-vf/l1r/be/S_OwnCharPack.java:32: error: reference to i i
 recovery/normalized-src-vf/l1r/be/S_PacketBox.java:328: error: incompatible types: Object cannot be converted to L1PcInstance
                for (L1PcInstance var4 : var3) {
                                         ^
-recovery/normalized-src-vf/l1r/be/S_Party.java:46: error: incompatible types: Object cannot be converted to L1PcInstance
-         L1PcInstance var5 = var3.get(var4);
-                                     ^
-recovery/normalized-src-vf/l1r/be/S_Party.java:89: error: incompatible types: Object cannot be converted to L1PcInstance
-         for (L1PcInstance var3 : var2) {
-                                  ^
 recovery/normalized-src-vf/l1r/be/S_PetList.java:29: error: incompatible types: Object cannot be converted to L1ItemInstance
          for (L1ItemInstance var6 : var3) {
                                     ^
@@ -18275,12 +18217,6 @@ recovery/normalized-src-vf/l1r/be/S_PetPack.java:23: error: reference to i is am
 recovery/normalized-src-vf/l1r/be/S_PledgeWarehouseHistory.java:23: error: incompatible types: Object cannot be converted to S_PledgeWarehouseHistory.L1R_a
       for (S_PledgeWarehouseHistory.L1R_a var3 : var2) {
                                                  ^
-recovery/normalized-src-vf/l1r/be/S_PrivateShop.java:24: error: incompatible types: Object cannot be converted to L1PrivateShopSellList
-               L1PrivateShopSellList var8 = var5.get(var7);
-                                                    ^
-recovery/normalized-src-vf/l1r/be/S_PrivateShop.java:55: error: incompatible types: Object cannot be converted to L1PrivateShopBuyList
-               L1PrivateShopBuyList var21 = var18.get(var20);
-                                                     ^
 recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:272: error: int cannot be dereferenced
             var16.e(g.a(new byte[]{-30, 112, -1}));
                      ^
@@ -18290,6 +18226,6 @@ recovery/normalized-src-vf/l1r/be/S_ProtoBuffers.java:448: error: int cannot be 
 Note: Some input files use unchecked or unsafe operations.
 Note: Recompile with -Xlint:unchecked for details.
 Note: Some messages have been simplified; recompile with -Xdiags:verbose to get full output
-4003 errors
+3983 errors
 103 warnings
-printing javac parameters to: /home/runner/work/L1JTW8.5/L1JTW8.5/javac.20260920_123521.args
+printing javac parameters to: /home/runner/work/L1JTW8.5/L1JTW8.5/javac.20260920_123923.args

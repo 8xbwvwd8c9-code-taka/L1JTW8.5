@@ -6,8 +6,8 @@
   "built_donor_classes_normalized": 0,
   "missing_classes": 1109,
   "extra_classes": 0,
-  "javac_error_headers": 4003,
-  "javac_error_files": 72,
+  "javac_error_headers": 3983,
+  "javac_error_files": 64,
   "donor_game_jar_on_classpath": false,
   "dependencies": [
     "lib/c3p0-0.9.5.2.jar",

@@ -99,7 +99,7 @@ public class L1Teleport {
                var0.a(new S_ServerMessage(123, "\\aG$26512"));
             }
 
-            HashSet var7 = new HashSet<>();
+            HashSet<L1PcInstance> var7 = new HashSet<>();
             var7.add(var0);
             if (!var0.bN() && !var0.aA()) {
                for (L1PcInstance var8 : L1World.a().f(var0)) {

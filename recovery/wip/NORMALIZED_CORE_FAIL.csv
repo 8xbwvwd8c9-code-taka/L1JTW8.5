@@ -1,10 +1,8 @@
 File,ErrorHeaders,PrimaryError
-l1r/aq/L1Craft.java,18,int cannot be dereferenced
+l1r/aq/L1Craft.java,18,incompatible types: byte[] cannot be converted to int
 l1r/ap/L1DoorInstance.java,6,reference to d is ambiguous
 l1r/as/L1ThebesBattle.java,6,"no suitable constructor found for S_ProtoBuffers(int,String,Object[])"
 l1r/ap/L1MonsterInstance.java,5,method does not override or implement a method from a supertype
-l1r/aq/L1CastleLocation.java,5,incompatible types: Object cannot be converted to int
-l1r/ao/DropTable.java,4,incompatible types: Object cannot be converted to ArrayList
 l1r/ap/L1PetInstance.java,4,method does not override or implement a method from a supertype
 l1r/aq/L1Alchemy.java,4,incompatible types: Object cannot be converted to L1Item
 l1r/aq/L1Character.java,4,incompatible types: void cannot be converted to boolean
@@ -13,15 +11,11 @@ l1r/ap/L1NpcInstance.java,3,cannot find symbol
 l1r/ap/L1PcInstance.java,3,method does not override or implement a method from a supertype
 l1r/as/L1OrimBattle.java,3,incompatible types: Object cannot be converted to L1NpcInstance
 l1r/as/L1SoulTower.java,3,incompatible types: Object cannot be converted to L1DoorInstance
-l1r/ba/HomeTownTimer.java,3,incompatible types: Object cannot be converted to L1PcInstance
 l1r/aj/C_ItemUSe.java,2,'void' type not allowed here
 l1r/al/L1GfxNpc.java,2,incompatible types: Object cannot be converted to int
+l1r/ao/DropTable.java,2,incompatible types: Object cannot be converted to L1HateList.L1R_a
 l1r/ao/ShopTable.java,2,incompatible types: Object cannot be converted to L1Item
-l1r/aq/L1Buddy.java,2,incompatible types: Object cannot be converted to String
 l1r/au/L1Inventory.java,2,incompatible types: Object[] cannot be converted to L1ItemInstance[]
-l1r/be/S_Bookmarks.java,2,incompatible types: Object cannot be converted to L1BookMark
-l1r/be/S_Party.java,2,incompatible types: Object cannot be converted to L1PcInstance
-l1r/be/S_PrivateShop.java,2,incompatible types: Object cannot be converted to L1PrivateShopSellList
 l1r/be/S_ProtoBuffers.java,2,int cannot be dereferenced
 l1r/bh/L1Account.java,2,cannot find symbol
 l1r/aj/C_ProtoBuffers.java,1,incompatible types: Object cannot be converted to L1ItemInstance
@@ -36,9 +30,7 @@ l1r/ap/L1GfxInstance.java,1,'void' type not allowed here
 l1r/ap/L1ItemInstance.java,1,incompatible types: Object cannot be converted to ArmorSetTable.L1R_a
 l1r/ap/L1SummonInstance.java,1,method does not override or implement a method from a supertype
 l1r/ap/L1TowerInstance.java,1,method does not override or implement a method from a supertype
-l1r/aq/L1Getback.java,1,incompatible types: Object cannot be converted to L1Getback
 l1r/aq/L1SpawnBoss.java,1,method does not override or implement a method from a supertype
-l1r/aq/L1Teleport.java,1,incompatible types: Object cannot be converted to L1PcInstance
 l1r/as/L1HardinBattle.java,1,no suitable method found for a(Object)
 l1r/bd/L1MonsterTrap.java,1,incompatible types: Object cannot be converted to Point
 l1r/be/S_Board.java,1,incompatible types: Object cannot be converted to L1BoardTopic

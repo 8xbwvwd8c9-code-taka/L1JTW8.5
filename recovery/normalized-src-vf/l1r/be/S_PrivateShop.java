@@ -15,7 +15,7 @@ public class S_PrivateShop extends ServerBasePacket {
          this.c(var3);
          this.a(var2);
          if (var3 == 0) {
-            List var5 = var4.aU();
+            List<L1PrivateShopSellList> var5 = var4.aU();
             int var6 = var5.size();
             var1.an(var6);
             this.b(var6);
@@ -47,7 +47,7 @@ public class S_PrivateShop extends ServerBasePacket {
                }
             }
          } else if (var3 == 1) {
-            List var18 = var4.aV();
+            List<L1PrivateShopBuyList> var18 = var4.aV();
             int var19 = var18.size();
             this.b(var19);
 

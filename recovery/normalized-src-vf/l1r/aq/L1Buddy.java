@@ -28,7 +28,7 @@ public class L1Buddy {
    public boolean a(String var1) {
       int var2 = 0;
 
-      for (Entry var3 : this.b.entrySet()) {
+      for (Entry<Integer, String> var3 : this.b.entrySet()) {
          if (var1.equalsIgnoreCase(var3.getValue())) {
             var2 = var3.getKey();
             break;
