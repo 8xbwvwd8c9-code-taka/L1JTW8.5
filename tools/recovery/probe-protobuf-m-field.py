@@ -33,7 +33,8 @@ for cls,txt in classes:
                 if j>i and lines[j].startswith('}'): break
                 j+=1
             clinit=buf
-    all_putstatic=[ln.strip() for ln in lines if 'putstatic' in ln and '// Field m:Z' in ln]\n    putctx=[]
+    all_putstatic=[ln.strip() for ln in lines if 'putstatic' in ln and '// Field m:Z' in ln]
+    putctx=[]
     for i,line in enumerate(clinit):
         if 'putstatic' in line and '// Field m:Z' in line:
             putctx=clinit[max(0,i-8):min(len(clinit),i+4)]
