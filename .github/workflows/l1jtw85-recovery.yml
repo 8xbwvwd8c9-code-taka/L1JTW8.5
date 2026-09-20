@@ -52,11 +52,23 @@ jobs:
 
       - name: Export target javap
         shell: pwsh
-        run: ./tools/recovery/export-target-javap.ps1
+        run: |
+          $existing = @(Get-ChildItem -LiteralPath "./recovery/javap-targets" -File -Filter *.javap.txt -ErrorAction SilentlyContinue).Count
+          if ($existing -ge 55) {
+            Write-Host "TARGET_JAVAP=SKIP_EXISTING"
+            Write-Host "COUNT=$existing"
+          } else {
+            ./tools/recovery/export-target-javap.ps1
+          }
 
       - name: Export protobuf builder javap
         shell: pwsh
-        run: ./tools/recovery/export-protobuf-builder-javap.ps1
+        run: |
+          if ((Test-Path "./recovery/protobuf-builder-javap.txt") -and ((Get-Item "./recovery/protobuf-builder-javap.txt").Length -gt 0)) {
+            Write-Host "PROTOBUF_BUILDER_JAVAP=SKIP_EXISTING"
+          } else {
+            ./tools/recovery/export-protobuf-builder-javap.ps1
+          }
 
       - name: Summarize protobuf builder bytecode
         shell: bash
@@ -136,6 +148,10 @@ jobs:
       - name: Build candidate recovery tree
         shell: bash
         run: python ./tools/recovery/build-candidate-stage.py
+
+      - name: Build obfuscated Protobuf compile reference
+        shell: bash
+        run: python ./tools/recovery/build-protobuf-compile-ref.py
 
       - name: Candidate source-only full-tree compile
         shell: bash
@@ -229,7 +245,9 @@ jobs:
             recovery/candidate_class_set_missing_raw.txt recovery/candidate_class_set_extra_raw.txt \
             recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
             recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
-            recovery/vineflower-hard-tail recovery/vineflower-stage2
+            recovery/vineflower-hard-tail recovery/vineflower-stage2 \
+            recovery/compile-ref-protobuf-obf.jar recovery/compile_ref_protobuf_obf.json \
+            recovery/COMPILE_REF_PROTOBUF_OBF.md
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0

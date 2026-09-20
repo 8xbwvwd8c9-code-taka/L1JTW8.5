@@ -30,7 +30,12 @@ sources = sorted(SRC.rglob("*.java"))
 SOURCE_LIST.write_text("\n".join(str(p).replace("\\", "/") for p in sources) + "\n", encoding="utf-8")
 
 lib_jars = sorted((ROOT / "lib").glob("*.jar"))
-classpath = os.pathsep.join(str(p) for p in lib_jars)
+embedded_refs = [REC / "compile-ref-protobuf-obf.jar"]
+for ref in embedded_refs:
+    if not ref.exists():
+        raise SystemExit(f"missing recovery compile reference: {ref}")
+classpath_jars = lib_jars + embedded_refs
+classpath = os.pathsep.join(str(p) for p in classpath_jars)
 
 cmd = [
     "javac",
@@ -101,6 +106,7 @@ state = {
     "source_root": SRC.as_posix(),
     "donor_jar_on_classpath": False,
     "third_party_jars": [p.as_posix() for p in lib_jars],
+    "embedded_compile_refs": [p.as_posix() for p in embedded_refs],
     "java_sources_submitted": len(sources),
     "compile_exit_code": proc.returncode,
     "generated_class_files_total": len(built_paths),
@@ -129,7 +135,9 @@ lines = [
     "## Build boundary",
     "",
     "- Game donor JAR on compile classpath: **NO**",
-    "- Only repository third-party JARs under lib/ are used as binary dependencies.",
+    "- Repository third-party JARs under lib/ are binary dependencies.",
+    "- recovery/compile-ref-protobuf-obf.jar supplies only donor-embedded obfuscated Protobuf package a/**.",
+    "- No ai..bj or l1j.server game classes are included in that compile reference.",
     f"- Candidate source root: **{SRC.as_posix()}**",
     "",
     "## Result",
