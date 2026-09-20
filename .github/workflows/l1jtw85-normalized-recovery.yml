@@ -39,6 +39,9 @@ jobs:
       - name: Decompile normalized app
         shell: bash
         run: python tools/normalized-recovery/decompile-normalized-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+      - name: Repair normalized source
+        shell: bash
+        run: python tools/normalized-recovery/repair-normalized-source.py
       - name: Compile normalized source
         shell: bash
         run: python tools/normalized-recovery/compile-normalized-source.py
