@@ -54,6 +54,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-af-bytecode.py
 
+      - name: Probe protobuf m synthetic field
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-m-field.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
