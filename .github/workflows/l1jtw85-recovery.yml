@@ -103,10 +103,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-parser-bridges.py
 
-      - name: Add protobuf source bridge shims
-        shell: bash
-        run: python ./tools/recovery/add-protobuf-source-bridge-shims.py
-
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
