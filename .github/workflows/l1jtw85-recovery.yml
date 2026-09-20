@@ -116,6 +116,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/decompile-hard-tail-vineflower.py "$RUNNER_TEMP/vineflower.jar"
 
+      - name: Decompile stage2 targets with Vineflower
+        shell: bash
+        run: python ./tools/recovery/decompile-stage2-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+
       - name: Scan hard-tail source
         shell: bash
         run: python ./tools/recovery/scan-hard-tail.py
@@ -213,7 +217,7 @@ jobs:
             recovery/candidate_class_set_missing_raw.txt recovery/candidate_class_set_extra_raw.txt \
             recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
             recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
-            recovery/vineflower-hard-tail
+            recovery/vineflower-hard-tail recovery/vineflower-stage2
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
