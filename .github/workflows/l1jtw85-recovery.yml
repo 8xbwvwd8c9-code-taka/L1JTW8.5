@@ -189,6 +189,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/per-class-compile.py
 
+      - name: Normalized non-protobuf diagnostic compile
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-nonproto.py
+
       - name: Candidate source-only full-tree compile
         shell: bash
         run: python ./tools/recovery/compile-candidate-stage.py
@@ -305,7 +309,9 @@ jobs:
             recovery/nonproto_class_set_missing.txt recovery/nonproto_class_set_extra.txt \
             recovery/l1jserver2-sanitized-ref.jar recovery/sanitized_ref.json recovery/SANITIZED_REF.md \
             recovery/per_class_compile.csv recovery/per_class_compile.json recovery/PER_CLASS_COMPILE.md \
-            recovery/per_class_failures.log
+            recovery/per_class_failures.log \
+            recovery/normalized_nonproto_compile.json recovery/NORMALIZED_NONPROTO_COMPILE.md \
+            recovery/normalized_nonproto_javac.log recovery/normalized_nonproto_source_files.txt
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
