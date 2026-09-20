@@ -47,9 +47,9 @@ public class L1BugBearRace {
    private int j;
    private int k = 0;
    private HashMap<Integer, L1NpcInstance> l = new HashMap<>();
-   private final ConcurrentHashMap<Integer, L1BugBearRace.a> m = new ConcurrentHashMap<>();
-   private HashMap<Integer, L1BugBearRace.a> n = new HashMap<>();
-   private final HashMap<Integer, L1BugBearRace.b> o = new HashMap<>();
+   private final ConcurrentHashMap<Integer, L1BugBearRace.L1R_a> m = new ConcurrentHashMap<>();
+   private HashMap<Integer, L1BugBearRace.L1R_a> n = new HashMap<>();
+   private final HashMap<Integer, L1BugBearRace.L1R_b> o = new HashMap<>();
    private final int[][] p = new int[][]{{6, 46}, {7, 3}, {0, 5}, {1, 11}, {2, 18}, {1, 1}, {2, 10}, {1, 2}, {2, 9}};
    private final int[][] q = new int[][]{{6, 44}, {7, 3}, {0, 8}, {1, 10}, {2, 32}, {1, 1}, {2, 7}};
    private final int[][] r = new int[][]{{6, 34}, {7, 1}, {6, 6}, {7, 5}, {0, 6}, {1, 7}, {0, 1}, {1, 2}, {3, 1}, {2, 6}, {1, 1}, {2, 35}};
@@ -67,7 +67,7 @@ public class L1BugBearRace {
    private L1BugBearRace() {
       this.g();
       this.h();
-      new L1BugBearRace.c(null).a();
+      new L1BugBearRace.L1R_c(null).a();
    }
 
    private void e() {
@@ -80,7 +80,7 @@ public class L1BugBearRace {
             this.l.put(var2, this.a(var3, var2));
             var1++;
             int var4 = var2 - 91350 + 1;
-            L1BugBearRace.a var5 = new L1BugBearRace.a(null);
+            L1BugBearRace.L1R_a var5 = new L1BugBearRace.L1R_a(null);
             this.n.put(var4, var5);
          }
       }
@@ -110,7 +110,7 @@ public class L1BugBearRace {
 
    private void g() {
       for (int var1 = 1; var1 <= 20; var1++) {
-         this.o.put(var1, new L1BugBearRace.b(null));
+         this.o.put(var1, new L1BugBearRace.L1R_b(null));
       }
 
       for (L1Object var3 : L1World.a().b()) {
@@ -162,7 +162,7 @@ public class L1BugBearRace {
    }
 
    public void a(L1ItemInstance var1) {
-      L1BugBearRace.a var2 = this.m.get(var1.fr());
+      L1BugBearRace.L1R_a var2 = this.m.get(var1.fr());
       if (var2 != null) {
          L1Item var3 = (L1Item)var1.a().clone();
          String var4 = var3.j() + " " + var2.d + "-" + var2.g;
@@ -176,10 +176,10 @@ public class L1BugBearRace {
    public void b(L1ItemInstance var1) {
       String[] var2 = var1.a().j().split("-");
       int var3 = Integer.parseInt(var2[1]);
-      L1BugBearRace.a var10000 = this.n.get(var3);
+      L1BugBearRace.L1R_a var10000 = this.n.get(var3);
       var10000.b = var10000.b + var1.E();
       this.h = this.h + var1.E() * 500;
-      L1BugBearRace.a var4 = new L1BugBearRace.a(null);
+      L1BugBearRace.L1R_a var4 = new L1BugBearRace.L1R_a(null);
       var4.c = var1.fr();
       var4.d = this.j;
       var4.g = var3;
@@ -188,7 +188,7 @@ public class L1BugBearRace {
    }
 
    public int a(int var1) {
-      L1BugBearRace.a var2 = this.m.get(var1);
+      L1BugBearRace.L1R_a var2 = this.m.get(var1);
       return var2 == null ? 0 : (int)(var2.e * var2.f) * 500;
    }
 
@@ -211,7 +211,7 @@ public class L1BugBearRace {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            L1BugBearRace.a var5 = new L1BugBearRace.a(null);
+            L1BugBearRace.L1R_a var5 = new L1BugBearRace.L1R_a(null);
             int var6 = var3.getInt(1);
             int var7 = var3.getInt(2);
             int var8 = var3.getInt(5);
@@ -223,7 +223,7 @@ public class L1BugBearRace {
                var5.g = var8;
                this.m.put(var6, var5);
             } else if (var8 > 0) {
-               L1BugBearRace.b var10000 = this.o.get(var8);
+               L1BugBearRace.L1R_b var10000 = this.o.get(var8);
                var10000.b = var10000.b + 1;
 
                for (int var9 = 6; var9 <= 10; var9++) {
@@ -245,7 +245,7 @@ public class L1BugBearRace {
       }
    }
 
-   private void a(L1BugBearRace.a var1) {
+   private void a(L1BugBearRace.L1R_a var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;
 
@@ -305,7 +305,7 @@ public class L1BugBearRace {
          );
          var6.setDouble(++var7, var3);
          var6.setInt(++var7, var2);
-         L1BugBearRace.b var10000 = this.o.get(var2);
+         L1BugBearRace.L1R_b var10000 = this.o.get(var2);
          var10000.b = var10000.b + 1;
 
          for (L1NpcInstance var8 : this.l.values()) {
@@ -325,7 +325,7 @@ public class L1BugBearRace {
       SQLUtil.a(var6);
       SQLUtil.a(var5);
 
-      for (L1BugBearRace.a var16 : this.m.values()) {
+      for (L1BugBearRace.L1R_a var16 : this.m.values()) {
          if (var16.d == this.j && var16.g == var2) {
             var16.e = var3;
             var16.f = 1;
@@ -350,7 +350,7 @@ public class L1BugBearRace {
       return var2;
    }
 
-   private class a {
+   private class L1R_a {
       private int b = 0;
       private int c = 0;
       private int d = 0;
@@ -358,30 +358,30 @@ public class L1BugBearRace {
       private int f = 0;
       private int g = 0;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(L1BugBearRace.a var2) {
+      L1R_a(L1BugBearRace.L1R_a var2) {
          this();
       }
    }
 
-   private class b {
+   private class L1R_b {
       private int b = 0;
       private int c = 0;
 
-      private b() {
+      private L1R_b() {
       }
 
       // $VF: synthetic method
-      b(L1BugBearRace.b var2) {
+      L1R_b(L1BugBearRace.L1R_b var2) {
          this();
       }
    }
 
-   private class c extends TimerTask {
-      private c() {
+   private class L1R_c extends TimerTask {
+      private L1R_c() {
       }
 
       private void a() {
@@ -395,7 +395,7 @@ public class L1BugBearRace {
                L1BugBearRace.this.b = Executors.newScheduledThreadPool(5);
                L1BugBearRace.this.i = 0;
                L1BugBearRace.this.j = L1BugBearRace.this.j + 1;
-               L1BugBearRace.a var1 = L1BugBearRace.this.new a(null);
+               L1BugBearRace.L1R_a var1 = L1BugBearRace.this.new L1R_a(null);
                var1.d = L1BugBearRace.this.j;
                L1BugBearRace.this.a(var1);
                L1BugBearRace.this.b("$376 10 $377");
@@ -449,14 +449,14 @@ public class L1BugBearRace {
                }
 
                for (L1NpcInstance var15 : L1BugBearRace.this.l.values()) {
-                  L1BugBearRace.this.b.schedule(L1BugBearRace.this.new d(var15, L1BugBearRace.this.e(var15.fs()), null), 0L, TimeUnit.MILLISECONDS);
+                  L1BugBearRace.this.b.schedule(L1BugBearRace.this.new L1R_d(var15, L1BugBearRace.this.e(var15.fs()), null), 0L, TimeUnit.MILLISECONDS);
                }
 
                Thread.sleep(3000L);
 
                for (L1NpcInstance var16 : L1BugBearRace.this.l.values()) {
                   var20 = var16.z() - 91350 + 1;
-                  L1BugBearRace.a var23 = L1BugBearRace.this.n.get(var20);
+                  L1BugBearRace.L1R_a var23 = L1BugBearRace.this.n.get(var20);
                   if (var23.b > 0) {
                      var23.e = L1BugBearRace.this.h / var23.b / 500.0;
                   } else {
@@ -480,16 +480,16 @@ public class L1BugBearRace {
       }
 
       // $VF: synthetic method
-      c(L1BugBearRace.c var2) {
+      L1R_c(L1BugBearRace.L1R_c var2) {
          this();
       }
    }
 
-   private class d implements Runnable {
+   private class L1R_d implements Runnable {
       L1NpcInstance a;
       int[][] b;
 
-      private d(L1NpcInstance var2, int[][] var3) {
+      private L1R_d(L1NpcInstance var2, int[][] var3) {
          this.a = var2;
          this.b = var3;
       }
@@ -528,7 +528,7 @@ public class L1BugBearRace {
       }
 
       // $VF: synthetic method
-      d(L1NpcInstance var2, int[][] var3, L1BugBearRace.d var4) {
+      L1R_d(L1NpcInstance var2, int[][] var3, L1BugBearRace.L1R_d var4) {
          this(var2, var3);
       }
    }

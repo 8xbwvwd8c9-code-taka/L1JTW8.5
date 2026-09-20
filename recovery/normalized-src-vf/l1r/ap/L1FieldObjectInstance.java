@@ -15,7 +15,7 @@ import l1r.bi.Random;
 
 public class L1FieldObjectInstance extends L1NpcInstance {
    private static final Logger y = Logger.getLogger(L1FieldObjectInstance.class.getName());
-   private L1FieldObjectInstance.a z = null;
+   private L1FieldObjectInstance.L1R_a z = null;
    private int A = 0;
 
    public L1FieldObjectInstance(L1Npc var1) {
@@ -31,7 +31,7 @@ public class L1FieldObjectInstance extends L1NpcInstance {
       var1.c(this);
       var1.a(new S_NPCPack(this));
       if (this.z == null && this.f() != -1) {
-         this.z = new L1FieldObjectInstance.a(this, null);
+         this.z = new L1FieldObjectInstance.L1R_a(this, null);
          this.z.a();
       }
    }
@@ -44,10 +44,10 @@ public class L1FieldObjectInstance extends L1NpcInstance {
       this.A = var1;
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       private final L1FieldObjectInstance b;
 
-      private a(L1FieldObjectInstance var2) {
+      private L1R_a(L1FieldObjectInstance var2) {
          this.b = var2;
       }
 
@@ -151,7 +151,7 @@ public class L1FieldObjectInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1FieldObjectInstance var2, L1FieldObjectInstance.a var3) {
+      L1R_a(L1FieldObjectInstance var2, L1FieldObjectInstance.L1R_a var3) {
          this(var2);
       }
    }

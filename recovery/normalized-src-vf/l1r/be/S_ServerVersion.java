@@ -8,7 +8,7 @@ public class S_ServerVersion extends ServerBasePacket {
    public S_ServerVersion() {
       this.c(1);
       this.b(821);
-      PBMessageALL9.g.a var1 = PBMessageALL9.g.ak();
+      PBMessageALL9.L1R_g.L1R_a var1 = PBMessageALL9.L1R_g.ak();
       var1.a(0);
       var1.b(Config.a);
       var1.c(1710162001);

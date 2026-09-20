@@ -33,16 +33,16 @@ public class L1ItemDelay {
          }
       }
 
-      L1ItemDelay.a var5 = new L1ItemDelay.a(var4, var2, null);
+      L1ItemDelay.L1R_a var5 = new L1ItemDelay.L1R_a(var4, var2, null);
       var4.a(var2, var5);
       GeneralThreadPool.a().a(var5, var3);
    }
 
-   public static class a implements Runnable {
+   public static class L1R_a implements Runnable {
       private final int a;
       private final L1Character b;
 
-      private a(L1Character var1, int var2) {
+      private L1R_a(L1Character var1, int var2) {
          this.b = var1;
          this.a = var2;
       }
@@ -57,7 +57,7 @@ public class L1ItemDelay {
       }
 
       // $VF: synthetic method
-      a(L1Character var1, int var2, L1ItemDelay.a var3) {
+      L1R_a(L1Character var1, int var2, L1ItemDelay.L1R_a var3) {
          this(var1, var2);
       }
    }

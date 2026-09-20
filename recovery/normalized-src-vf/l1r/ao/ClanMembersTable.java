@@ -47,7 +47,7 @@ public class ClanMembersTable {
       }
    }
 
-   public void a(C_Pledge.a var1) {
+   public void a(C_Pledge.L1R_a var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;
       ResultSet var4 = null;

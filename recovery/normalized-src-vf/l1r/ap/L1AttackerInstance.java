@@ -179,7 +179,7 @@ public class L1AttackerInstance extends L1MonsterInstance {
          if (var7 <= 0 && !this.eX()) {
             int var4 = this.U_().ab();
             if (var4 == -1) {
-               L1MonsterInstance.a var5 = new L1MonsterInstance.a(var1);
+               L1MonsterInstance.L1R_a var5 = new L1MonsterInstance.L1R_a(var1);
                GeneralThreadPool.a().a(var5);
             } else {
                this.g_(var4);
@@ -192,7 +192,7 @@ public class L1AttackerInstance extends L1MonsterInstance {
       } else if (!this.eX()) {
          this.X(true);
          this.cq(8);
-         L1MonsterInstance.a var3 = new L1MonsterInstance.a(var1);
+         L1MonsterInstance.L1R_a var3 = new L1MonsterInstance.L1R_a(var1);
          GeneralThreadPool.a().a(var3);
       }
    }

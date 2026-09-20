@@ -79,7 +79,7 @@ public class L1Spawn {
    }
 
    public void a(int var1, int var2) {
-      GeneralThreadPool.a().a(new L1Spawn.a(var1, var2, null), this.v() * 1000);
+      GeneralThreadPool.a().a(new L1Spawn.L1R_a(var1, var2, null), this.v() * 1000);
    }
 
    private int v() {
@@ -162,7 +162,7 @@ public class L1Spawn {
             if (var3 instanceof L1MonsterInstance && !this.u) {
                L1MonsterInstance var12 = (L1MonsterInstance)var3;
                if (!L1World.a().f(var12).isEmpty()) {
-                  GeneralThreadPool.a().a(new L1Spawn.a(var1, var3.fr(), null), 3000L);
+                  GeneralThreadPool.a().a(new L1Spawn.L1R_a(var1, var3.fr(), null), 3000L);
                   return;
                }
             }
@@ -397,11 +397,11 @@ public class L1Spawn {
       this.y = var1;
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       private final int b;
       private final int c;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.b = var2;
          this.c = var3;
       }
@@ -412,7 +412,7 @@ public class L1Spawn {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, L1Spawn.a var4) {
+      L1R_a(int var2, int var3, L1Spawn.L1R_a var4) {
          this(var2, var3);
       }
    }

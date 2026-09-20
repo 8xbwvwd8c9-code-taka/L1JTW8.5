@@ -10,7 +10,7 @@ import l1r.bi.GeneralThreadPool;
 import l1r.bi.Random;
 
 public class L1FishInstance extends L1NpcInstance {
-   private final ScheduledFuture<?> y = GeneralThreadPool.a().a(new L1FishInstance.a(null), 1000L, (30 + Random.a(30)) * 1000);
+   private final ScheduledFuture<?> y = GeneralThreadPool.a().a(new L1FishInstance.L1R_a(null), 1000L, (30 + Random.a(30)) * 1000);
 
    public L1FishInstance(L1Npc var1) {
       super(var1);
@@ -22,8 +22,8 @@ public class L1FishInstance extends L1NpcInstance {
       var1.a(new S_NPCPack(this));
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -38,7 +38,7 @@ public class L1FishInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1FishInstance.a var2) {
+      L1R_a(L1FishInstance.L1R_a var2) {
          this();
       }
    }

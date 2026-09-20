@@ -19,7 +19,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class HtmlTeleportTable {
    private static final Logger a = Logger.getLogger(HtmlTeleportTable.class.getName());
    private static HtmlTeleportTable b;
-   private final HashMap<String, HtmlTeleportTable.a> c = new HashMap<>();
+   private final HashMap<String, HtmlTeleportTable.L1R_a> c = new HashMap<>();
 
    public static HtmlTeleportTable a() {
       if (b == null) {
@@ -40,7 +40,7 @@ public class HtmlTeleportTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            HtmlTeleportTable.a var4 = new HtmlTeleportTable.a(null);
+            HtmlTeleportTable.L1R_a var4 = new HtmlTeleportTable.L1R_a(null);
             var4.a = var3.getInt("npcid");
             var4.b = var3.getString("action");
             var4.c = var3.getInt("x");
@@ -66,7 +66,7 @@ public class HtmlTeleportTable {
       if (!this.c.containsKey(var3.z() + "-" + var1)) {
          return false;
       } else {
-         HtmlTeleportTable.a var4 = this.c.get(var3.z() + "-" + var1);
+         HtmlTeleportTable.L1R_a var4 = this.c.get(var3.z() + "-" + var1);
          if (!var2.j().g(var4.g, var4.h)) {
             L1Item var5 = ItemTable.a().a(var4.g);
             var2.a(new S_ServerMessage(337, var5.i()));
@@ -88,7 +88,7 @@ public class HtmlTeleportTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       public int a;
       public String b;
       public int c;
@@ -101,11 +101,11 @@ public class HtmlTeleportTable {
       public int j;
       public String k;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(HtmlTeleportTable.a var2) {
+      L1R_a(HtmlTeleportTable.L1R_a var2) {
          this();
       }
    }

@@ -126,7 +126,7 @@ public class L1TowerInstance extends L1NpcInstance {
                this.cq(35);
                this.y = var1;
                this.A = 0;
-               L1TowerInstance.a var20 = new L1TowerInstance.a(null);
+               L1TowerInstance.L1R_a var20 = new L1TowerInstance.L1R_a(null);
                GeneralThreadPool.a().a(var20);
             }
 
@@ -154,7 +154,7 @@ public class L1TowerInstance extends L1NpcInstance {
             this.X(true);
             this.cq(35);
             this.y = var1;
-            L1TowerInstance.a var16 = new L1TowerInstance.a(null);
+            L1TowerInstance.L1R_a var16 = new L1TowerInstance.L1R_a(null);
             GeneralThreadPool.a().a(var16);
          }
       }
@@ -175,8 +175,8 @@ public class L1TowerInstance extends L1NpcInstance {
       return this.U_().b() == 81190 || this.U_().b() == 81191 || this.U_().b() == 81192 || this.U_().b() == 81193;
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -234,7 +234,7 @@ public class L1TowerInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1TowerInstance.a var2) {
+      L1R_a(L1TowerInstance.L1R_a var2) {
          this();
       }
    }

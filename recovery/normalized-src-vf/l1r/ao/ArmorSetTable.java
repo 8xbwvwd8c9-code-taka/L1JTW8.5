@@ -18,7 +18,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class ArmorSetTable {
    private static final Logger a = Logger.getLogger(ArmorSetTable.class.getName());
    private static ArmorSetTable b;
-   private final ArrayList<ArmorSetTable.a> c = new ArrayList<>();
+   private final ArrayList<ArmorSetTable.L1R_a> c = new ArrayList<>();
 
    public static ArmorSetTable a() {
       if (b == null) {
@@ -51,7 +51,7 @@ public class ArmorSetTable {
 
    private void a(ResultSet var1) throws SQLException {
       while (var1.next()) {
-         ArmorSetTable.a var2 = new ArmorSetTable.a();
+         ArmorSetTable.L1R_a var2 = new ArmorSetTable.L1R_a();
          var2.b(var1.getInt("id"));
          var2.a(var1.getString("note"));
          var2.a(a(var1.getString("sets"), ","));
@@ -83,7 +83,7 @@ public class ArmorSetTable {
       }
    }
 
-   public ArrayList<ArmorSetTable.a> b() {
+   public ArrayList<ArmorSetTable.L1R_a> b() {
       return this.c;
    }
 
@@ -101,10 +101,10 @@ public class ArmorSetTable {
       return var5;
    }
 
-   public ArrayList<ArmorSetTable.a> a(int var1) {
+   public ArrayList<ArmorSetTable.L1R_a> a(int var1) {
       ArrayList var2 = new ArrayList<>();
 
-      for (ArmorSetTable.a var3 : this.c) {
+      for (ArmorSetTable.L1R_a var3 : this.c) {
          if (var3.a(var1)) {
             var2.add(var3);
          }
@@ -113,7 +113,7 @@ public class ArmorSetTable {
       return var2;
    }
 
-   public class a {
+   public class L1R_a {
       private int b;
       private int[] c;
       private int d;

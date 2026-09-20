@@ -186,7 +186,7 @@ public class SpawnTable {
 
    public static void a(int var0, int var1, int var2, int var3, long var4) {
       if (var4 > 0L) {
-         new SpawnTable.a(var0, var1, var2, var3, 5, var4, null, null).a();
+         new SpawnTable.L1R_a(var0, var1, var2, var3, 5, var4, null, null).a();
       } else {
          b(var0, var1, var2, var3, 5, 0, 0L, null, false, 0);
       }
@@ -194,7 +194,7 @@ public class SpawnTable {
 
    public static void a(int var0, int var1, int var2, int var3, int var4, long var5, String var7) {
       if (var5 > 0L) {
-         new SpawnTable.a(var0, var1, var2, var3, var4, var5, var7, null).a();
+         new SpawnTable.L1R_a(var0, var1, var2, var3, var4, var5, var7, null).a();
       } else {
          b(var0, var1, var2, var3, 5, 0, 0L, var7, false, 0);
       }
@@ -300,7 +300,7 @@ public class SpawnTable {
       }
    }
 
-   private static class a extends TimerTask {
+   private static class L1R_a extends TimerTask {
       private final int a;
       private final int b;
       private final int c;
@@ -309,7 +309,7 @@ public class SpawnTable {
       private final String f;
       private final int g;
 
-      private a(int var1, int var2, int var3, int var4, int var5, long var6, String var8) {
+      private L1R_a(int var1, int var2, int var3, int var4, int var5, long var6, String var8) {
          this.a = var2;
          this.b = var3;
          this.c = var4;
@@ -329,7 +329,7 @@ public class SpawnTable {
       }
 
       // $VF: synthetic method
-      a(int var1, int var2, int var3, int var4, int var5, long var6, String var8, SpawnTable.a var9) {
+      L1R_a(int var1, int var2, int var3, int var4, int var5, long var6, String var8, SpawnTable.L1R_a var9) {
          this(var1, var2, var3, var4, var5, var6, var8);
       }
    }

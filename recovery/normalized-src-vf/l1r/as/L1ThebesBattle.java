@@ -97,7 +97,7 @@ public class L1ThebesBattle {
       }
 
       this.a(new S_ProtoBuffers(540, a().c(), "$21831"));
-      GeneralThreadPool.a().a(new L1ThebesBattle.a(null), 1000L);
+      GeneralThreadPool.a().a(new L1ThebesBattle.L1R_a(null), 1000L);
    }
 
    private L1ThebesBattle() {
@@ -116,11 +116,11 @@ public class L1ThebesBattle {
 
    private void a(long var1) {
       System.out.println("底比斯傳送門:距離再次執行時間還有..." + var1 / 1000L / 60L + "分");
-      GeneralThreadPool.a().a(new L1ThebesBattle.f(null), var1);
+      GeneralThreadPool.a().a(new L1ThebesBattle.L1R_f(null), var1);
    }
 
    private void a(int var1, String[] var2) {
-      GeneralThreadPool.a().a(new L1ThebesBattle.c(var2), var1 * 1000);
+      GeneralThreadPool.a().a(new L1ThebesBattle.L1R_c(var2), var1 * 1000);
    }
 
    private void g() {
@@ -133,7 +133,7 @@ public class L1ThebesBattle {
 
       for (L1PcInstance var7 : L1World.a().c()) {
          if (var7.fp() >= 10500 && var7.fp() <= 10502) {
-            L1ThebesBattle.g var9 = new L1ThebesBattle.g();
+            L1ThebesBattle.L1R_g var9 = new L1ThebesBattle.L1R_g();
             if (var7.dX() == 4) {
                var9.a = var7.et();
                var9.b = var7.j().g(640820);
@@ -180,48 +180,48 @@ public class L1ThebesBattle {
          this.g = var6;
       }
 
-      Collections.sort(var1, new Comparator<L1ThebesBattle.g>() {
-         public int a(L1ThebesBattle.g var1, L1ThebesBattle.g var2) {
+      Collections.sort(var1, new Comparator<L1ThebesBattle.L1R_g>() {
+         public int a(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
             return var2.b - var1.b;
          }
 
          // $VF: synthetic method
          @Override
          public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.g)var1, (L1ThebesBattle.g)var2);
+            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
          }
       });
-      Collections.sort(var2, new Comparator<L1ThebesBattle.g>() {
-         public int a(L1ThebesBattle.g var1, L1ThebesBattle.g var2) {
+      Collections.sort(var2, new Comparator<L1ThebesBattle.L1R_g>() {
+         public int a(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
             return var2.b - var1.b;
          }
 
          // $VF: synthetic method
          @Override
          public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.g)var1, (L1ThebesBattle.g)var2);
+            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
          }
       });
-      Collections.sort(var3, new Comparator<L1ThebesBattle.g>() {
-         public int a(L1ThebesBattle.g var1, L1ThebesBattle.g var2) {
+      Collections.sort(var3, new Comparator<L1ThebesBattle.L1R_g>() {
+         public int a(L1ThebesBattle.L1R_g var1, L1ThebesBattle.L1R_g var2) {
             return var2.b - var1.b;
          }
 
          // $VF: synthetic method
          @Override
          public int compare(Object var1, Object var2) {
-            return this.a((L1ThebesBattle.g)var1, (L1ThebesBattle.g)var2);
+            return this.a((L1ThebesBattle.L1R_g)var1, (L1ThebesBattle.L1R_g)var2);
          }
       });
 
       for (L1PcInstance var13 : L1World.a().c()) {
          if (var13.fp() >= 10500 && var13.fp() <= 10502) {
             if (var13.dX() == 4) {
-               var13.a(new S_ProtoBuffers(this.e, var13.et(), var1.toArray(new L1ThebesBattle.g[0])));
+               var13.a(new S_ProtoBuffers(this.e, var13.et(), var1.toArray(new L1ThebesBattle.L1R_g[0])));
             } else if (var13.dX() == 5) {
-               var13.a(new S_ProtoBuffers(this.f, var13.et(), var2.toArray(new L1ThebesBattle.g[0])));
+               var13.a(new S_ProtoBuffers(this.f, var13.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
             } else if (var13.dX() == 6) {
-               var13.a(new S_ProtoBuffers(this.g, var13.et(), var3.toArray(new L1ThebesBattle.g[0])));
+               var13.a(new S_ProtoBuffers(this.g, var13.et(), var3.toArray(new L1ThebesBattle.L1R_g[0])));
             }
 
             this.c(var13);
@@ -235,11 +235,11 @@ public class L1ThebesBattle {
       ArrayList var2 = new ArrayList<>();
       int[] var3 = new int[]{this.h, this.i, this.j};
       if (var1.dX() == 4) {
-         var1.a(new S_ProtoBuffers(this.e, var1.et(), var2.toArray(new L1ThebesBattle.g[0])));
+         var1.a(new S_ProtoBuffers(this.e, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
       } else if (var1.dX() == 5) {
-         var1.a(new S_ProtoBuffers(this.f, var1.et(), var2.toArray(new L1ThebesBattle.g[0])));
+         var1.a(new S_ProtoBuffers(this.f, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
       } else if (var1.dX() == 6) {
-         var1.a(new S_ProtoBuffers(this.g, var1.et(), var2.toArray(new L1ThebesBattle.g[0])));
+         var1.a(new S_ProtoBuffers(this.g, var1.et(), var2.toArray(new L1ThebesBattle.L1R_g[0])));
       }
 
       this.c(var1);
@@ -270,7 +270,7 @@ public class L1ThebesBattle {
       int[] var3 = new int[]{this.h, this.i, this.j};
       this.a(new S_ProtoBuffers(480, var3));
       this.k = 480;
-      GeneralThreadPool.a().a(new L1ThebesBattle.b(null), 1000L);
+      GeneralThreadPool.a().a(new L1ThebesBattle.L1R_b(null), 1000L);
       String var4 = "";
       if (var1 == 4) {
          var4 = "\\fR[$9676]";
@@ -394,8 +394,8 @@ public class L1ThebesBattle {
       return this.k;
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -403,7 +403,7 @@ public class L1ThebesBattle {
          try {
             if (L1ThebesBattle.this.c > 1) {
                L1ThebesBattle.this.c = L1ThebesBattle.this.c - 1;
-               GeneralThreadPool.a().a(L1ThebesBattle.this.new a(), 1000L);
+               GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_a(), 1000L);
                return;
             }
 
@@ -418,13 +418,13 @@ public class L1ThebesBattle {
       }
 
       // $VF: synthetic method
-      a(L1ThebesBattle.a var2) {
+      L1R_a(L1ThebesBattle.L1R_a var2) {
          this();
       }
    }
 
-   private class b extends TimerTask {
-      private b() {
+   private class L1R_b extends TimerTask {
+      private L1R_b() {
       }
 
       @Override
@@ -432,7 +432,7 @@ public class L1ThebesBattle {
          try {
             L1ThebesBattle.this.k = L1ThebesBattle.this.k - 1;
             if (L1ThebesBattle.this.k > 0) {
-               GeneralThreadPool.a().a(L1ThebesBattle.this.new b(), 1000L);
+               GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_b(), 1000L);
                return;
             }
 
@@ -516,15 +516,15 @@ public class L1ThebesBattle {
       }
 
       // $VF: synthetic method
-      b(L1ThebesBattle.b var2) {
+      L1R_b(L1ThebesBattle.L1R_b var2) {
          this();
       }
    }
 
-   private class c extends TimerTask {
+   private class L1R_c extends TimerTask {
       private final String[] b;
 
-      public c(String[] var2) {
+      public L1R_c(String[] var2) {
          this.b = var2;
       }
 
@@ -541,8 +541,8 @@ public class L1ThebesBattle {
       }
    }
 
-   private class d extends TimerTask {
-      private d() {
+   private class L1R_d extends TimerTask {
+      private L1R_d() {
       }
 
       @Override
@@ -550,7 +550,7 @@ public class L1ThebesBattle {
          try {
             if (L1ThebesBattle.this.d > 1) {
                L1ThebesBattle.this.d = L1ThebesBattle.this.d - 1;
-               GeneralThreadPool.a().a(L1ThebesBattle.this.new d(), 1000L);
+               GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_d(), 1000L);
             }
          } catch (Exception var2) {
             L1ThebesBattle.a.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
@@ -558,13 +558,13 @@ public class L1ThebesBattle {
       }
 
       // $VF: synthetic method
-      d(L1ThebesBattle.d var2) {
+      L1R_d(L1ThebesBattle.L1R_d var2) {
          this();
       }
    }
 
-   private class e extends TimerTask {
-      private e() {
+   private class L1R_e extends TimerTask {
+      private L1R_e() {
       }
 
       @Override
@@ -575,20 +575,20 @@ public class L1ThebesBattle {
             }
 
             L1ThebesBattle.this.g();
-            GeneralThreadPool.a().a(L1ThebesBattle.this.new e(), 30000L);
+            GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_e(), 30000L);
          } catch (Exception var2) {
             L1ThebesBattle.a.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
          }
       }
 
       // $VF: synthetic method
-      e(L1ThebesBattle.e var2) {
+      L1R_e(L1ThebesBattle.L1R_e var2) {
          this();
       }
    }
 
-   private class f extends TimerTask {
-      private f() {
+   private class L1R_f extends TimerTask {
+      private L1R_f() {
       }
 
       @Override
@@ -608,8 +608,8 @@ public class L1ThebesBattle {
             System.out.println("[底比斯傳送門出現了] (32620,33181,4)");
             L1World.a().a(new S_SystemMessage("\\aE$21836"));
             L1ThebesBattle.this.d = 1800;
-            GeneralThreadPool.a().a(L1ThebesBattle.this.new d(null), 1000L);
-            GeneralThreadPool.a().a(L1ThebesBattle.this.new e(null), 30000L);
+            GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_d(null), 1000L);
+            GeneralThreadPool.a().a(L1ThebesBattle.this.new L1R_e(null), 30000L);
             L1ThebesBattle.this.a(86400000L);
             String[] var2 = new String[]{"\\fE$21824", "\\fE$21832", "\\fE$21833", "\\fE$21834"};
             L1ThebesBattle.this.a(180, var2);
@@ -619,12 +619,12 @@ public class L1ThebesBattle {
       }
 
       // $VF: synthetic method
-      f(L1ThebesBattle.f var2) {
+      L1R_f(L1ThebesBattle.L1R_f var2) {
          this();
       }
    }
 
-   public class g {
+   public class L1R_g {
       public String a;
       public int b;
    }

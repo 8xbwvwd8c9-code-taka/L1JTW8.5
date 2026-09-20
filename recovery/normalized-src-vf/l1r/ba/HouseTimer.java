@@ -30,7 +30,7 @@ public class HouseTimer {
    }
 
    public HouseTimer() {
-      GeneralThreadPool.a().a(new HouseTimer.a(null), 100L, 600000L);
+      GeneralThreadPool.a().a(new HouseTimer.L1R_a(null), 100L, 600000L);
    }
 
    private void c() throws Exception {
@@ -154,8 +154,8 @@ public class HouseTimer {
       HouseTable.a().a(var1);
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -169,7 +169,7 @@ public class HouseTimer {
       }
 
       // $VF: synthetic method
-      a(HouseTimer.a var2) {
+      L1R_a(HouseTimer.L1R_a var2) {
          this();
       }
    }

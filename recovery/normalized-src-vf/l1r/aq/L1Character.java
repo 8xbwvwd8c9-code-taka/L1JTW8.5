@@ -31,7 +31,7 @@ public class L1Character extends L1Object {
    private final ConcurrentHashMap<Integer, L1NpcInstance> d = new ConcurrentHashMap<>();
    private final ConcurrentHashMap<Integer, L1DollInstance> e = new ConcurrentHashMap<>();
    private final HashMap<Integer, L1SkillTimer__obf_d> f = new HashMap<>();
-   private final ConcurrentHashMap<Integer, L1ItemDelay.a> g = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<Integer, L1ItemDelay.L1R_a> g = new ConcurrentHashMap<>();
    private final ConcurrentHashMap<Integer, L1FollowerInstance> h = new ConcurrentHashMap<>();
    private int i;
    private int j;
@@ -614,7 +614,7 @@ public class L1Character extends L1Object {
       return this.l;
    }
 
-   public void a(int var1, L1ItemDelay.a var2) {
+   public void a(int var1, L1ItemDelay.L1R_a var2) {
       this.g.put(var1, var2);
    }
 

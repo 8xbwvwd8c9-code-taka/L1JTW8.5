@@ -133,10 +133,10 @@ public class QuestNewTable {
          var4 = var3.executeQuery();
          if (var4.next()) {
             byte[] var5 = var4.getBytes("data");
-            PBMessageALL3.g var6 = PBMessageALL3.g.a(var5);
+            PBMessageALL3.L1R_g var6 = PBMessageALL3.L1R_g.a(var5);
 
             for (g var7 : var6.o()) {
-               PBMessageALL7.e var9 = PBMessageALL7.e.a(var7);
+               PBMessageALL7.L1R_e var9 = PBMessageALL7.L1R_e.a(var7);
                L1QuestNew var10 = new L1QuestNew(var9.p());
                var10.a(var1);
                var10.a(var9.r() == 1);
@@ -203,10 +203,10 @@ public class QuestNewTable {
    }
 
    private byte[] f(L1PcInstance var1) {
-      PBMessageALL3.g.a var2 = PBMessageALL3.g.aa();
+      PBMessageALL3.L1R_g.L1R_a var2 = PBMessageALL3.L1R_g.aa();
 
       for (L1QuestNew var3 : var1.dS().values()) {
-         PBMessageALL7.e.a var5 = PBMessageALL7.e.aa();
+         PBMessageALL7.L1R_e.L1R_a var5 = PBMessageALL7.L1R_e.aa();
          var5.f(var3.a());
          var5.g(var3.w() ? 1 : 0);
          var5.h(var3.x() ? 1 : 0);

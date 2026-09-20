@@ -59,13 +59,13 @@ public class CharacterEquipment {
             this.c(var1);
          } else {
             byte[] var5 = var4.getBytes("data");
-            PBMessageALL3.a var6 = PBMessageALL3.a.a(var5);
+            PBMessageALL3.L1R_a var6 = PBMessageALL3.L1R_a.a(var5);
             var1.bu(var6.p());
             var1.dT().clear();
             var1.dU().clear();
 
             for (g var7 : var6.q()) {
-               PBMessageALL2.c var9 = PBMessageALL2.c.a(var7);
+               PBMessageALL2.L1R_c var9 = PBMessageALL2.L1R_c.a(var7);
                ArrayList var10 = var9.p() == 0 ? var1.dT() : var1.dU();
 
                for (int var11 : var9.q()) {
@@ -101,10 +101,10 @@ public class CharacterEquipment {
    }
 
    private byte[] d(L1PcInstance var1) {
-      PBMessageALL3.a.a var2 = PBMessageALL3.a.aa();
+      PBMessageALL3.L1R_a.L1R_a var2 = PBMessageALL3.L1R_a.aa();
       var2.b(var1.dV());
-      PBMessageALL2.c.a var3 = PBMessageALL2.c.s();
-      PBMessageALL2.c.a var4 = PBMessageALL2.c.s();
+      PBMessageALL2.L1R_c.L1R_a var3 = PBMessageALL2.L1R_c.s();
+      PBMessageALL2.L1R_c.L1R_a var4 = PBMessageALL2.L1R_c.s();
       var3.b(0);
 
       for (int var5 : var1.dT()) {

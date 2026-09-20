@@ -26,14 +26,14 @@ public class C_Door extends ClientBasePacket {
                   var5.g();
                } else if (var3.j().b(640608, 1) || var3.j().b(40163, 1)) {
                   var5.f();
-                  new C_Door.a(var5, null).a();
+                  new C_Door.L1R_a(var5, null).a();
                }
             } else if (var5.i() == 6007) {
                if (var5.o() == 28) {
                   var5.g();
                } else if (var3.j().b(40313, 1)) {
                   var5.f();
-                  new C_Door.a(var5, null).a();
+                  new C_Door.L1R_a(var5, null).a();
                }
             } else if (!this.a(var3, var5.p())) {
                if (var5.o() == 28) {
@@ -70,10 +70,10 @@ public class C_Door extends ClientBasePacket {
       return "C_Door";
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final L1DoorInstance b;
 
-      private a(L1DoorInstance var2) {
+      private L1R_a(L1DoorInstance var2) {
          this.b = var2;
       }
 
@@ -89,7 +89,7 @@ public class C_Door extends ClientBasePacket {
       }
 
       // $VF: synthetic method
-      a(L1DoorInstance var2, C_Door.a var3) {
+      L1R_a(L1DoorInstance var2, C_Door.L1R_a var3) {
          this(var2);
       }
    }

@@ -55,7 +55,7 @@ public class L1DollInstance extends L1NpcInstance {
       this.A = var3;
       this.e_(this.A.N());
       this.d_(this.A.fr());
-      GeneralThreadPool.a().a(new L1DollInstance.b(null), 1800000L);
+      GeneralThreadPool.a().a(new L1DollInstance.L1R_b(null), 1800000L);
       this.a(this.A.bq());
       this.cw(this.A.br());
       this.e(var2);
@@ -113,7 +113,7 @@ public class L1DollInstance extends L1NpcInstance {
       }
 
       if (this.A.bz() > 0) {
-         this.B = GeneralThreadPool.a().a(new L1DollInstance.a(null), 240000L, 240000L);
+         this.B = GeneralThreadPool.a().a(new L1DollInstance.L1R_a(null), 240000L, 240000L);
       }
 
       var2.aW(this.A.bu());
@@ -250,8 +250,8 @@ public class L1DollInstance extends L1NpcInstance {
       }
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -264,13 +264,13 @@ public class L1DollInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1DollInstance.a var2) {
+      L1R_a(L1DollInstance.L1R_a var2) {
          this();
       }
    }
 
-   private class b implements Runnable {
-      private b() {
+   private class L1R_b implements Runnable {
+      private L1R_b() {
       }
 
       @Override
@@ -281,7 +281,7 @@ public class L1DollInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      b(L1DollInstance.b var2) {
+      L1R_b(L1DollInstance.L1R_b var2) {
          this();
       }
    }

@@ -117,7 +117,7 @@ public class TrapSpawnTable {
    private void c(L1TrapInstance var1) {
       var1.c();
       synchronized (this) {
-         GeneralThreadPool.a().a(new TrapSpawnTable.a(var1), var1.e());
+         GeneralThreadPool.a().a(new TrapSpawnTable.L1R_a(var1), var1.e());
       }
    }
 
@@ -150,10 +150,10 @@ public class TrapSpawnTable {
       }
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final L1TrapInstance b;
 
-      public a(L1TrapInstance var2) {
+      public L1R_a(L1TrapInstance var2) {
          this.b = var2;
       }
 

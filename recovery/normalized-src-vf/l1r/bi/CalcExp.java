@@ -26,7 +26,7 @@ public class CalcExp {
          int var4 = 0;
          CopyOnWriteArrayList var5 = var2.d();
 
-         for (L1HateList.a var6 : var5) {
+         for (L1HateList.L1R_a var6 : var5) {
             L1Character var8 = var6.a;
             int var9 = var6.b;
             if (var8 != null && !var8.eX()) {
@@ -49,7 +49,7 @@ public class CalcExp {
             int var34 = 0;
             int var40 = 0;
             if (!var0.q()) {
-               for (L1HateList.a var43 : var5) {
+               for (L1HateList.L1R_a var43 : var5) {
                   L1Character var47 = var43.a;
                   int var49 = var43.b;
                   var34 = var32 * var49 / var3;
@@ -64,7 +64,7 @@ public class CalcExp {
                int var10 = 0;
                int var11 = 0;
 
-               for (L1HateList.a var12 : var5) {
+               for (L1HateList.L1R_a var12 : var5) {
                   L1Character var14 = var12.a;
                   int var15 = var12.b;
                   if (var14 instanceof L1PcInstance) {
@@ -131,7 +131,7 @@ public class CalcExp {
                      int var24 = (int)(var48 * var21);
                      int var25 = 0;
 
-                     for (L1HateList.a var26 : var5) {
+                     for (L1HateList.L1R_a var26 : var5) {
                         L1Character var28 = var26.a;
                         int var29 = var26.b;
                         if (var28 instanceof L1PcInstance) {
@@ -149,7 +149,7 @@ public class CalcExp {
                      }
 
                      if (var25 > 0) {
-                        for (L1HateList.a var57 : var5) {
+                        for (L1HateList.L1R_a var57 : var5) {
                            L1Character var59 = var57.a;
                            int var60 = var57.b;
                            if (var59 instanceof L1PcInstance) {

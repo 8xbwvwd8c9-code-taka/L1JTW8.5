@@ -34,13 +34,13 @@ public class S_Pledge extends ServerBasePacket {
       }
    }
 
-   public S_Pledge(ArrayList<C_Pledge.a> var1) {
+   public S_Pledge(ArrayList<C_Pledge.L1R_a> var1) {
       this.c(121);
       this.c(170);
       this.b(1);
       this.c(var1.size());
 
-      for (C_Pledge.a var2 : var1) {
+      for (C_Pledge.L1R_a var2 : var1) {
          this.a(var2.a);
          this.c(var2.b);
          this.c(var2.c);

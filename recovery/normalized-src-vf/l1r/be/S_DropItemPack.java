@@ -16,7 +16,7 @@ public class S_DropItemPack extends ServerBasePacket {
 
       this.c(1);
       this.b(119);
-      PBMessageALL2.e.a var4 = PBMessageALL2.e.aO();
+      PBMessageALL2.L1R_e.L1R_a var4 = PBMessageALL2.L1R_e.aO();
       var4.a((var1.ft() << 16) + var1.fs());
       var4.b(var1.fr());
       var4.c(var1.a().n());

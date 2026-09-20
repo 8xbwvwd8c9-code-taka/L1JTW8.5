@@ -41,7 +41,7 @@ public class C_Pledge extends ClientBasePacket {
       }
    }
 
-   private ArrayList<C_Pledge.a> b(int var1) {
+   private ArrayList<C_Pledge.L1R_a> b(int var1) {
       ArrayList var2 = new ArrayList<>();
       L1Clan var3 = ClanTable.a().a(var1);
       Connection var4 = null;
@@ -56,7 +56,7 @@ public class C_Pledge extends ClientBasePacket {
             var5.setString(1, var7);
             var6 = var5.executeQuery();
             if (var6.next()) {
-               C_Pledge.a var9 = new C_Pledge.a();
+               C_Pledge.L1R_a var9 = new C_Pledge.L1R_a();
                var9.a = var6.getString("char_name");
                var9.b = var6.getInt("ClanRank");
                var9.c = ExpTable.c(var6.getInt("Exp"));
@@ -80,7 +80,7 @@ public class C_Pledge extends ClientBasePacket {
       return "C_Pledge";
    }
 
-   public class a {
+   public class L1R_a {
       public String a;
       public int b;
       public int c;

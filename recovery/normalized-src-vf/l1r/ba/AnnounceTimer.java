@@ -23,11 +23,11 @@ public class AnnounceTimer {
    }
 
    private AnnounceTimer() {
-      GeneralThreadPool.a().a(new AnnounceTimer.a(null), 60000L, 60000 * Config.v);
+      GeneralThreadPool.a().a(new AnnounceTimer.L1R_a(null), 60000L, 60000 * Config.v);
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -48,7 +48,7 @@ public class AnnounceTimer {
       }
 
       // $VF: synthetic method
-      a(AnnounceTimer.a var2) {
+      L1R_a(AnnounceTimer.L1R_a var2) {
          this();
       }
    }

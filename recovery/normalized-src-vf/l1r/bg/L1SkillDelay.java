@@ -9,13 +9,13 @@ public class L1SkillDelay {
 
    public static void a(L1Character var0, int var1) {
       var0.W(true);
-      GeneralThreadPool.a().a(new L1SkillDelay.a(var0, null), var1);
+      GeneralThreadPool.a().a(new L1SkillDelay.L1R_a(var0, null), var1);
    }
 
-   private static class a implements Runnable {
+   private static class L1R_a implements Runnable {
       private final L1Character a;
 
-      private a(L1Character var1) {
+      private L1R_a(L1Character var1) {
          this.a = var1;
       }
 
@@ -25,7 +25,7 @@ public class L1SkillDelay {
       }
 
       // $VF: synthetic method
-      a(L1Character var1, L1SkillDelay.a var2) {
+      L1R_a(L1Character var1, L1SkillDelay.L1R_a var2) {
          this(var1);
       }
    }

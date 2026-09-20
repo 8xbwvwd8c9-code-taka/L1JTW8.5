@@ -17,7 +17,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class DropMapTable {
    private static final Logger a = Logger.getLogger(DropMapTable.class.getName());
    private static DropMapTable b;
-   private final HashMap<Integer, DropMapTable.b> c = new HashMap<>();
+   private final HashMap<Integer, DropMapTable.L1R_b> c = new HashMap<>();
 
    public static DropMapTable a() {
       if (b == null) {
@@ -39,11 +39,11 @@ public class DropMapTable {
 
          while (var3.next()) {
             int var5 = var3.getInt("mapid");
-            DropMapTable.b var4;
+            DropMapTable.L1R_b var4;
             if (this.c.containsKey(var5)) {
                var4 = this.c.get(var5);
             } else {
-               var4 = new DropMapTable.b(null);
+               var4 = new DropMapTable.L1R_b(null);
                this.c.put(var5, var4);
             }
 
@@ -51,7 +51,7 @@ public class DropMapTable {
             if (var4.b.containsKey(var6)) {
                System.out.println("[DropMapTable]: mapid=" + var5 + " itemid=" + var6 + " is repeate");
             } else {
-               DropMapTable.a var7 = new DropMapTable.a(null);
+               DropMapTable.L1R_a var7 = new DropMapTable.L1R_a(null);
                var7.b = var6;
                var7.c = var3.getInt("min");
                var7.d = var3.getInt("max");
@@ -84,7 +84,7 @@ public class DropMapTable {
             }
 
             if (!(var2 <= 0.0) || !(var4 <= 0.0)) {
-               for (DropMapTable.a var6 : this.c.get(var1.fp()).b.values()) {
+               for (DropMapTable.L1R_a var6 : this.c.get(var1.fp()).b.values()) {
                   L1ItemInstance var8 = ItemTable.a().b(var6.b);
                   if (var4 != 0.0 || var6.b != 40308) {
                      int var9 = Random.a(1000000) + 1;
@@ -135,7 +135,7 @@ public class DropMapTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       private int b;
       private int c;
       private int d;
@@ -143,23 +143,23 @@ public class DropMapTable {
       private int f;
       private int g;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(DropMapTable.a var2) {
+      L1R_a(DropMapTable.L1R_a var2) {
          this();
       }
    }
 
-   private class b {
-      private final HashMap<Integer, DropMapTable.a> b = new HashMap<>();
+   private class L1R_b {
+      private final HashMap<Integer, DropMapTable.L1R_a> b = new HashMap<>();
 
-      private b() {
+      private L1R_b() {
       }
 
       // $VF: synthetic method
-      b(DropMapTable.b var2) {
+      L1R_b(DropMapTable.L1R_b var2) {
          this();
       }
    }

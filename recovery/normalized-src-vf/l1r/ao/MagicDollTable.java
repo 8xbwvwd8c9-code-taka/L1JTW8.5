@@ -15,9 +15,9 @@ import l1r.l1j.server.DatabaseFactory;
 public class MagicDollTable {
    private static final Logger a = Logger.getLogger(MagicDollTable.class.getName());
    private static MagicDollTable b;
-   private final HashMap<Integer, MagicDollTable.a> c = new HashMap<>();
+   private final HashMap<Integer, MagicDollTable.L1R_a> c = new HashMap<>();
 
-   public HashMap<Integer, MagicDollTable.a> a() {
+   public HashMap<Integer, MagicDollTable.L1R_a> a() {
       return this.c;
    }
 
@@ -45,7 +45,7 @@ public class MagicDollTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            MagicDollTable.a var4 = new MagicDollTable.a();
+            MagicDollTable.L1R_a var4 = new MagicDollTable.L1R_a();
             int var5 = var3.getInt("item_id");
             var4.a = var5;
             var4.b = var3.getString("nameid");
@@ -97,7 +97,7 @@ public class MagicDollTable {
 
    public void a(L1ItemInstance var1) {
       if (this.c.containsKey(var1.N())) {
-         MagicDollTable.a var2 = this.c.get(var1.N());
+         MagicDollTable.L1R_a var2 = this.c.get(var1.N());
          var1.a(var2.b);
          var1.az(var2.c);
          var1.r(var2.e);
@@ -143,7 +143,7 @@ public class MagicDollTable {
       }
    }
 
-   public class a {
+   public class L1R_a {
       public int a;
       public String b;
       public int c;

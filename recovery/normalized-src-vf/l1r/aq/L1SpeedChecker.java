@@ -11,7 +11,7 @@ public class L1SpeedChecker {
    private final L1PcInstance f;
    private int g;
    private int h;
-   private final EnumMap<L1SpeedChecker.a, Long> i = new EnumMap<>(L1SpeedChecker.a.class);
+   private final EnumMap<L1SpeedChecker.L1R_a, Long> i = new EnumMap<>(L1SpeedChecker.L1R_a.class);
    public static final double a = 0.75;
    public static final double b = 0.87;
    public static final double c = 0.375;
@@ -204,16 +204,16 @@ public class L1SpeedChecker {
       this.g = 0;
       this.h = 0;
       long var2 = System.currentTimeMillis();
-      L1SpeedChecker.a[] var7;
-      int var6 = (var7 = L1SpeedChecker.a.values()).length;
+      L1SpeedChecker.L1R_a[] var7;
+      int var6 = (var7 = L1SpeedChecker.L1R_a.values()).length;
 
       for (int var5 = 0; var5 < var6; var5++) {
-         L1SpeedChecker.a var4 = var7[var5];
+         L1SpeedChecker.L1R_a var4 = var7[var5];
          this.i.put(var4, var2);
       }
    }
 
-   public int a(L1SpeedChecker.a var1) {
+   public int a(L1SpeedChecker.L1R_a var1) {
       int var2 = 0;
       long var3 = System.currentTimeMillis();
       long var5 = var3 - this.i.get(var1);
@@ -247,7 +247,7 @@ public class L1SpeedChecker {
       this.h = 3;
    }
 
-   public int b(L1SpeedChecker.a var1) {
+   public int b(L1SpeedChecker.L1R_a var1) {
       double[] var3 = new double[]{18.0, 19.0, 20.0, 21.2, 22.5, 24.0, 25.7, 25.7, 25.7, 25.7, 27.7, 30.0, 30.6, 31.1};
       int var2;
       switch (a()[var1.ordinal()]) {
@@ -314,14 +314,14 @@ public class L1SpeedChecker {
          default:
             break;
          case 3:
-            if (var1.equals(L1SpeedChecker.a.a)) {
+            if (var1.equals(L1SpeedChecker.L1R_a.a)) {
                var2 = (int)(var2 * 0.75);
             } else {
                var2 = (int)(var2 * 0.87);
             }
             break;
          case 4:
-            if (var1.equals(L1SpeedChecker.a.a)) {
+            if (var1.equals(L1SpeedChecker.L1R_a.a)) {
                var2 = (int)(var2 * 0.75);
             }
             break;
@@ -333,7 +333,7 @@ public class L1SpeedChecker {
          var2 = (int)(var2 * 0.87);
       }
 
-      if (this.f.M() && !var1.equals(L1SpeedChecker.a.a)) {
+      if (this.f.M() && !var1.equals(L1SpeedChecker.L1R_a.a)) {
          var2 /= 2;
       }
 
@@ -350,25 +350,25 @@ public class L1SpeedChecker {
          return l;
       }
 
-      int[] var0 = new int[L1SpeedChecker.a.values().length];
+      int[] var0 = new int[L1SpeedChecker.L1R_a.values().length];
 
       try {
-         var0[L1SpeedChecker.a.b.ordinal()] = 2;
+         var0[L1SpeedChecker.L1R_a.b.ordinal()] = 2;
       } catch (NoSuchFieldError var4) {
       }
 
       try {
-         var0[L1SpeedChecker.a.a.ordinal()] = 1;
+         var0[L1SpeedChecker.L1R_a.a.ordinal()] = 1;
       } catch (NoSuchFieldError var3) {
       }
 
       try {
-         var0[L1SpeedChecker.a.c.ordinal()] = 3;
+         var0[L1SpeedChecker.L1R_a.c.ordinal()] = 3;
       } catch (NoSuchFieldError var2) {
       }
 
       try {
-         var0[L1SpeedChecker.a.d.ordinal()] = 4;
+         var0[L1SpeedChecker.L1R_a.d.ordinal()] = 4;
       } catch (NoSuchFieldError var1) {
       }
 
@@ -376,7 +376,7 @@ public class L1SpeedChecker {
       return var0;
    }
 
-   public enum a {
+   public enum L1R_a {
       a,
       b,
       c,

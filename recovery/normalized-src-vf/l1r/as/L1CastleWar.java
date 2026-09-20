@@ -48,7 +48,7 @@ public class L1CastleWar {
       }
 
       L1World.a().b[3] = var1;
-      GeneralThreadPool.a().a(new L1CastleWar.a(null), 1000L, 1000L);
+      GeneralThreadPool.a().a(new L1CastleWar.L1R_a(null), 1000L, 1000L);
    }
 
    public static L1CastleWar a() {
@@ -207,8 +207,8 @@ public class L1CastleWar {
       CastleTable.a().a(var1);
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -229,7 +229,7 @@ public class L1CastleWar {
       }
 
       // $VF: synthetic method
-      a(L1CastleWar.a var2) {
+      L1R_a(L1CastleWar.L1R_a var2) {
          this();
       }
    }

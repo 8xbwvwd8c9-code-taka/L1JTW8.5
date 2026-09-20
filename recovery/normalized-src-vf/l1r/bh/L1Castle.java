@@ -14,8 +14,8 @@ public class L1Castle {
    private int f;
    private int g;
    private boolean h = false;
-   private final ArrayList<L1Castle.a> i;
-   private final ArrayList<L1Castle.a> j;
+   private final ArrayList<L1Castle.L1R_a> i;
+   private final ArrayList<L1Castle.L1R_a> j;
    public static final String a = "安安妳好再見_";
    private static final int k = 1;
    private static final int l = 2;
@@ -32,49 +32,49 @@ public class L1Castle {
       this.j = new ArrayList<>();
       switch (this.b) {
          case 1:
-            this.i.add(new L1Castle.a(190285, "$4210", null));
-            this.i.add(new L1Castle.a(190286, "$4211", null));
-            this.i.add(new L1Castle.a(190287, "$4212", null));
-            this.i.add(new L1Castle.a(190288, "$4213", null));
-            this.j.add(new L1Castle.a(11111, "$240", null));
+            this.i.add(new L1Castle.L1R_a(190285, "$4210", null));
+            this.i.add(new L1Castle.L1R_a(190286, "$4211", null));
+            this.i.add(new L1Castle.L1R_a(190287, "$4212", null));
+            this.i.add(new L1Castle.L1R_a(190288, "$4213", null));
+            this.j.add(new L1Castle.L1R_a(11111, "$240", null));
             break;
          case 2:
-            this.i.add(new L1Castle.a(190289, "$4214", null));
-            this.i.add(new L1Castle.a(190290, "$4215", null));
-            this.i.add(new L1Castle.a(190291, "$4216", null));
-            this.i.add(new L1Castle.a(190292, "$4217", null));
-            this.j.add(new L1Castle.a(11111, "$511", null));
+            this.i.add(new L1Castle.L1R_a(190289, "$4214", null));
+            this.i.add(new L1Castle.L1R_a(190290, "$4215", null));
+            this.i.add(new L1Castle.L1R_a(190291, "$4216", null));
+            this.i.add(new L1Castle.L1R_a(190292, "$4217", null));
+            this.j.add(new L1Castle.L1R_a(11111, "$511", null));
             break;
          case 3:
-            this.i.add(new L1Castle.a(190293, "$4218", null));
-            this.i.add(new L1Castle.a(190294, "$4219", null));
-            this.i.add(new L1Castle.a(190295, "$4220", null));
-            this.i.add(new L1Castle.a(190296, "$4221", null));
-            this.j.add(new L1Castle.a(11111, "$240", null));
+            this.i.add(new L1Castle.L1R_a(190293, "$4218", null));
+            this.i.add(new L1Castle.L1R_a(190294, "$4219", null));
+            this.i.add(new L1Castle.L1R_a(190295, "$4220", null));
+            this.i.add(new L1Castle.L1R_a(190296, "$4221", null));
+            this.j.add(new L1Castle.L1R_a(11111, "$240", null));
             break;
          case 4:
-            this.i.add(new L1Castle.a(190297, "$4222", null));
-            this.i.add(new L1Castle.a(190298, "$4223", null));
-            this.i.add(new L1Castle.a(190299, "$4224", null));
-            this.i.add(new L1Castle.a(190300, "$4225", null));
+            this.i.add(new L1Castle.L1R_a(190297, "$4222", null));
+            this.i.add(new L1Castle.L1R_a(190298, "$4223", null));
+            this.i.add(new L1Castle.L1R_a(190299, "$4224", null));
+            this.i.add(new L1Castle.L1R_a(190300, "$4225", null));
             break;
          case 5:
-            this.i.add(new L1Castle.a(190301, "$4226", null));
-            this.i.add(new L1Castle.a(190302, "$4227", null));
-            this.i.add(new L1Castle.a(190303, "$4228", null));
-            this.i.add(new L1Castle.a(190304, "$4229", null));
+            this.i.add(new L1Castle.L1R_a(190301, "$4226", null));
+            this.i.add(new L1Castle.L1R_a(190302, "$4227", null));
+            this.i.add(new L1Castle.L1R_a(190303, "$4228", null));
+            this.i.add(new L1Castle.L1R_a(190304, "$4229", null));
             break;
          case 6:
-            this.i.add(new L1Castle.a(190305, "$4230", null));
-            this.i.add(new L1Castle.a(190306, "$4231", null));
-            this.i.add(new L1Castle.a(190307, "$4232", null));
-            this.i.add(new L1Castle.a(190308, "$4233", null));
+            this.i.add(new L1Castle.L1R_a(190305, "$4230", null));
+            this.i.add(new L1Castle.L1R_a(190306, "$4231", null));
+            this.i.add(new L1Castle.L1R_a(190307, "$4232", null));
+            this.i.add(new L1Castle.L1R_a(190308, "$4233", null));
             break;
          case 7:
-            this.i.add(new L1Castle.a(190309, "$4234", null));
-            this.i.add(new L1Castle.a(190310, "$4235", null));
-            this.i.add(new L1Castle.a(190311, "$4236", null));
-            this.i.add(new L1Castle.a(190312, "$4237", null));
+            this.i.add(new L1Castle.L1R_a(190309, "$4234", null));
+            this.i.add(new L1Castle.L1R_a(190310, "$4235", null));
+            this.i.add(new L1Castle.L1R_a(190311, "$4236", null));
+            this.i.add(new L1Castle.L1R_a(190312, "$4237", null));
       }
    }
 
@@ -138,7 +138,7 @@ public class L1Castle {
    public int i() {
       int var1 = 0;
 
-      for (L1Castle.a var2 : this.i) {
+      for (L1Castle.L1R_a var2 : this.i) {
          var1 += var2.c;
       }
 
@@ -153,26 +153,26 @@ public class L1Castle {
       this.h = var1;
    }
 
-   public ArrayList<L1Castle.a> k() {
+   public ArrayList<L1Castle.L1R_a> k() {
       return this.i;
    }
 
-   public ArrayList<L1Castle.a> l() {
+   public ArrayList<L1Castle.L1R_a> l() {
       return this.j;
    }
 
-   public class a {
+   public class L1R_a {
       public int a;
       public String b;
       public int c = 0;
 
-      private a(int var2, String var3) {
+      private L1R_a(int var2, String var3) {
          this.a = var2;
          this.b = var3;
       }
 
       // $VF: synthetic method
-      a(int var2, String var3, L1Castle.a var4) {
+      L1R_a(int var2, String var3, L1Castle.L1R_a var4) {
          this(var2, var3);
       }
    }

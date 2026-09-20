@@ -20,7 +20,7 @@ public class S_OtherCharPacks extends ServerBasePacket {
    private void a(L1PcInstance var1, boolean var2) {
       this.c(1);
       this.b(119);
-      PBMessageALL2.e.a var3 = PBMessageALL2.e.aO();
+      PBMessageALL2.L1R_e.L1R_a var3 = PBMessageALL2.L1R_e.aO();
       var3.a((var1.ft() << 16) + var1.fs());
       var3.b(var1.fr());
       int var4 = var1.eX() ? var1.cj() : var1.fe();

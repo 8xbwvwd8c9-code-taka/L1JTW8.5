@@ -26,7 +26,7 @@ public class S_229 extends L1SkillExecutor {
          L1Character var7 = (L1Character)var6;
          var7.j(229, this.b.v() * 1000);
          this.b(var1, var7, this.b, 1);
-         new S_229.a(var1, var7, this.b.v(), this.b.u()).a();
+         new S_229.L1R_a(var1, var7, this.b.v(), this.b.u()).a();
       }
    }
 
@@ -34,13 +34,13 @@ public class S_229 extends L1SkillExecutor {
    public void a(L1Character var1) {
    }
 
-   private class a extends Thread {
+   private class L1R_a extends Thread {
       private final L1Character b;
       private final L1Character c;
       private final int d;
       private final int e;
 
-      public a(L1Character var2, L1Character var3, int var4, int var5) {
+      public L1R_a(L1Character var2, L1Character var3, int var4, int var5) {
          this.b = var3;
          this.d = var4;
          this.c = var2;

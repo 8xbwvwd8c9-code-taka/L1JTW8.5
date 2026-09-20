@@ -50,7 +50,7 @@ public class C_Attack extends ClientBasePacket {
                      }
                   }
 
-                  int var13 = var3.ce().a(L1SpeedChecker.a.b);
+                  int var13 = var3.ce().a(L1SpeedChecker.L1R_a.b);
                   if (var13 == 2) {
                      var3.bb(0);
                   } else {

@@ -43,9 +43,9 @@ public class GeneralThreadPool {
       }
 
       this.b = Executors.newScheduledThreadPool(this.j);
-      this.c = Executors.newScheduledThreadPool(this.i, new GeneralThreadPool.a("GerenalSTPool", 5, null));
+      this.c = Executors.newScheduledThreadPool(this.i, new GeneralThreadPool.L1R_a("GerenalSTPool", 5, null));
       this.d = Executors.newScheduledThreadPool(this.h);
-      this.e = Executors.newScheduledThreadPool(this.g, new GeneralThreadPool.a("PcMonitorSTPool", 5, null));
+      this.e = Executors.newScheduledThreadPool(this.g, new GeneralThreadPool.L1R_a("PcMonitorSTPool", 5, null));
    }
 
    public String b() {
@@ -148,13 +148,13 @@ public class GeneralThreadPool {
       }
    }
 
-   private class a implements ThreadFactory {
+   private class L1R_a implements ThreadFactory {
       private final int b;
       private final String c;
       private final AtomicInteger d = new AtomicInteger(1);
       private final ThreadGroup e;
 
-      private a(String var2, int var3) {
+      private L1R_a(String var2, int var3) {
          this.b = var3;
          this.c = var2;
          this.e = new ThreadGroup(this.c);
@@ -169,7 +169,7 @@ public class GeneralThreadPool {
       }
 
       // $VF: synthetic method
-      a(String var2, int var3, GeneralThreadPool.a var4) {
+      L1R_a(String var2, int var3, GeneralThreadPool.L1R_a var4) {
          this(var2, var3);
       }
    }

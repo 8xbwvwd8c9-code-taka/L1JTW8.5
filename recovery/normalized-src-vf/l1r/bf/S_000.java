@@ -25,7 +25,7 @@ public class S_000 extends L1SkillExecutor {
    public void a(L1Character var1, int var2) {
    }
 
-   public void a(L1NpcInstance var1, L1Character var2, MobSkillsTable.b var3) {
+   public void a(L1NpcInstance var1, L1Character var2, MobSkillsTable.L1R_b var3) {
       L1Character var4 = var3.g ? var2 : var1;
       ArrayList var5 = new ArrayList<>();
       if (var3.e == 0) {

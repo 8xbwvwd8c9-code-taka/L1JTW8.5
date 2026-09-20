@@ -17,7 +17,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class L1Dungeon {
    private static final Logger a = Logger.getLogger(L1Dungeon.class.getName());
    private static L1Dungeon b = null;
-   private final HashMap<Long, L1Dungeon.a> c = new HashMap<>();
+   private final HashMap<Long, L1Dungeon.L1R_a> c = new HashMap<>();
    private static long d = (long)Math.pow(10.0, 10.0);
    private static long e = (long)Math.pow(10.0, 5.0);
 
@@ -48,7 +48,7 @@ public class L1Dungeon {
             int var10 = var3.getInt("new_y");
             int var11 = var3.getInt("new_mapid");
             int var12 = var3.getInt("new_heading");
-            L1Dungeon.b var13 = L1Dungeon.b.a;
+            L1Dungeon.L1R_b var13 = L1Dungeon.L1R_b.a;
             if ((var5 < 33430 || var5 > 33432 || var6 != 33503 || var4 != 4)
                && (var5 != 32733 && var5 != 32734 && var5 != 32735 && var5 != 32736 || var6 != 32794 || var4 != 83)) {
                if ((var5 != 32935 && var5 != 32936 && var5 != 32937 || var6 != 33058 || var4 != 70)
@@ -62,31 +62,31 @@ public class L1Dungeon {
                            if ((var5 != 32540 && var5 != 32542 && var5 != 32543 && var5 != 32544 && var5 != 32545 || var6 != 32728 || var4 != 4)
                               && (var5 != 32734 && var5 != 32735 && var5 != 32736 && var5 != 32737 || var6 != 32794 || var4 != 6)) {
                               if (var5 == 32810 && var6 >= 32890 && var6 <= 32891 && var4 == 10500) {
-                                 var13 = L1Dungeon.b.i;
+                                 var13 = L1Dungeon.L1R_b.i;
                               } else if (InnTable.b(var5, var6, var4)) {
-                                 var13 = L1Dungeon.b.h;
+                                 var13 = L1Dungeon.L1R_b.h;
                               }
                            } else {
-                              var13 = L1Dungeon.b.g;
+                              var13 = L1Dungeon.L1R_b.g;
                            }
                         } else {
-                           var13 = L1Dungeon.b.f;
+                           var13 = L1Dungeon.L1R_b.f;
                         }
                      } else {
-                        var13 = L1Dungeon.b.e;
+                        var13 = L1Dungeon.L1R_b.e;
                      }
                   } else {
-                     var13 = L1Dungeon.b.d;
+                     var13 = L1Dungeon.L1R_b.d;
                   }
                } else {
-                  var13 = L1Dungeon.b.c;
+                  var13 = L1Dungeon.L1R_b.c;
                }
             } else {
-               var13 = L1Dungeon.b.b;
+               var13 = L1Dungeon.L1R_b.b;
             }
 
             FieldSpawnTable.a().a(13135, var5, var6, var4);
-            L1Dungeon.a var14 = new L1Dungeon.a(var9, var10, (short)var11, var12, var13, null);
+            L1Dungeon.L1R_a var14 = new L1Dungeon.L1R_a(var9, var10, (short)var11, var12, var13, null);
             if (this.c.containsKey(var7)) {
                System.out.println("dungeon 傳送點重複。key=" + var7);
             }
@@ -102,7 +102,7 @@ public class L1Dungeon {
 
    public void a(L1Location var1, L1Location var2) {
       long var3 = var1.f() * d + var1.g() * e + var1.b();
-      L1Dungeon.a var5 = new L1Dungeon.a(var2.f(), var2.g(), (short)var2.b(), 5, L1Dungeon.b.a, null);
+      L1Dungeon.L1R_a var5 = new L1Dungeon.L1R_a(var2.f(), var2.g(), (short)var2.b(), 5, L1Dungeon.L1R_b.a, null);
       FieldSpawnTable.a().a(13135, var1.f(), var1.g(), var1.b());
       if (this.c.containsKey(var3)) {
          System.out.println("dungeon 傳送點重複。key=" + var3);
@@ -117,16 +117,16 @@ public class L1Dungeon {
          return false;
       }
 
-      L1Dungeon.a var7 = this.c.get(var5);
+      L1Dungeon.L1R_a var7 = this.c.get(var5);
       int var8 = var7.d;
       int var9 = var7.b;
       int var10 = var7.c;
       int var11 = var7.e;
-      L1Dungeon.b var12 = var7.f;
+      L1Dungeon.L1R_b var12 = var7.f;
       boolean var13 = false;
-      if (var12 == L1Dungeon.b.a) {
+      if (var12 == L1Dungeon.L1R_b.a) {
          var13 = true;
-      } else if (var12 == L1Dungeon.b.i) {
+      } else if (var12 == L1Dungeon.L1R_b.i) {
          if (var4.dX() == 4) {
             var9 = 32774;
             var10 = 32816;
@@ -140,13 +140,13 @@ public class L1Dungeon {
 
          var13 = true;
       } else {
-         if (var12 == L1Dungeon.b.h) {
+         if (var12 == L1Dungeon.L1R_b.h) {
             return InnTable.a().a(var4);
          }
 
-         if (var12 == L1Dungeon.b.f && var4.j().g(40299, 1) || var12 == L1Dungeon.b.b && var4.j().g(40300, 1) || var12 == L1Dungeon.b.d && var4.j().g(40302, 1)
-            )
-          {
+         if (var12 == L1Dungeon.L1R_b.f && var4.j().g(40299, 1)
+            || var12 == L1Dungeon.L1R_b.b && var4.j().g(40300, 1)
+            || var12 == L1Dungeon.L1R_b.d && var4.j().g(40302, 1)) {
             int var15 = L1GameTimeClock.a().b().c() % 86400;
             if (var15 >= 5400 && var15 < 9000
                || var15 >= 16200 && var15 < 19800
@@ -158,9 +158,9 @@ public class L1Dungeon {
                || var15 >= 81000 && var15 < 84600) {
                var13 = true;
             }
-         } else if (var12 == L1Dungeon.b.g && var4.j().g(40298, 1)
-            || var12 == L1Dungeon.b.c && var4.j().g(40308, 1000)
-            || var12 == L1Dungeon.b.e && var4.j().g(40303, 1)) {
+         } else if (var12 == L1Dungeon.L1R_b.g && var4.j().g(40298, 1)
+            || var12 == L1Dungeon.L1R_b.c && var4.j().g(40308, 1000)
+            || var12 == L1Dungeon.L1R_b.e && var4.j().g(40303, 1)) {
             int var14 = L1GameTimeClock.a().b().c() % 86400;
             if (var14 >= 0 && var14 < 360
                || var14 >= 10800 && var14 < 14400
@@ -186,14 +186,14 @@ public class L1Dungeon {
       }
    }
 
-   class a {
+   class L1R_a {
       private final int b;
       private final int c;
       private final int d;
       private final int e;
-      private final L1Dungeon.b f;
+      private final L1Dungeon.L1R_b f;
 
-      private a(int var2, int var3, short var4, int var5, L1Dungeon.b var6) {
+      private L1R_a(int var2, int var3, short var4, int var5, L1Dungeon.L1R_b var6) {
          this.b = var2;
          this.c = var3;
          this.d = var4;
@@ -202,12 +202,12 @@ public class L1Dungeon {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, short var4, int var5, L1Dungeon.b var6, L1Dungeon.a var7) {
+      L1R_a(int var2, int var3, short var4, int var5, L1Dungeon.L1R_b var6, L1Dungeon.L1R_a var7) {
          this(var2, var3, var4, var5, var6);
       }
    }
 
-   private enum b {
+   private enum L1R_b {
       a,
       b,
       c,

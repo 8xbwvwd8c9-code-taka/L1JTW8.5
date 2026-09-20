@@ -662,7 +662,7 @@ public class L1PetInstance extends L1NpcInstance {
    }
 
    public void aw() {
-      this.I = GeneralThreadPool.a().a(new L1PetInstance.a(null), 1000L, 200000L);
+      this.I = GeneralThreadPool.a().a(new L1PetInstance.L1R_a(null), 1000L, 200000L);
    }
 
    public void ax() {
@@ -771,8 +771,8 @@ public class L1PetInstance extends L1NpcInstance {
       }
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -798,7 +798,7 @@ public class L1PetInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1PetInstance.a var2) {
+      L1R_a(L1PetInstance.L1R_a var2) {
          this();
       }
    }

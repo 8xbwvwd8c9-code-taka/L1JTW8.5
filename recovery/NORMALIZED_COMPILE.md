@@ -4,7 +4,7 @@ Status: **FAIL**
 
 - Java sources: **788**
 - javac exit: **1**
-- javac error headers/files: **4580 / 101**
+- javac error headers/files: **4066 / 93**
 - Generated classes: **0**
 - Donor application classes: **1109**
 - Built donor classes after namespace normalization: **0**

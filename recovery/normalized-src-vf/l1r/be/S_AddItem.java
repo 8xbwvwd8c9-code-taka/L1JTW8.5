@@ -10,8 +10,8 @@ public class S_AddItem extends ServerBasePacket {
    public S_AddItem(L1ItemInstance var1) {
       this.c(1);
       this.b(588);
-      PBMessageALL3.g.a var2 = PBMessageALL3.g.aa();
-      PBMessageALL9.c.a var3 = PBMessageALL9.c.ak();
+      PBMessageALL3.L1R_g.L1R_a var2 = PBMessageALL3.L1R_g.aa();
+      PBMessageALL9.L1R_c.L1R_a var3 = PBMessageALL9.L1R_c.ak();
       var3.a(var1.fr());
       var3.b(var1.m());
       var3.c(var1.fr());
@@ -112,8 +112,8 @@ public class S_AddItem extends ServerBasePacket {
    public S_AddItem(L1ItemInstance var1, int var2) {
       this.c(1);
       this.b(588);
-      PBMessageALL3.g.a var3 = PBMessageALL3.g.aa();
-      PBMessageALL9.c.a var4 = PBMessageALL9.c.ak();
+      PBMessageALL3.L1R_g.L1R_a var3 = PBMessageALL3.L1R_g.aa();
+      PBMessageALL9.L1R_c.L1R_a var4 = PBMessageALL9.L1R_c.ak();
       var4.a(var2);
       var4.b(1000 + var2);
       var4.c(var2);

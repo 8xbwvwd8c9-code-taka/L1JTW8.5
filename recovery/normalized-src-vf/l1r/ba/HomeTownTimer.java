@@ -21,7 +21,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class HomeTownTimer {
    private static final Logger a = Logger.getLogger(HomeTownTimer.class.getName());
    private static HomeTownTimer b;
-   private static HomeTownTimer.a c;
+   private static HomeTownTimer.L1R_a c;
 
    public static HomeTownTimer a() {
       if (b == null) {
@@ -37,7 +37,7 @@ public class HomeTownTimer {
 
    private void d() {
       if (c == null) {
-         c = new HomeTownTimer.a(null);
+         c = new HomeTownTimer.L1R_a(null);
          L1GameTimeClock.a().a(c);
       }
    }
@@ -214,8 +214,8 @@ public class HomeTownTimer {
       return var5;
    }
 
-   private class a extends L1GameTimeAdapter {
-      private a() {
+   private class L1R_a extends L1GameTimeAdapter {
+      private L1R_a() {
       }
 
       @Override
@@ -224,7 +224,7 @@ public class HomeTownTimer {
       }
 
       // $VF: synthetic method
-      a(HomeTownTimer.a var2) {
+      L1R_a(HomeTownTimer.L1R_a var2) {
          this();
       }
    }

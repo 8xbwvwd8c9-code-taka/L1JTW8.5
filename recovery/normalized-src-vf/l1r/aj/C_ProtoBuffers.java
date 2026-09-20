@@ -62,7 +62,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          if (var3 == 115) {
             int var49 = this.d();
             byte[] var72 = this.a(var49);
-            PBMessageALL3.c var95 = PBMessageALL3.c.a(var72);
+            PBMessageALL3.L1R_c var95 = PBMessageALL3.L1R_c.a(var72);
             String var116 = new String(var95.r().e(), Config.k);
             String var134 = var116.split("-")[0];
             String var151 = var116.split("-")[1];
@@ -76,7 +76,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 143) {
             int var47 = this.d();
             byte[] var70 = this.a(var47);
-            PBMessageALL.a var94 = PBMessageALL.a.a(var70);
+            PBMessageALL.L1R_a var94 = PBMessageALL.L1R_a.a(var70);
             if (var94.p() == 12) {
                if (var4.j().b(40308, 1000)) {
                   L1Teleport.a(var4, 32630, 32776, 4, 5, true);
@@ -87,12 +87,12 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 135) {
             int var46 = this.d();
             byte[] var69 = this.a(var46);
-            PBMessageALL.a var93 = PBMessageALL.a.a(var69);
+            PBMessageALL.L1R_a var93 = PBMessageALL.L1R_a.a(var69);
             RankingTable.a().a(var4, var93.p());
          } else if (var3 == 514) {
             int var45 = this.d();
             byte[] var68 = this.a(var45);
-            PBMessageALL5.i var92 = PBMessageALL5.i.a(var68);
+            PBMessageALL5.L1R_i var92 = PBMessageALL5.L1R_i.a(var68);
             int var115 = var92.p();
             int var133 = var92.r();
             String var150 = new String(var92.t().e(), Config.k);
@@ -101,7 +101,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 524) {
             int var44 = this.d();
             byte[] var67 = this.a(var44);
-            PBMessageALL.a var91 = PBMessageALL.a.a(var67);
+            PBMessageALL.L1R_a var91 = PBMessageALL.L1R_a.a(var67);
             int var114 = var91.p();
             L1QuestNew var132 = var4.dS().get(var114);
             if (var132 != null && !var132.w()) {
@@ -130,7 +130,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 527) {
             int var43 = this.d();
             byte[] var66 = this.a(var43);
-            PBMessageALL.a var90 = PBMessageALL.a.a(var66);
+            PBMessageALL.L1R_a var90 = PBMessageALL.L1R_a.a(var66);
             int var113 = var90.p();
             L1QuestNew var131 = var4.dS().get(var113);
             if (var131 != null && var131.e().length > 0) {
@@ -139,7 +139,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 543) {
             int var42 = this.d();
             byte[] var65 = this.a(var42);
-            PBMessageALL.c var89 = PBMessageALL.c.a(var65);
+            PBMessageALL.L1R_c var89 = PBMessageALL.L1R_c.a(var65);
             int var112 = var89.p();
             int var130 = var89.r();
             int var145 = var89.t();
@@ -172,12 +172,12 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 563) {
             int var41 = this.d();
             byte[] var64 = this.a(var41);
-            PBMessageALL.a var88 = PBMessageALL.a.a(var64);
+            PBMessageALL.L1R_a var88 = PBMessageALL.L1R_a.a(var64);
             int var111 = var88.p();
-            PBMessageALL4.i var129 = MonsterListReader.a().a(var111);
+            PBMessageALL4.L1R_i var129 = MonsterListReader.a().a(var111);
 
             for (g var143 : var129.o()) {
-               PBMessageALL.a var165 = PBMessageALL.a.a(var143);
+               PBMessageALL.L1R_a var165 = PBMessageALL.L1R_a.a(var143);
                int var174 = var165.r();
                int var182 = var165.t();
                if (var174 == 0) {
@@ -227,7 +227,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else if (var3 == 565) {
             int var40 = this.d();
             byte[] var63 = this.a(var40);
-            PBMessageALL.c var87 = PBMessageALL.c.a(var63);
+            PBMessageALL.L1R_c var87 = PBMessageALL.L1R_c.a(var63);
             int[] var110 = MonsterListReader.a().b(var87.p());
             if (var110 == null) {
                var4.a(new S_SystemMessage("錯誤的傳送編號:0x" + LineageUtil.a(var87.p(), 4)));
@@ -253,7 +253,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
             if (var3 == 801) {
                int var39 = this.d();
                byte[] var62 = this.a(var39);
-               PBMessageALL.a var86 = PBMessageALL.a.a(var62);
+               PBMessageALL.L1R_a var86 = PBMessageALL.L1R_a.a(var62);
                if (var4.bB(26004)) {
                   var4.a(new S_ProtoBuffers(800, var4.dV()));
                   return;
@@ -296,7 +296,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
             } else if (var3 == 811) {
                int var38 = this.d();
                byte[] var61 = this.a(var38);
-               PBMessageALL.a var85 = PBMessageALL.a.a(var61);
+               PBMessageALL.L1R_a var85 = PBMessageALL.L1R_a.a(var61);
                int var106 = var85.p();
                int var125 = var85.r();
                if (var4.dY() == null || var4.dY()[var106 * 3][3] == 5) {
@@ -347,7 +347,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   int var28 = this.d();
                   byte[] var51 = this.a(var28);
                   int var74 = 0;
-                  PBMessageALL.a var97 = PBMessageALL.a.a(var51);
+                  PBMessageALL.L1R_a var97 = PBMessageALL.L1R_a.a(var51);
                   var74 = var97.p();
                   L1Object var118 = L1World.a().a(var74);
                   if (var118 instanceof L1NpcInstance) {
@@ -364,14 +364,14 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 58) {
                   int var29 = this.d();
                   byte[] var52 = this.a(var29);
-                  PBMessageALL5.a var76 = PBMessageALL5.a.a(var52);
+                  PBMessageALL5.L1R_a var76 = PBMessageALL5.L1R_a.a(var52);
                   L1Craft var98 = CraftListTable.a().a(var76.r());
                   L1ItemInstance var119 = var98.f();
                   int var136 = var76.t();
                   ArrayList var152 = new ArrayList<>();
 
                   for (g var12 : var76.u()) {
-                     PBMessageALL3.e var14 = PBMessageALL3.e.a(var12);
+                     PBMessageALL3.L1R_e var14 = PBMessageALL3.L1R_e.a(var12);
                      int var15 = var14.r();
                      int var16 = var14.v();
                      if (var119 == null || var119.m() != var15) {
@@ -411,7 +411,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   int var162 = var98.l();
                   if (var119 != null) {
                      for (g var169 : var76.u()) {
-                        PBMessageALL5.a var183 = PBMessageALL5.a.a(var169);
+                        PBMessageALL5.L1R_a var183 = PBMessageALL5.L1R_a.a(var169);
                         if (var183.r() == var119.m()) {
                            if (var4.j().b(var119.N(), var183.t() * var136)) {
                               var162 += var183.t() * var136;
@@ -455,7 +455,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 317) {
                   int var30 = this.d();
                   byte[] var53 = this.a(var30);
-                  PBMessageALL.a var77 = PBMessageALL.a.a(var53);
+                  PBMessageALL.L1R_a var77 = PBMessageALL.L1R_a.a(var53);
                   int var99 = var77.p();
                   if (var99 == 1) {
                      var4.a(new S_ProtoBuffers(318, CastleTable.a().b()));
@@ -463,7 +463,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 319) {
                   int var31 = this.d();
                   byte[] var54 = this.a(var31);
-                  PBMessageALL.a var78 = PBMessageALL.a.a(var54);
+                  PBMessageALL.L1R_a var78 = PBMessageALL.L1R_a.a(var54);
                   int var100 = var78.r();
                   var4.a(new S_ProtoBuffers(320, var4.fr(), var100));
                   var4.b(new S_ProtoBuffers(320, var4.fr(), var100));
@@ -474,7 +474,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 326) {
                   int var32 = this.d();
                   byte[] var55 = this.a(var32);
-                  PBMessageALL4.g var79 = PBMessageALL4.g.a(var55);
+                  PBMessageALL4.L1R_g var79 = PBMessageALL4.L1R_g.a(var55);
                   int var101 = var79.p();
                   int var120 = var79.r();
                   byte[] var137 = var79.t().e();
@@ -489,7 +489,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 338) {
                   int var33 = this.d();
                   byte[] var56 = this.a(var33);
-                  PBMessageALL.a var80 = PBMessageALL.a.a(var56);
+                  PBMessageALL.L1R_a var80 = PBMessageALL.L1R_a.a(var56);
                   int var102 = var80.p();
                   int var121 = var80.r();
                   if (var4.q()) {
@@ -500,7 +500,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 100) {
                   int var34 = this.d();
                   byte[] var57 = this.a(var34);
-                  PBMessageALL2.c var81 = PBMessageALL2.c.a(var57);
+                  PBMessageALL2.L1R_c var81 = PBMessageALL2.L1R_c.a(var57);
                   ItemTable.a(var4, 640106, var81.r());
 
                   for (int var103 : var81.q()) {
@@ -528,11 +528,11 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   int var36 = this.d();
                   byte[] var59 = this.a(var36);
                   ArrayList var83 = new ArrayList<>();
-                  PBMessageALL6.g var104 = PBMessageALL6.g.a(var59);
+                  PBMessageALL6.L1R_g var104 = PBMessageALL6.L1R_g.a(var59);
                   int var123 = var104.p();
 
                   for (g var139 : var104.q()) {
-                     PBMessageALL.a var163 = PBMessageALL.a.a(var139);
+                     PBMessageALL.L1R_a var163 = PBMessageALL.L1R_a.a(var139);
                      int var172 = var163.p();
                      int var180 = var163.r();
                      int var185 = var163.t();
@@ -551,7 +551,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                } else if (var3 == 484) {
                   int var37 = this.d();
                   byte[] var60 = this.a(var37);
-                  PBMessageALL.a var84 = PBMessageALL.a.a(var60);
+                  PBMessageALL.L1R_a var84 = PBMessageALL.L1R_a.a(var60);
                   int var105 = var84.p();
                   int var124 = var84.r();
                   int var140 = var84.t();
@@ -631,7 +631,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
          } else {
             int var5 = this.d();
             byte[] var6 = this.a(var5);
-            PBMessageALL.a var7 = PBMessageALL.a.a(var6);
+            PBMessageALL.L1R_a var7 = PBMessageALL.L1R_a.a(var6);
             int var8 = var7.p();
             L1ItemInstance var9 = var4.j().e(var8);
             if (var9 == null || var9.f() && !var9.a().aN()) {

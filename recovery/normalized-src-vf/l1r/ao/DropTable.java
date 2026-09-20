@@ -161,7 +161,7 @@ public class DropTable {
          CopyOnWriteArrayList var4 = var2.d();
          int var5 = 0;
 
-         for (L1HateList.a var6 : var4) {
+         for (L1HateList.L1R_a var6 : var4) {
             L1Character var8 = var6.a;
             if (Config.P != 2 || !(var8 instanceof L1SummonInstance) && !(var8 instanceof L1PetInstance)) {
                if (var8 != null && var8.fp() == var1.fp() && var8.fu().c(var1.fu()) <= Config.Q) {
@@ -201,7 +201,7 @@ public class DropTable {
                int var10 = Random.a(var5);
                int var11 = 0;
 
-               for (L1HateList.a var12 : var4) {
+               for (L1HateList.L1R_a var12 : var4) {
                   var11 += var12.b;
                   if (var11 > var10) {
                      L1Character var14 = var12.a;

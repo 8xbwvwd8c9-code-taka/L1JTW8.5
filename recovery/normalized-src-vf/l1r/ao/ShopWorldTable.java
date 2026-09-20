@@ -15,8 +15,8 @@ import l1r.l1j.server.DatabaseFactory;
 public class ShopWorldTable {
    private static final Logger a = Logger.getLogger(ShopWorldTable.class.getName());
    private static ShopWorldTable b;
-   private final HashMap<Integer, ShopWorldTable.b> c = new HashMap<>();
-   private final ConcurrentHashMap<String, ShopWorldTable.a> d = new ConcurrentHashMap<>();
+   private final HashMap<Integer, ShopWorldTable.L1R_b> c = new HashMap<>();
+   private final ConcurrentHashMap<String, ShopWorldTable.L1R_a> d = new ConcurrentHashMap<>();
 
    public static ShopWorldTable a() {
       if (b == null) {
@@ -44,7 +44,7 @@ public class ShopWorldTable {
          while (var3.next()) {
             int var4 = var3.getInt("itemid");
             L1ItemInstance var5 = ItemTable.a().b(var4);
-            ShopWorldTable.b var6 = new ShopWorldTable.b(var5, null);
+            ShopWorldTable.L1R_b var6 = new ShopWorldTable.L1R_b(var5, null);
             var6.b = var3.getInt("price");
             var6.c = var3.getInt("type");
             var6.d = var3.getInt("vip");
@@ -59,7 +59,7 @@ public class ShopWorldTable {
       }
    }
 
-   public HashMap<Integer, ShopWorldTable.b> b() {
+   public HashMap<Integer, ShopWorldTable.L1R_b> b() {
       return this.c;
    }
 
@@ -79,11 +79,11 @@ public class ShopWorldTable {
 
          while (var3.next()) {
             String var4 = var3.getString("acc_name");
-            ShopWorldTable.a var5 = null;
+            ShopWorldTable.L1R_a var5 = null;
             if (this.d.containsKey(var4)) {
                var5 = this.d.get(var4);
             } else {
-               var5 = new ShopWorldTable.a(null);
+               var5 = new ShopWorldTable.L1R_a(null);
                this.d.put(var4, var5);
             }
 
@@ -110,7 +110,7 @@ public class ShopWorldTable {
          for (int var6 = 0; var6 < var3; var6++) {
             L1ItemInstance var7 = ItemTable.a().b(var2);
             int var9 = 1;
-            ShopWorldTable.a var8;
+            ShopWorldTable.L1R_a var8;
             if (this.d.containsKey(var1)) {
                var8 = this.d.get(var1);
 
@@ -121,7 +121,7 @@ public class ShopWorldTable {
                   }
                }
             } else {
-               var8 = new ShopWorldTable.a(null);
+               var8 = new ShopWorldTable.L1R_a(null);
                this.d.put(var1, var8);
             }
 
@@ -141,7 +141,7 @@ public class ShopWorldTable {
 
    public void a(String var1, int var2) {
       if (this.d.containsKey(var1)) {
-         ShopWorldTable.a var3 = this.d.get(var1);
+         ShopWorldTable.L1R_a var3 = this.d.get(var1);
          var3.b.remove(var2);
       } else {
          System.out.println("ShopWorldTable has smoe error");
@@ -164,19 +164,19 @@ public class ShopWorldTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       private final ConcurrentHashMap<Integer, L1ItemInstance> b = new ConcurrentHashMap<>();
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(ShopWorldTable.a var2) {
+      L1R_a(ShopWorldTable.L1R_a var2) {
          this();
       }
    }
 
-   public class b {
+   public class L1R_b {
       public L1ItemInstance a;
       public int b;
       public int c;
@@ -184,12 +184,12 @@ public class ShopWorldTable {
       public boolean e;
       public boolean f;
 
-      private b(L1ItemInstance var2) {
+      private L1R_b(L1ItemInstance var2) {
          this.a = var2;
       }
 
       // $VF: synthetic method
-      b(L1ItemInstance var2, ShopWorldTable.b var3) {
+      L1R_b(L1ItemInstance var2, ShopWorldTable.L1R_b var3) {
          this(var2);
       }
    }

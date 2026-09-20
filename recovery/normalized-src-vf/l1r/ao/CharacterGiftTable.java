@@ -15,8 +15,8 @@ import l1r.l1j.server.DatabaseFactory;
 public class CharacterGiftTable {
    private static final Logger a = Logger.getLogger(CharacterGiftTable.class.getName());
    private static CharacterGiftTable b;
-   private final HashMap<Integer, CharacterGiftTable.a> c = new HashMap<>();
-   private final HashMap<String, CharacterGiftTable.b> d = new HashMap<>();
+   private final HashMap<Integer, CharacterGiftTable.L1R_a> c = new HashMap<>();
+   private final HashMap<String, CharacterGiftTable.L1R_b> d = new HashMap<>();
 
    public static CharacterGiftTable a() {
       if (b == null) {
@@ -46,7 +46,7 @@ public class CharacterGiftTable {
             int var5 = var3.getInt("itemid");
             String var6 = var4 + "-" + var5;
             if (!this.d.containsKey(var6)) {
-               CharacterGiftTable.b var7 = new CharacterGiftTable.b(null);
+               CharacterGiftTable.L1R_b var7 = new CharacterGiftTable.L1R_b(null);
                var7.a = var4;
                var7.b = var5;
                var7.c = var3.getInt("count");
@@ -76,7 +76,7 @@ public class CharacterGiftTable {
             int var4 = var3.getInt("objid");
             byte[] var5 = var3.getBytes("data");
             if (!this.c.containsKey(var4)) {
-               CharacterGiftTable.a var6 = new CharacterGiftTable.a(var4, null);
+               CharacterGiftTable.L1R_a var6 = new CharacterGiftTable.L1R_a(var4, null);
                var6.b = var5;
                this.c.put(var4, var6);
             }
@@ -91,7 +91,7 @@ public class CharacterGiftTable {
    private void b(L1PcInstance var1, int var2) {
       String var3 = var1.aC().h();
 
-      for (CharacterGiftTable.b var4 : this.d.values()) {
+      for (CharacterGiftTable.L1R_b var4 : this.d.values()) {
          if (var4.a == var2 && (var4.e.contains(var3) || var4.e.contains("A"))) {
             ItemTable.a(var1, var4.b, var4.c, var4.d);
          }
@@ -99,11 +99,11 @@ public class CharacterGiftTable {
    }
 
    public void a(L1PcInstance var1) {
-      CharacterGiftTable.a var2;
+      CharacterGiftTable.L1R_a var2;
       if (this.c.containsKey(var1.fr())) {
          var2 = this.c.get(var1.fr());
       } else {
-         var2 = new CharacterGiftTable.a(var1.fr(), null);
+         var2 = new CharacterGiftTable.L1R_a(var1.fr(), null);
          this.a(var2);
       }
 
@@ -114,7 +114,7 @@ public class CharacterGiftTable {
       if (!this.c.containsKey(var1.fr())) {
          System.out.println("CharacterGiftTable has some error , ID=" + var1.fr());
       } else {
-         CharacterGiftTable.a var3 = this.c.get(var1.fr());
+         CharacterGiftTable.L1R_a var3 = this.c.get(var1.fr());
          if (var2 < var3.b.length && var3.b[var2] == 0) {
             var3.b[var2] = 1;
             this.b(var3);
@@ -123,7 +123,7 @@ public class CharacterGiftTable {
       }
    }
 
-   private void a(CharacterGiftTable.a var1) {
+   private void a(CharacterGiftTable.L1R_a var1) {
       if (!this.c.containsKey(var1.a)) {
          Connection var2 = null;
          PreparedStatement var3 = null;
@@ -144,7 +144,7 @@ public class CharacterGiftTable {
       }
    }
 
-   private void b(CharacterGiftTable.a var1) {
+   private void b(CharacterGiftTable.L1R_a var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;
 
@@ -161,32 +161,32 @@ public class CharacterGiftTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       public int a = 0;
       public byte[] b = new byte[512];
 
-      private a(int var2) {
+      private L1R_a(int var2) {
          this.a = var2;
       }
 
       // $VF: synthetic method
-      a(int var2, CharacterGiftTable.a var3) {
+      L1R_a(int var2, CharacterGiftTable.L1R_a var3) {
          this(var2);
       }
    }
 
-   private class b {
+   private class L1R_b {
       public int a;
       public int b;
       public int c;
       public int d;
       public String e;
 
-      private b() {
+      private L1R_b() {
       }
 
       // $VF: synthetic method
-      b(CharacterGiftTable.b var2) {
+      L1R_b(CharacterGiftTable.L1R_b var2) {
          this();
       }
    }

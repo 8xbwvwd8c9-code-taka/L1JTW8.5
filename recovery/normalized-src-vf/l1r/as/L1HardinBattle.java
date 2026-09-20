@@ -124,8 +124,8 @@ public class L1HardinBattle {
 
    public void a(int var1) {
       this.c();
-      new L1HardinBattle.a(var1, 0, null).a();
-      new L1HardinBattle.a(999, 0, null).a();
+      new L1HardinBattle.L1R_a(var1, 0, null).a();
+      new L1HardinBattle.L1R_a(999, 0, null).a();
    }
 
    private void a(ArrayList<L1NpcInstance> var1, int var2, int var3) throws InterruptedException {
@@ -339,10 +339,10 @@ public class L1HardinBattle {
             }
 
             if ((var6.z() == 91395 || var6.z() == 91395) && !var4) {
-               new L1HardinBattle.a(301, 1000, null).a();
+               new L1HardinBattle.L1R_a(301, 1000, null).a();
                var4 = true;
             } else if ((var6.z() == 91390 || var6.z() == 91394) && !var4 && (var6.z() == 91395 || var6.z() == 91395)) {
-               new L1HardinBattle.a(302, 1000, null).a();
+               new L1HardinBattle.L1R_a(302, 1000, null).a();
                var4 = true;
             }
 
@@ -409,11 +409,11 @@ public class L1HardinBattle {
       }
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       int a;
       int b;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.a = var3;
          this.b = var2;
       }
@@ -685,7 +685,7 @@ public class L1HardinBattle {
                   }
 
                   Thread.sleep(3000L);
-                  L1HardinBattle.this.new a(304, 0).a();
+                  L1HardinBattle.this.new L1R_a(304, 0).a();
                   L1HardinBattle.this.i.a(new S_Html(L1HardinBattle.this.i.fr(), "j_ep005"));
                   L1HardinBattle.this.b("$7623", 0);
                   Thread.sleep(6000L);
@@ -881,57 +881,57 @@ public class L1HardinBattle {
                   }
 
                   L1HardinBattle.this.a(L1HardinBattle.this.j, "$7649", 0);
-                  L1HardinBattle.this.new a(5, 5000).a();
+                  L1HardinBattle.this.new L1R_a(5, 5000).a();
                } catch (InterruptedException var31) {
                }
                break;
             case 10:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$7598", 0);
-               L1HardinBattle.this.new a(11, 4000).a();
+               L1HardinBattle.this.new L1R_a(11, 4000).a();
                break;
             case 11:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8693", 0);
-               L1HardinBattle.this.new a(12, 8000).a();
+               L1HardinBattle.this.new L1R_a(12, 8000).a();
                break;
             case 12:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8694", 0);
                if (L1HardinBattle.this.a == 69) {
-                  L1HardinBattle.this.new a(20, 8000).a();
+                  L1HardinBattle.this.new L1R_a(20, 8000).a();
                } else {
-                  L1HardinBattle.this.new a(13, 8000).a();
+                  L1HardinBattle.this.new L1R_a(13, 8000).a();
                }
                break;
             case 13:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8695", 0);
-               L1HardinBattle.this.new a(14, 8000).a();
+               L1HardinBattle.this.new L1R_a(14, 8000).a();
                break;
             case 14:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8696", 0);
-               L1HardinBattle.this.new a(15, 8000).a();
+               L1HardinBattle.this.new L1R_a(15, 8000).a();
                break;
             case 15:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8697", 0);
-               L1HardinBattle.this.new a(16, 8000).a();
+               L1HardinBattle.this.new L1R_a(16, 8000).a();
                break;
             case 16:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8698", 0);
-               L1HardinBattle.this.new a(17, 8000).a();
+               L1HardinBattle.this.new L1R_a(17, 8000).a();
                break;
             case 17:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8699", 0);
-               L1HardinBattle.this.new a(18, 8000).a();
+               L1HardinBattle.this.new L1R_a(18, 8000).a();
                break;
             case 18:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8700", 0);
-               L1HardinBattle.this.new a(19, 8000).a();
+               L1HardinBattle.this.new L1R_a(19, 8000).a();
                break;
             case 19:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8701", 0);
-               L1HardinBattle.this.new a(20, 8000).a();
+               L1HardinBattle.this.new L1R_a(20, 8000).a();
                break;
             case 20:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$8702", 0);
-               L1HardinBattle.this.new a(21, 6000).a();
+               L1HardinBattle.this.new L1R_a(21, 6000).a();
                break;
             case 21:
                int var2 = 4000;
@@ -940,12 +940,12 @@ public class L1HardinBattle {
                   var2 = 10000;
                }
 
-               L1HardinBattle.this.new a(22, var2).a();
+               L1HardinBattle.this.new L1R_a(22, var2).a();
                break;
             case 22:
                L1HardinBattle.this.i.a(new S_Html(L1HardinBattle.this.i.fr(), "j_ep001"));
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$7599", 0);
-               L1HardinBattle.this.new a(23, 8000).a();
+               L1HardinBattle.this.new L1R_a(23, 8000).a();
                break;
             case 23:
                try {
@@ -959,35 +959,35 @@ public class L1HardinBattle {
                      }
                   }
 
-                  L1HardinBattle.this.new a(24, 8000).a();
+                  L1HardinBattle.this.new L1R_a(24, 8000).a();
                } catch (InterruptedException var29) {
                }
                break;
             case 24:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$7600", 0);
-               L1HardinBattle.this.new a(25, 8000).a();
+               L1HardinBattle.this.new L1R_a(25, 8000).a();
                break;
             case 25:
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$7603", 0);
-               L1HardinBattle.this.new a(26, 2000).a();
+               L1HardinBattle.this.new L1R_a(26, 2000).a();
                break;
             case 26:
                L1Teleport.a(L1HardinBattle.this.i, 32738, 32930, L1HardinBattle.this.e, 5, true);
                L1HardinBattle.this.a(L1HardinBattle.this.j, "$7604", 0);
-               L1HardinBattle.this.new a(101, 1000).a();
-               L1HardinBattle.this.new a(201, 1000).a();
+               L1HardinBattle.this.new L1R_a(101, 1000).a();
+               L1HardinBattle.this.new L1R_a(201, 1000).a();
                break;
             case 101:
                L1HardinBattle.this.a("$7605", 0);
-               L1HardinBattle.this.new a(102, 4000).a();
+               L1HardinBattle.this.new L1R_a(102, 4000).a();
                break;
             case 102:
                L1HardinBattle.this.a("$7606", 0);
-               L1HardinBattle.this.new a(103, 4000).a();
+               L1HardinBattle.this.new L1R_a(103, 4000).a();
                break;
             case 103:
                L1HardinBattle.this.j.a(32716, 32846, 6);
-               L1HardinBattle.this.new a(104, 4000).a();
+               L1HardinBattle.this.new L1R_a(104, 4000).a();
                break;
             case 104:
                for (L1PcInstance var43 : L1HardinBattle.this.n) {
@@ -997,11 +997,11 @@ public class L1HardinBattle {
                }
 
                L1HardinBattle.this.a("$7611", 0);
-               L1HardinBattle.this.new a(105, 2000).a();
+               L1HardinBattle.this.new L1R_a(105, 2000).a();
                break;
             case 105:
                L1HardinBattle.this.a("$7613", 0);
-               L1HardinBattle.this.new a(106, 5000).a();
+               L1HardinBattle.this.new L1R_a(106, 5000).a();
                break;
             case 106:
                L1HardinBattle.this.a("$7615", 0);
@@ -1009,19 +1009,19 @@ public class L1HardinBattle {
                break;
             case 201:
                L1HardinBattle.this.b("$7607", 0);
-               L1HardinBattle.this.new a(202, 4000).a();
+               L1HardinBattle.this.new L1R_a(202, 4000).a();
                break;
             case 202:
                L1HardinBattle.this.b("$7608", 0);
-               L1HardinBattle.this.new a(203, 4000).a();
+               L1HardinBattle.this.new L1R_a(203, 4000).a();
                break;
             case 203:
                L1HardinBattle.this.b("$7609", 0);
-               L1HardinBattle.this.new a(204, 5000).a();
+               L1HardinBattle.this.new L1R_a(204, 5000).a();
                break;
             case 204:
                L1HardinBattle.this.b("$7610", 0);
-               L1HardinBattle.this.new a(205, 5000).a();
+               L1HardinBattle.this.new L1R_a(205, 5000).a();
                break;
             case 205:
                if (L1HardinBattle.this.a == 69) {
@@ -1032,13 +1032,13 @@ public class L1HardinBattle {
                   L1HardinBattle.this.b("$7612", 1);
                }
 
-               L1HardinBattle.this.new a(206, 6000).a();
+               L1HardinBattle.this.new L1R_a(206, 6000).a();
                break;
             case 206:
                L1HardinBattle.this.b("$7614", 2);
-               L1HardinBattle.this.new a(6, 3000).a();
-               L1HardinBattle.this.new a(7, 3000).a();
-               L1HardinBattle.this.new a(303, 3000).a();
+               L1HardinBattle.this.new L1R_a(6, 3000).a();
+               L1HardinBattle.this.new L1R_a(7, 3000).a();
+               L1HardinBattle.this.new L1R_a(303, 3000).a();
                break;
             case 301:
                try {
@@ -1171,7 +1171,7 @@ public class L1HardinBattle {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, L1HardinBattle.a var4) {
+      L1R_a(int var2, int var3, L1HardinBattle.L1R_a var4) {
          this(var2, var3);
       }
    }

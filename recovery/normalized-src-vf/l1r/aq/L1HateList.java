@@ -4,14 +4,14 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.CopyOnWriteArrayList;
 
 public class L1HateList {
-   private final ConcurrentHashMap<Integer, L1HateList.a> a = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<Integer, L1HateList.L1R_a> a = new ConcurrentHashMap<>();
 
    public synchronized void a(L1Character var1, int var2) {
       if (var1 != null) {
          if (this.a.containsKey(var1.fr())) {
             this.a.get(var1.fr()).b += var2;
          } else {
-            L1HateList.a var3 = new L1HateList.a();
+            L1HateList.L1R_a var3 = new L1HateList.L1R_a();
             var3.a = var1;
             var3.b = var2;
             this.a.put(var1.fr(), var3);
@@ -39,7 +39,7 @@ public class L1HateList {
       L1Character var1 = null;
       int var2 = Integer.MIN_VALUE;
 
-      for (L1HateList.a var3 : this.a.values()) {
+      for (L1HateList.L1R_a var3 : this.a.values()) {
          if (var3.b > var2) {
             var1 = var3.a;
             var2 = var3.b;
@@ -49,11 +49,11 @@ public class L1HateList {
       return var1;
    }
 
-   public synchronized CopyOnWriteArrayList<L1HateList.a> d() {
+   public synchronized CopyOnWriteArrayList<L1HateList.L1R_a> d() {
       return new CopyOnWriteArrayList<>(this.a.values());
    }
 
-   public class a {
+   public class L1R_a {
       public L1Character a;
       public int b = 0;
    }

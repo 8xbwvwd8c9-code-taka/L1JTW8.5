@@ -30,7 +30,7 @@ public class ClientThread implements Runnable {
    private final InputStream d;
    private final OutputStream e;
    private final PacketHandler f;
-   private ClientThread.a g;
+   private ClientThread.L1R_a g;
    private final Socket h;
    private CipherClient i;
    private CipherServer j;
@@ -87,7 +87,7 @@ public class ClientThread implements Runnable {
    @Override
    public void run() {
       try {
-         this.g = new ClientThread.a(null);
+         this.g = new ClientThread.L1R_a(null);
          this.g.a();
          this.a = Random.a(Integer.MAX_VALUE) + 1;
          int var1 = 7;
@@ -276,10 +276,10 @@ public class ClientThread implements Runnable {
       this.t = var1;
    }
 
-   class a extends TimerTask {
+   class L1R_a extends TimerTask {
       private final Queue<ServerBasePacket> b = new ConcurrentLinkedQueue<>();
 
-      private a() {
+      private L1R_a() {
       }
 
       private final void a(ServerBasePacket var1) {
@@ -326,7 +326,7 @@ public class ClientThread implements Runnable {
       }
 
       // $VF: synthetic method
-      a(ClientThread.a var2) {
+      L1R_a(ClientThread.L1R_a var2) {
          this();
       }
    }

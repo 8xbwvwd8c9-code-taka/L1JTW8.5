@@ -101,7 +101,7 @@ public class L1GuardInstance extends L1NpcInstance {
                this.bx(0);
                this.X(true);
                this.cq(8);
-               GeneralThreadPool.a().a(new L1GuardInstance.a(null));
+               GeneralThreadPool.a().a(new L1GuardInstance.L1R_a(null));
             }
 
             if (var4 > 0) {
@@ -110,7 +110,7 @@ public class L1GuardInstance extends L1NpcInstance {
          } else if (!this.eX()) {
             this.X(true);
             this.cq(8);
-            GeneralThreadPool.a().a(new L1GuardInstance.a(null));
+            GeneralThreadPool.a().a(new L1GuardInstance.L1R_a(null));
          }
       }
    }
@@ -128,8 +128,8 @@ public class L1GuardInstance extends L1NpcInstance {
       }
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -147,7 +147,7 @@ public class L1GuardInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1GuardInstance.a var2) {
+      L1R_a(L1GuardInstance.L1R_a var2) {
          this();
       }
    }

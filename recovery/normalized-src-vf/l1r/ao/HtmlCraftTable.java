@@ -20,7 +20,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class HtmlCraftTable {
    private static final Logger a = Logger.getLogger(HtmlCraftTable.class.getName());
    private static HtmlCraftTable b;
-   private final HashMap<String, HtmlCraftTable.a> c = new HashMap<>();
+   private final HashMap<String, HtmlCraftTable.L1R_a> c = new HashMap<>();
 
    public static HtmlCraftTable a() {
       if (b == null) {
@@ -41,7 +41,7 @@ public class HtmlCraftTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            HtmlCraftTable.a var4 = new HtmlCraftTable.a(null);
+            HtmlCraftTable.L1R_a var4 = new HtmlCraftTable.L1R_a(null);
             var4.a = var3.getString("action");
             var4.b = var3.getInt("npcid");
             var4.c = this.a(var3.getString("craft_itemid"));
@@ -81,7 +81,7 @@ public class HtmlCraftTable {
    }
 
    public boolean a(String var1, L1PcInstance var2, L1NpcInstance var3, int var4) {
-      HtmlCraftTable.a var5 = this.c.get(var1 + "-" + var3.z());
+      HtmlCraftTable.L1R_a var5 = this.c.get(var1 + "-" + var3.z());
       if (var5 == null) {
          var5 = this.c.get(var1 + "-0");
       }
@@ -121,7 +121,7 @@ public class HtmlCraftTable {
    }
 
    public boolean a(String var1, L1PcInstance var2, L1NpcInstance var3) {
-      HtmlCraftTable.a var4 = this.c.get(var1 + "-" + var3.z());
+      HtmlCraftTable.L1R_a var4 = this.c.get(var1 + "-" + var3.z());
       if (var4 == null) {
          var4 = this.c.get(var1 + "-0");
       }
@@ -141,7 +141,7 @@ public class HtmlCraftTable {
       return this.a(var1, var2, var3, 1);
    }
 
-   private int a(L1PcInstance var1, HtmlCraftTable.a var2) {
+   private int a(L1PcInstance var1, HtmlCraftTable.L1R_a var2) {
       int var3 = Integer.MAX_VALUE;
 
       for (int var4 = 0; var4 < var2.e.length; var4++) {
@@ -152,7 +152,7 @@ public class HtmlCraftTable {
       return var3;
    }
 
-   private class a {
+   private class L1R_a {
       public String a;
       public int b;
       public int[] c;
@@ -163,11 +163,11 @@ public class HtmlCraftTable {
       public String h;
       public boolean i;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(HtmlCraftTable.a var2) {
+      L1R_a(HtmlCraftTable.L1R_a var2) {
          this();
       }
    }

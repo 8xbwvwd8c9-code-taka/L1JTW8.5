@@ -25,7 +25,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class InnTable {
    private static final Logger d = Logger.getLogger(InnTable.class.getName());
    private static InnTable e;
-   private final ConcurrentHashMap<Integer, InnTable.a> f = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<Integer, InnTable.L1R_a> f = new ConcurrentHashMap<>();
    public static final int a = -1;
    public static final int b = -2;
    public static final int c = -3;
@@ -50,7 +50,7 @@ public class InnTable {
       try {
          var4 = DatabaseFactory.a().b();
          var5 = var4.prepareStatement("INSERT INTO inns SET keyid=?,note=?, count=?, roomid=?, dueTime=? ");
-         InnTable.a var6 = new InnTable.a(null);
+         InnTable.L1R_a var6 = new InnTable.L1R_a(null);
          var6.a = var1;
          var6.b = "note";
          var6.c = var2;
@@ -77,7 +77,7 @@ public class InnTable {
    }
 
    private void a(int var1, int var2) {
-      InnTable.a var3 = this.f.get(var1);
+      InnTable.L1R_a var3 = this.f.get(var1);
       if (var3 != null) {
          var3.c -= var2;
          if (var3.c <= 0) {
@@ -131,7 +131,7 @@ public class InnTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            InnTable.a var4 = new InnTable.a(null);
+            InnTable.L1R_a var4 = new InnTable.L1R_a(null);
             var4.a = var3.getInt("keyid");
             var4.c = var3.getInt("count");
             var4.d = var3.getInt("roomid");
@@ -216,7 +216,7 @@ public class InnTable {
 
       for (int var3 = 0; var3 < var4; var3++) {
          L1ItemInstance var2 = var5[var3];
-         InnTable.a var6 = this.f.get(var2.M());
+         InnTable.L1R_a var6 = this.f.get(var2.M());
          if (var6 != null) {
             Timestamp var7 = var6.e;
             if (var7 != null) {
@@ -302,7 +302,7 @@ public class InnTable {
 
       for (int var4 = 0; var4 < var5; var4++) {
          L1ItemInstance var3 = var6[var4];
-         InnTable.a var7 = this.f.get(var3.M());
+         InnTable.L1R_a var7 = this.f.get(var3.M());
          if (var7 != null) {
             Timestamp var8 = var7.e;
             if (var8 != null) {
@@ -321,7 +321,7 @@ public class InnTable {
    }
 
    public boolean a(int var1) {
-      for (InnTable.a var2 : this.f.values()) {
+      for (InnTable.L1R_a var2 : this.f.values()) {
          if (var2.d == var1) {
             Timestamp var4 = var2.e;
             if (var4 == null) {
@@ -353,7 +353,7 @@ public class InnTable {
 
       for (int var5 = 0; var5 < var6; var5++) {
          L1ItemInstance var4 = var7[var5];
-         InnTable.a var8 = this.f.get(var4.M());
+         InnTable.L1R_a var8 = this.f.get(var4.M());
          if (var8 != null && !this.a(var8.d)) {
             return this.c(var8.d) ? -2 : -1;
          }
@@ -471,18 +471,18 @@ public class InnTable {
       return var1.toString();
    }
 
-   private class a {
+   private class L1R_a {
       public int a;
       public String b;
       public int c;
       public int d;
       public Timestamp e;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(InnTable.a var2) {
+      L1R_a(InnTable.L1R_a var2) {
          this();
       }
    }

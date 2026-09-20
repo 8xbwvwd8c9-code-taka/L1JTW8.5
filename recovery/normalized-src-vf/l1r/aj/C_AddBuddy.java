@@ -18,11 +18,11 @@ public class C_AddBuddy extends ClientBasePacket {
             if (var4.b(var5)) {
                var3.a(new S_ServerMessage(1052, var5));
             } else {
-               CharacterTable.a[] var9;
+               CharacterTable.L1R_a[] var9;
                int var8 = (var9 = CharacterTable.a().c()).length;
 
                for (int var7 = 0; var7 < var8; var7++) {
-                  CharacterTable.a var6 = var9[var7];
+                  CharacterTable.L1R_a var6 = var9[var7];
                   if (var5.equalsIgnoreCase(var6.b)) {
                      var4.a(var6.a, var6.b);
                      BuddyTable.a().a(var3.fr(), var6.a, var6.b);

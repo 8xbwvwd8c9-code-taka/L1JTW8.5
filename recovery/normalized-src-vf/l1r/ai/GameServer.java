@@ -86,10 +86,10 @@ public class GameServer {
    private static final Logger b = Logger.getLogger(GameServer.class.getName());
    public final int a = (int)(System.currentTimeMillis() / 1000L);
    private static GameServer c;
-   private final ConcurrentHashMap<String, GameServer.b> d = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<String, GameServer.L1R_b> d = new ConcurrentHashMap<>();
    private final CopyOnWriteArrayList<String> e = new CopyOnWriteArrayList<>();
    private final CopyOnWriteArrayList<ClientThread> f = new CopyOnWriteArrayList<>();
-   private GameServer.e g = null;
+   private GameServer.L1R_e g = null;
    private static int h = 0;
 
    public static GameServer a() {
@@ -209,9 +209,9 @@ public class GameServer {
       L1ThebesBattle.a();
       LineageUtil.b();
       System.out.println("初始化完畢");
-      GeneralThreadPool.a().a(new GameServer.a(this.d), 60000L, 60000L);
-      GeneralThreadPool.a().a(new GameServer.a(this.e), 1800000L, 1800000L);
-      GeneralThreadPool.a().a(new GameServer.d(new ServerSocket(Config.g, -1), null));
+      GeneralThreadPool.a().a(new GameServer.L1R_a(this.d), 60000L, 60000L);
+      GeneralThreadPool.a().a(new GameServer.L1R_a(this.e), 1800000L, 1800000L);
+      GeneralThreadPool.a().a(new GameServer.L1R_d(new ServerSocket(Config.g, -1), null));
       System.out.println("使用了: " + LineageUtil.a() + "MB 的記憶體");
       System.out.println(GeneralThreadPool.a().b());
       System.out.println("等待客戶端連接中...");
@@ -231,7 +231,7 @@ public class GameServer {
 
    public void a(int var1, boolean var2) {
       if (this.g == null) {
-         this.g = new GameServer.e(var1, var2);
+         this.g = new GameServer.L1R_e(var1, var2);
          GeneralThreadPool.a().a(this.g);
       }
    }
@@ -248,7 +248,7 @@ public class GameServer {
       }
 
       Config.b = true;
-      GeneralThreadPool.a().a(new GameServer.c(null), 60000L);
+      GeneralThreadPool.a().a(new GameServer.L1R_c(null), 60000L);
 
       try {
          int var7 = 0;
@@ -280,15 +280,15 @@ public class GameServer {
       return ++h;
    }
 
-   class a extends TimerTask {
+   class L1R_a extends TimerTask {
       private CopyOnWriteArrayList<?> b = null;
-      private ConcurrentHashMap<String, GameServer.b> c = null;
+      private ConcurrentHashMap<String, GameServer.L1R_b> c = null;
 
-      public a(CopyOnWriteArrayList<?> var2) {
+      public L1R_a(CopyOnWriteArrayList<?> var2) {
          this.b = var2;
       }
 
-      public a(ConcurrentHashMap<String, GameServer.b> var2) {
+      public L1R_a(ConcurrentHashMap<String, GameServer.L1R_b> var2) {
          this.c = var2;
       }
 
@@ -306,17 +306,17 @@ public class GameServer {
       }
    }
 
-   class b {
+   class L1R_b {
       public String a;
       public int b = 0;
 
-      public b(String var2) {
+      public L1R_b(String var2) {
          this.a = var2;
       }
    }
 
-   private class c implements Runnable {
-      private c() {
+   private class L1R_c implements Runnable {
+      private L1R_c() {
       }
 
       @Override
@@ -325,15 +325,15 @@ public class GameServer {
       }
 
       // $VF: synthetic method
-      c(GameServer.c var2) {
+      L1R_c(GameServer.L1R_c var2) {
          this();
       }
    }
 
-   private class d extends Thread {
+   private class L1R_d extends Thread {
       private final ServerSocket b;
 
-      private d(ServerSocket var2) {
+      private L1R_d(ServerSocket var2) {
          this.b = var2;
       }
 
@@ -357,11 +357,11 @@ public class GameServer {
                         continue;
                      }
 
-                     GameServer.b var4;
+                     GameServer.L1R_b var4;
                      if (GameServer.this.d.containsKey(var3)) {
                         var4 = GameServer.this.d.get(var3);
                      } else {
-                        var4 = GameServer.this.new b(var3);
+                        var4 = GameServer.this.new L1R_b(var3);
                         GameServer.this.d.put(var3, var4);
                      }
 
@@ -390,16 +390,16 @@ public class GameServer {
       }
 
       // $VF: synthetic method
-      d(ServerSocket var2, GameServer.d var3) {
+      L1R_d(ServerSocket var2, GameServer.L1R_d var3) {
          this(var2);
       }
    }
 
-   private class e extends Thread {
+   private class L1R_e extends Thread {
       private final int b;
       private boolean c = false;
 
-      public e(int var2, boolean var3) {
+      public L1R_e(int var2, boolean var3) {
          this.b = var2;
          this.c = var3;
       }

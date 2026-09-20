@@ -20,7 +20,7 @@ import l1r.bh.L1Item;
 
 public class L1EquipmentSlot {
    private final L1PcInstance a;
-   private final CopyOnWriteArrayList<ArmorSetTable.a> b;
+   private final CopyOnWriteArrayList<ArmorSetTable.L1R_a> b;
    private final CopyOnWriteArrayList<L1ItemInstance> c;
    private final ArrayList<L1ItemInstance> d;
 
@@ -43,7 +43,7 @@ public class L1EquipmentSlot {
          this.a.C(true);
       }
 
-      for (ArmorSetTable.a var4 : ArmorSetTable.a().b()) {
+      for (ArmorSetTable.L1R_a var4 : ArmorSetTable.a().b()) {
          if (var4.a(var1.N()) && var4.a(this.a)) {
             var4.a(this.a, var1, true);
             var4.b(this.a);
@@ -65,7 +65,7 @@ public class L1EquipmentSlot {
          this.a.C(false);
       }
 
-      for (ArmorSetTable.a var2 : ArmorSetTable.a().b()) {
+      for (ArmorSetTable.L1R_a var2 : ArmorSetTable.a().b()) {
          if (var2.a(var1.N()) && this.b.contains(var2) && !var2.a(this.a)) {
             var2.a(this.a, var1, false);
             var2.c(this.a);
@@ -124,7 +124,7 @@ public class L1EquipmentSlot {
 
       this.d.add(var1);
 
-      for (ArmorSetTable.a var4 : ArmorSetTable.a().b()) {
+      for (ArmorSetTable.L1R_a var4 : ArmorSetTable.a().b()) {
          if (var4.a(var3) && var4.a(this.a)) {
             var4.a(this.a, var1, true);
             if (!var1.h() || var1.a().aP() != 9) {
@@ -266,7 +266,7 @@ public class L1EquipmentSlot {
          this.a.a(new S_PacketBox(88, this.a.fk()));
       }
 
-      for (ArmorSetTable.a var7 : ArmorSetTable.a().b()) {
+      for (ArmorSetTable.L1R_a var7 : ArmorSetTable.a().b()) {
          if (var7.a(var3) && this.b.contains(var7) && !var7.a(this.a)) {
             var7.a(this.a, var1, false);
             var7.c(this.a);

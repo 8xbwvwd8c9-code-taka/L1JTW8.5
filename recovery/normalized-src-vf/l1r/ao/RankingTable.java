@@ -29,15 +29,15 @@ public class RankingTable {
    private final HashMap<Integer, Integer> j = new HashMap<>();
    private final HashMap<Integer, Integer> k = new HashMap<>();
    private final HashMap<Integer, Integer> l = new HashMap<>();
-   private final ArrayList<RankingTable.a> m = new ArrayList<>();
-   private final ArrayList<RankingTable.a> n = new ArrayList<>();
-   private final ArrayList<RankingTable.a> o = new ArrayList<>();
-   private final ArrayList<RankingTable.a> p = new ArrayList<>();
-   private final ArrayList<RankingTable.a> q = new ArrayList<>();
-   private final ArrayList<RankingTable.a> r = new ArrayList<>();
-   private final ArrayList<RankingTable.a> s = new ArrayList<>();
-   private final ArrayList<RankingTable.a> t = new ArrayList<>();
-   private final ArrayList<RankingTable.a> u = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> m = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> n = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> o = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> p = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> q = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> r = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> s = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> t = new ArrayList<>();
+   private final ArrayList<RankingTable.L1R_a> u = new ArrayList<>();
 
    public static RankingTable a() {
       if (c == null) {
@@ -63,31 +63,31 @@ public class RankingTable {
    public void a(L1PcInstance var1, int var2) {
       switch (var2) {
          case 0:
-            var1.a(new S_Rank(var2, this.n.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.n.toArray(new RankingTable.L1R_a[0])));
             break;
          case 1:
-            var1.a(new S_Rank(var2, this.o.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.o.toArray(new RankingTable.L1R_a[0])));
             break;
          case 2:
-            var1.a(new S_Rank(var2, this.p.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.p.toArray(new RankingTable.L1R_a[0])));
             break;
          case 3:
-            var1.a(new S_Rank(var2, this.q.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.q.toArray(new RankingTable.L1R_a[0])));
             break;
          case 4:
-            var1.a(new S_Rank(var2, this.r.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.r.toArray(new RankingTable.L1R_a[0])));
             break;
          case 5:
-            var1.a(new S_Rank(var2, this.s.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.s.toArray(new RankingTable.L1R_a[0])));
             break;
          case 6:
-            var1.a(new S_Rank(var2, this.t.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.t.toArray(new RankingTable.L1R_a[0])));
             break;
          case 7:
-            var1.a(new S_Rank(var2, this.u.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.u.toArray(new RankingTable.L1R_a[0])));
             break;
          case 8:
-            var1.a(new S_Rank(var2, this.m.toArray(new RankingTable.a[0])));
+            var1.a(new S_Rank(var2, this.m.toArray(new RankingTable.L1R_a[0])));
       }
    }
 
@@ -134,7 +134,7 @@ public class RankingTable {
 
          while (var5.next()) {
             var5.getInt("AccessLevel");
-            RankingTable.a var6 = new RankingTable.a();
+            RankingTable.L1R_a var6 = new RankingTable.L1R_a();
             var6.a = var5.getInt("objid");
             var6.b = var5.getString("char_name");
             var6.c = var5.getInt("level");
@@ -187,7 +187,7 @@ public class RankingTable {
       }
    }
 
-   private void a(ArrayList<RankingTable.a> var1, String var2) {
+   private void a(ArrayList<RankingTable.L1R_a> var1, String var2) {
       HashMap var3 = new HashMap<>();
       if (var2.equals("p")) {
          var3 = this.e;
@@ -226,16 +226,16 @@ public class RankingTable {
       }
    }
 
-   private void a(ArrayList<RankingTable.a> var1) {
-      Collections.sort(var1, new Comparator<RankingTable.a>() {
-         public int a(RankingTable.a var1, RankingTable.a var2) {
+   private void a(ArrayList<RankingTable.L1R_a> var1) {
+      Collections.sort(var1, new Comparator<RankingTable.L1R_a>() {
+         public int a(RankingTable.L1R_a var1, RankingTable.L1R_a var2) {
             return var2.c == var1.c ? var2.d - var1.d : var2.c - var1.c;
          }
 
          // $VF: synthetic method
          @Override
          public int compare(Object var1, Object var2) {
-            return this.a((RankingTable.a)var1, (RankingTable.a)var2);
+            return this.a((RankingTable.L1R_a)var1, (RankingTable.L1R_a)var2);
          }
       });
    }
@@ -256,7 +256,7 @@ public class RankingTable {
       }
    }
 
-   public class a implements Cloneable {
+   public class L1R_a implements Cloneable {
       public int a;
       public String b;
       public int c;
@@ -264,11 +264,11 @@ public class RankingTable {
       public int e;
       public int f = 0;
 
-      public RankingTable.a a() {
-         RankingTable.a var1 = null;
+      public RankingTable.L1R_a a() {
+         RankingTable.L1R_a var1 = null;
 
          try {
-            var1 = (RankingTable.a)super.clone();
+            var1 = (RankingTable.L1R_a)super.clone();
          } catch (CloneNotSupportedException var3) {
             var3.printStackTrace();
          }

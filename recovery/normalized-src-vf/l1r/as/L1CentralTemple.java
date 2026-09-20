@@ -86,7 +86,7 @@ public class L1CentralTemple {
       for (int var2 = 0; var2 < e.length; var2++) {
          if (!e[var2]) {
             e[var2] = true;
-            GeneralThreadPool.a().b(new L1CentralTemple.a(1936 + var2, var1, null));
+            GeneralThreadPool.a().b(new L1CentralTemple.L1R_a(1936 + var2, var1, null));
             return true;
          }
       }
@@ -94,13 +94,13 @@ public class L1CentralTemple {
       return false;
    }
 
-   private class a extends Thread {
+   private class L1R_a extends Thread {
       private final L1PcInstance b;
       private final int c;
       private L1NpcInstance d;
       private int e = -1;
 
-      private a(int var2, L1PcInstance var3) {
+      private L1R_a(int var2, L1PcInstance var3) {
          this.b = var3;
          this.c = var2;
       }
@@ -382,7 +382,7 @@ public class L1CentralTemple {
       }
 
       // $VF: synthetic method
-      a(int var2, L1PcInstance var3, L1CentralTemple.a var4) {
+      L1R_a(int var2, L1PcInstance var3, L1CentralTemple.L1R_a var4) {
          this(var2, var3);
       }
    }

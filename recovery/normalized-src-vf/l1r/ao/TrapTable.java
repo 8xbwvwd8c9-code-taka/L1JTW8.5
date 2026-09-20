@@ -34,7 +34,7 @@ public class TrapTable {
 
          while (var3.next()) {
             String var4 = var3.getString("type");
-            L1Trap__obf_i var5 = LineageUtil.a(var4, new TrapTable.a(var3));
+            L1Trap__obf_i var5 = LineageUtil.a(var4, new TrapTable.L1R_a(var3));
             this.c.put(var5.a(), var5);
          }
       } catch (SQLException var10) {
@@ -64,10 +64,10 @@ public class TrapTable {
       return this.c.get(var1);
    }
 
-   private class a implements TrapStorage {
+   private class L1R_a implements TrapStorage {
       private final ResultSet b;
 
-      public a(ResultSet var2) {
+      public L1R_a(ResultSet var2) {
          this.b = var2;
       }
 

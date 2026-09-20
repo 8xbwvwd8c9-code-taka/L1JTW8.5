@@ -224,7 +224,7 @@ public class L1MonsterInstance extends L1NpcInstance {
       if (this.ea() <= 0) {
          if (!this.eX()) {
             this.cq(8);
-            GeneralThreadPool.a().a(new L1MonsterInstance.a(var1));
+            GeneralThreadPool.a().a(new L1MonsterInstance.L1R_a(var1));
          }
       } else if (this.ac() != 1 && this.ac() != 2) {
          if (var2 >= 0) {
@@ -260,7 +260,7 @@ public class L1MonsterInstance extends L1NpcInstance {
             if (var4 != -1 && (this.fp() != 1931 || Random.a(1000) <= 3)) {
                this.g_(var4);
             } else {
-               GeneralThreadPool.a().a(new L1MonsterInstance.a(var1));
+               GeneralThreadPool.a().a(new L1MonsterInstance.L1R_a(var1));
             }
          }
       }
@@ -680,10 +680,10 @@ public class L1MonsterInstance extends L1NpcInstance {
       this.A = var1;
    }
 
-   protected class a implements Runnable {
+   protected class L1R_a implements Runnable {
       private final L1Character b;
 
-      public a(L1Character var2) {
+      public L1R_a(L1Character var2) {
          this.b = var2;
       }
 

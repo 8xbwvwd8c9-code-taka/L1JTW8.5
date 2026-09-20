@@ -74,7 +74,7 @@ public class L1GuardianSoul {
          L1World.a().a(new S_PacketBox(84, 2, "\\f=有人獲得了守護者的靈魂。"));
       }
 
-      GeneralThreadPool.a().a(new L1GuardianSoul.a(var1), var4);
+      GeneralThreadPool.a().a(new L1GuardianSoul.L1R_a(var1), var4);
       System.out.println("任務:【守護之魂】剩餘時間 " + var4 / 1000L + " 秒");
    }
 
@@ -106,10 +106,10 @@ public class L1GuardianSoul {
       }
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final int b;
 
-      public a(int var2) {
+      public L1R_a(int var2) {
          this.b = var2;
       }
 

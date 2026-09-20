@@ -20,10 +20,10 @@ public class S_Rank extends ServerBasePacket {
       this.a(var6);
    }
 
-   public S_Rank(int var1, RankingTable.a... var2) {
+   public S_Rank(int var1, RankingTable.L1R_a... var2) {
       this.c(1);
       this.b(136);
-      PBMessageALL9.e.a var3 = PBMessageALL9.e.G();
+      PBMessageALL9.L1R_e.L1R_a var3 = PBMessageALL9.L1R_e.G();
       var3.b(0);
       var3.c(GameServer.a().a);
       var3.d(var1);
@@ -31,8 +31,8 @@ public class S_Rank extends ServerBasePacket {
       var3.f(1);
 
       for (int var4 = 0; var4 < var2.length; var4++) {
-         RankingTable.a var5 = var2[var4];
-         PBMessageALL9.a.a var6 = PBMessageALL9.a.G();
+         RankingTable.L1R_a var5 = var2[var4];
+         PBMessageALL9.L1R_a.L1R_a var6 = PBMessageALL9.L1R_a.G();
          int var7 = 1;
          if (var4 + 1 >= 31 && var4 + 1 <= 60) {
             var7++;

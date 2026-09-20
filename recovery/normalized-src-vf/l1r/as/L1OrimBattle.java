@@ -167,8 +167,8 @@ public class L1OrimBattle {
 
    public void a(int var1) {
       this.b();
-      new L1OrimBattle.a(var1, 0, null).a();
-      new L1OrimBattle.a(6, 0, null).a();
+      new L1OrimBattle.L1R_a(var1, 0, null).a();
+      new L1OrimBattle.L1R_a(6, 0, null).a();
    }
 
    private void b(int var1) throws InterruptedException {
@@ -737,11 +737,11 @@ public class L1OrimBattle {
       return var3;
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       int a;
       int b;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.a = var3;
          this.b = var2;
       }
@@ -787,7 +787,7 @@ public class L1OrimBattle {
                         L1OrimBattle.this.d(var11);
                      } else {
                         L1OrimBattle.this.e(300000);
-                        L1OrimBattle.this.new a(100, 0).a();
+                        L1OrimBattle.this.new L1R_a(100, 0).a();
                      }
                   }
                } catch (InterruptedException var8) {
@@ -813,55 +813,55 @@ public class L1OrimBattle {
                   L1OrimBattle.this.c();
                }
             case 10:
-               L1OrimBattle.this.new a(11, 5000).a();
+               L1OrimBattle.this.new L1R_a(11, 5000).a();
                break;
             case 11:
                L1OrimBattle.this.a("$9529", 0);
-               L1OrimBattle.this.new a(12, 5000).a();
+               L1OrimBattle.this.new L1R_a(12, 5000).a();
                break;
             case 12:
                L1OrimBattle.this.a("$9530", 0);
-               L1OrimBattle.this.new a(13, 5000).a();
+               L1OrimBattle.this.new L1R_a(13, 5000).a();
                break;
             case 13:
                if (L1OrimBattle.this.b == 68) {
                   L1OrimBattle.this.b = 0;
-                  L1OrimBattle.this.new a(5, 5000).a();
+                  L1OrimBattle.this.new L1R_a(5, 5000).a();
                } else {
                   L1OrimBattle.this.a("$9531", 0);
-                  L1OrimBattle.this.new a(14, 5000).a();
+                  L1OrimBattle.this.new L1R_a(14, 5000).a();
                }
                break;
             case 14:
                L1OrimBattle.this.a("$9532", 0);
-               L1OrimBattle.this.new a(15, 5000).a();
+               L1OrimBattle.this.new L1R_a(15, 5000).a();
                break;
             case 15:
                L1OrimBattle.this.a("$9533", 0);
-               L1OrimBattle.this.new a(16, 5000).a();
+               L1OrimBattle.this.new L1R_a(16, 5000).a();
                break;
             case 16:
                L1OrimBattle.this.a("$9534", 0);
                L1Location var1 = L1OrimBattle.this.b(L1OrimBattle.this.G, 10);
                L1OrimBattle.this.J = L1OrimBattle.this.a(var1, 91511, 1).get(0);
-               L1OrimBattle.this.new a(17, 5000).a();
+               L1OrimBattle.this.new L1R_a(17, 5000).a();
                break;
             case 17:
                L1OrimBattle.this.a("$9535", 0);
-               L1OrimBattle.this.new a(18, 5000).a();
+               L1OrimBattle.this.new L1R_a(18, 5000).a();
                break;
             case 18:
                L1OrimBattle.this.a("$9536", 0);
-               L1OrimBattle.this.new a(19, 5000).a();
+               L1OrimBattle.this.new L1R_a(19, 5000).a();
                break;
             case 19:
                if (L1OrimBattle.this.b == 66 && L1OrimBattle.this.a(L1OrimBattle.this.J.fu(), 2)) {
                   L1OrimBattle.this.b = 0;
                   L1OrimBattle.this.J.aa_();
-                  L1OrimBattle.this.new a(21, 5000).a();
+                  L1OrimBattle.this.new L1R_a(21, 5000).a();
                } else {
                   L1OrimBattle.this.a("$9545", 0);
-                  L1OrimBattle.this.new a(20, 5000).a();
+                  L1OrimBattle.this.new L1R_a(20, 5000).a();
                }
                break;
             case 20:
@@ -872,31 +872,31 @@ public class L1OrimBattle {
                }
 
                L1OrimBattle.this.J.aa_();
-               L1OrimBattle.this.new a(21, 5000).a();
+               L1OrimBattle.this.new L1R_a(21, 5000).a();
                break;
             case 21:
                L1OrimBattle.this.a("$9537", 0);
-               L1OrimBattle.this.new a(22, 8000).a();
+               L1OrimBattle.this.new L1R_a(22, 8000).a();
                break;
             case 22:
                L1OrimBattle.this.a("$9538", 0);
                L1OrimBattle.this.K = L1OrimBattle.this.a(L1OrimBattle.this.G, 91510, 2).get(0);
                L1OrimBattle.this.L = L1OrimBattle.this.a(L1OrimBattle.this.G, 91510, 2).get(1);
-               L1OrimBattle.this.new a(23, 5000).a();
+               L1OrimBattle.this.new L1R_a(23, 5000).a();
                break;
             case 23:
                L1OrimBattle.this.a("$9539", 0);
-               L1OrimBattle.this.new a(24, 5000).a();
+               L1OrimBattle.this.new L1R_a(24, 5000).a();
                break;
             case 24:
                if (L1OrimBattle.this.b == 69 && L1OrimBattle.this.a(L1OrimBattle.this.K.fu(), 2) && L1OrimBattle.this.a(L1OrimBattle.this.L.fu(), 2)) {
                   L1OrimBattle.this.b = 0;
                   L1OrimBattle.this.K.aa_();
                   L1OrimBattle.this.L.aa_();
-                  L1OrimBattle.this.new a(5, 5000).a();
+                  L1OrimBattle.this.new L1R_a(5, 5000).a();
                } else {
                   L1OrimBattle.this.a("$9545", 0);
-                  L1OrimBattle.this.new a(25, 5000).a();
+                  L1OrimBattle.this.new L1R_a(25, 5000).a();
                }
                break;
             case 25:
@@ -908,31 +908,31 @@ public class L1OrimBattle {
 
                L1OrimBattle.this.K.aa_();
                L1OrimBattle.this.L.aa_();
-               L1OrimBattle.this.new a(5, 8000).a();
+               L1OrimBattle.this.new L1R_a(5, 8000).a();
                break;
             case 100:
                L1OrimBattle.this.a("$9579", 0);
-               L1OrimBattle.this.new a(101, 5000).a();
+               L1OrimBattle.this.new L1R_a(101, 5000).a();
                break;
             case 101:
                L1OrimBattle.this.a("$9580", 0);
-               L1OrimBattle.this.new a(102, 5000).a();
+               L1OrimBattle.this.new L1R_a(102, 5000).a();
                break;
             case 102:
                L1OrimBattle.this.a("$9581", 0);
-               L1OrimBattle.this.new a(103, 5000).a();
+               L1OrimBattle.this.new L1R_a(103, 5000).a();
                break;
             case 103:
                L1OrimBattle.this.a("$9582", 0);
-               L1OrimBattle.this.new a(104, 5000).a();
+               L1OrimBattle.this.new L1R_a(104, 5000).a();
                break;
             case 104:
                L1OrimBattle.this.a("$9583", 0);
-               L1OrimBattle.this.new a(105, 5000).a();
+               L1OrimBattle.this.new L1R_a(105, 5000).a();
                break;
             case 105:
                L1OrimBattle.this.a("$9584", 0);
-               L1OrimBattle.this.new a(106, 5000).a();
+               L1OrimBattle.this.new L1R_a(106, 5000).a();
                break;
             case 106:
                L1OrimBattle.this.h();
@@ -940,7 +940,7 @@ public class L1OrimBattle {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, L1OrimBattle.a var4) {
+      L1R_a(int var2, int var3, L1OrimBattle.L1R_a var4) {
          this(var2, var3);
       }
    }

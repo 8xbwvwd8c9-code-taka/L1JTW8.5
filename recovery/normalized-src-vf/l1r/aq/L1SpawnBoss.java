@@ -126,7 +126,7 @@ public class L1SpawnBoss extends L1Spawn {
 
          while (var4 < this.c()) {
             var4++;
-            GeneralThreadPool.a().a(new L1SpawnBoss.a(0, var3, null), var1);
+            GeneralThreadPool.a().a(new L1SpawnBoss.L1R_a(0, var3, null), var1);
          }
 
          if (this.d() == 97258) {
@@ -163,11 +163,11 @@ public class L1SpawnBoss extends L1Spawn {
       this.f = var1;
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       private final int b;
       private final int c;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.b = var2;
          this.c = var3;
       }
@@ -178,7 +178,7 @@ public class L1SpawnBoss extends L1Spawn {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, L1SpawnBoss.a var4) {
+      L1R_a(int var2, int var3, L1SpawnBoss.L1R_a var4) {
          this(var2, var3);
       }
    }

@@ -87,7 +87,7 @@ public class L1IceQueen {
             if (!this.h[var3]) {
                this.h[var3] = true;
                L1Teleport.a(var1, 32728, 32819, 2101 + var3, 0, true);
-               GeneralThreadPool.a().a(new L1IceQueen.a(var2, var3, null), 30000L);
+               GeneralThreadPool.a().a(new L1IceQueen.L1R_a(var2, var3, null), 30000L);
                return true;
             }
          }
@@ -96,7 +96,7 @@ public class L1IceQueen {
             if (!this.i[var4]) {
                this.i[var4] = true;
                L1Teleport.a(var1, 32728, 32819, 2151 + var4, 0, true);
-               GeneralThreadPool.a().a(new L1IceQueen.a(var2, var4, null), 30000L);
+               GeneralThreadPool.a().a(new L1IceQueen.L1R_a(var2, var4, null), 30000L);
                return true;
             }
          }
@@ -135,13 +135,13 @@ public class L1IceQueen {
       return var3;
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final int b;
       private final int c;
       private int d = 0;
       private final int e;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.b = var2;
          this.c = var3;
          this.e = (this.b == 1 ? 2101 : 2151) + this.c;
@@ -317,7 +317,7 @@ public class L1IceQueen {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, L1IceQueen.a var4) {
+      L1R_a(int var2, int var3, L1IceQueen.L1R_a var4) {
          this(var2, var3);
       }
    }

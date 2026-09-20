@@ -80,7 +80,7 @@ public class L1SummonInstance extends L1NpcInstance {
    public L1SummonInstance(L1Npc var1, L1Character var2) {
       super(var1);
       this.cF(IdFactory.a().c());
-      this.y = GeneralThreadPool.a().a(new L1SummonInstance.a(null), 3600000L);
+      this.y = GeneralThreadPool.a().a(new L1SummonInstance.L1R_a(null), 3600000L);
       this.e(var2);
       this.cG(var2.fs() + Random.a(5) - 2);
       this.cH(var2.ft() + Random.a(5) - 2);
@@ -132,7 +132,7 @@ public class L1SummonInstance extends L1NpcInstance {
          this.by(var1.eb());
       }
 
-      this.y = GeneralThreadPool.a().a(new L1SummonInstance.a(null), 3600000L);
+      this.y = GeneralThreadPool.a().a(new L1SummonInstance.L1R_a(null), 3600000L);
       this.e(var2);
       this.cG(var1.fs());
       this.cH(var1.ft());
@@ -513,8 +513,8 @@ public class L1SummonInstance extends L1NpcInstance {
       return this.A;
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -529,7 +529,7 @@ public class L1SummonInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1SummonInstance.a var2) {
+      L1R_a(L1SummonInstance.L1R_a var2) {
          this();
       }
    }

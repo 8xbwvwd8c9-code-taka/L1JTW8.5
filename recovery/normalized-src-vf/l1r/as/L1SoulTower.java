@@ -59,7 +59,7 @@ public class L1SoulTower {
       for (int var2 = 0; var2 < e.length; var2++) {
          if (!e[var2]) {
             e[var2] = true;
-            GeneralThreadPool.a().b(new L1SoulTower.a(4001 + var2, var1, null));
+            GeneralThreadPool.a().b(new L1SoulTower.L1R_a(4001 + var2, var1, null));
             return true;
          }
       }
@@ -97,11 +97,11 @@ public class L1SoulTower {
       return var3;
    }
 
-   private class a extends Thread {
+   private class L1R_a extends Thread {
       private final L1PcInstance b;
       private final int c;
 
-      private a(int var2, L1PcInstance var3) {
+      private L1R_a(int var2, L1PcInstance var3) {
          this.b = var3;
          this.c = var2;
       }
@@ -392,7 +392,7 @@ public class L1SoulTower {
       }
 
       // $VF: synthetic method
-      a(int var2, L1PcInstance var3, L1SoulTower.a var4) {
+      L1R_a(int var2, L1PcInstance var3, L1SoulTower.L1R_a var4) {
          this(var2, var3);
       }
    }

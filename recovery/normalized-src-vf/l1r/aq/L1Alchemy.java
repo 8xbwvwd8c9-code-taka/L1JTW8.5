@@ -36,8 +36,8 @@ public class L1Alchemy {
    private L1Alchemy() {
    }
 
-   public void a(HashMap<Integer, MagicDollTable.a> var1) {
-      for (MagicDollTable.a var2 : var1.values()) {
+   public void a(HashMap<Integer, MagicDollTable.L1R_a> var1) {
+      for (MagicDollTable.L1R_a var2 : var1.values()) {
          if (var2.d == 1) {
             this.b.add(ItemTable.a().a(var2.a));
          } else if (var2.d == 2) {
@@ -53,7 +53,7 @@ public class L1Alchemy {
    }
 
    public void a(L1PcInstance var1) {
-      PBMessageALL5.g.a var2 = PBMessageALL5.g.aa();
+      PBMessageALL5.L1R_g.L1R_a var2 = PBMessageALL5.L1R_g.aa();
       var2.a(1);
 
       for (int var3 = 1; var3 <= 4; var3++) {
@@ -63,7 +63,7 @@ public class L1Alchemy {
    }
 
    public void b(L1PcInstance var1) {
-      PBMessageALL5.g.a var2 = PBMessageALL5.g.aa();
+      PBMessageALL5.L1R_g.L1R_a var2 = PBMessageALL5.L1R_g.aa();
       var2.a(1);
 
       for (int var3 = 1; var3 <= 5; var3++) {
@@ -73,7 +73,7 @@ public class L1Alchemy {
    }
 
    public void c(L1PcInstance var1) {
-      PBMessageALL5.g.a var2 = PBMessageALL5.g.aa();
+      PBMessageALL5.L1R_g.L1R_a var2 = PBMessageALL5.L1R_g.aa();
       var2.a(1);
 
       for (int var3 = 1; var3 <= 4; var3++) {
@@ -96,11 +96,11 @@ public class L1Alchemy {
          ArrayList var14 = this.f;
       }
 
-      PBMessageALL6.g.a var3 = PBMessageALL6.g.aa();
+      PBMessageALL6.L1R_g.L1R_a var3 = PBMessageALL6.L1R_g.aa();
       var3.c(var1);
 
       for (int var4 = 1; var4 <= 4; var4++) {
-         PBMessageALL.a.a var5 = PBMessageALL.a.aa();
+         PBMessageALL.L1R_a.L1R_a var5 = PBMessageALL.L1R_a.aa();
          var5.a(var4);
          var5.b(0);
          var5.c(var1);
@@ -113,7 +113,7 @@ public class L1Alchemy {
 
       for (int var6 = 0; var6 < var7; var6++) {
          int[] var16 = var8[var6];
-         PBMessageALL6.e.a var9 = PBMessageALL6.e.aa();
+         PBMessageALL6.L1R_e.L1R_a var9 = PBMessageALL6.L1R_e.aa();
          var9.b(var16[0]);
          var9.b(var16[1]);
          var9.c(var1 + 1);
@@ -126,7 +126,7 @@ public class L1Alchemy {
 
       for (int var20 = 0; var20 < var21; var20++) {
          int[] var18 = var22[var20];
-         PBMessageALL6.e.a var10 = PBMessageALL6.e.aa();
+         PBMessageALL6.L1R_e.L1R_a var10 = PBMessageALL6.L1R_e.aa();
          var10.b(var18[0]);
          var10.b(var18[1]);
          var10.b(var18[2]);
@@ -134,7 +134,7 @@ public class L1Alchemy {
          var3.f(var10.M().f());
       }
 
-      PBMessageALL6.e.a var19 = PBMessageALL6.e.aa();
+      PBMessageALL6.L1R_e.L1R_a var19 = PBMessageALL6.L1R_e.aa();
       var19.b(1);
       var19.b(2);
       var19.b(3);
@@ -162,11 +162,11 @@ public class L1Alchemy {
          var2 = this.f;
       }
 
-      PBMessageALL3.a.a var3 = PBMessageALL3.a.aa();
+      PBMessageALL3.L1R_a.L1R_a var3 = PBMessageALL3.L1R_a.aa();
       var3.b(var1);
 
       for (L1Item var4 : var2) {
-         PBMessageALL.a.a var6 = PBMessageALL.a.aa();
+         PBMessageALL.L1R_a.L1R_a var6 = PBMessageALL.L1R_a.aa();
          var6.a(var4.W());
          var6.b(var4.m());
          var3.e(var6.M().f());
@@ -189,11 +189,11 @@ public class L1Alchemy {
          var2 = this.f;
       }
 
-      PBMessageALL3.a.a var3 = PBMessageALL3.a.aa();
+      PBMessageALL3.L1R_a.L1R_a var3 = PBMessageALL3.L1R_a.aa();
       var3.b(var1);
 
       for (L1Item var4 : var2) {
-         PBMessageALL.a.a var6 = PBMessageALL.a.aa();
+         PBMessageALL.L1R_a.L1R_a var6 = PBMessageALL.L1R_a.aa();
          var6.a(var4.W());
          var3.e(var6.M().f());
       }

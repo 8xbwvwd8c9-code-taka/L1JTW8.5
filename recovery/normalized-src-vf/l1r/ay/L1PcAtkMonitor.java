@@ -34,7 +34,7 @@ public class L1PcAtkMonitor extends L1PcMonitor {
             var4.b(var3.ft());
             new C_Attack(var4.b(), var1.aK());
             var4.close();
-            int var5 = var1.ce().b(L1SpeedChecker.a.b);
+            int var5 = var1.ce().b(L1SpeedChecker.L1R_a.b);
             Thread.sleep(var5);
          }
       } catch (Exception var6) {

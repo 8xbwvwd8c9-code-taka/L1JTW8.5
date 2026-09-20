@@ -394,7 +394,7 @@ public class L1PcInstance extends L1Character {
       this.C = GeneralThreadPool.a().b(new L1PcExpMonitor(this.fr()), 0L, 500L);
       this.D = GeneralThreadPool.a().b(new L1PcEinMonitor(this.fr()), 0L, 1000L);
       this.E = GeneralThreadPool.a().b(new L1PcAtkMonitor(this.fr()), 0L, 300L);
-      this.bh = GeneralThreadPool.a().a(new L1PcInstance.c(null), 0L, 1000L);
+      this.bh = GeneralThreadPool.a().a(new L1PcInstance.L1R_c(null), 0L, 1000L);
    }
 
    private void fv() {
@@ -1023,7 +1023,7 @@ public class L1PcInstance extends L1Character {
          L1Trade.b(this);
       }
 
-      GeneralThreadPool.a().b(new L1PcInstance.b(var1));
+      GeneralThreadPool.a().b(new L1PcInstance.L1R_b(var1));
    }
 
    public void t() {
@@ -3348,8 +3348,8 @@ public class L1PcInstance extends L1Character {
       return this.j();
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -3358,15 +3358,15 @@ public class L1PcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      a(L1PcInstance.a var2) {
+      L1R_a(L1PcInstance.L1R_a var2) {
          this();
       }
    }
 
-   private class b implements Runnable {
+   private class L1R_b implements Runnable {
       private final L1Character b;
 
-      public b(L1Character var2) {
+      public L1R_b(L1Character var2) {
          this.b = var2;
       }
 
@@ -3533,15 +3533,15 @@ public class L1PcInstance extends L1Character {
                }
             }
 
-            L1PcInstance.this.aq = GeneralThreadPool.a().a(L1PcInstance.this.new a(null), 600000L);
+            L1PcInstance.this.aq = GeneralThreadPool.a().a(L1PcInstance.this.new L1R_a(null), 600000L);
          } catch (Exception var5) {
             L1PcInstance.s.log(Level.SEVERE, var5.getLocalizedMessage(), var5);
          }
       }
    }
 
-   private class c extends TimerTask {
-      private c() {
+   private class L1R_c extends TimerTask {
+      private L1R_c() {
       }
 
       @Override
@@ -3562,7 +3562,7 @@ public class L1PcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      c(L1PcInstance.c var2) {
+      L1R_c(L1PcInstance.L1R_c var2) {
          this();
       }
    }

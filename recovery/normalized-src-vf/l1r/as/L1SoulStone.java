@@ -27,7 +27,7 @@ public class L1SoulStone {
    private static final int c = 1400;
    private static final int d = 99;
    private static final int e = 14400000;
-   private final ConcurrentHashMap<Integer, L1SoulStone.a> f = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<Integer, L1SoulStone.L1R_a> f = new ConcurrentHashMap<>();
 
    public static L1SoulStone a() {
       if (b == null) {
@@ -111,7 +111,7 @@ public class L1SoulStone {
             var1.a(new S_Html(var3.fr(), "bosskey3"));
          } else {
             SpawnTable.a(190328, 32902, 32818, var4);
-            L1SoulStone.a var5 = new L1SoulStone.a(var4, null);
+            L1SoulStone.L1R_a var5 = new L1SoulStone.L1R_a(var4, null);
             var5.a();
             this.f.put(var4, var5);
 
@@ -232,10 +232,10 @@ public class L1SoulStone {
       }
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private int b = 0;
 
-      private a(int var2) {
+      private L1R_a(int var2) {
          this.b = var2;
       }
 
@@ -272,7 +272,7 @@ public class L1SoulStone {
       }
 
       // $VF: synthetic method
-      a(int var2, L1SoulStone.a var3) {
+      L1R_a(int var2, L1SoulStone.L1R_a var3) {
          this(var2);
       }
    }

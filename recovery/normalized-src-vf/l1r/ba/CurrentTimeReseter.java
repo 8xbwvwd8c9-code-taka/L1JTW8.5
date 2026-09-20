@@ -47,7 +47,7 @@ public class CurrentTimeReseter {
       }
 
       System.out.println("伺服器重置:距離執行時間還有..." + var4 / 1000L / 60L + "分");
-      GeneralThreadPool.a().a(new CurrentTimeReseter.b(null), var4);
+      GeneralThreadPool.a().a(new CurrentTimeReseter.L1R_b(null), var4);
    }
 
    private void d() {
@@ -62,7 +62,7 @@ public class CurrentTimeReseter {
       }
 
       System.out.println("計時地圖/排行榜重置:距離執行時間還有..." + var4 / 1000L / 60L + "分");
-      GeneralThreadPool.a().a(new CurrentTimeReseter.a(null), var4);
+      GeneralThreadPool.a().a(new CurrentTimeReseter.L1R_a(null), var4);
    }
 
    private void e() {
@@ -87,11 +87,11 @@ public class CurrentTimeReseter {
       }
 
       System.out.println("每週任務重置:距離執行時間還有..." + var6 / 1000L / 60L + "分");
-      GeneralThreadPool.a().a(new CurrentTimeReseter.c(null), var6);
+      GeneralThreadPool.a().a(new CurrentTimeReseter.L1R_c(null), var6);
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -108,20 +108,20 @@ public class CurrentTimeReseter {
             System.out.println("[排行榜排名更新了]");
             long var4 = 86400000L;
             System.out.println("計時地圖/排行榜重置:距離執行時間還有...1440分");
-            GeneralThreadPool.a().a(CurrentTimeReseter.this.new a(), 86400000L);
+            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_a(), 86400000L);
          } catch (Exception var3) {
             CurrentTimeReseter.a.log(Level.SEVERE, var3.getLocalizedMessage(), var3);
          }
       }
 
       // $VF: synthetic method
-      a(CurrentTimeReseter.a var2) {
+      L1R_a(CurrentTimeReseter.L1R_a var2) {
          this();
       }
    }
 
-   private class b extends TimerTask {
-      private b() {
+   private class L1R_b extends TimerTask {
+      private L1R_b() {
       }
 
       @Override
@@ -134,13 +134,13 @@ public class CurrentTimeReseter {
       }
 
       // $VF: synthetic method
-      b(CurrentTimeReseter.b var2) {
+      L1R_b(CurrentTimeReseter.L1R_b var2) {
          this();
       }
    }
 
-   private class c extends TimerTask {
-      private c() {
+   private class L1R_c extends TimerTask {
+      private L1R_c() {
       }
 
       @Override
@@ -156,14 +156,14 @@ public class CurrentTimeReseter {
 
             long var4 = 604800000L;
             System.out.println("每週任務重置:距離執行時間還有...10080分");
-            GeneralThreadPool.a().a(CurrentTimeReseter.this.new c(), 604800000L);
+            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);
          } catch (Exception var3) {
             CurrentTimeReseter.a.log(Level.SEVERE, var3.getLocalizedMessage(), var3);
          }
       }
 
       // $VF: synthetic method
-      c(CurrentTimeReseter.c var2) {
+      L1R_c(CurrentTimeReseter.L1R_c var2) {
          this();
       }
    }

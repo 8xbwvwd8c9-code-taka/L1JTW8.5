@@ -18,7 +18,7 @@ public class S_ClanName extends ServerBasePacket {
    public S_ClanName(L1PcInstance var1) {
       this.c(1);
       this.b(537);
-      PBMessageALL5.c.a var2 = PBMessageALL5.c.aa();
+      PBMessageALL5.L1R_c.L1R_a var2 = PBMessageALL5.L1R_c.aa();
       var2.e(LineageUtil.a(var1.aG()));
       var2.a(var1.aH());
       this.a(var2.M().g());

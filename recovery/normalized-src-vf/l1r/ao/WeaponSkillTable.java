@@ -37,7 +37,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class WeaponSkillTable {
    private static final Logger a = Logger.getLogger(WeaponSkillTable.class.getName());
    private static WeaponSkillTable b;
-   private final HashMap<Integer, WeaponSkillTable.a> c = new HashMap<>();
+   private final HashMap<Integer, WeaponSkillTable.L1R_a> c = new HashMap<>();
 
    public static WeaponSkillTable a() {
       if (b == null) {
@@ -76,7 +76,7 @@ public class WeaponSkillTable {
 
    private void a(ResultSet var1) throws SQLException {
       while (var1.next()) {
-         WeaponSkillTable.a var2 = new WeaponSkillTable.a(null);
+         WeaponSkillTable.L1R_a var2 = new WeaponSkillTable.L1R_a(null);
          var2.b = var1.getInt("weapon_id");
          var2.c = var1.getString("skill_name");
          var2.d = var1.getInt("probability");
@@ -120,7 +120,7 @@ public class WeaponSkillTable {
          return 0.0;
       }
 
-      WeaponSkillTable.a var4 = this.c.get(var3);
+      WeaponSkillTable.L1R_a var4 = this.c.get(var3);
       if (Random.a(100) > var4.d + var4.e * var1.v().G()) {
          return 0.0;
       }
@@ -419,7 +419,7 @@ public class WeaponSkillTable {
       return L1Magic.a(var1, var2, var5, 0);
    }
 
-   private class a {
+   private class L1R_a {
       private int b;
       private String c;
       private int d;
@@ -443,11 +443,11 @@ public class WeaponSkillTable {
       private boolean v;
       private boolean w;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(WeaponSkillTable.a var2) {
+      L1R_a(WeaponSkillTable.L1R_a var2) {
          this();
       }
    }

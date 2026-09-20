@@ -23,7 +23,7 @@ public class C_MercenaryArrange extends ClientBasePacket {
             for (int var10 = 0; var10 < var8; var10++) {
                int var11 = 0;
 
-               for (L1Castle.a var12 : var9.k()) {
+               for (L1Castle.L1R_a var12 : var9.k()) {
                   if (var12.c > 0) {
                      var11 = var12.a;
                      var12.c--;

@@ -114,7 +114,7 @@ public class L1NpcInstance extends L1Character {
    private boolean ap = false;
 
    protected void q() {
-      new L1NpcInstance.f(null).a();
+      new L1NpcInstance.L1R_f(null).a();
    }
 
    private boolean h() {
@@ -539,7 +539,7 @@ public class L1NpcInstance extends L1Character {
          int var1 = this.U_().K();
          int var2 = this.U_().L();
          if (var2 > 0 && var1 >= 500) {
-            this.F = GeneralThreadPool.a().a(new L1NpcInstance.d(var2), var1, var1);
+            this.F = GeneralThreadPool.a().a(new L1NpcInstance.L1R_d(var2), var1, var1);
          }
       }
    }
@@ -556,7 +556,7 @@ public class L1NpcInstance extends L1Character {
          int var1 = this.U_().M();
          int var2 = this.U_().N();
          if (var2 > 0 && var1 >= 500) {
-            this.G = GeneralThreadPool.a().a(new L1NpcInstance.e(var2, null), var1, var1);
+            this.G = GeneralThreadPool.a().a(new L1NpcInstance.L1R_e(var2, null), var1, var1);
          }
       }
    }
@@ -586,7 +586,7 @@ public class L1NpcInstance extends L1Character {
          this.H.put(var1.fr(), this.U_().I());
          if (!this.I) {
             this.I = true;
-            GeneralThreadPool.a().a(new L1NpcInstance.c(null));
+            GeneralThreadPool.a().a(new L1NpcInstance.L1R_c(null));
          }
       }
    }
@@ -779,7 +779,7 @@ public class L1NpcInstance extends L1Character {
    }
 
    public void a(long var1) {
-      GeneralThreadPool.a().a(new L1NpcInstance.a(null), var1);
+      GeneralThreadPool.a().a(new L1NpcInstance.L1R_a(null), var1);
    }
 
    public void a(L1Character var1, int var2) {
@@ -1109,7 +1109,7 @@ public class L1NpcInstance extends L1Character {
 
    protected synchronized void A() {
       if (this.af == null) {
-         this.af = GeneralThreadPool.a().a(new L1NpcInstance.b(null), Config.at * 1000);
+         this.af = GeneralThreadPool.a().a(new L1NpcInstance.L1R_b(null), Config.at * 1000);
       }
    }
 
@@ -1167,7 +1167,7 @@ public class L1NpcInstance extends L1Character {
          this.b(new S_ChangeHeading(this));
          if (this.U_().w() && !this.ai()) {
             this.l(true);
-            GeneralThreadPool.a().a(new L1NpcInstance.g(null), 10000L);
+            GeneralThreadPool.a().a(new L1NpcInstance.L1R_g(null), 10000L);
          }
       }
 
@@ -1466,8 +1466,8 @@ public class L1NpcInstance extends L1Character {
       return this.ap;
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -1478,13 +1478,13 @@ public class L1NpcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      a(L1NpcInstance.a var2) {
+      L1R_a(L1NpcInstance.L1R_a var2) {
          this();
       }
    }
 
-   private class b extends TimerTask {
-      private b() {
+   private class L1R_b extends TimerTask {
+      private L1R_b() {
       }
 
       @Override
@@ -1495,13 +1495,13 @@ public class L1NpcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      b(L1NpcInstance.b var2) {
+      L1R_b(L1NpcInstance.L1R_b var2) {
          this();
       }
    }
 
-   private class c implements Runnable {
-      private c() {
+   private class L1R_c implements Runnable {
+      private L1R_c() {
       }
 
       @Override
@@ -1534,12 +1534,12 @@ public class L1NpcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      c(L1NpcInstance.c var2) {
+      L1R_c(L1NpcInstance.L1R_c var2) {
          this();
       }
    }
 
-   private class d extends TimerTask {
+   private class L1R_d extends TimerTask {
       private final int b;
 
       @Override
@@ -1561,12 +1561,12 @@ public class L1NpcInstance extends L1Character {
          }
       }
 
-      public d(int var2) {
+      public L1R_d(int var2) {
          this.b = var2;
       }
    }
 
-   private class e extends TimerTask {
+   private class L1R_e extends TimerTask {
       private final int b;
 
       @Override
@@ -1588,18 +1588,18 @@ public class L1NpcInstance extends L1Character {
          }
       }
 
-      private e(int var2) {
+      private L1R_e(int var2) {
          this.b = var2;
       }
 
       // $VF: synthetic method
-      e(int var2, L1NpcInstance.e var3) {
+      L1R_e(int var2, L1NpcInstance.L1R_e var3) {
          this(var2);
       }
    }
 
-   private class f extends TimerTask {
-      private f() {
+   private class L1R_f extends TimerTask {
+      private L1R_f() {
       }
 
       private void b() {
@@ -1618,7 +1618,7 @@ public class L1NpcInstance extends L1Character {
       }
 
       private void a(int var1) {
-         GeneralThreadPool.a().a(L1NpcInstance.this.new f(), var1);
+         GeneralThreadPool.a().a(L1NpcInstance.this.new L1R_f(), var1);
       }
 
       @Override
@@ -1656,13 +1656,13 @@ public class L1NpcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      f(L1NpcInstance.f var2) {
+      L1R_f(L1NpcInstance.L1R_f var2) {
          this();
       }
    }
 
-   private class g extends TimerTask {
-      private g() {
+   private class L1R_g extends TimerTask {
+      private L1R_g() {
       }
 
       @Override
@@ -1671,7 +1671,7 @@ public class L1NpcInstance extends L1Character {
       }
 
       // $VF: synthetic method
-      g(L1NpcInstance.g var2) {
+      L1R_g(L1NpcInstance.L1R_g var2) {
          this();
       }
    }

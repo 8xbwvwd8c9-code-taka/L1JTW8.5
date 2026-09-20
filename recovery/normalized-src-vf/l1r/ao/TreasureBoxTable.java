@@ -20,7 +20,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class TreasureBoxTable {
    private static final Logger a = Logger.getLogger(TreasureBoxTable.class.getName());
    private static TreasureBoxTable b;
-   private static final HashMap<Integer, TreasureBoxTable.b> c = new HashMap<>();
+   private static final HashMap<Integer, TreasureBoxTable.L1R_b> c = new HashMap<>();
 
    public static TreasureBoxTable a() {
       if (b == null) {
@@ -44,15 +44,15 @@ public class TreasureBoxTable {
 
          while (var5.next()) {
             int var6 = var5.getInt("box_itemid");
-            TreasureBoxTable.b var7 = null;
+            TreasureBoxTable.L1R_b var7 = null;
             if (c.containsKey(var6)) {
                var7 = c.get(var6);
             } else {
-               var7 = new TreasureBoxTable.b(var6);
+               var7 = new TreasureBoxTable.L1R_b(var6);
                c.put(var6, var7);
             }
 
-            TreasureBoxTable.a var8 = new TreasureBoxTable.a(null);
+            TreasureBoxTable.L1R_a var8 = new TreasureBoxTable.L1R_a(null);
             var8.a = var5.getInt("itemid");
             var8.b = var5.getInt("count");
             var8.c = var5.getInt("enchant");
@@ -68,7 +68,7 @@ public class TreasureBoxTable {
          SQLUtil.a(var5, var4, var3);
       }
 
-      for (TreasureBoxTable.b var14 : c.values()) {
+      for (TreasureBoxTable.L1R_b var14 : c.values()) {
          var14.a();
       }
 
@@ -79,7 +79,7 @@ public class TreasureBoxTable {
       return !c.containsKey(var1) ? false : c.get(var1).a(var2);
    }
 
-   private class a {
+   private class L1R_a {
       public int a;
       public int b;
       public int c;
@@ -88,26 +88,26 @@ public class TreasureBoxTable {
       public int f;
       public int g;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(TreasureBoxTable.a var2) {
+      L1R_a(TreasureBoxTable.L1R_a var2) {
          this();
       }
    }
 
-   private class b {
+   private class L1R_b {
       public int a;
       public int b;
-      public CopyOnWriteArrayList<TreasureBoxTable.a> c = new CopyOnWriteArrayList<>();
+      public CopyOnWriteArrayList<TreasureBoxTable.L1R_a> c = new CopyOnWriteArrayList<>();
 
-      public b(int var2) {
+      public L1R_b(int var2) {
          this.a = var2;
       }
 
       private void a() {
-         for (TreasureBoxTable.a var1 : this.c) {
+         for (TreasureBoxTable.L1R_a var1 : this.c) {
             this.b = this.b + var1.d;
             if (ItemTable.a().a(var1.a) == null) {
                this.c.remove(var1);
@@ -119,15 +119,15 @@ public class TreasureBoxTable {
             System.out.println("ID " + this.a + " 的總機率不等於100%。" + this.b);
          }
 
-         Collections.sort(this.c, new Comparator<TreasureBoxTable.a>() {
-            public int a(TreasureBoxTable.a var1, TreasureBoxTable.a var2) {
+         Collections.sort(this.c, new Comparator<TreasureBoxTable.L1R_a>() {
+            public int a(TreasureBoxTable.L1R_a var1, TreasureBoxTable.L1R_a var2) {
                return var1.d - var2.d;
             }
 
             // $VF: synthetic method
             @Override
             public int compare(Object var1, Object var2) {
-               return this.a((TreasureBoxTable.a)var1, (TreasureBoxTable.a)var2);
+               return this.a((TreasureBoxTable.L1R_a)var1, (TreasureBoxTable.L1R_a)var2);
             }
          });
       }
@@ -135,7 +135,7 @@ public class TreasureBoxTable {
       private boolean a(L1PcInstance var1) {
          L1ItemInstance var2 = null;
          if (this.b == 0) {
-            for (TreasureBoxTable.a var3 : this.c) {
+            for (TreasureBoxTable.L1R_a var3 : this.c) {
                int var5 = 1;
                if (Random.a(100) < var3.f) {
                   var5 = 0;
@@ -149,7 +149,7 @@ public class TreasureBoxTable {
             int var9 = 0;
             int var11 = Random.a(this.b);
 
-            for (TreasureBoxTable.a var12 : this.c) {
+            for (TreasureBoxTable.L1R_a var12 : this.c) {
                var9 += var12.d;
                if (var11 < var9 || var12.d == 0) {
                   int var7 = 1;

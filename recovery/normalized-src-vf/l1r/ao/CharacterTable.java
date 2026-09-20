@@ -17,7 +17,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class CharacterTable {
    private static final Logger a = Logger.getLogger(CharacterTable.class.getName());
    private static CharacterTable b;
-   private final ConcurrentHashMap<String, CharacterTable.a> c = new ConcurrentHashMap<>();
+   private final ConcurrentHashMap<String, CharacterTable.L1R_a> c = new ConcurrentHashMap<>();
 
    public static CharacterTable a() {
       if (b == null) {
@@ -105,7 +105,7 @@ public class CharacterTable {
 
          String var64 = var1.et();
          if (!this.c.containsKey(var64)) {
-            CharacterTable.a var6 = new CharacterTable.a();
+            CharacterTable.L1R_a var6 = new CharacterTable.L1R_a();
             var6.b = var64;
             var6.a = var1.fr();
             this.c.put(var64, var6);
@@ -544,7 +544,7 @@ public class CharacterTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            CharacterTable.a var4 = new CharacterTable.a();
+            CharacterTable.L1R_a var4 = new CharacterTable.L1R_a();
             var4.b = var3.getString("char_name");
             var4.a = var3.getInt("objid");
             this.c.put(var4.b, var4);
@@ -556,11 +556,11 @@ public class CharacterTable {
       }
    }
 
-   public CharacterTable.a[] c() {
-      return this.c.values().toArray(new CharacterTable.a[this.c.size()]);
+   public CharacterTable.L1R_a[] c() {
+      return this.c.values().toArray(new CharacterTable.L1R_a[this.c.size()]);
    }
 
-   public class a {
+   public class L1R_a {
       public int a;
       public String b;
    }

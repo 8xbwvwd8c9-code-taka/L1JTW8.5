@@ -34,7 +34,7 @@ public class L1PinkName {
                      var2.b(new S_PinkName(var2.fr(), 180));
                   }
 
-                  GeneralThreadPool.a().b(new L1PinkName.a(var2, null));
+                  GeneralThreadPool.a().b(new L1PinkName.L1R_a(var2, null));
                }
 
                if (var2.aT()) {
@@ -50,10 +50,10 @@ public class L1PinkName {
       }
    }
 
-   private static class a implements Runnable {
+   private static class L1R_a implements Runnable {
       private L1PcInstance a = null;
 
-      private a(L1PcInstance var1) {
+      private L1R_a(L1PcInstance var1) {
          this.a = var1;
       }
 
@@ -86,7 +86,7 @@ public class L1PinkName {
       }
 
       // $VF: synthetic method
-      a(L1PcInstance var1, L1PinkName.a var2) {
+      L1R_a(L1PcInstance var1, L1PinkName.L1R_a var2) {
          this(var1);
       }
    }

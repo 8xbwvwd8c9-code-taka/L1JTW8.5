@@ -18,7 +18,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class HtmlTable {
    private static final Logger a = Logger.getLogger(HtmlTable.class.getName());
    private static HtmlTable b;
-   private final HashMap<String, HtmlTable.a> c = new HashMap<>();
+   private final HashMap<String, HtmlTable.L1R_a> c = new HashMap<>();
 
    public static HtmlTable a() {
       if (b == null) {
@@ -39,7 +39,7 @@ public class HtmlTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            HtmlTable.a var4 = new HtmlTable.a(null);
+            HtmlTable.L1R_a var4 = new HtmlTable.L1R_a(null);
             var4.a = var3.getInt("npcid");
             var4.b = var3.getString("action");
             var4.c = var3.getInt("itemid");
@@ -66,7 +66,7 @@ public class HtmlTable {
          return false;
       }
 
-      HtmlTable.a var4 = this.c.get(var3.z() + "-" + var1);
+      HtmlTable.L1R_a var4 = this.c.get(var3.z() + "-" + var1);
       String[] var5 = var4.f.split(",");
       if (var2.j().g(var4.c, var4.d)) {
          var2.a(new S_Html(var3.fr(), var4.e, var5));
@@ -79,7 +79,7 @@ public class HtmlTable {
       return true;
    }
 
-   private class a {
+   private class L1R_a {
       public int a;
       public String b;
       public int c;
@@ -88,11 +88,11 @@ public class HtmlTable {
       public String f;
       public String g;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(HtmlTable.a var2) {
+      L1R_a(HtmlTable.L1R_a var2) {
          this();
       }
    }

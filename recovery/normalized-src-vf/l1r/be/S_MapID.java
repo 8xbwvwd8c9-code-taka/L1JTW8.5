@@ -7,7 +7,7 @@ public class S_MapID extends ServerBasePacket {
    public S_MapID(int var1, boolean var2) {
       this.c(1);
       this.b(118);
-      PBMessageALL.a.a var3 = PBMessageALL.a.aa();
+      PBMessageALL.L1R_a.L1R_a var3 = PBMessageALL.L1R_a.aa();
       var3.a(var1);
       var3.b(Config.a);
       var3.c(var2 ? 1 : 0);

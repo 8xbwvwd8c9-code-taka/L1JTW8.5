@@ -21,7 +21,7 @@ public class L1GameTimeClock {
    }
 
    private L1GameTimeClock() {
-      GeneralThreadPool.a().a(new L1GameTimeClock.a(null));
+      GeneralThreadPool.a().a(new L1GameTimeClock.L1R_a(null));
    }
 
    private boolean a(int var1) {
@@ -62,8 +62,8 @@ public class L1GameTimeClock {
       this.e.add(var1);
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -82,7 +82,7 @@ public class L1GameTimeClock {
       }
 
       // $VF: synthetic method
-      a(L1GameTimeClock.a var2) {
+      L1R_a(L1GameTimeClock.L1R_a var2) {
          this();
       }
    }

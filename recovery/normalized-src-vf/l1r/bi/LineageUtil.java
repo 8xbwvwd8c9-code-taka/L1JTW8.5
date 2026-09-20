@@ -414,7 +414,7 @@ public class LineageUtil {
          a("./data/craftinfo.dat", new byte[]{8, 2}, false);
 
          for (L1Craft var1 : CraftListTable.a().b()) {
-            PBMessageALL3.a.a var3 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_a.L1R_a var3 = PBMessageALL3.L1R_a.aa();
             var3.e(var1.i());
             byte[] var4 = var3.M().g();
             a("./data/craftinfo.dat", var4, true);
@@ -439,21 +439,21 @@ public class LineageUtil {
          a("./data/alchemyInfo.dat", new byte[]{8, 2}, false);
 
          for (int var18 = 1; var18 <= 4; var18++) {
-            PBMessageALL5.g.a var22 = PBMessageALL5.g.aa();
+            PBMessageALL5.L1R_g.L1R_a var22 = PBMessageALL5.L1R_g.aa();
             var22.e(L1Alchemy.a().c(var18));
             var7 = var22.M().g();
             a("./data/alchemyInfo.dat", var7, true);
          }
 
          for (int var19 = 1; var19 <= 5; var19++) {
-            PBMessageALL5.g.a var23 = PBMessageALL5.g.aa();
+            PBMessageALL5.L1R_g.L1R_a var23 = PBMessageALL5.L1R_g.aa();
             var23.f(L1Alchemy.a().b(var19));
             var7 = var23.M().g();
             a("./data/alchemyInfo.dat", var7, true);
          }
 
          for (int var20 = 1; var20 <= 4; var20++) {
-            PBMessageALL5.g.a var24 = PBMessageALL5.g.aa();
+            PBMessageALL5.L1R_g.L1R_a var24 = PBMessageALL5.L1R_g.aa();
             var24.g(L1Alchemy.a().a(var20));
             var7 = var24.M().g();
             a("./data/alchemyInfo.dat", var7, true);

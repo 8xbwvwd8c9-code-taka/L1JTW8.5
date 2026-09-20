@@ -21,7 +21,7 @@ public class C_MoveChar extends ClientBasePacket {
          int var4 = this.d();
          int var5 = this.d();
          int var6 = this.c();
-         int var7 = var3.ce().a(L1SpeedChecker.a.a);
+         int var7 = var3.ce().a(L1SpeedChecker.L1R_a.a);
          if (var7 != 2) {
             if (var3.aO() != 0) {
                L1Trade.b(var3);

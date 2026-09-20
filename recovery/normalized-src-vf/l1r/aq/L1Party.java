@@ -22,7 +22,7 @@ public class L1Party {
       this.c = var1;
       this.b.add(var1);
       this.h(var1);
-      GeneralThreadPool.a().b(new L1Party.a(null), 3000L);
+      GeneralThreadPool.a().b(new L1Party.L1R_a(null), 3000L);
    }
 
    public void a(L1PcInstance var1) {
@@ -182,8 +182,8 @@ public class L1Party {
       return this.b;
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -208,7 +208,7 @@ public class L1Party {
       }
 
       // $VF: synthetic method
-      a(L1Party.a var2) {
+      L1R_a(L1Party.L1R_a var2) {
          this();
       }
    }

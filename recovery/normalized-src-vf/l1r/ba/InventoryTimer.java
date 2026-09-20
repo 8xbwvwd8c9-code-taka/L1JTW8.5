@@ -24,11 +24,11 @@ public class InventoryTimer {
    }
 
    private InventoryTimer() {
-      GeneralThreadPool.a().a(new InventoryTimer.a(null), 30000L, 30000L);
+      GeneralThreadPool.a().a(new InventoryTimer.L1R_a(null), 30000L, 30000L);
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -65,7 +65,7 @@ public class InventoryTimer {
       }
 
       // $VF: synthetic method
-      a(InventoryTimer.a var2) {
+      L1R_a(InventoryTimer.L1R_a var2) {
          this();
       }
    }

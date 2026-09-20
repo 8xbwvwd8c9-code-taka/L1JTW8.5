@@ -103,7 +103,7 @@ public class L1CastleLocation {
    private static final HashMap<Integer, Integer> aK = new HashMap<>();
    private static final HashMap<Integer, L1Location> aL = new HashMap<>();
    private static HashMap<Integer, Integer> aM = new HashMap<>();
-   private static L1CastleLocation.a aN;
+   private static L1CastleLocation.L1R_a aN;
 
    static {
       aI.put(1, new L1Location(33169, 32778, 4));
@@ -420,7 +420,7 @@ public class L1CastleLocation {
       }
 
       if (aN == null) {
-         aN = new L1CastleLocation.a(null);
+         aN = new L1CastleLocation.L1R_a(null);
          L1GameTimeClock.a().a(aN);
       }
    }
@@ -437,8 +437,8 @@ public class L1CastleLocation {
       return var1;
    }
 
-   private static class a extends L1GameTimeAdapter {
-      private a() {
+   private static class L1R_a extends L1GameTimeAdapter {
+      private L1R_a() {
       }
 
       @Override
@@ -447,7 +447,7 @@ public class L1CastleLocation {
       }
 
       // $VF: synthetic method
-      a(L1CastleLocation.a var1) {
+      L1R_a(L1CastleLocation.L1R_a var1) {
          this();
       }
    }

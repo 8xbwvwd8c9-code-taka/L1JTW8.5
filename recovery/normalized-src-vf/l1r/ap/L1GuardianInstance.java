@@ -114,7 +114,7 @@ public class L1GuardianInstance extends L1NpcInstance {
                   }
 
                   if (!this.A) {
-                     new L1GuardianInstance.a(null).a();
+                     new L1GuardianInstance.L1R_a(null).a();
                   }
                }
             }
@@ -157,7 +157,7 @@ public class L1GuardianInstance extends L1NpcInstance {
                this.X(true);
                this.cq(8);
                this.B = var1;
-               L1GuardianInstance.b var5 = new L1GuardianInstance.b(null);
+               L1GuardianInstance.L1R_b var5 = new L1GuardianInstance.L1R_b(null);
                GeneralThreadPool.a().a(var5);
             }
 
@@ -168,7 +168,7 @@ public class L1GuardianInstance extends L1NpcInstance {
             this.X(true);
             this.cq(8);
             this.B = var1;
-            L1GuardianInstance.b var4 = new L1GuardianInstance.b(null);
+            L1GuardianInstance.L1R_b var4 = new L1GuardianInstance.L1R_b(null);
             GeneralThreadPool.a().a(var4);
          }
       }
@@ -200,8 +200,8 @@ public class L1GuardianInstance extends L1NpcInstance {
       }
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       public void a() {
@@ -240,15 +240,15 @@ public class L1GuardianInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1GuardianInstance.a var2) {
+      L1R_a(L1GuardianInstance.L1R_a var2) {
          this();
       }
    }
 
-   private class b implements Runnable {
+   private class L1R_b implements Runnable {
       L1Character a = L1GuardianInstance.this.B;
 
-      private b() {
+      private L1R_b() {
       }
 
       @Override
@@ -289,7 +289,7 @@ public class L1GuardianInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      b(L1GuardianInstance.b var2) {
+      L1R_b(L1GuardianInstance.L1R_b var2) {
          this();
       }
    }

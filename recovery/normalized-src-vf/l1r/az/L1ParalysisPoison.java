@@ -33,7 +33,7 @@ public class L1ParalysisPoison extends L1Poison {
       this.a.y(1);
       if (this.a instanceof L1PcInstance) {
          this.a.j(1008, 0);
-         this.d = GeneralThreadPool.a().a(new L1ParalysisPoison.a(null), this.b);
+         this.d = GeneralThreadPool.a().a(new L1ParalysisPoison.L1R_a(null), this.b);
       }
    }
 
@@ -61,8 +61,8 @@ public class L1ParalysisPoison extends L1Poison {
       return 1;
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -74,19 +74,19 @@ public class L1ParalysisPoison extends L1Poison {
             if (L1ParalysisPoison.this.a instanceof L1PcInstance) {
                L1PcInstance var1 = (L1PcInstance)L1ParalysisPoison.this.a;
                var1.a(new S_Paralysis(1, true));
-               L1ParalysisPoison.this.d = GeneralThreadPool.a().a(L1ParalysisPoison.this.new b(null), L1ParalysisPoison.this.c);
+               L1ParalysisPoison.this.d = GeneralThreadPool.a().a(L1ParalysisPoison.this.new L1R_b(null), L1ParalysisPoison.this.c);
             }
          }
       }
 
       // $VF: synthetic method
-      a(L1ParalysisPoison.a var2) {
+      L1R_a(L1ParalysisPoison.L1R_a var2) {
          this();
       }
    }
 
-   private class b implements Runnable {
-      private b() {
+   private class L1R_b implements Runnable {
+      private L1R_b() {
       }
 
       @Override
@@ -95,7 +95,7 @@ public class L1ParalysisPoison extends L1Poison {
       }
 
       // $VF: synthetic method
-      b(L1ParalysisPoison.b var2) {
+      L1R_b(L1ParalysisPoison.L1R_b var2) {
          this();
       }
    }

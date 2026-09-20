@@ -65,7 +65,7 @@ public class S_CharEvent extends ServerBasePacket {
       this.b(0);
    }
 
-   public S_CharEvent(HashMap<Integer, ShopWorldTable.b> var1) {
+   public S_CharEvent(HashMap<Integer, ShopWorldTable.L1R_b> var1) {
       this.c(42);
       this.c(36);
       this.c(1);
@@ -73,19 +73,19 @@ public class S_CharEvent extends ServerBasePacket {
       this.c(1);
       this.b(var1.size());
       ArrayList var2 = new ArrayList<>(var1.values());
-      Collections.sort(var2, new Comparator<ShopWorldTable.b>() {
-         public int a(ShopWorldTable.b var1, ShopWorldTable.b var2) {
+      Collections.sort(var2, new Comparator<ShopWorldTable.L1R_b>() {
+         public int a(ShopWorldTable.L1R_b var1, ShopWorldTable.L1R_b var2) {
             return var2.f && var1.f ? var2.a.N() - var1.a.N() : (var2.f ? 1 : 0) - (var1.f ? 1 : 0);
          }
 
          // $VF: synthetic method
          @Override
          public int compare(Object var1, Object var2) {
-            return this.a((ShopWorldTable.b)var1, (ShopWorldTable.b)var2);
+            return this.a((ShopWorldTable.L1R_b)var1, (ShopWorldTable.L1R_b)var2);
          }
       });
 
-      for (ShopWorldTable.b var3 : var2) {
+      for (ShopWorldTable.L1R_b var3 : var2) {
          L1ItemInstance var5 = var3.a;
          this.a(var5.N());
          this.b(var5.e());

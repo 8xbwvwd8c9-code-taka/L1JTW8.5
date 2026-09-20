@@ -20,7 +20,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class MobGroupTable {
    private static final Logger a = Logger.getLogger(MobGroupTable.class.getName());
    private static MobGroupTable b;
-   private final HashMap<Integer, MobGroupTable.b> c = new HashMap<>();
+   private final HashMap<Integer, MobGroupTable.L1R_b> c = new HashMap<>();
    private boolean d;
    private boolean e;
 
@@ -48,13 +48,13 @@ public class MobGroupTable {
 
          while (var3.next()) {
             int var4 = var3.getInt("id");
-            MobGroupTable.b var5 = new MobGroupTable.b(null);
+            MobGroupTable.L1R_b var5 = new MobGroupTable.L1R_b(null);
             var5.c = var3.getBoolean("remove_group_if_leader_die");
 
             for (int var6 = 1; var6 <= 7; var6++) {
                int var7 = var3.getInt("minion" + var6 + "_id");
                int var8 = var3.getInt("minion" + var6 + "_count");
-               var5.b.add(new MobGroupTable.a(var7, var8, null));
+               var5.b.add(new MobGroupTable.L1R_a(var7, var8, null));
             }
 
             this.c.put(var4, var5);
@@ -67,7 +67,7 @@ public class MobGroupTable {
    }
 
    public void a(L1NpcInstance var1, int var2, boolean var3, boolean var4) {
-      MobGroupTable.b var5 = this.c.get(var2);
+      MobGroupTable.L1R_b var5 = this.c.get(var2);
       if (var5 != null) {
          this.d = var3;
          this.e = var4;
@@ -75,7 +75,7 @@ public class MobGroupTable {
          var6.a(var5.c);
          var6.c(var1);
 
-         for (MobGroupTable.a var7 : var5.b) {
+         for (MobGroupTable.L1R_a var7 : var5.b) {
             if (!var7.a()) {
                for (int var9 = 0; var9 < var7.c; var9++) {
                   L1NpcInstance var10 = this.a(var1, var7.b);
@@ -147,11 +147,11 @@ public class MobGroupTable {
       return false;
    }
 
-   private class a {
+   private class L1R_a {
       private final int b;
       private final int c;
 
-      private a(int var2, int var3) {
+      private L1R_a(int var2, int var3) {
          this.b = var2;
          this.c = var3;
       }
@@ -161,20 +161,20 @@ public class MobGroupTable {
       }
 
       // $VF: synthetic method
-      a(int var2, int var3, MobGroupTable.a var4) {
+      L1R_a(int var2, int var3, MobGroupTable.L1R_a var4) {
          this(var2, var3);
       }
    }
 
-   private class b {
-      private final ArrayList<MobGroupTable.a> b = new ArrayList<>();
+   private class L1R_b {
+      private final ArrayList<MobGroupTable.L1R_a> b = new ArrayList<>();
       private boolean c;
 
-      private b() {
+      private L1R_b() {
       }
 
       // $VF: synthetic method
-      b(MobGroupTable.b var2) {
+      L1R_b(MobGroupTable.L1R_b var2) {
          this();
       }
    }

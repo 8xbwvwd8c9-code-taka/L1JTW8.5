@@ -15,7 +15,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class GetBackRestartTable {
    private static final Logger a = Logger.getLogger(GetBackRestartTable.class.getName());
    private static GetBackRestartTable b;
-   private final HashMap<Integer, GetBackRestartTable.a> c = new HashMap<>();
+   private final HashMap<Integer, GetBackRestartTable.L1R_a> c = new HashMap<>();
 
    public static GetBackRestartTable a() {
       if (b == null) {
@@ -36,7 +36,7 @@ public class GetBackRestartTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            GetBackRestartTable.a var4 = new GetBackRestartTable.a(null);
+            GetBackRestartTable.L1R_a var4 = new GetBackRestartTable.L1R_a(null);
             int var5 = var3.getInt("area");
             var4.a(var3.getInt("locx"));
             var4.b(var3.getInt("locy"));
@@ -54,8 +54,8 @@ public class GetBackRestartTable {
       if (!this.c.containsKey(var1)) {
          System.out.println("[CopyGetBackRestart]: " + var1 + " error");
       } else {
-         GetBackRestartTable.a var3 = this.c.get(var1);
-         GetBackRestartTable.a var4 = new GetBackRestartTable.a(null);
+         GetBackRestartTable.L1R_a var3 = this.c.get(var1);
+         GetBackRestartTable.L1R_a var4 = new GetBackRestartTable.L1R_a(null);
          var4.a(var3.a());
          var4.b(var3.b());
          var4.c(var3.c());
@@ -67,7 +67,7 @@ public class GetBackRestartTable {
 
    public void a(L1PcInstance var1) {
       if (this.c.containsKey(var1.fp())) {
-         GetBackRestartTable.a var2 = this.c.get(var1.fp());
+         GetBackRestartTable.L1R_a var2 = this.c.get(var1.fp());
          var1.cG(var2.a());
          var1.cH(var2.b());
          var1.cE(var2.c());
@@ -76,17 +76,17 @@ public class GetBackRestartTable {
 
    public void b(L1PcInstance var1) {
       if (this.c.containsKey(var1.fp())) {
-         GetBackRestartTable.a var2 = this.c.get(var1.fp());
+         GetBackRestartTable.L1R_a var2 = this.c.get(var1.fp());
          L1Teleport.a(var1, var2.a(), var2.b(), var2.c(), 5, true);
       }
    }
 
-   private class a {
+   private class L1R_a {
       private int b;
       private int c;
       private int d;
 
-      private a() {
+      private L1R_a() {
       }
 
       public int a() {
@@ -114,7 +114,7 @@ public class GetBackRestartTable {
       }
 
       // $VF: synthetic method
-      a(GetBackRestartTable.a var2) {
+      L1R_a(GetBackRestartTable.L1R_a var2) {
          this();
       }
    }

@@ -34,7 +34,7 @@ public class L1DamagePoison extends L1Poison {
       }
 
       if (this.b(this.c)) {
-         this.a = new L1DamagePoison.a(null);
+         this.a = new L1DamagePoison.L1R_a(null);
          GeneralThreadPool.a().a(this.a);
       }
    }
@@ -68,8 +68,8 @@ public class L1DamagePoison extends L1Poison {
       }
    }
 
-   private class a extends Thread {
-      private a() {
+   private class L1R_a extends Thread {
+      private L1R_a() {
       }
 
       @Override
@@ -109,7 +109,7 @@ public class L1DamagePoison extends L1Poison {
       }
 
       // $VF: synthetic method
-      a(L1DamagePoison.a var2) {
+      L1R_a(L1DamagePoison.L1R_a var2) {
          this();
       }
    }

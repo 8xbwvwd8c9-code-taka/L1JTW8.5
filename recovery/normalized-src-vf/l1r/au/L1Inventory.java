@@ -262,7 +262,7 @@ public class L1Inventory extends L1Object {
          }
 
          if (var6.length > var2) {
-            L1Inventory.a var4 = new L1Inventory.a<>(null);
+            L1Inventory.L1R_a var4 = new L1Inventory.L1R_a<>(null);
             Arrays.sort(var6, var4);
 
             for (int var5 = 0; var5 < var2; var5++) {
@@ -649,8 +649,8 @@ public class L1Inventory extends L1Object {
    public void b(L1ItemInstance var1) {
    }
 
-   private class a<T> implements Comparator<L1ItemInstance> {
-      private a() {
+   private class L1R_a<T> implements Comparator<L1ItemInstance> {
+      private L1R_a() {
       }
 
       public int a(L1ItemInstance var1, L1ItemInstance var2) {
@@ -664,7 +664,7 @@ public class L1Inventory extends L1Object {
       }
 
       // $VF: synthetic method
-      a(L1Inventory.a var2) {
+      L1R_a(L1Inventory.L1R_a var2) {
          this();
       }
    }

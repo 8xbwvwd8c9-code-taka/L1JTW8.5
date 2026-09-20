@@ -34,7 +34,7 @@ public class L1GfxInstance extends L1NpcInstance {
       var1.a(new S_SkillSound(this.fr(), this.A));
       if (!this.z) {
          this.z = true;
-         new L1GfxInstance.a(null).a();
+         new L1GfxInstance.L1R_a(null).a();
       }
    }
 
@@ -52,8 +52,8 @@ public class L1GfxInstance extends L1NpcInstance {
       this.A = var1;
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       public void a() {
@@ -73,7 +73,7 @@ public class L1GfxInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1GfxInstance.a var2) {
+      L1R_a(L1GfxInstance.L1R_a var2) {
          this();
       }
    }

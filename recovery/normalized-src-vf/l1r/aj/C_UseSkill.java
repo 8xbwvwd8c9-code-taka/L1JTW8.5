@@ -26,9 +26,9 @@ public class C_UseSkill extends ClientBasePacket {
          } else if (var3.h(var6)) {
             int var11;
             if (SkillsTable.a().a(var6).s() == 18) {
-               var11 = var3.ce().a(L1SpeedChecker.a.c);
+               var11 = var3.ce().a(L1SpeedChecker.L1R_a.c);
             } else {
-               var11 = var3.ce().a(L1SpeedChecker.a.d);
+               var11 = var3.ce().a(L1SpeedChecker.L1R_a.d);
             }
 
             if (var11 != 2) {

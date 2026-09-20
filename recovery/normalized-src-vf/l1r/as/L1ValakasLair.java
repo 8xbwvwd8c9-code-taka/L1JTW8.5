@@ -70,7 +70,7 @@ public class L1ValakasLair {
       for (int var3 = 0; var3 < d.length; var3++) {
          if (!d[var3]) {
             d[var3] = true;
-            GeneralThreadPool.a().b(new L1ValakasLair.a(2699 + var3, var1, null));
+            GeneralThreadPool.a().b(new L1ValakasLair.L1R_a(2699 + var3, var1, null));
             return true;
          }
       }
@@ -108,11 +108,11 @@ public class L1ValakasLair {
       return var3;
    }
 
-   private class a extends Thread {
+   private class L1R_a extends Thread {
       private final L1PcInstance b;
       private final int c;
 
-      private a(int var2, L1PcInstance var3) {
+      private L1R_a(int var2, L1PcInstance var3) {
          this.b = var3;
          this.c = var2;
       }
@@ -325,7 +325,7 @@ public class L1ValakasLair {
       }
 
       // $VF: synthetic method
-      a(int var2, L1PcInstance var3, L1ValakasLair.a var4) {
+      L1R_a(int var2, L1PcInstance var3, L1ValakasLair.L1R_a var4) {
          this(var2, var3);
       }
    }

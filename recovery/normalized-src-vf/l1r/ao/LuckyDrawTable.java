@@ -18,9 +18,9 @@ import l1r.l1j.server.DatabaseFactory;
 public class LuckyDrawTable {
    private static final Logger a = Logger.getLogger(LuckyDrawTable.class.getName());
    private static LuckyDrawTable b;
-   private final ArrayList<LuckyDrawTable.b> c = new ArrayList<>();
+   private final ArrayList<LuckyDrawTable.L1R_b> c = new ArrayList<>();
    private int d = 0;
-   private final HashMap<String, LuckyDrawTable.a> e = new HashMap<>();
+   private final HashMap<String, LuckyDrawTable.L1R_a> e = new HashMap<>();
 
    public static LuckyDrawTable a() {
       if (b == null) {
@@ -101,7 +101,7 @@ public class LuckyDrawTable {
       L1ItemInstance var2 = null;
       int var3 = Random.a(this.d);
 
-      for (LuckyDrawTable.b var4 : this.c) {
+      for (LuckyDrawTable.L1R_b var4 : this.c) {
          if (var4.e <= var3 && var4.f >= var3) {
             var2 = ItemTable.a().b(var4.a);
             var2.a(var4.b);
@@ -138,7 +138,7 @@ public class LuckyDrawTable {
             int var6 = var3.getInt("count");
             int var7 = var3.getInt("prab_value");
             int var8 = var3.getInt("bless_chance");
-            LuckyDrawTable.b var9 = new LuckyDrawTable.b(var4, var5, var6, var8);
+            LuckyDrawTable.L1R_b var9 = new LuckyDrawTable.L1R_b(var4, var5, var6, var8);
             var9.e = this.d + 1;
             this.d += var7;
             var9.f = this.d;
@@ -175,11 +175,11 @@ public class LuckyDrawTable {
             int var6 = var3.getInt("itemid");
             int var7 = var3.getInt("enchant");
             int var8 = var3.getInt("count");
-            LuckyDrawTable.a var9 = null;
+            LuckyDrawTable.L1R_a var9 = null;
             if (this.e.containsKey(var4)) {
                var9 = this.e.get(var4);
             } else {
-               var9 = new LuckyDrawTable.a(null);
+               var9 = new LuckyDrawTable.L1R_a(null);
                this.e.put(var4, var9);
             }
 
@@ -205,11 +205,11 @@ public class LuckyDrawTable {
 
          for (int var5 : var2.keySet()) {
             L1ItemInstance var7 = var2.get(var5);
-            LuckyDrawTable.a var8;
+            LuckyDrawTable.L1R_a var8;
             if (this.e.containsKey(var1)) {
                var8 = this.e.get(var1);
             } else {
-               var8 = new LuckyDrawTable.a(null);
+               var8 = new LuckyDrawTable.L1R_a(null);
                this.e.put(var1, var8);
             }
 
@@ -234,7 +234,7 @@ public class LuckyDrawTable {
 
    public void a(String var1, int var2) {
       if (this.e.containsKey(var1)) {
-         LuckyDrawTable.a var3 = this.e.get(var1);
+         LuckyDrawTable.L1R_a var3 = this.e.get(var1);
          var3.c.remove(var2);
       } else {
          System.out.println("LuckyDrawTable has smoe error");
@@ -257,20 +257,20 @@ public class LuckyDrawTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       private int b = 0;
       private final HashMap<Integer, L1ItemInstance> c = new HashMap<>();
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(LuckyDrawTable.a var2) {
+      L1R_a(LuckyDrawTable.L1R_a var2) {
          this();
       }
    }
 
-   private class b {
+   private class L1R_b {
       public int a;
       public int b;
       public int c;
@@ -278,7 +278,7 @@ public class LuckyDrawTable {
       public int e = 0;
       public int f = 0;
 
-      public b(int var2, int var3, int var4, int var5) {
+      public L1R_b(int var2, int var3, int var4, int var5) {
          this.a = var2;
          this.b = var3;
          this.c = var4;

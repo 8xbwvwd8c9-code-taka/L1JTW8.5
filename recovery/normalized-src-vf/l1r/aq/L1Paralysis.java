@@ -29,7 +29,7 @@ public class L1Paralysis {
 
       this.a.y(2);
       this.a.j(1010, 0);
-      this.d = GeneralThreadPool.a().a(new L1Paralysis.a(null), this.b);
+      this.d = GeneralThreadPool.a().a(new L1Paralysis.L1R_a(null), this.b);
    }
 
    public void a() {
@@ -65,8 +65,8 @@ public class L1Paralysis {
       return 2;
    }
 
-   private class a implements Runnable {
-      private a() {
+   private class L1R_a implements Runnable {
+      private L1R_a() {
       }
 
       @Override
@@ -82,17 +82,17 @@ public class L1Paralysis {
          L1Paralysis.this.a.V(true);
          L1Paralysis.this.a.bA(1010);
          L1Paralysis.this.a.j(1011, 0);
-         L1Paralysis.this.d = GeneralThreadPool.a().a(L1Paralysis.this.new b(null), L1Paralysis.this.c);
+         L1Paralysis.this.d = GeneralThreadPool.a().a(L1Paralysis.this.new L1R_b(null), L1Paralysis.this.c);
       }
 
       // $VF: synthetic method
-      a(L1Paralysis.a var2) {
+      L1R_a(L1Paralysis.L1R_a var2) {
          this();
       }
    }
 
-   private class b implements Runnable {
-      private b() {
+   private class L1R_b implements Runnable {
+      private L1R_b() {
       }
 
       @Override
@@ -101,7 +101,7 @@ public class L1Paralysis {
       }
 
       // $VF: synthetic method
-      b(L1Paralysis.b var2) {
+      L1R_b(L1Paralysis.L1R_b var2) {
          this();
       }
    }

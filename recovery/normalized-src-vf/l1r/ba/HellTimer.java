@@ -23,7 +23,7 @@ public class HellTimer {
    }
 
    private HellTimer() {
-      GeneralThreadPool.a().a(new HellTimer.a(null), 60000L, 60000L);
+      GeneralThreadPool.a().a(new HellTimer.L1R_a(null), 60000L, 60000L);
    }
 
    public void a(L1PcInstance var1, boolean var2) {
@@ -47,8 +47,8 @@ public class HellTimer {
       }
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -69,7 +69,7 @@ public class HellTimer {
       }
 
       // $VF: synthetic method
-      a(HellTimer.a var2) {
+      L1R_a(HellTimer.L1R_a var2) {
          this();
       }
    }

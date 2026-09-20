@@ -30,7 +30,7 @@ public class FishingTimer implements Runnable {
    private boolean e = false;
    private final L1ItemInstance f;
    private final L1Location g;
-   private static ArrayList<FishingTimer.a> h = new ArrayList<>();
+   private static ArrayList<FishingTimer.L1R_a> h = new ArrayList<>();
    private static int i = 0;
 
    public FishingTimer(L1PcInstance var1, L1ItemInstance var2) {
@@ -73,7 +73,7 @@ public class FishingTimer implements Runnable {
       boolean var2 = false;
       int var3 = Random.a(i + i / 20);
 
-      for (FishingTimer.a var4 : h) {
+      for (FishingTimer.L1R_a var4 : h) {
          if (var4.c <= var3 && var4.d >= var3) {
             L1ItemInstance var6 = ItemTable.a().b(var4.a);
             var6.e(var4.b);
@@ -145,7 +145,7 @@ public class FishingTimer implements Runnable {
             int var3 = var2.getInt("itemid");
             int var4 = var2.getInt("count");
             int var5 = var2.getInt("prab_value");
-            FishingTimer.a var6 = new FishingTimer.a(var3, var4);
+            FishingTimer.L1R_a var6 = new FishingTimer.L1R_a(var3, var4);
             var6.c = i + 1;
             i += var5;
             var6.d = i;
@@ -158,13 +158,13 @@ public class FishingTimer implements Runnable {
       }
    }
 
-   private static class a {
+   private static class L1R_a {
       public int a;
       public int b;
       public int c = 0;
       public int d = 0;
 
-      public a(int var1, int var2) {
+      public L1R_a(int var1, int var2) {
          this.a = var1;
          this.b = var2;
       }

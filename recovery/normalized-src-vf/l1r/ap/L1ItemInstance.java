@@ -1159,7 +1159,7 @@ public class L1ItemInstance extends L1Object {
 
          ArrayList var24 = ArmorSetTable.a().a(this.N());
 
-         for (ArmorSetTable.a var26 : var24) {
+         for (ArmorSetTable.L1R_a var26 : var24) {
             if (var26.b().length > 1) {
                var1.c(39);
                var1.a("\\aL" + var26.A());
@@ -1365,7 +1365,7 @@ public class L1ItemInstance extends L1Object {
 
          this.ac = 3;
          this.ah = var1;
-         this.ag = GeneralThreadPool.a().a(new L1ItemInstance.b(null), var2);
+         this.ag = GeneralThreadPool.a().a(new L1ItemInstance.L1R_b(null), var2);
       }
    }
 
@@ -1393,18 +1393,18 @@ public class L1ItemInstance extends L1Object {
          }
 
          this.ah = var1;
-         this.ag = GeneralThreadPool.a().a(new L1ItemInstance.b(null), var3);
+         this.ag = GeneralThreadPool.a().a(new L1ItemInstance.L1R_b(null), var3);
       }
    }
 
    public void d(L1PcInstance var1) {
       this.ai = var1.fr();
-      GeneralThreadPool.a().a(new L1ItemInstance.c(null), 10000L);
+      GeneralThreadPool.a().a(new L1ItemInstance.L1R_c(null), 10000L);
    }
 
    public void e(L1PcInstance var1) {
       if (this.M() > 0) {
-         this.aj = GeneralThreadPool.a().a(new L1ItemInstance.a(var1, null), 1000L, 1000L);
+         this.aj = GeneralThreadPool.a().a(new L1ItemInstance.L1R_a(var1, null), 1000L, 1000L);
       }
    }
 
@@ -2946,10 +2946,10 @@ public class L1ItemInstance extends L1Object {
       this.bX = var1;
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final L1PcInstance b;
 
-      private a(L1PcInstance var2) {
+      private L1R_a(L1PcInstance var2) {
          this.b = var2;
       }
 
@@ -2969,13 +2969,13 @@ public class L1ItemInstance extends L1Object {
       }
 
       // $VF: synthetic method
-      a(L1PcInstance var2, L1ItemInstance.a var3) {
+      L1R_a(L1PcInstance var2, L1ItemInstance.L1R_a var3) {
          this(var2);
       }
    }
 
-   private class b implements Runnable {
-      private b() {
+   private class L1R_b implements Runnable {
+      private L1R_b() {
       }
 
       @Override
@@ -2988,13 +2988,13 @@ public class L1ItemInstance extends L1Object {
       }
 
       // $VF: synthetic method
-      b(L1ItemInstance.b var2) {
+      L1R_b(L1ItemInstance.L1R_b var2) {
          this();
       }
    }
 
-   private class c extends TimerTask {
-      private c() {
+   private class L1R_c extends TimerTask {
+      private L1R_c() {
       }
 
       @Override
@@ -3003,7 +3003,7 @@ public class L1ItemInstance extends L1Object {
       }
 
       // $VF: synthetic method
-      c(L1ItemInstance.c var2) {
+      L1R_c(L1ItemInstance.L1R_c var2) {
          this();
       }
    }

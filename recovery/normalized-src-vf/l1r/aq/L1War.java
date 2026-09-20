@@ -40,9 +40,9 @@ public class L1War {
       if (var1 == 1) {
          this.i = this.d.m();
          this.h = CastleTable.a().a(this.i).d();
-         GeneralThreadPool.a().a(new L1War.a(null), 1000L);
+         GeneralThreadPool.a().a(new L1War.L1R_a(null), 1000L);
       } else if (var1 == 2) {
-         GeneralThreadPool.a().a(new L1War.b(null), 60000L);
+         GeneralThreadPool.a().a(new L1War.L1R_b(null), 60000L);
       }
 
       L1World.a().a(this);
@@ -214,8 +214,8 @@ public class L1War {
       return this.i;
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -242,15 +242,15 @@ public class L1War {
       }
 
       // $VF: synthetic method
-      a(L1War.a var2) {
+      L1R_a(L1War.L1R_a var2) {
          this();
       }
    }
 
-   private class b extends TimerTask {
+   private class L1R_b extends TimerTask {
       private int b = 0;
 
-      private b() {
+      private L1R_b() {
       }
 
       @Override
@@ -279,7 +279,7 @@ public class L1War {
       }
 
       // $VF: synthetic method
-      b(L1War.b var2) {
+      L1R_b(L1War.L1R_b var2) {
          this();
       }
    }

@@ -14,7 +14,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class MobQuestWeekTable {
    private static final Logger a = Logger.getLogger(MobQuestWeekTable.class.getName());
    private static MobQuestWeekTable b;
-   private final ArrayList<MobQuestWeekTable.a> c = new ArrayList<>();
+   private final ArrayList<MobQuestWeekTable.L1R_a> c = new ArrayList<>();
 
    public static MobQuestWeekTable a() {
       if (b == null) {
@@ -35,7 +35,7 @@ public class MobQuestWeekTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            MobQuestWeekTable.a var4 = new MobQuestWeekTable.a();
+            MobQuestWeekTable.L1R_a var4 = new MobQuestWeekTable.L1R_a();
             var4.a = var3.getInt("mob_number");
             var4.b = var3.getInt("count");
             this.c.add(var4);
@@ -52,14 +52,14 @@ public class MobQuestWeekTable {
       ArrayList var2 = new ArrayList<>();
 
       while (var2.size() < 9) {
-         MobQuestWeekTable.a var3 = this.c.get(Random.a(this.c.size()));
+         MobQuestWeekTable.L1R_a var3 = this.c.get(Random.a(this.c.size()));
          if (!var2.contains(var3)) {
             var2.add(var3);
          }
       }
 
       for (int var5 = 0; var5 < var1.length; var5++) {
-         MobQuestWeekTable.a var4 = var2.get(var5);
+         MobQuestWeekTable.L1R_a var4 = var2.get(var5);
          var1[var5][0] = var4.a;
          var1[var5][1] = var4.b;
          var1[var5][2] = 0;
@@ -69,7 +69,7 @@ public class MobQuestWeekTable {
       return var1;
    }
 
-   public class a {
+   public class L1R_a {
       public int a;
       public int b;
    }

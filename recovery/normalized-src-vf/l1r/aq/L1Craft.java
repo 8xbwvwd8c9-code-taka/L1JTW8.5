@@ -139,7 +139,7 @@ public class L1Craft {
    }
 
    public g i() {
-      PBMessageALL3.c.a var1 = PBMessageALL3.c.aa();
+      PBMessageALL3.L1R_c.L1R_a var1 = PBMessageALL3.L1R_c.aa();
       var1.a(this.a);
       var1.e(this.n());
       var1.b(this.b);
@@ -153,12 +153,12 @@ public class L1Craft {
    }
 
    private g m() {
-      PBMessageALL.c.a var1 = PBMessageALL.c.aa();
+      PBMessageALL.L1R_c.L1R_a var1 = PBMessageALL.L1R_c.aa();
       var1.b(1);
       var1.c(this.f.size());
 
       for (L1ItemInstance var2 : this.f.values()) {
-         PBMessageALL.a.a var4 = PBMessageALL.a.aa();
+         PBMessageALL.L1R_a.L1R_a var4 = PBMessageALL.L1R_a.aa();
          var4.a(var2.m());
          var4.b(var2.E());
          var4.c(1);
@@ -169,7 +169,7 @@ public class L1Craft {
    }
 
    private g n() {
-      PBMessageALL.a.a var1 = PBMessageALL.a.aa();
+      PBMessageALL.L1R_a.L1R_a var1 = PBMessageALL.L1R_a.aa();
       String var2 = this.c.get(0).a().j().trim();
       int var3 = 994;
       if (!var2.isEmpty() && var2.contains("$")) {
@@ -190,7 +190,7 @@ public class L1Craft {
    }
 
    public g a(L1ItemInstance var1, boolean var2) {
-      PBMessageALL.e.a var3 = PBMessageALL.e.ae();
+      PBMessageALL.L1R_e.L1R_a var3 = PBMessageALL.L1R_e.ae();
       var3.a(var1.N());
       var3.b(var1.E());
       var3.c(-1);
@@ -211,7 +211,7 @@ public class L1Craft {
    }
 
    public g j() {
-      PBMessageALL4.e.a var1 = PBMessageALL4.e.aa();
+      PBMessageALL4.L1R_e.L1R_a var1 = PBMessageALL4.L1R_e.aa();
       var1.a(1);
       var1.b(0);
       var1.c(1);
@@ -220,7 +220,7 @@ public class L1Craft {
    }
 
    private g a(int var1, L1ItemInstance var2) {
-      PBMessageALL3.e.a var3 = PBMessageALL3.e.aa();
+      PBMessageALL3.L1R_e.L1R_a var3 = PBMessageALL3.L1R_e.aa();
       var3.a(var2.m());
       var3.b(var2.E());
       var3.c(var1);
@@ -232,7 +232,7 @@ public class L1Craft {
    }
 
    private g o() {
-      PBMessageALL.g.a var1 = PBMessageALL.g.aa();
+      PBMessageALL.L1R_g.L1R_a var1 = PBMessageALL.L1R_g.aa();
       var1.e(this.s());
       var1.f(this.r());
       var1.a(this.s * 10000);
@@ -240,7 +240,7 @@ public class L1Craft {
    }
 
    private g p() {
-      PBMessageALL4.i.a var1 = PBMessageALL4.i.aa();
+      PBMessageALL4.L1R_i.L1R_a var1 = PBMessageALL4.L1R_i.aa();
       int var2 = 0;
 
       for (int var3 : this.g) {
@@ -261,7 +261,7 @@ public class L1Craft {
    }
 
    private g q() {
-      PBMessageALL.c.a var1 = PBMessageALL.c.aa();
+      PBMessageALL.L1R_c.L1R_a var1 = PBMessageALL.L1R_c.aa();
       var1.b(1);
       var1.c(0);
       var1.e(this.a(0L, 0L));
@@ -269,7 +269,7 @@ public class L1Craft {
    }
 
    private g r() {
-      PBMessageALL.g.a var1 = PBMessageALL.g.aa();
+      PBMessageALL.L1R_g.L1R_a var1 = PBMessageALL.L1R_g.aa();
       var1.e(this.a(0L, 0L));
       var1.f(this.a(4294967295L, 4294967295L));
       var1.a(0);
@@ -284,7 +284,7 @@ public class L1Craft {
    }
 
    public g k() {
-      PBMessageALL.e.a var1 = PBMessageALL.e.ae();
+      PBMessageALL.L1R_e.L1R_a var1 = PBMessageALL.L1R_e.ae();
       var1.a(this.i.N());
       var1.b(this.i.E());
       var1.c(-1);
@@ -302,7 +302,7 @@ public class L1Craft {
    }
 
    private g s() {
-      PBMessageALL6.i.a var1 = PBMessageALL6.i.aa();
+      PBMessageALL6.L1R_i.L1R_a var1 = PBMessageALL6.L1R_i.aa();
       var1.e(this.a(0L, 0L));
       var1.f(this.a(4294967295L, 4294967295L));
       int var2 = this.c.size();
@@ -322,13 +322,13 @@ public class L1Craft {
    }
 
    private g f(int var1) {
-      PBMessageALL4.a.a var2 = PBMessageALL4.a.aa();
+      PBMessageALL4.L1R_a.L1R_a var2 = PBMessageALL4.L1R_a.aa();
       var2.a(var1);
       return a.g.a(var2.M().g());
    }
 
    public g a(long var1, long var3) {
-      PBMessageALL4.a.a var5 = PBMessageALL4.a.aa();
+      PBMessageALL4.L1R_a.L1R_a var5 = PBMessageALL4.L1R_a.aa();
       var5.a(var1);
       var5.b(var3);
       return a.g.a(var5.M().g());

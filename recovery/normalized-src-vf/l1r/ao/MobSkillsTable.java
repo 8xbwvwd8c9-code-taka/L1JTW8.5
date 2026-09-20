@@ -20,7 +20,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class MobSkillsTable {
    private static final Logger a = Logger.getLogger(MobSkillsTable.class.getName());
    private static MobSkillsTable b;
-   private final HashMap<Integer, MobSkillsTable.a> c = new HashMap<>();
+   private final HashMap<Integer, MobSkillsTable.L1R_a> c = new HashMap<>();
 
    public static MobSkillsTable a() {
       if (b == null) {
@@ -54,15 +54,15 @@ public class MobSkillsTable {
    private void a(ResultSet var1) throws SQLException {
       while (var1.next()) {
          int var2 = var1.getInt("npcid");
-         MobSkillsTable.a var3;
+         MobSkillsTable.L1R_a var3;
          if (this.c.containsKey(var2)) {
             var3 = this.c.get(var2);
          } else {
-            var3 = new MobSkillsTable.a(null);
+            var3 = new MobSkillsTable.L1R_a(null);
             this.c.put(var2, var3);
          }
 
-         MobSkillsTable.b var4 = new MobSkillsTable.b();
+         MobSkillsTable.L1R_b var4 = new MobSkillsTable.L1R_b();
          var4.a = var1.getInt("probability");
          var4.b = var1.getInt("base_damage");
          var4.c = var1.getInt("random_damage");
@@ -100,10 +100,10 @@ public class MobSkillsTable {
          return 0;
       }
 
-      MobSkillsTable.a var3 = this.c.get(var1.z());
-      MobSkillsTable.b var4 = null;
+      MobSkillsTable.L1R_a var3 = this.c.get(var1.z());
+      MobSkillsTable.L1R_b var4 = null;
 
-      for (MobSkillsTable.b var5 : var3.b) {
+      for (MobSkillsTable.L1R_b var5 : var3.b) {
          if ((var5.k <= 0 || var1.aq() < var5.k) && var1.ea() * 100 / var1.ew() <= var5.l && Random.a(100) <= var5.a) {
             var4 = var5;
             break;
@@ -146,19 +146,19 @@ public class MobSkillsTable {
       return ListSprReader__obf_c.a().a(var1.fe(), var4.i) + 100;
    }
 
-   private class a {
-      private final ArrayList<MobSkillsTable.b> b = new ArrayList<>();
+   private class L1R_a {
+      private final ArrayList<MobSkillsTable.L1R_b> b = new ArrayList<>();
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(MobSkillsTable.a var2) {
+      L1R_a(MobSkillsTable.L1R_a var2) {
          this();
       }
    }
 
-   public class b {
+   public class L1R_b {
       public int a;
       public int b;
       public int c;

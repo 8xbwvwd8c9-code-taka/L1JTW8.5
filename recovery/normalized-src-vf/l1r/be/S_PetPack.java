@@ -9,7 +9,7 @@ public class S_PetPack extends ServerBasePacket {
    public S_PetPack(L1PetInstance var1, L1PcInstance var2) {
       this.c(1);
       this.b(119);
-      PBMessageALL2.e.a var3 = PBMessageALL2.e.aO();
+      PBMessageALL2.L1R_e.L1R_a var3 = PBMessageALL2.L1R_e.aO();
       var3.a((var1.ft() << 16) + var1.fs());
       var3.b(var1.fr());
       var3.c(var1.fe());

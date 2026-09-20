@@ -18,7 +18,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class SoulTowerTable {
    private static final Logger a = Logger.getLogger(SoulTowerTable.class.getName());
    private static SoulTowerTable b;
-   private final ArrayList<SoulTowerTable.a> c = new ArrayList<>();
+   private final ArrayList<SoulTowerTable.L1R_a> c = new ArrayList<>();
 
    public static SoulTowerTable a() {
       if (b == null) {
@@ -39,7 +39,7 @@ public class SoulTowerTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            SoulTowerTable.a var4 = new SoulTowerTable.a();
+            SoulTowerTable.L1R_a var4 = new SoulTowerTable.L1R_a();
             var4.a = var3.getString("name");
             var4.b = var3.getInt("class");
             var4.c = var3.getInt("time");
@@ -54,13 +54,13 @@ public class SoulTowerTable {
    }
 
    public void a(L1PcInstance var1) {
-      var1.a(new S_ProtoBuffers(this.c.toArray(new SoulTowerTable.a[0])));
+      var1.a(new S_ProtoBuffers(this.c.toArray(new SoulTowerTable.L1R_a[0])));
    }
 
    public void a(L1PcInstance var1, int var2) {
       boolean var3 = false;
 
-      for (SoulTowerTable.a var4 : this.c) {
+      for (SoulTowerTable.L1R_a var4 : this.c) {
          if (var2 < var4.c || this.c.size() < 10) {
             var3 = true;
             break;
@@ -68,7 +68,7 @@ public class SoulTowerTable {
       }
 
       if (var3) {
-         SoulTowerTable.a var17 = new SoulTowerTable.a();
+         SoulTowerTable.L1R_a var17 = new SoulTowerTable.L1R_a();
          var17.a = var1.et();
          var17.b = var1.ay();
          var17.c = var2;
@@ -76,15 +76,15 @@ public class SoulTowerTable {
          java.sql.Date var6 = new java.sql.Date(var18.getTime());
          var17.d = var6.getTime();
          this.c.add(var17);
-         Collections.sort(this.c, new Comparator<SoulTowerTable.a>() {
-            public int a(SoulTowerTable.a var1, SoulTowerTable.a var2x) {
+         Collections.sort(this.c, new Comparator<SoulTowerTable.L1R_a>() {
+            public int a(SoulTowerTable.L1R_a var1, SoulTowerTable.L1R_a var2x) {
                return var1.c - var2x.c;
             }
 
             // $VF: synthetic method
             @Override
             public int compare(Object var1, Object var2) {
-               return this.a((SoulTowerTable.a)var1, (SoulTowerTable.a)var2);
+               return this.a((SoulTowerTable.L1R_a)var1, (SoulTowerTable.L1R_a)var2);
             }
          });
          Connection var7 = null;
@@ -96,7 +96,7 @@ public class SoulTowerTable {
             var8.execute();
 
             for (int var9 = 0; var9 < this.c.size() && var9 < 10; var9++) {
-               SoulTowerTable.a var10 = this.c.get(var9);
+               SoulTowerTable.L1R_a var10 = this.c.get(var9);
                var8 = var7.prepareStatement("INSERT INTO soul_tower  SET rank=?,name=?,class=?,time=?,date=?");
                var8.setInt(1, var9 + 1);
                var8.setString(2, var10.a);
@@ -116,7 +116,7 @@ public class SoulTowerTable {
       }
    }
 
-   public class a {
+   public class L1R_a {
       public String a;
       public int b;
       public int c;

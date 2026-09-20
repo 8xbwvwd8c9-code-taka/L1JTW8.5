@@ -15,7 +15,7 @@ import l1r.l1j.server.DatabaseFactory;
 public class BeginnerTable {
    private static final Logger a = Logger.getLogger(BeginnerTable.class.getName());
    private static BeginnerTable b;
-   private final ArrayList<BeginnerTable.a> c = new ArrayList<>();
+   private final ArrayList<BeginnerTable.L1R_a> c = new ArrayList<>();
 
    public static BeginnerTable a() {
       if (b == null) {
@@ -36,7 +36,7 @@ public class BeginnerTable {
          var3 = var2.executeQuery();
 
          while (var3.next()) {
-            BeginnerTable.a var4 = new BeginnerTable.a(null);
+            BeginnerTable.L1R_a var4 = new BeginnerTable.L1R_a(null);
             var4.a = var3.getInt("item_id");
             var4.b = var3.getInt("count");
             var4.c = var3.getInt("charge_count");
@@ -60,7 +60,7 @@ public class BeginnerTable {
       try {
          var2 = DatabaseFactory.a().b();
 
-         for (BeginnerTable.a var4 : this.c) {
+         for (BeginnerTable.L1R_a var4 : this.c) {
             if (var4.f.contains(var1.aC().h()) || var4.f.contains("A")) {
                var3 = var2.prepareStatement(
                   "INSERT INTO character_items SET id=?, item_id=?, char_id=?, item_name=?, count=?, is_equipped=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, temp_value=?, last_used=?, bless=?"
@@ -88,7 +88,7 @@ public class BeginnerTable {
       }
    }
 
-   private class a {
+   private class L1R_a {
       public int a;
       public int b = 1;
       public int c = 0;
@@ -97,11 +97,11 @@ public class BeginnerTable {
       public String f = "";
       public int g = 1;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(BeginnerTable.a var2) {
+      L1R_a(BeginnerTable.L1R_a var2) {
          this();
       }
    }

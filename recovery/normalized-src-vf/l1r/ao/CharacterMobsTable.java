@@ -33,7 +33,7 @@ public class CharacterMobsTable {
          var3 = DatabaseFactory.a().b();
          var4 = var3.prepareStatement("INSERT INTO character_mobs SET login=?, data=?");
          var4.setString(1, var1);
-         PBMessageALL6.e.a var5 = PBMessageALL6.e.aa();
+         PBMessageALL6.L1R_e.L1R_a var5 = PBMessageALL6.L1R_e.aa();
 
          for (int var6 = 0; var6 < var2.length; var6++) {
             var5.b(var2[var6]);
@@ -56,7 +56,7 @@ public class CharacterMobsTable {
       try {
          var2 = DatabaseFactory.a().b();
          var3 = var2.prepareStatement("UPDATE character_mobs SET data=? WHERE login=?");
-         PBMessageALL6.e.a var4 = PBMessageALL6.e.aa();
+         PBMessageALL6.L1R_e.L1R_a var4 = PBMessageALL6.L1R_e.aa();
 
          for (int var5 = 0; var5 < var1.dQ().length; var5++) {
             var4.b(var1.dQ()[var5]);
@@ -95,7 +95,7 @@ public class CharacterMobsTable {
             this.a(var1.bc(), var2);
          } else {
             byte[] var6 = var5.getBytes("data");
-            PBMessageALL6.e var7 = PBMessageALL6.e.a(var6);
+            PBMessageALL6.L1R_e var7 = PBMessageALL6.L1R_e.a(var6);
 
             for (int var8 = 0; var8 < var2.length && var8 < var7.p(); var8++) {
                var2[var8] = var7.a(var8);

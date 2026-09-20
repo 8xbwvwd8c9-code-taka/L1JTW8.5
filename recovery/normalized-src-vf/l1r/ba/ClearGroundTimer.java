@@ -28,7 +28,7 @@ public class ClearGroundTimer {
 
    private ClearGroundTimer() {
       int var1 = Config.aa * 60 * 1000 - 10000;
-      GeneralThreadPool.a().a(new ClearGroundTimer.a(null), var1, var1);
+      GeneralThreadPool.a().a(new ClearGroundTimer.L1R_a(null), var1, var1);
    }
 
    private void c() {
@@ -53,8 +53,8 @@ public class ClearGroundTimer {
       }
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -70,7 +70,7 @@ public class ClearGroundTimer {
       }
 
       // $VF: synthetic method
-      a(ClearGroundTimer.a var2) {
+      L1R_a(ClearGroundTimer.L1R_a var2) {
          this();
       }
    }

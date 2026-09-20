@@ -20,7 +20,7 @@ public class S_PledgeWarehouseHistory extends ServerBasePacket {
       ArrayList var2 = this.f(var1);
       this.a(var2.size());
 
-      for (S_PledgeWarehouseHistory.a var3 : var2) {
+      for (S_PledgeWarehouseHistory.L1R_a var3 : var2) {
          this.a(var3.a);
          this.c(var3.b);
          this.a(var3.c);
@@ -47,7 +47,7 @@ public class S_PledgeWarehouseHistory extends ServerBasePacket {
       }
    }
 
-   private ArrayList<S_PledgeWarehouseHistory.a> f(int var1) {
+   private ArrayList<S_PledgeWarehouseHistory.L1R_a> f(int var1) {
       this.e(var1);
       ArrayList var2 = new ArrayList<>();
       Connection var3 = null;
@@ -61,7 +61,7 @@ public class S_PledgeWarehouseHistory extends ServerBasePacket {
          var5 = var4.executeQuery();
 
          while (var5.next()) {
-            S_PledgeWarehouseHistory.a var6 = new S_PledgeWarehouseHistory.a(null);
+            S_PledgeWarehouseHistory.L1R_a var6 = new S_PledgeWarehouseHistory.L1R_a(null);
             var6.a = var5.getString("char_name");
             var6.b = var5.getInt("type");
             var6.c = var5.getString("item_name");
@@ -88,18 +88,18 @@ public class S_PledgeWarehouseHistory extends ServerBasePacket {
       return "S_PledgeWarehouseHistory";
    }
 
-   private class a {
+   private class L1R_a {
       public String a;
       public int b;
       public String c;
       public int d;
       public Timestamp e;
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(S_PledgeWarehouseHistory.a var2) {
+      L1R_a(S_PledgeWarehouseHistory.L1R_a var2) {
          this();
       }
    }

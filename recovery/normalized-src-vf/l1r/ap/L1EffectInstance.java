@@ -31,11 +31,11 @@ public class L1EffectInstance extends L1NpcInstance {
 
    public void f() {
       if (this.fe() == 168) {
-         GeneralThreadPool.a().a(new L1EffectInstance.b(this, null), 0L);
+         GeneralThreadPool.a().a(new L1EffectInstance.L1R_b(this, null), 0L);
       } else if (this.fe() == 6706 || this.fe() == 6712 || this.fe() == 6718 || this.fe() == 6724) {
-         GeneralThreadPool.a().a(new L1EffectInstance.a(this, null), 0L);
+         GeneralThreadPool.a().a(new L1EffectInstance.L1R_a(this, null), 0L);
       } else if (this.fe() == 1263) {
-         GeneralThreadPool.a().a(new L1EffectInstance.c(this, null), 0L);
+         GeneralThreadPool.a().a(new L1EffectInstance.L1R_c(this, null), 0L);
       }
    }
 
@@ -179,10 +179,10 @@ public class L1EffectInstance extends L1NpcInstance {
       return this.D;
    }
 
-   private class a implements Runnable {
+   private class L1R_a implements Runnable {
       private final L1EffectInstance b;
 
-      private a(L1EffectInstance var2) {
+      private L1R_a(L1EffectInstance var2) {
          this.b = var2;
       }
 
@@ -224,16 +224,16 @@ public class L1EffectInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      a(L1EffectInstance var2, L1EffectInstance.a var3) {
+      L1R_a(L1EffectInstance var2, L1EffectInstance.L1R_a var3) {
          this(var2);
       }
    }
 
-   private class b implements Runnable {
+   private class L1R_b implements Runnable {
       private final L1EffectInstance b;
       private final L1SkillExecutor c;
 
-      private b(L1EffectInstance var2) {
+      private L1R_b(L1EffectInstance var2) {
          this.b = var2;
          this.c = new S_058();
       }
@@ -265,15 +265,15 @@ public class L1EffectInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      b(L1EffectInstance var2, L1EffectInstance.b var3) {
+      L1R_b(L1EffectInstance var2, L1EffectInstance.L1R_b var3) {
          this(var2);
       }
    }
 
-   private class c implements Runnable {
+   private class L1R_c implements Runnable {
       private final L1EffectInstance b;
 
-      private c(L1EffectInstance var2) {
+      private L1R_c(L1EffectInstance var2) {
          this.b = var2;
       }
 
@@ -297,7 +297,7 @@ public class L1EffectInstance extends L1NpcInstance {
       }
 
       // $VF: synthetic method
-      c(L1EffectInstance var2, L1EffectInstance.c var3) {
+      L1R_c(L1EffectInstance var2, L1EffectInstance.L1R_c var3) {
          this(var2);
       }
    }

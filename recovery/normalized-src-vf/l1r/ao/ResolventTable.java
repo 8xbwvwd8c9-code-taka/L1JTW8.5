@@ -15,7 +15,7 @@ public final class ResolventTable {
    private static final Logger a = Logger.getLogger(ResolventTable.class.getName());
    private static ResolventTable b;
    private final HashMap<Integer, Integer> c = new HashMap<>();
-   private final HashMap<Integer, ResolventTable.a> d = new HashMap<>();
+   private final HashMap<Integer, ResolventTable.L1R_a> d = new HashMap<>();
 
    public static ResolventTable a() {
       if (b == null) {
@@ -30,7 +30,7 @@ public final class ResolventTable {
       this.c();
    }
 
-   public HashMap<Integer, ResolventTable.a> b() {
+   public HashMap<Integer, ResolventTable.L1R_a> b() {
       return this.d;
    }
 
@@ -39,7 +39,7 @@ public final class ResolventTable {
          return 1;
       }
 
-      ResolventTable.a var2 = this.d.get(var1.N());
+      ResolventTable.L1R_a var2 = this.d.get(var1.N());
       int var3 = var1.G() - var1.a().x();
       var3 = Math.max(0, Math.min(var3, 8));
       return var2.b[var3];
@@ -57,7 +57,7 @@ public final class ResolventTable {
 
          while (var3.next()) {
             int var4 = var3.getInt("itemid");
-            ResolventTable.a var5 = new ResolventTable.a(null);
+            ResolventTable.L1R_a var5 = new ResolventTable.L1R_a(null);
             var5.b[0] = var3.getInt("base");
             var5.b[1] = var3.getInt("base+1");
             var5.b[2] = var3.getInt("base+2");
@@ -107,14 +107,14 @@ public final class ResolventTable {
       return var2;
    }
 
-   private class a {
+   private class L1R_a {
       private final int[] b = new int[9];
 
-      private a() {
+      private L1R_a() {
       }
 
       // $VF: synthetic method
-      a(ResolventTable.a var2) {
+      L1R_a(ResolventTable.L1R_a var2) {
          this();
       }
    }

@@ -111,31 +111,31 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 116:
-            PBMessageALL.a.a var3 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var3 = PBMessageALL.L1R_a.aa();
             var3.a(1);
             this.a(var3.M().g());
             break;
          case 126:
-            PBMessageALL.a.a var2 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var2 = PBMessageALL.L1R_a.aa();
             var2.a(0);
             var2.b(1);
             this.a(var2.M().g());
             break;
          case 141:
-            PBMessageALL.c.a var4 = PBMessageALL.c.aa();
+            PBMessageALL.L1R_c.L1R_a var4 = PBMessageALL.L1R_c.aa();
             var4.b(1);
             var4.c(1);
             String[] var5 = new String[]{"", "$1506", "$11993", "$16298"};
 
             for (int var6 = 1; var6 <= 3; var6++) {
-               PBMessageALL8.e.a var7 = PBMessageALL8.e.aa();
+               PBMessageALL8.L1R_e.L1R_a var7 = PBMessageALL8.L1R_e.aa();
                var7.a(var6);
                String var8 = "http://g.lineage.power.plaync.com/wiki/%EC%97%90%EB%A5%B4%EC%9E%90%EB%B2%A0";
                var7.e(LineageUtil.a("http://g.lineage.power.plaync.com/wiki/%EC%97%90%EB%A5%B4%EC%9E%90%EB%B2%A0"));
                var7.f(LineageUtil.a(var5[var6]));
                var7.c(L1World.a().b[var6]);
                var7.d(L1World.a().b[var6] + (var6 == 3 ? 2400 : 600));
-               PBMessageALL5.c.a var9 = PBMessageALL5.c.aa();
+               PBMessageALL5.L1R_c.L1R_a var9 = PBMessageALL5.L1R_c.aa();
                var9.e(LineageUtil.a("4654"));
                var9.a(1000);
                var7.g(var9.M().f());
@@ -153,13 +153,13 @@ public class S_ProtoBuffers extends ServerBasePacket {
             }
 
             int var11 = (int)((new Date().getTime() + var17) / 1000L);
-            PBMessageALL8.e.a var12 = PBMessageALL8.e.aa();
+            PBMessageALL8.L1R_e.L1R_a var12 = PBMessageALL8.L1R_e.aa();
             var12.a(12);
             var12.e(LineageUtil.a(""));
             var12.f(LineageUtil.a("$25034"));
             var12.c(var11);
             var12.d(var11 + 3600);
-            PBMessageALL5.c.a var13 = PBMessageALL5.c.aa();
+            PBMessageALL5.L1R_c.L1R_a var13 = PBMessageALL5.L1R_c.aa();
             var13.e(LineageUtil.a("4654"));
             var13.a(1000);
             var12.g(var13.M().f());
@@ -175,11 +175,11 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 810:
-            PBMessageALL.g.a var3 = PBMessageALL.g.aa();
-            PBMessageALL7.i.a var4 = PBMessageALL7.i.aa();
-            PBMessageALL7.g.a var5 = PBMessageALL7.g.aa();
-            PBMessageALL5.e.a var6 = PBMessageALL5.e.aa();
-            PBMessageALL.a.a var7 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_g.L1R_a var3 = PBMessageALL.L1R_g.aa();
+            PBMessageALL7.L1R_i.L1R_a var4 = PBMessageALL7.L1R_i.aa();
+            PBMessageALL7.L1R_g.L1R_a var5 = PBMessageALL7.L1R_g.aa();
+            PBMessageALL5.L1R_e.L1R_a var6 = PBMessageALL5.L1R_e.aa();
+            PBMessageALL.L1R_a.L1R_a var7 = PBMessageALL.L1R_a.aa();
             var6.a(1);
             var6.b(721306);
             var6.c(0);
@@ -201,7 +201,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             var7.b(1);
             var6.e(var7.M().f());
             var5.e(var6.M().f());
-            PBMessageALL.a.a var8 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var8 = PBMessageALL.L1R_a.aa();
             var8.a(1);
             var8.b(7213060);
             var8.c(17345);
@@ -214,7 +214,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             var4.e(var5.M().f());
 
             for (int var9 = 0; var9 < 3; var9++) {
-               PBMessageALL5.a.a var10 = PBMessageALL5.a.aa();
+               PBMessageALL5.L1R_a.L1R_a var10 = PBMessageALL5.L1R_a.aa();
                var10.b(var9);
                var10.d(var2[var9 * 3][3]);
 
@@ -222,7 +222,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
                   int var12 = var2[var9 * 3 + var11][0];
                   int var13 = var2[var9 * 3 + var11][1];
                   int var14 = var2[var9 * 3 + var11][2];
-                  PBMessageALL.a.a var15 = PBMessageALL.a.aa();
+                  PBMessageALL.L1R_a.L1R_a var15 = PBMessageALL.L1R_a.aa();
                   var15.a(var11);
                   var15.b(var13);
                   var15.c(var12 * 3 - 2);
@@ -251,7 +251,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 76:
-            PBMessageALL4.g.a var17 = PBMessageALL4.g.aa();
+            PBMessageALL4.L1R_g.L1R_a var17 = PBMessageALL4.L1R_g.aa();
             var17.a(1);
             var17.b(0);
             var17.e(LineageUtil.a(""));
@@ -259,14 +259,14 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 93:
-            PBMessageALL.a.a var18 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var18 = PBMessageALL.L1R_a.aa();
             var18.a(0);
             var18.b(var2);
             this.a(var18.M().g());
             this.b(0);
             break;
          case 103:
-            PBMessageALL4.g.a var16 = PBMessageALL4.g.aa();
+            PBMessageALL4.L1R_g.L1R_a var16 = PBMessageALL4.L1R_g.aa();
             var16.a(14144);
             var16.b(var2 * 2);
             var16.e(a.g.a(new byte[]{-30, 112, -1}));
@@ -275,7 +275,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 110:
-            PBMessageALL.a.a var20 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var20 = PBMessageALL.L1R_a.aa();
             var20.a(3);
             var20.b(var2);
             var20.c(0);
@@ -291,7 +291,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 123:
-            PBMessageALL.a.a var14 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var14 = PBMessageALL.L1R_a.aa();
             var14.a(var2);
             this.a(var14.M().g());
             this.b(0);
@@ -302,13 +302,13 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 450:
-            PBMessageALL.a.a var15 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var15 = PBMessageALL.L1R_a.aa();
             var15.a(var2);
             this.a(var15.M().g());
             this.b(0);
             break;
          case 463:
-            PBMessageALL.a.a var19 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var19 = PBMessageALL.L1R_a.aa();
             var19.a(var2);
             var19.b(0);
             var19.c(0);
@@ -318,8 +318,8 @@ public class S_ProtoBuffers extends ServerBasePacket {
          case 487:
             boolean var5 = var2 == 3;
             int[] var6 = new int[]{0, 25, 35, 45};
-            PBMessageALL6.c.a var7 = PBMessageALL6.c.aa();
-            PBMessageALL.a.a var8 = PBMessageALL.a.aa();
+            PBMessageALL6.L1R_c.L1R_a var7 = PBMessageALL6.L1R_c.aa();
+            PBMessageALL.L1R_a.L1R_a var8 = PBMessageALL.L1R_a.aa();
             var8.a(var6[var2]);
             var8.b(var5 ? 3 : 1);
             var8.c(var5 ? 3 : 1);
@@ -328,7 +328,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             }
 
             var7.e(var8.M().f());
-            PBMessageALL.a.a var9 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var9 = PBMessageALL.L1R_a.aa();
             var9.a(var6[var2]);
             var9.b(var5 ? 3 : 1);
             var9.c(var5 ? 3 : 1);
@@ -337,13 +337,13 @@ public class S_ProtoBuffers extends ServerBasePacket {
             }
 
             var7.f(var9.M().f());
-            PBMessageALL.a.a var10 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var10 = PBMessageALL.L1R_a.aa();
             var10.a(var6[var2]);
             var10.b(var5 ? 3 : 1);
             var10.c(var5 ? 3 : 1);
             var10.g(50 * var2);
             var7.g(var10.M().f());
-            PBMessageALL.a.a var11 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var11 = PBMessageALL.L1R_a.aa();
             var11.a(var6[var2]);
             var11.b(var5 ? 3 : 1);
             var11.c(var5 ? 3 : 1);
@@ -352,7 +352,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             }
 
             var7.h(var11.M().f());
-            PBMessageALL.a.a var12 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var12 = PBMessageALL.L1R_a.aa();
             var12.a(var6[var2]);
             var12.b(var5 ? 3 : 1);
             if (var5) {
@@ -361,21 +361,21 @@ public class S_ProtoBuffers extends ServerBasePacket {
 
             var12.f(50 * var2);
             var7.i(var12.M().f());
-            PBMessageALL.a.a var13 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var13 = PBMessageALL.L1R_a.aa();
             var13.a(-1);
             var7.j(var13.M().f());
             this.a(var7.M().g());
             this.b(0);
             break;
          case 525:
-            PBMessageALL.a.a var4 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var4 = PBMessageALL.L1R_a.aa();
             var4.a(0);
             var4.b(var2);
             this.a(var4.M().g());
             this.b(0);
             break;
          case 800:
-            PBMessageALL.a.a var3 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var3 = PBMessageALL.L1R_a.aa();
             var3.a(var2);
             this.a(var3.M().g());
             this.b(0);
@@ -399,7 +399,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
          case 76:
             L1Clan var20 = ClanTable.a().a(var2.aF());
             L1War var21 = L1World.a().c(var2.aG());
-            PBMessageALL4.g.a var22 = PBMessageALL4.g.aa();
+            PBMessageALL4.L1R_g.L1R_a var22 = PBMessageALL4.L1R_g.aa();
             var22.a(var20.a() ? 2 : 1);
             if (var21 != null) {
                String var47 = var21.c(var2.aG()).get(0).f();
@@ -411,7 +411,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 113:
-            PBMessageALL5.e.a var5 = PBMessageALL5.e.aa();
+            PBMessageALL5.L1R_e.L1R_a var5 = PBMessageALL5.L1R_e.aa();
             String var6 = Config.f;
             String[] var7 = var6.split("\\.");
             int var8 = Integer.parseInt(var7[0]) & 0xFF;
@@ -428,20 +428,20 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 325:
-            PBMessageALL5.e.a var16 = PBMessageALL5.e.aa();
+            PBMessageALL5.L1R_e.L1R_a var16 = PBMessageALL5.L1R_e.aa();
             var16.a(2);
             this.a(var16.M().g());
             this.b(0);
             break;
          case 327:
-            PBMessageALL5.e.a var17 = PBMessageALL5.e.aa();
+            PBMessageALL5.L1R_e.L1R_a var17 = PBMessageALL5.L1R_e.aa();
             var17.a(0);
             this.a(var17.M().g());
             this.b(0);
             break;
          case 333:
             L1Clan var18 = ClanTable.a().a(var2.aF());
-            PBMessageALL5.e.a var19 = PBMessageALL5.e.aa();
+            PBMessageALL5.L1R_e.L1R_a var19 = PBMessageALL5.L1R_e.aa();
             var19.a(1);
             var19.b(var18.q());
             var19.c(var18.r());
@@ -450,7 +450,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 461:
-            PBMessageALL3.g.a var24 = PBMessageALL3.g.aa();
+            PBMessageALL3.L1R_g.L1R_a var24 = PBMessageALL3.L1R_g.aa();
             Connection var25 = null;
             PreparedStatement var26 = null;
             ResultSet var27 = null;
@@ -462,7 +462,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
                var27 = var26.executeQuery();
 
                while (var27.next()) {
-                  PBMessageALL4.e.a var28 = PBMessageALL4.e.aa();
+                  PBMessageALL4.L1R_e.L1R_a var28 = PBMessageALL4.L1R_e.aa();
                   var28.a(Config.a);
                   var28.b(var27.getInt("objid"));
                   Timestamp var29 = var27.getTimestamp("TamUseTime");
@@ -493,7 +493,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 485:
-            PBMessageALL.a.a var46 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var46 = PBMessageALL.L1R_a.aa();
             var46.a(var2.j().h());
             var46.b(var2.j().e());
             var46.c((int)var2.K());
@@ -501,13 +501,13 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 489:
-            PBMessageALL.a.a var43 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var43 = PBMessageALL.L1R_a.aa();
             var43.a(var2.bB());
             this.a(var43.M().g());
             this.b(0);
             break;
          case 490:
-            PBMessageALL.a.a var45 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var45 = PBMessageALL.L1R_a.aa();
             var45.a(var2.bf());
             var45.b(var2.bj());
             var45.c(var2.bk());
@@ -518,14 +518,14 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 539:
-            PBMessageALL3.c.a var23 = PBMessageALL3.c.aa();
+            PBMessageALL3.L1R_c.L1R_a var23 = PBMessageALL3.L1R_c.aa();
             var23.a(2);
             var23.e(LineageUtil.a(var2.et()));
             this.a(var23.M().g());
             this.b(0);
             break;
          case 559:
-            PBMessageALL.c.a var10 = PBMessageALL.c.aa();
+            PBMessageALL.L1R_c.L1R_a var10 = PBMessageALL.L1R_c.aa();
             var10.b(0);
             var10.c(0);
 
@@ -533,7 +533,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
                int var41 = MonsterListReader.a().a(var40, var2.dQ()[var40]);
                if (var41 > 0) {
                   for (int var42 = var40 * 3; var42 <= var40 * 3 + var41 - 1; var42++) {
-                     PBMessageALL.a.a builderxx = PBMessageALL.a.aa();
+                     PBMessageALL.L1R_a.L1R_a builderxx = PBMessageALL.L1R_a.aa();
                      int var15 = var42 + 1;
                      if (var15 >= 1670) {
                         var15 += 30;
@@ -551,14 +551,14 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 560:
-            PBMessageALL.c.a var11 = PBMessageALL.c.aa();
+            PBMessageALL.L1R_c.L1R_a var11 = PBMessageALL.L1R_c.aa();
             var11.b(0);
             var11.c(0);
             int[] var12 = var2.dQ();
 
             for (int var13 = 0; var13 < var12.length; var13++) {
                if (var12[var13] > 0) {
-                  PBMessageALL.a.a var14 = PBMessageALL.a.aa();
+                  PBMessageALL.L1R_a.L1R_a var14 = PBMessageALL.L1R_a.aa();
                   var14.a(var13 + 1);
                   var14.b(var12[var13]);
                   var11.e(var14.M().f());
@@ -569,8 +569,8 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 803:
-            PBMessageALL3.g.a var3 = PBMessageALL3.g.aa();
-            PBMessageALL3.a.a var4 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_g.L1R_a var3 = PBMessageALL3.L1R_g.aa();
+            PBMessageALL3.L1R_a.L1R_a var4 = PBMessageALL3.L1R_a.aa();
             var4.b(1);
             var4.e(LineageUtil.a("古魯丁地監"));
             var4.c(var2.cS());
@@ -591,16 +591,16 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 125:
-            PBMessageALL3.c.a var6 = PBMessageALL3.c.aa();
+            PBMessageALL3.L1R_c.L1R_a var6 = PBMessageALL3.L1R_c.aa();
             var6.a(var2);
-            PBMessageALL.a.a var7 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var7 = PBMessageALL.L1R_a.aa();
             var7.a(var3);
             var7.b(var4);
             var6.e(var7.M().f());
             this.a(var6.M().g());
             break;
          case 813:
-            PBMessageALL.a.a var5 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var5 = PBMessageALL.L1R_a.aa();
             var5.a(var2);
             var5.b(var3);
             var5.c(var4);
@@ -615,7 +615,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 63:
-            PBMessageALL.a.a var8 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var8 = PBMessageALL.L1R_a.aa();
             var8.a(1);
             var8.b(var2);
             var8.c(var3);
@@ -623,14 +623,14 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 65:
-            PBMessageALL.a.a var5 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var5 = PBMessageALL.L1R_a.aa();
             var5.a(var2);
             var5.b(var3);
             this.a(var5.M().g());
             this.b(0);
             break;
          case 320:
-            PBMessageALL.a.a var6 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var6 = PBMessageALL.L1R_a.aa();
             var6.a(var2);
             var6.b(2);
             var6.c(var3);
@@ -638,7 +638,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 339:
-            PBMessageALL.a.a var7 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var7 = PBMessageALL.L1R_a.aa();
             var7.a(var2);
             var7.b(var3);
             this.a(var7.M().g());
@@ -648,7 +648,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
          case 567:
          case 568:
          case 814:
-            PBMessageALL.a.a var4 = PBMessageALL.a.aa();
+            PBMessageALL.L1R_a.L1R_a var4 = PBMessageALL.L1R_a.aa();
             var4.a(var2);
             var4.b(var3);
             this.a(var4.M().g());
@@ -661,7 +661,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 59:
-            PBMessageALL4.c.a var5 = PBMessageALL4.c.aa();
+            PBMessageALL4.L1R_c.L1R_a var5 = PBMessageALL4.L1R_c.aa();
             var5.a(var4);
             var5.e(var2.a(var3, false));
             var5.f(var2.a(0L, 0L));
@@ -677,7 +677,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
          case 55:
             this.c(8);
             this.c(var3);
-            PBMessageALL3.a.a var4 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_a.L1R_a var4 = PBMessageALL3.L1R_a.aa();
             var4.e(var2.i());
             this.a(var4.M().g());
             this.b(0);
@@ -689,7 +689,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 57:
-            PBMessageALL3.a.a var3 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_a.L1R_a var3 = PBMessageALL3.L1R_a.aa();
             var3.b(0);
             var3.c(0);
             String[] var14 = var2;
@@ -698,7 +698,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             for (int var12 = 0; var12 < var13; var12++) {
                String var11 = var14[var12];
                if (var11.trim().length() != 0) {
-                  PBMessageALL.a.a var15 = PBMessageALL.a.aa();
+                  PBMessageALL.L1R_a.L1R_a var15 = PBMessageALL.L1R_a.aa();
                   var15.a(Integer.parseInt(var11));
                   var15.b(0);
                   var15.c(0);
@@ -710,7 +710,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 337:
-            PBMessageALL3.a.a var4 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_a.L1R_a var4 = PBMessageALL3.L1R_a.aa();
             var4.b(1);
             String[] var8 = var2;
             int var7 = var2.length;
@@ -718,7 +718,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             for (int var6 = 0; var6 < var7; var6++) {
                String var5 = var8[var6];
                if (var5.trim().length() != 0) {
-                  PBMessageALL5.c.a var9 = PBMessageALL5.c.aa();
+                  PBMessageALL5.L1R_c.L1R_a var9 = PBMessageALL5.L1R_c.aa();
                   var9.e(LineageUtil.a(var5));
                   int var10 = L1World.a().a(var5) == null ? 0 : 1;
                   var9.a(var10);
@@ -732,16 +732,16 @@ public class S_ProtoBuffers extends ServerBasePacket {
       }
    }
 
-   public S_ProtoBuffers(SoulTowerTable.a... var1) {
+   public S_ProtoBuffers(SoulTowerTable.L1R_a... var1) {
       this.c(1);
       this.b(335);
-      PBMessageALL4.i.a var2 = PBMessageALL4.i.aa();
-      SoulTowerTable.a[] var6 = var1;
+      PBMessageALL4.L1R_i.L1R_a var2 = PBMessageALL4.L1R_i.aa();
+      SoulTowerTable.L1R_a[] var6 = var1;
       int var5 = var1.length;
 
       for (int var4 = 0; var4 < var5; var4++) {
-         SoulTowerTable.a var3 = var6[var4];
-         PBMessageALL8.i.a var7 = PBMessageALL8.i.aa();
+         SoulTowerTable.L1R_a var3 = var6[var4];
+         PBMessageALL8.L1R_i.L1R_a var7 = PBMessageALL8.L1R_i.aa();
          var7.e(LineageUtil.a(var3.a));
          var7.a(var3.b);
          var7.b(var3.c);
@@ -763,7 +763,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(int var1, L1Castle... var2) {
       this.c(1);
       this.b(var1);
-      PBMessageALL3.g.a var3 = PBMessageALL3.g.aa();
+      PBMessageALL3.L1R_g.L1R_a var3 = PBMessageALL3.L1R_g.aa();
       L1Castle[] var7 = var2;
       int var6 = var2.length;
 
@@ -779,7 +779,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             }
 
             int var11 = var4.f();
-            PBMessageALL4.c.a var12 = PBMessageALL4.c.aa();
+            PBMessageALL4.L1R_c.L1R_a var12 = PBMessageALL4.L1R_c.aa();
             var12.a(var4.a());
             var12.e(LineageUtil.a(var8));
             var12.f(LineageUtil.a(var9));
@@ -800,7 +800,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 102:
-            PBMessageALL4.g.a var5 = PBMessageALL4.g.aa();
+            PBMessageALL4.L1R_g.L1R_a var5 = PBMessageALL4.L1R_g.aa();
             var5.a(6298);
             var5.b(3755);
             var5.e(a.g.a(new byte[]{-1, 0, -1}));
@@ -811,7 +811,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
             this.b(0);
             break;
          case 540:
-            PBMessageALL3.c.a var4 = PBMessageALL3.c.aa();
+            PBMessageALL3.L1R_c.L1R_a var4 = PBMessageALL3.L1R_c.aa();
             var4.a(var2);
             var4.e(LineageUtil.a(var3));
             this.a(var4.M().g());
@@ -824,10 +824,10 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 401:
-            PBMessageALL3.g.a var3 = PBMessageALL3.g.aa();
+            PBMessageALL3.L1R_g.L1R_a var3 = PBMessageALL3.L1R_g.aa();
 
             for (int var4 : var2) {
-               PBMessageALL.a.a var6 = PBMessageALL.a.aa();
+               PBMessageALL.L1R_a.L1R_a var6 = PBMessageALL.L1R_a.aa();
                var6.a(var4);
                if (var4 == 5) {
                   var6.b(10);
@@ -844,7 +844,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(int var1, int var2, int var3, int var4, int var5, int var6, int var7, int var8, int var9) {
       this.c(1);
       this.b(110);
-      PBMessageALL.a.a var10 = PBMessageALL.a.aa();
+      PBMessageALL.L1R_a.L1R_a var10 = PBMessageALL.L1R_a.aa();
       var10.a(var2 == 0 ? 3 : 1);
       var10.b(var1);
       var10.c(var2);
@@ -863,13 +863,13 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(HashMap<Integer, L1ItemInstance> var1, int var2) {
       this.c(1);
       this.b(101);
-      PBMessageALL.c.a var3 = PBMessageALL.c.aa();
+      PBMessageALL.L1R_c.L1R_a var3 = PBMessageALL.L1R_c.aa();
       var3.b(99);
       var3.c(var2);
 
       for (int var4 : var1.keySet()) {
          L1ItemInstance var6 = var1.get(var4);
-         PBMessageALL2.a.a var7 = PBMessageALL2.a.y();
+         PBMessageALL2.L1R_a.L1R_a var7 = PBMessageALL2.L1R_a.y();
          var7.a(var6.N());
          var7.b(var6.E());
          var7.c(var6.e());
@@ -885,9 +885,9 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(int var1, String var2, int... var3) {
       this.c(1);
       this.b(483);
-      PBMessageALL5.g.a var4 = PBMessageALL5.g.aa();
+      PBMessageALL5.L1R_g.L1R_a var4 = PBMessageALL5.L1R_g.aa();
       var4.a(var1);
-      PBMessageALL.a.a var5 = PBMessageALL.a.aa();
+      PBMessageALL.L1R_a.L1R_a var5 = PBMessageALL.L1R_a.aa();
       var5.a(var3[0]);
       var5.b(var3[1]);
       var5.c(var3[2]);
@@ -921,7 +921,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(L1PcInstance var1, String var2, int var3) {
       this.c(1);
       this.b(515);
-      PBMessageALL6.a.a var4 = PBMessageALL6.a.aa();
+      PBMessageALL6.L1R_a.L1R_a var4 = PBMessageALL6.L1R_a.aa();
       var4.a(var3);
       var4.b(1);
       var4.e(LineageUtil.a(var2));
@@ -937,14 +937,14 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(var1);
       switch (var1) {
          case 579:
-            PBMessageALL3.a.a var5 = PBMessageALL3.a.aa();
+            PBMessageALL3.L1R_a.L1R_a var5 = PBMessageALL3.L1R_a.aa();
             var5.b(var2);
 
             for (int var6 = 0; var6 < var4.length; var6++) {
-               PBMessageALL.g.a var7 = PBMessageALL.g.aa();
+               PBMessageALL.L1R_g.L1R_a var7 = PBMessageALL.L1R_g.aa();
                var7.e(LineageUtil.a(var3[var6]));
                if (var4[var6] > 0) {
-                  PBMessageALL.a.a var8 = PBMessageALL.a.aa();
+                  PBMessageALL.L1R_a.L1R_a var8 = PBMessageALL.L1R_a.aa();
                   var8.a(7);
                   var8.b(var4[var6]);
                   var8.c(1);
@@ -962,7 +962,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(L1PcInstance var1, String var2, int var3, int var4) {
       this.c(1);
       this.b(516);
-      PBMessageALL5.i.a var5 = PBMessageALL5.i.aa();
+      PBMessageALL5.L1R_i.L1R_a var5 = PBMessageALL5.L1R_i.aa();
       var5.a(var4);
       var5.b(var3);
       var5.e(LineageUtil.a(var2));
@@ -983,10 +983,10 @@ public class S_ProtoBuffers extends ServerBasePacket {
       this.b(800);
       Collections.sort(var1);
       Collections.sort(var2);
-      PBMessageALL3.a.a var4 = PBMessageALL3.a.aa();
+      PBMessageALL3.L1R_a.L1R_a var4 = PBMessageALL3.L1R_a.aa();
       var4.b(var3);
-      PBMessageALL2.c.a var5 = PBMessageALL2.c.s();
-      PBMessageALL2.c.a var6 = PBMessageALL2.c.s();
+      PBMessageALL2.L1R_c.L1R_a var5 = PBMessageALL2.L1R_c.s();
+      PBMessageALL2.L1R_c.L1R_a var6 = PBMessageALL2.L1R_c.s();
       var5.b(0);
 
       for (int var7 : var1) {
@@ -1010,10 +1010,10 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(int var1, L1QuestNew var2) {
       this.c(1);
       this.b(var1);
-      PBMessageALL5.a.a var3 = PBMessageALL5.a.aa();
+      PBMessageALL5.L1R_a.L1R_a var3 = PBMessageALL5.L1R_a.aa();
       var3.b(var2.a());
       var3.c(var2.y().fr());
-      PBMessageALL.a.a var4 = PBMessageALL.a.aa();
+      PBMessageALL.L1R_a.L1R_a var4 = PBMessageALL.L1R_a.aa();
       int var5 = 1;
       if (var2.n() > 0) {
          var4.a(var5++);
@@ -1050,20 +1050,20 @@ public class S_ProtoBuffers extends ServerBasePacket {
       }
 
       var3.e(1);
-      PBMessageALL5.c.a var9 = PBMessageALL5.c.aa();
+      PBMessageALL5.L1R_c.L1R_a var9 = PBMessageALL5.L1R_c.aa();
       var9.e(var3.M().f());
       this.a(var9.M().g());
       this.b(0);
    }
 
-   public S_ProtoBuffers(int var1, String var2, L1ThebesBattle.g... var3) {
+   public S_ProtoBuffers(int var1, String var2, L1ThebesBattle.L1R_g... var3) {
       this.c(1);
       this.b(133);
-      PBMessageALL4.i.a var4 = PBMessageALL4.i.aa();
+      PBMessageALL4.L1R_i.L1R_a var4 = PBMessageALL4.L1R_i.aa();
 
       for (int var5 = 0; var5 < var3.length && var5 < 10; var5++) {
-         PBMessageALL3.c.a var6 = PBMessageALL3.c.aa();
-         L1ThebesBattle.g var7 = var3[var5];
+         PBMessageALL3.L1R_c.L1R_a var6 = PBMessageALL3.L1R_c.aa();
+         L1ThebesBattle.L1R_g var7 = var3[var5];
          var6.a(var5 + 1);
          var6.e(LineageUtil.a(var7.a));
          var6.b(var7.b);
@@ -1073,9 +1073,9 @@ public class S_ProtoBuffers extends ServerBasePacket {
       boolean var9 = false;
 
       for (int var10 = 0; var10 < var3.length; var10++) {
-         L1ThebesBattle.g var12 = var3[var10];
+         L1ThebesBattle.L1R_g var12 = var3[var10];
          if (var12.a.equalsIgnoreCase(var2)) {
-            PBMessageALL3.c.a var8 = PBMessageALL3.c.aa();
+            PBMessageALL3.L1R_c.L1R_a var8 = PBMessageALL3.L1R_c.aa();
             var8.a(var10 + 1);
             var8.e(LineageUtil.a(var12.a));
             var8.b(var12.b);
@@ -1086,7 +1086,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       }
 
       if (!var9) {
-         PBMessageALL3.c.a var11 = PBMessageALL3.c.aa();
+         PBMessageALL3.L1R_c.L1R_a var11 = PBMessageALL3.L1R_c.aa();
          var11.a(0);
          var11.e(LineageUtil.a(var2));
          var11.b(0);
@@ -1101,8 +1101,8 @@ public class S_ProtoBuffers extends ServerBasePacket {
    public S_ProtoBuffers(int var1, int[] var2) {
       this.c(1);
       this.b(134);
-      PBMessageALL3.g.a var3 = PBMessageALL3.g.aa();
-      PBMessageALL.a.a var4 = PBMessageALL.a.aa();
+      PBMessageALL3.L1R_g.L1R_a var3 = PBMessageALL3.L1R_g.aa();
+      PBMessageALL.L1R_a.L1R_a var4 = PBMessageALL.L1R_a.aa();
       var4.a(4);
       var4.b(var2[0]);
       var4.c(Config.a);

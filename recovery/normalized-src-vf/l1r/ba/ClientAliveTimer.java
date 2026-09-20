@@ -21,11 +21,11 @@ public class ClientAliveTimer {
 
    private ClientAliveTimer() {
       int var1 = 1000;
-      GeneralThreadPool.a().a(new ClientAliveTimer.a(null), 1000L, 1000L);
+      GeneralThreadPool.a().a(new ClientAliveTimer.L1R_a(null), 1000L, 1000L);
    }
 
-   private class a extends TimerTask {
-      private a() {
+   private class L1R_a extends TimerTask {
+      private L1R_a() {
       }
 
       @Override
@@ -45,7 +45,7 @@ public class ClientAliveTimer {
       }
 
       // $VF: synthetic method
-      a(ClientAliveTimer.a var2) {
+      L1R_a(ClientAliveTimer.L1R_a var2) {
          this();
       }
    }

@@ -158,13 +158,13 @@ public class L1Dragon {
    }
 
    public void a(L1NpcInstance var1) {
-      GeneralThreadPool.a().a(new L1Dragon.a(var1, null), 180000L);
+      GeneralThreadPool.a().a(new L1Dragon.L1R_a(var1, null), 180000L);
    }
 
-   private class a extends TimerTask {
+   private class L1R_a extends TimerTask {
       private final L1NpcInstance b;
 
-      private a(L1NpcInstance var2) {
+      private L1R_a(L1NpcInstance var2) {
          this.b = var2;
       }
 
@@ -199,7 +199,7 @@ public class L1Dragon {
       }
 
       // $VF: synthetic method
-      a(L1NpcInstance var2, L1Dragon.a var3) {
+      L1R_a(L1NpcInstance var2, L1Dragon.L1R_a var3) {
          this(var2);
       }
    }

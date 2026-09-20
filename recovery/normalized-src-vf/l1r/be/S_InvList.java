@@ -11,10 +11,10 @@ public class S_InvList extends ServerBasePacket {
    public S_InvList(List<L1ItemInstance> var1) {
       this.c(1);
       this.b(588);
-      PBMessageALL3.g.a var2 = PBMessageALL3.g.aa();
+      PBMessageALL3.L1R_g.L1R_a var2 = PBMessageALL3.L1R_g.aa();
 
       for (L1ItemInstance var3 : var1) {
-         PBMessageALL9.c.a var5 = PBMessageALL9.c.ak();
+         PBMessageALL9.L1R_c.L1R_a var5 = PBMessageALL9.L1R_c.ak();
          var5.a(var3.fr());
          var5.b(var3.m());
          var5.c(var3.fr());
