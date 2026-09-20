@@ -44,111 +44,86 @@ public class af {
         this.c();
     }
 
-    public void a(int keyid, int count, int roomid) {
-        block6: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO inns SET keyid=?,note=?, count=?, roomid=?, dueTime=? ");
-                    a data = new a();
-                    data.a = keyid;
-                    data.b = "note";
-                    data.c = count;
-                    data.d = roomid;
-                    data.e = new Timestamp(System.currentTimeMillis() + 14400000L);
-                    if (this.f.containsKey(data.a)) {
-                        this.f.remove(data.a);
-                        this.b(data.a);
-                    }
-                    this.f.put(data.a, data);
-                    pstm.setInt(1, data.a);
-                    pstm.setString(2, data.b);
-                    pstm.setInt(3, data.c);
-                    pstm.setInt(4, data.d);
-                    pstm.setTimestamp(5, data.e);
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block6;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+    public boolean a(int keyid, int count, int roomid) {
+        if (keyid <= 0 || count <= 0 || roomid < 0 || this.f.containsKey(keyid)) {
+            return false;
+        }
+        a data = new a();
+        data.a = keyid;
+        data.b = "note";
+        data.c = count;
+        data.d = roomid;
+        data.e = new Timestamp(System.currentTimeMillis() + 14400000L);
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO inns SET keyid=?,note=?, count=?, roomid=?, dueTime=? ");
+            pstm.setInt(1, data.a);
+            pstm.setString(2, data.b);
+            pstm.setInt(3, data.c);
+            pstm.setInt(4, data.d);
+            pstm.setTimestamp(5, data.e);
+            pstm.execute();
+            this.f.put(data.a, data);
+            return true;
+        }
+        catch (SQLException e2) {
+            d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }
     }
 
-    private void a(int keyid, int count) {
-        block8: {
-            a data = this.f.get(keyid);
-            if (data == null) {
-                return;
-            }
-            data.c -= count;
-            if (data.c <= 0) {
-                this.b(keyid);
-            } else {
-                Connection con = null;
-                PreparedStatement pstm = null;
-                try {
-                    try {
-                        con = l1j.server.b.a().b();
-                        pstm = con.prepareStatement("UPDATE inns SET count=? WHERE keyid = ?");
-                        pstm.setInt(1, data.c);
-                        pstm.setInt(2, keyid);
-                        pstm.execute();
-                    }
-                    catch (SQLException e2) {
-                        d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                        j.a(pstm);
-                        j.a(con);
-                        break block8;
-                    }
-                }
-                catch (Throwable throwable) {
-                    j.a(pstm);
-                    j.a(con);
-                    throw throwable;
-                }
-                j.a(pstm);
-                j.a(con);
-            }
+    private boolean a(int keyid, int count) {
+        a data = this.f.get(keyid);
+        if (data == null || count <= 0 || count > data.c) {
+            return false;
+        }
+        int newCount = data.c - count;
+        if (newCount <= 0) {
+            return this.b(keyid);
+        }
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE inns SET count=? WHERE keyid = ?");
+            pstm.setInt(1, newCount);
+            pstm.setInt(2, keyid);
+            pstm.execute();
+            data.c = newCount;
+            return true;
+        }
+        catch (SQLException e2) {
+            d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
         }
     }
 
-    private void b(int keyid) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("DELETE FROM inns WHERE keyid = ?");
-                    pstm.setInt(1, keyid);
-                    pstm.execute();
-                    this.f.remove(keyid);
-                }
-                catch (SQLException e2) {
-                    d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+    private boolean b(int keyid) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("DELETE FROM inns WHERE keyid = ?");
+            pstm.setInt(1, keyid);
+            pstm.execute();
+            this.f.remove(keyid);
+            return true;
+        }
+        catch (SQLException e2) {
+            d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }
