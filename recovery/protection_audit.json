@@ -1,0 +1,24 @@
+{
+  "jar_entries": 3369,
+  "jar_class_files": 2659,
+  "application_class_files": 1109,
+  "parsed_application_classes": 1109,
+  "parse_errors": [],
+  "top_level_classes": 788,
+  "inner_classes": 259,
+  "anonymous_classes": 62,
+  "sourcefile_present": 1109,
+  "sourcefile_missing": 0,
+  "class_major_versions": {
+    "52": 1109
+  },
+  "synthetic_classes": 0,
+  "synthetic_fields": 132,
+  "synthetic_methods": 2460,
+  "synthetic_constructors": 229,
+  "synthetic_affected_classes": 322,
+  "bridge_methods": 0,
+  "bridge_affected_classes": 0,
+  "jvm_return_type_only_method_collisions": 0,
+  "field_name_descriptor_collisions": 0
+}
