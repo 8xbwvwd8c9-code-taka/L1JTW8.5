@@ -42,6 +42,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
 
+      - name: Export normalized protobuf runtime parent ABI
+        shell: bash
+        run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
@@ -242,6 +246,10 @@ jobs:
       - name: Relocate embedded Protobuf runtime for source recovery
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
+
+      - name: Export normalized protobuf runtime parent ABI
+        shell: bash
+        run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
       - name: Build normalized source stage
         shell: bash
