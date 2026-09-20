@@ -15,6 +15,10 @@ on:
 permissions:
   contents: write
 
+concurrency:
+  group: l1jtw85-recovery-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   recover:
     runs-on: ubuntu-latest
@@ -153,6 +157,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/build-protobuf-compile-ref.py
 
+      - name: Build proto-message diagnostic compile reference
+        shell: bash
+        run: python ./tools/recovery/build-proto-message-compile-ref.py
+
+      - name: Non-protobuf diagnostic compile
+        shell: bash
+        run: python ./tools/recovery/compile-nonproto-stage.py
+
       - name: Candidate source-only full-tree compile
         shell: bash
         run: python ./tools/recovery/compile-candidate-stage.py
@@ -189,6 +201,11 @@ jobs:
           if compile_path.exists():
               compile_state = json.loads(compile_path.read_text(encoding="utf-8"))
 
+          nonproto_state = {}
+          nonproto_path = Path("recovery/nonproto_compile.json")
+          if nonproto_path.exists():
+              nonproto_state = json.loads(nonproto_path.read_text(encoding="utf-8"))
+
           out = [
               "# Generated Recovery Summary",
               "",
@@ -201,6 +218,9 @@ jobs:
               f"- Synthetic-affected classes: **{audit.get('synthetic_affected_classes', 'UNKNOWN')}**",
               f"- Synthetic fields/methods/constructors: **{audit.get('synthetic_fields', 'UNKNOWN')} / {audit.get('synthetic_methods', 'UNKNOWN')} / {audit.get('synthetic_constructors', 'UNKNOWN')}**",
               f"- JVM return-type-only method collisions: **{audit.get('jvm_return_type_only_method_collisions', 'UNKNOWN')}**",
+              f"- Non-protobuf diagnostic compile: **{'PASS' if nonproto_state.get('compile_exit_code') == 0 else 'FAIL'}**",
+              f"- Non-protobuf javac errors/files: **{nonproto_state.get('javac_error_headers', 'UNKNOWN')} / {nonproto_state.get('error_file_count', 'UNKNOWN')}**",
+              f"- Non-protobuf built/missing/extra classes: **{nonproto_state.get('built_nonproto_application_classes_normalized', 'UNKNOWN')} / {nonproto_state.get('missing_nonproto_application_classes', 'UNKNOWN')} / {nonproto_state.get('extra_nonproto_application_classes', 'UNKNOWN')}**",
               f"- Candidate full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
               f"- Candidate javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
               f"- Built application classes (normalized): **{compile_state.get('built_application_classes_normalized', 'UNKNOWN')}**",
@@ -247,7 +267,11 @@ jobs:
             recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
             recovery/vineflower-hard-tail recovery/vineflower-stage2 \
             recovery/compile-ref-protobuf-obf.jar recovery/compile_ref_protobuf_obf.json \
-            recovery/COMPILE_REF_PROTOBUF_OBF.md
+            recovery/COMPILE_REF_PROTOBUF_OBF.md \
+            recovery/compile-ref-proto-messages.jar recovery/compile_ref_proto_messages.json \
+            recovery/COMPILE_REF_PROTO_MESSAGES.md recovery/nonproto_compile.json \
+            recovery/NONPROTO_COMPILE.md recovery/nonproto_javac.log recovery/nonproto_source_files.txt \
+            recovery/nonproto_class_set_missing.txt recovery/nonproto_class_set_extra.txt
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
