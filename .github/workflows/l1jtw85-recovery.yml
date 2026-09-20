@@ -58,6 +58,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-builder-superclass.py
 
+      - name: Normalize protobuf parser synthetic bridges
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-parser-bridges.py
+
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
@@ -407,6 +411,8 @@ jobs:
             recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md \
             recovery/normalized_protobuf_raw_super_transform.json \
             recovery/NORMALIZED_PROTOBUF_RAW_SUPER_TRANSFORM.md \
+            recovery/normalized_parser_bridge_transform.json \
+            recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md \
             recovery/normalized_stage_error_families.json \
             recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md \
             recovery/protobuf_override_conflicts.json \
