@@ -46,6 +46,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
+      - name: Probe protobuf protected nested type visibility
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-p-b-visibility.py
+
       - name: Probe all protobuf boolean accessors
         shell: bash
         run: python ./tools/recovery/probe-protobuf-boolean-accessors.py
