@@ -67,10 +67,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-boolean-accessors.py
 
-      - name: Probe required protobuf bridge descriptors
-        shell: bash
-        run: python ./tools/recovery/probe-protobuf-required-bridges.py
-
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
