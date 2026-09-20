@@ -58,6 +58,10 @@ jobs:
         shell: pwsh
         run: ./tools/recovery/export-protobuf-builder-javap.ps1
 
+      - name: Summarize protobuf builder bytecode
+        shell: bash
+        run: python ./tools/recovery/summarize-protobuf-builder-javap.py
+
       - name: Extract DB table index
         shell: pwsh
         run: ./tools/recovery/extract-db-table-index.ps1
@@ -211,6 +215,7 @@ jobs:
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add recovery/db_table_index.csv recovery/javap-targets recovery/protobuf-builder-javap.txt \
+            recovery/protobuf-builder-bytecode-summary.csv recovery/PROTOBUF_BUILDER_BYTECODE_SUMMARY.md \
             recovery/GENERATED_SUMMARY.md recovered-src-obf \
             recovery/class_inventory.csv recovery/synthetic_members.csv recovery/java_keyword_members.csv \
             recovery/jvm_signature_collisions.csv \
