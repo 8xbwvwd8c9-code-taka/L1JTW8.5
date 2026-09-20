@@ -5,7 +5,8 @@ import shutil
 from pathlib import Path
 
 BASE = Path("recovered-src-obf")
-VF = Path("recovery/vineflower-hard-tail")
+VF1 = Path("recovery/vineflower-hard-tail")
+VF2 = Path("recovery/vineflower-stage2")
 STAGE = Path("_recovery-stage-src")
 REC = Path("recovery")
 
@@ -19,9 +20,21 @@ HARD_TAIL = [
     "bf/b.java",
 ]
 
-RENAMES = {
+PROTOBUF_STAGE2 = [
+    "an/a.java","an/b.java","an/c.java","an/d.java","an/e.java",
+    "an/f.java","an/g.java","an/h.java","an/i.java",
+]
+
+CLASS_RENAMES = {
     "be.do": "be.l1r_do_spmr",
     "bf.do": "bf.l1r_do_s134",
+}
+
+MEMBER_RENAMES = {
+    "ap.u field do:I": "l1r_do_field",
+    "ap.u method do:()I": "l1r_do_effect_heal",
+    "bg.b field do:I": "l1r_do_1014",
+    "bj.e field do:I": "l1r_do_157",
 }
 
 if STAGE.exists():
@@ -30,12 +43,21 @@ shutil.copytree(BASE, STAGE)
 
 replaced = []
 for rel in HARD_TAIL:
-    src = VF / rel
+    src = VF1 / rel
     dst = STAGE / rel
     if not src.exists():
-        raise SystemExit(f"missing Vineflower override: {src}")
+        raise SystemExit(f"missing Vineflower hard-tail override: {src}")
     shutil.copy2(src, dst)
     replaced.append(rel)
+
+protobuf_replaced = []
+for rel in PROTOBUF_STAGE2:
+    src = VF2 / rel
+    dst = STAGE / rel
+    if not src.exists():
+        raise SystemExit(f"missing Vineflower protobuf override: {src}")
+    shutil.copy2(src, dst)
+    protobuf_replaced.append(rel)
 
 def apply_simple_use(text: str, old_fq: str, new_fq: str) -> str:
     old_pkg, old_simple = old_fq.rsplit(".", 1)
@@ -50,7 +72,6 @@ def apply_simple_use(text: str, old_fq: str, new_fq: str) -> str:
     text = text.replace(old_fq, new_fq)
 
     if had_import:
-        # Only class-reference contexts; never global-replace Java keyword 'do'.
         text = re.sub(r"\bnew\s+" + re.escape(old_simple) + r"\s*\(", f"new {new_simple}(", text)
         text = re.sub(r"\(" + re.escape(old_simple) + r"\)", f"({new_simple})", text)
         text = re.sub(r"\b" + re.escape(old_simple) + r"\s*\.", new_simple + ".", text)
@@ -62,7 +83,7 @@ def apply_simple_use(text: str, old_fq: str, new_fq: str) -> str:
         text = re.sub(r"<\s*" + re.escape(old_simple) + r"\s*>", f"<{new_simple}>", text)
     return text
 
-# Rename declaration files first.
+# Java-keyword top-level class names: recovery-only source representation rename.
 decls = [
     ("be/do.java", "do", "l1r_do_spmr"),
     ("bf/do.java", "do", "l1r_do_s134"),
@@ -80,16 +101,68 @@ changed_files = []
 for p in STAGE.rglob("*.java"):
     text = p.read_text(encoding="utf-8", errors="replace")
     original = text
-    for old_fq, new_fq in RENAMES.items():
+    for old_fq, new_fq in CLASS_RENAMES.items():
         text = apply_simple_use(text, old_fq, new_fq)
+
+    # Exactly one JVM method named "do" exists in the application audit: ap.u.do()I.
+    text = re.sub(r"\.do\s*\(", ".l1r_do_effect_heal(", text)
+
+    # Fully-qualified constant references, if present.
+    text = text.replace("bg.b.do", "bg.b.l1r_do_1014")
+    text = text.replace("bj.e.do", "bj.e.l1r_do_157")
+
     if text != original:
         p.write_text(text, encoding="utf-8")
         changed_files.append(p.relative_to(STAGE).as_posix())
 
+# Precise declaration/private-field repairs.
+p = STAGE / "ap/u.java"
+text = p.read_text(encoding="utf-8", errors="replace")
+text = re.sub(r"(?m)^(\s*private\s+int\s+)do(\s*=\s*0\s*;)", r"\1l1r_do_field\2", text, count=1)
+text = text.replace("this.do +=", "this.l1r_do_field +=")
+text = text.replace("return this.do;", "return this.l1r_do_field;")
+text = re.sub(r"(?m)^(\s*public\s+int\s+)do(\s*\(\s*\)\s*\{)", r"\1l1r_do_effect_heal\2", text, count=1)
+p.write_text(text, encoding="utf-8")
+
+for rel, new_name, expected in [
+    ("bg/b.java", "l1r_do_1014", "1014"),
+    ("bj/e.java", "l1r_do_157", "157"),
+]:
+    p = STAGE / rel
+    text = p.read_text(encoding="utf-8", errors="replace")
+    text, n = re.subn(
+        r"(?m)^(\s*public\s+static\s+final\s+int\s+)do(\s*=\s*" + expected + r"\s*;)",
+        rf"\1{new_name}\2",
+        text,
+        count=1,
+    )
+    if n != 1:
+        raise SystemExit(f"keyword member declaration not found: {rel}")
+    p.write_text(text, encoding="utf-8")
+
+# Reject any remaining obvious Java-keyword member declaration/use before javac.
+keyword_residuals = []
+checks = [
+    re.compile(r"\b(?:int|long|short|byte|boolean|char|float|double|void)\s+do\b"),
+    re.compile(r"\.do\s*\("),
+]
+for p in STAGE.rglob("*.java"):
+    text = p.read_text(encoding="utf-8", errors="replace")
+    for rx in checks:
+        for m in rx.finditer(text):
+            keyword_residuals.append({
+                "file": p.relative_to(STAGE).as_posix(),
+                "line": text.count("\n", 0, m.start()) + 1,
+                "match": m.group(0),
+            })
+
 state = {
     "hard_tail_overrides": replaced,
-    "recovery_only_class_renames": RENAMES,
-    "reference_files_changed_by_rename": sorted(changed_files),
+    "protobuf_stage2_overrides": protobuf_replaced,
+    "recovery_only_class_renames": CLASS_RENAMES,
+    "recovery_only_member_renames": MEMBER_RENAMES,
+    "reference_files_changed_by_class_rename": sorted(changed_files),
+    "keyword_member_residuals": keyword_residuals,
 }
 (REC / "stage_transform.json").write_text(json.dumps(state, indent=2) + "\n", encoding="utf-8")
 
@@ -102,18 +175,24 @@ md = [
     "",
 ]
 md += [f"- {x}" for x in replaced]
+md += ["", "## Vineflower protobuf overrides", ""]
+md += [f"- {x}" for x in protobuf_replaced]
 md += [
     "",
     "## Java-source representation renames",
     "",
-    "- be.do -> be.l1r_do_spmr (SourceFile=S_SPMR.java)",
-    "- bf.do -> bf.l1r_do_s134 (SourceFile=S_134.java)",
+    "- be.do -> be.l1r_do_spmr",
+    "- bf.do -> bf.l1r_do_s134",
+    "- ap.u field do:I -> l1r_do_field",
+    "- ap.u method do:()I -> l1r_do_effect_heal",
+    "- bg.b field do:I -> l1r_do_1014",
+    "- bj.e field do:I -> l1r_do_157",
     "",
-    "Reason: do is a Java language keyword although the JVM classfile name is valid.",
-    "These are recovery-only names and must be normalized in later donor-vs-built ABI/class-set comparison.",
-    "",
-    f"Files changed by rename references: **{len(changed_files)}**",
+    f"Keyword-member residuals before javac: **{len(keyword_residuals)}**",
 ]
 (REC / "STAGE_TRANSFORM.md").write_text("\n".join(md) + "\n", encoding="utf-8")
+
+if keyword_residuals:
+    raise SystemExit("keyword member residuals remain; see recovery/stage_transform.json")
 
 print(json.dumps(state, indent=2))
