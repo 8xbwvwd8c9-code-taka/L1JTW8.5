@@ -1,0 +1,5 @@
+Class,ClassKind,SourceFile,MemberKind,Name,Descriptor,Synthetic
+ap.u,TOP_LEVEL,L1PcInstance.java,field,do,I,0
+ap.u,TOP_LEVEL,L1PcInstance.java,method,do,()I,0
+bg.b,TOP_LEVEL,L1SkillId.java,field,do,I,0
+bj.e,TOP_LEVEL,Opcodes.java,field,do,I,0
