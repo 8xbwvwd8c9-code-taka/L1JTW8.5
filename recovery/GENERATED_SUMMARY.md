@@ -1,7 +1,14 @@
 # Generated Recovery Summary
 
 - Core mapping rows: **788**
-- Decompiled Java files retained: **788**
+- Decompiled top-level Java files retained: **788**
+- Application class files: **1109**
+- Top-level classes: **788**
+- Inner classes: **259**
+- Anonymous classes: **62**
+- Synthetic-affected classes: **322**
+- Synthetic fields/methods/constructors: **132 / 2460 / 229**
+- JVM return-type-only method collisions: **0**
 - Target javap files: **55**
 - DB tables indexed: **99**
 
