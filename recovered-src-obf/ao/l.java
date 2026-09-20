@@ -154,6 +154,41 @@ public class l {
         item.q();
     }
 
+    public void p(q item) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE character_items SET item_id=?, item_name=?, count=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, temp_value=?, last_used=?, bless=?, attr_enchant_kind=?, attr_enchant_level=?, super_enchant_field_1=?, super_enchant_field_2=?, super_enchant_field_3=?, super_enchant_field_4=?, limit_time=?, is_equipped=? WHERE id=?");
+            pstm.setInt(1, item.N());
+            pstm.setString(2, item.a().h());
+            pstm.setInt(3, item.E());
+            pstm.setInt(4, item.G());
+            pstm.setInt(5, item.C() ? 1 : 0);
+            pstm.setInt(6, item.H());
+            pstm.setInt(7, item.I());
+            pstm.setInt(8, item.M());
+            pstm.setTimestamp(9, item.J());
+            pstm.setInt(10, item.F());
+            pstm.setInt(11, item.K());
+            pstm.setInt(12, item.L());
+            pstm.setInt(13, item.X());
+            pstm.setInt(14, item.Y());
+            pstm.setInt(15, item.Z());
+            pstm.setInt(16, item.aa());
+            pstm.setTimestamp(17, item.bb());
+            pstm.setBoolean(18, item.D());
+            pstm.setInt(19, item.fr());
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("character_items update affected unexpected row count: " + item.fr());
+            }
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
     public void a(q item) throws Exception {
         block5: {
             Connection con = null;
