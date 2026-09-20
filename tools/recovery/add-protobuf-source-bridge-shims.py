@@ -48,10 +48,14 @@ for p in sorted(STAGE.glob('PBMessageALL*.java')):
     for m in reversed(pm):
         msg=m.group('msg')
         open_pos=text.find('{',m.start())
-        shim=("\n         // recovery source bridge: donor erased Parser.e(InputStream,n)\n"
+        shim=("\n         // recovery source bridges for erased Parser.e(InputStream[,n])\n"
               "         @Override\n"
               f"         public {msg} e(java.io.InputStream var1, l1rpb.n var2) throws l1rpb.s {{\n"
               f"            return ({msg})super.e(var1, var2);\n"
+              "         }\n\n"
+              "         @Override\n"
+              f"         public {msg} e(java.io.InputStream var1) throws l1rpb.s {{\n"
+              f"            return ({msg})super.e(var1);\n"
               "         }\n")
         text=text[:open_pos+1]+shim+text[open_pos+1:]
         parser_count+=1
@@ -68,10 +72,18 @@ for p in sorted(STAGE.glob('PBMessageALL*.java')):
         typed=re.search(r'public\s+(?P<ret>[A-Za-z0-9_.$]+)\s+e\s*\(\s*(?:l1rpb\.)?h\s+var1\s*,\s*(?:l1rpb\.)?n\s+var2\s*\)\s+throws\s+IOException\s*\{',block)
         if not typed:
             continue
-        shim=("\n         // recovery source bridge: raw p.a requires erased b(h,n)\n"
+        shim=("\n         // recovery source bridges for raw p.a / x$a covariance\n"
               "         @Override\n"
               "         public l1rpb.b.a b(l1rpb.h var1, l1rpb.n var2) throws java.io.IOException {\n"
               "            return this.e(var1, var2);\n"
+              "         }\n\n"
+              "         @Override\n"
+              "         public l1rpb.x.a d(java.io.InputStream var1, l1rpb.n var2) throws java.io.IOException {\n"
+              "            return (l1rpb.x.a)super.d(var1, var2);\n"
+              "         }\n\n"
+              "         @Override\n"
+              "         public l1rpb.x.a d(java.io.InputStream var1) throws java.io.IOException {\n"
+              "            return (l1rpb.x.a)super.d(var1);\n"
               "         }\n")
         text=text[:open_pos+1]+shim+text[open_pos+1:]
         builder_count+=1
@@ -84,8 +96,8 @@ state={
   'parser_shims':parser_count,
   'expected_builder_shims':44,
   'builder_shims':builder_count,
-  'parser_delegate':'super.e(InputStream,n) + covariant cast only',
-  'builder_delegate':'existing typed e(h,n)',
+  'parser_delegate':'super.e(InputStream[,n]) + covariant cast only',
+  'builder_delegate':'typed e(h,n) plus super.d(InputStream[,n]) covariant casts',
   'gameplay_logic_changed':False,
   'source_representation_only':True,
   'normalization_required_for_donor_compare':True,
@@ -98,8 +110,8 @@ MD.write_text(
   + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
   + f'- Parser shims: **{parser_count} / 44**\n'
   + f'- Builder shims: **{builder_count} / 44**\n'
-  + '- Parser shim delegates to existing runtime `super.e(InputStream,n)`.\n'
-  + '- Builder shim delegates to existing generated `e(h,n)`.\n'
+  + '- Parser shims delegate to existing runtime `super.e(InputStream[,n])`.\n'
+  + '- Builder shims delegate to existing generated `e(h,n)` and inherited `super.d(InputStream[,n])`.\n'
   + '- Gameplay logic changed: **NO**\n'
   + '- Recovery source representation only: **YES**\n',
   encoding='utf-8'
