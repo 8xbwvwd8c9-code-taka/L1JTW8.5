@@ -120,9 +120,13 @@ jobs:
         shell: bash
         run: python ./tools/recovery/scan-hard-tail.py
 
-      - name: Source-only full-tree compile
+      - name: Build candidate recovery tree
         shell: bash
-        run: python ./tools/recovery/full-tree-compile.py
+        run: python ./tools/recovery/build-candidate-stage.py
+
+      - name: Candidate source-only full-tree compile
+        shell: bash
+        run: python ./tools/recovery/compile-candidate-stage.py
 
       - name: Write recovery summary
         shell: python
@@ -152,7 +156,7 @@ jobs:
               audit = json.loads(audit_path.read_text(encoding="utf-8"))
 
           compile_state = {}
-          compile_path = Path("recovery/full_tree_compile.json")
+          compile_path = Path("recovery/candidate_full_tree_compile.json")
           if compile_path.exists():
               compile_state = json.loads(compile_path.read_text(encoding="utf-8"))
 
@@ -168,10 +172,10 @@ jobs:
               f"- Synthetic-affected classes: **{audit.get('synthetic_affected_classes', 'UNKNOWN')}**",
               f"- Synthetic fields/methods/constructors: **{audit.get('synthetic_fields', 'UNKNOWN')} / {audit.get('synthetic_methods', 'UNKNOWN')} / {audit.get('synthetic_constructors', 'UNKNOWN')}**",
               f"- JVM return-type-only method collisions: **{audit.get('jvm_return_type_only_method_collisions', 'UNKNOWN')}**",
-              f"- Full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
-              f"- Full-tree javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
-              f"- Built application classes: **{compile_state.get('built_application_classes', 'UNKNOWN')}**",
-              f"- Missing / extra application classes: **{compile_state.get('missing_application_classes', 'UNKNOWN')} / {compile_state.get('extra_application_classes', 'UNKNOWN')}**",
+              f"- Candidate full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
+              f"- Candidate javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
+              f"- Built application classes (normalized): **{compile_state.get('built_application_classes_normalized', 'UNKNOWN')}**",
+              f"- Missing / extra application classes (normalized): **{compile_state.get('missing_application_classes_normalized', 'UNKNOWN')} / {compile_state.get('extra_application_classes_normalized', 'UNKNOWN')}**",
               f"- Target javap files: **{len(javap)}**",
               f"- DB tables indexed: **{len(tables)}**",
               "",
@@ -202,6 +206,11 @@ jobs:
             recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md \
             recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
             recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt \
+            recovery/stage_transform.json recovery/STAGE_TRANSFORM.md \
+            recovery/candidate_full_tree_compile.json recovery/CANDIDATE_FULL_TREE_COMPILE.md \
+            recovery/candidate_full_tree_javac.log recovery/candidate_source_files.txt \
+            recovery/candidate_class_set_missing.txt recovery/candidate_class_set_extra.txt \
+            recovery/candidate_class_set_missing_raw.txt recovery/candidate_class_set_extra_raw.txt \
             recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
             recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
             recovery/vineflower-hard-tail
