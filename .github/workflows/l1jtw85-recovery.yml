@@ -50,6 +50,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-donor-abi.py
 
+      - name: Probe protobuf af synthetic bytecode
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-af-bytecode.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
