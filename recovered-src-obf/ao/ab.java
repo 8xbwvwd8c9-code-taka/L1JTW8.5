@@ -76,42 +76,34 @@ public class ab {
         return this.c.get(houseId);
     }
 
-    public void a(i house) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE house SET house_name=?, house_area=?, location=?, keeper_id=?, is_on_sale=?, is_purchase_basement=?, tax_deadline=?,  deadline=?, price=?, old_owner=?, old_owner_id=?, bidder=?, bidder_id=? WHERE house_id=?");
-                    pstm.setString(1, house.c());
-                    pstm.setInt(2, house.d());
-                    pstm.setString(3, house.e());
-                    pstm.setInt(4, house.f());
-                    pstm.setBoolean(5, house.g());
-                    pstm.setBoolean(6, house.h());
-                    pstm.setTimestamp(7, house.i());
-                    pstm.setTimestamp(8, house.j());
-                    pstm.setInt(9, house.k());
-                    pstm.setString(10, house.l());
-                    pstm.setInt(11, house.m());
-                    pstm.setString(12, house.n());
-                    pstm.setInt(13, house.o());
-                    pstm.setInt(14, house.b());
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+    public boolean a(i house) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE house SET house_name=?, house_area=?, location=?, keeper_id=?, is_on_sale=?, is_purchase_basement=?, tax_deadline=?,  deadline=?, price=?, old_owner=?, old_owner_id=?, bidder=?, bidder_id=? WHERE house_id=?");
+            pstm.setString(1, house.c());
+            pstm.setInt(2, house.d());
+            pstm.setString(3, house.e());
+            pstm.setInt(4, house.f());
+            pstm.setBoolean(5, house.g());
+            pstm.setBoolean(6, house.h());
+            pstm.setTimestamp(7, house.i());
+            pstm.setTimestamp(8, house.j());
+            pstm.setInt(9, house.k());
+            pstm.setString(10, house.l());
+            pstm.setInt(11, house.m());
+            pstm.setString(12, house.n());
+            pstm.setInt(13, house.o());
+            pstm.setInt(14, house.b());
+            pstm.execute();
+            return true;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }
