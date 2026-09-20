@@ -58,12 +58,17 @@ jobs:
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
 
+      - name: Extract protobuf override conflicts
+        shell: bash
+        run: python ./tools/recovery/extract-protobuf-override-conflicts.py
+
       - name: Print normalized fast result
         shell: bash
         run: |
           cat recovery/normalized_builder_collision_transform.json
           cat recovery/normalized_stage_compile.json
           cat recovery/normalized_stage_error_families.json
+          cat recovery/protobuf_override_conflicts.json
 
   recover:
     runs-on: ubuntu-latest
@@ -254,6 +259,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
 
+      - name: Extract protobuf override conflicts
+        shell: bash
+        run: python ./tools/recovery/extract-protobuf-override-conflicts.py
+
       - name: Per-class compile triage
         shell: bash
         run: python ./tools/recovery/per-class-compile.py
@@ -385,7 +394,9 @@ jobs:
             recovery/normalized_builder_collision_transform.json \
             recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md \
             recovery/normalized_stage_error_families.json \
-            recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md
+            recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md \
+            recovery/protobuf_override_conflicts.json \
+            recovery/PROTOBUF_OVERRIDE_CONFLICTS.md
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
