@@ -311,25 +311,35 @@ public class af {
     }
 
     public int b(u pc) {
-        int price = 0;
+        long price = 0L;
         q[] qArray = pc.j().d(40312);
         int n2 = qArray.length;
         int n3 = 0;
         while (n3 < n2) {
-            Timestamp dueTime;
             q item = qArray[n3];
             a data = this.f.get(item.M());
-            if (data != null && (dueTime = data.e) != null) {
+            if (data != null && data.e != null && item.E() > 0) {
                 Calendar cal = Calendar.getInstance();
-                if (cal.getTimeInMillis() < dueTime.getTime()) {
-                    price += 60 * item.E();
+                long refund = cal.getTimeInMillis() < data.e.getTime() ? 60L * (long)item.E() : 0L;
+                int removed = pc.j().f(item);
+                if (removed == item.E()) {
+                    if (this.a(item.M(), item.E())) {
+                        price += refund;
+                    } else {
+                        aq.a().a(item);
+                        q restored = pc.j().d(item);
+                        if (restored == null) {
+                            d.log(Level.SEVERE, "Failed to restore inn key after lease-release failure: " + item.M());
+                        }
+                    }
                 }
-                pc.j().f(item);
-                this.a(item.M(), item.E());
             }
             ++n3;
         }
-        return price;
+        if (price <= 0L) {
+            return 0;
+        }
+        return (int)Math.min(price, 2000000000L);
     }
 
     public boolean a(int roomid) {
