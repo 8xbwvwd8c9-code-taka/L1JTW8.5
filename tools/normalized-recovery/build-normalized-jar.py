@@ -174,10 +174,18 @@ def class_attr_offsets(body):
 rename_pairs = sorted(all_map.items(), key=lambda kv: len(kv[0]), reverse=True)
 
 def rewrite_text(text):
+    # Rewrite only JVM type identities, never arbitrary substrings.
+    # The previous raw .replace() could corrupt unrelated JDK names:
+    # old "ax/c" matched inside "javax/crypto/Cipher".
     out = text
     for old, new in rename_pairs:
-        if old in out:
-            out = out.replace(old, new)
+        if out == old:
+            out = new
+            continue
+        # Descriptors / signatures encode reference types with leading L.
+        out = out.replace("L" + old + ";", "L" + new + ";")
+        out = out.replace("L" + old + "<", "L" + new + "<")
+        out = out.replace("L" + old + ".", "L" + new + ".")
     return out
 
 def desired_inner_simple(old_internal):
