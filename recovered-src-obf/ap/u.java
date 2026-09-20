@@ -642,15 +642,22 @@ extends aq.f {
                 }
                 if (!(npc instanceof z)) continue;
                 z summon = (z)npc;
+                if (summon.ah()) {
+                    continue;
+                }
                 for (u visiblePc : aq.aq.a().f(summon)) {
                     if (visiblePc.fr() == this.fr()) continue;
                     visiblePc.a(new eh(summon, visiblePc, false));
                 }
+                summon.h();
             }
             for (e doll : this.el().values()) {
                 doll.e();
             }
             for (k follower : this.em().values()) {
+                if (follower == null || follower.ah()) {
+                    continue;
+                }
                 follower.V(true);
                 follower.a(follower.z(), follower.fs(), follower.ft(), follower.fb(), follower.fp());
                 follower.aa_();
