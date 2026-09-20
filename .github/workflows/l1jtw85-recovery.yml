@@ -51,6 +51,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
+      - name: Probe protobuf generic signature metadata
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-signature-metadata.py
+
       - name: Probe required protobuf runtime bridge flags
         shell: bash
         run: python ./tools/recovery/probe-protobuf-required-runtime-bridge-flags.py
