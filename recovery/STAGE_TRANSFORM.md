@@ -12,12 +12,25 @@ This transform builds an ephemeral source tree for compile validation. It does n
 - be/dc.java
 - bf/b.java
 
+## Vineflower protobuf overrides
+
+- an/a.java
+- an/b.java
+- an/c.java
+- an/d.java
+- an/e.java
+- an/f.java
+- an/g.java
+- an/h.java
+- an/i.java
+
 ## Java-source representation renames
 
-- be.do -> be.l1r_do_spmr (SourceFile=S_SPMR.java)
-- bf.do -> bf.l1r_do_s134 (SourceFile=S_134.java)
+- be.do -> be.l1r_do_spmr
+- bf.do -> bf.l1r_do_s134
+- ap.u field do:I -> l1r_do_field
+- ap.u method do:()I -> l1r_do_effect_heal
+- bg.b field do:I -> l1r_do_1014
+- bj.e field do:I -> l1r_do_157
 
-Reason: do is a Java language keyword although the JVM classfile name is valid.
-These are recovery-only names and must be normalized in later donor-vs-built ABI/class-set comparison.
-
-Files changed by rename references: **18**
+Keyword-member residuals before javac: **0**

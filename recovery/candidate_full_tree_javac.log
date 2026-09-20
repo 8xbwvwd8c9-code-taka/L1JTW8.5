@@ -1,327 +1,135 @@
 warning: [options] bootstrap class path not set in conjunction with -source 8
-_recovery-stage-src/an/a.java:70: error: '{' expected
-    public static final class an.a$a
-                                ^
-_recovery-stage-src/an/a.java:127: error: <identifier> expected
-        private an.a$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/a.java:132: error: <identifier> expected
-        private an.a$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/a.java:149: error: <identifier> expected
-        private an.a$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/a.java:696: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/a.java:2067: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/a.java:3487: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/a.java:4886: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/a.java:6254: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/b.java:70: error: '{' expected
-    public static final class an.b$a
-                                ^
-_recovery-stage-src/an/b.java:107: error: <identifier> expected
-        private an.b$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/b.java:112: error: <identifier> expected
-        private an.b$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/b.java:129: error: <identifier> expected
-        private an.b$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/b.java:446: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/b.java:1138: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/b.java:2524: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/b.java:5072: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/b.java:7306: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/c.java:70: error: '{' expected
-    public static final class an.c$a
-                                ^
-_recovery-stage-src/an/c.java:127: error: <identifier> expected
-        private an.c$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/c.java:132: error: <identifier> expected
-        private an.c$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/c.java:149: error: <identifier> expected
-        private an.c$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/c.java:714: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/c.java:2109: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/c.java:3480: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/c.java:4854: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/c.java:6249: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/d.java:70: error: '{' expected
-    public static final class an.d$a
-                                ^
-_recovery-stage-src/an/d.java:127: error: <identifier> expected
-        private an.d$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/d.java:132: error: <identifier> expected
-        private an.d$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/d.java:149: error: <identifier> expected
-        private an.d$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/d.java:696: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/d.java:2049: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/d.java:3408: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/d.java:4764: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/d.java:6162: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/e.java:70: error: '{' expected
-    public static final class an.e$a
-                                ^
-_recovery-stage-src/an/e.java:127: error: <identifier> expected
-        private an.e$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/e.java:132: error: <identifier> expected
-        private an.e$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/e.java:149: error: <identifier> expected
-        private an.e$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/e.java:714: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/e.java:2109: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/e.java:3468: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/e.java:4824: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/e.java:6195: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/f.java:70: error: '{' expected
-    public static final class an.f$a
-                                ^
-_recovery-stage-src/an/f.java:127: error: <identifier> expected
-        private an.f$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/f.java:132: error: <identifier> expected
-        private an.f$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/f.java:149: error: <identifier> expected
-        private an.f$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/f.java:696: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/f.java:2055: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/f.java:3457: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/f.java:4888: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/f.java:6346: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/g.java:70: error: '{' expected
-    public static final class an.g$a
-                                ^
-_recovery-stage-src/an/g.java:127: error: <identifier> expected
-        private an.g$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/g.java:132: error: <identifier> expected
-        private an.g$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/g.java:149: error: <identifier> expected
-        private an.g$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/g.java:727: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/g.java:2297: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/g.java:4069: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/g.java:5638: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/g.java:7093: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/h.java:70: error: '{' expected
-    public static final class an.h$a
-                                ^
-_recovery-stage-src/an/h.java:127: error: <identifier> expected
-        private an.h$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/h.java:132: error: <identifier> expected
-        private an.h$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/h.java:149: error: <identifier> expected
-        private an.h$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/h.java:732: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/h.java:2169: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/h.java:3540: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/h.java:4902: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/h.java:6276: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/i.java:66: error: '{' expected
-    public static final class an.i$a
-                                ^
-_recovery-stage-src/an/i.java:111: error: <identifier> expected
-        private an.i$a(p.a<?> builder) {
-                      ^
-_recovery-stage-src/an/i.java:116: error: <identifier> expected
-        private an.i$a(boolean noInit) {
-                      ^
-_recovery-stage-src/an/i.java:133: error: <identifier> expected
-        private an.i$a(a.h input, n extensionRegistry) throws s {
-                      ^
-_recovery-stage-src/an/i.java:560: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/i.java:1836: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/i.java:3211: error: not a statement
-                m;
-                ^
-_recovery-stage-src/an/i.java:4484: error: not a statement
-                m;
-                ^
-_recovery-stage-src/ap/u.java:298: error: <identifier> expected
-    private int do = 0;
+_recovery-stage-src/an/a.java:816: error: not a statement
+            an.a.a.m;
+                  ^
+_recovery-stage-src/an/a.java:2263: error: not a statement
+            an.a.c.m;
+                  ^
+_recovery-stage-src/an/a.java:3764: error: not a statement
+            an.a.e.m;
+                  ^
+_recovery-stage-src/an/a.java:5245: error: not a statement
+            an.a.g.m;
+                  ^
+_recovery-stage-src/an/a.java:6695: error: not a statement
+            an.a.i.m;
+                  ^
+_recovery-stage-src/an/b.java:560: error: not a statement
+            an.b.a.m;
+                  ^
+_recovery-stage-src/an/b.java:1299: error: not a statement
+            an.b.c.m;
+                  ^
+_recovery-stage-src/an/b.java:2756: error: not a statement
+            an.b.e.m;
+                  ^
+_recovery-stage-src/an/b.java:5442: error: not a statement
+            an.b.g.m;
+                  ^
+_recovery-stage-src/an/b.java:7804: error: not a statement
+            an.b.i.m;
+                  ^
+_recovery-stage-src/an/c.java:832: error: not a statement
+            an.c.a.m;
+                  ^
+_recovery-stage-src/an/c.java:2307: error: not a statement
+            an.c.c.m;
+                  ^
+_recovery-stage-src/an/c.java:3761: error: not a statement
+            an.c.e.m;
+                  ^
+_recovery-stage-src/an/c.java:5213: error: not a statement
+            an.c.g.m;
+                  ^
+_recovery-stage-src/an/c.java:6688: error: not a statement
+            an.c.i.m;
+                  ^
+_recovery-stage-src/an/d.java:815: error: not a statement
+            an.d.a.m;
+                  ^
+_recovery-stage-src/an/d.java:2249: error: not a statement
+            an.d.c.m;
+                  ^
+_recovery-stage-src/an/d.java:3687: error: not a statement
+            an.d.e.m;
+                  ^
+_recovery-stage-src/an/d.java:5127: error: not a statement
+            an.d.g.m;
+                  ^
+_recovery-stage-src/an/d.java:6604: error: not a statement
+            an.d.i.m;
+                  ^
+_recovery-stage-src/an/e.java:832: error: not a statement
+            an.e.a.m;
+                  ^
+_recovery-stage-src/an/e.java:2311: error: not a statement
+            an.e.c.m;
+                  ^
+_recovery-stage-src/an/e.java:3749: error: not a statement
+            an.e.e.m;
+                  ^
+_recovery-stage-src/an/e.java:5195: error: not a statement
+            an.e.g.m;
+                  ^
+_recovery-stage-src/an/e.java:6653: error: not a statement
+            an.e.i.m;
+                  ^
+_recovery-stage-src/an/f.java:819: error: not a statement
+            an.f.a.m;
+                  ^
+_recovery-stage-src/an/f.java:2269: error: not a statement
+            an.f.c.m;
+                  ^
+_recovery-stage-src/an/f.java:3761: error: not a statement
+            an.f.e.m;
+                  ^
+_recovery-stage-src/an/f.java:5270: error: not a statement
+            an.f.g.m;
+                  ^
+_recovery-stage-src/an/f.java:6811: error: not a statement
+            an.f.i.m;
+                  ^
+_recovery-stage-src/an/g.java:854: error: not a statement
+            an.g.a.m;
+                  ^
+_recovery-stage-src/an/g.java:2516: error: not a statement
+            an.g.c.m;
+                  ^
+_recovery-stage-src/an/g.java:4382: error: not a statement
+            an.g.e.m;
+                  ^
+_recovery-stage-src/an/g.java:6031: error: not a statement
+            an.g.g.m;
+                  ^
+_recovery-stage-src/an/g.java:7568: error: not a statement
+            an.g.i.m;
+                  ^
+_recovery-stage-src/an/h.java:849: error: not a statement
+            an.h.a.m;
+                  ^
+_recovery-stage-src/an/h.java:2381: error: not a statement
+            an.h.c.m;
+                  ^
+_recovery-stage-src/an/h.java:3841: error: not a statement
+            an.h.e.m;
+                  ^
+_recovery-stage-src/an/h.java:5297: error: not a statement
+            an.h.g.m;
+                  ^
+_recovery-stage-src/an/h.java:6755: error: not a statement
+            an.h.i.m;
+                  ^
+_recovery-stage-src/an/i.java:622: error: not a statement
+            i.a.m;
                ^
-_recovery-stage-src/ap/u.java:1917: error: <identifier> expected
-        this.do += i2;
-             ^
-_recovery-stage-src/ap/u.java:1917: error: not a statement
-        this.do += i2;
-            ^
-_recovery-stage-src/ap/u.java:1917: error: illegal start of expression
-        this.do += i2;
-                ^
-_recovery-stage-src/ap/u.java:1917: error: while expected
-        this.do += i2;
-                      ^
-_recovery-stage-src/ap/u.java:1918: error: illegal start of expression
-    }
-    ^
-_recovery-stage-src/ap/u.java:2988: error: <identifier> expected
-    public int do() {
-              ^
-_recovery-stage-src/ap/u.java:3117: error: <identifier> expected
-        return this.do;
-                    ^
-_recovery-stage-src/ap/u.java:3117: error: while expected
-        return this.do;
-                       ^
-_recovery-stage-src/ap/u.java:3118: error: illegal start of expression
-    }
-    ^
-_recovery-stage-src/aq/c.java:512: error: <identifier> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                   ^
-_recovery-stage-src/aq/c.java:512: error: -> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                       ^
-_recovery-stage-src/aq/c.java:512: error: illegal start of expression
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                        ^
-_recovery-stage-src/aq/c.java:512: error: <identifier> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                    ^
-_recovery-stage-src/aq/c.java:512: error: not a statement
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                     ^
-_recovery-stage-src/aq/c.java:512: error: -> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                        ^
-_recovery-stage-src/aq/c.java:512: error: not a statement
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                      ^
-_recovery-stage-src/aq/c.java:512: error: ';' expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                         ^
-_recovery-stage-src/aq/c.java:815: error: <identifier> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                   ^
-_recovery-stage-src/aq/c.java:815: error: -> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                       ^
-_recovery-stage-src/aq/c.java:815: error: illegal start of expression
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                        ^
-_recovery-stage-src/aq/c.java:815: error: <identifier> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                    ^
-_recovery-stage-src/aq/c.java:815: error: not a statement
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                     ^
-_recovery-stage-src/aq/c.java:815: error: -> expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                        ^
-_recovery-stage-src/aq/c.java:815: error: not a statement
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                      ^
-_recovery-stage-src/aq/c.java:815: error: ';' expected
-        if (this.d.do() > 0 && bi.i.a(100) < this.d.do()) {
-                                                         ^
-_recovery-stage-src/bg/b.java:229: error: <identifier> expected
-    public static final int do = 1014;
-                           ^
-_recovery-stage-src/bj/e.java:229: error: <identifier> expected
-    public static final int do = 157;
-                           ^
-108 errors
+_recovery-stage-src/an/i.java:1971: error: not a statement
+            i.c.m;
+               ^
+_recovery-stage-src/an/i.java:3426: error: not a statement
+            i.e.m;
+               ^
+_recovery-stage-src/an/i.java:4771: error: not a statement
+            i.g.m;
+               ^
+44 errors
 1 warning
