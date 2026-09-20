@@ -21,6 +21,15 @@ APP_PACKAGES = {
 ACC_BRIDGE = 0x0040
 ACC_SYNTHETIC = 0x1000
 
+JAVA_KEYWORDS = {
+    "abstract","assert","boolean","break","byte","case","catch","char","class","const",
+    "continue","default","do","double","else","enum","extends","final","finally","float",
+    "for","goto","if","implements","import","instanceof","int","interface","long","native",
+    "new","package","private","protected","public","return","short","static","strictfp",
+    "super","switch","synchronized","this","throw","throws","transient","try","void",
+    "volatile","while","true","false","null","_"
+}
+
 class ClassReader:
     def __init__(self, data: bytes):
         self.f = io.BytesIO(data)
@@ -186,6 +195,7 @@ affected_bridge = set()
 method_collisions = []
 field_collisions = []
 synthetic_members = []
+java_keyword_members = []
 
 for c in parsed:
     name = c["name"]
@@ -206,6 +216,16 @@ for c in parsed:
         affected_bridge.add(name)
 
     for member in c["fields"] + c["methods"]:
+        if member["name"] in JAVA_KEYWORDS:
+            java_keyword_members.append({
+                "Class": name.replace("/", "."),
+                "ClassKind": "ANONYMOUS" if is_anon else ("INNER" if is_inner else "TOP_LEVEL"),
+                "SourceFile": c["source_file"] or "",
+                "MemberKind": member["kind"],
+                "Name": member["name"],
+                "Descriptor": member["descriptor"],
+                "Synthetic": int(member["synthetic"]),
+            })
         if member["synthetic"] or member.get("bridge"):
             synthetic_members.append({
                 "Class": name.replace("/", "."),
@@ -274,6 +294,12 @@ with (OUT / "synthetic_members.csv").open("w", encoding="utf-8", newline="") as 
     w.writeheader()
     w.writerows(sorted(synthetic_members, key=lambda r: (r["Class"], r["MemberKind"], r["Name"], r["Descriptor"])))
 
+with (OUT / "java_keyword_members.csv").open("w", encoding="utf-8", newline="") as f:
+    fields = ["Class","ClassKind","SourceFile","MemberKind","Name","Descriptor","Synthetic"]
+    w = csv.DictWriter(f, fieldnames=fields)
+    w.writeheader()
+    w.writerows(sorted(java_keyword_members, key=lambda r: (r["Class"], r["MemberKind"], r["Name"], r["Descriptor"])))
+
 with (OUT / "jvm_signature_collisions.csv").open("w", encoding="utf-8", newline="") as f:
     fields = ["Class","Method","ArgsDescriptor","ReturnDescriptors","ReturnVariantCount"]
     w = csv.DictWriter(f, fieldnames=fields)
@@ -311,6 +337,8 @@ audit = {
     "bridge_affected_classes": len(affected_bridge),
     "jvm_return_type_only_method_collisions": len(method_collisions),
     "field_name_descriptor_collisions": len(field_collisions),
+    "java_keyword_members": len(java_keyword_members),
+    "java_keyword_member_classes": len({r["Class"] for r in java_keyword_members}),
 }
 
 (OUT / "protection_audit.json").write_text(
@@ -345,6 +373,7 @@ comparison.append(f"- Classes affected by synthetic members/class flag: **{audit
 comparison.append(f"- Bridge methods: **{audit['bridge_methods']}** across **{audit['bridge_affected_classes']}** classes")
 comparison.append(f"- Same-name/same-args methods differentiated only by return descriptor: **{audit['jvm_return_type_only_method_collisions']}**")
 comparison.append(f"- Same-name fields with multiple descriptors in one class: **{audit['field_name_descriptor_collisions']}**")
+comparison.append(f"- Java-keyword field/method names: **{audit['java_keyword_members']}** across **{audit['java_keyword_member_classes']}** classes")
 comparison.append("")
 comparison.append("## Interpretation gate")
 comparison.append("")
