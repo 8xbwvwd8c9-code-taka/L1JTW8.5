@@ -55,7 +55,7 @@ for fam,count in families.most_common():
     for r in by_family[fam][:20]:
         md += [f"### {r['file']}:{r['line']} — {r['message']}",'','```text',*r['context'],'```','']
 MD.write_text('\n'.join(md)+'\n',encoding='utf-8')
-focus_files={'l1r/be/S_ProtoBuffers.java','l1r/aq/L1Craft.java','l1r/aq/L1Alchemy.java'}
+focus_files={'l1r/be/S_ProtoBuffers.java','l1r/aq/L1Craft.java','l1r/aq/L1Alchemy.java','l1r/ap/L1DoorInstance.java','l1r/as/L1ThebesBattle.java','l1r/ap/L1MonsterInstance.java','l1r/aq/L1Character.java','l1r/ap/L1PetInstance.java'}
 focus=[r for r in rows if r['file'] in focus_files]
 print(json.dumps({
   'nonprotobuf_error_headers':len(rows),
