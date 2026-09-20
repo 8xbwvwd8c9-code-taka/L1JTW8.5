@@ -223,7 +223,7 @@ public class Opcodes {
    public static final int dl = 152;
    public static final int dm = 153;
    public static final int dn = 156;
-   public static final int do = 157;
+   public static final int l1r_do_157 = 157;
    public static final int dp = 161;
    public static final int dq = 162;
    public static final int dr = 163;

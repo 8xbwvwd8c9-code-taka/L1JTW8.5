@@ -223,7 +223,7 @@ public class L1SkillId {
    public static final int dl = 1011;
    public static final int dm = 1012;
    public static final int dn = 1013;
-   public static final int do = 1014;
+   public static final int l1r_do_1014 = 1014;
    public static final int dp = 1015;
    public static final int dq = 1016;
    public static final int dr = 1017;

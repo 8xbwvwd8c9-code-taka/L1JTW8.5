@@ -852,7 +852,7 @@ public final class PBMessageALL7 {
          }
 
          private void au() {
-            PBMessageALL7.a.m;
+            PBMessageALL7.a.af();
          }
 
          private static PBMessageALL7.a.a av() {
@@ -2514,7 +2514,7 @@ public final class PBMessageALL7 {
          }
 
          private void aM() {
-            PBMessageALL7.c.m;
+            PBMessageALL7.c.ar();
          }
 
          private static PBMessageALL7.c.a aN() {
@@ -4380,7 +4380,7 @@ public final class PBMessageALL7 {
          }
 
          private void au() {
-            PBMessageALL7.e.m;
+            PBMessageALL7.e.af();
          }
 
          private static PBMessageALL7.e.a av() {
@@ -6029,7 +6029,7 @@ public final class PBMessageALL7 {
          }
 
          private void au() {
-            PBMessageALL7.g.m;
+            PBMessageALL7.g.af();
          }
 
          private static PBMessageALL7.g.a av() {
@@ -7566,7 +7566,7 @@ public final class PBMessageALL7 {
          }
 
          private void au() {
-            PBMessageALL7.i.m;
+            PBMessageALL7.i.af();
          }
 
          private static PBMessageALL7.i.a av() {

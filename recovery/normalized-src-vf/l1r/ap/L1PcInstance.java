@@ -325,7 +325,7 @@ public class L1PcInstance extends L1Character {
    private int dl = 0;
    private int dm = 0;
    private int dn = 0;
-   private int do = 0;
+   private int l1r_do_field = 0;
    private boolean dp = false;
    private int dq;
    private int dr = 0;
@@ -2035,7 +2035,7 @@ public class L1PcInstance extends L1Character {
    }
 
    public void ab(int var1) {
-      this.do += var1;
+      this.l1r_do_field += var1;
    }
 
    public void ac(int var1) {
@@ -3106,7 +3106,7 @@ public class L1PcInstance extends L1Character {
       this.cR = var1;
    }
 
-   public int do() {
+   public int l1r_do_effect_heal() {
       return this.cS;
    }
 
@@ -3235,7 +3235,7 @@ public class L1PcInstance extends L1Character {
    }
 
    public int dK() {
-      return this.do;
+      return this.l1r_do_field;
    }
 
    public boolean dL() {

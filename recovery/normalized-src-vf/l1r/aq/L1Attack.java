@@ -598,7 +598,7 @@ public class L1Attack {
          this.d.a(this.d.ea() + 130 + Random.a(40));
       }
 
-      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+      if (this.d.l1r_do_effect_heal() > 0 && Random.a(100) < this.d.l1r_do_effect_heal()) {
          this.d.a(new S_SkillSound(this.d.fr(), 8909));
          this.d.b(new S_SkillSound(this.d.fr(), 8909));
          this.d.a(this.d.ea() + 130 + Random.a(40));
@@ -962,7 +962,7 @@ public class L1Attack {
          this.d.a(this.d.ea() + 130 + Random.a(40));
       }
 
-      if (this.d.do() > 0 && Random.a(100) < this.d.do()) {
+      if (this.d.l1r_do_effect_heal() > 0 && Random.a(100) < this.d.l1r_do_effect_heal()) {
          this.d.a(new S_SkillSound(this.d.fr(), 8909));
          this.d.b(new S_SkillSound(this.d.fr(), 8909));
          this.d.a(this.d.ea() + 130 + Random.a(40));

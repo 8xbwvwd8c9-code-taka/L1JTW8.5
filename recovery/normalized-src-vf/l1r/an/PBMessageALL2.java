@@ -558,7 +558,7 @@ public final class PBMessageALL2 {
          }
 
          private void H() {
-            PBMessageALL2.a.m;
+            PBMessageALL2.a.B();
          }
 
          private static PBMessageALL2.a.a I() {
@@ -1297,7 +1297,7 @@ public final class PBMessageALL2 {
          }
 
          private void y() {
-            PBMessageALL2.c.m;
+            PBMessageALL2.c.v();
          }
 
          private static PBMessageALL2.c.a z() {
@@ -2754,7 +2754,7 @@ public final class PBMessageALL2 {
          }
 
          private void bt() {
-            PBMessageALL2.e.m;
+            PBMessageALL2.e.aR();
          }
 
          private static PBMessageALL2.e.a bu() {
@@ -5440,7 +5440,7 @@ public final class PBMessageALL2 {
          }
 
          private void bn() {
-            PBMessageALL2.g.m;
+            PBMessageALL2.g.aN();
          }
 
          private static PBMessageALL2.g.a bo() {
@@ -7802,7 +7802,7 @@ public final class PBMessageALL2 {
          }
 
          private void aM() {
-            PBMessageALL2.i.m;
+            PBMessageALL2.i.ar();
          }
 
          private static PBMessageALL2.i.a aN() {
