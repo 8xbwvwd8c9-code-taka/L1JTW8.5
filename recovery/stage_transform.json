@@ -50,5 +50,228 @@
     "bg/c.java",
     "bi/g.java"
   ],
+  "protobuf_empty_if_repairs": [
+    {
+      "file": "an/a.java",
+      "line": 816,
+      "expression": "an.a.a.m"
+    },
+    {
+      "file": "an/a.java",
+      "line": 2263,
+      "expression": "an.a.c.m"
+    },
+    {
+      "file": "an/a.java",
+      "line": 3764,
+      "expression": "an.a.e.m"
+    },
+    {
+      "file": "an/a.java",
+      "line": 5245,
+      "expression": "an.a.g.m"
+    },
+    {
+      "file": "an/a.java",
+      "line": 6695,
+      "expression": "an.a.i.m"
+    },
+    {
+      "file": "an/b.java",
+      "line": 560,
+      "expression": "an.b.a.m"
+    },
+    {
+      "file": "an/b.java",
+      "line": 1299,
+      "expression": "an.b.c.m"
+    },
+    {
+      "file": "an/b.java",
+      "line": 2756,
+      "expression": "an.b.e.m"
+    },
+    {
+      "file": "an/b.java",
+      "line": 5442,
+      "expression": "an.b.g.m"
+    },
+    {
+      "file": "an/b.java",
+      "line": 7804,
+      "expression": "an.b.i.m"
+    },
+    {
+      "file": "an/c.java",
+      "line": 832,
+      "expression": "an.c.a.m"
+    },
+    {
+      "file": "an/c.java",
+      "line": 2307,
+      "expression": "an.c.c.m"
+    },
+    {
+      "file": "an/c.java",
+      "line": 3761,
+      "expression": "an.c.e.m"
+    },
+    {
+      "file": "an/c.java",
+      "line": 5213,
+      "expression": "an.c.g.m"
+    },
+    {
+      "file": "an/c.java",
+      "line": 6688,
+      "expression": "an.c.i.m"
+    },
+    {
+      "file": "an/d.java",
+      "line": 815,
+      "expression": "an.d.a.m"
+    },
+    {
+      "file": "an/d.java",
+      "line": 2249,
+      "expression": "an.d.c.m"
+    },
+    {
+      "file": "an/d.java",
+      "line": 3687,
+      "expression": "an.d.e.m"
+    },
+    {
+      "file": "an/d.java",
+      "line": 5127,
+      "expression": "an.d.g.m"
+    },
+    {
+      "file": "an/d.java",
+      "line": 6604,
+      "expression": "an.d.i.m"
+    },
+    {
+      "file": "an/e.java",
+      "line": 832,
+      "expression": "an.e.a.m"
+    },
+    {
+      "file": "an/e.java",
+      "line": 2311,
+      "expression": "an.e.c.m"
+    },
+    {
+      "file": "an/e.java",
+      "line": 3749,
+      "expression": "an.e.e.m"
+    },
+    {
+      "file": "an/e.java",
+      "line": 5195,
+      "expression": "an.e.g.m"
+    },
+    {
+      "file": "an/e.java",
+      "line": 6653,
+      "expression": "an.e.i.m"
+    },
+    {
+      "file": "an/f.java",
+      "line": 819,
+      "expression": "an.f.a.m"
+    },
+    {
+      "file": "an/f.java",
+      "line": 2269,
+      "expression": "an.f.c.m"
+    },
+    {
+      "file": "an/f.java",
+      "line": 3761,
+      "expression": "an.f.e.m"
+    },
+    {
+      "file": "an/f.java",
+      "line": 5270,
+      "expression": "an.f.g.m"
+    },
+    {
+      "file": "an/f.java",
+      "line": 6811,
+      "expression": "an.f.i.m"
+    },
+    {
+      "file": "an/g.java",
+      "line": 854,
+      "expression": "an.g.a.m"
+    },
+    {
+      "file": "an/g.java",
+      "line": 2516,
+      "expression": "an.g.c.m"
+    },
+    {
+      "file": "an/g.java",
+      "line": 4382,
+      "expression": "an.g.e.m"
+    },
+    {
+      "file": "an/g.java",
+      "line": 6031,
+      "expression": "an.g.g.m"
+    },
+    {
+      "file": "an/g.java",
+      "line": 7568,
+      "expression": "an.g.i.m"
+    },
+    {
+      "file": "an/h.java",
+      "line": 849,
+      "expression": "an.h.a.m"
+    },
+    {
+      "file": "an/h.java",
+      "line": 2381,
+      "expression": "an.h.c.m"
+    },
+    {
+      "file": "an/h.java",
+      "line": 3841,
+      "expression": "an.h.e.m"
+    },
+    {
+      "file": "an/h.java",
+      "line": 5297,
+      "expression": "an.h.g.m"
+    },
+    {
+      "file": "an/h.java",
+      "line": 6755,
+      "expression": "an.h.i.m"
+    },
+    {
+      "file": "an/i.java",
+      "line": 622,
+      "expression": "i.a.m"
+    },
+    {
+      "file": "an/i.java",
+      "line": 1971,
+      "expression": "i.c.m"
+    },
+    {
+      "file": "an/i.java",
+      "line": 3426,
+      "expression": "i.e.m"
+    },
+    {
+      "file": "an/i.java",
+      "line": 4771,
+      "expression": "i.g.m"
+    }
+  ],
+  "protobuf_empty_if_repair_count": 44,
   "keyword_member_residuals": []
 }

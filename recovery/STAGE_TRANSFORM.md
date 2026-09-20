@@ -33,4 +33,10 @@ This transform builds an ephemeral source tree for compile validation. It does n
 - bg.b field do:I -> l1r_do_1014
 - bj.e field do:I -> l1r_do_157
 
+## Protobuf builder legality repair
+
+- Donor-verified empty boolean-read sites repaired: **44**
+- Repair form: bare boolean field read -> empty if expression.
+- Donor proof: synthetic accessor ()Z -> pop -> return.
+
 Keyword-member residuals before javac: **0**
