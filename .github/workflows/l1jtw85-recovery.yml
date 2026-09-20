@@ -1,0 +1,140 @@
+name: L1JTW8.5 Recovery
+
+on:
+  push:
+    branches:
+      - analysis/l1jtw85-recovery
+    paths:
+      - ".github/workflows/l1jtw85-recovery.yml"
+      - "tools/recovery/**"
+      - "recovery/target_classes.txt"
+      - "l1jserver2.jar"
+      - "db/8.5.sql"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  recover:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Export target javap
+        shell: pwsh
+        run: ./tools/recovery/export-target-javap.ps1
+
+      - name: Extract DB table index
+        shell: pwsh
+        run: ./tools/recovery/extract-db-table-index.ps1
+
+      - name: Download CFR
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/cfr.jar" \
+            "https://repo1.maven.org/maven2/org/benf/cfr/0.152/cfr-0.152.jar"
+
+      - name: Decompile JAR
+        shell: pwsh
+        run: ./tools/recovery/decompile-cfr.ps1 -CfrJar "$env:RUNNER_TEMP/cfr.jar"
+
+      - name: Keep application core only
+        shell: python
+        run: |
+          from pathlib import Path
+          import shutil
+
+          root = Path("recovered-src-obf")
+          allowed = {
+              "ai","aj","ak","al","am","an","ao","ap","aq","ar","as","at",
+              "au","av","aw","ax","ay","az","ba","bb","bc","bd","be","bf",
+              "bg","bh","bi","bj"
+          }
+
+          for child in list(root.iterdir()):
+              if child.name == "l1j":
+                  for sub in list(child.iterdir()):
+                      if sub.name != "server":
+                          if sub.is_dir():
+                              shutil.rmtree(sub)
+                          else:
+                              sub.unlink()
+                  continue
+              if child.name not in allowed:
+                  if child.is_dir():
+                      shutil.rmtree(child)
+                  else:
+                      child.unlink()
+
+      - name: Write recovery summary
+        shell: python
+        run: |
+          from pathlib import Path
+          import csv
+          from collections import Counter
+
+          src = Path("recovered-src-obf")
+          java = list(src.rglob("*.java"))
+          javap = list(Path("recovery/javap-targets").glob("*.javap.txt"))
+
+          with open("recovery/core_class_map.csv", encoding="utf-8-sig", newline="") as f:
+              rows = list(csv.DictReader(f))
+
+          cats = Counter(r["Category"] for r in rows)
+          tables = []
+          db_index = Path("recovery/db_table_index.csv")
+          if db_index.exists():
+              with db_index.open(encoding="utf-8-sig", newline="") as f:
+                  tables = list(csv.DictReader(f))
+
+          out = [
+              "# Generated Recovery Summary",
+              "",
+              f"- Core mapping rows: **{len(rows)}**",
+              f"- Decompiled Java files retained: **{len(java)}**",
+              f"- Target javap files: **{len(javap)}**",
+              f"- DB tables indexed: **{len(tables)}**",
+              "",
+              "## Category counts",
+              "",
+              "| Category | Classes |",
+              "|---|---:|",
+          ]
+          out += [f"| {k} | {v} |" for k, v in sorted(cats.items())]
+          out += [
+              "",
+              "## Notes",
+              "",
+              "- This output preserves obfuscated package/class identities.",
+              "- SourceFile mapping remains the identity authority.",
+              "- No gameplay behavior is modified by this workflow.",
+          ]
+          Path("recovery/GENERATED_SUMMARY.md").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+      - name: Commit generated recovery artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/db_table_index.csv recovery/javap-targets recovery/GENERATED_SUMMARY.md recovered-src-obf
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "research: generate L1JTW8.5 recovered core [skip ci]"
+          git push
