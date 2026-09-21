@@ -1,0 +1,27 @@
+{
+  "experiment": "BUILDER_CURRENT_F_KF_TYPED_ALIAS_P_A",
+  "target_class": "l1rpb/p$a.class",
+  "erased_bridge": {
+    "name": "f",
+    "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+    "flags": 4097
+  },
+  "typed_provider": {
+    "name": "d",
+    "descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;",
+    "flags": 1
+  },
+  "alias": {
+    "name": "f",
+    "descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;"
+  },
+  "source_collision_scan": "zero f(k$f) declarations found across PBMessageALL*.java recovered source",
+  "provider_choice": "single donor-proven p$a provider",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_method_count": 1,
+  "gameplay_logic_changed": false,
+  "pass_signal": "44 current f(k$f) obligations disappear or advance; parser/nonprotobuf remain 0"
+}
