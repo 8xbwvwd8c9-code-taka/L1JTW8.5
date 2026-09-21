@@ -99,6 +99,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
 
+      - name: Probe next protobuf abstract obligations
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-next-obligations.py
+
       - name: Probe protobuf generic signature metadata
         shell: bash
         run: python ./tools/recovery/probe-protobuf-signature-metadata.py
