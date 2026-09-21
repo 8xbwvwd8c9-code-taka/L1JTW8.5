@@ -1,61 +1,28 @@
 # Protobuf Builder Provider Map
 
 - x$a abstract methods: **26**
-- all have exact provider: **False**
+- synthetic provider pairs: **22**
+- safe typed aliases: **21**
+- unproven synthetic pairs: **1**
 
-## j()Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'e', 'descriptor': '()Ll1rpb/a$a;'}, {'owner': None, 'name': 'b', 'descriptor': '(Ll1rpb/aa;)Ljava/util/List;'}]; signatures=[]
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'ah', 'descriptor': '()Ll1rpb/p$a;'}]; signatures=[]
-## c(Ll1rpb/x;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/x;)Ll1rpb/a$a;'}]; signatures=[]
-## ak()Ll1rpb/x;
-## aj()Ll1rpb/x;
-## i()Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'd', 'descriptor': '()Ll1rpb/a$a;'}]; signatures=[]
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'ai', 'descriptor': '()Ll1rpb/p$a;'}]; signatures=[]
-## d(Ll1rpb/h;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/h;)Ll1rpb/a$a;'}]; signatures=[]
-## d(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;'}]; signatures=[]
-## J()Ll1rpb/k$a;
-- l1rpb.p$a: flags=ACC_PUBLIC; invokes=[{'owner': None, 'name': 'l', 'descriptor': '()Ll1rpb/p$g;'}, {'owner': 'l1rpb/p$g', 'name': 'a', 'descriptor': '(Ll1rpb/p$g;)Ll1rpb/k$a;'}]; signatures=[]
-## g(Ll1rpb/k$f;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC; invokes=[{'owner': None, 'name': 'l', 'descriptor': '()Ll1rpb/p$g;'}, {'owner': 'l1rpb/p$g', 'name': 'a', 'descriptor': '(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;'}]; signatures=[]
-## a(Ll1rpb/k$f;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC; invokes=[]; signatures=[]
-- l1rpb.p$a: flags=ACC_PUBLIC; invokes=[{'owner': None, 'name': 'l', 'descriptor': '()Ll1rpb/p$g;'}, {'owner': 'l1rpb/p$g', 'name': 'a', 'descriptor': '(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;'}]; signatures=[]
-## d(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;'}]; signatures=[]
-## f(Ll1rpb/k$f;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'd', 'descriptor': '(Ll1rpb/k$f;)Ll1rpb/p$a;'}]; signatures=[]
-## b(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;'}]; signatures=[]
-## c(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'b', 'descriptor': '(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;'}]; signatures=[]
-## e(Ll1rpb/ap;)Ll1rpb/x$a;
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'c', 'descriptor': '(Ll1rpb/ap;)Ll1rpb/p$a;'}]; signatures=[]
-## b(Ll1rpb/ap;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/ap;)Ll1rpb/a$a;'}]; signatures=[]
-- l1rpb.p$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'd', 'descriptor': '(Ll1rpb/ap;)Ll1rpb/p$a;'}]; signatures=[]
-## d(Ll1rpb/g;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/g;)Ll1rpb/a$a;'}]; signatures=[]
-## d(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;'}]; signatures=[]
-## d([B)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '([B)Ll1rpb/a$a;'}]; signatures=[]
-## d([BII)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '([BII)Ll1rpb/a$a;'}]; signatures=[]
-## d([BLl1rpb/n;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '([BLl1rpb/n;)Ll1rpb/a$a;'}]; signatures=[]
-## d([BIILl1rpb/n;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '([BIILl1rpb/n;)Ll1rpb/a$a;'}]; signatures=[]
-## e(Ljava/io/InputStream;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ljava/io/InputStream;)Ll1rpb/a$a;'}]; signatures=[]
-## e(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;
-- l1rpb.a$a: flags=ACC_PUBLIC, ACC_SYNTHETIC; invokes=[{'owner': None, 'name': 'a', 'descriptor': '(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;'}]; signatures=[]
-## b(Ljava/io/InputStream;)Z
-- l1rpb.a$a: flags=ACC_PUBLIC; invokes=[{'owner': 'l1rpb/b$a', 'name': 'b', 'descriptor': '(Ljava/io/InputStream;)Z'}]; signatures=[]
-- l1rpb.b$a: flags=ACC_PUBLIC; invokes=[{'owner': 'l1rpb/n', 'name': 'g', 'descriptor': '()Ll1rpb/n;'}, {'owner': None, 'name': 'b', 'descriptor': '(Ljava/io/InputStream;Ll1rpb/n;)Z'}]; signatures=[]
-## b(Ljava/io/InputStream;Ll1rpb/n;)Z
-- l1rpb.a$a: flags=ACC_PUBLIC; invokes=[{'owner': 'l1rpb/b$a', 'name': 'b', 'descriptor': '(Ljava/io/InputStream;Ll1rpb/n;)Z'}]; signatures=[]
-- l1rpb.b$a: flags=ACC_PUBLIC; invokes=[{'owner': 'java/io/InputStream', 'name': 'read', 'descriptor': '()I'}, {'owner': 'l1rpb/h', 'name': 'a', 'descriptor': '(ILjava/io/InputStream;)I'}, {'owner': None, 'name': 'c', 'descriptor': '(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/b$a;'}]; signatures=[]
+- SAFE l1rpb.a$a.j()Ll1rpb/a$a; <- e()Ll1rpb/a$a; Signature=['()TBuilderType;']
+- SAFE l1rpb.p$a.j()Ll1rpb/p$a; <- ah()Ll1rpb/p$a; Signature=['()TBuilderType;']
+- SAFE l1rpb.a$a.c(Ll1rpb/x;)Ll1rpb/a$a; <- a(Ll1rpb/x;)Ll1rpb/a$a; Signature=['(Ll1rpb/x;)TBuilderType;']
+- SAFE l1rpb.p$a.i()Ll1rpb/p$a; <- ai()Ll1rpb/p$a; Signature=['()TBuilderType;']
+- SAFE l1rpb.a$a.d(Ll1rpb/h;)Ll1rpb/a$a; <- a(Ll1rpb/h;)Ll1rpb/a$a; Signature=['(Ll1rpb/h;)TBuilderType;']
+- SAFE l1rpb.a$a.d(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a; <- a(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a; Signature=['(Ll1rpb/h;Ll1rpb/n;)TBuilderType;']
+- SAFE l1rpb.p$a.d(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a; <- a(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a; Signature=['(Ll1rpb/k$f;Ljava/lang/Object;)TBuilderType;']
+- SAFE l1rpb.p$a.f(Ll1rpb/k$f;)Ll1rpb/p$a; <- d(Ll1rpb/k$f;)Ll1rpb/p$a; Signature=['(Ll1rpb/k$f;)TBuilderType;']
+- SAFE l1rpb.p$a.b(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a; <- a(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a; Signature=['(Ll1rpb/k$f;ILjava/lang/Object;)TBuilderType;']
+- SAFE l1rpb.p$a.c(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a; <- b(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a; Signature=['(Ll1rpb/k$f;Ljava/lang/Object;)TBuilderType;']
+- SAFE l1rpb.p$a.e(Ll1rpb/ap;)Ll1rpb/p$a; <- c(Ll1rpb/ap;)Ll1rpb/p$a; Signature=['(Ll1rpb/ap;)TBuilderType;']
+- SAFE l1rpb.a$a.b(Ll1rpb/ap;)Ll1rpb/a$a; <- a(Ll1rpb/ap;)Ll1rpb/a$a; Signature=['(Ll1rpb/ap;)TBuilderType;']
+- SAFE l1rpb.p$a.b(Ll1rpb/ap;)Ll1rpb/p$a; <- d(Ll1rpb/ap;)Ll1rpb/p$a; Signature=['(Ll1rpb/ap;)TBuilderType;']
+- SAFE l1rpb.a$a.d(Ll1rpb/g;)Ll1rpb/a$a; <- a(Ll1rpb/g;)Ll1rpb/a$a; Signature=['(Ll1rpb/g;)TBuilderType;']
+- SAFE l1rpb.a$a.d(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a; <- a(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a; Signature=['(Ll1rpb/g;Ll1rpb/n;)TBuilderType;']
+- SAFE l1rpb.a$a.d([B)Ll1rpb/a$a; <- a([B)Ll1rpb/a$a; Signature=['([B)TBuilderType;']
+- SAFE l1rpb.a$a.d([BII)Ll1rpb/a$a; <- a([BII)Ll1rpb/a$a; Signature=['([BII)TBuilderType;']
+- SAFE l1rpb.a$a.d([BLl1rpb/n;)Ll1rpb/a$a; <- a([BLl1rpb/n;)Ll1rpb/a$a; Signature=['([BLl1rpb/n;)TBuilderType;']
+- SAFE l1rpb.a$a.d([BIILl1rpb/n;)Ll1rpb/a$a; <- a([BIILl1rpb/n;)Ll1rpb/a$a; Signature=['([BIILl1rpb/n;)TBuilderType;']
+- SAFE l1rpb.a$a.e(Ljava/io/InputStream;)Ll1rpb/a$a; <- a(Ljava/io/InputStream;)Ll1rpb/a$a; Signature=['(Ljava/io/InputStream;)TBuilderType;']
+- SAFE l1rpb.a$a.e(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a; <- a(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a; Signature=['(Ljava/io/InputStream;Ll1rpb/n;)TBuilderType;']
