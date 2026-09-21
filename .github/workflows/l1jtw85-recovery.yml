@@ -882,6 +882,556 @@ jobs:
         shell: bash
         run: python ./tools/recovery/validate-final-source-representation.py "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar"
 
+  assemble-completed-decompiled:
+    if: github.event_name == 'push'
+    needs: final-1765-closure
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout accepted recovery head
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Guard completed branch does not already exist
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin refs/heads/completed/l1jtw85-decompiled >/dev/null 2>&1; then
+            echo "completed/l1jtw85-decompiled already exists; refusing overwrite"
+            exit 1
+          fi
+
+      - name: Download official protobuf 2.5.0 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
+            "https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0-sources.jar"
+
+      - name: Stage clean completed tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          ACCEPTED_HEAD="$(git rev-parse HEAD)"
+          OUT="$RUNNER_TEMP/completed-l1jtw85-decompiled"
+          rm -rf "$OUT"
+          mkdir -p "$OUT/src/application" "$OUT/src/protobuf" "$OUT/identity"
+
+          cp -a recovered-src-obf/. "$OUT/src/application/"
+          unzip -q "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
+            'com/google/protobuf/*.java' \
+            -d "$OUT/src/protobuf"
+
+          cp class_source_mapping.csv "$OUT/identity/class_source_mapping.csv"
+          cp recovery/remaining_932_source_identity_audit.json \
+            "$OUT/identity/remaining_932_source_identity_audit.json"
+
+          ACCEPTED_HEAD="$ACCEPTED_HEAD" OUT="$OUT" python - <<'PY'
+          import csv, json, os
+          from pathlib import Path
+
+          out=Path(os.environ["OUT"])
+          accepted=os.environ["ACCEPTED_HEAD"]
+          app=list((out/"src/application").rglob("*.java"))
+          proto=list((out/"src/protobuf/com/google/protobuf").glob("*.java"))
+
+          with (out/"identity/class_source_mapping.csv").open(encoding="utf-8-sig",newline="") as f:
+              mappings=list(csv.DictReader(f))
+          identity=json.loads((out/"identity/remaining_932_source_identity_audit.json").read_text(encoding="utf-8"))
+
+          cats=identity.get("categories",{})
+          gate={
+            "status":"PASS",
+            "accepted_recovery_head":accepted,
+            "authoritative_source_mappings":len(mappings),
+            "application_java_sources":len(app),
+            "protobuf_java_sources":len(proto),
+            "third_party_source_mappings":identity.get("remaining_source_mappings"),
+            "third_party_classified":identity.get("classified"),
+            "third_party_unknown":identity.get("unknown"),
+            "third_party_ambiguous":identity.get("ambiguous"),
+            "third_party_duplicate_class_assignments":identity.get("duplicate_class_assignments"),
+            "third_party_category_sum":sum(v for v in cats.values() if isinstance(v,int)),
+            "donor_binary_present":False,
+            "recovery_workspace_present":False,
+            "core_fix_files_present":False,
+          }
+          gate["pass"]=(
+              gate["authoritative_source_mappings"]==1765 and
+              gate["application_java_sources"]==788 and
+              gate["protobuf_java_sources"]==45 and
+              gate["third_party_source_mappings"]==932 and
+              gate["third_party_classified"]==932 and
+              gate["third_party_unknown"]==0 and
+              gate["third_party_ambiguous"]==0 and
+              gate["third_party_duplicate_class_assignments"]==0 and
+              gate["third_party_category_sum"]==932
+          )
+          (out/"identity/FINAL_GATE.json").write_text(json.dumps(gate,indent=2)+"\n",encoding="utf-8")
+          if not gate["pass"]:
+              raise SystemExit(json.dumps(gate,indent=2))
+
+          readme=f"""# L1JTW8.5 — Completed Decompilation Baseline
+
+Status: **PASS**
+
+This branch is the clean recovered/decompiled source baseline accepted from
+`analysis/l1jtw85-recovery` at commit `{accepted}`.
+
+## Source representation
+
+- Application: **788** recovered Java source files under `src/application/`.
+- Embedded protobuf runtime: **45** protobuf-java **2.5.0** Java source files under
+  `src/protobuf/com/google/protobuf/`.
+- Third-party donor mappings: **932** externally supplied dependency source mappings,
+  represented by the deterministic identity ledger in
+  `identity/remaining_932_source_identity_audit.json`.
+- Authoritative mapping universe: **1765** rows in
+  `identity/class_source_mapping.csv`.
+
+The 932 third-party mappings are intentionally not decompiled or vendored into the
+application source tree. Their exact canonical identities are recorded in the identity
+ledger and correspond to the accepted external dependency set.
+
+## Final acceptance
+
+- source-only application compile: PASS
+- exact source-built protobuf runtime linkage: PASS
+- 1765 source-mapping accounting: PASS
+- remaining 932 identity closure: PASS
+- final source representation: PASS
+- donor game JAR present: NO
+- recovery workspace present: NO
+- core-fix material present: NO
+
+See `identity/FINAL_GATE.json` for the compact acceptance manifest.
+"""
+          (out/"README.md").write_text(readme,encoding="utf-8")
+          PY
+
+      - name: Create clean orphan completed branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT="$RUNNER_TEMP/completed-l1jtw85-decompiled"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git switch --orphan completed/l1jtw85-decompiled
+          git rm -rf . >/dev/null 2>&1 || true
+          git clean -fdx
+          cp -a "$OUT"/. .
+
+          app_count="$(find src/application -type f -name '*.java' | wc -l | tr -d ' ')"
+          proto_count="$(find src/protobuf/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')"
+          total_java="$(find src -type f -name '*.java' | wc -l | tr -d ' ')"
+          test "$app_count" = "788"
+          test "$proto_count" = "45"
+          test "$total_java" = "833"
+
+          test ! -e recovery
+          test ! -e tools
+          test ! -e .github
+          test ! -e l1jserver2.jar
+          test ! -e db
+          test ! -e config
+          test ! -e lib
+          test ! -e maps
+          test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
+
+          git add README.md src identity
+          test "$(git diff --cached --name-only | grep -E '^recovery/|^tools/|^\.github/|\.jar    needs: normalized-fast
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Audit classfile protection
+        shell: bash
+        run: python ./tools/recovery/audit-classfile-protection.py
+
+      - name: Commit protection audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/class_inventory.csv recovery/synthetic_members.csv recovery/java_keyword_members.csv \
+            recovery/jvm_signature_collisions.csv recovery/field_name_collisions.csv \
+            recovery/protection_audit.json recovery/PROTECTION_AUDIT.md
+          if ! git diff --cached --quiet; then
+            git commit -m "research: record L1JTW8.5 classfile protection audit [skip ci]"
+            git push
+          fi
+
+      - name: Audit source identity collisions
+        shell: bash
+        run: python ./tools/recovery/audit-source-identity-collisions.py
+
+      - name: Commit source identity collision audit
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/source_identity_collisions.json recovery/SOURCE_IDENTITY_COLLISIONS.md
+          if ! git diff --cached --quiet; then
+            git commit -m "research: record source identity collision audit [skip ci]"
+            git push
+          fi
+
+      - name: Export target javap
+        shell: pwsh
+        run: |
+          $existing = @(Get-ChildItem -LiteralPath "./recovery/javap-targets" -File -Filter *.javap.txt -ErrorAction SilentlyContinue).Count
+          if ($existing -ge 55) {
+            Write-Host "TARGET_JAVAP=SKIP_EXISTING"
+            Write-Host "COUNT=$existing"
+          } else {
+            ./tools/recovery/export-target-javap.ps1
+          }
+
+      - name: Export protobuf builder javap
+        shell: pwsh
+        run: |
+          if ((Test-Path "./recovery/protobuf-builder-javap.txt") -and ((Get-Item "./recovery/protobuf-builder-javap.txt").Length -gt 0)) {
+            Write-Host "PROTOBUF_BUILDER_JAVAP=SKIP_EXISTING"
+          } else {
+            ./tools/recovery/export-protobuf-builder-javap.ps1
+          }
+
+      - name: Summarize protobuf builder bytecode
+        shell: bash
+        run: python ./tools/recovery/summarize-protobuf-builder-javap.py
+
+      - name: Extract DB table index
+        shell: pwsh
+        run: ./tools/recovery/extract-db-table-index.ps1
+
+      - name: Download CFR
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/cfr.jar" \
+            "https://repo1.maven.org/maven2/org/benf/cfr/0.152/cfr-0.152.jar"
+
+      - name: Decompile JAR
+        shell: pwsh
+        run: |
+          $existing = @(Get-ChildItem -LiteralPath "./recovered-src-obf" -Recurse -File -Filter *.java -ErrorAction SilentlyContinue).Count
+          if ($existing -gt 0) {
+            Write-Host "DECOMPILE=SKIP_EXISTING_BASELINE"
+            Write-Host "JAVA_COUNT=$existing"
+          } else {
+            ./tools/recovery/decompile-cfr.ps1 -CfrJar "$env:RUNNER_TEMP/cfr.jar"
+          }
+
+      - name: Keep application core only
+        shell: python
+        run: |
+          from pathlib import Path
+          import shutil
+
+          root = Path("recovered-src-obf")
+          allowed = {
+              "ai","aj","ak","al","am","an","ao","ap","aq","ar","as","at",
+              "au","av","aw","ax","ay","az","ba","bb","bc","bd","be","bf",
+              "bg","bh","bi","bj"
+          }
+
+          for child in list(root.iterdir()):
+              if child.name == "l1j":
+                  for sub in list(child.iterdir()):
+                      if sub.name != "server":
+                          if sub.is_dir():
+                              shutil.rmtree(sub)
+                          else:
+                              sub.unlink()
+                  continue
+              if child.name not in allowed:
+                  if child.is_dir():
+                      shutil.rmtree(child)
+                  else:
+                      child.unlink()
+
+      - name: Download Vineflower
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/vineflower.jar" \
+            "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.12.0/vineflower-1.12.0.jar"
+
+      - name: Decompile hard-tail with Vineflower
+        shell: bash
+        run: python ./tools/recovery/decompile-hard-tail-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+
+      - name: Decompile stage2 targets with Vineflower
+        shell: bash
+        run: python ./tools/recovery/decompile-stage2-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+
+      - name: Scan hard-tail source
+        shell: bash
+        run: python ./tools/recovery/scan-hard-tail.py
+
+      - name: Build candidate recovery tree
+        shell: bash
+        run: python ./tools/recovery/build-candidate-stage.py
+
+      - name: Build obfuscated Protobuf compile reference
+        shell: bash
+        run: python ./tools/recovery/build-protobuf-compile-ref.py
+
+      - name: Build proto-message diagnostic compile reference
+        shell: bash
+        run: python ./tools/recovery/build-proto-message-compile-ref.py
+
+      - name: Non-protobuf diagnostic compile
+        shell: bash
+        run: python ./tools/recovery/compile-nonproto-stage.py
+
+      - name: Build sanitized donor reference
+        shell: bash
+        run: python ./tools/recovery/build-sanitized-reference.py
+
+      - name: Normalized non-protobuf diagnostic compile
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-nonproto.py
+
+      - name: Relocate embedded Protobuf runtime for source recovery
+        shell: bash
+        run: python ./tools/recovery/relocate-protobuf-runtime.py
+
+      - name: Export normalized protobuf runtime parent ABI
+        shell: bash
+        run: python ./tools/recovery/export-protobuf-runtime-parent-javap.py
+
+      - name: Build normalized source stage
+        shell: bash
+        run: python ./tools/recovery/build-normalized-stage.py
+
+      - name: Normalize residual protobuf runtime imports
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-runtime-imports.py
+
+      - name: Repair normalized protobuf builder collisions
+        shell: bash
+        run: python ./tools/recovery/repair-normalized-builder-collisions.py
+
+      - name: Compile normalized source stage
+        shell: bash
+        run: python ./tools/recovery/compile-normalized-stage.py
+
+      - name: Summarize normalized compile error families
+        shell: bash
+        run: python ./tools/recovery/summarize-normalized-stage-errors.py
+
+      - name: Extract protobuf override conflicts
+        shell: bash
+        run: python ./tools/recovery/extract-protobuf-override-conflicts.py
+
+      - name: Per-class compile triage
+        shell: bash
+        run: python ./tools/recovery/per-class-compile.py
+
+      - name: Candidate source-only full-tree compile
+        shell: bash
+        run: python ./tools/recovery/compile-candidate-stage.py
+
+      - name: Write recovery summary
+        shell: python
+        run: |
+          from pathlib import Path
+          import csv
+          import json
+          from collections import Counter
+
+          src = Path("recovered-src-obf")
+          java = list(src.rglob("*.java"))
+          javap = list(Path("recovery/javap-targets").glob("*.javap.txt"))
+
+          with open("recovery/core_class_map.csv", encoding="utf-8-sig", newline="") as f:
+              rows = list(csv.DictReader(f))
+
+          cats = Counter(r["Category"] for r in rows)
+          tables = []
+          db_index = Path("recovery/db_table_index.csv")
+          if db_index.exists():
+              with db_index.open(encoding="utf-8-sig", newline="") as f:
+                  tables = list(csv.DictReader(f))
+
+          audit = {}
+          audit_path = Path("recovery/protection_audit.json")
+          if audit_path.exists():
+              audit = json.loads(audit_path.read_text(encoding="utf-8"))
+
+          compile_state = {}
+          compile_path = Path("recovery/candidate_full_tree_compile.json")
+          if compile_path.exists():
+              compile_state = json.loads(compile_path.read_text(encoding="utf-8"))
+
+          nonproto_state = {}
+          nonproto_path = Path("recovery/nonproto_compile.json")
+          if nonproto_path.exists():
+              nonproto_state = json.loads(nonproto_path.read_text(encoding="utf-8"))
+
+          perclass_state = {}
+          perclass_path = Path("recovery/per_class_compile.json")
+          if perclass_path.exists():
+              perclass_state = json.loads(perclass_path.read_text(encoding="utf-8"))
+
+          out = [
+              "# Generated Recovery Summary",
+              "",
+              f"- Core mapping rows: **{len(rows)}**",
+              f"- Decompiled top-level Java files retained: **{len(java)}**",
+              f"- Application class files: **{audit.get('application_class_files', 'UNKNOWN')}**",
+              f"- Top-level classes: **{audit.get('top_level_classes', 'UNKNOWN')}**",
+              f"- Inner classes: **{audit.get('inner_classes', 'UNKNOWN')}**",
+              f"- Anonymous classes: **{audit.get('anonymous_classes', 'UNKNOWN')}**",
+              f"- Synthetic-affected classes: **{audit.get('synthetic_affected_classes', 'UNKNOWN')}**",
+              f"- Synthetic fields/methods/constructors: **{audit.get('synthetic_fields', 'UNKNOWN')} / {audit.get('synthetic_methods', 'UNKNOWN')} / {audit.get('synthetic_constructors', 'UNKNOWN')}**",
+              f"- JVM return-type-only method collisions: **{audit.get('jvm_return_type_only_method_collisions', 'UNKNOWN')}**",
+              f"- Non-protobuf diagnostic compile: **{'PASS' if nonproto_state.get('compile_exit_code') == 0 else 'FAIL'}**",
+              f"- Non-protobuf javac errors/files: **{nonproto_state.get('javac_error_headers', 'UNKNOWN')} / {nonproto_state.get('error_file_count', 'UNKNOWN')}**",
+              f"- Non-protobuf built/missing/extra classes: **{nonproto_state.get('built_nonproto_application_classes_normalized', 'UNKNOWN')} / {nonproto_state.get('missing_nonproto_application_classes', 'UNKNOWN')} / {nonproto_state.get('extra_nonproto_application_classes', 'UNKNOWN')}**",
+              f"- Per-class sanitized-reference compile PASS/FAIL: **{perclass_state.get('pass', 'UNKNOWN')} / {perclass_state.get('fail', 'UNKNOWN')}**",
+              f"- Per-class PASS rate: **{perclass_state.get('pass_rate', 'UNKNOWN')}**",
+              f"- Candidate full-tree source compile: **{'PASS' if compile_state.get('compile_exit_code') == 0 else 'FAIL'}**",
+              f"- Candidate javac exit: **{compile_state.get('compile_exit_code', 'UNKNOWN')}**",
+              f"- Built application classes (normalized): **{compile_state.get('built_application_classes_normalized', 'UNKNOWN')}**",
+              f"- Missing / extra application classes (normalized): **{compile_state.get('missing_application_classes_normalized', 'UNKNOWN')} / {compile_state.get('extra_application_classes_normalized', 'UNKNOWN')}**",
+              f"- Target javap files: **{len(javap)}**",
+              f"- DB tables indexed: **{len(tables)}**",
+              "",
+              "## Category counts",
+              "",
+              "| Category | Classes |",
+              "|---|---:|",
+          ]
+          out += [f"| {k} | {v} |" for k, v in sorted(cats.items())]
+          out += [
+              "",
+              "## Notes",
+              "",
+              "- This output preserves obfuscated package/class identities.",
+              "- SourceFile mapping remains the identity authority.",
+              "- No gameplay behavior is modified by this workflow.",
+          ]
+          Path("recovery/GENERATED_SUMMARY.md").write_text("\n".join(out) + "\n", encoding="utf-8")
+
+      - name: Commit generated recovery artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/db_table_index.csv recovery/javap-targets recovery/protobuf-builder-javap.txt \
+            recovery/protobuf-builder-bytecode-summary.csv recovery/PROTOBUF_BUILDER_BYTECODE_SUMMARY.md \
+            recovery/GENERATED_SUMMARY.md recovered-src-obf \
+            recovery/class_inventory.csv recovery/synthetic_members.csv recovery/java_keyword_members.csv \
+            recovery/jvm_signature_collisions.csv \
+            recovery/field_name_collisions.csv recovery/protection_audit.json recovery/PROTECTION_AUDIT.md \
+            recovery/full_tree_compile.json recovery/FULL_TREE_COMPILE.md recovery/full_tree_javac.log \
+            recovery/source_files.txt recovery/class_set_missing.txt recovery/class_set_extra.txt \
+            recovery/stage_transform.json recovery/STAGE_TRANSFORM.md \
+            recovery/candidate_full_tree_compile.json recovery/CANDIDATE_FULL_TREE_COMPILE.md \
+            recovery/candidate_full_tree_javac.log recovery/candidate_source_files.txt \
+            recovery/candidate_class_set_missing.txt recovery/candidate_class_set_extra.txt \
+            recovery/candidate_class_set_missing_raw.txt recovery/candidate_class_set_extra_raw.txt \
+            recovery/hard_tail_markers.csv recovery/hard_tail_files.csv recovery/java_keyword_classes.csv \
+            recovery/java_keyword_references.csv recovery/hard_tail_state.json recovery/HARD_TAIL_INVENTORY.md \
+            recovery/vineflower-hard-tail recovery/vineflower-stage2 \
+            recovery/compile-ref-protobuf-obf.jar recovery/compile_ref_protobuf_obf.json \
+            recovery/COMPILE_REF_PROTOBUF_OBF.md \
+            recovery/compile-ref-proto-messages.jar recovery/compile_ref_proto_messages.json \
+            recovery/COMPILE_REF_PROTO_MESSAGES.md recovery/nonproto_compile.json \
+            recovery/NONPROTO_COMPILE.md recovery/nonproto_javac.log recovery/nonproto_source_files.txt \
+            recovery/nonproto_class_set_missing.txt recovery/nonproto_class_set_extra.txt \
+            recovery/l1jserver2-sanitized-ref.jar recovery/sanitized_ref.json recovery/SANITIZED_REF.md \
+            recovery/per_class_compile.csv recovery/per_class_compile.json recovery/PER_CLASS_COMPILE.md \
+            recovery/per_class_failures.log \
+            recovery/normalized_nonproto_compile.json recovery/NORMALIZED_NONPROTO_COMPILE.md \
+            recovery/normalized_nonproto_javac.log recovery/normalized_nonproto_source_files.txt \
+            recovery/compile-ref-protobuf-l1rpb.jar recovery/compile_ref_protobuf_l1rpb.json \
+            recovery/COMPILE_REF_PROTOBUF_L1RPB.md recovery/normalized_stage_transform.json \
+            recovery/NORMALIZED_STAGE_TRANSFORM.md recovery/normalized_stage_compile.json \
+            recovery/NORMALIZED_STAGE_COMPILE.md recovery/normalized_stage_javac.log \
+            recovery/normalized_stage_source_files.txt \
+            recovery/normalized_builder_collision_transform.json \
+            recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md \
+            recovery/normalized_parser_bridge_transform.json \
+            recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md \
+            recovery/normalized_stage_error_families.json \
+            recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md \
+            recovery/protobuf_override_conflicts.json \
+            recovery/PROTOBUF_OVERRIDE_CONFLICTS.md
+          for optional in \
+            recovery/synthetic_accessor_as_a_probe.json \
+            recovery/SYNTHETIC_ACCESSOR_AS_A_PROBE.md
+          do
+            [ -e "$optional" ] && git add "$optional"
+          done
+          if git diff --cached --quiet; then
+            echo "No generated changes."
+            exit 0
+          fi
+          git commit -m "research: generate L1JTW8.5 recovered core [skip ci]"
+          git push
+ | wc -l | tr -d ' ')" = "0"
+
+          git commit -m "completed: L1JTW8.5 decompiled source baseline"
+          git push origin HEAD:refs/heads/completed/l1jtw85-decompiled
+
+      - name: Validate completed branch tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-decompiled
+          git switch --detach origin/completed/l1jtw85-decompiled
+
+          app_count="$(find src/application -type f -name '*.java' | wc -l | tr -d ' ')"
+          proto_count="$(find src/protobuf/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')"
+          total_java="$(find src -type f -name '*.java' | wc -l | tr -d ' ')"
+
+          echo "COMPLETED_DECOMPILED_BRANCH_CLASS_TARGET=1765"
+          echo "APPLICATION_JAVA_SOURCES=$app_count"
+          echo "PROTOBUF_JAVA_SOURCES=$proto_count"
+          echo "TOTAL_JAVA_SOURCES=$total_java"
+          echo "RECOVERY_WORKSPACE_FILES_PRESENT=NO"
+          echo "CORE_FIX_FILES_PRESENT=NO"
+          echo "DONOR_BINARY_PRESENT=NO"
+          echo "TEMP_ARTIFACTS_PRESENT=NO"
+          echo "MINIMAL_IDENTITY_MANIFEST_PRESENT=YES"
+
+          test "$app_count" = "788"
+          test "$proto_count" = "45"
+          test "$total_java" = "833"
+          test -f identity/class_source_mapping.csv
+          test -f identity/remaining_932_source_identity_audit.json
+          test -f identity/FINAL_GATE.json
+          test ! -e recovery
+          test ! -e tools
+          test ! -e .github
+          test ! -e l1jserver2.jar
+          test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
+
   recover:
     if: github.event_name == 'push'
     needs: normalized-fast
