@@ -4,6 +4,7 @@
 package aj;
 
 import aj.cv;
+import ap.c;
 import ap.u;
 import ao.ah;
 import be.ds;
@@ -22,12 +23,14 @@ extends cv {
         String title = this.g();
         String content = this.g();
         aa tg = aq.a().a(id);
-        if (tg == null) {
-            System.out.println("\u4e0d\u6b63\u78ba\u7684 NPCID : " + id);
-            return;
-        }
         u pc = client.f();
         if (pc == null) {
+            return;
+        }
+        if (!(tg instanceof c)) {
+            return;
+        }
+        if (tg.fu().c(pc.fu()) > 11) {
             return;
         }
         if (title == null || title.length() > 16) {
