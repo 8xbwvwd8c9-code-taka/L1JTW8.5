@@ -109,6 +109,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-abstract-obligations.py
 
+      - name: Experiment builder bridge synthetic flag
+        shell: bash
+        run: python ./tools/recovery/experiment-protobuf-builder-bridge-flag.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
@@ -235,6 +239,8 @@ jobs:
             recovery/PROTOBUF_FINAL_OBLIGATION_PROBE.md
             recovery/protobuf_abstract_obligation_normalization.json
             recovery/PROTOBUF_ABSTRACT_OBLIGATION_NORMALIZATION.md
+            recovery/protobuf_builder_bridge_flag_experiment.json
+            recovery/PROTOBUF_BUILDER_BRIDGE_FLAG_EXPERIMENT.md
           )
 
           existing=()
@@ -256,6 +262,12 @@ jobs:
           fi
 
           git commit -m "research: persist normalized-fast state [skip ci]"
+
+          # Normalization intentionally mutates additional tracked/generated files.
+          # The authoritative artifact commit above is complete; stash the remaining
+          # ephemeral working-tree changes so rebase can proceed cleanly.
+          git stash push --include-untracked --quiet -m "normalized-fast-ephemeral" || true
+
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
