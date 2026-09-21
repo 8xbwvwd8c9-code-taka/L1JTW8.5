@@ -10,23 +10,18 @@ TMP=REC/"protobuf-2.5.0-source-built-compile-view.tmp.jar"
 
 ACC_ABSTRACT=0x0400
 TARGET_INNER=b"l1rpb/p$b"
-REMOVE={
-    "l1rpb/ab.class": {
-        ("e","(Ljava/io/InputStream;)Ljava/lang/Object;"),
-        ("e","(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;"),
-    },
-    "l1rpb/y$a.class": {
-        ("d","(Ljava/io/InputStream;)Ll1rpb/y$a;"),
-        ("d","(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"),
-    },
-    "l1rpb/a$a.class": {
-        ("d","()Ll1rpb/a$a;"),
-    },
+EXACT_REMOVE={
     "l1rpb/b$a.class": {
-        ("f","()Ll1rpb/b$a;"),
         ("b","(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;"),
     },
 }
+
+PAIR_RULES=[
+    ("l1rpb/ab.class","l1rpb/c.class"),
+    ("l1rpb/y$a.class","l1rpb/b$a.class"),
+    ("l1rpb/a$a.class","l1rpb/p$a.class"),
+    ("l1rpb/b$a.class","l1rpb/p$a.class"),
+]
 
 class R:
     def __init__(self,b): self.b=b; self.p=0
@@ -127,23 +122,61 @@ def widen_inner_visibility(data):
         pos+=6+ln
     return bytes(out),changed
 
+def descriptor_params(desc):
+    if not desc or not desc.startswith("("): return None
+    return desc[:desc.index(")")+1]
+
+def read_methods(data):
+    r=R(data); cp=parse_cp(r)
+    r.skip(6); r.skip(2*r.u2())
+    for _ in range(r.u2()): skip_member(r)
+    rows=[]
+    for _ in range(r.u2()):
+        flags=r.u2(); ni=r.u2(); di=r.u2()
+        name=utf(cp,ni); desc=utf(cp,di)
+        skip_attrs(r)
+        rows.append({"name":name,"descriptor":desc,"flags":flags,"abstract":bool(flags & ACC_ABSTRACT)})
+    return rows
+
 if not SRC.exists(): raise SystemExit(f"missing exact source-built ABI jar: {SRC}")
 removed=[]
 visibility=0
-with zipfile.ZipFile(SRC,"r") as zin, zipfile.ZipFile(TMP,"w",zipfile.ZIP_DEFLATED) as zout:
-    class_count=sum(1 for n in zin.namelist() if n.endswith(".class"))
+with zipfile.ZipFile(SRC,"r") as zin:
+    raw_map={name:zin.read(name) for name in zin.namelist() if name.endswith(".class")}
+    class_count=len(raw_map)
     if class_count!=246: raise SystemExit(f"exact source-built jar must contain 246 classes, got {class_count}")
+
+targets={k:set(v) for k,v in EXACT_REMOVE.items()}
+pair_details=[]
+for abstract_cls,provider_cls in PAIR_RULES:
+    if abstract_cls not in raw_map or provider_cls not in raw_map:
+        raise SystemExit(f"missing pair classes: {abstract_cls} / {provider_cls}")
+    am=[m for m in read_methods(raw_map[abstract_cls]) if m["abstract"]]
+    pm=[m for m in read_methods(raw_map[provider_cls]) if not m["abstract"]]
+    provider_keys={(m["name"],descriptor_params(m["descriptor"])) for m in pm}
+    selected={(m["name"],m["descriptor"]) for m in am if (m["name"],descriptor_params(m["descriptor"])) in provider_keys}
+    if not selected:
+        raise SystemExit(f"no provider-backed abstract obligations for {abstract_cls} <- {provider_cls}")
+    targets.setdefault(abstract_cls,set()).update(selected)
+    pair_details.append({
+        "abstract_class":abstract_cls,
+        "concrete_provider":provider_cls,
+        "provider_backed_obligations":len(selected),
+        "methods":[{"name":n,"descriptor":d} for n,d in sorted(selected)],
+    })
+
+with zipfile.ZipFile(SRC,"r") as zin, zipfile.ZipFile(TMP,"w",zipfile.ZIP_DEFLATED) as zout:
     for info in zin.infolist():
         raw=zin.read(info.filename)
         if info.filename.endswith(".class"):
             raw,n=widen_inner_visibility(raw)
             visibility+=n
-            if info.filename in REMOVE:
-                raw,hits=remove_abstract_methods(raw,REMOVE[info.filename])
+            if info.filename in targets:
+                raw,hits=remove_abstract_methods(raw,targets[info.filename])
                 removed += [{"class":info.filename,"name":n,"descriptor":d,"flags":f} for n,d,f in hits]
         zout.writestr(info,raw)
 
-expected_removed=sum(len(v) for v in REMOVE.values())
+expected_removed=sum(len(v) for v in targets.values())
 if len(removed)!=expected_removed:
     TMP.unlink(missing_ok=True)
     raise SystemExit(f"expected {expected_removed} compile-only obligations removed, got {len(removed)}")
@@ -158,6 +191,7 @@ state={
     "output_compile_view":OUT.as_posix(),
     "source_built_classes":246,
     "abstract_obligations_removed":removed,
+    "provider_pair_rules":pair_details,
     "abstract_obligation_count":len(removed),
     "inner_visibility_target":"l1rpb/p$b",
     "inner_visibility_entries_widened":visibility,
