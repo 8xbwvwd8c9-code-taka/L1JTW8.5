@@ -260,25 +260,18 @@ BUG / FEATURE
 ### 最新 L1 修復進度（2026-09-21）
 
 ```text
-BUG-850-105 / BUG-850-106
-COMMIT=034029c
-STATUS=SUBMITTED
+BUG-850-114
+STATUS=PASS
+WORK_BRANCH=work/l1jtw85-core-fixes
 
-VALID_L1_PROGRESS=13/41
-NEXT_UNFIXED_L1=BUG-850-114
+VALID_L1_PROGRESS=14/45
+NEXT_L1=BUG-850-137
+BUG-850-137=PATCHED_PENDING_VALIDATION
 ```
 
-BUG-850-114 下一步驗證範圍：
+BUG-850-114 已完成 canonical 吸收與驗證紀錄。來源物品 41761 會先驗證並成功扣除，再建立 41762；bookmark export 使用 transaction / rollback，失敗時回滾替代品並補回來源。
 
-```text
-物品轉換來源驗證
-→ 扣除結果
-→ 替代品授予
-→ DB inventory API
-→ partial-success boundary
-```
-
-修復原則：不能只交換操作順序；必須確認來源物品驗證、扣除、替代品授予與 DB inventory API 的結果形成完整一致的成功/失敗邊界，避免留下部分成功狀態。
+BUG-850-137 已在 work branch 補上正數檢查、`300L * amount` 溢位邊界，以及「扣款成功才建立房卡/租約」；GitHub 此提交沒有 workflow run，因此仍需 targeted Java compile / runtime 驗證後才能標 DONE 或 promotion。
 
 ### 支線整理規則
 
