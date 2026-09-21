@@ -1,0 +1,183 @@
+name: L1JTW8.5 Completed Decompilation Assembly
+
+on:
+  push:
+    branches:
+      - analysis/l1jtw85-recovery
+    paths:
+      - ".github/workflows/l1jtw85-completed-assembly.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+concurrency:
+  group: l1jtw85-completed-assembly
+  cancel-in-progress: false
+
+jobs:
+  assemble:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout accepted recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: analysis/l1jtw85-recovery
+          fetch-depth: 0
+
+      - name: Guard completed branch absent
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git ls-remote --exit-code --heads origin refs/heads/completed/l1jtw85-decompiled >/dev/null 2>&1; then
+            echo "completed/l1jtw85-decompiled already exists"
+            exit 1
+          fi
+
+      - name: Download protobuf-java 2.5.0 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o /tmp/protobuf-java-2.5.0-sources.jar \
+            "https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0-sources.jar"
+
+      - name: Build and validate clean tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=/tmp/completed-l1jtw85-decompiled
+          rm -rf "$OUT"
+          mkdir -p "$OUT/src/application" "$OUT/src/protobuf" "$OUT/identity"
+          cp -a recovered-src-obf/. "$OUT/src/application/"
+          unzip -q /tmp/protobuf-java-2.5.0-sources.jar 'com/google/protobuf/*.java' -d "$OUT/src/protobuf"
+          cp class_source_mapping.csv "$OUT/identity/class_source_mapping.csv"
+          cp recovery/remaining_932_source_identity_audit.json "$OUT/identity/remaining_932_source_identity_audit.json"
+          cp recovery/source_only_application_compile.json "$OUT/identity/source_only_application_compile.json"
+          cp recovery/source_only_exact_runtime_linkage.json "$OUT/identity/source_only_exact_runtime_linkage.json"
+          ACCEPTED_HEAD="$(git rev-parse HEAD)" OUT="$OUT" python - <<'PY'
+          import csv, json, os
+          from pathlib import Path
+
+          out=Path(os.environ['OUT'])
+          accepted=os.environ['ACCEPTED_HEAD']
+          app=list((out/'src/application').rglob('*.java'))
+          proto=list((out/'src/protobuf/com/google/protobuf').glob('*.java'))
+
+          with (out/'identity/class_source_mapping.csv').open(encoding='utf-8-sig',newline='') as f:
+              mappings=list(csv.DictReader(f))
+          identity=json.loads((out/'identity/remaining_932_source_identity_audit.json').read_text(encoding='utf-8'))
+          comp=json.loads((out/'identity/source_only_application_compile.json').read_text(encoding='utf-8'))
+          link=json.loads((out/'identity/source_only_exact_runtime_linkage.json').read_text(encoding='utf-8'))
+          cats=identity.get('categories',{})
+
+          gate={
+            'status':'PASS',
+            'accepted_recovery_head':accepted,
+            'authoritative_source_mappings':len(mappings),
+            'application_java_sources':len(app),
+            'protobuf_java_sources':len(proto),
+            'third_party_source_mappings':identity.get('remaining_source_mappings'),
+            'third_party_classified':identity.get('classified'),
+            'third_party_unknown':identity.get('unknown'),
+            'third_party_ambiguous':identity.get('ambiguous'),
+            'third_party_duplicate_class_assignments':identity.get('duplicate_class_assignments'),
+            'third_party_category_sum':sum(v for v in cats.values() if isinstance(v,int)),
+            'source_only_compile_pass':comp.get('pass'),
+            'exact_runtime_linkage_pass':link.get('pass'),
+            'compile_view_runtime_dependency_count':link.get('compile_view_runtime_dependency_count'),
+            'donor_binary_present':False,
+            'recovery_workspace_present':False,
+            'core_fix_files_present':False,
+          }
+          gate['pass']=(
+              gate['authoritative_source_mappings']==1765 and
+              gate['application_java_sources']==788 and
+              gate['protobuf_java_sources']==45 and
+              gate['third_party_source_mappings']==932 and
+              gate['third_party_classified']==932 and
+              gate['third_party_unknown']==0 and
+              gate['third_party_ambiguous']==0 and
+              gate['third_party_duplicate_class_assignments']==0 and
+              gate['third_party_category_sum']==932 and
+              gate['source_only_compile_pass'] is True and
+              gate['exact_runtime_linkage_pass'] is True and
+              gate['compile_view_runtime_dependency_count']==0
+          )
+          if not gate['pass']:
+              raise SystemExit(json.dumps(gate,indent=2))
+          (out/'identity/FINAL_GATE.json').write_text(json.dumps(gate,indent=2)+'\n',encoding='utf-8')
+          readme=f'''# L1JTW8.5 — Completed Decompilation Baseline
+
+          Status: **PASS**
+
+          Accepted recovery head: `{accepted}`
+
+          - Application recovered sources: **788**
+          - Embedded protobuf-java 2.5.0 sources: **45**
+          - Deterministically identified external third-party mappings: **932**
+          - Authoritative source-mapping universe: **1765**
+          - Source-only application compile: **PASS**
+          - Exact source-built protobuf runtime linkage: **PASS**
+          - Donor game JAR present: **NO**
+          - Recovery workspace present: **NO**
+          - Core-fix material present: **NO**
+
+          Identity evidence is under `identity/`.
+          '''
+          (out/'README.md').write_text(readme,encoding='utf-8')
+          PY
+
+      - name: Create clean orphan completed branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          OUT=/tmp/completed-l1jtw85-decompiled
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git switch --orphan completed/l1jtw85-decompiled
+          git rm -rf . >/dev/null 2>&1 || true
+          git clean -fdx
+          cp -a "$OUT"/. .
+          test "$(find src/application -type f -name '*.java' | wc -l | tr -d ' ')" = "788"
+          test "$(find src/protobuf/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')" = "45"
+          test "$(find src -type f -name '*.java' | wc -l | tr -d ' ')" = "833"
+          test ! -e recovery
+          test ! -e tools
+          test ! -e .github
+          test ! -e l1jserver2.jar
+          test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
+          git add README.md src identity
+          git commit -m "completed: L1JTW8.5 decompiled source baseline"
+          git push origin HEAD:refs/heads/completed/l1jtw85-decompiled
+
+      - name: Validate remote completed branch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-decompiled
+          git switch --detach origin/completed/l1jtw85-decompiled
+          app="$(find src/application -type f -name '*.java' | wc -l | tr -d ' ')"
+          proto="$(find src/protobuf/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')"
+          total="$(find src -type f -name '*.java' | wc -l | tr -d ' ')"
+          echo "APPLICATION_JAVA_SOURCES=$app"
+          echo "PROTOBUF_JAVA_SOURCES=$proto"
+          echo "TOTAL_JAVA_SOURCES=$total"
+          echo "RECOVERY_WORKSPACE_FILES_PRESENT=NO"
+          echo "CORE_FIX_FILES_PRESENT=NO"
+          echo "DONOR_BINARY_PRESENT=NO"
+          echo "TEMP_ARTIFACTS_PRESENT=NO"
+          echo "MINIMAL_IDENTITY_MANIFEST_PRESENT=YES"
+          test "$app" = "788"
+          test "$proto" = "45"
+          test "$total" = "833"
+          test -f identity/class_source_mapping.csv
+          test -f identity/remaining_932_source_identity_audit.json
+          test -f identity/FINAL_GATE.json
+          test ! -e recovery
+          test ! -e tools
+          test ! -e .github
+          test ! -e l1jserver2.jar
+          test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
