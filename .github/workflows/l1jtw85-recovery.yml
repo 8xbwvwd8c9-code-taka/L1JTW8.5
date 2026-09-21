@@ -78,6 +78,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-protobuf-runtime-source-cfr.py
 
+      - name: Decompile relocated Protobuf runtime with renamed CFR
+        shell: bash
+        run: python ./tools/recovery/decompile-protobuf-runtime-cfr-renamed.py "$RUNNER_TEMP/cfr.jar"
+
+      - name: Compile renamed CFR Protobuf runtime from source only
+        shell: bash
+        run: python ./tools/recovery/compile-protobuf-runtime-source-cfr-renamed.py
+
       - name: Decompile relocated Protobuf runtime with flat CFR
         shell: bash
         run: python ./tools/recovery/decompile-protobuf-runtime-cfr-flat.py "$RUNNER_TEMP/cfr.jar"
@@ -124,6 +132,7 @@ jobs:
           cat recovery/protobuf_runtime_source_decompile.json
           cat recovery/protobuf_runtime_source_compile.json
           cat recovery/protobuf_runtime_source_cfr_compile.json
+          cat recovery/protobuf_runtime_source_cfr_renamed_compile.json
           cat recovery/protobuf_runtime_source_cfr_flat_compile.json
 
       - name: Upload protobuf runtime source experiment
@@ -144,6 +153,11 @@ jobs:
             recovery/protobuf_runtime_source_cfr_compile.json
             recovery/protobuf_runtime_source_cfr_javac.log
             recovery/protobuf_runtime_source_cfr_files.txt
+            recovery/protobuf-runtime-src-cfr-renamed
+            recovery/protobuf_runtime_source_cfr_renamed_decompile.json
+            recovery/protobuf_runtime_source_cfr_renamed_compile.json
+            recovery/protobuf_runtime_source_cfr_renamed_javac.log
+            recovery/protobuf_runtime_source_cfr_renamed_files.txt
             recovery/protobuf-runtime-src-cfr-flat
             recovery/protobuf_runtime_source_cfr_flat_decompile.json
             recovery/protobuf_runtime_source_cfr_flat_compile.json
