@@ -8,6 +8,7 @@ OUT=Path('recovery/protobuf_abstract_obligation_normalization.json')
 MD=Path('recovery/PROTOBUF_ABSTRACT_OBLIGATION_NORMALIZATION.md')
 
 ACC_ABSTRACT=0x0400
+ACC_SYNTHETIC=0x1000
 
 # One already-verified source-representation obligation:
 # generated builders provide covariant implementations, but javac cannot
@@ -26,19 +27,9 @@ PAIR_RULES=[
   ('l1rpb/y$a.class','l1rpb/b$a.class'),
 ]
 
-# Only prune the currently observed source-unrepresentable family.
-# Other exact parent/child pairs are real public parser/builder API and must
-# remain visible because generated source calls them directly.
-SAFE_DERIVED={
-  'l1rpb/ab.class': {
-    ('e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
-    ('e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
-  },
-  'l1rpb/y$a.class': {
-    ('d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
-    ('d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
-  },
-}
+# Safe derived rule: only abstract obligations whose exact concrete provider
+# method is itself ACC_SYNTHETIC. This isolates JVM bridge/covariant artifacts
+# and leaves real typed public API obligations intact.
 
 class R:
   def __init__(self,b): self.b=b; self.p=0
@@ -132,19 +123,18 @@ for abstract_cls, concrete_cls in PAIR_RULES:
     raise SystemExit(f'missing pair classes: {abstract_cls} / {concrete_cls}')
   am=read_methods(raw_map[abstract_cls])
   cm=read_methods(raw_map[concrete_cls])
-  concrete={(x['name'],x['descriptor']) for x in cm if not x['abstract']}
-  paired_all={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete}
-  selected=paired_all & SAFE_DERIVED.get(abstract_cls,set())
+  concrete_all={(x['name'],x['descriptor']) for x in cm if not x['abstract']}
+  concrete_synth={(x['name'],x['descriptor']) for x in cm if not x['abstract'] and (x['flags'] & ACC_SYNTHETIC)}
+  paired_all={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete_all}
+  selected={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete_synth}
   if not selected:
-    raise SystemExit(f'no safe ABI-derived obligations found for {abstract_cls} <- {concrete_cls}')
-  missing_safe=SAFE_DERIVED.get(abstract_cls,set())-paired_all
-  if missing_safe:
-    raise SystemExit(f'safe obligations missing donor concrete evidence for {abstract_cls}: {sorted(missing_safe)}')
+    raise SystemExit(f'no synthetic-bridge obligations found for {abstract_cls} <- {concrete_cls}')
   derived.setdefault(abstract_cls,set()).update(selected)
   pair_details.append({
     'abstract_class':abstract_cls,
     'concrete_provider':concrete_cls,
     'paired_count_all':len(paired_all),
+    'synthetic_provider_pair_count':len(selected),
     'selected_count':len(selected),
     'selected_methods':[{'name':n,'descriptor':d} for n,d in sorted(selected)],
   })
@@ -153,17 +143,19 @@ targets={k:set(v) for k,v in EXACT_REMOVE.items()}
 for cls,methods in derived.items():
   targets.setdefault(cls,set()).update(methods)
 
-# Mandatory evidence for the currently observed 88-error family.
+# Mandatory evidence for the observed bridge-obligation chain.
 required={
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+  ('l1rpb/ab.class','f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
+  ('l1rpb/y$a.class','c','([BIILl1rpb/n;)Ll1rpb/y$a;'),
 }
 actual={(cls,n,d) for cls,methods in targets.items() for n,d in methods}
 missing_required=sorted(required-actual)
 if missing_required:
-  raise SystemExit(f'missing required derived obligations: {missing_required}')
+  raise SystemExit(f'missing required synthetic bridge obligations: {missing_required}')
 
 hits=[]
 with zipfile.ZipFile(JAR,'r') as zin, zipfile.ZipFile(TMP,'w',zipfile.ZIP_DEFLATED) as zout:
@@ -186,13 +178,13 @@ state={
   'expected_obligations':expected,
   'removed_obligations':len(hits),
   'targets':hits,
-  'required_current_family_present':True,
+  'required_bridge_chain_present':True,
   'scope':'recovery compile reference only',
   'donor_jar_changed':False,
   'recovered_source_changed':False,
   'method_bytecode_changed':False,
   'gameplay_logic_changed':False,
-  'reason':'exact donor ABI concrete implementations satisfy JVM inheritance, while normalized Java source cannot express the obfuscated generic/covariant obligation cleanly',
+  'reason':'exact donor ABI ACC_SYNTHETIC concrete bridges satisfy JVM inheritance, while normalized Java source cannot express the obfuscated generic/covariant obligation cleanly',
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 MD.write_text(
@@ -200,8 +192,8 @@ MD.write_text(
   + f'- Removed compile-ref abstract obligations: **{len(hits)} / {expected}**\n'
   + f'- Exact special-case obligations: **{state["exact_obligations"]}**\n'
   + f'- ABI-derived pair rules: **{len(pair_details)}**\n'
-  + '- Derived pruning is restricted to the 4 currently observed InputStream bridge obligations.\n'
-  + '- Required current e(InputStream[,n]) / d(InputStream[,n]) family present: **YES**\n'
+  + '- Derived pruning is restricted to exact abstract ↔ ACC_SYNTHETIC concrete bridge pairs.\n'
+  + '- Required observed e/f + c/d bridge-chain descriptors present: **YES**\n'
   + '- Donor JAR changed: **NO**\n'
   + '- Recovered game source changed: **NO**\n'
   + '- Method bytecode changed: **NO**\n'
