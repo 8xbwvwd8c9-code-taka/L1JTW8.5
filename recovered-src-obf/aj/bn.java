@@ -25,6 +25,9 @@ extends cv {
         aa obj = aq.a().a(petId);
         if (obj instanceof v) {
             v pet = (v)obj;
+            if (pet.M() != pc) {
+                return;
+            }
             pc.a(new cr(pet));
         }
     }
