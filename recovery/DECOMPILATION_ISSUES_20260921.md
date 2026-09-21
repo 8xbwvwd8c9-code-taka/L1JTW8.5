@@ -8,6 +8,60 @@ Donor truth: `l1jserver2.jar`
 >
 > The 788 application Java sources compile successfully and reproduce the 1109-class normalized application set, but the embedded 246-class protobuf runtime is not yet recovered to source-only compilable form.
 
+## 問題處理紀錄格式
+
+本報告後續統一採用與 380 / 880 相同的修復紀錄邏輯：
+
+```text
+問題
+→ 現象 / 錯誤訊息
+→ 根因
+→ 解決方法
+→ 使用工具 / 腳本
+→ 驗證方式
+→ 狀態
+→ 注意事項 / 禁止重做的方法
+```
+
+原則：
+
+- 先記「實際發生什麼」，再記「怎麼修」。
+- 工具名稱、腳本路徑、輸入/輸出證據要保留。
+- donor bytecode / javap / javac error 是主要證據，不用猜。
+- Source representation 修正與 gameplay/runtime 行為修改必須分開。
+- 如果只是在 recovery compile-ref 動手，必須明確標示，不得誤寫成正式 runtime 改動。
+- 未完成項目必須保留 `OPEN`，不得因 application javac=0 就標記全部反編譯完成。
+
+## 快速問題→解法→工具索引
+
+| # | 問題 | 根因 | 解決方法 | 主要工具 / 腳本 | 驗證 | 狀態 |
+|---:|---|---|---|---|---|---|
+| 1 | Obfuscated identity 無法直接對應 source | package/class/member 全面混淆 | 以 classfile metadata + namespace map 建雙向 identity | `audit-source-identity-collisions.py`, `source_namespace_map.csv` | 1109↔1109 roundtrip | CLOSED |
+| 2 | Java keyword 名稱不能編譯 | JVM 名稱合法、Java source identifier 非法 | recovery-only rename + reversible mapping | `build-candidate-stage.py`, `stage_transform.json` | keyword residual=0 | CLOSED |
+| 3 | Nested same-name Builder source collision | JVM 可表達、Java source 不可表達 | `L1R_Builder` recovery alias | `repair-normalized-builder-collisions.py` | 9/9 reversible | CLOSED |
+| 4 | `a/**` protobuf runtime 與 message type shadow | obfuscated runtime root package collision | relocate `a/** -> l1rpb/**` | `relocate-protobuf-runtime.py` | 246 classes rewritten, reversible | PARTIAL |
+| 5 | Builder generic superclass javac regression | decompiler 無法重現 donor generic Signature | 保留 raw superclass，metadata 差異列 exception | `audit-generic-builder-signatures.py` | hierarchy PASS | CLOSED |
+| 6 | Parser generic/covariant API 無法解析 | erased bridge + typed return source 表達衝突 | donor-proven typed aliases / preserve real overloads | parser probes + alias experiments | parser errors=0 | CLOSED |
+| 7 | Builder typed return / abstract obligation | covariant return + raw generic source 關係不可表達 | 40 typed aliases in recovery compile-ref | compile-ref alias experiment scripts | invalid alias=0 | CLOSED |
+| 8 | Decompiler把 synthetic bridges 直接生進 source | source bridge 與 javac bridge collision | 刪除 176 個 explicit bridge-only source methods | `normalize-protobuf-builder-source-bridges.py` | residual=0 | CLOSED |
+| 9 | Boolean synthetic accessor 無法合法還原 | donor synthetic getter 被 decompiler 折掉 | 44 個 `l1r_m_Z` recovery fields 保留 read semantics | `probe-protobuf-boolean-accessors.py`, `normalize-protobuf-af-accessors.py` | 44/44 proven | CLOSED |
+| 10 | `access$NNN` 名稱/return shape 不同 | javac compiler synthetic generation 差異 | 以 field-op + caller semantic identity 分類 | member ABI auditor + `probe-synthetic-accessor-as-a.py` | 1347 semantic parity PASS | CLOSED |
+| 11 | `this$0` / captured / enum synthetic fields 不同 | javac compiler-generated field naming | owner+descriptor semantic pairing | member ABI audit | 131/131 paired | CLOSED |
+| 12 | generated-only builder/parser/helper methods | javac generic/enum/bridge generation | exception ledger，不視為 application member loss | `audit-post-javac0-member-abi.py` | residual unclassified=0 | CLOSED |
+| 13 | generic method Signature metadata 差異 | anonymous/enum compiler metadata | metadata-only exception | member ABI audit | runtime descriptors match | CLOSED |
+| 14 | Non-protobuf local generic / overload / Override 問題 | decompiler type inference / shadowing失真 | targeted per-family normalizers | `normalize-nonprotobuf-*.py` | nonproto errors=0 | CLOSED |
+| 15 | SourceFile filename collision | 不同 class 映射同原始檔名 | recovery filename disambiguation | namespace/source mapping tools | hierarchy unaffected | CLOSED |
+| 16 | Embedded protobuf runtime source-only 3954 errors | runtime 本身反編譯 source 尚不可編譯 | 分 family 修復，先 `l1rpb/j.java` | Vineflower + `compile-protobuf-runtime-source.py` | source-only class set | OPEN |
+| 17 | Broad experimental fixes造成回歸 | 過度全域修改 Signature/bridge/superclass | 改為 donor-evidence isolated A/B | experiment scripts + CI | no regression | CLOSED/LESSON |
+| 18 | 單一 decompiler 品質不足 | CFR/Vineflower 在不同 class family 表現不同 | CFR broad + Vineflower hard-tail overrides | CFR, Vineflower | application javac=0 | CLOSED |
+| 19 | L1Craft static factory 被 overload shadow | decompiled short name `a(...)` 綁錯 source target | qualify `l1rpb.g.a(...)` | `normalize-l1craft-static-factory.py` | target unchanged | CLOSED |
+| 20 | External Builder caller 還引用 source-illegal identity | nested alias 改名後 caller 沒同步 | caller refs rewrite to `L1R_Builder` | builder alias caller scripts | old residual=0 | CLOSED |
+| 21 | protobuf relocation 後仍殘留 old imports | import 沒被 broad transform 全部涵蓋 | 13 個 import 精準 rewrite | `normalize-protobuf-runtime-imports.py` | 13/13 | CLOSED |
+| 22 | protobuf runtime type name 被 local field/class shadow | short type name 與 source local identity 撞名 | fully-qualified `l1rpb.*` | `normalize-protobuf-runtime-type-shadows.py` | 28+2+2+2 sites | CLOSED |
+| 23 | `p$b` nested visibility javac 看不到 | InnerClasses metadata protected/public source mismatch | recovery compile-ref only visibility normalization | `normalize-protobuf-inner-visibility.py` | descriptor/code unchanged | CLOSED |
+| 24 | synthetic bridge 被 javac source resolution 隱藏 | compile-ref method flags不利於 source resolution | exact whitelist clear SYNTHETIC | `normalize-protobuf-runtime-bridge-flags.py` | names/descriptors/code unchanged | CLOSED |
+| 25 | donor-valid abstract inheritance javac 無法表達 | raw/generic/covariant hierarchy source-unrepresentable | exact donor provider pair prune only safe obligations | `normalize-protobuf-abstract-obligations.py` | javac0, real APIs retained | CLOSED |
+
 ## Completion snapshot
 
 ### Closed
@@ -730,3 +784,593 @@ No evidence from this audit changes the completion state.
 **FULL DECOMPILATION / SOURCE-ONLY RECOVERY REMAINS NOT COMPLETE.**
 
 The remaining primary blocker is still the embedded 246-class protobuf runtime source-only recovery.
+
+
+## 問題處理實例 — 依 380 / 880 格式
+
+### A. Java keyword class / member
+
+**問題**
+
+donor classfile 內出現 `do` 這類 JVM 合法、Java source 不合法的 identifier。
+
+**現象**
+
+反編譯 source 無法直接 javac；keyword class/member 會造成 syntax/identity collision。
+
+**根因**
+
+JVM classfile 對名稱限制與 Java source parser 不相同。Obfuscator 可以產生 JVM 可接受、但 source language 不可重新宣告的名稱。
+
+**解決方法**
+
+只在 recovery source representation 做 reversible rename：
+
+- `be.do -> be.l1r_do_spmr`
+- `bf.do -> bf.l1r_do_s134`
+- 另外 4 個 member rename rules。
+
+最後 ABI/identity validation 再 normalize 回 donor identity。
+
+**使用工具**
+
+- `build-candidate-stage.py`
+- `stage_transform.json`
+- `audit-mapping-reversibility.py`
+
+**驗證**
+
+- keyword-member residual=0
+- forward/reverse mapping collision=0
+- donor/recovered roundtrip failures=0
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### B. Protobuf nested Builder 同名 collision
+
+**問題**
+
+donor nested identity 在 JVM 層可存在，但 Java source 重新宣告時同名 nested Builder 會衝突。
+
+**現象**
+
+raw class set 會看到：
+
+`...$L1R_a$L1R_a.class`
+
+而 javac recovery source 產生：
+
+`...$L1R_a$L1R_Builder.class`
+
+若用 raw filename 比對會誤判 missing/extra。
+
+**根因**
+
+這是 JVM identity 與 Java source representability 的差異，不是 class 遺失。
+
+**解決方法**
+
+建立 9 條 deterministic collision mappings，source 使用 `L1R_Builder`，最終 comparison normalize 回 donor nested identity。
+
+**使用工具**
+
+- `repair-normalized-builder-collisions.py`
+- `normalized_builder_collision_transform.json`
+- `source_namespace_map.csv`
+
+**驗證**
+
+- mapped pairs=9
+- ambiguous pairs=0
+- normalized missing/extra=0/0
+- hierarchy PASS
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### C. Protobuf parser / builder covariant return
+
+**問題**
+
+donor classfile 有 same-parameter / different-return 的 JVM-valid covariant bridge/provider 關係，decompiler 無法直接轉成 javac 可接受 source。
+
+**現象**
+
+曾出現：
+
+- abstract method obligation
+- method does not override
+- same erasure name clash
+- parser InputStream overload resolution failure
+- builder return type collision
+
+**根因**
+
+classfile descriptor、generic Signature、bridge flag、erased interface method與 source generic inheritance 同時被 obfuscation/decompiler破壞。
+
+**解決方法**
+
+逐個 blocker 做 donor bytecode probe；只在 recovery compile-ref 增加 donor-proven typed alias。
+
+最後 accepted aliases：
+
+- parser `l1rpb/c.class`: 21
+- builder `l1rpb/a$a.class`: 11
+- builder `l1rpb/p$a.class`: 8
+- total: 40
+
+保留真實 parser APIs：
+
+- `f(InputStream)`
+- `f(InputStream,n)`
+
+禁止再 prune。
+
+**使用工具**
+
+- `probe-protobuf-parser-f-bytecode.py`
+- `probe-protobuf-builder-provider-map.py`
+- `probe-protobuf-builder-e-bytecode.py`
+- `audit-protobuf-compile-ref-method-integrity.py`
+- 各 `experiment-protobuf-*-alias.py`
+
+**驗證**
+
+- ACTIVE_TYPED_ALIAS_COUNT=40
+- DUPLICATE_NAME_DESCRIPTOR_COUNT=0
+- INVALID_ALIAS_COUNT=0
+- existing method Code changed=0
+- unexpected metadata changed=0
+- javac=0/0
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### D. Decompiler explicit synthetic bridges
+
+**問題**
+
+Vineflower/CFR 會把 classfile synthetic bridge materialize 成 Java source method；javac 又會自動產生 bridge，形成 collision。
+
+**現象**
+
+典型 repeated family：
+
+- `i()`
+- `j()`
+- `d(h,n)`
+- `c(x)`
+
+共 176 個 explicit source bridge declarations。
+
+**根因**
+
+Decompiler 忠實顯示 classfile synthetic method，但 source recompilation 不應把這些 bridge 當一般手寫 method 保留。
+
+**解決方法**
+
+只有在 donor bridge + real typed provider 都已證明時，刪除 explicit bridge-only source declaration，讓 javac 自動重新產生必要 bridge。
+
+**使用工具**
+
+- `normalize-protobuf-builder-source-bridges.py`
+- donor bridge/provider probes
+- normalized javac A/B
+
+**驗證**
+
+- removed=176
+- residual=0
+- parser false positive=0
+- javac regression=NO
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### E. Synthetic boolean accessor
+
+**問題**
+
+donor 的 synthetic `()Z` getter 被 decompiler 折疊後，Java source 失去原本「讀 static field 並觸發 class-init/read semantics」的表示。
+
+**現象**
+
+如果直接改常數或刪掉 read，雖然可能 compile，但行為證據不再與 donor 一致。
+
+**根因**
+
+synthetic accessor bytecode：
+
+`getstatic m:Z -> ireturn`
+
+caller 會丟棄 boolean return，但 field read 本身仍屬 donor 行為。
+
+**解決方法**
+
+在 recovery source 注入 44 個 `l1r_m_Z` representation fields/reads，保留 field-read semantics，最後 comparison normalize 回 donor `m:Z`。
+
+**使用工具**
+
+- `probe-protobuf-boolean-accessors.py`
+- `probe-protobuf-m-field.py`
+- `normalize-protobuf-af-accessors.py`
+
+**驗證**
+
+- donor accessor pattern=44/44
+- recovery representation=44
+- gameplay logic changed=NO
+
+**狀態**
+
+`CLOSED/PASS_WITH_SOURCE_REPRESENTATION_EXCEPTION`
+
+---
+
+### F. javac `access$NNN` synthetic accessor 差異
+
+**問題**
+
+重新 javac 後 synthetic accessor 名稱與 return type 不一定跟 donor compiler 完全一致。
+
+**現象**
+
+初始 member ABI raw diff：
+
+- donor missing synthetic methods=1347
+- generated `access$NNN` extras=1347
+- descriptor mismatch keys=302
+
+**根因**
+
+這些方法是 compiler synthetic implementation detail；不同 source shape / javac generation 可產生不同 accessor name 與 assignment-return shape。
+
+**解決方法**
+
+不用 method name 當 identity authority，改比：
+
+- owner
+- parameter group
+- field opcode
+- target field
+- descriptor
+- caller semantics
+
+最後唯一特殊 `as/a (Las/a;I)` 也做 exact probe。
+
+**使用工具**
+
+- `audit-post-javac0-member-abi.py`
+- `synthetic_members.csv`
+- `probe-synthetic-accessor-as-a.py`
+- `javap -p -c -s`
+
+**驗證**
+
+- non-synthetic missing methods=0
+- per-class synthetic accessor count mismatch=0
+- `as/a`: donor/generated=5/5
+- semantic_group_mismatches=0
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### G. L1Craft static factory overload shadow
+
+**問題**
+
+反編譯後的 `L1Craft.java` 中，protobuf static factory `a(...)` 被同 class 的短名 overload shadow。
+
+**現象**
+
+javac 解析到錯的 `a(...)` candidate，造成 overload/type errors。
+
+**根因**
+
+Obfuscation 後 runtime type與 local/member 都叫 `a`；decompiler 輸出短名後失去原 classfile owner information。
+
+**解決方法**
+
+只把 donor-intended call target fully qualify：
+
+`l1rpb.g.a(...)`
+
+**使用工具**
+
+- `normalize-l1craft-static-factory.py`
+- donor descriptor probe
+- javac before/after
+
+**驗證**
+
+- transformed sites >0
+- method target changed=NO
+- gameplay logic changed=NO
+- related error family清零
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### H. Protobuf runtime imports / type shadow
+
+**問題**
+
+把 runtime 從 `a/**` relocate 到 `l1rpb/**` 後，source 裡還有 old imports、short type names、local field shadow。
+
+**現象**
+
+典型 errors：
+
+- package/type does not exist
+- ambiguous reference
+- non-static method referenced from static context
+- local `ap` field 被當 protobuf type
+
+**根因**
+
+Package relocation只改 binary/runtime identity，不會自動修復所有 Java import與 lexical name-resolution。
+
+**解決方法**
+
+分兩層修：
+
+1. residual import rewrite：
+   - 13/13 `import a.* -> l1rpb.*`
+2. runtime type shadow qualification：
+   - `p.a.a(...)`: 28
+   - `ap` shadow blocks: 2
+   - `ap.c()`: 2
+   - `ap.b()`: 2
+
+**使用工具**
+
+- `normalize-protobuf-runtime-imports.py`
+- `normalize-protobuf-runtime-type-shadows.py`
+
+**驗證**
+
+- import rewrites=13/13
+- type shadow expected counts全部吻合
+- call targets changed=NO
+- gameplay logic changed=NO
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### I. InnerClasses visibility / bridge flags / abstract obligations
+
+**問題**
+
+donor JVM hierarchy 可正常運作，但 Java source/javac 對 nested visibility、synthetic method visibility、abstract generic obligation的解析與 classfile runtime規則不完全相同。
+
+**現象**
+
+曾出現：
+
+- protected nested runtime type source不可見
+- parent synthetic provider不參與預期 source resolution
+- child明明有 donor concrete provider，javac仍報 abstract method obligation
+
+**根因**
+
+Classfile runtime linkage 與 source compiler accessibility/generic obligation不是一套規則；obfuscation與raw generic representation又放大差異。
+
+**解決方法**
+
+只改 recovery compile-ref metadata/obligation：
+
+- `p$b` InnerClasses metadata：protected→public
+- exact whitelist synthetic bridge flag normalization
+- donor parent/provider exact descriptor evidence後，prune safe abstract obligations
+
+**使用工具**
+
+- `normalize-protobuf-inner-visibility.py`
+- `normalize-protobuf-runtime-bridge-flags.py`
+- `normalize-protobuf-abstract-obligations.py`
+- provider/ABI probes
+
+**驗證**
+
+- class access flags unchanged
+- method descriptors unchanged
+- bytecode unchanged
+- donor JAR unchanged
+- javac closed family不回歸
+
+**狀態**
+
+`CLOSED/PASS_FOR_RECOVERY_COMPILE_REF`
+
+---
+
+### J. Non-protobuf decompiler type inference / overload problems
+
+**問題**
+
+非 protobuf application source 也有大量反編譯後 type inference、local generic、overload、Override、Base64 compatibility 等 source 問題。
+
+**現象**
+
+曾集中於：
+
+- `L1Alchemy`
+- `L1Thebes`
+- `L1Craft`
+- runtime `g` calls
+- duplicate locals
+- invalid `@Override`
+- external nested builder aliases
+- Java 8 Base64 source compatibility
+
+**根因**
+
+Decompiler 在 obfuscated generic/local symbol環境下無法完整還原 source-level type information。
+
+**解決方法**
+
+每一 error family單獨 normalizer，不做 repo-wide regex 或 blanket cast。
+
+**使用工具**
+
+主要腳本：
+
+- `normalize-l1alchemy-local-generics.py`
+- `normalize-l1thebes-local-generics.py`
+- `normalize-nonprotobuf-local-generics.py`
+- `normalize-nonprotobuf-tail-local-generics*.py`
+- `normalize-nonprotobuf-overload-shadows.py`
+- `normalize-nonprotobuf-override-annotations.py`
+- `normalize-nonprotobuf-runtime-g-calls.py`
+- `normalize-l1account-base64-compat.py`
+- `normalize-external-builder-alias-refs.py`
+
+**驗證**
+
+`NONPROTO_JAVAC_ERRORS=0`
+
+**狀態**
+
+`CLOSED/PASS`
+
+---
+
+### K. 單一 decompiler 不足 / hard-tail
+
+**問題**
+
+部分 class 用 CFR 產出的 source 無法乾淨重編譯；另一批 protobuf class 用 Vineflower較可用。
+
+**現象**
+
+同一 JAR 不同 class family 的 decompiler output quality差異很大。
+
+**根因**
+
+Decompiler reconstruction heuristics不同；obfuscated generics、synthetic bridge、nested classes、local variable recovery會讓不同工具各有優劣。
+
+**解決方法**
+
+採混合 decompiler strategy：
+
+- CFR：全體 broad pass
+- Vineflower：hard-tail / protobuf targeted override
+- javap：最終 classfile truth，不把任何 decompiler當 ABI authority
+
+**使用工具**
+
+- CFR
+- Vineflower 1.12.0
+- `javap`
+- `decompile-hard-tail-vineflower.py`
+- `decompile-stage2-vineflower.py`
+- `decompile-protobuf-runtime-vineflower.py`
+
+**驗證**
+
+Application normalized javac：
+
+`788 sources / 0 errors / 1109 classes`
+
+**狀態**
+
+`CLOSED_FOR_APPLICATION`
+
+---
+
+### L. Embedded protobuf runtime source-only recovery
+
+**問題**
+
+最後 246-class embedded protobuf runtime 尚未能由反編譯 source 自己編譯。
+
+**現象**
+
+目前 source-only baseline：
+
+- Java files=45
+- expected classes=246
+- javac errors=3954
+- error files=32
+- generated classes=0
+- missing classes=246
+
+最大集中：
+
+- `l1rpb/j.java`=2574
+- `l1rpb/a.java`=258
+- `l1rpb/k.java`=176
+- `l1rpb/p.java`=137
+- `l1rpb/c.java`=130
+- `l1rpb/ap.java`=115
+
+**根因**
+
+尚未完全分類。已知大量屬：
+
+- nested type identity loss
+- generic erasure/name clash
+- ambiguous short identifiers
+- static/instance reconstruction errors
+- invalid overrides
+- decompiler type inference loss
+
+目前不能假設只有單一根因。
+
+**解決方法**
+
+按 880/380 相同原則：
+
+1. 先按 javac error family分類；
+2. 找 root error，不追 cascade error；
+3. 用 donor javap/classfile確認 owner+descriptor；
+4. 一次只修一個高信心 representation family；
+5. A/B rerun source-only runtime compile；
+6. error family下降且無 unrelated regression才接受。
+
+**使用工具**
+
+- Vineflower 1.12.0
+- `javap -p -c -s`
+- `compile-protobuf-runtime-source.py`
+- GitHub Actions `protobuf-runtime-source`
+- runtime source experiment artifact
+- targeted normalization scripts（依新 family建立）
+
+**驗證**
+
+最終要求：
+
+```text
+RUNTIME_JAVA_SOURCE_COMPILE=PASS
+GENERATED_RUNTIME_CLASSES=246
+MISSING_RUNTIME_CLASSES=0
+EXTRA_RUNTIME_CLASSES=0
+BINARY_RUNTIME_ON_CLASSPATH=NO
+```
+
+**狀態**
+
+`OPEN / PRIMARY REMAINING BLOCKER`
