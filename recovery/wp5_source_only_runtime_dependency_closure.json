@@ -1,0 +1,86 @@
+{
+  "gate": "WP5_SOURCE_ONLY_RUNTIME_DEPENDENCY_CLOSURE",
+  "status": "OPEN",
+  "prerequisites": {
+    "application_java_sources": 788,
+    "application_javac_errors": 0,
+    "application_generated_classes": 1109,
+    "normalized_class_set": "0/0",
+    "runtime_hierarchy": "PASS",
+    "wp1": "PASS",
+    "wp2": "PASS",
+    "wp3": "PASS_WITH_SOURCE_REPRESENTATION_EXCEPTIONS",
+    "wp4": "PASS"
+  },
+  "compile_ref": {
+    "path": "recovery/compile-ref-protobuf-l1rpb.jar",
+    "runtime_classes": 246,
+    "donor_namespace": "a/**",
+    "recovery_namespace": "l1rpb/**",
+    "full_donor_game_jar_on_classpath": false,
+    "classification": "TEMPORARY_BOOTSTRAP_ONLY__SOURCE_RECOVERY_REQUIRED",
+    "final_runtime_artifact": false
+  },
+  "runtime_source_only": {
+    "java_sources": 45,
+    "expected_classes": 246,
+    "javac_exit": 1,
+    "javac_errors": 3954,
+    "error_files": 32,
+    "generated_classes": 0,
+    "missing_classes": 246,
+    "extra_classes": 0,
+    "class_set_pass": false,
+    "top_error_files": [
+      [
+        "l1rpb/j.java",
+        2574
+      ],
+      [
+        "l1rpb/a.java",
+        258
+      ],
+      [
+        "l1rpb/k.java",
+        176
+      ],
+      [
+        "l1rpb/p.java",
+        137
+      ],
+      [
+        "l1rpb/c.java",
+        130
+      ],
+      [
+        "l1rpb/ap.java",
+        115
+      ]
+    ],
+    "top_error_families": [
+      [
+        "cannot find symbol",
+        1143
+      ],
+      [
+        "method does not override or implement a method from a supertype",
+        751
+      ],
+      [
+        "same-erasure name clash",
+        271
+      ],
+      [
+        "ambiguous reference",
+        200
+      ]
+    ]
+  },
+  "external_dependency_identity_proven": false,
+  "application_source_modified": false,
+  "blockers": [
+    "246-class embedded protobuf runtime does not yet compile from recovered source",
+    "No proven external dependency/version identity authorizes keeping the recovery binary compile-ref permanently"
+  ],
+  "next": "CLASSIFY_PROTOBUF_RUNTIME_SOURCE_ERRORS"
+}
