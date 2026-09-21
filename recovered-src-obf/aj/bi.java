@@ -25,33 +25,56 @@ extends cv {
             return;
         }
         i clan = q.a().a(pc.aF());
-        if (clan == null || clan.m() != castaleID || l1castle.h() != pc.fr()) {
+        if (clan == null || clan.m() != castaleID || clan.k() != pc.fr() || l1castle.h() != pc.fr()) {
             return;
         }
         if (size <= 0 || size > l1castle.k().size()) {
             return;
         }
+
+        long[] additions = new long[l1castle.k().size()];
+        long totalCost = 0L;
         int i2 = 0;
         while (i2 < size) {
             int index = this.d();
             int count = this.d();
             int price = this.d();
-            if (index < 0 || index >= l1castle.k().size() || count <= 0 || price != 4000) {
+            if (index < 0 || index >= additions.length || count <= 0 || price != 4000) {
                 return;
             }
-            long total = 4000L * (long)count;
-            if (total <= 0L || total > 2000000000L || (long)l1castle.f() < total) {
+            additions[index] += (long)count;
+            if (additions[index] > 2000000000L) {
                 return;
             }
-            bh.d.a mercenary = l1castle.k().get(index);
-            if (mercenary == null || mercenary.c > 2000000000 - count) {
+            totalCost += 4000L * (long)count;
+            if (totalCost <= 0L || totalCost > 2000000000L || totalCost > (long)l1castle.f()) {
                 return;
             }
-            mercenary.c += count;
-            l1castle.b((int)((long)l1castle.f() - total));
             ++i2;
         }
-        g.a().a(l1castle);
+
+        int oldMoney = l1castle.f();
+        int[] oldCounts = new int[l1castle.k().size()];
+        int idx = 0;
+        while (idx < oldCounts.length) {
+            oldCounts[idx] = l1castle.k().get(idx).c;
+            long next = (long)oldCounts[idx] + additions[idx];
+            if (next > 2000000000L) {
+                return;
+            }
+            l1castle.k().get(idx).c = (int)next;
+            ++idx;
+        }
+        l1castle.b((int)((long)oldMoney - totalCost));
+
+        if (!g.a().a(l1castle)) {
+            l1castle.b(oldMoney);
+            idx = 0;
+            while (idx < oldCounts.length) {
+                l1castle.k().get(idx).c = oldCounts[idx];
+                ++idx;
+            }
+        }
     }
 
     @Override
