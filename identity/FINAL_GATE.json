@@ -1,0 +1,20 @@
+{
+  "status": "PASS",
+  "accepted_recovery_head": "999f2f6571e6984217c33cf0449cc8c7f1679dbd",
+  "authoritative_source_mappings": 1765,
+  "application_java_sources": 788,
+  "protobuf_java_sources": 45,
+  "third_party_source_mappings": 932,
+  "third_party_classified": 932,
+  "third_party_unknown": 0,
+  "third_party_ambiguous": 0,
+  "third_party_duplicate_class_assignments": 0,
+  "third_party_category_sum": 932,
+  "source_only_compile_pass": true,
+  "exact_runtime_linkage_pass": true,
+  "compile_view_runtime_dependency_count": 0,
+  "donor_binary_present": false,
+  "recovery_workspace_present": false,
+  "core_fix_files_present": false,
+  "pass": true
+}
