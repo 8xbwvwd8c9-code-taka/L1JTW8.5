@@ -76,30 +76,42 @@ def readjar(path):
 
 donor=readjar(DONOR); official=readjar(OFFICIAL)
 
-def sig(x):
-    return (
-      x["major"],x["minor"],x["access"] & 0x7631,
-      x["interfaces"],x["fields"],x["methods"],x["code_count"],
-      tuple(x["code_shapes"]),
-      tuple(x["class_attr_names"]),
-    )
-
 def basic(x):
     return (x["major"],x["minor"],x["interfaces"],x["fields"],x["methods"],x["code_count"])
+def access_sig(x):
+    return basic(x)+(x["access"] & 0x7631,)
+def code_sig(x):
+    return basic(x)+(tuple(x["code_shapes"]),)
+def access_code_sig(x):
+    return basic(x)+(x["access"] & 0x7631,tuple(x["code_shapes"]))
+def strict_sig(x):
+    return access_code_sig(x)+(tuple(x["class_attr_names"]),)
 
-dc=Counter(sig(x) for x in donor); oc=Counter(sig(x) for x in official)
 db=Counter(basic(x) for x in donor); ob=Counter(basic(x) for x in official)
+da=Counter(access_sig(x) for x in donor); oa=Counter(access_sig(x) for x in official)
+dc=Counter(code_sig(x) for x in donor); oc=Counter(code_sig(x) for x in official)
+dac=Counter(access_code_sig(x) for x in donor); oac=Counter(access_code_sig(x) for x in official)
+ds=Counter(strict_sig(x) for x in donor); os=Counter(strict_sig(x) for x in official)
 state={
  "gate":"PROTOBUF_2_5_0_BINARY_STRUCTURAL_FINGERPRINT",
  "donor_classes":len(donor),"official_classes":len(official),
  "donor_major_versions":dict(Counter(x["major"] for x in donor)),
  "official_major_versions":dict(Counter(x["major"] for x in official)),
  "basic_multiset_match":db==ob,
- "strict_structural_multiset_match":dc==oc,
+ "access_multiset_match":da==oa,
+ "code_shape_multiset_match":dc==oc,
+ "access_code_multiset_match":dac==oac,
+ "strict_structural_multiset_match":ds==os,
  "basic_only_in_donor":sum((db-ob).values()),
  "basic_only_in_official":sum((ob-db).values()),
- "strict_only_in_donor":sum((dc-oc).values()),
- "strict_only_in_official":sum((oc-dc).values()),
+ "access_only_in_donor":sum((da-oa).values()),
+ "access_only_in_official":sum((oa-da).values()),
+ "code_only_in_donor":sum((dc-oc).values()),
+ "code_only_in_official":sum((oc-dc).values()),
+ "access_code_only_in_donor":sum((dac-oac).values()),
+ "access_code_only_in_official":sum((oac-dac).values()),
+ "strict_only_in_donor":sum((ds-os).values()),
+ "strict_only_in_official":sum((os-ds).values()),
 }
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
