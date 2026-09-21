@@ -1,0 +1,48 @@
+{
+  "gate": "POST_JAVAC0_MEMBER_ABI_CLASSIFICATION",
+  "status": "OPEN",
+  "class_count": 1109,
+  "fields": {
+    "raw_missing": 131,
+    "raw_extra": 175,
+    "donor_missing_synthetic": 131,
+    "donor_missing_non_synthetic": 0,
+    "exact_owner_descriptor_name_pairs": 131,
+    "generated_this0_pairs": 127,
+    "other_compiler_synthetic_name_pairs": 4,
+    "recovery_only_l1r_m_Z_fields": 44,
+    "access_flag_mismatches": 1,
+    "linkage_relevant_flag_mismatches": 0
+  },
+  "methods": {
+    "raw_missing": 1347,
+    "raw_extra": 2986,
+    "donor_missing_synthetic": 1347,
+    "donor_missing_non_synthetic": 0,
+    "generated_access_family": 1347,
+    "generated_access_per_class_count_mismatches": 0,
+    "generated_access_owner_descriptor_multiset_mismatch_keys": 302,
+    "wp2_builder_bridge_extras": 660,
+    "parser_anonymous_extras": 968,
+    "parser_classes": 44,
+    "parser_methods_per_class": 22,
+    "typed_comparator_extras": 9,
+    "enum_values_helpers": 2,
+    "residual_unclassified_generated_extras": 0,
+    "generic_signature_mismatches": 3,
+    "exceptions_mismatches": 0,
+    "linkage_flag_mismatches_excluding_bridge_synthetic": 0
+  },
+  "classification": {
+    "non_synthetic_member_loss": false,
+    "strict_binary_member_abi": "OPEN",
+    "source_compiler_representation_delta": true,
+    "application_source_modified": false
+  },
+  "blockers": [
+    "1347 donor synthetic accessors are regenerated with different names/descriptors; 302 owner+descriptor multiset keys differ",
+    "44 recovery-only l1r_m_Z fields require final source-representation exception or safe elimination",
+    "generated-only bridge/helper families require final exception-ledger or exact restoration",
+    "3 method generic Signature mismatches remain"
+  ]
+}
