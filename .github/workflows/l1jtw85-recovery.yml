@@ -830,6 +830,25 @@ jobs:
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
+      - name: Enforce final source identity closure
+        shell: bash
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          p=Path("recovery/final_1765_universe_audit.json")
+          s=json.loads(p.read_text(encoding="utf-8"))
+          print(json.dumps({
+              "gate":"FINAL_SOURCE_IDENTITY_CLOSURE",
+              "pass_accounting":s.get("pass_accounting"),
+              "remaining_source_mappings":s.get("remaining",{}).get("source_mapping_count"),
+              "unknown_count":s.get("remaining",{}).get("unknown_count"),
+              "pass":s.get("pass"),
+          },indent=2))
+          if not s.get("pass"):
+              raise SystemExit(1)
+          PY
+
   recover:
     if: github.event_name == 'push'
     needs: normalized-fast
