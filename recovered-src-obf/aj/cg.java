@@ -8,8 +8,10 @@ import ao.be;
 import ap.u;
 import be.dz;
 import be.ee;
+import be.dy;
 import bh.v;
 import bj.d;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -23,6 +25,7 @@ extends cv {
             return;
         }
         int size = this.d();
+        ArrayList<Integer> allowed = dy.a(pc);
         CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<Integer>();
         int i2 = 0;
         while (i2 < size) {
@@ -35,7 +38,9 @@ extends cv {
                     block15: {
                         block13: {
                             skillid = this.b() + 1;
+                            if (!allowed.contains(skillid - 1)) break block12;
                             l1skills = be.a().a(skillid);
+                            if (l1skills == null) break block12;
                             skillLv = l1skills.c();
                             if (pc.U() < skillLv) break block12;
                             if (skillLv != 1) break block13;
