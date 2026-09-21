@@ -25,8 +25,15 @@ extends cv {
         this.d();
         this.d();
         int objectId = this.b();
-        f door = (f)aq.a().a(objectId);
-        if (door == null) {
+        aq.aa object = aq.a().a(objectId);
+        if (!(object instanceof f)) {
+            return;
+        }
+        f door = (f)object;
+        if (door.fp() != pc.fp()) {
+            return;
+        }
+        if (Math.abs(door.fs() - pc.fs()) >= 3 || Math.abs(door.ft() - pc.ft()) >= 3) {
             return;
         }
         if (door.i() == 6006) {
