@@ -232,9 +232,9 @@ if len(removed)!=expected_removed:
 if visibility==0:
     TMP.unlink(missing_ok=True)
     raise SystemExit("expected at least one p$b InnerClasses visibility patch")
-if parser_signature_class_removed!=1 or parser_signature_method_removed<=0:
+if parser_signature_class_removed!=0 or parser_signature_method_removed<=0:
     TMP.unlink(missing_ok=True)
-    raise SystemExit(f"expected c.class Signature normalization class=1 method>0, got class={parser_signature_class_removed} method={parser_signature_method_removed}")
+    raise SystemExit(f"expected c.class method-Signature normalization only, got class={parser_signature_class_removed} method={parser_signature_method_removed}")
 TMP.replace(OUT)
 
 state={
