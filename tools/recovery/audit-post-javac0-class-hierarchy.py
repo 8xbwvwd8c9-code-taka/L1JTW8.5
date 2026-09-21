@@ -11,6 +11,7 @@ DONOR=ROOT/"l1jserver2.jar"
 INV=REC/"class_inventory.csv"
 NSMAP=REC/"source_namespace_map.csv"
 TRANSFORM=REC/"stage_transform.json"
+BUILDER_COLLISION=REC/"normalized_builder_collision_transform.json"
 OUT=REC/"post_javac0_class_hierarchy.json"
 REPORT=REC/"POST_JAVAC0_CLASS_HIERARCHY.md"
 
@@ -142,11 +143,30 @@ for old_fq,new_fq in renames.items():
     keyword_new_to_old[new]=old
     keyword_new_to_old["l1r/"+new]=old
 
+# Exact nine-source nested builder rename repair:
+# readable namespace L1R_a$L1R_a -> source-safe L1R_a$L1R_Builder.
+builder_collision_new_to_old={}
+if BUILDER_COLLISION.exists():
+    bc=json.loads(BUILDER_COLLISION.read_text(encoding="utf-8"))
+    repairs=bc.get("repairs",[])
+    if len(repairs)!=9:
+        raise SystemExit(f"builder collision repair count must be 9, got {len(repairs)}")
+    for row in repairs:
+        old_readable="l1r/an/"+row["old_binary_identity"]
+        new_readable="l1r/an/"+row["source_recovery_identity"]
+        donor=ns_new_to_old.get(old_readable)
+        if donor is None:
+            raise SystemExit(f"missing namespace donor mapping for {old_readable}")
+        builder_collision_new_to_old[new_readable]=donor
+
 def norm_name(name):
     if name is None: return None
     # Recovery-only embedded protobuf runtime relocation.
     if name.startswith("l1rpb/"):
         return "a/"+name[len("l1rpb/"):]
+    # Exact source-safe nested builder rename takes precedence.
+    if name in builder_collision_new_to_old:
+        return builder_collision_new_to_old[name]
     # Authoritative donor <-> readable-source namespace mapping.
     if name in ns_new_to_old:
         return ns_new_to_old[name]
@@ -302,6 +322,7 @@ state={
    "namespace_map_rows":len(ns_rows),
    "namespace_map_old_unique":len(ns_old_to_new),
    "namespace_map_new_unique":len(ns_new_to_old),
+   "builder_collision_identity_rows":len(builder_collision_new_to_old),
    "protobuf_runtime_reference":"l1rpb/** -> a/** for hierarchy descriptors",
    "recovery_only_class_renames":renames,
    "structural_inner_remaps":structural,
