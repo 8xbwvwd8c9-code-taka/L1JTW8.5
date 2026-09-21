@@ -56,6 +56,12 @@ Classification:
 
 It is not a final runtime artifact.
 
+## Latest omission audit
+
+A quick cross-check against the active recovery transforms found several previously handled source-representation families that were under-documented. They are now recorded in the issue ledger, including hard-tail multi-decompiler overrides, L1Craft static-factory shadowing, Builder caller aliases, residual runtime imports, runtime type shadows, inner visibility metadata, targeted bridge flags, and abstract-obligation handling.
+
+This audit does **not** change the completion state: **full decompilation/source-only recovery is still NOT complete**.
+
 ## Encountered decompilation problems
 
 The complete issue ledger is maintained in:
