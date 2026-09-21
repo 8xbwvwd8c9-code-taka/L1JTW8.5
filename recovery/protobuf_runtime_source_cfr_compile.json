@@ -1,0 +1,70 @@
+{
+  "gate": "PROTOBUF_RUNTIME_CFR_SOURCE_ONLY_EXPERIMENT",
+  "source_root": "recovery/protobuf-runtime-src-cfr",
+  "binary_runtime_on_classpath": false,
+  "java_sources_submitted": 45,
+  "compile_exit_code": 1,
+  "generated_class_files_total": 0,
+  "expected_runtime_class_files": 246,
+  "missing_runtime_classes": 246,
+  "extra_runtime_classes": 0,
+  "class_set_pass": false,
+  "javac_error_headers": 24,
+  "error_file_count": 6,
+  "top_error_files": [
+    [
+      "l1rpb/p.java",
+      10
+    ],
+    [
+      "l1rpb/b.java",
+      5
+    ],
+    [
+      "l1rpb/j.java",
+      4
+    ],
+    [
+      "l1rpb/ai.java",
+      2
+    ],
+    [
+      "l1rpb/k.java",
+      2
+    ],
+    [
+      "l1rpb/q.java",
+      1
+    ]
+  ],
+  "top_error_messages": [
+    [
+      "<identifier> expected",
+      10
+    ],
+    [
+      "'{' expected",
+      5
+    ],
+    [
+      "illegal start of type",
+      3
+    ],
+    [
+      "illegal start of expression",
+      2
+    ],
+    [
+      "class, interface, or enum expected",
+      2
+    ],
+    [
+      "not a statement",
+      1
+    ],
+    [
+      "';' expected",
+      1
+    ]
+  ]
+}

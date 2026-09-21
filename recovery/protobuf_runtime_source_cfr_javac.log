@@ -1,0 +1,75 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+recovery/protobuf-runtime-src-cfr/l1rpb/ai.java:50: error: not a statement
+                2 var2_2 = this;
+                ^
+recovery/protobuf-runtime-src-cfr/l1rpb/ai.java:50: error: ';' expected
+                2 var2_2 = this;
+                 ^
+recovery/protobuf-runtime-src-cfr/l1rpb/b.java:69: error: '{' expected
+    public static abstract class l1rpb.b$a<BuilderType extends l1rpb.b$a>
+                                      ^
+recovery/protobuf-runtime-src-cfr/l1rpb/b.java:70: error: illegal start of type
+    implements y.a {
+    ^
+recovery/protobuf-runtime-src-cfr/l1rpb/b.java:70: error: <identifier> expected
+    implements y.a {
+                  ^
+recovery/protobuf-runtime-src-cfr/l1rpb/b.java:71: error: illegal start of expression
+        public abstract BuilderType f();
+        ^
+recovery/protobuf-runtime-src-cfr/l1rpb/b.java:308: error: class, interface, or enum expected
+}
+^
+recovery/protobuf-runtime-src-cfr/l1rpb/j.java:16163: error: '{' expected
+    public static final class l1rpb.j$a
+                                   ^
+recovery/protobuf-runtime-src-cfr/l1rpb/j.java:16188: error: <identifier> expected
+        private l1rpb.j$a(p.a<?> builder) {
+                         ^
+recovery/protobuf-runtime-src-cfr/l1rpb/j.java:16195: error: <identifier> expected
+        private l1rpb.j$a(boolean noInit) {
+                         ^
+recovery/protobuf-runtime-src-cfr/l1rpb/j.java:16219: error: <identifier> expected
+        private l1rpb.j$a(l1rpb.h input, l1rpb.n extensionRegistry) throws l1rpb.s {
+                         ^
+recovery/protobuf-runtime-src-cfr/l1rpb/k.java:36: error: '{' expected
+    private static final class l1rpb.k$b {
+                                    ^
+recovery/protobuf-runtime-src-cfr/l1rpb/k.java:42: error: <identifier> expected
+        l1rpb.k$b(g[] dependencies) {
+                 ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:189: error: '{' expected
+    public static final class l1rpb.p$g {
+                                   ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:195: error: <identifier> expected
+        public l1rpb.p$g(k.a descriptor, String[] camelCaseNames, Class<? extends p> messageClass, Class<? extends l1rpb.p$a> builderClass) {
+                        ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:200: error: <identifier> expected
+        public l1rpb.p$g(k.a descriptor, String[] camelCaseNames) {
+                        ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1275: error: '{' expected
+    public static abstract class l1rpb.p$a<BuilderType extends l1rpb.p$a>
+                                      ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1276: error: illegal start of type
+    extends a.a<BuilderType> {
+    ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1276: error: <identifier> expected
+    extends a.a<BuilderType> {
+                            ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1277: error: illegal start of expression
+        private b a;
+        ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1282: error: <identifier> expected
+        protected l1rpb.p$a() {
+                           ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1286: error: <identifier> expected
+        protected l1rpb.p$a(b builderParent) {
+                           ^
+recovery/protobuf-runtime-src-cfr/l1rpb/p.java:1545: error: class, interface, or enum expected
+}
+^
+recovery/protobuf-runtime-src-cfr/l1rpb/q.java:213: error: illegal start of type
+        /* synthetic */ f(y x0, Object x1, y x2, e x3, 1 x4) {
+                                                       ^
+24 errors
+1 warning

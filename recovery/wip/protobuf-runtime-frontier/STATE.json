@@ -1,0 +1,357 @@
+{
+  "copied": [
+    "p.java",
+    "k.java",
+    "x.java",
+    "j.java",
+    "a.java",
+    "c.java",
+    "ap.java"
+  ],
+  "compile": {
+    "gate": "PROTOBUF_RUNTIME_SOURCE_ONLY_EXPERIMENT",
+    "source_root": "recovery/protobuf-runtime-src-vf",
+    "binary_runtime_on_classpath": false,
+    "java_sources_submitted": 45,
+    "compile_exit_code": 1,
+    "generated_class_files_total": 0,
+    "expected_runtime_class_files": 246,
+    "missing_runtime_classes": 246,
+    "extra_runtime_classes": 0,
+    "class_set_pass": false,
+    "javac_error_headers": 3954,
+    "error_file_count": 32,
+    "top_error_files": [
+      [
+        "l1rpb/j.java",
+        2574
+      ],
+      [
+        "l1rpb/a.java",
+        258
+      ],
+      [
+        "l1rpb/k.java",
+        176
+      ],
+      [
+        "l1rpb/p.java",
+        137
+      ],
+      [
+        "l1rpb/c.java",
+        130
+      ],
+      [
+        "l1rpb/ap.java",
+        115
+      ],
+      [
+        "l1rpb/b.java",
+        89
+      ],
+      [
+        "l1rpb/l.java",
+        84
+      ],
+      [
+        "l1rpb/i.java",
+        76
+      ],
+      [
+        "l1rpb/q.java",
+        53
+      ],
+      [
+        "l1rpb/o.java",
+        47
+      ],
+      [
+        "l1rpb/ab.java",
+        36
+      ],
+      [
+        "l1rpb/am.java",
+        27
+      ],
+      [
+        "l1rpb/ad.java",
+        26
+      ],
+      [
+        "l1rpb/h.java",
+        19
+      ],
+      [
+        "l1rpb/as.java",
+        18
+      ],
+      [
+        "l1rpb/aq.java",
+        15
+      ],
+      [
+        "l1rpb/ae.java",
+        11
+      ],
+      [
+        "l1rpb/m.java",
+        9
+      ],
+      [
+        "l1rpb/u.java",
+        9
+      ],
+      [
+        "l1rpb/aa.java",
+        7
+      ],
+      [
+        "l1rpb/al.java",
+        7
+      ],
+      [
+        "l1rpb/n.java",
+        4
+      ],
+      [
+        "l1rpb/x.java",
+        4
+      ],
+      [
+        "l1rpb/ai.java",
+        4
+      ],
+      [
+        "l1rpb/an.java",
+        4
+      ],
+      [
+        "l1rpb/w.java",
+        3
+      ],
+      [
+        "l1rpb/f.java",
+        3
+      ],
+      [
+        "l1rpb/t.java",
+        3
+      ],
+      [
+        "l1rpb/ao.java",
+        2
+      ],
+      [
+        "l1rpb/ac.java",
+        2
+      ],
+      [
+        "l1rpb/g.java",
+        2
+      ]
+    ],
+    "top_error_messages": [
+      [
+        "cannot find symbol",
+        1143
+      ],
+      [
+        "method does not override or implement a method from a supertype",
+        751
+      ],
+      [
+        "name clash: class a has two methods with the same erasure, yet neither overrides the other",
+        271
+      ],
+      [
+        "reference to a is ambiguous",
+        200
+      ],
+      [
+        "package l1rpb.x does not exist",
+        133
+      ],
+      [
+        "package l1rpb.y does not exist",
+        95
+      ],
+      [
+        "int cannot be dereferenced",
+        58
+      ],
+      [
+        "package l1rpb.p does not exist",
+        55
+      ],
+      [
+        "package y does not exist",
+        48
+      ],
+      [
+        "package x does not exist",
+        42
+      ],
+      [
+        "type argument MessageType is not within bounds of type-variable ContainingType",
+        36
+      ],
+      [
+        "name clash: class i has two methods with the same erasure, yet neither overrides the other",
+        29
+      ],
+      [
+        "reference to b is ambiguous",
+        28
+      ],
+      [
+        "non-static variable super cannot be referenced from a static context",
+        28
+      ],
+      [
+        "non-static method c(int,y) cannot be referenced from a static context",
+        25
+      ],
+      [
+        "package l1rpb.k does not exist",
+        23
+      ],
+      [
+        "incompatible types: b cannot be converted to a",
+        19
+      ],
+      [
+        "'void' type not allowed here",
+        18
+      ],
+      [
+        "bad operand types for binary operator '+'",
+        17
+      ],
+      [
+        "illegal forward reference",
+        17
+      ],
+      [
+        "incompatible types: h cannot be converted to a",
+        13
+      ],
+      [
+        "incompatible types: l1rpb.l.a cannot be converted to l1rpb.x.a",
+        12
+      ],
+      [
+        "package p does not exist",
+        11
+      ],
+      [
+        "incompatible types: void cannot be converted to int",
+        11
+      ],
+      [
+        "reference to c is ambiguous",
+        10
+      ],
+      [
+        "incompatible types: BuilderType cannot be converted to a",
+        10
+      ],
+      [
+        "non-static method b(y) cannot be referenced from a static context",
+        10
+      ],
+      [
+        "non-static variable c cannot be referenced from a static context",
+        10
+      ],
+      [
+        "package r does not exist",
+        8
+      ],
+      [
+        "package l1rpb.r does not exist",
+        8
+      ],
+      [
+        "name clash: class c has two methods with the same erasure, yet neither overrides the other",
+        8
+      ],
+      [
+        "incompatible types: Object cannot be converted to f",
+        7
+      ],
+      [
+        "name clash: class m has two methods with the same erasure, yet neither overrides the other",
+        7
+      ],
+      [
+        "incompatible types: q cannot be converted to y",
+        7
+      ],
+      [
+        "incompatible types: l1rpb.j.q.a cannot be converted to l1rpb.x.a",
+        7
+      ],
+      [
+        "incompatible types: b cannot be converted to y",
+        6
+      ],
+      [
+        "no suitable method found for a(h,l1rpb.ap.a,n,int)",
+        6
+      ],
+      [
+        "reference to d is ambiguous",
+        6
+      ],
+      [
+        "incompatible types: void cannot be converted to h",
+        6
+      ],
+      [
+        "incompatible types: l cannot be converted to y",
+        6
+      ],
+      [
+        "incompatible types: void cannot be converted to i",
+        5
+      ],
+      [
+        "incompatible types: bad type in conditional expression",
+        5
+      ],
+      [
+        "name clash: class b has two methods with the same erasure, yet neither overrides the other",
+        5
+      ],
+      [
+        "reference to g is ambiguous",
+        5
+      ],
+      [
+        "incompatible types: l1rpb.j.q.a cannot be converted to l1rpb.y.a",
+        5
+      ],
+      [
+        "non-static variable a cannot be referenced from a static context",
+        4
+      ],
+      [
+        "incompatible types: i cannot be converted to OutputStream",
+        4
+      ],
+      [
+        "reference to f is ambiguous",
+        4
+      ],
+      [
+        "name clash: class o has two methods with the same erasure, yet neither overrides the other",
+        4
+      ],
+      [
+        "name clash: class q has two methods with the same erasure, yet neither overrides the other",
+        4
+      ]
+    ]
+  }
+}

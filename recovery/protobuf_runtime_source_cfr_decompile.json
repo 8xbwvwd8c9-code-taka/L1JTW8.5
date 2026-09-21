@@ -1,0 +1,8 @@
+{
+  "source_jar": "recovery/compile-ref-protobuf-l1rpb.jar",
+  "cfr_exit_code": 0,
+  "runtime_class_files": 246,
+  "java_files_copied": 45,
+  "package": "l1rpb",
+  "gameplay_logic_changed": false
+}
