@@ -97,7 +97,8 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-final-obligations.py
 
-      - name: Parser-only raw class Signature experiment
+      - name: Parser donor Signature restore A/B
+        if: ${{ false }}
         shell: bash
         run: python ./tools/recovery/experiment-raw-protobuf-parser-class.py
 
@@ -117,7 +118,8 @@ jobs:
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
 
-      - name: Parser-only raw source experiment
+      - name: Parser typed source restore A/B
+        if: ${{ false }}
         shell: bash
         run: python ./tools/recovery/experiment-raw-protobuf-parser-source.py
 
