@@ -139,10 +139,17 @@ with zipfile.ZipFile(DONOR) as z:
         iface=m.group("iface") if m else None
         iface_ok=bool(iface and iface in d["interfaces"] and iface in [norm_name(x) for x in g["interfaces"]])
 
-        def bridges(meta):
+        # Donor obfuscation preserved ACC_SYNTHETIC on covariant erased methods
+        # but did not preserve ACC_BRIDGE. javac regenerates the equivalent methods
+        # with ACC_SYNTHETIC|ACC_BRIDGE. Descriptor parity therefore compares these
+        # two representations rather than requiring identical access-flag metadata.
+        def donor_bridges(meta):
+            return sorted((x["name"],norm_desc(x["descriptor"])) for x in meta["methods"]
+                          if (x["flags"] & ACC_SYNTHETIC))
+        def generated_bridges(meta):
             return sorted((x["name"],norm_desc(x["descriptor"])) for x in meta["methods"]
                           if (x["flags"] & ACC_BRIDGE) and (x["flags"] & ACC_SYNTHETIC))
-        db=bridges(d); gb=bridges(g)
+        db=donor_bridges(d); gb=generated_bridges(g)
         result.append({
           "class":donor_name+".class","generated_internal":gp,
           "donor_signature":dsig,"generated_signature":gsig,
@@ -185,6 +192,7 @@ state={
    "runtime_linkage_hierarchy":"PASS",
    "reflective_generic_metadata":"DIFF",
    "javac_generated_bridge_descriptors":"PASS" if not bridge_bad else "DIFF",
+   "bridge_flag_representation":"DONOR_SYNTHETIC_ONLY__GENERATED_SYNTHETIC_PLUS_BRIDGE",
    "source_restore_required_for_runtime_linkage":False,
    "final_treatment":"DOCUMENT_EXACT_SOURCE_REPRESENTATION_EXCEPTION_OR_RESTORE_METADATA",
    "broad_generic_superclass_restore_permitted_by_this_wp":False
@@ -192,6 +200,7 @@ state={
  "builders":result,
  "notes":[
    "Class Signature is optional JVM metadata for generic reflection/tooling; superclass and interface descriptors remain separately verified.",
+   "Donor covariant erased methods are identified by ACC_SYNTHETIC; javac-generated equivalents carry ACC_SYNTHETIC|ACC_BRIDGE.",
    "Generated builders intentionally use a raw p$a source representation, so their class-level Signature attribute is absent.",
    "This gate does not authorize changing the builder superclass or application source.",
    "A strict zero-difference generic-metadata policy would require a later safe representation; current completion rules also permit an exact documented source-representation equivalence."
