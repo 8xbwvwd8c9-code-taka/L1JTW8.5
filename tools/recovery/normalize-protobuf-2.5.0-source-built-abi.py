@@ -153,6 +153,7 @@ if len(DONOR_META)!=246:
 flag_patch_count=0
 flag_xor_counts=Counter()
 interface_reorder_classes=[]
+inner_name_patch_count=0
 
 def rewrite_class(data, official_name):
     global inherited_or_external_memberrefs, flag_patch_count
@@ -235,6 +236,33 @@ def rewrite_class(data, official_name):
     rp=patch_members("field",rp)
     rp=patch_members("method",rp)
 
+    # Restore InnerClasses.inner_name to donor binary simple names.
+    # Class_info/outer_class_info already resolve through globally rewritten Class Utf8 entries.
+    # javac uses this attribute for nested source lookup (e.g. l1rpb.p.a -> l1rpb/p$a).
+    global inner_name_patch_count
+    class_attr_count=struct.unpack_from(">H",rest,rp)[0]; rp+=2
+    for _ in range(class_attr_count):
+        attr_name_i=struct.unpack_from(">H",rest,rp)[0]; rp+=2
+        attr_len=struct.unpack_from(">I",rest,rp)[0]; rp+=4
+        attr_name=cp.utf(attr_name_i)
+        payload_off=rp
+        if attr_name=="InnerClasses":
+            q=payload_off
+            n=struct.unpack_from(">H",rest,q)[0]; q+=2
+            for __ in range(n):
+                inner_i,outer_i,inner_name_i,inner_flags=struct.unpack_from(">HHHH",rest,q)
+                if inner_i:
+                    inner_internal=cp.class_name(inner_i)
+                    if inner_internal in cm and "$" in inner_internal and inner_name_i:
+                        donor_simple=inner_internal.rsplit("$",1)[1]
+                        current_simple=cp.utf(inner_name_i)
+                        if current_simple!=donor_simple:
+                            new_i=cp.add_utf(donor_simple)
+                            struct.pack_into(">H",rest,q+4,new_i)
+                            inner_name_patch_count+=1
+                q+=8
+        rp+=attr_len
+
     # Rewrite CONSTANT member refs owner-specifically. Class refs already point to rewritten class-name Utf8.
     for e in cp.entries:
         if not e or e[0] not in (9,10,11): continue
@@ -282,9 +310,10 @@ state={"gate":"PROTOBUF_2_5_0_SOURCE_BUILT_DONOR_ABI",
        "member_flag_xor_counts":dict(sorted(flag_xor_counts.items())),
        "interface_reorder_count":len(interface_reorder_classes),
        "interface_reorder_classes":sorted(interface_reorder_classes),
+       "inner_name_patch_count":inner_name_patch_count,
        "inherited_or_external_memberrefs_left_named":inherited_or_external_memberrefs,
        "donor_binary_used_as_runtime_output":False,
        "gameplay_logic_changed":False,
-       "normalization_scope":"mapped declarations + donor-proven interface table order"}
+       "normalization_scope":"mapped declarations + donor-proven interface table order + mapped InnerClasses.inner_name"}
 STATE.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
