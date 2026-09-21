@@ -19,9 +19,13 @@ extends cv {
         }
         int objid = this.b();
         aa obj = aq.a().a(objid);
-        if (obj != null) {
-            obj.a(pc);
+        if (obj == null || obj.fp() != pc.fp()) {
+            return;
         }
+        if (obj.fu().c(pc.fu()) > 11) {
+            return;
+        }
+        obj.a(pc);
     }
 
     @Override
