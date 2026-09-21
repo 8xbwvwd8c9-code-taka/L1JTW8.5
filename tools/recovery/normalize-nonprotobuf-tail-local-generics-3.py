@@ -68,6 +68,9 @@ targets={
   'l1r/bi/LineageUtil.java':[
     ('List var5 = L1World.a().c(var0, 1);','List<L1PcInstance> var5 = L1World.a().c(var0, 1);'),
   ],
+  'l1r/as/L1HardinBattle.java':[
+    ('ArrayList var67 = new ArrayList<>();','ArrayList<L1Location> var67 = new ArrayList<>();'),
+  ],
 }
 
 changes=[]
@@ -86,7 +89,7 @@ for rel,repls in targets.items():
     p.write_text(text,encoding='utf-8')
     changes.append({'file':rel,'sites_normalized':nfile})
 
-expected=21
+expected=22
 state={
  'error_family':'RAW_LOCAL_COLLECTION_GENERIC_ERASURE_TAIL_3',
  'sites_normalized':total,
