@@ -1,0 +1,41 @@
+{
+  "gate": "SYNTHETIC_ACCESSOR_DESCRIPTOR_DELTA",
+  "status": "OPEN_CLASSIFIED",
+  "donor_synthetic_methods": 1347,
+  "generated_access_methods": 1347,
+  "per_class_count_mismatches": 0,
+  "owner_parameter_groups": 381,
+  "identical_return_multiset_groups": 230,
+  "different_return_multiset_groups": 151,
+  "methods_in_identical_return_groups": 445,
+  "methods_in_different_return_groups": 902,
+  "dominant_pattern": {
+    "groups": 150,
+    "donor_return": "V",
+    "generated_return": "LAST_PARAMETER_TYPE",
+    "classification": "COMPILER_SYNTHETIC_ASSIGNMENT_ACCESSOR_REPRESENTATION_DELTA"
+  },
+  "exceptional_groups": [
+    {
+      "class": "as/a",
+      "parameters": "(Las/a;I)",
+      "donor_returns": [
+        "V",
+        "V",
+        "V",
+        "V",
+        "[[I"
+      ],
+      "generated_returns": [
+        "I",
+        "I",
+        "I",
+        "V",
+        "[[I"
+      ],
+      "status": "REQUIRES_EXACT_BYTECODE_CALLSITE_PROOF"
+    }
+  ],
+  "strict_binary_member_abi": "OPEN",
+  "application_source_modified": false
+}
