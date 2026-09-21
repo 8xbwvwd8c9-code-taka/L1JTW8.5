@@ -1,0 +1,27 @@
+{
+  "experiment": "BUILDER_CURRENT_B_KF_INT_OBJECT_TYPED_ALIAS_P_A",
+  "target_class": "l1rpb/p$a.class",
+  "erased_bridge": {
+    "name": "b",
+    "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+    "flags": 4097
+  },
+  "typed_provider": {
+    "name": "a",
+    "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;",
+    "flags": 1
+  },
+  "alias": {
+    "name": "b",
+    "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;"
+  },
+  "source_collision_scan": "zero b(k$f,int,Object) declarations found across PBMessageALL*.java recovered source",
+  "provider_choice": "single donor-proven p$a provider",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_method_count": 1,
+  "gameplay_logic_changed": false,
+  "pass_signal": "44 current b(k$f,int,Object) obligations disappear or advance; parser/nonprotobuf remain 0"
+}
