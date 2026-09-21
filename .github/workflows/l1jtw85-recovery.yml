@@ -509,6 +509,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
 
+      - name: Rebuild protobuf class map against official 2.5.0
+        shell: bash
+        run: python ./tools/recovery/map-protobuf-2.5.0-order.py ./lib/protobuf-java-2.5.0.jar
+
+      - name: Audit application protobuf dependency surface
+        shell: bash
+        run: python ./tools/recovery/audit-application-protobuf-dependency-surface.py
+
       - name: Audit post-javac0 class set and hierarchy
         shell: bash
         run: python ./tools/recovery/audit-post-javac0-class-hierarchy.py
@@ -545,6 +553,7 @@ jobs:
           cat recovery/nonprotobuf_runtime_g_call_normalization.json
           cat recovery/l1alchemy_local_generic_normalization.json
           cat recovery/normalized_stage_compile.json
+          cat recovery/application_protobuf_dependency_surface.json
           cat recovery/normalized_stage_error_families.json
           cat recovery/protobuf_override_conflicts.json
           cat recovery/protobuf_compile_ref_method_integrity.json
