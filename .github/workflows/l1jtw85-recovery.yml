@@ -218,8 +218,16 @@ jobs:
             echo "No protobuf runtime frontier changes."
           else
             git commit -m "research: persist protobuf runtime source frontier [skip ci]"
+            stashed=0
+            if [ -n "$(git status --porcelain)" ]; then
+              git stash push --include-untracked -m "protobuf-runtime-frontier-pre-rebase"
+              stashed=1
+            fi
             git pull --rebase origin "${GITHUB_REF_NAME}"
             git push origin "HEAD:${GITHUB_REF_NAME}"
+            if [ "$stashed" -eq 1 ]; then
+              git stash pop
+            fi
           fi
 
       - name: Print runtime source experiment
