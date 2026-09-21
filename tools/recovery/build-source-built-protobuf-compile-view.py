@@ -11,8 +11,21 @@ TMP=REC/"protobuf-2.5.0-source-built-compile-view.tmp.jar"
 ACC_ABSTRACT=0x0400
 TARGET_INNER=b"l1rpb/p$b"
 REMOVE={
-    "l1rpb/ab.class": {("e","(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;")},
-    "l1rpb/a$a.class": {("d","()Ll1rpb/a$a;")},
+    "l1rpb/ab.class": {
+        ("e","(Ljava/io/InputStream;)Ljava/lang/Object;"),
+        ("e","(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;"),
+    },
+    "l1rpb/y$a.class": {
+        ("d","(Ljava/io/InputStream;)Ll1rpb/y$a;"),
+        ("d","(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"),
+    },
+    "l1rpb/a$a.class": {
+        ("d","()Ll1rpb/a$a;"),
+    },
+    "l1rpb/b$a.class": {
+        ("f","()Ll1rpb/b$a;"),
+        ("b","(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;"),
+    },
 }
 
 class R:
