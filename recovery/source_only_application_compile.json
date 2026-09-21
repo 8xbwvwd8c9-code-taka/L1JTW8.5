@@ -1,0 +1,33 @@
+{
+  "gate": "SOURCE_ONLY_APPLICATION_WITH_SOURCE_BUILT_PROTOBUF",
+  "application_java_sources": 788,
+  "source_built_protobuf_classes": 246,
+  "compile_exit_code": 0,
+  "javac_error_headers": 0,
+  "generated_application_classes": 1109,
+  "error_file_count": 0,
+  "top_error_files": [],
+  "top_error_messages": [],
+  "error_contexts": [],
+  "expected_application_classes": 1109,
+  "full_donor_game_jar_on_classpath": false,
+  "donor_protobuf_binary_on_classpath": false,
+  "official_prebuilt_protobuf_binary_on_classpath": false,
+  "source_built_protobuf_abi_jar_on_classpath": false,
+  "source_built_protobuf_compile_view_on_classpath": true,
+  "source_built_protobuf_exact_runtime_jar_preserved": true,
+  "excluded_prebuilt_protobuf_jars": [
+    "lib/protobuf-java-2.5.0.jar"
+  ],
+  "classpath": [
+    "lib/c3p0-0.9.5.2.jar",
+    "lib/c3p0-oracle-thin-extras-0.9.5.2.jar",
+    "lib/lombok-1.16.6.jar",
+    "lib/mchange-commons-java-0.2.11.jar",
+    "lib/mysql-connector-java-5.1.40-bin.jar",
+    "lib/slf4j-api-1.5.2.jar",
+    "lib/slf4j-jdk14-1.5.2.jar",
+    "recovery/protobuf-2.5.0-source-built-compile-view.jar"
+  ],
+  "pass": true
+}

@@ -1,0 +1,407 @@
+{
+  "gate": "SOURCE_BUILT_PROTOBUF_COMPILE_VIEW",
+  "source_exact_abi_jar": "recovery/protobuf-2.5.0-source-built-donor-abi.jar",
+  "output_compile_view": "recovery/protobuf-2.5.0-source-built-compile-view.jar",
+  "source_built_classes": 246,
+  "abstract_obligations_removed": [
+    {
+      "class": "l1rpb/a$a.class",
+      "name": "d",
+      "descriptor": "()Ll1rpb/a$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "f",
+      "descriptor": "()Ll1rpb/b$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "b",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/y$a.class",
+      "name": "d",
+      "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/y$a.class",
+      "name": "d",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/ab.class",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/ab.class",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "flags": 1025
+    }
+  ],
+  "proven_typed_alias_count": 40,
+  "typed_aliases_added": [
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BII)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BII)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "([B)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([B)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/a$a.class",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "f",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "f",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "g",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "g",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "h",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "h",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "([B)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "([BII)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "([B)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "([BII)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/c.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "e",
+      "alias_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "typed_provider_name": "c",
+      "typed_provider_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "f",
+      "alias_descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "i",
+      "alias_descriptor": "()Ll1rpb/p$a;",
+      "typed_provider_name": "ai",
+      "typed_provider_descriptor": "()Ll1rpb/p$a;"
+    },
+    {
+      "class": "l1rpb/p$a.class",
+      "alias_name": "j",
+      "alias_descriptor": "()Ll1rpb/p$a;",
+      "typed_provider_name": "ah",
+      "typed_provider_descriptor": "()Ll1rpb/p$a;"
+    }
+  ],
+  "builder_bridge_synthetic_flags_cleared": [
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "([BLl1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "([BII)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "([B)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "g",
+      "descriptor": "()Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    }
+  ],
+  "builder_bridge_synthetic_flag_clear_count": 9,
+  "abstract_obligation_count": 7,
+  "inner_visibility_target": "l1rpb/p$b",
+  "inner_visibility_entries_widened": 47,
+  "runtime_exact_abi_jar_modified": false,
+  "donor_binary_used": false,
+  "method_bytecode_changed": false,
+  "gameplay_logic_changed": false,
+  "scope": "javac compile view only; 40 proven typed aliases + 9 proven builder bridge synthetic-flag clears + targeted obligations/visibility; runtime/linkage validation remains against exact source-built donor ABI"
+}

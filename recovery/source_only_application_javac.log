@@ -1,0 +1,310 @@
+warning: [options] bootstrap class path not set in conjunction with -source 8
+_normalized-stage-src/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               var1.put(new Integer(var13.e()), var14);
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:108: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("none", new Integer(0));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:109: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("weapon", new Integer(1));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:110: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor", new Integer(2));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:111: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("spell_long", new Integer(5));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:112: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ntele", new Integer(6));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:113: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("identify", new Integer(7));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:114: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("res", new Integer(8));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:115: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("nts", new Integer(9));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:116: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("letter", new Integer(12));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:117: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("letter_w", new Integer(13));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:118: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("choice", new Integer(14));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:119: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("instrument", new Integer(15));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:120: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("sosc", new Integer(16));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:121: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("spell_short", new Integer(17));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:122: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_T", new Integer(18));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:123: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Cloak", new Integer(19));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:124: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Glove", new Integer(20));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:125: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Boots", new Integer(21));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:126: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Helm", new Integer(22));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:127: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Ring", new Integer(23));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:128: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Amulet", new Integer(24));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:129: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Shield", new Integer(25));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:130: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("dai", new Integer(26));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:131: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("zel", new Integer(27));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:132: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("blank", new Integer(28));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:133: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("btele", new Integer(29));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:134: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("skill", new Integer(30));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:135: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ccard", new Integer(31));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:136: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ccard_w", new Integer(32));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:137: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("vcard", new Integer(33));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:138: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("vcard_w", new Integer(34));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:139: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("wcard", new Integer(35));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:140: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("wcard_w", new Integer(36));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:141: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Belt", new Integer(37));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:142: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("select_short", new Integer(39));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:143: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Earring", new Integer(40));
+                             ^
+_normalized-stage-src/l1r/ao/ItemTable.java:144: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("fishing_rod", new Integer(42));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:145: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("del", new Integer(46));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:146: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("select_short", new Integer(50));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:147: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("normal", new Integer(51));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:148: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("cook_book", new Integer(52));
+                         ^
+_normalized-stage-src/l1r/ao/ItemTable.java:149: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("doll_s", new Integer(55));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:150: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("telbook", new Integer(56));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:151: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("flute_color", new Integer(59));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:152: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("flute", new Integer(60));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:153: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ras2", new Integer(61));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:154: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ticket_1", new Integer(62));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:155: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("ticket_2", new Integer(65));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:156: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Rune", new Integer(66));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:157: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("tam", new Integer(68));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:158: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Greaves", new Integer(70));
+                             ^
+_normalized-stage-src/l1r/ao/ItemTable.java:159: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Shoulder", new Integer(75));
+                              ^
+_normalized-stage-src/l1r/ao/ItemTable.java:160: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      g.put("armor_Badge", new Integer(76));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:179: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("none", new Integer(0));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:180: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("liquid", new Integer(1));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:181: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("web", new Integer(2));
+                   ^
+_normalized-stage-src/l1r/ao/ItemTable.java:182: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("vegetation", new Integer(3));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:183: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("animalmatter", new Integer(4));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:184: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("paper", new Integer(5));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:185: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("cloth", new Integer(6));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:186: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("leather", new Integer(7));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:187: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("wood", new Integer(8));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:188: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("bone", new Integer(9));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:189: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("dragonscale", new Integer(10));
+                           ^
+_normalized-stage-src/l1r/ao/ItemTable.java:190: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("iron", new Integer(11));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:191: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("steel", new Integer(12));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:192: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("copper", new Integer(13));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:193: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("silver", new Integer(14));
+                      ^
+_normalized-stage-src/l1r/ao/ItemTable.java:194: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("gold", new Integer(15));
+                    ^
+_normalized-stage-src/l1r/ao/ItemTable.java:195: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("platinum", new Integer(16));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:196: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("mithril", new Integer(17));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:197: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("blackmithril", new Integer(18));
+                            ^
+_normalized-stage-src/l1r/ao/ItemTable.java:198: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("glass", new Integer(19));
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:199: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("gemstone", new Integer(20));
+                        ^
+_normalized-stage-src/l1r/ao/ItemTable.java:200: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("mineral", new Integer(21));
+                       ^
+_normalized-stage-src/l1r/ao/ItemTable.java:201: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      e.put("oriharukon", new Integer(22));
+                          ^
+_normalized-stage-src/l1r/ao/ItemTable.java:660: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:745: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+_normalized-stage-src/l1r/ao/ItemTable.java:905: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            var1.put(new Integer(var5.g()), var5);
+                     ^
+_normalized-stage-src/l1r/ao/MapsTable.java:62: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4), var6);
+                          ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:61: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4.a()), var4);
+                          ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:63: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.d.put(new Integer(var4.a()), var4);
+                          ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:65: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.e.put(new Integer(var4.a()), var4);
+                          ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:76: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:80: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.d.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/NpcChatTable.java:84: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.e.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/NpcSpawnTable.java:74: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var13.b()), var13);
+                          ^
+_normalized-stage-src/l1r/ao/PetItemTable.java:21: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      d.put("armor", new Integer(0));
+                     ^
+_normalized-stage-src/l1r/ao/PetItemTable.java:22: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      d.put("tooth", new Integer(1));
+                     ^
+_normalized-stage-src/l1r/ao/PetTable.java:60: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var5), var4);
+                       ^
+_normalized-stage-src/l1r/ao/PetTable.java:82: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var2), var4);
+                 ^
+_normalized-stage-src/l1r/ao/PetTable.java:120: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var3), var4);
+                 ^
+_normalized-stage-src/l1r/ao/PetTable.java:262: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.c.put(new Integer(var3), var7);
+                 ^
+_normalized-stage-src/l1r/ao/PetTable.java:289: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/ResolventTable.java:92: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var4), var5);
+                       ^
+_normalized-stage-src/l1r/ao/SkillsTable.java:77: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+         this.c.put(new Integer(var3), var2);
+                    ^
+_normalized-stage-src/l1r/ao/SkillsTable.java:136: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/SpawnTable.java:113: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+               this.c.put(new Integer(var4.b()), var4);
+                          ^
+_normalized-stage-src/l1r/ao/SpawnTable.java:127: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      return this.c.get(new Integer(var1));
+                        ^
+_normalized-stage-src/l1r/ao/TownTable.java:56: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+            this.c.put(new Integer(var4), var5);
+                       ^
+_normalized-stage-src/l1r/as/L1BugBearRace.java:186: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal
+      this.m.put(new Integer(var4.c), var4);
+                 ^
+Note: Some input files use unchecked or unsafe operations.
+Note: Recompile with -Xlint:unchecked for details.
+103 warnings
