@@ -34,7 +34,6 @@ SAFE_DERIVED={
   'l1rpb/ab.class': {
     ('e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
     ('e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
-    ('f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   },
   'l1rpb/y$a.class': {
     ('d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
@@ -164,7 +163,6 @@ required={
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
-  ('l1rpb/ab.class','f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   ('l1rpb/a$a.class','d','()Ll1rpb/a$a;'),
 }
 actual={(cls,n,d) for cls,methods in targets.items() for n,d in methods}
