@@ -270,6 +270,8 @@ BUG-850-137=PATCHED_PENDING_VALIDATION
 BUG-850-140=PATCHED_PENDING_VALIDATION
 BUG-850-141=PATCHED_PENDING_VALIDATION
 BUG-850-144=PATCHED_PENDING_VALIDATION
+BUG-850-171=PATCHED_PENDING_VALIDATION
+BUG-850-172=PATCHED_PENDING_VALIDATION
 ```
 
 BUG-850-114 已完成 canonical 吸收與驗證紀錄。來源物品 41761 會先驗證並成功扣除，再建立 41762；bookmark export 使用 transaction / rollback，失敗時回滾替代品並補回來源。
@@ -279,6 +281,8 @@ BUG-850-137 已在 work branch 補上正數檢查、`300L * amount` 溢位邊界
 BUG-850-140 / 141 已在 work branch 補上房屋出售與競標第二階段的伺服器端重驗：房屋/血盟 ownership、leader/royal、keeper/interaction context、sale/deadline、以及由目前 DB/runtime house 狀態重新計算最低競標價。兩項同樣等待 targeted Java compile / runtime gate。
 
 BUG-850-144 已在 work branch 依 `S_SellHouse` 的 100000..2000000000 邊界補上出售價格驗證，並在 `HouseTimer` 增加 legacy invalid price settlement guard；同樣等待 targeted Java compile / runtime gate。
+
+BUG-850-171 / 172 已在 work branch 補上 pet inventory ownership gate 與 skill-purchase current-offer membership gate；兩項皆在任何資料序列化／扣款／扣材料／`character_skills` persistence 前 fail closed。仍等待 targeted Java compile / runtime gate。
 
 ### 支線整理規則
 
