@@ -70,6 +70,18 @@ jobs:
             -o "$RUNNER_TEMP/cfr.jar" \
             "https://repo1.maven.org/maven2/org/benf/cfr/0.152/cfr-0.152.jar"
 
+      - name: Download official protobuf-java 2.5.0 sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
+            "https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0-sources.jar"
+
+      - name: Probe official protobuf-java 2.5.0 fingerprint
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-2.5.0-official.py "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar"
+
       - name: Decompile relocated Protobuf runtime with CFR
         shell: bash
         run: python ./tools/recovery/decompile-protobuf-runtime-cfr.py "$RUNNER_TEMP/cfr.jar"
@@ -134,6 +146,7 @@ jobs:
           cat recovery/protobuf_runtime_source_cfr_compile.json
           cat recovery/protobuf_runtime_source_cfr_renamed_compile.json
           cat recovery/protobuf_runtime_source_cfr_flat_compile.json
+          cat recovery/protobuf_2_5_0_fingerprint.json
 
       - name: Upload protobuf runtime source experiment
         uses: actions/upload-artifact@v4
