@@ -50,6 +50,29 @@ BUG / FEATURE
 
 - [Recovery / 核心修復首頁](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/analysis/l1jtw85-recovery/recovery/README.md)
 
+### 最新 L1 修復進度（2026-09-21）
+
+```text
+BUG-850-105 / BUG-850-106
+COMMIT=034029c
+STATUS=SUBMITTED
+
+VALID_L1_PROGRESS=13/41
+NEXT_UNFIXED_L1=BUG-850-114
+```
+
+BUG-850-114 下一步驗證範圍：
+
+```text
+物品轉換來源驗證
+→ 扣除結果
+→ 替代品授予
+→ DB inventory API
+→ partial-success boundary
+```
+
+修復原則：不能只交換操作順序；必須確認來源物品驗證、扣除、替代品授予與 DB inventory API 的結果形成完整一致的成功/失敗邊界，避免留下部分成功狀態。
+
 ### 支線整理規則
 
 目前採三支線生命週期：
