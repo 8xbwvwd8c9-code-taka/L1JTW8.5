@@ -59,6 +59,22 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-protobuf-runtime-source.py
 
+      - name: Download CFR for protobuf runtime A/B
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/cfr.jar" \
+            "https://repo1.maven.org/maven2/org/benf/cfr/0.152/cfr-0.152.jar"
+
+      - name: Decompile relocated Protobuf runtime with CFR
+        shell: bash
+        run: python ./tools/recovery/decompile-protobuf-runtime-cfr.py "$RUNNER_TEMP/cfr.jar"
+
+      - name: Compile CFR Protobuf runtime from source only
+        shell: bash
+        run: python ./tools/recovery/compile-protobuf-runtime-source-cfr.py
+
       - name: Snapshot protobuf runtime source frontier
         shell: bash
         run: python ./tools/recovery/snapshot-protobuf-runtime-frontier.py
@@ -69,7 +85,15 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/wip/protobuf-runtime-frontier recovery/protobuf_runtime_source_compile.json recovery/PROTOBUF_RUNTIME_SOURCE_COMPILE.md
+          mkdir -p recovery/wip/protobuf-runtime-frontier-cfr
+          cp -f recovery/protobuf-runtime-src-cfr/l1rpb/p.java recovery/wip/protobuf-runtime-frontier-cfr/p.java 2>/dev/null || true
+          cp -f recovery/protobuf-runtime-src-cfr/l1rpb/k.java recovery/wip/protobuf-runtime-frontier-cfr/k.java 2>/dev/null || true
+          cp -f recovery/protobuf-runtime-src-cfr/l1rpb/x.java recovery/wip/protobuf-runtime-frontier-cfr/x.java 2>/dev/null || true
+          cp -f recovery/protobuf-runtime-src-cfr/l1rpb/j.java recovery/wip/protobuf-runtime-frontier-cfr/j.java 2>/dev/null || true
+          git add recovery/wip/protobuf-runtime-frontier recovery/wip/protobuf-runtime-frontier-cfr \
+            recovery/protobuf_runtime_source_compile.json recovery/PROTOBUF_RUNTIME_SOURCE_COMPILE.md \
+            recovery/protobuf_runtime_source_cfr_decompile.json recovery/protobuf_runtime_source_cfr_compile.json \
+            recovery/protobuf_runtime_source_cfr_javac.log
           if git diff --cached --quiet; then
             echo "No protobuf runtime frontier changes."
           else
@@ -83,6 +107,7 @@ jobs:
         run: |
           cat recovery/protobuf_runtime_source_decompile.json
           cat recovery/protobuf_runtime_source_compile.json
+          cat recovery/protobuf_runtime_source_cfr_compile.json
 
       - name: Upload protobuf runtime source experiment
         uses: actions/upload-artifact@v4
