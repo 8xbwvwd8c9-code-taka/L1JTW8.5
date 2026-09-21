@@ -30,6 +30,7 @@ spb_targets=[
   'g.a(new byte[]{-30, 112, -1})',
   'g.a(var18.s())',
   'g.a(var27.getString("char_name").getBytes(Config.k))',
+  'g.a(new byte[]{-1, 0, -1})',
 ]
 n=0
 for old in spb_targets:
@@ -54,13 +55,13 @@ state={
   'normalization_required_for_donor_compare':True,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-# Current javac evidence: 18 L1Craft overload-resolution failures and 3 S_ProtoBuffers g-shadow failures.
-ok=(craft_total==18 and craft_counts.get('message_bytes')==14 and craft_counts.get('item_bytes')==2 and craft_counts.get('empty_string')==2 and n==3)
+# Current javac evidence: 18 L1Craft overload-resolution failures and 4 S_ProtoBuffers g-shadow failures.
+ok=(craft_total==18 and craft_counts.get('message_bytes')==14 and craft_counts.get('item_bytes')==2 and craft_counts.get('empty_string')==2 and n==4)
 MD.write_text(
  '# Non-Protobuf Runtime g Call Normalization\n\n'
  + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
  + f'- L1Craft runtime `g.a(...)` sites: **{craft_total} / 18**\n'
- + f'- S_ProtoBuffers runtime `g.a(...)` sites: **{n} / 3**\n'
+ + f'- S_ProtoBuffers runtime `g.a(...)` sites: **{n} / 4**\n'
  + '- Call target changed: **NO** (static import made explicit)\n'
  + '- Argument expressions changed: **NO**\n'
  + '- Gameplay logic changed: **NO**\n',
