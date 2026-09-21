@@ -85,3 +85,31 @@ At present, condition 2 is **not proven**.
 ## Next
 
 Retain the complete protobuf-runtime source-only experiment as a CI artifact, then classify the 3954 javac errors by exact source/decompiler pattern. Fix only high-confidence representation families; do not alter application Java sources or reopen WP1-WP4.
+
+
+## 2026-09-21 protobuf 2.5.0 identity breakthrough
+
+Official `protobuf-java:2.5.0` has now been independently compiled in CI:
+
+```text
+JAVA_SOURCES=45
+COMPILE_EXIT=0
+GENERATED_CLASSES=246
+```
+
+This exactly matches the donor embedded runtime inventory:
+
+```text
+TOP_LEVEL_JAVA_SOURCES=45
+RUNTIME_CLASSES=246
+```
+
+The embedded `DescriptorProtos` fingerprint also matches 2.5.0, including `weak_dependency`, `java_generate_equals_and_hash`, `experimental_map_key`, generic-service options, and absence of `java_string_check_utf8`.
+
+Classification is upgraded from UNKNOWN VERSION to:
+
+`PROTOBUF_2_5_0_STRONG_MATCH / BINARY_EQUIVALENCE_PENDING`
+
+This does **not** close WP5 by itself. Binary/structural equivalence and absence of donor-private modifications remain mandatory.
+
+See: `recovery/PROTOBUF_2_5_0_IDENTITY_FINGERPRINT.md`.
