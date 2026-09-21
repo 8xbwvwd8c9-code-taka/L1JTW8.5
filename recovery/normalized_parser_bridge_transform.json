@@ -1,0 +1,115 @@
+{
+  "error_family": "PROTOBUF_EXPLICIT_SYNTHETIC_PARSER_BRIDGE",
+  "expected_bridge_count": 44,
+  "rewritten_bridge_count": 44,
+  "changed_files": 9,
+  "changes": [
+    {
+      "file": "l1r/an/PBMessageALL.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL.L1R_a",
+        "PBMessageALL.L1R_c",
+        "PBMessageALL.L1R_e",
+        "PBMessageALL.L1R_g",
+        "PBMessageALL.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL2.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL2.L1R_a",
+        "PBMessageALL2.L1R_c",
+        "PBMessageALL2.L1R_e",
+        "PBMessageALL2.L1R_g",
+        "PBMessageALL2.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL3.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL3.L1R_a",
+        "PBMessageALL3.L1R_c",
+        "PBMessageALL3.L1R_e",
+        "PBMessageALL3.L1R_g",
+        "PBMessageALL3.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL4.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL4.L1R_a",
+        "PBMessageALL4.L1R_c",
+        "PBMessageALL4.L1R_e",
+        "PBMessageALL4.L1R_g",
+        "PBMessageALL4.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL5.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL5.L1R_a",
+        "PBMessageALL5.L1R_c",
+        "PBMessageALL5.L1R_e",
+        "PBMessageALL5.L1R_g",
+        "PBMessageALL5.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL6.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL6.L1R_a",
+        "PBMessageALL6.L1R_c",
+        "PBMessageALL6.L1R_e",
+        "PBMessageALL6.L1R_g",
+        "PBMessageALL6.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL7.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL7.L1R_a",
+        "PBMessageALL7.L1R_c",
+        "PBMessageALL7.L1R_e",
+        "PBMessageALL7.L1R_g",
+        "PBMessageALL7.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL8.java",
+      "rewritten": 5,
+      "return_types": [
+        "PBMessageALL8.L1R_a",
+        "PBMessageALL8.L1R_c",
+        "PBMessageALL8.L1R_e",
+        "PBMessageALL8.L1R_g",
+        "PBMessageALL8.L1R_i"
+      ]
+    },
+    {
+      "file": "l1r/an/PBMessageALL9.java",
+      "rewritten": 4,
+      "return_types": [
+        "PBMessageALL9.L1R_a",
+        "PBMessageALL9.L1R_c",
+        "PBMessageALL9.L1R_e",
+        "PBMessageALL9.L1R_g"
+      ]
+    }
+  ],
+  "old_object_bridge_residual": [],
+  "transform": "Object d(h,n) -> exact preceding c(h,n) ConcreteMessage return type",
+  "bridge_method_name_changed": false,
+  "bridge_params_changed": false,
+  "bridge_body_changed": false,
+  "typed_parser_method_changed": false,
+  "gameplay_logic_changed": false,
+  "source_representation_only": true,
+  "donor_jvm_erased_descriptor_restored_by_javac_bridge": true
+}

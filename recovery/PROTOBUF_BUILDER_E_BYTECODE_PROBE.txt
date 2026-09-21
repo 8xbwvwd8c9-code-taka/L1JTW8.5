@@ -1,0 +1,95 @@
+  public l1rpb.x$a e(java.io.InputStream, l1rpb.n) throws java.io.IOException;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #80                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;
+         6: areturn
+      LineNumberTable:
+        line 267: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/a$a;
+            0       7     1    x0   Ljava/io/InputStream;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;
+    Exceptions:
+      throws java.io.IOException
+
+
+  public l1rpb.x$a e(java.io.InputStream) throws java.io.IOException;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/x$a;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #79                 // Method a:(Ljava/io/InputStream;)Ll1rpb/a$a;
+         5: areturn
+      LineNumberTable:
+        line 267: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/a$a;
+            0       6     1    x0   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;
+    Exceptions:
+      throws java.io.IOException
+
+
+  public BuilderType a(java.io.InputStream, l1rpb.n) throws java.io.IOException;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokespecial #121                // Method l1rpb/b$a.c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/b$a;
+         6: checkcast     #7                  // class l1rpb/a$a
+         9: areturn
+      LineNumberTable:
+        line 912: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/a$a;
+            0      10     1 input   Ljava/io/InputStream;
+            0      10     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/a$a<TBuilderType;>;
+    Exceptions:
+      throws java.io.IOException
+    Signature: #448                         // (Ljava/io/InputStream;Ll1rpb/n;)TBuilderType;
+
+
+  public BuilderType a(java.io.InputStream) throws java.io.IOException;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/a$a;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokespecial #120                // Method l1rpb/b$a.c:(Ljava/io/InputStream;)Ll1rpb/b$a;
+         5: checkcast     #7                  // class l1rpb/a$a
+         8: areturn
+      LineNumberTable:
+        line 904: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/a$a;
+            0       9     1 input   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/a$a<TBuilderType;>;
+    Exceptions:
+      throws java.io.IOException
+    Signature: #442                         // (Ljava/io/InputStream;)TBuilderType;
+

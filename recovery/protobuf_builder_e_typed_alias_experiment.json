@@ -1,0 +1,39 @@
+{
+  "experiment": "BUILDER_A_A_TYPED_E_ALIAS_FROM_A",
+  "class": "l1rpb/a$a.class",
+  "aliases": [
+    {
+      "bridge_name": "e",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+      "bridge_flags": 4097,
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+      "typed_provider_flags": 1,
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+      "typed_provider_bytecode_and_signature_copied_exactly": true
+    },
+    {
+      "bridge_name": "e",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+      "bridge_flags": 4097,
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_flags": 1,
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_provider_bytecode_and_signature_copied_exactly": true
+    }
+  ],
+  "selection_rule": "synthetic x$a-return e(InputStream[,n]) exists + concrete a$a-return a(InputStream[,n]) exists",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_method_names_changed": false,
+  "existing_method_descriptors_changed": false,
+  "existing_bytecode_changed": false,
+  "added_alias_method_count": 2,
+  "gameplay_logic_changed": false,
+  "baseline": "44 builder / 0 parser / 0 nonprotobuf errors",
+  "pass_signal": "current e(InputStream,n) builder obligation disappears or advances without parser/nonprotobuf regression"
+}
