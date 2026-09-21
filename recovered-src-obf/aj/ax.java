@@ -24,18 +24,24 @@ extends cv {
         int locX = this.d();
         int locY = this.d();
         int mapId = pc.fp();
+        int ticketId = 0;
         if (mapId == 5) {
-            pc.j().b(40299, 1);
+            ticketId = 40299;
         } else if (mapId == 6) {
-            pc.j().b(40298, 1);
+            ticketId = 40298;
         } else if (mapId == 83) {
-            pc.j().b(40300, 1);
+            ticketId = 40300;
         } else if (mapId == 84) {
-            pc.j().b(40301, 1);
+            ticketId = 40301;
         } else if (mapId == 446) {
-            pc.j().b(40303, 1);
+            ticketId = 40303;
         } else if (mapId == 447) {
-            pc.j().b(40302, 1);
+            ticketId = 40302;
+        } else {
+            return;
+        }
+        if (!pc.j().b(ticketId, 1)) {
+            return;
         }
         am.a(pc, locX, locY, shipMapId, 0, true);
     }
