@@ -1,0 +1,7598 @@
+{
+  "gate": "GENERIC_BUILDER_CLASS_SIGNATURE_AUDIT",
+  "status": "PASS",
+  "builder_count": 44,
+  "donor_signature_present_count": 44,
+  "generated_signature_null_count": 44,
+  "donor_signature_pattern_mismatches": 0,
+  "donor_self_type_mismatches": 0,
+  "orbuilder_interface_alignment_mismatches": 0,
+  "normalized_superclass_mismatches": 0,
+  "bridge_descriptor_mismatch_classes": 44,
+  "donor_bridge_total": 0,
+  "generated_bridge_total": 836,
+  "classification": {
+    "runtime_linkage_hierarchy": "PASS",
+    "reflective_generic_metadata": "DIFF",
+    "javac_generated_bridge_descriptors": "DIFF",
+    "source_restore_required_for_runtime_linkage": false,
+    "final_treatment": "DOCUMENT_EXACT_SOURCE_REPRESENTATION_EXCEPTION_OR_RESTORE_METADATA",
+    "broad_generic_superclass_restore_permitted_by_this_wp": false
+  },
+  "builders": [
+    {
+      "class": "an/a$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/a$a$a;>;Lan/a$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/a$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/a$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/a$c$a;>;Lan/a$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/a$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/a$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/a$e$a;>;Lan/a$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/a$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/a$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/a$g$a;>;Lan/a$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/a$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/a$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/a$i$a;>;Lan/a$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/a$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/b$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL2$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/b$a$a;>;Lan/b$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/b$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/b$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL2$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/b$c$a;>;Lan/b$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/b$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/b$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL2$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/b$e$a;>;Lan/b$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/b$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/b$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL2$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/b$g$a;>;Lan/b$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/b$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/b$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL2$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/b$i$a;>;Lan/b$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/b$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/c$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL3$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/c$a$a;>;Lan/c$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/c$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/c$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL3$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/c$c$a;>;Lan/c$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/c$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/c$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL3$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/c$e$a;>;Lan/c$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/c$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/c$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL3$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/c$g$a;>;Lan/c$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/c$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/c$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL3$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/c$i$a;>;Lan/c$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/c$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/d$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL4$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/d$a$a;>;Lan/d$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/d$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/d$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL4$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/d$c$a;>;Lan/d$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/d$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/d$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL4$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/d$e$a;>;Lan/d$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/d$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/d$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL4$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/d$g$a;>;Lan/d$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/d$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/d$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL4$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/d$i$a;>;Lan/d$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/d$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/e$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL5$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/e$a$a;>;Lan/e$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/e$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/e$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL5$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/e$c$a;>;Lan/e$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/e$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/e$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL5$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/e$e$a;>;Lan/e$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/e$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/e$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL5$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/e$g$a;>;Lan/e$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/e$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/e$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL5$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/e$i$a;>;Lan/e$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/e$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/f$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL6$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/f$a$a;>;Lan/f$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/f$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/f$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL6$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/f$c$a;>;Lan/f$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/f$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/f$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL6$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/f$e$a;>;Lan/f$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/f$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/f$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL6$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/f$g$a;>;Lan/f$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/f$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/f$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL6$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/f$i$a;>;Lan/f$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/f$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/g$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL7$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/g$a$a;>;Lan/g$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/g$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/g$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL7$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/g$c$a;>;Lan/g$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/g$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/g$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL7$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/g$e$a;>;Lan/g$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/g$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/g$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL7$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/g$g$a;>;Lan/g$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/g$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/g$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL7$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/g$i$a;>;Lan/g$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/g$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/h$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL8$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/h$a$a;>;Lan/h$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/h$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/h$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL8$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/h$c$a;>;Lan/h$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/h$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/h$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL8$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/h$e$a;>;Lan/h$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/h$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/h$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL8$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/h$g$a;>;Lan/h$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/h$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/h$i$a.class",
+      "generated_internal": "l1r/an/PBMessageALL8$L1R_i$L1R_a",
+      "donor_signature": "La/p$a<Lan/h$i$a;>;Lan/h$j;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/h$j",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/i$a$a.class",
+      "generated_internal": "l1r/an/PBMessageALL9$L1R_a$L1R_Builder",
+      "donor_signature": "La/p$a<Lan/i$a$a;>;Lan/i$b;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/i$b",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/i$c$a.class",
+      "generated_internal": "l1r/an/PBMessageALL9$L1R_c$L1R_a",
+      "donor_signature": "La/p$a<Lan/i$c$a;>;Lan/i$d;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/i$d",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/i$e$a.class",
+      "generated_internal": "l1r/an/PBMessageALL9$L1R_e$L1R_a",
+      "donor_signature": "La/p$a<Lan/i$e$a;>;Lan/i$f;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/i$f",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    },
+    {
+      "class": "an/i$g$a.class",
+      "generated_internal": "l1r/an/PBMessageALL9$L1R_g$L1R_a",
+      "donor_signature": "La/p$a<Lan/i$g$a;>;Lan/i$h;",
+      "generated_signature": null,
+      "donor_signature_pattern_ok": true,
+      "donor_self_type_ok": true,
+      "donor_orbuilder_interface": "an/i$h",
+      "interface_alignment_ok": true,
+      "normalized_super_match": true,
+      "bridge_name_descriptor_match": false,
+      "donor_bridge_count": 0,
+      "generated_bridge_count": 19,
+      "donor_bridges": [],
+      "generated_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
+      "donor_only_bridges": [],
+      "generated_only_bridges": [
+        {
+          "name": "b",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "b",
+          "descriptor": "(La/k$f;ILjava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/g;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILa/n;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLa/n;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(La/ap;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)La/x$a;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;La/n;)La/x$a;"
+        },
+        {
+          "name": "f",
+          "descriptor": "(La/k$f;)La/x$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ]
+    }
+  ],
+  "notes": [
+    "Class Signature is optional JVM metadata for generic reflection/tooling; superclass and interface descriptors remain separately verified.",
+    "Generated builders intentionally use a raw p$a source representation, so their class-level Signature attribute is absent.",
+    "This gate does not authorize changing the builder superclass or application source.",
+    "A strict zero-difference generic-metadata policy would require a later safe representation; current completion rules also permit an exact documented source-representation equivalence."
+  ]
+}
