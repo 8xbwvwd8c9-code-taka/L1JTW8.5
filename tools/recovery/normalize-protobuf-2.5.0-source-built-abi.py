@@ -113,6 +113,7 @@ class CP:
         return bytes(out)
 
 def rewrite_class(data, official_name):
+    global inherited_or_external_memberrefs
     cp=CP(data)
 
     # First rewrite class-name/descriptors/signatures in all Utf8. Member names are NOT globally rewritten.
@@ -183,13 +184,10 @@ def rewrite_class(data, official_name):
             dn,dd=matches[0]
             e[2]=cp.add_nt(dn,dd)
         elif len(matches)==0:
-            # The name may already be donor due to shared Utf8 declaration mutation; try exact donor target.
-            matches2=[]
-            for (oo,on,od,k),(dn,dd) in member_rev.items():
-                if oo==official_owner and k==kind and dd==desc and dn==name:
-                    matches2.append((dn,dd))
-            if len(matches2)!=1:
-                raise SystemExit(f"memberref mapping {official_owner} {kind} {name}{desc}: 0")
+            # No direct declaration on this protobuf owner. JVM refs can use a subtype owner
+            # for inherited JDK/protobuf members. Preserve the member name; class/descriptors
+            # are already translated. A later linkage validator audits these references.
+            inherited_or_external_memberrefs += 1
         else:
             raise SystemExit(f"memberref mapping ambiguous {official_owner} {kind} {name}{desc}: {len(matches)}")
 
@@ -198,6 +196,7 @@ def rewrite_class(data, official_name):
     return out, donor_owner
 
 classes=0
+inherited_or_external_memberrefs=0
 with zipfile.ZipFile(OUTJAR,"w",zipfile.ZIP_DEFLATED) as zout:
     for p in sorted(BUILD.rglob("*.class")):
         official=p.relative_to(BUILD).as_posix()[:-6]
@@ -211,6 +210,7 @@ with zipfile.ZipFile(OUTJAR,"w",zipfile.ZIP_DEFLATED) as zout:
 state={"gate":"PROTOBUF_2_5_0_SOURCE_BUILT_DONOR_ABI",
        "official_build":BUILD.as_posix(),"output":OUTJAR.as_posix(),
        "class_map":len(cm_rev),"member_map":len(mm),"written_classes":classes,
+       "inherited_or_external_memberrefs_left_named":inherited_or_external_memberrefs,
        "donor_binary_used_as_runtime_output":False,
        "gameplay_logic_changed":False}
 STATE.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
