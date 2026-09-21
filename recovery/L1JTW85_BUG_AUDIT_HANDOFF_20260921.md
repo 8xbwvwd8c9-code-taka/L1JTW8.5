@@ -29,11 +29,17 @@ Repository:
 
 ### Active audit branch
 
-`analysis/l1jtw85-bug-audit`
+`work/l1jtw85-core-fixes`
 
 Primary audit report:
 
 `recovery/BUG_AUDIT_2026-09-20.md`
+
+### Legacy audit branch
+
+`analysis/l1jtw85-bug-audit`
+
+This branch is superseded by `work/l1jtw85-core-fixes` per the main/recovery branch lifecycle. Do not use it as the authoritative WIP branch.
 
 Audit-only mode marker/report update:
 
@@ -41,7 +47,7 @@ Audit-only mode marker/report update:
 
 ### Frozen repaired/decompiled snapshot
 
-`completed/l1jtw85-decompiled-fixes-20260921`
+`completed/l1jtw85-core-fixes`
 
 Snapshot marker:
 
@@ -64,6 +70,20 @@ Retained for history only.
 Do not continue repair work there during audit-only mode.
 
 ---
+
+### Split DB audit source
+
+For DB verification, prefer main-branch split table files under:
+
+`db/無使用給AI檢查用資料庫DB/`
+
+Use `_INDEX.md` first, then read only the specific `<table>.sql` needed for the finding. Do **not** read the monolithic `db/8.5.sql` unless a split-table file is missing or demonstrably incomplete.
+
+Current split index covers **99 tables**.
+
+Important correction:
+- `mob_quest_week.sql` exists and contains 66 rows.
+- `RISK-850-259` is therefore an undersized-source robustness risk, **not** a default clean-DB bootstrap failure.
 
 ## 2. Source / Recovery Boundaries
 
@@ -136,7 +156,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-244`
+`850-263`
 
 Finding identity must come from actual report headers:
 
@@ -173,7 +193,24 @@ Recent high-value findings include:
 - `850-226` — C_CharcterConfig allocates from an untrusted internal 32-bit length before validation;
 - `850-227` — C_RestartDead does not require authoritative dead state before respawn transition;
 - `850-228` — C_GotoPortal can replay stale stored teleport destination state;
-- `850-244` — character gift claim grants after swallowed DB persistence failure, creating RAM/DB reward divergence.
+- `850-244` — character gift claim grants after swallowed DB persistence failure, creating RAM/DB reward divergence;
+- `850-245` — castle treasury deposit/withdrawal continue after swallowed castle persistence failure;
+- `850-246` — logout buff persistence rewrites the durable snapshot non-atomically;
+- `850-247` — RankingTable places Type 7 into the Type 3 bucket;
+- `850-248` — RankingTable top-50 truncation only reassigns a local variable;
+- `850-249` — PetTable create/delete can diverge RAM and DB on persistence failure;
+- `850-250` — SoulTower live top-10 list is never trimmed;
+- `850-251` — SoulTower leaderboard delete/rebuild is non-transactional;
+- `850-252` — malformed character_mobs_week rows cannot self-heal;
+- `850-254` — weekly reset continues after failed bulk delete;
+- `850-255` — first-row INSERT failure leaves live progress without durable backing;
+- `850-256` — reset tasks only reschedule after all work succeeds;
+- `850-257` — SoulTower cannot bootstrap from an empty leaderboard;
+- `850-258` — furniture world state mutates before persistence success;
+- `850-260` — wildcard IP-ban matching can terminate the GameServer accept thread;
+- `850-261` — cursed-drop branch mutates the wrong item object;
+- `850-262` — weapon-skill proc probability is one percentage point high;
+- `850-263` — account login publishes the connection before binding the account, so accounts.online is skipped.
 
 Recent verified defensive notes include:
 
@@ -279,7 +316,9 @@ Continue looking for patterns where:
 - payout/reward occurs before durable consume/delete;
 - two-table ownership changes lack one transaction;
 - client amount/count/price reaches signed int multiplication.
-- Recent new persistence finding: `850-244` CharacterGiftTable marks RAM claimed, swallows DB UPDATE failure, then still grants the configured reward.
+- Recent persistence findings now include `850-244`, `850-245`, `850-246`, `850-249`, `850-251`, `850-252`, `850-254`, `850-255`, and `850-258`.
+- Use the main-branch split DB table source for schema/seed verification before promoting any DB-dependent finding.
+- `RISK-850-259` was corrected after split DB verification: the baseline candidate pool has 66 rows, so only the <9-row robustness defect remains.
 
 Avoid duplicating existing 001–213 findings.
 
