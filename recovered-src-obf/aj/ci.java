@@ -24,11 +24,17 @@ extends cv {
         }
         int i2 = this.b();
         int j2 = this.c();
-        if (i2 == player.fr() && (clan = q.a().a(player.aF())) != null && (castle_id = clan.m()) != 0) {
+        if (i2 == player.fr() && (clan = q.a().a(player.aF())) != null && player.fr() == clan.k() && (castle_id = clan.m()) != 0) {
             bh.d l1castle = g.a().a(castle_id);
+            if (l1castle == null || l1castle.h() != player.fr()) {
+                return;
+            }
             if (j2 >= 10 && j2 <= 50) {
+                int oldTax = l1castle.e();
                 l1castle.a(j2);
-                g.a().a(l1castle);
+                if (!g.a().a(l1castle)) {
+                    l1castle.a(oldTax);
+                }
             }
         }
     }
