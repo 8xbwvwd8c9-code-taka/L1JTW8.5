@@ -111,6 +111,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-runtime-bridge-flags.py
 
+      - name: Normalize protobuf abstract source obligations
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-abstract-obligations.py
+
       - name: Probe protobuf protected nested type visibility
         shell: bash
         run: python ./tools/recovery/probe-protobuf-p-b-visibility.py
