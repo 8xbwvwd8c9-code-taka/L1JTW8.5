@@ -98,6 +98,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-classes.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
 
+      - name: Map protobuf classes by SourceFile and InnerClasses tree
+        shell: bash
+        run: python ./tools/recovery/map-protobuf-2.5.0-inner-tree.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
+
       - name: Refine protobuf mapping from stable seed
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-candidates.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
