@@ -114,9 +114,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-abstract-obligations.py
 
-      - name: Experiment exact parser bridge flags
+      - name: Prior parser bridge flag A/B
+        if: ${{ false }}
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-parser-bridge-flag.py
+
+      - name: Experiment typed parser f provider alias
+        shell: bash
+        run: python ./tools/recovery/experiment-protobuf-parser-typed-alias.py
 
       - name: Experiment builder bridge synthetic flag
         shell: bash
@@ -255,6 +260,8 @@ jobs:
             recovery/PROTOBUF_PARSER_BRIDGE_FLAG_EXPERIMENT.md
             recovery/protobuf_parser_f_bytecode_probe.json
             recovery/PROTOBUF_PARSER_F_BYTECODE_PROBE.txt
+            recovery/protobuf_parser_typed_alias_experiment.json
+            recovery/PROTOBUF_PARSER_TYPED_ALIAS_EXPERIMENT.md
           )
 
           existing=()
