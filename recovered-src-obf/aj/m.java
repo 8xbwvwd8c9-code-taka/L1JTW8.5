@@ -24,7 +24,10 @@ extends cv {
         int objId = this.b();
         int topicNumber = this.b();
         aa obj = aq.a().a(objId);
-        if (obj == null) {
+        if (!(obj instanceof c)) {
+            return;
+        }
+        if (obj.fu().c(pc.fu()) > 11) {
             return;
         }
         c board = (c)obj;
