@@ -111,10 +111,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-required-runtime-bridge-flags.py
 
-      - name: Normalize required protobuf runtime bridge flags
-        shell: bash
-        run: python ./tools/recovery/normalize-protobuf-runtime-bridge-flags.py
-
       - name: Normalize protobuf abstract source obligations
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-abstract-obligations.py
