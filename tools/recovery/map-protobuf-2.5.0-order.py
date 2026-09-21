@@ -4,7 +4,7 @@ import json, re, struct, sys, zipfile
 from collections import defaultdict, Counter
 from pathlib import Path
 
-DONOR=Path("recovery/compile-ref-protobuf-l1rpb.jar")
+DONOR=Path(sys.argv[2]) if len(sys.argv)>2 else Path("recovery/compile-ref-protobuf-l1rpb.jar")
 OFFICIAL=Path(sys.argv[1])
 OUT=Path("recovery/protobuf_2_5_0_order_mapping.json")
 OBJ=re.compile(r"L([^;<]+)")
