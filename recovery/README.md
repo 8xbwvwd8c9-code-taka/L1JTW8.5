@@ -330,3 +330,24 @@ Conclusion:
 - next priority: cluster `l1rpb/j.java` high-volume root error families before doing more single-identity repairs
 
 Full source-only recovery remains **NOT COMPLETE**.
+
+### 完成反編譯支線內容限制
+
+`completed/l1jtw85-decompiled` 完成後只保留：
+
+- 完整 **1765 classes mapping** 對應的反編譯成果；
+- 最小必要 identity / mapping manifest；
+- 一份最小 README（來源、Final Gate、1765 計數）。
+
+不保留：
+
+- recovery tools / scripts；
+- CI / logs / TEMP；
+- donor JAR / compile-ref JAR；
+- intermediate reports；
+- bug-audit / core-fix 文件；
+- DB/config/runtime assets；
+- 其他與最終反編譯成果無關的檔案。
+
+active recovery 分支在 Final Gate 前不可先清，避免刪掉尚未完成反編譯所需證據。
+
