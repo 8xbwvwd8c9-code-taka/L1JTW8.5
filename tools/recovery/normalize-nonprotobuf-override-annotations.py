@@ -11,6 +11,8 @@ targets={
  'l1r/ap/L1DoorInstance.java':['public void c(int var1)','public void d(int var1)'],
  'l1r/ap/L1MonsterInstance.java':['public void b(boolean var1)'],
  'l1r/ap/L1TowerInstance.java':['public boolean h()'],
+ 'l1r/ap/L1SummonInstance.java':['public void d(int var1)'],
+ 'l1r/aq/L1SpawnBoss.java':['public void s(int var1)'],
 }
 
 changes=[]; total=0
@@ -29,7 +31,7 @@ for rel,sigs in targets.items():
 state={
  'error_family':'DECOMPILER_SOURCE_OVERRIDE_ANNOTATION',
  'annotations_removed':total,
- 'expected_annotations':9,
+ 'expected_annotations':11,
  'changes':changes,
  'method_bodies_changed':False,
  'method_descriptors_changed':False,
@@ -37,11 +39,11 @@ state={
  'gameplay_logic_changed':False,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-ok=(total==9)
+ok=(total==11)
 MD.write_text(
  '# Non-Protobuf Override Annotation Normalization\n\n'
  + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
- + f'- Invalid decompiler `@Override` annotations removed: **{total} / 9**\n'
+ + f'- Invalid decompiler `@Override` annotations removed: **{total} / 11**\n'
  + '- Method bodies/descriptors changed: **NO / NO**\n'
  + '- Runtime behavior changed: **NO** (`@Override` is source-only).\n'
  + '- Gameplay logic changed: **NO**\n',
