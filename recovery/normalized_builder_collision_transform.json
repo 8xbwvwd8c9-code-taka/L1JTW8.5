@@ -1,0 +1,71 @@
+{
+  "error_family": "NESTED_BUILDER_ENCLOSING_NAME_COLLISION",
+  "repair_count": 9,
+  "repairs": [
+    {
+      "file": "l1r/an/PBMessageALL.java",
+      "old_binary_identity": "PBMessageALL$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 48,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL2.java",
+      "old_binary_identity": "PBMessageALL2$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL2$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 28,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL3.java",
+      "old_binary_identity": "PBMessageALL3$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL3$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 50,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL4.java",
+      "old_binary_identity": "PBMessageALL4$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL4$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 48,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL5.java",
+      "old_binary_identity": "PBMessageALL5$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL5$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 50,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL6.java",
+      "old_binary_identity": "PBMessageALL6$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL6$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 48,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL7.java",
+      "old_binary_identity": "PBMessageALL7$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL7$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 50,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL8.java",
+      "old_binary_identity": "PBMessageALL8$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL8$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 52,
+      "constructors_renamed": 3
+    },
+    {
+      "file": "l1r/an/PBMessageALL9.java",
+      "old_binary_identity": "PBMessageALL9$L1R_a$L1R_a",
+      "source_recovery_identity": "PBMessageALL9$L1R_a$L1R_Builder",
+      "qualified_references_rewritten": 38,
+      "constructors_renamed": 3
+    }
+  ],
+  "gameplay_logic_changed": false,
+  "normalization_required_for_donor_compare": true
+}

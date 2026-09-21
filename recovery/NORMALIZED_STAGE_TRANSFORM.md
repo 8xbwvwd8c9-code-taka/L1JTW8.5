@@ -3,7 +3,7 @@
 Current work unit repairs exactly one source-representation family: embedded protobuf runtime root-package shadowing.
 
 - Changed files: **9**
-- Package-reference replacements: **3067**
+- Package-reference replacements: **2627**
 - a/** -> l1rpb/**: **RECOVERY-ONLY**
 - Nested same-name class collisions repaired in this unit: **NO**
 - Gameplay logic changed: **NO**
