@@ -787,6 +787,49 @@ jobs:
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
+  final-1765-closure:
+    if: github.event_name == 'push'
+    needs: [source-only-closure, normalized-fast]
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Rebuild obfuscated protobuf inventory reference
+        shell: bash
+        run: python ./tools/recovery/build-protobuf-compile-ref.py
+
+      - name: Audit final 1765 universe
+        shell: bash
+        run: python ./tools/recovery/audit-final-1765-universe.py
+
+      - name: Persist final 1765 universe evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/final_1765_universe_audit.json recovery/FINAL_1765_UNIVERSE_AUDIT.md
+          if git diff --cached --quiet; then
+            echo "No final-universe evidence changes."
+            exit 0
+          fi
+          git commit -m "recovery: persist final 1765 universe audit [skip ci]"
+          git stash push --include-untracked --quiet -m "final-1765-ephemeral" || true
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
   recover:
     if: github.event_name == 'push'
     needs: normalized-fast
