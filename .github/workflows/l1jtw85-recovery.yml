@@ -1044,7 +1044,54 @@ See `identity/FINAL_GATE.json` for the compact acceptance manifest.
           test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
 
           git add README.md src identity
-          test "$(git diff --cached --name-only | grep -E '^recovery/|^tools/|^\.github/|\.jar    needs: normalized-fast
+          while IFS= read -r staged_path; do
+            case "$staged_path" in
+              recovery/*|tools/*|.github/*|*.jar)
+                echo "Forbidden completed-branch path: $staged_path"
+                exit 1
+                ;;
+            esac
+          done < <(git diff --cached --name-only)
+
+          git commit -m "completed: L1JTW8.5 decompiled source baseline"
+          git push origin HEAD:refs/heads/completed/l1jtw85-decompiled
+
+      - name: Validate completed branch tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-decompiled
+          git switch --detach origin/completed/l1jtw85-decompiled
+
+          app_count="$(find src/application -type f -name '*.java' | wc -l | tr -d ' ')"
+          proto_count="$(find src/protobuf/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')"
+          total_java="$(find src -type f -name '*.java' | wc -l | tr -d ' ')"
+
+          echo "COMPLETED_DECOMPILED_BRANCH_CLASS_TARGET=1765"
+          echo "APPLICATION_JAVA_SOURCES=$app_count"
+          echo "PROTOBUF_JAVA_SOURCES=$proto_count"
+          echo "TOTAL_JAVA_SOURCES=$total_java"
+          echo "RECOVERY_WORKSPACE_FILES_PRESENT=NO"
+          echo "CORE_FIX_FILES_PRESENT=NO"
+          echo "DONOR_BINARY_PRESENT=NO"
+          echo "TEMP_ARTIFACTS_PRESENT=NO"
+          echo "MINIMAL_IDENTITY_MANIFEST_PRESENT=YES"
+
+          test "$app_count" = "788"
+          test "$proto_count" = "45"
+          test "$total_java" = "833"
+          test -f identity/class_source_mapping.csv
+          test -f identity/remaining_932_source_identity_audit.json
+          test -f identity/FINAL_GATE.json
+          test ! -e recovery
+          test ! -e tools
+          test ! -e .github
+          test ! -e l1jserver2.jar
+          test "$(find . -type f -name '*.jar' | wc -l | tr -d ' ')" = "0"
+
+  recover:
+    if: github.event_name == 'push'
+    needs: normalized-fast
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
