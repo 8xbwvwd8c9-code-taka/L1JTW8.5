@@ -127,5 +127,5 @@ MD.write_text(
   encoding="utf-8"
 )
 print(json.dumps(state,indent=2))
-if not state["pass"]:
+if not state["pass_accounting"]:
     raise SystemExit(1)
