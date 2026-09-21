@@ -124,3 +124,80 @@ The original repository `main` remains untouched as donor/original baseline and 
 - Work branch may be deleted only after all accepted fixes are transferred and all remaining work is either rejected/documented or confirmed unnecessary.
 - Do not delete evidence before its conclusion is documented.
 - `main` remains original baseline.
+
+
+## Current branch cleanup map — 2026-09-21
+
+Canonical branches now created:
+
+```text
+analysis/l1jtw85-recovery
+  = active decompilation/source-recovery work until Final Gate passes
+
+completed/l1jtw85-core-fixes
+  = canonical completed core-fix branch
+  = seeded from old completed/l1jtw85-decompiled-fixes-20260921
+
+work/l1jtw85-core-fixes
+  = canonical unfinished bug-audit/core-fix branch
+  = seeded from analysis/l1jtw85-bug-audit
+```
+
+The completed decompilation branch is intentionally **NOT created yet**, because WP5 source-only protobuf runtime recovery is still OPEN.
+
+After Final Gate:
+
+```text
+analysis/l1jtw85-recovery
+→ completed/l1jtw85-decompiled
+```
+
+### Legacy branches classified for retirement
+
+```text
+completed/l1jtw85-decompiled-fixes-20260921
+  -> superseded by completed/l1jtw85-core-fixes
+
+fix/l1jtw85-audit-remediation
+  -> fully contained by completed/l1jtw85-core-fixes
+     (completed branch is exactly one snapshot/docs commit ahead)
+
+analysis/l1jtw85-bug-audit
+  -> superseded by work/l1jtw85-core-fixes
+
+recovery/l1jtw85-processed-checkpoint
+  -> ancestor of active analysis/l1jtw85-recovery
+
+recovery/l1jtw85-verified
+  -> legacy verified shelf; unique README context preserved at:
+     recovery/archive/VERIFIED_RECOVERY_README_legacy.md
+     remaining evidence files already exist in active recovery
+```
+
+These legacy refs are no longer authoritative.
+
+### Desired branch state while decompilation is unfinished
+
+Ignoring original `main`, active project branches should be:
+
+```text
+analysis/l1jtw85-recovery
+completed/l1jtw85-core-fixes
+work/l1jtw85-core-fixes
+```
+
+### Desired final branch state
+
+After source recovery completes and all WIP fixes are promoted:
+
+```text
+completed/l1jtw85-decompiled
+completed/l1jtw85-core-fixes
+```
+
+Then:
+
+- delete `analysis/l1jtw85-recovery`;
+- delete `work/l1jtw85-core-fixes`;
+- all legacy refs listed above should already be retired;
+- retain `main` as original baseline.
