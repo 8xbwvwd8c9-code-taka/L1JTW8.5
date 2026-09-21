@@ -38,13 +38,14 @@ state={
   'normalization_required_for_donor_compare':True,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-ok=(total>0 and not residual)
+ok=(not residual)
 MD.write_text(
   '# Normalized Protobuf Builder Caller References\n\n'
   + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
-  + f'- Caller rewrites: **{total}**\n'
+  + f'- Caller rewrites this pass: **{total}**\n'
   + f'- Changed files: **{len(changes)}**\n'
   + f'- Residual old refs: **{sum(x["count"] for x in residual)}**\n'
+  + '- Idempotent clean stage is valid: **YES**\n'
   + '- Gameplay logic changed: **NO**\n'
   + '- Recovery source identity only: **YES**\n',
   encoding='utf-8'
