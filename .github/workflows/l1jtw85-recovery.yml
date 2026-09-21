@@ -91,6 +91,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
 
+      - name: Probe final protobuf abstract obligations
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-final-obligations.py
+
       - name: Parser-only raw class Signature experiment
         shell: bash
         run: python ./tools/recovery/experiment-raw-protobuf-parser-class.py
