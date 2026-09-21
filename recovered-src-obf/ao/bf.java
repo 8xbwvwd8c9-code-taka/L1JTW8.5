@@ -68,72 +68,90 @@ public class bf {
         pc.a(new dc(this.c.toArray(new a[0])));
     }
 
-    public void a(u pc, int time) {
-        block8: {
-            boolean isBestter = false;
-            for (a rank : this.c) {
-                if (time >= rank.c && this.c.size() >= 10) continue;
-                isBestter = true;
-                break;
+    public synchronized void a(u pc, int time) {
+        ArrayList<a> next = new ArrayList<a>(this.c);
+        boolean qualifies = next.size() < 10;
+        if (!qualifies) {
+            for (a rank : next) {
+                if (time < rank.c) {
+                    qualifies = true;
+                    break;
+                }
             }
-            if (isBestter) {
-                a rank;
-                rank = new a();
-                rank.a = pc.et();
-                rank.b = pc.ay();
-                rank.c = time;
-                Date now = new Date();
-                java.sql.Date sqlDate = new java.sql.Date(now.getTime());
-                rank.d = sqlDate.getTime();
-                this.c.add(rank);
-                Collections.sort(this.c, new Comparator<a>(){
+        }
+        if (!qualifies) {
+            return;
+        }
 
-                    public int a(a r1, a r2) {
-                        return r1.c - r2.c;
-                    }
+        a rank = new a();
+        rank.a = pc.et();
+        rank.b = pc.ay();
+        rank.c = time;
+        Date now = new Date();
+        rank.d = new java.sql.Date(now.getTime()).getTime();
+        next.add(rank);
+        Collections.sort(next, new Comparator<a>() {
+            public int a(a r1, a r2) {
+                return Integer.compare(r1.c, r2.c);
+            }
 
-                    @Override
-                    public /* synthetic */ int compare(Object object, Object object2) {
-                        return this.a((a)object, (a)object2);
-                    }
-                });
-                Connection con = null;
-                PreparedStatement pstm = null;
+            @Override
+            public /* synthetic */ int compare(Object object, Object object2) {
+                return this.a((a)object, (a)object2);
+            }
+        });
+        while (next.size() > 10) {
+            next.remove(next.size() - 1);
+        }
+
+        Connection con = null;
+        PreparedStatement delete = null;
+        PreparedStatement insert = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            delete = con.prepareStatement("DELETE FROM soul_tower WHERE rank >0");
+            delete.executeUpdate();
+            insert = con.prepareStatement("INSERT INTO soul_tower SET rank=?,name=?,class=?,time=?,date=?");
+            int i2 = 0;
+            while (i2 < next.size()) {
+                a entry = next.get(i2);
+                insert.setInt(1, i2 + 1);
+                insert.setString(2, entry.a);
+                insert.setInt(3, entry.b);
+                insert.setInt(4, entry.c);
+                Date utilDate = new Date();
+                utilDate.setTime(entry.d);
+                insert.setDate(5, new java.sql.Date(utilDate.getTime()));
+                insert.addBatch();
+                ++i2;
+            }
+            insert.executeBatch();
+            con.commit();
+            this.c.clear();
+            this.c.addAll(next);
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            if (con != null) {
                 try {
-                    try {
-                        con = l1j.server.b.a().b();
-                        pstm = con.prepareStatement("DELETE FROM soul_tower WHERE rank >0");
-                        pstm.execute();
-                        int i2 = 0;
-                        while (i2 < this.c.size() && i2 < 10) {
-                            a str = this.c.get(i2);
-                            pstm = con.prepareStatement("INSERT INTO soul_tower  SET rank=?,name=?,class=?,time=?,date=?");
-                            pstm.setInt(1, i2 + 1);
-                            pstm.setString(2, str.a);
-                            pstm.setInt(3, str.b);
-                            pstm.setInt(4, str.c);
-                            Date utilDate = new Date();
-                            utilDate.setTime(str.d);
-                            pstm.setDate(5, new java.sql.Date(utilDate.getTime()));
-                            pstm.execute();
-                            ++i2;
-                        }
-                    }
-                    catch (SQLException e2) {
-                        a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                        j.a(pstm);
-                        j.a(con);
-                        break block8;
-                    }
+                    con.rollback();
                 }
-                catch (Throwable throwable) {
-                    j.a(pstm);
-                    j.a(con);
-                    throw throwable;
+                catch (SQLException ignored) {
                 }
-                j.a(pstm);
-                j.a(con);
             }
+        }
+        finally {
+            j.a(insert);
+            j.a(delete);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            j.a(con);
         }
     }
 
