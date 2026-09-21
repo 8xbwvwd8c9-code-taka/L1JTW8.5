@@ -1,0 +1,724 @@
+{
+  "interface": "l1rpb.x$a",
+  "abstract_count": 26,
+  "maps": [
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "j",
+      "descriptor": "()Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a j();",
+          "name": "j",
+          "descriptor": "()Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "e",
+              "descriptor": "()Ll1rpb/a$a;"
+            },
+            {
+              "owner": null,
+              "name": "b",
+              "descriptor": "(Ll1rpb/aa;)Ljava/util/List;"
+            }
+          ],
+          "block": "  public l1rpb.x$a j();\n    descriptor: ()Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokevirtual #96                 // Method e:()Ll1rpb/a$a;\n         4: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/a$a;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/a$a<TBuilderType;>;\n\n  static java.util.List a(l1rpb.aa);\n    descriptor: (Ll1rpb/aa;)Ljava/util/List;\n    flags: (0x1008) ACC_STATIC, ACC_SYNTHETIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokestatic  #88                 // Method b:(Ll1rpb/aa;)Ljava/util/List;\n         4: areturn\n      LineNumberTable:\n        line 268: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0    x0   Ll1rpb/aa;\n}\nInnerClasses:"
+        },
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a j();",
+          "name": "j",
+          "descriptor": "()Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "ah",
+              "descriptor": "()Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a j();\n    descriptor: ()Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokevirtual #50                 // Method ah:()Ll1rpb/p$a;\n         4: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/p$a;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "c",
+      "descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a c(l1rpb.x);",
+          "name": "c",
+          "descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a c(l1rpb.x);\n    descriptor: (Ll1rpb/x;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #78                 // Method a:(Ll1rpb/x;)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   Ll1rpb/x;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "ak",
+      "descriptor": "()Ll1rpb/x;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": []
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "aj",
+      "descriptor": "()Ll1rpb/x;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": []
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "i",
+      "descriptor": "()Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a i();",
+          "name": "i",
+          "descriptor": "()Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "d",
+              "descriptor": "()Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a i();\n    descriptor: ()Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokevirtual #94                 // Method d:()Ll1rpb/a$a;\n         4: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/a$a;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/a$a<TBuilderType;>;\n"
+        },
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a i();",
+          "name": "i",
+          "descriptor": "()Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "ai",
+              "descriptor": "()Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a i();\n    descriptor: ()Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokevirtual #51                 // Method ai:()Ll1rpb/p$a;\n         4: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/p$a;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       5     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "(Ll1rpb/h;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(l1rpb.h) throws java.io.IOException;",
+          "name": "d",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(l1rpb.h) throws java.io.IOException;\n    descriptor: (Ll1rpb/h;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #70                 // Method a:(Ll1rpb/h;)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   Ll1rpb/h;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(l1rpb.h, l1rpb.n) throws java.io.IOException;",
+          "name": "d",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(l1rpb.h, l1rpb.n) throws java.io.IOException;\n    descriptor: (Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #74                 // Method a:(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;\n         6: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a;\n            0       7     1    x0   Ll1rpb/h;\n            0       7     2    x1   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "J",
+      "descriptor": "()Ll1rpb/k$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.k$a J();",
+          "name": "J",
+          "descriptor": "()Ll1rpb/k$a;",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "l",
+              "descriptor": "()Ll1rpb/p$g;"
+            },
+            {
+              "owner": "l1rpb/p$g",
+              "name": "a",
+              "descriptor": "(Ll1rpb/p$g;)Ll1rpb/k$a;"
+            }
+          ],
+          "block": "  public l1rpb.k$a J();\n    descriptor: ()Ll1rpb/k$a;\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=1, locals=1, args_size=1\n         0: aload_0\n         1: invokevirtual #58                 // Method l:()Ll1rpb/p$g;\n         4: invokestatic  #62                 // Method l1rpb/p$g.a:(Ll1rpb/p$g;)Ll1rpb/k$a;\n         7: areturn\n      LineNumberTable:\n        line 309: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/p$a;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "g",
+      "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a g(l1rpb.k$f);",
+          "name": "g",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "l",
+              "descriptor": "()Ll1rpb/p$g;"
+            },
+            {
+              "owner": "l1rpb/p$g",
+              "name": "a",
+              "descriptor": "(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a g(l1rpb.k$f);\n    descriptor: (Ll1rpb/k$f;)Ll1rpb/x$a;\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: invokevirtual #58                 // Method l:()Ll1rpb/p$g;\n         4: aload_1\n         5: invokestatic  #63                 // Method l1rpb/p$g.a:(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;\n         8: invokeinterface #70,  1           // InterfaceMethod l1rpb/p$g$a.a:()Ll1rpb/x$a;\n        13: areturn\n      LineNumberTable:\n        line 339: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0      14     0  this   Ll1rpb/p$a;\n            0      14     1 field   Ll1rpb/k$f;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0      14     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "a",
+      "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a a(l1rpb.k$f);",
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [],
+          "block": "  public l1rpb.x$a a(l1rpb.k$f);\n    descriptor: (Ll1rpb/k$f;)Ll1rpb/x$a;\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=3, locals=2, args_size=2\n         0: new           #47                 // class java/lang/UnsupportedOperationException\n         3: dup\n         4: ldc           #3                  // String getFieldBuilder() called on an unsupported message type.\n         6: invokespecial #172                // Method java/lang/UnsupportedOperationException.\"<init>\":(Ljava/lang/String;)V\n         9: athrow\n      LineNumberTable:\n        line 760: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0      10     0  this   Ll1rpb/a$a;\n            0      10     1 field   Ll1rpb/k$f;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0      10     0  this   Ll1rpb/a$a<TBuilderType;>;\n"
+        },
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a a(l1rpb.k$f);",
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "l",
+              "descriptor": "()Ll1rpb/p$g;"
+            },
+            {
+              "owner": "l1rpb/p$g",
+              "name": "a",
+              "descriptor": "(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a a(l1rpb.k$f);\n    descriptor: (Ll1rpb/k$f;)Ll1rpb/x$a;\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: invokevirtual #58                 // Method l:()Ll1rpb/p$g;\n         4: aload_1\n         5: invokestatic  #63                 // Method l1rpb/p$g.a:(Ll1rpb/p$g;Ll1rpb/k$f;)Ll1rpb/p$g$a;\n         8: aload_0\n         9: invokeinterface #79,  2           // InterfaceMethod l1rpb/p$g$a.e:(Ll1rpb/p$a;)Ll1rpb/x$a;\n        14: areturn\n      LineNumberTable:\n        line 344: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0      15     0  this   Ll1rpb/p$a;\n            0      15     1 field   Ll1rpb/k$f;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0      15     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a d(l1rpb.k$f, java.lang.Object);",
+          "name": "d",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(l1rpb.k$f, java.lang.Object);\n    descriptor: (Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #48                 // Method a:(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;\n         6: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/p$a;\n            0       7     1    x0   Ll1rpb/k$f;\n            0       7     2    x1   Ljava/lang/Object;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "f",
+      "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a f(l1rpb.k$f);",
+          "name": "f",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "d",
+              "descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a f(l1rpb.k$f);\n    descriptor: (Ll1rpb/k$f;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #56                 // Method d:(Ll1rpb/k$f;)Ll1rpb/p$a;\n         5: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a;\n            0       6     1    x0   Ll1rpb/k$f;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "b",
+      "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a b(l1rpb.k$f, int, java.lang.Object);",
+          "name": "b",
+          "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a b(l1rpb.k$f, int, java.lang.Object);\n    descriptor: (Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=4, locals=4, args_size=4\n         0: aload_0\n         1: aload_1\n         2: iload_2\n         3: aload_3\n         4: invokevirtual #47                 // Method a:(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;\n         7: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/p$a;\n            0       8     1    x0   Ll1rpb/k$f;\n            0       8     2    x1   I\n            0       8     3    x2   Ljava/lang/Object;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "c",
+      "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a c(l1rpb.k$f, java.lang.Object);",
+          "name": "c",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "b",
+              "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a c(l1rpb.k$f, java.lang.Object);\n    descriptor: (Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #53                 // Method b:(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;\n         6: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/p$a;\n            0       7     1    x0   Ll1rpb/k$f;\n            0       7     2    x1   Ljava/lang/Object;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "e",
+      "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a e(l1rpb.ap);",
+          "name": "e",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "c",
+              "descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a e(l1rpb.ap);\n    descriptor: (Ll1rpb/ap;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #54                 // Method c:(Ll1rpb/ap;)Ll1rpb/p$a;\n         5: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a;\n            0       6     1    x0   Ll1rpb/ap;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "b",
+      "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a b(l1rpb.ap);",
+          "name": "b",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/ap;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a b(l1rpb.ap);\n    descriptor: (Ll1rpb/ap;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #66                 // Method a:(Ll1rpb/ap;)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   Ll1rpb/ap;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n"
+        },
+        {
+          "owner": "l1rpb.p$a",
+          "decl": "public l1rpb.x$a b(l1rpb.ap);",
+          "name": "b",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "d",
+              "descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a b(l1rpb.ap);\n    descriptor: (Ll1rpb/ap;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #55                 // Method d:(Ll1rpb/ap;)Ll1rpb/p$a;\n         5: areturn\n      LineNumberTable:\n        line 228: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a;\n            0       6     1    x0   Ll1rpb/ap;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/p$a<TBuilderType;>;\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "(Ll1rpb/g;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(l1rpb.g) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(l1rpb.g) throws l1rpb.s;\n    descriptor: (Ll1rpb/g;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #67                 // Method a:(Ll1rpb/g;)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   Ll1rpb/g;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(l1rpb.g, l1rpb.n) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(l1rpb.g, l1rpb.n) throws l1rpb.s;\n    descriptor: (Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #69                 // Method a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;\n         6: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a;\n            0       7     1    x0   Ll1rpb/g;\n            0       7     2    x1   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "([B)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(byte[]) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "([B)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "([B)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(byte[]) throws l1rpb.s;\n    descriptor: ([B)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #82                 // Method a:([B)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   [B\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "([BII)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(byte[], int, int) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "([BII)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "([BII)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(byte[], int, int) throws l1rpb.s;\n    descriptor: ([BII)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=4, locals=4, args_size=4\n         0: aload_0\n         1: aload_1\n         2: iload_2\n         3: iload_3\n         4: invokevirtual #83                 // Method a:([BII)Ll1rpb/a$a;\n         7: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/a$a;\n            0       8     1    x0   [B\n            0       8     2    x1   I\n            0       8     3    x2   I\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       8     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "([BLl1rpb/n;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(byte[], l1rpb.n) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(byte[], l1rpb.n) throws l1rpb.s;\n    descriptor: ([BLl1rpb/n;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #85                 // Method a:([BLl1rpb/n;)Ll1rpb/a$a;\n         6: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a;\n            0       7     1    x0   [B\n            0       7     2    x1   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "d",
+      "descriptor": "([BIILl1rpb/n;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a d(byte[], int, int, l1rpb.n) throws l1rpb.s;",
+          "name": "d",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a d(byte[], int, int, l1rpb.n) throws l1rpb.s;\n    descriptor: ([BIILl1rpb/n;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=5, locals=5, args_size=5\n         0: aload_0\n         1: aload_1\n         2: iload_2\n         3: iload_3\n         4: aload         4\n         6: invokevirtual #84                 // Method a:([BIILl1rpb/n;)Ll1rpb/a$a;\n         9: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0      10     0  this   Ll1rpb/a$a;\n            0      10     1    x0   [B\n            0      10     2    x1   I\n            0      10     3    x2   I\n            0      10     4    x3   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0      10     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws l1rpb.s\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a e(java.io.InputStream) throws java.io.IOException;",
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a e(java.io.InputStream) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #79                 // Method a:(Ljava/io/InputStream;)Ll1rpb/a$a;\n         5: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1    x0   Ljava/io/InputStream;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public l1rpb.x$a e(java.io.InputStream, l1rpb.n) throws java.io.IOException;",
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+          "flags": "ACC_PUBLIC, ACC_SYNTHETIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": null,
+              "name": "a",
+              "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;"
+            }
+          ],
+          "block": "  public l1rpb.x$a e(java.io.InputStream, l1rpb.n) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #80                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;\n         6: areturn\n      LineNumberTable:\n        line 267: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a;\n            0       7     1    x0   Ljava/io/InputStream;\n            0       7     2    x1   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "b",
+      "descriptor": "(Ljava/io/InputStream;)Z",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public boolean b(java.io.InputStream) throws java.io.IOException;",
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;)Z",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": "l1rpb/b$a",
+              "name": "b",
+              "descriptor": "(Ljava/io/InputStream;)Z"
+            }
+          ],
+          "block": "  public boolean b(java.io.InputStream) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;)Z\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokespecial #114                // Method l1rpb/b$a.b:(Ljava/io/InputStream;)Z\n         5: ireturn\n      LineNumberTable:\n        line 918: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a;\n            0       6     1 input   Ljava/io/InputStream;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        },
+        {
+          "owner": "l1rpb.b$a",
+          "decl": "public boolean b(java.io.InputStream) throws java.io.IOException;",
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;)Z",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": "l1rpb/n",
+              "name": "g",
+              "descriptor": "()Ll1rpb/n;"
+            },
+            {
+              "owner": null,
+              "name": "b",
+              "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z"
+            }
+          ],
+          "block": "  public boolean b(java.io.InputStream) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;)Z\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=3, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokestatic  #43                 // Method l1rpb/n.g:()Ll1rpb/n;\n         5: invokevirtual #29                 // Method b:(Ljava/io/InputStream;Ll1rpb/n;)Z\n         8: ireturn\n      LineNumberTable:\n        line 296: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       9     0  this   Ll1rpb/b$a;\n            0       9     1 input   Ljava/io/InputStream;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       9     0  this   Ll1rpb/b$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    },
+    {
+      "abstract_owner": "l1rpb.x$a",
+      "name": "b",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z",
+      "abstract_flags": "ACC_PUBLIC, ACC_ABSTRACT",
+      "exact_providers": [
+        {
+          "owner": "l1rpb.a$a",
+          "decl": "public boolean b(java.io.InputStream, l1rpb.n) throws java.io.IOException;",
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": "l1rpb/b$a",
+              "name": "b",
+              "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z"
+            }
+          ],
+          "block": "  public boolean b(java.io.InputStream, l1rpb.n) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Z\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokespecial #115                // Method l1rpb/b$a.b:(Ljava/io/InputStream;Ll1rpb/n;)Z\n         6: ireturn\n      LineNumberTable:\n        line 926: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a;\n            0       7     1 input   Ljava/io/InputStream;\n            0       7     2 extensionRegistry   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/a$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        },
+        {
+          "owner": "l1rpb.b$a",
+          "decl": "public boolean b(java.io.InputStream, l1rpb.n) throws java.io.IOException;",
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z",
+          "flags": "ACC_PUBLIC",
+          "signatures": [],
+          "invokes": [
+            {
+              "owner": "java/io/InputStream",
+              "name": "read",
+              "descriptor": "()I"
+            },
+            {
+              "owner": "l1rpb/h",
+              "name": "a",
+              "descriptor": "(ILjava/io/InputStream;)I"
+            },
+            {
+              "owner": null,
+              "name": "c",
+              "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/b$a;"
+            }
+          ],
+          "block": "  public boolean b(java.io.InputStream, l1rpb.n) throws java.io.IOException;\n    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Z\n    flags: (0x0001) ACC_PUBLIC\n    Code:\n      stack=4, locals=6, args_size=3\n         0: aload_1\n         1: invokevirtual #44                 // Method java/io/InputStream.read:()I\n         4: istore_3\n         5: iload_3\n         6: iconst_m1\n         7: if_icmpne     12\n        10: iconst_0\n        11: ireturn\n        12: iload_3\n        13: aload_1\n        14: invokestatic  #40                 // Method l1rpb/h.a:(ILjava/io/InputStream;)I\n        17: istore        4\n        19: new           #6                  // class l1rpb/b$a$a\n        22: dup\n        23: aload_1\n        24: iload         4\n        26: invokespecial #37                 // Method l1rpb/b$a$a.\"<init>\":(Ljava/io/InputStream;I)V\n        29: astore        5\n        31: aload_0\n        32: aload         5\n        34: aload_2\n        35: invokevirtual #35                 // Method c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/b$a;\n        38: pop\n        39: iconst_1\n        40: ireturn\n      LineNumberTable:\n        line 284: 0\n        line 285: 5\n        line 286: 10\n        line 288: 12\n        line 289: 19\n        line 290: 31\n        line 291: 39\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0      41     0  this   Ll1rpb/b$a;\n            0      41     1 input   Ljava/io/InputStream;\n            0      41     2 extensionRegistry   Ll1rpb/n;\n            5      36     3 firstByte   I\n           19      22     4  size   I\n           31      10     5 limitedInput   Ljava/io/InputStream;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0      41     0  this   Ll1rpb/b$a<TBuilderType;>;\n    Exceptions:\n      throws java.io.IOException\n"
+        }
+      ]
+    }
+  ],
+  "all_have_provider": false,
+  "probe_only": true,
+  "modified": false
+}
