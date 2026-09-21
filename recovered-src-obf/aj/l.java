@@ -4,6 +4,8 @@
 package aj;
 
 import aj.cv;
+import ap.c;
+import ap.u;
 import aq.aa;
 import aq.aq;
 import bh.b;
@@ -18,8 +20,11 @@ extends cv {
         int objId = this.b();
         int topicId = this.b();
         aa obj = aq.a().a(objId);
-        if (obj == null) {
-            System.out.println("\u4e0d\u6b63\u78ba\u7684NPCID : " + objId);
+        u pc = client.f();
+        if (pc == null || !(obj instanceof c)) {
+            return;
+        }
+        if (obj.fu().c(pc.fu()) > 11) {
             return;
         }
         b topic = b.a(topicId);
@@ -27,7 +32,7 @@ extends cv {
             this.b(topicId);
             return;
         }
-        String name = client.f().et();
+        String name = pc.et();
         if (!name.equals(topic.b())) {
             this.a(topic, name);
             return;
