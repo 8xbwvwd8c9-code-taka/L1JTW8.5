@@ -46,27 +46,44 @@ extends cv {
             }
         } else if (type != 6 && type != 32) {
             if (type == 34) {
-                c bookmark;
                 u pc = client.f();
+                if (pc == null) {
+                    return;
+                }
                 int uk = this.c();
-                int i2 = 0;
-                while (i2 < pc.ba().size()) {
+                int size = pc.ba().size();
+                int[] orderValues = new int[size];
+                int orderCount = 0;
+                while (orderCount < size) {
                     int order = this.c();
-                    if (order == 255) break;
-                    bookmark = pc.ba().get(i2);
-                    bookmark.e(order);
-                    ++i2;
+                    if (order == 255) {
+                        break;
+                    }
+                    if (order < 0 || order >= size) {
+                        return;
+                    }
+                    orderValues[orderCount++] = order;
+                }
+                int[] fastIndex = new int[]{-1, -1, -1, -1, -1};
+                int fastCount = 0;
+                while (fastCount < 5) {
+                    int index = this.c();
+                    if (index == 255) {
+                        break;
+                    }
+                    if (index < 0 || index >= size) {
+                        return;
+                    }
+                    fastIndex[fastCount++] = index;
+                }
+                for (int n = 0; n < orderCount; ++n) {
+                    pc.ba().get(n).e(orderValues[n]);
                 }
                 for (c bookmark2 : pc.ba()) {
                     bookmark2.f(-1);
                 }
-                i = 0;
-                while (i < 5) {
-                    int order = this.c();
-                    if (order == 255) break;
-                    bookmark = pc.ba().get(order);
-                    bookmark.f(i);
-                    ++i;
+                for (int n = 0; n < fastCount; ++n) {
+                    pc.ba().get(fastIndex[n]).f(n);
                 }
                 c.a(pc.ba());
             } else if (type == 39) {
@@ -85,16 +102,32 @@ extends cv {
                 c.a(pc.ba());
             } else if (type == 40) {
                 u pc = client.f();
+                if (pc == null) {
+                    return;
+                }
                 int item_objid = this.b();
                 int size = this.b();
-                if (size > 60) {
+                if (size < 0 || size > 60) {
                     pc.a(new ds(2930));
                     return;
                 }
+                q source = pc.j().e(item_objid);
+                if (source == null || source.N() != 41761) {
+                    return;
+                }
+                if (pc.j().b(source, 1) != 1) {
+                    return;
+                }
                 q new_item = ah.a(pc, 41762, 1);
-                c.a(pc, new_item);
-                q item = pc.j().e(item_objid);
-                pc.j().f(item);
+                if (new_item == null) {
+                    ah.a(pc, 41761, 1);
+                    return;
+                }
+                if (!c.a(pc, new_item)) {
+                    pc.j().f(new_item);
+                    ah.a(pc, 41761, 1);
+                    return;
+                }
             } else if (type == 46) {
                 u pc = client.f();
                 if (pc.aH() != 4 && pc.aH() != 10) {
@@ -113,9 +146,12 @@ extends cv {
             } else if (type == 48) {
                 int mapIndex = this.d();
                 int point = this.d();
-                int locx = 0;
-                int locy = 0;
+                int locx;
+                int locy;
                 u pc = client.f();
+                if (pc == null) {
+                    return;
+                }
                 if (mapIndex == 1) {
                     if (point == 0) {
                         locx = 34079 + (int)(Math.random() * 12.0);
@@ -126,6 +162,8 @@ extends cv {
                     } else if (point == 2) {
                         locx = 33925 + (int)(Math.random() * 14.0);
                         locy = 33351 + (int)(Math.random() * 9.0);
+                    } else {
+                        return;
                     }
                 } else if (mapIndex == 2) {
                     if (point == 0) {
@@ -134,6 +172,8 @@ extends cv {
                     } else if (point == 1) {
                         locx = 32621 + (int)(Math.random() * 9.0);
                         locy = 32788 + (int)(Math.random() * 13.0);
+                    } else {
+                        return;
                     }
                 } else if (mapIndex == 3) {
                     if (point == 0) {
@@ -142,11 +182,18 @@ extends cv {
                     } else if (point == 1) {
                         locx = 33440 + (int)(Math.random() * 11.0);
                         locy = 32784 + (int)(Math.random() * 11.0);
+                    } else {
+                        return;
                     }
                 } else if (mapIndex == 4) {
                     int[][] loc = new int[][]{{32838, 32886}, {32800, 32874}, {32755, 32899}, {32741, 32938}, {32740, 32964}, {32801, 32982}, {32845, 32986}, {32852, 32932}, {32799, 32927}};
+                    if (point < 0 || point >= loc.length) {
+                        return;
+                    }
                     locx = loc[point][0];
                     locy = loc[point][1];
+                } else {
+                    return;
                 }
                 am.a(pc, locx, locy, pc.fp(), pc.fb(), true);
                 pc.a(new cm(176, pc));
