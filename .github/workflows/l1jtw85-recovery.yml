@@ -146,6 +146,16 @@ jobs:
         shell: bash
         run: python ./tools/recovery/validate-protobuf-2.5.0-source-built-abi.py
 
+      - name: Upload source-built protobuf donor ABI
+        uses: actions/upload-artifact@v4
+        with:
+          name: protobuf-source-built-donor-abi
+          path: |
+            recovery/protobuf-2.5.0-source-built-donor-abi.jar
+            recovery/protobuf_2_5_0_source_built_donor_abi.json
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Close donor-to-official protobuf class mapping
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-closure.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
@@ -572,6 +582,14 @@ jobs:
           cat recovery/generic_builder_signature_audit.json
           cat recovery/post_javac0_member_abi.json
 
+      - name: Upload normalized application source
+        uses: actions/upload-artifact@v4
+        with:
+          name: normalized-application-source
+          path: _normalized-stage-src
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Persist authoritative normalized-fast state
         shell: bash
         run: |
@@ -681,6 +699,70 @@ jobs:
           # ephemeral working-tree changes so rebase can proceed cleanly.
           git stash push --include-untracked --quiet -m "normalized-fast-ephemeral" || true
 
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
+  source-only-closure:
+    if: github.event_name == 'push'
+    needs: [protobuf-runtime-source, normalized-fast]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.ref_name }}
+          fetch-depth: 0
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Download normalized application source
+        uses: actions/download-artifact@v4
+        with:
+          name: normalized-application-source
+          path: _normalized-stage-src
+
+      - name: Download source-built protobuf donor ABI
+        uses: actions/download-artifact@v4
+        with:
+          name: protobuf-source-built-donor-abi
+          path: recovery
+
+      - name: Compile application against source-built protobuf only
+        shell: bash
+        run: python ./tools/recovery/compile-source-only-application-with-source-built-protobuf.py
+
+      - name: Upload source-only closure evidence
+        uses: actions/upload-artifact@v4
+        with:
+          name: source-only-application-closure
+          path: |
+            recovery/source_only_application_compile.json
+            recovery/source_only_application_javac.log
+            recovery/source_only_application_sources.txt
+          if-no-files-found: error
+          retention-days: 7
+
+      - name: Persist source-only closure evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/source_only_application_compile.json \
+            recovery/source_only_application_javac.log \
+            recovery/source_only_application_sources.txt
+          if git diff --cached --quiet; then
+            echo "No source-only closure evidence changes."
+            exit 0
+          fi
+          git commit -m "recovery: persist source-only application closure [skip ci]"
+          git stash push --include-untracked --quiet -m "source-only-closure-ephemeral" || true
           git pull --rebase origin "${GITHUB_REF_NAME}"
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
