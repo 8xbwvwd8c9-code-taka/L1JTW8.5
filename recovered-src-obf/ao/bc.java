@@ -267,6 +267,9 @@ public class bc {
         for (int[] order : orderList) {
             int objid = order[0];
             int count = order[1];
+            if (count <= 0) {
+                return;
+            }
             q item = pc.j().e(objid);
             if (item == null) {
                 pc.a(new ds(156));
@@ -277,12 +280,16 @@ public class bc {
                 a.log(Level.SEVERE, "\u6536\u8cfc\u9053\u5177-\u4e0d\u5b58\u5728\u7684shop_item!! npcid=" + npc.z() + "itemid=" + item.N());
                 continue;
             }
-            int true_count = item.E() - count >= 0 ? count : item.E();
-            int price = (int)((double)(shopItem.c() * true_count) * l1j.server.a.M / (double)shopItem.d());
+            int true_count = Math.min(count, item.E());
+            long linePrice = (long)((double)shopItem.c() * (double)true_count * l1j.server.a.M / (double)shopItem.d());
             if (item.N() == 40309) {
-                price = as.a.a().a(item.fr()) * true_count;
+                linePrice = (long)as.a.a().a(item.fr()) * (long)true_count;
             }
-            totalPrice += (long)price;
+            if (linePrice <= 0L || linePrice > 2000000000L || totalPrice > 2000000000L - linePrice) {
+                pc.a(new ei("\u7e3d\u91d1\u984d\u7121\u6cd5\u8d85\u904e2000000000\u91d1\u5e63\u3002"));
+                return;
+            }
+            totalPrice += linePrice;
             aa.a().d(pc, "\u8ce3\u7d66\u5546\u5e97", item, true_count);
         }
         if (totalPrice > 2000000000L) {
@@ -318,20 +325,37 @@ public class bc {
         al _taxCalc = new al(npc);
         long total_price = 0L;
         long total_price_withTax = 0L;
-        int total_weight = 0;
+        long total_weight = 0L;
         int pcInventoryCount = pc.j().c();
         for (int[] order : orderList) {
             int itemid = order[0];
             int count = order[1];
+            if (count <= 0) {
+                return;
+            }
             u shopItem = this.a(itemid, shop.b());
             if (shopItem == null) {
                 a.log(Level.SEVERE, "\u8ca9\u8ce3\u9053\u5177-\u4e0d\u5b58\u5728\u7684shop_item!! npcid=" + npc.z() + "itemid=" + itemid);
                 continue;
             }
             int price = (int)((double)shopItem.c() * l1j.server.a.L);
-            total_price += (long)(price * count);
-            total_price_withTax += (long)(_taxCalc.a(price) * count);
-            total_weight += shopItem.b().l() * count * shopItem.d();
+            long linePrice = (long)price * (long)count;
+            long linePriceWithTax = (long)_taxCalc.a(price) * (long)count;
+            long itemCount = (long)count * (long)shopItem.d();
+            if (itemCount <= 0L || itemCount > 1500000000L) {
+                return;
+            }
+            if (linePrice < 0L || linePriceWithTax < 0L || total_price > 2000000000L - linePrice || total_price_withTax > 2000000000L - linePriceWithTax) {
+                pc.a(new ds(904, 2000000000));
+                return;
+            }
+            total_price += linePrice;
+            total_price_withTax += linePriceWithTax;
+            long lineWeight = (long)shopItem.b().l() * itemCount;
+            if (lineWeight < 0L || total_weight > Long.MAX_VALUE - lineWeight) {
+                return;
+            }
+            total_weight += lineWeight;
             bh.j temp = shopItem.b();
             if (temp.aF() && !pc.j().f(temp.g())) {
                 ++pcInventoryCount;
@@ -356,7 +380,7 @@ public class bc {
             }
             return;
         }
-        int currentWeight = pc.j().e() * 1000;
+        long currentWeight = (long)pc.j().e() * 1000L;
         if ((double)(currentWeight + total_weight) > pc.K() * 1000.0) {
             pc.a(new ds(82));
             return;
@@ -375,7 +399,11 @@ public class bc {
             u shopItem = this.a(itemid, shop.b());
             boolean isIdentified = true;
             int itemEnchant = 0;
-            int itemCount = count * shopItem.d();
+            long itemCountLong = (long)count * (long)shopItem.d();
+            if (itemCountLong <= 0L || itemCountLong > 1500000000L) {
+                return;
+            }
+            int itemCount = (int)itemCountLong;
             if (npc.z() == 70068 || npc.z() == 70020) {
                 isIdentified = false;
                 int chance = i.a(100) + 1;
