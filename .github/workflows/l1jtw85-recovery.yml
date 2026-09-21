@@ -293,6 +293,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
 
+      - name: Snapshot pristine relocated Protobuf runtime
+        shell: bash
+        run: cp -f recovery/compile-ref-protobuf-l1rpb.jar recovery/compile-ref-protobuf-l1rpb-pristine.jar
+
       - name: Probe final protobuf abstract obligations
         shell: bash
         run: python ./tools/recovery/probe-protobuf-final-obligations.py
@@ -511,7 +515,7 @@ jobs:
 
       - name: Rebuild protobuf class map against official 2.5.0
         shell: bash
-        run: python ./tools/recovery/map-protobuf-2.5.0-order.py ./lib/protobuf-java-2.5.0.jar
+        run: python ./tools/recovery/map-protobuf-2.5.0-order.py ./lib/protobuf-java-2.5.0.jar ./recovery/compile-ref-protobuf-l1rpb-pristine.jar
 
       - name: Audit application protobuf dependency surface
         shell: bash
