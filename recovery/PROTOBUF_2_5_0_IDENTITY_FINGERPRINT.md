@@ -106,3 +106,51 @@ BINARY_EQUIVALENCE=PENDING
 DONOR_PRIVATE_MODIFICATIONS=PENDING
 WP5=OPEN
 ```
+
+
+## 246/246 donor-to-official class identity closure
+
+Class identity mapping is now closed:
+
+```text
+DONOR_CLASSES=246
+OFFICIAL_CLASSES=246
+MAPPED=246
+UNMAPPED_DONOR=0
+UNMAPPED_OFFICIAL=0
+ONE_TO_ONE=YES
+```
+
+Evidence chain:
+
+1. stable structure/reference mapping: `191/246`;
+2. per-class constants + mapped-reference refinement: `230/246`;
+3. `InnerClasses` sibling order validation:
+   - observed mapped sibling order pairs: **596**
+   - agree: **596**
+   - disagree: **0**
+4. sibling-order inference added **9** identities;
+5. compiler anonymous numeric suffix validation:
+   - observed mapped anonymous suffix pairs: **53**
+   - agree: **53**
+   - disagree: **0**
+6. `EnclosingMethod` / anonymous metadata inference added final **7** identities.
+
+Final seven included:
+
+```text
+l1rpb/as$a$1 -> com/google/protobuf/WireFormat$FieldType$1
+l1rpb/as$a$2 -> com/google/protobuf/WireFormat$FieldType$2
+l1rpb/as$a$3 -> com/google/protobuf/WireFormat$FieldType$3
+l1rpb/as$a$4 -> com/google/protobuf/WireFormat$FieldType$4
+
+l1rpb/j$i$1  -> DescriptorProtos$EnumValueOptions$1
+l1rpb/j$y$1  -> DescriptorProtos$MethodOptions$1
+l1rpb/j$ac$1 -> DescriptorProtos$ServiceOptions$1
+```
+
+Therefore:
+
+`CLASS_IDENTITY_MAPPING=PASS`
+
+This closes class-level obfuscation identity. It does **not** yet close member-name ABI normalization or combined source-only compilation.
