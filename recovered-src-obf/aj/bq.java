@@ -26,6 +26,10 @@ extends cv {
             return;
         }
         i clan = q.a().a(pc.aF());
+        if (clan == null || !pc.x() || pc.fr() != clan.k()) {
+            pc.a(new ds(518));
+            return;
+        }
         int type = this.c();
         if (type == 0) {
             String name = this.g();
