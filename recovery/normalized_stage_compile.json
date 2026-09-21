@@ -6,51 +6,47 @@
   "java_sources_submitted": 788,
   "compile_exit_code": 1,
   "generated_class_files_total": 259,
-  "javac_error_headers": 176,
+  "javac_error_headers": 44,
   "error_file_count": 9,
   "top_error_files": [
     [
       "l1r/an/PBMessageALL4.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL2.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL3.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL5.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL6.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL7.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL8.java",
-      20
+      5
     ],
     [
       "l1r/an/PBMessageALL9.java",
-      16
+      4
     ]
   ],
   "top_error_messages": [
-    [
-      "method does not override or implement a method from a supertype",
-      44
-    ],
     [
       "L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
       35
@@ -58,194 +54,6 @@
     [
       "L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
       9
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL4$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_a$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL4$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_c$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL4$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_e$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL4$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_g$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL4$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_i$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_a$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_c$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_e$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_g$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_i$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL2$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_a$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL2$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_c$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL2$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_e$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL2$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_g$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL2$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_i$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL3$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL3$L1R_a$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL3$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL3$L1R_c$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL3$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL3$L1R_e$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL3$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL3$L1R_g$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL3$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL3$L1R_i$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL5$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL5$L1R_a$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL5$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL5$L1R_c$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL5$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
-    ],
-    [
-      "d(h,n) in <anonymous l1r.an.PBMessageALL5$L1R_e$1> cannot implement d(h,n) in ab",
-      1
-    ],
-    [
-      "<anonymous l1r.an.PBMessageALL5$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-      1
     ]
   ]
 }

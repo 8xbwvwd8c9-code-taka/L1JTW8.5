@@ -1,74 +1,20 @@
 {
-  "protobuf_override_related_blocks": 176,
-  "normalized_signature_count": 37,
+  "protobuf_override_related_blocks": 44,
+  "normalized_signature_count": 8,
   "top_signatures": [
     {
       "count": 9,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_a\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^",
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^",
       "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:180: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_a",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:179: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:784: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_Builder extends p.a implements PBMessageALL4.L1R_b {",
-        "                          ^"
-      ]
-    },
-    {
-      "count": 9,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_c\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1611: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_c",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1610: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
+        "                          ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:2215: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_d {",
-        "                          ^"
-      ]
-    },
-    {
-      "count": 9,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_e\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3054: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_e",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3053: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
+        "                          ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:3658: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_f {",
-        "                          ^"
-      ]
-    },
-    {
-      "count": 9,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_g\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4489: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_g",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4488: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
+        "                          ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:5093: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_h {",
         "                          ^"
@@ -76,143 +22,17 @@
     },
     {
       "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_a\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:173: error: <anonymous l1r.an.PBMessageALL4$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_a> a = new l1rpb.c<PBMessageALL4.L1R_a>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:180: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_a",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:179: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_c\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1604: error: <anonymous l1r.an.PBMessageALL4$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_c> a = new l1rpb.c<PBMessageALL4.L1R_c>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1611: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_c",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1610: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_e\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3047: error: <anonymous l1r.an.PBMessageALL4$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_e> a = new l1rpb.c<PBMessageALL4.L1R_e>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3054: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_e",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3053: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_g\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4482: error: <anonymous l1r.an.PBMessageALL4$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_g> a = new l1rpb.c<PBMessageALL4.L1R_g>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4489: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_g",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4488: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_c\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:784: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_Builder extends p.a implements PBMessageALL4.L1R_b {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1604: error: <anonymous l1r.an.PBMessageALL4$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_c> a = new l1rpb.c<PBMessageALL4.L1R_c>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1611: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_c",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_e\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^",
       "example": [
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:2215: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_d {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3047: error: <anonymous l1r.an.PBMessageALL4$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_e> a = new l1rpb.c<PBMessageALL4.L1R_e>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3054: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_e",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_g\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:3658: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_f {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4482: error: <anonymous l1r.an.PBMessageALL4$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_g> a = new l1rpb.c<PBMessageALL4.L1R_g>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4489: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_g",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_i\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5938: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_i",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5937: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5093: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_h {",
+        "                          ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
         "                          ^"
@@ -220,290 +40,92 @@
     },
     {
       "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^",
       "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:179: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:784: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_Builder extends p.a implements PBMessageALL4.L1R_b {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1604: error: <anonymous l1r.an.PBMessageALL4$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_c> a = new l1rpb.c<PBMessageALL4.L1R_c>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1611: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:1610: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:2215: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_d {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3047: error: <anonymous l1r.an.PBMessageALL4$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_e> a = new l1rpb.c<PBMessageALL4.L1R_e>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3054: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 8,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:3053: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:3658: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_f {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4482: error: <anonymous l1r.an.PBMessageALL4$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_g> a = new l1rpb.c<PBMessageALL4.L1R_g>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4489: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
+        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5093: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_h {",
+        "                          ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
+        "                          ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL.java:785: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_Builder extends p.a implements PBMessageALL.L1R_b {",
+        "                          ^"
       ]
     },
     {
-      "count": 7,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_i\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5931: error: <anonymous l1r.an.PBMessageALL4$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_i> a = new l1rpb.c<PBMessageALL4.L1R_i>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5938: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_i",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5937: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 7,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_i\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
+      "count": 8,
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^",
       "example": [
         "_normalized-stage-src/l1r/an/PBMessageALL4.java:5093: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_h {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5931: error: <anonymous l1r.an.PBMessageALL4$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_i> a = new l1rpb.c<PBMessageALL4.L1R_i>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5938: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_i",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 7,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_a\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6668: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_j {",
+        "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL2.java:178: error: <anonymous l1r.an.PBMessageALL2$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL2.L1R_a> a = new l1rpb.c<PBMessageALL2.L1R_a>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL2.java:185: error: d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_a",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 7,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:4488: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5093: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_h {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5931: error: <anonymous l1r.an.PBMessageALL4$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL4.L1R_i> a = new l1rpb.c<PBMessageALL4.L1R_i>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5938: error: d(h,n) in <anonymous l1r.an.PBMessageALL4$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 7,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                   ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6063: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6668: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_j {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL2.java:178: error: <anonymous l1r.an.PBMessageALL2$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL2.L1R_a> a = new l1rpb.c<PBMessageALL2.L1R_a>() {",
-        "                                                                                   ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL2.java:185: error: d(h,n) in <anonymous l1r.an.PBMessageALL2$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_a\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:174: error: <anonymous l1r.an.PBMessageALL$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_a> a = new l1rpb.c<PBMessageALL.L1R_a>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:181: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_a",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:180: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_c\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1605: error: <anonymous l1r.an.PBMessageALL$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_c> a = new l1rpb.c<PBMessageALL.L1R_c>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1612: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_c",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1611: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_e\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3098: error: <anonymous l1r.an.PBMessageALL$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_e> a = new l1rpb.c<PBMessageALL.L1R_e>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3105: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_e",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3104: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_g\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4606: error: <anonymous l1r.an.PBMessageALL$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_g> a = new l1rpb.c<PBMessageALL.L1R_g>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4613: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_g",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4612: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_i\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab\nl1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6057: error: <anonymous l1r.an.PBMessageALL$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_i> a = new l1rpb.c<PBMessageALL.L1R_i>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6064: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_i",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6063: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_c\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
         "_normalized-stage-src/l1r/an/PBMessageALL.java:785: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_Builder extends p.a implements PBMessageALL.L1R_b {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1605: error: <anonymous l1r.an.PBMessageALL$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_c> a = new l1rpb.c<PBMessageALL.L1R_c>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1612: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_c",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
+        "_normalized-stage-src/l1r/an/PBMessageALL.java:2233: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_d {",
+        "                          ^"
       ]
     },
     {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_e\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
+      "count": 8,
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^",
       "example": [
+        "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
+        "                          ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL.java:785: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_Builder extends p.a implements PBMessageALL.L1R_b {",
+        "                          ^",
         "_normalized-stage-src/l1r/an/PBMessageALL.java:2233: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
         "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_d {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3098: error: <anonymous l1r.an.PBMessageALL$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_e> a = new l1rpb.c<PBMessageALL.L1R_e>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3105: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_e",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
+        "_normalized-stage-src/l1r/an/PBMessageALL.java:3734: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_f {",
+        "                          ^"
       ]
     },
     {
       "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_g\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\n_normalized-stage-src/l1r/ao/DropTable.java:LINE: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal\n               var1.put(new Integer(var13.e()), var14);\n                        ^",
       "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3734: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_f {",
+        "_normalized-stage-src/l1r/an/PBMessageALL9.java:1937: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_d {",
         "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4606: error: <anonymous l1r.an.PBMessageALL$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_g> a = new l1rpb.c<PBMessageALL.L1R_g>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4613: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_g",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
+        "_normalized-stage-src/l1r/an/PBMessageALL9.java:3403: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_f {",
+        "                          ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL9.java:4739: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_h {",
+        "                          ^",
+        "_normalized-stage-src/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
+        "               var1.put(new Integer(var13.e()), var14);",
+        "                        ^"
+      ]
+    },
+    {
+      "count": 1,
+      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\n_normalized-stage-src/l1r/ao/DropTable.java:LINE: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal\n               var1.put(new Integer(var13.e()), var14);\n                        ^\n_normalized-stage-src/l1r/ao/ItemTable.java:LINE: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal\n      g.put(\"none\", new Integer(0));\n                    ^",
+      "example": [
+        "_normalized-stage-src/l1r/an/PBMessageALL9.java:3403: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_f {",
+        "                          ^",
+        "_normalized-stage-src/l1r/an/PBMessageALL9.java:4739: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
+        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_h {",
+        "                          ^",
+        "_normalized-stage-src/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
+        "               var1.put(new Integer(var13.e()), var14);",
+        "                        ^",
+        "_normalized-stage-src/l1r/ao/ItemTable.java:108: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
+        "      g.put(\"none\", new Integer(0));",
+        "                    ^"
       ]
     },
     {
@@ -522,150 +144,6 @@
         "_normalized-stage-src/l1r/ao/ItemTable.java:109: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
         "      g.put(\"weapon\", new Integer(1));",
         "                      ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_i\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:5217: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_h {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6057: error: <anonymous l1r.an.PBMessageALL$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_i> a = new l1rpb.c<PBMessageALL.L1R_i>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6064: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_i",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^\n  return type Object is not compatible with L1R_a\n  where MessageType is a type-variable:\n    MessageType extends Object declared in interface ab",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:174: error: <anonymous l1r.an.PBMessageALL$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_a> a = new l1rpb.c<PBMessageALL.L1R_a>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:181: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^",
-        "  return type Object is not compatible with L1R_a",
-        "  where MessageType is a type-variable:",
-        "    MessageType extends Object declared in interface ab"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_BUILDER is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_BUILDER extends p.a implements PBMessageALLX.L1R_b {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_c> a = new l1rpb.c<PBMessageALLX.L1R_c>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_c$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:180: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:785: error: L1R_Builder is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_Builder extends p.a implements PBMessageALL.L1R_b {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1605: error: <anonymous l1r.an.PBMessageALL$L1R_c$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_c> a = new l1rpb.c<PBMessageALL.L1R_c>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1612: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_c$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_d {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_e> a = new l1rpb.c<PBMessageALLX.L1R_e>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_e$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:1611: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:2233: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_d {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3098: error: <anonymous l1r.an.PBMessageALL$L1R_e$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_e> a = new l1rpb.c<PBMessageALL.L1R_e>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3105: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_e$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_f {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_g> a = new l1rpb.c<PBMessageALLX.L1R_g>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_g$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3104: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:3734: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_f {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4606: error: <anonymous l1r.an.PBMessageALL$L1R_g$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_g> a = new l1rpb.c<PBMessageALL.L1R_g>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4613: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_g$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\n_normalized-stage-src/l1r/ao/DropTable.java:LINE: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal\n               var1.put(new Integer(var13.e()), var14);\n                        ^\n_normalized-stage-src/l1r/ao/ItemTable.java:LINE: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal\n      g.put(\"none\", new Integer(0));\n                    ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL9.java:4034: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL9.java:4739: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL9.L1R_h {",
-        "                          ^",
-        "_normalized-stage-src/l1r/ao/DropTable.java:70: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
-        "               var1.put(new Integer(var13.e()), var14);",
-        "                        ^",
-        "_normalized-stage-src/l1r/ao/ItemTable.java:108: warning: [removal] Integer(int) in Integer has been deprecated and marked for removal",
-        "      g.put(\"none\", new Integer(0));",
-        "                    ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_h {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_i> a = new l1rpb.c<PBMessageALLX.L1R_i>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_i$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:4612: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:5217: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL.L1R_h {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6057: error: <anonymous l1r.an.PBMessageALL$L1R_i$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_i> a = new l1rpb.c<PBMessageALL.L1R_i>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:6064: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_i$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
-      ]
-    },
-    {
-      "count": 1,
-      "signature": "l1r/an/PBMessageALLX.java:LINE: error: method does not override or implement a method from a supertype\n         @Override\n         ^\nl1r/an/PBMessageALLX.java:LINE: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a\n      public static final class L1R_a extends p.a implements PBMessageALLX.L1R_j {\n                          ^\nl1r/an/PBMessageALLX.java:LINE: error: <anonymous l1r.an.PBMessageALLX$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab\n      public static ab<PBMessageALLX.L1R_a> a = new l1rpb.c<PBMessageALLX.L1R_a>() {\n                                                                                 ^\nl1r/an/PBMessageALLX.java:LINE: error: d(h,n) in <anonymous l1r.an.PBMessageALLX$L1R_a$1> cannot implement d(h,n) in ab\n         public Object d(l1rpb.h var1, n var2) throws s {\n                       ^",
-      "example": [
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:5937: error: method does not override or implement a method from a supertype",
-        "         @Override",
-        "         ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL4.java:6577: error: L1R_a is not abstract and does not override abstract method e(InputStream,n) in a",
-        "      public static final class L1R_a extends p.a implements PBMessageALL4.L1R_j {",
-        "                          ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:174: error: <anonymous l1r.an.PBMessageALL$L1R_a$1> is not abstract and does not override abstract method d(h,n) in ab",
-        "      public static ab<PBMessageALL.L1R_a> a = new l1rpb.c<PBMessageALL.L1R_a>() {",
-        "                                                                                 ^",
-        "_normalized-stage-src/l1r/an/PBMessageALL.java:181: error: d(h,n) in <anonymous l1r.an.PBMessageALL$L1R_a$1> cannot implement d(h,n) in ab",
-        "         public Object d(l1rpb.h var1, n var2) throws s {",
-        "                       ^"
       ]
     }
   ]
