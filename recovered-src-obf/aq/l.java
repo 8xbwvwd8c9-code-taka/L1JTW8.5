@@ -102,6 +102,12 @@ public class l {
     }
 
     public boolean a(int locX, int locY, int mapId, ap.u pc) {
+        if (pc == null || pc.fp() != mapId) {
+            return false;
+        }
+        if (Math.max(Math.abs(pc.fs() - locX), Math.abs(pc.ft() - locY)) > 1) {
+            return false;
+        }
         long key = (long)locX * d + (long)locY * e + (long)mapId;
         if (!this.c.containsKey(key)) {
             return false;
