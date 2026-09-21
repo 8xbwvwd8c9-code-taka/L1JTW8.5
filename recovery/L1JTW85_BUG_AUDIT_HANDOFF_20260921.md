@@ -136,7 +136,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-213`
+`850-214`
 
 Finding identity must come from actual report headers:
 
@@ -239,8 +239,8 @@ Do not add new fix commits while in audit-only mode.
 
 2. **Skill trainer second-stage binding**
    - Existing finding `850-179`.
-   - Verify whether any server-side pending trainer/NPC state exists elsewhere.
-   - If not, retain as second-stage interaction authorization gap.
+   - 2026-09-21 follow-up confirms the recovered four-stage flow itself contains no hidden pending trainer state: the list handlers do not store one, the server-packet constructors only enumerate skills, and the OK handlers do not read NPC/distance/pending context.
+   - Retain as a confirmed second-stage interaction authorization gap; no code fix in audit-only mode.
 
 3. **Ownerless effect worker reachability**
    - Existing `RISK-850-168`.
