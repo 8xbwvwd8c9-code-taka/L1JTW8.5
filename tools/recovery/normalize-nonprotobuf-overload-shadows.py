@@ -49,6 +49,14 @@ if n!=4: raise SystemExit(f'L1DoorInstance null cast count {n} != 4')
 text=text.replace(old,new); p.write_text(text,encoding='utf-8')
 changes.append({'file':'l1r/ap/L1DoorInstance.java','sites':n,'target':'d(L1PcInstance):void'})
 
+# L1GfxInstance: ct(int) requires L1Character.a(L1Object):int; a(L1Character):void otherwise wins.
+p,text=load('l1r/ap/L1GfxInstance.java')
+old='var1.ct(var1.a(var2));'; new='var1.ct(var1.a((l1r.aq.L1Object)var2));'
+n=text.count(old)
+if n!=1: raise SystemExit(f'L1GfxInstance overload target count {n} != 1')
+text=text.replace(old,new,1); p.write_text(text,encoding='utf-8')
+changes.append({'file':'l1r/ap/L1GfxInstance.java','sites':1,'target':'a(L1Object):int'})
+
 # L1PcInstance: boolean visibility context must select inherited b(L1Object), not b(L1PcInstance):void.
 p,text=load('l1r/ap/L1PcInstance.java')
 old='if (!this.b(var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {'
@@ -76,7 +84,7 @@ total=sum(x['sites'] for x in changes)
 state={
  'error_family':'JAVA_SOURCE_OVERLOAD_SHADOW_REPRESENTATION',
  'sites_normalized':total,
- 'expected_sites':18,
+ 'expected_sites':19,
  'changes':changes,
  'method_descriptors_changed':False,
  'control_flow_changed':False,
@@ -84,11 +92,11 @@ state={
  'gameplay_logic_changed':False,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-ok=(total==18)
+ok=(total==19)
 MD.write_text(
  '# Non-Protobuf Overload Shadow Normalization\n\n'
  + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
- + f'- Source call sites normalized: **{total} / 18**\n'
+ + f'- Source call sites normalized: **{total} / 19**\n'
  + '- Transform: compile-time casts only; runtime argument values unchanged.\n'
  + '- Control flow changed: **NO**\n'
  + '- Gameplay logic changed: **NO**\n',
