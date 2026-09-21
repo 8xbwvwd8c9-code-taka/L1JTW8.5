@@ -1539,3 +1539,165 @@ GAMEPLAY_LOGIC_CHANGED=NO
 - 不犧牲 donor `InnerClasses` metadata；
 - 不用 binary compile-ref 掩蓋 source-only failure；
 - 不因 error count -1 就接受 transform。
+
+
+---
+
+## 27. `l1rpb.j$j` legal alias + post-javac identity restoration
+
+**State: TECHNIQUE_PROVEN / ROOT_FAMILY_NOT_MATERIAL**
+
+### 問題
+
+前一個 WP 已確認 donor `l1rpb.j$j` 是 JVM 合法、Java source 不可直接表達的 same-name nested interface。
+
+前一個 top-level `j$j.java` workaround 因為無法保留 donor `InnerClasses` identity 而被拒絕。
+
+### 本次候選
+
+使用合法 nested source alias：
+
+`j.jj`
+
+讓 javac 產生：
+
+`l1rpb/j$jj`
+
+再做 deterministic post-javac classfile normalization：
+
+`l1rpb/j$jj -> l1rpb/j$j`
+
+並同步修正：
+
+- constant-pool class owner references
+- descriptors
+- generic signatures
+- `InnerClasses.inner_name`: `jj -> j`
+
+### 使用工具
+
+- Java 8 javac
+- donor `javap` / classfile metadata
+- TEMP source fixture
+- exact constant-pool classfile rewrite
+- forward/reverse normalization proof
+- source-only runtime compile gate
+
+### Donor 證據
+
+Donor nested interface：
+
+`l1rpb.j$j extends l1rpb.p$e<l1rpb.j$i>`
+
+5 個 abstract methods與 source alias interface 完全一致：
+
+- `()Ljava/util/List<Ll1rpb/j$ag;>;`
+- `(I)Ll1rpb/j$ag;`
+- `()I`
+- `()Ljava/util/List<+Ll1rpb/j$ah;>;`
+- `(I)Ll1rpb/j$ah;`
+
+### Identity restoration 驗證
+
+```text
+SOURCE_ALIAS_COMPILES=YES
+GENERATED_ALIAS_CLASS=YES
+NORMALIZED_INTERNAL_NAME=l1rpb/j$j
+INNERCLASSES_OUTER=l1rpb/j
+INNER_NAME=j
+
+FIELD_DESCRIPTOR_DIFF=0
+METHOD_DESCRIPTOR_DIFF=0
+CALLSITE_OWNER_DIFF=0
+INTERFACE_DIFF=0
+SIGNATURE_UNCLASSIFIED_DIFF=0
+ENCLOSING_METADATA_DIFF=0
+
+INNER_IDENTITY=PASS
+DESCRIPTOR_PARITY=PASS
+CALLSITE_PARITY=PASS
+GAMEPLAY_LOGIC_CHANGED=NO
+```
+
+另外：
+
+- normalized caller field/method descriptors 已回到 `Ll1rpb/j$j;`
+- stale `l1rpb/j$jj` references = 0
+- donor / normalized target 均無 `EnclosingMethod` / Nest metadata
+- forward / reverse classfile transform = byte-identical
+
+### Source-only compile結果
+
+Baseline：
+
+```text
+JAVAC_ERRORS=3970
+J_ERROR=2553
+ERROR_FILES=32
+GENERATED_RUNTIME_CLASSES=0
+MISSING_RUNTIME_CLASSES=246
+```
+
+Alias + normalization候選：
+
+```text
+JAVAC_ERRORS=3969
+J_ERROR=2552
+ERROR_FILES=32
+GENERATED_RUNTIME_CLASSES=0
+MISSING_RUNTIME_CLASSES=246
+```
+
+Delta：
+
+`3970 -> 3969`
+
+只下降 **1 error**。
+
+### 結論
+
+這次不是失敗在 identity restoration。
+
+相反地，本次已證明：
+
+**LEGAL_SOURCE_ALIAS + DETERMINISTIC_POST_JAVAC_CLASSFILE_IDENTITY_RESTORATION 是可行技術。**
+
+但 `l1rpb.j$j` 只佔目前 javac frontier 的極小部分，因此：
+
+`TECHNIQUE=PROVEN`
+
+`MATERIAL_FRONTIER_REDUCTION=NO`
+
+不能把它當 WP5 的主要 root fix。
+
+### 為什麼未正式採用
+
+完整 runtime compile仍在 source phase失敗，javac沒有產生任何 runtime class：
+
+`GENERATED_RUNTIME_CLASSES=0/246`
+
+因此完整 pipeline根本還到不了 post-javac normalization stage。
+
+目前優先順序應該是：
+
+1. 先找出 `l1rpb/j.java` 2552 errors中的高占比 root families；
+2. 修到 javac開始能產生 runtime classes；
+3. 再把本次已證明可行的 alias/identity normalization套進真正需要的 same-name nested identities。
+
+### 下一步
+
+**不要繼續只修單顆 same-name nested identity。**
+
+下一個 WP 必須先對 `l1rpb/j.java` 做 root-cause clustering：
+
+- 按 error message
+- symbol
+- source line
+- declaration/callsite owner
+- cascade dependency
+
+找出能一次消掉大量錯誤的前 1–3 個 root families。
+
+### 狀態
+
+`OPEN / TECHNIQUE_PROVEN / MATERIAL_ROOT_NOT_FOUND`
