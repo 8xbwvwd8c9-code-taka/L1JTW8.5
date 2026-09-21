@@ -317,6 +317,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/audit-generic-builder-signatures.py
 
+      - name: Audit post-javac0 method and field ABI
+        shell: bash
+        run: python ./tools/recovery/audit-post-javac0-member-abi.py
+
       - name: Summarize normalized compile error families
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
@@ -341,6 +345,7 @@ jobs:
           cat recovery/protobuf_override_conflicts.json
           cat recovery/protobuf_compile_ref_method_integrity.json
           cat recovery/generic_builder_signature_audit.json
+          cat recovery/post_javac0_member_abi.json
 
       - name: Persist authoritative normalized-fast state
         shell: bash
@@ -350,6 +355,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           files=(
+            recovery/post_javac0_member_abi.json
+            recovery/POST_JAVAC0_MEMBER_ABI.md
             recovery/generic_builder_signature_audit.json
             recovery/GENERIC_BUILDER_SIGNATURE_AUDIT.md
             recovery/protobuf_compile_ref_method_baseline.json
