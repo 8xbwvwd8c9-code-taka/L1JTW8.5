@@ -21,6 +21,50 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  protobuf-runtime-source:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - name: Checkout recovery branch
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
+      - name: Rebuild obfuscated Protobuf runtime reference
+        shell: bash
+        run: python ./tools/recovery/build-protobuf-compile-ref.py
+
+      - name: Relocate Protobuf runtime for recovery source
+        shell: bash
+        run: python ./tools/recovery/relocate-protobuf-runtime.py
+
+      - name: Download Vineflower
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/vineflower.jar" \
+            "https://repo1.maven.org/maven2/org/vineflower/vineflower/1.12.0/vineflower-1.12.0.jar"
+
+      - name: Decompile relocated Protobuf runtime
+        shell: bash
+        run: python ./tools/recovery/decompile-protobuf-runtime-vineflower.py "$RUNNER_TEMP/vineflower.jar"
+
+      - name: Compile Protobuf runtime from source only
+        shell: bash
+        run: python ./tools/recovery/compile-protobuf-runtime-source.py
+
+      - name: Print runtime source experiment
+        shell: bash
+        run: |
+          cat recovery/protobuf_runtime_source_decompile.json
+          cat recovery/protobuf_runtime_source_compile.json
+
   normalized-fast:
     runs-on: ubuntu-latest
     timeout-minutes: 10
