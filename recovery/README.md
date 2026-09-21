@@ -89,6 +89,99 @@ Major problem families encountered so far:
 
 Resolved and rejected approaches are recorded in the issue ledger. Do not repeat broad transforms without donor evidence.
 
+## 核心修復支線：Runtime 控制來源檢查規則
+
+> **任何核心 BUG 檢查、修復、功能還原，都不得只看 Java 核心。**
+>
+> 每一個修復項目都必須同步檢查：
+>
+> 1. **控制端 / `config/` 內的設定文件**
+> 2. **Java 核心實際 call path / loader / getter / fallback**
+> 3. **資料庫 DB table / column / row / loader**
+>
+> 只有在追完三邊來源後，才決定真正需要修改的範圍。
+
+### 固定檢查順序
+
+```text
+FEATURE / BUG
+    ↓
+Java code entry
+    ↓
+call path / loader / getter
+    ↓
+config / properties / txt / xml
+    ↓
+DB table / column / row
+    ↓
+default / fallback / hardcoded value
+    ↓
+startup load / runtime reload
+    ↓
+ACTIVE / CONDITIONAL / FALLBACK / UNUSED / UNKNOWN
+    ↓
+最小完整修復
+```
+
+### 每次修復至少要回答
+
+1. 這個功能從哪個 Java 入口進入？
+2. 實際呼叫哪些 loader / table / parser / getter？
+3. `config/` 有沒有控制開關、倍率、ID、路徑、預設值？
+4. DB 是否有對應 table / column / row？
+5. Java 是否還有 hardcoded default / fallback？
+6. config / DB / core 三邊是否存在互相覆蓋或優先順序？
+7. 資料是在 server startup 載入，還是可以 runtime reload？
+8. 找到的 config 或 DB 欄位是否真的有被 runtime 使用，而不是只存在但未生效？
+9. 修復後是否要同步更新 config / DB / core，還是只需要改其中一個 ACTIVE source？
+10. 驗證時是否同時驗證三邊來源沒有留下衝突值？
+
+### 固定 Runtime Source Map
+
+每個 BUG / 功能修復都建立：
+
+```text
+FEATURE
+→ CORE ENTRY
+→ CALL PATH
+→ CONFIG SOURCE
+→ DB SOURCE
+→ DEFAULT / FALLBACK
+→ CONDITION / SWITCH
+→ LOAD TIME / RELOAD
+→ ACTIVE SOURCE
+→ REQUIRED CHANGE
+→ VALIDATION
+```
+
+### 禁止事項
+
+- 不得看到 Java 常數就直接改，未確認 config / DB 是否覆蓋。
+- 不得看到 DB 欄位就直接改，未確認 loader 是否真的讀取。
+- 不得看到 config 檔存在就假設 runtime 正在使用。
+- 不得只修 core 後就宣告完成。
+- 不得把 `FILE EXISTS` 當作 `RUNTIME ACTIVE`。
+- 找不到來源時標記 `UNKNOWN`，不得猜測。
+
+### 核心修復支線輸出格式
+
+```text
+ISSUE=<name>
+CORE_ENTRY=<path:symbol>
+CONFIG_SOURCE=<path/key or NONE>
+DB_SOURCE=<table.column / query or NONE>
+FALLBACK=<value/path or NONE>
+ACTIVE_SOURCE=<CORE|CONFIG|DB|MIXED|UNKNOWN>
+ROOT_CAUSE=<exact>
+FIX_SCOPE=<CORE|CONFIG|DB|MIXED>
+MODIFIED=<files/tables>
+RESTART_REQUIRED=YES|NO|UNKNOWN
+VALIDATION=<exact test>
+STATUS=PASS|FAIL|BLOCKED
+```
+
+這條規則適用於後續所有核心修復支線，包括登入、封包、角色、職業、技能、NPC、地圖、掉落、道具、倉庫、交易、強化、活動、VIP、傳送、持久化與其他 server runtime 功能。
+
 ## Recovery rules
 
 1. `main` remains untouched.
