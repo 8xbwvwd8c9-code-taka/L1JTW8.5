@@ -1,74 +1,139 @@
 # L1JTW8.5 Recovery
 
+> **狀態：反編譯 / Source Recovery 尚未全部完成。**
+>
+> 目前 **788 個 application Java source 已可完整 javac 編譯，1109 個 application class 的 class-set / hierarchy / member recovery gate 已通過**；但 donor 內嵌的 **246-class protobuf runtime** 尚未完成 source-only recovery，因此不得標示「反編譯完成」。
+
 Branch: `analysis/l1jtw85-recovery`  
-Baseline: `main@272a64fd9cc8bdfec706ed7654d2425889541850`
+Donor ground truth: `l1jserver2.jar`
 
-## Scope
+## Current status
 
-Recover and classify the obfuscated Java 8 server core in `l1jserver2.jar` without changing game behavior.
+| Gate | Status |
+|---|---|
+| Application Java sources | **788** |
+| Application javac | **PASS / 0 errors** |
+| Generated application classes | **1109** |
+| Normalized class set | **PASS / 0 missing / 0 extra** |
+| Runtime hierarchy | **PASS** |
+| Compile-ref integrity | **PASS** |
+| Generic builder audit | **PASS with documented metadata differences** |
+| Member ABI recovery | **PASS with documented source/compiler exceptions** |
+| Mapping reversibility | **PASS** |
+| Embedded protobuf runtime source-only compile | **OPEN / FAIL** |
+| Final source-only dependency closure | **OPEN** |
+| Full recovery completion | **NOT COMPLETE** |
 
-Current evidence:
+## Primary remaining blocker
 
-- JAR is valid Java bytecode, not a whole-file encrypted container.
-- Class/package names are heavily obfuscated.
-- `SourceFile`, line number metadata, and many constant strings are preserved.
-- `class_source_mapping.csv` contains 1,765 class/source mappings.
-- Application core filter currently yields **788 classes / 782 unique source filenames**.
-- Third-party classes (MySQL, c3p0, Lombok and related dependencies) are excluded from `core_class_map.csv`.
+The embedded protobuf runtime currently has:
+
+- runtime class files: **246**
+- decompiled Java files: **45**
+- source-only javac errors: **3954**
+- error files: **32**
+- generated classes: **0**
+- missing runtime classes: **246**
+
+Largest current error concentrations:
+
+| File | Errors |
+|---|---:|
+| `l1rpb/j.java` | 2574 |
+| `l1rpb/a.java` | 258 |
+| `l1rpb/k.java` | 176 |
+| `l1rpb/p.java` | 137 |
+| `l1rpb/c.java` | 130 |
+| `l1rpb/ap.java` | 115 |
+
+Current recovery binary dependency:
+
+`recovery/compile-ref-protobuf-l1rpb.jar`
+
+Classification:
+
+**TEMPORARY_BOOTSTRAP_ONLY + SOURCE_RECOVERY_REQUIRED**
+
+It is not a final runtime artifact.
+
+## Encountered decompilation problems
+
+The complete issue ledger is maintained in:
+
+**[`DECOMPILATION_ISSUES_20260921.md`](./DECOMPILATION_ISSUES_20260921.md)**
+
+Major problem families encountered so far:
+
+- obfuscated package/class/member identities;
+- Java-keyword class/member names;
+- JVM-valid but Java-source-illegal nested same-name classes;
+- protobuf runtime namespace/type shadowing;
+- generic builder superclass representation;
+- parser generic/covariant bridge reconstruction;
+- builder typed aliases and return-type-only JVM identities;
+- decompiler-materialized synthetic bridge collisions;
+- synthetic boolean accessor reconstruction;
+- javac `access$NNN` synthetic accessor name/return-shape differences;
+- outer-instance/captured/enum synthetic fields;
+- generated-only parser/builder/helper methods;
+- generic Signature metadata differences;
+- non-protobuf local generic / overload / `@Override` / duplicate-local problems;
+- SourceFile filename collisions requiring recovery disambiguation;
+- embedded protobuf runtime source-only compile failure.
+
+Resolved and rejected approaches are recorded in the issue ledger. Do not repeat broad transforms without donor evidence.
 
 ## Recovery rules
 
-1. Preserve `main` as the original runnable baseline.
-2. Do all recovery work on `analysis/l1jtw85-recovery`.
-3. Do not rename obfuscated bytecode identities in the first recovered-source pass.
-4. Keep `obfuscated class -> SourceFile` mapping authoritative where metadata is present.
-5. Separate evidence from inference:
-   - `SOURCEFILE_CONFIRMED`: original source filename preserved in class metadata.
-   - package/category labels are analyst classifications.
-6. Do not modify DB/core behavior during recovery.
-7. First target: readable decompile. Second target: compile-equivalent recovered source.
-8. Third-party library sources are not part of the L1J recovery target.
+1. `main` remains untouched.
+2. All recovery work stays on `analysis/l1jtw85-recovery`.
+3. Donor `l1jserver2.jar` is the ABI/behavior ground truth.
+4. Do not use the full donor game JAR as final application compile fallback.
+5. Recovery-only namespace/name/metadata transforms must be deterministic and reversible.
+6. Do not globally strip `Signature`.
+7. Do not globally delete or toggle synthetic/bridge members.
+8. Do not change gameplay, DB, protocol, or balance behavior during recovery.
+9. Closed work stays closed unless new production/compiler evidence reopens it.
+10. Do not claim full completion while WP5 source-only/runtime dependency closure is open.
 
-## Key confirmed targets
+## Closed major recovery gates
 
-| Obfuscated | Original source |
-|---|---|
-| `l1j.server.a` | `Config.java` |
-| `l1j.server.b` | `DatabaseFactory.java` |
-| `ai.c` | `GameServer.java` |
-| `ai.e` | `PacketHandler.java` |
-| `aj.az` | `C_ItemUSe.java` |
-| `ao.s` | `CraftListTable.java` |
-| `ao.ah` | `ItemTable.java` |
-| `ao.be` | `SkillsTable.java` |
-| `ao.bf` | `SoulTowerTable.java` |
-| `ap.q` | `L1ItemInstance.java` |
-| `ap.u` | `L1PcInstance.java` |
-| `aq.c` | `L1Attack.java` |
-| `aq.k` | `L1Craft.java` |
-| `aq.m` | `L1EquipmentSlot.java` |
-| `aq.w` | `L1Magic.java` |
-| `aq.am` | `L1Teleport.java` |
-| `ar.h` | `L1WarriorClassFeature.java` |
-| `be.bj` | `S_ItemAttribute.java` |
-| `be.bk` | `S_ItemColor.java` |
-| `be.dn` | `S_RuneSlot.java` |
-| `be.ek` | `S_Teleport.java` |
-| `bj.e` | `Opcodes.java` |
+- WP1 — Compile-Ref Method Integrity: **PASS**
+- WP2 — Generic Builder Signature Audit: **PASS**
+- WP3 — Full Method/Field ABI Recovery Audit: **PASS_WITH_SOURCE_REPRESENTATION_EXCEPTIONS**
+- WP4 — Mapping Reversibility: **PASS**
 
-## Work units
+Current:
 
-- WP0 — bytecode/source identity inventory: **PASS**
-- WP1 — core-only mapping + package classification: **PASS**
-- WP2 — DB table inventory: script ready; output pending
-- WP3 — full decompile to `recovered-src-obf/`: pending
-- WP4 — compile triage / missing dependencies: pending
-- WP5 — semantic package restoration: pending
-- WP6 — donor extraction (Warrior/Craft/Item/Rune/SoulTower/Teleport): pending
+- WP5 — Source-Only / Runtime Dependency Closure: **OPEN**
+- Final Gate: **OPEN**
 
-## Files
+## Authoritative evidence
 
-- `core_class_map.csv` — 8.5 application-core mapping only.
-- `PACKAGE_MAP.md` — package-level classification.
-- `../tools/recovery/extract-db-table-index.ps1` — local SQL table index extraction.
-- `../tools/recovery/decompile-cfr.ps1` — CFR wrapper for full decompilation.
+Key recovery evidence:
+
+- `normalized_stage_compile.json`
+- `post_javac0_class_hierarchy.json`
+- `generic_builder_signature_audit.json`
+- `protobuf_compile_ref_method_integrity.json`
+- `wp3_final_member_abi_exception_ledger.json`
+- `mapping_reversibility.json` / external verified WP4 evidence
+- `wp5_source_only_runtime_dependency_closure.json`
+- `DECOMPILATION_ISSUES_20260921.md`
+
+## Accurate completion wording
+
+Allowed now:
+
+- **APPLICATION SOURCE RECOVERY COMPILES COMPLETELY.**
+- **APPLICATION CLASS SET MATCHES COMPLETELY.**
+- **RUNTIME CLASS HIERARCHY MATCHES COMPLETELY.**
+- **APPLICATION MEMBER RECOVERY GATE PASSES WITH DOCUMENTED SOURCE-REPRESENTATION EXCEPTIONS.**
+
+Not allowed yet:
+
+- **FULL DECOMPILATION COMPLETE**
+- **FULL SOURCE-ONLY RECOVERY COMPLETE**
+- **NO BINARY RECOVERY DEPENDENCY REMAINS**
+
+Those statements become valid only after WP5 and the Final Gate pass.
