@@ -5,6 +5,7 @@ package aj;
 
 import aj.cv;
 import ao.aa;
+import ao.ah;
 import ao.al;
 import ao.au;
 import ao.aw;
@@ -43,6 +44,9 @@ extends cv {
                 index = this.b();
                 count = this.b();
                 whList = al.a().c(client.e().d());
+                if (index < 0 || index >= whList.size() || count <= 0) {
+                    return;
+                }
                 item = whList.get(index);
                 if (pc.j().a(item, count) != 0) break;
                 pc.j().d(item);
@@ -293,34 +297,49 @@ lbl204:
             }
             case 12: {
                 if (isPrivateShop) break;
-                if (!pc.j().g(40308, 115 * size)) {
-                    pc.a(new ds(189));
-                    return;
-                }
                 i = 0;
                 while (i < size) {
                     petCost = 0;
                     divisor = 6;
                     itemObjectId = this.b();
                     itemCount = this.b();
-                    if (itemCount != 0) {
-                        for (t petNpc : pc.ek().values()) {
-                            petCost += petNpc.Q();
-                        }
-                        charisma = pc.eC() + (pc.A() != false ? 12 : 6);
-                        l1pet = aw.a().b(itemObjectId);
-                        if (l1pet != null) {
-                            npcId = l1pet.c();
-                            divisor = npcId == 45313 || npcId == 45710 || npcId == 45711 || npcId == 45712 ? 12 : 6;
-                            petCount = (charisma -= petCost) / divisor;
-                            if (petCount <= 0) {
-                                pc.a(new ds(489));
-                                return;
-                            }
-                            npcTemp = au.a().a(npcId);
-                            pet = new v(npcTemp, pc, l1pet);
-                            pet.o(divisor);
-                        }
+                    if (itemCount <= 0) {
+                        return;
+                    }
+                    item = pc.j().e(itemObjectId);
+                    if (item == null || item.N() != 40314 && item.N() != 40316 || pc.N(item.fr())) {
+                        return;
+                    }
+                    for (t petNpc : pc.ek().values()) {
+                        petCost += petNpc.Q();
+                    }
+                    charisma = pc.eC() + (pc.A() != false ? 12 : 6);
+                    l1pet = aw.a().b(itemObjectId);
+                    if (l1pet == null) {
+                        return;
+                    }
+                    npcId = l1pet.c();
+                    divisor = npcId == 45313 || npcId == 45710 || npcId == 45711 || npcId == 45712 ? 12 : 6;
+                    petCount = (charisma -= petCost) / divisor;
+                    if (petCount <= 0) {
+                        pc.a(new ds(489));
+                        return;
+                    }
+                    npcTemp = au.a().a(npcId);
+                    if (npcTemp == null) {
+                        return;
+                    }
+                    if (!pc.j().b(40308, 115)) {
+                        pc.a(new ds(189));
+                        return;
+                    }
+                    try {
+                        pet = new v(npcTemp, pc, l1pet);
+                        pet.o(divisor);
+                    }
+                    catch (Exception e2) {
+                        ah.a(pc, 40308, 115, 0, false);
+                        throw e2;
                     }
                     ++i;
                 }
