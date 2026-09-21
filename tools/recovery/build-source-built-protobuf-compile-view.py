@@ -18,6 +18,7 @@ REMOVE={
     "l1rpb/y$a.class": {
         ("d","(Ljava/io/InputStream;)Ll1rpb/y$a;"),
         ("d","(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"),
+        ("c","([BIILl1rpb/n;)Ll1rpb/y$a;"),
     },
     "l1rpb/a$a.class": {
         ("d","()Ll1rpb/a$a;"),
