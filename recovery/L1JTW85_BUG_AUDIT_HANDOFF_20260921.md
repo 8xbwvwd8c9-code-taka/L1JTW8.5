@@ -156,7 +156,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-263`
+`850-264`
 
 Finding identity must come from actual report headers:
 
@@ -211,6 +211,7 @@ Recent high-value findings include:
 - `850-261` — cursed-drop branch mutates the wrong item object;
 - `850-262` — weapon-skill proc probability is one percentage point high;
 - `850-263` — account login publishes the connection before binding the account, so accounts.online is skipped.
+- `850-264` — HtmlCraft amount arithmetic can wrap material requirements non-positive; failed material removal is ignored before output creation.
 
 Recent verified defensive notes include:
 
@@ -320,7 +321,7 @@ Continue looking for patterns where:
 - Use the main-branch split DB table source for schema/seed verification before promoting any DB-dependent finding.
 - `RISK-850-259` was corrected after split DB verification: the baseline candidate pool has 66 rows, so only the <9-row robustness defect remains.
 
-Avoid duplicating existing 001–213 findings.
+Avoid duplicating any existing finding; current maximum is `850-264`.
 
 ### Priority C — lifecycle / logout
 
@@ -342,7 +343,7 @@ For each `GO`:
 3. prove or exclude the defect;
 4. assign L1 / L2 / L3;
 5. append to `recovery/BUG_AUDIT_2026-09-20.md`;
-6. commit **documentation only** on `analysis/l1jtw85-bug-audit`;
+6. commit **documentation only** on `work/l1jtw85-core-fixes`;
 7. report new finding numbers and evidence summary.
 
 Default:
@@ -386,6 +387,6 @@ If the user says:
 
 `GO` / `繼續`
 
-resume **audit-only** from the priorities above.
+resume **audit-only** from `850-265` using the priorities above.
 
 Do not return to repair mode unless the user explicitly asks to resume fixes.
