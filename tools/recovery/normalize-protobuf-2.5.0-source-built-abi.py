@@ -2,7 +2,7 @@
 import json, struct, zipfile
 from pathlib import Path
 
-BUILD=Path("recovery/protobuf-2.5.0-official-build")
+BUILD=Path("recovery/protobuf-2.5.0-official-build-jdk8-target5")
 CLASSMAP=Path("recovery/protobuf_2_5_0_order_mapping.json")
 MEMBERMAP=Path("recovery/protobuf_2_5_0_member_mapping_v3.json")
 OUTJAR=Path("recovery/protobuf-2.5.0-source-built-donor-abi.jar")
