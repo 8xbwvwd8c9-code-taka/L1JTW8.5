@@ -54,9 +54,14 @@ def parse(data):
     fc,p=u2(data,p); fields=[member("field") for _ in range(fc)]
     mc,p=u2(data,p); methods=[member("method") for _ in range(mc)]
     class_ac,p=u2(data,p)
-    class_attrs=[]
+    class_attrs=[]; source_file=None
     for _ in range(class_ac):
-        ai,p=u2(data,p); ln,p=u4(data,p); class_attrs.append(utf(ai)); p+=ln
+        ai,p=u2(data,p); ln,p=u4(data,p); an=utf(ai)
+        payload=data[p:p+ln]
+        class_attrs.append(an)
+        if an=="SourceFile" and ln==2:
+            si,_=u2(payload,0); source_file=utf(si)
+        p+=ln
     method_code=sorted(shape for _,shapes in methods for shape in shapes)
     return {
       "major":major,"minor":minor,"access":access,
@@ -64,6 +69,7 @@ def parse(data):
       "code_count":len(method_code),
       "code_shapes":method_code,
       "class_attr_names":sorted(class_attrs),
+      "source_file":source_file,
     }
 
 def readjar(path):
@@ -92,6 +98,8 @@ da=Counter(access_sig(x) for x in donor); oa=Counter(access_sig(x) for x in offi
 dc=Counter(code_sig(x) for x in donor); oc=Counter(code_sig(x) for x in official)
 dac=Counter(access_code_sig(x) for x in donor); oac=Counter(access_code_sig(x) for x in official)
 ds=Counter(strict_sig(x) for x in donor); os=Counter(strict_sig(x) for x in official)
+donor_sf=Counter(x.get("source_file") for x in donor)
+official_sf=Counter(x.get("source_file") for x in official)
 state={
  "gate":"PROTOBUF_2_5_0_BINARY_STRUCTURAL_FINGERPRINT",
  "donor_classes":len(donor),"official_classes":len(official),
@@ -112,6 +120,11 @@ state={
  "access_code_only_in_official":sum((oac-dac).values()),
  "strict_only_in_donor":sum((ds-os).values()),
  "strict_only_in_official":sum((os-ds).values()),
+ "source_file_multiset_match":donor_sf==official_sf,
+ "donor_source_file_unique":len(donor_sf),
+ "official_source_file_unique":len(official_sf),
+ "donor_source_files":dict(sorted(donor_sf.items(),key=lambda kv:str(kv[0]))),
+ "official_source_files":dict(sorted(official_sf.items(),key=lambda kv:str(kv[0]))),
 }
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
