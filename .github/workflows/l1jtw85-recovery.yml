@@ -78,6 +78,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-protobuf-runtime-source-cfr.py
 
+      - name: Print CFR protobuf runtime error contexts
+        shell: bash
+        run: python ./tools/recovery/print-protobuf-runtime-cfr-error-context.py
+
       - name: Snapshot protobuf runtime source frontier
         shell: bash
         run: python ./tools/recovery/snapshot-protobuf-runtime-frontier.py
@@ -126,6 +130,11 @@ jobs:
             recovery/protobuf_runtime_source_files.txt
             recovery/protobuf_runtime_source_class_set_missing.txt
             recovery/protobuf_runtime_source_class_set_extra.txt
+            recovery/protobuf-runtime-src-cfr
+            recovery/protobuf_runtime_source_cfr_decompile.json
+            recovery/protobuf_runtime_source_cfr_compile.json
+            recovery/protobuf_runtime_source_cfr_javac.log
+            recovery/protobuf_runtime_source_cfr_files.txt
           if-no-files-found: error
           retention-days: 7
 
