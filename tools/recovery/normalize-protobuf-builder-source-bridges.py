@@ -27,7 +27,7 @@ patterns={
   'd(h,n)': re.compile(
     r'(?ms)^\s*// \$VF: synthetic method\s*\n'
     r'\s*@Override\s*\n'
-    r'\s*public\s+x\.a\s+d\s*\(\s*a\.h\s+([A-Za-z0-9_$]+)\s*,\s*n\s+([A-Za-z0-9_$]+)\s*\)'
+    r'\s*public\s+x\.a\s+d\s*\(\s*(?:a\.|l1rpb\.)h\s+([A-Za-z0-9_$]+)\s*,\s*n\s+([A-Za-z0-9_$]+)\s*\)'
     r'\s*throws\s+IOException\s*\{\s*\n'
     r'\s*return\s+this\.e\(\s*\1\s*,\s*\2\s*\);\s*\n'
     r'\s*\}\s*'
@@ -48,7 +48,7 @@ after_parser_object=0
 
 parser_obj=re.compile(
   r'(?ms)^\s*// \$VF: synthetic method\s*\n\s*@Override\s*\n'
-  r'\s*public\s+Object\s+d\s*\(\s*a\.h\s+[A-Za-z0-9_$]+\s*,\s*n\s+[A-Za-z0-9_$]+\s*\)'
+  r'\s*public\s+Object\s+d\s*\(\s*(?:a\.|l1rpb\.)h\s+[A-Za-z0-9_$]+\s*,\s*n\s+[A-Za-z0-9_$]+\s*\)'
 )
 
 for path in FILES:
