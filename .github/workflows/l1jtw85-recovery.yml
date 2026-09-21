@@ -122,6 +122,14 @@ jobs:
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-members-v3.py
 
+      - name: Normalize source-built protobuf 2.5 runtime to donor ABI
+        shell: bash
+        run: python ./tools/recovery/normalize-protobuf-2.5.0-source-built-abi.py
+
+      - name: Validate source-built protobuf donor ABI
+        shell: bash
+        run: python ./tools/recovery/validate-protobuf-2.5.0-source-built-abi.py
+
       - name: Close donor-to-official protobuf class mapping
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-closure.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
