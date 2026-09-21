@@ -1,6 +1,6 @@
 # L1JTW8.5 Normalized Stage Source Compile
 
-Status: **FAIL**
+Status: **PASS**
 
 ## Boundary
 
@@ -12,24 +12,15 @@ Status: **FAIL**
 ## Result
 
 - Java sources submitted: **788**
-- javac exit code: **1**
-- Generated class files: **259**
-- javac error headers: **44**
-- Error files: **9**
+- javac exit code: **0**
+- Generated class files: **1109**
+- javac error headers: **0**
+- Error files: **0**
 
 ## Top error files
 
 | File | Errors |
 |---|---:|
-| l1r/an/PBMessageALL4.java | 5 |
-| l1r/an/PBMessageALL.java | 5 |
-| l1r/an/PBMessageALL2.java | 5 |
-| l1r/an/PBMessageALL3.java | 5 |
-| l1r/an/PBMessageALL5.java | 5 |
-| l1r/an/PBMessageALL6.java | 5 |
-| l1r/an/PBMessageALL7.java | 5 |
-| l1r/an/PBMessageALL8.java | 5 |
-| l1r/an/PBMessageALL9.java | 4 |
 
 ## Next
 

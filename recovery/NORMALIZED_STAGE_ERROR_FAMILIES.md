@@ -1,12 +1,11 @@
 # Normalized Stage Error Families
 
-- Total error headers: **44**
-- Protobuf-classified: **44**
+- Total error headers: **0**
+- Protobuf-classified: **0**
 - Non-Protobuf-classified: **0**
 
 | Family | Errors |
 |---|---:|
-| PROTOBUF_OVERRIDE_BRIDGE | 44 |
 
 ## Rule
 

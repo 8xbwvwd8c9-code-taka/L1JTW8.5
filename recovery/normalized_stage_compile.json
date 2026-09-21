@@ -4,56 +4,10 @@
   "runtime_reference": "recovery/compile-ref-protobuf-l1rpb.jar",
   "full_donor_game_jar_on_classpath": false,
   "java_sources_submitted": 788,
-  "compile_exit_code": 1,
-  "generated_class_files_total": 259,
-  "javac_error_headers": 44,
-  "error_file_count": 9,
-  "top_error_files": [
-    [
-      "l1r/an/PBMessageALL4.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL2.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL3.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL5.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL6.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL7.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL8.java",
-      5
-    ],
-    [
-      "l1r/an/PBMessageALL9.java",
-      4
-    ]
-  ],
-  "top_error_messages": [
-    [
-      "L1R_a is not abstract and does not override abstract method j() in a",
-      35
-    ],
-    [
-      "L1R_Builder is not abstract and does not override abstract method j() in a",
-      9
-    ]
-  ]
+  "compile_exit_code": 0,
+  "generated_class_files_total": 1109,
+  "javac_error_headers": 0,
+  "error_file_count": 0,
+  "top_error_files": [],
+  "top_error_messages": []
 }

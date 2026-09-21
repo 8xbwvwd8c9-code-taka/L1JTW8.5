@@ -1,0 +1,27 @@
+{
+  "experiment": "BUILDER_CURRENT_J_TYPED_ALIAS_P_A_POST176",
+  "target_class": "l1rpb/p$a.class",
+  "erased_bridge": {
+    "name": "j",
+    "descriptor": "()Ll1rpb/x$a;",
+    "flags": 4097
+  },
+  "typed_provider": {
+    "name": "ah",
+    "descriptor": "()Ll1rpb/p$a;",
+    "flags": 1
+  },
+  "alias": {
+    "name": "j",
+    "descriptor": "()Ll1rpb/p$a;"
+  },
+  "source_collision_gate": "run229 normalization removed 44 builder j() VF bridges; residual j()=0",
+  "provider_choice": "nearest raw superclass p$a only; do not expose duplicate a$a j() alias",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_method_count": 1,
+  "gameplay_logic_changed": false,
+  "pass_signal": "44 current j() obligations disappear or advance; parser/nonprotobuf remain 0"
+}
