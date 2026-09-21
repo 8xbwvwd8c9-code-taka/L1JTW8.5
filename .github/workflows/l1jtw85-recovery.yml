@@ -94,6 +94,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-2.5.0-binary-structural.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
 
+      - name: Map donor protobuf classes to official 2.5 identities
+        shell: bash
+        run: python ./tools/recovery/map-protobuf-2.5.0-classes.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
+
       - name: Decompile relocated Protobuf runtime with CFR
         shell: bash
         run: python ./tools/recovery/decompile-protobuf-runtime-cfr.py "$RUNNER_TEMP/cfr.jar"
