@@ -188,10 +188,8 @@ def strip_signature_attrs(data):
         ni=struct.unpack_from(">H",data,pos)[0]
         ln=struct.unpack_from(">I",data,pos+2)[0]
         pos+=6+ln
-        if utf(cp,ni)=="Signature":
-            class_removed+=1
-        else:
-            kept.append(data[st:pos])
+        # Keep the class Signature so c<MessageType> remains a generic type.
+        kept.append(data[st:pos])
     out+=struct.pack(">H",len(kept))
     for raw in kept: out+=raw
     if pos!=len(data): raise SystemExit(f"signature strip parse ended {pos}/{len(data)}")
