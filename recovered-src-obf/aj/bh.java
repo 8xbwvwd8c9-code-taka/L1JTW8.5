@@ -14,6 +14,7 @@ import bh.d;
 import aq.i;
 import bh.l;
 import bj.d;
+import java.util.ArrayList;
 
 public class bh
 extends cv {
@@ -33,7 +34,7 @@ extends cv {
             return;
         }
         i clan = q.a().a(pc.aF());
-        if (clan == null || clan.m() != castaleID) {
+        if (clan == null || clan.m() != castaleID || clan.k() != pc.fr() || l1castle.h() != pc.fr()) {
             return;
         }
         int petcost = 0;
@@ -45,24 +46,47 @@ extends cv {
         if (count <= 0 || count > maxCount) {
             return;
         }
+
+        ArrayList<d.a> used = new ArrayList<d.a>();
+        ArrayList<l> templates = new ArrayList<l>();
         int i2 = 0;
         while (i2 < count) {
-            int summonid = 0;
+            d.a selected = null;
             for (d.a m2 : l1castle.k()) {
                 if (m2.c <= 0) continue;
-                summonid = m2.a;
-                --m2.c;
+                selected = m2;
                 break;
             }
-            if (summonid == 0) {
+            if (selected == null) {
+                for (d.a slot : used) {
+                    ++slot.c;
+                }
                 return;
             }
-            l npcTemp = au.a().a(summonid);
-            z summon = new z(npcTemp, pc);
-            summon.o(6);
+            l npcTemp = au.a().a(selected.a);
+            if (npcTemp == null) {
+                for (d.a slot : used) {
+                    ++slot.c;
+                }
+                return;
+            }
+            --selected.c;
+            used.add(selected);
+            templates.add(npcTemp);
             ++i2;
         }
-        g.a().a(l1castle);
+
+        if (!g.a().a(l1castle)) {
+            for (d.a slot : used) {
+                ++slot.c;
+            }
+            return;
+        }
+
+        for (l npcTemp : templates) {
+            z summon = new z(npcTemp, pc);
+            summon.o(6);
+        }
     }
 
     @Override
