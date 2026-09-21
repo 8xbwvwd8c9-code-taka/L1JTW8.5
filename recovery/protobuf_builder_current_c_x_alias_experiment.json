@@ -1,0 +1,27 @@
+{
+  "experiment": "BUILDER_CURRENT_C_X_TYPED_ALIAS_A_A_POST176",
+  "target_class": "l1rpb/a$a.class",
+  "erased_bridge": {
+    "name": "c",
+    "descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+    "flags": 4097
+  },
+  "typed_provider": {
+    "name": "a",
+    "descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;",
+    "flags": 1
+  },
+  "alias": {
+    "name": "c",
+    "descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;"
+  },
+  "source_collision_gate": "run229 normalization removed 44 builder c(x) VF bridges; residual c(x)=0",
+  "provider_choice": "single donor-proven a$a provider",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_method_count": 1,
+  "gameplay_logic_changed": false,
+  "pass_signal": "44 current c(x) obligations disappear or advance; parser/nonprotobuf remain 0"
+}
