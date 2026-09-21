@@ -136,7 +136,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-214`
+`850-219`
 
 Finding identity must come from actual report headers:
 
@@ -174,6 +174,7 @@ Recent verified defensive notes include:
 - `850-209` — ship ticket identities confirm contexts but not authoritative destination coordinates;
 - `850-212` — C_War enforces royal + clan-leader authority;
 - `850-213` — player-call / teleport-to-player handlers are GM-gated.
+- `850-219` — C_Fight / proposal initiation use a one-tile + facing helper and are not global-target authorization gaps.
 
 ---
 
