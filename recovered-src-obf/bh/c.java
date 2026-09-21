@@ -348,9 +348,9 @@ public class c {
         return true;
     }
 
-    public static void a(u pc, q item) {
+    public static boolean a(u pc, q item) {
         if (pc == null || item == null) {
-            return;
+            return false;
         }
         Connection con = null;
         PreparedStatement delete = null;
@@ -374,6 +374,7 @@ public class c {
             }
             insert.executeBatch();
             con.commit();
+            return true;
         }
         catch (SQLException e2) {
             c.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
@@ -384,6 +385,7 @@ public class c {
                 catch (SQLException ignored) {
                 }
             }
+            return false;
         }
         finally {
             bi.j.a(insert);
