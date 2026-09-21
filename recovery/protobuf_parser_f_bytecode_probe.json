@@ -1,0 +1,25 @@
+{
+  "class": "l1rpb.c",
+  "jar": "recovery/compile-ref-protobuf-l1rpb.jar",
+  "targets": [
+    {
+      "name": "f",
+      "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "block": "  public java.lang.Object f(java.io.InputStream) throws l1rpb.s;\n    descriptor: (Ljava/io/InputStream;)Ljava/lang/Object;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=2, locals=2, args_size=2\n         0: aload_0\n         1: aload_1\n         2: invokevirtual #47                 // Method d:(Ljava/io/InputStream;)Ll1rpb/y;\n         5: areturn\n      LineNumberTable:\n        line 49: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/c;\n            0       6     1    x0   Ljava/io/InputStream;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       6     0  this   Ll1rpb/c<TMessageType;>;\n    Exceptions:\n      throws l1rpb.s\n",
+      "invokes": [],
+      "flags_line": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+      "signature_lines": []
+    },
+    {
+      "name": "f",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "block": "  public java.lang.Object f(java.io.InputStream, l1rpb.n) throws l1rpb.s;\n    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;\n    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC\n    Code:\n      stack=3, locals=3, args_size=3\n         0: aload_0\n         1: aload_1\n         2: aload_2\n         3: invokevirtual #48                 // Method d:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;\n         6: areturn\n      LineNumberTable:\n        line 49: 0\n      LocalVariableTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/c;\n            0       7     1    x0   Ljava/io/InputStream;\n            0       7     2    x1   Ll1rpb/n;\n      LocalVariableTypeTable:\n        Start  Length  Slot  Name   Signature\n            0       7     0  this   Ll1rpb/c<TMessageType;>;\n    Exceptions:\n      throws l1rpb.s\n",
+      "invokes": [],
+      "flags_line": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+      "signature_lines": []
+    }
+  ],
+  "probe_only": true,
+  "modified_classfiles": false,
+  "modified_source": false
+}

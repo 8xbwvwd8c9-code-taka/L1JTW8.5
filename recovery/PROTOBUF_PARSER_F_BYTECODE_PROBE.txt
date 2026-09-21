@@ -1,0 +1,1599 @@
+Classfile jar:file:///home/runner/work/L1JTW8.5/L1JTW8.5/recovery/compile-ref-protobuf-l1rpb.jar!/l1rpb/c.class
+  Last modified Sep 21, 2026; size 9169 bytes
+  SHA-256 checksum b63a8cf19de47b2520ac308c88d97017a3d354fceeb3e57eac3a26bd23c4bd62
+  Compiled from "AbstractParser.java"
+public abstract class l1rpb.c<MessageType extends l1rpb.y> extends java.lang.Object implements l1rpb.ab<MessageType>
+  minor version: 0
+  major version: 49
+  flags: (0x0421) ACC_PUBLIC, ACC_SUPER, ACC_ABSTRACT
+  this_class: #8                          // l1rpb/c
+  super_class: #16                        // java/lang/Object
+  interfaces: 1, fields: 1, methods: 50, attributes: 3
+Constant pool:
+    #1 = String             #177          // Reading from a ByteString threw an IOException (should never happen).
+    #2 = String             #178          // Reading from a byte array threw an IOException (should never happen).
+    #3 = Class              #184          // l1rpb/ab
+    #4 = Class              #185          // l1rpb/ao
+    #5 = Class              #186          // l1rpb/b
+    #6 = Class              #187          // l1rpb/b$a
+    #7 = Class              #188          // l1rpb/b$a$a
+    #8 = Class              #189          // l1rpb/c
+    #9 = Class              #190          // l1rpb/g
+   #10 = Class              #191          // l1rpb/h
+   #11 = Class              #192          // l1rpb/n
+   #12 = Class              #193          // l1rpb/s
+   #13 = Class              #194          // l1rpb/y
+   #14 = Class              #208          // java/io/IOException
+   #15 = Class              #209          // java/io/InputStream
+   #16 = Class              #210          // java/lang/Object
+   #17 = Class              #211          // java/lang/RuntimeException
+   #18 = Fieldref           #8.#84        // l1rpb/c.a:Ll1rpb/n;
+   #19 = Methodref          #4.#63        // l1rpb/ao."<init>":(Ll1rpb/y;)V
+   #20 = Methodref          #4.#85        // l1rpb/ao.b:()Ll1rpb/s;
+   #21 = Methodref          #5.#101       // l1rpb/b.e:()Ll1rpb/ao;
+   #22 = Methodref          #7.#64        // l1rpb/b$a$a."<init>":(Ljava/io/InputStream;I)V
+   #23 = Methodref          #8.#70        // l1rpb/c.a:(Ll1rpb/g;)Ll1rpb/y;
+   #24 = Methodref          #8.#71        // l1rpb/c.a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+   #25 = Methodref          #8.#72        // l1rpb/c.a:(Ll1rpb/h;)Ll1rpb/y;
+   #26 = Methodref          #8.#73        // l1rpb/c.a:(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+   #27 = Methodref          #8.#74        // l1rpb/c.a:(Ll1rpb/y;)Ll1rpb/ao;
+   #28 = Methodref          #8.#77        // l1rpb/c.a:(Ljava/io/InputStream;)Ll1rpb/y;
+   #29 = Methodref          #8.#78        // l1rpb/c.a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #30 = Methodref          #8.#79        // l1rpb/c.a:([B)Ll1rpb/y;
+   #31 = Methodref          #8.#81        // l1rpb/c.a:([BII)Ll1rpb/y;
+   #32 = Methodref          #8.#82        // l1rpb/c.a:([BIILl1rpb/n;)Ll1rpb/y;
+   #33 = Methodref          #8.#83        // l1rpb/c.a:([BLl1rpb/n;)Ll1rpb/y;
+   #34 = Methodref          #8.#86        // l1rpb/c.b:(Ll1rpb/g;)Ll1rpb/y;
+   #35 = Methodref          #8.#87        // l1rpb/c.b:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+   #36 = Methodref          #8.#88        // l1rpb/c.b:(Ll1rpb/h;)Ll1rpb/y;
+   #37 = Methodref          #8.#89        // l1rpb/c.b:(Ll1rpb/y;)Ll1rpb/y;
+   #38 = Methodref          #8.#90        // l1rpb/c.b:(Ljava/io/InputStream;)Ll1rpb/y;
+   #39 = Methodref          #8.#91        // l1rpb/c.b:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #40 = Methodref          #8.#92        // l1rpb/c.b:([B)Ll1rpb/y;
+   #41 = Methodref          #8.#93        // l1rpb/c.b:([BII)Ll1rpb/y;
+   #42 = Methodref          #8.#94        // l1rpb/c.b:([BIILl1rpb/n;)Ll1rpb/y;
+   #43 = Methodref          #8.#95        // l1rpb/c.b:([BLl1rpb/n;)Ll1rpb/y;
+   #44 = Methodref          #8.#96        // l1rpb/c.c:(Ljava/io/InputStream;)Ll1rpb/y;
+   #45 = Methodref          #8.#97        // l1rpb/c.c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #46 = Methodref          #8.#98        // l1rpb/c.d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+   #47 = Methodref          #8.#99        // l1rpb/c.d:(Ljava/io/InputStream;)Ll1rpb/y;
+   #48 = Methodref          #8.#100       // l1rpb/c.d:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #49 = Methodref          #9.#104       // l1rpb/g.k:()Ll1rpb/h;
+   #50 = Methodref          #10.#68       // l1rpb/h.a:(I)V
+   #51 = Methodref          #10.#69       // l1rpb/h.a:(ILjava/io/InputStream;)I
+   #52 = Methodref          #10.#76       // l1rpb/h.a:(Ljava/io/InputStream;)Ll1rpb/h;
+   #53 = Methodref          #10.#80       // l1rpb/h.a:([BII)Ll1rpb/h;
+   #54 = Methodref          #11.#102      // l1rpb/n.g:()Ll1rpb/n;
+   #55 = Methodref          #12.#65       // l1rpb/s."<init>":(Ljava/lang/String;)V
+   #56 = Methodref          #12.#75       // l1rpb/s.a:(Ll1rpb/y;)Ll1rpb/s;
+   #57 = Methodref          #14.#103      // java/io/IOException.getMessage:()Ljava/lang/String;
+   #58 = Methodref          #15.#105      // java/io/InputStream.read:()I
+   #59 = Methodref          #16.#62       // java/lang/Object."<init>":()V
+   #60 = Methodref          #17.#66       // java/lang/RuntimeException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+   #61 = InterfaceMethodref #13.#67       // l1rpb/y.a:()Z
+   #62 = NameAndType        #159:#112     // "<init>":()V
+   #63 = NameAndType        #159:#131     // "<init>":(Ll1rpb/y;)V
+   #64 = NameAndType        #159:#136     // "<init>":(Ljava/io/InputStream;I)V
+   #65 = NameAndType        #159:#140     // "<init>":(Ljava/lang/String;)V
+   #66 = NameAndType        #159:#141     // "<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+   #67 = NameAndType        #183:#113     // a:()Z
+   #68 = NameAndType        #183:#114     // a:(I)V
+   #69 = NameAndType        #183:#115     // a:(ILjava/io/InputStream;)I
+   #70 = NameAndType        #183:#116     // a:(Ll1rpb/g;)Ll1rpb/y;
+   #71 = NameAndType        #183:#119     // a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+   #72 = NameAndType        #183:#122     // a:(Ll1rpb/h;)Ll1rpb/y;
+   #73 = NameAndType        #183:#125     // a:(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+   #74 = NameAndType        #183:#128     // a:(Ll1rpb/y;)Ll1rpb/ao;
+   #75 = NameAndType        #183:#129     // a:(Ll1rpb/y;)Ll1rpb/s;
+   #76 = NameAndType        #183:#132     // a:(Ljava/io/InputStream;)Ll1rpb/h;
+   #77 = NameAndType        #183:#133     // a:(Ljava/io/InputStream;)Ll1rpb/y;
+   #78 = NameAndType        #183:#137     // a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #79 = NameAndType        #183:#144     // a:([B)Ll1rpb/y;
+   #80 = NameAndType        #183:#147     // a:([BII)Ll1rpb/h;
+   #81 = NameAndType        #183:#148     // a:([BII)Ll1rpb/y;
+   #82 = NameAndType        #183:#151     // a:([BIILl1rpb/n;)Ll1rpb/y;
+   #83 = NameAndType        #183:#154     // a:([BLl1rpb/n;)Ll1rpb/y;
+   #84 = NameAndType        #183:#169     // a:Ll1rpb/n;
+   #85 = NameAndType        #195:#110     // b:()Ll1rpb/s;
+   #86 = NameAndType        #195:#116     // b:(Ll1rpb/g;)Ll1rpb/y;
+   #87 = NameAndType        #195:#119     // b:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+   #88 = NameAndType        #195:#122     // b:(Ll1rpb/h;)Ll1rpb/y;
+   #89 = NameAndType        #195:#130     // b:(Ll1rpb/y;)Ll1rpb/y;
+   #90 = NameAndType        #195:#133     // b:(Ljava/io/InputStream;)Ll1rpb/y;
+   #91 = NameAndType        #195:#137     // b:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #92 = NameAndType        #195:#144     // b:([B)Ll1rpb/y;
+   #93 = NameAndType        #195:#148     // b:([BII)Ll1rpb/y;
+   #94 = NameAndType        #195:#151     // b:([BIILl1rpb/n;)Ll1rpb/y;
+   #95 = NameAndType        #195:#154     // b:([BLl1rpb/n;)Ll1rpb/y;
+   #96 = NameAndType        #196:#133     // c:(Ljava/io/InputStream;)Ll1rpb/y;
+   #97 = NameAndType        #196:#137     // c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+   #98 = NameAndType        #198:#126     // d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+   #99 = NameAndType        #198:#133     // d:(Ljava/io/InputStream;)Ll1rpb/y;
+  #100 = NameAndType        #198:#137     // d:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+  #101 = NameAndType        #200:#107     // e:()Ll1rpb/ao;
+  #102 = NameAndType        #204:#109     // g:()Ll1rpb/n;
+  #103 = NameAndType        #205:#111     // getMessage:()Ljava/lang/String;
+  #104 = NameAndType        #212:#108     // k:()Ll1rpb/h;
+  #105 = NameAndType        #217:#106     // read:()I
+  #106 = Utf8               ()I
+  #107 = Utf8               ()Ll1rpb/ao;
+  #108 = Utf8               ()Ll1rpb/h;
+  #109 = Utf8               ()Ll1rpb/n;
+  #110 = Utf8               ()Ll1rpb/s;
+  #111 = Utf8               ()Ljava/lang/String;
+  #112 = Utf8               ()V
+  #113 = Utf8               ()Z
+  #114 = Utf8               (I)V
+  #115 = Utf8               (ILjava/io/InputStream;)I
+  #116 = Utf8               (Ll1rpb/g;)Ll1rpb/y;
+  #117 = Utf8               (Ll1rpb/g;)Ljava/lang/Object;
+  #118 = Utf8               (Ll1rpb/g;)TMessageType;
+  #119 = Utf8               (Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+  #120 = Utf8               (Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;
+  #121 = Utf8               (Ll1rpb/g;Ll1rpb/n;)TMessageType;
+  #122 = Utf8               (Ll1rpb/h;)Ll1rpb/y;
+  #123 = Utf8               (Ll1rpb/h;)Ljava/lang/Object;
+  #124 = Utf8               (Ll1rpb/h;)TMessageType;
+  #125 = Utf8               (Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+  #126 = Utf8               (Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+  #127 = Utf8               (Ll1rpb/h;Ll1rpb/n;)TMessageType;
+  #128 = Utf8               (Ll1rpb/y;)Ll1rpb/ao;
+  #129 = Utf8               (Ll1rpb/y;)Ll1rpb/s;
+  #130 = Utf8               (Ll1rpb/y;)Ll1rpb/y;
+  #131 = Utf8               (Ll1rpb/y;)V
+  #132 = Utf8               (Ljava/io/InputStream;)Ll1rpb/h;
+  #133 = Utf8               (Ljava/io/InputStream;)Ll1rpb/y;
+  #134 = Utf8               (Ljava/io/InputStream;)Ljava/lang/Object;
+  #135 = Utf8               (Ljava/io/InputStream;)TMessageType;
+  #136 = Utf8               (Ljava/io/InputStream;I)V
+  #137 = Utf8               (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+  #138 = Utf8               (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;
+  #139 = Utf8               (Ljava/io/InputStream;Ll1rpb/n;)TMessageType;
+  #140 = Utf8               (Ljava/lang/String;)V
+  #141 = Utf8               (Ljava/lang/String;Ljava/lang/Throwable;)V
+  #142 = Utf8               (TMessageType;)Ll1rpb/ao;
+  #143 = Utf8               (TMessageType;)TMessageType;
+  #144 = Utf8               ([B)Ll1rpb/y;
+  #145 = Utf8               ([B)Ljava/lang/Object;
+  #146 = Utf8               ([B)TMessageType;
+  #147 = Utf8               ([BII)Ll1rpb/h;
+  #148 = Utf8               ([BII)Ll1rpb/y;
+  #149 = Utf8               ([BII)Ljava/lang/Object;
+  #150 = Utf8               ([BII)TMessageType;
+  #151 = Utf8               ([BIILl1rpb/n;)Ll1rpb/y;
+  #152 = Utf8               ([BIILl1rpb/n;)Ljava/lang/Object;
+  #153 = Utf8               ([BIILl1rpb/n;)TMessageType;
+  #154 = Utf8               ([BLl1rpb/n;)Ll1rpb/y;
+  #155 = Utf8               ([BLl1rpb/n;)Ljava/lang/Object;
+  #156 = Utf8               ([BLl1rpb/n;)TMessageType;
+  #157 = Utf8               <MessageType::Ll1rpb/y;>Ljava/lang/Object;Ll1rpb/ab<TMessageType;>;
+  #158 = Utf8               <clinit>
+  #159 = Utf8               <init>
+  #160 = Utf8               AbstractParser.java
+  #161 = Utf8               Code
+  #162 = Utf8               Exceptions
+  #163 = Utf8               I
+  #164 = Utf8               InnerClasses
+  #165 = Utf8               Ll1rpb/c;
+  #166 = Utf8               Ll1rpb/c<TMessageType;>;
+  #167 = Utf8               Ll1rpb/g;
+  #168 = Utf8               Ll1rpb/h;
+  #169 = Utf8               Ll1rpb/n;
+  #170 = Utf8               Ll1rpb/s;
+  #171 = Utf8               Ll1rpb/y;
+  #172 = Utf8               LineNumberTable
+  #173 = Utf8               Ljava/io/IOException;
+  #174 = Utf8               Ljava/io/InputStream;
+  #175 = Utf8               LocalVariableTable
+  #176 = Utf8               LocalVariableTypeTable
+  #177 = Utf8               Reading from a ByteString threw an IOException (should never happen).
+  #178 = Utf8               Reading from a byte array threw an IOException (should never happen).
+  #179 = Utf8               Signature
+  #180 = Utf8               SourceFile
+  #181 = Utf8               TMessageType;
+  #182 = Utf8               [B
+  #183 = Utf8               a
+  #184 = Utf8               l1rpb/ab
+  #185 = Utf8               l1rpb/ao
+  #186 = Utf8               l1rpb/b
+  #187 = Utf8               l1rpb/b$a
+  #188 = Utf8               l1rpb/b$a$a
+  #189 = Utf8               l1rpb/c
+  #190 = Utf8               l1rpb/g
+  #191 = Utf8               l1rpb/h
+  #192 = Utf8               l1rpb/n
+  #193 = Utf8               l1rpb/s
+  #194 = Utf8               l1rpb/y
+  #195 = Utf8               b
+  #196 = Utf8               c
+  #197 = Utf8               codedInput
+  #198 = Utf8               d
+  #199 = Utf8               data
+  #200 = Utf8               e
+  #201 = Utf8               extensionRegistry
+  #202 = Utf8               f
+  #203 = Utf8               firstByte
+  #204 = Utf8               g
+  #205 = Utf8               getMessage
+  #206 = Utf8               h
+  #207 = Utf8               input
+  #208 = Utf8               java/io/IOException
+  #209 = Utf8               java/io/InputStream
+  #210 = Utf8               java/lang/Object
+  #211 = Utf8               java/lang/RuntimeException
+  #212 = Utf8               k
+  #213 = Utf8               len
+  #214 = Utf8               limitedInput
+  #215 = Utf8               message
+  #216 = Utf8               off
+  #217 = Utf8               read
+  #218 = Utf8               size
+  #219 = Utf8               this
+  #220 = Utf8               x0
+  #221 = Utf8               x1
+  #222 = Utf8               x2
+  #223 = Utf8               x3
+{
+  private static final l1rpb.n a;
+    descriptor: Ll1rpb/n;
+    flags: (0x001a) ACC_PRIVATE, ACC_STATIC, ACC_FINAL
+
+  public l1rpb.c();
+    descriptor: ()V
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=1, locals=1, args_size=1
+         0: aload_0
+         1: invokespecial #59                 // Method java/lang/Object."<init>":()V
+         4: return
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Ll1rpb/c;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       5     0  this   Ll1rpb/c<TMessageType;>;
+
+  private l1rpb.ao a(MessageType);
+    descriptor: (Ll1rpb/y;)Ll1rpb/ao;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_1
+         1: instanceof    #5                  // class l1rpb/b
+         4: ifeq          15
+         7: aload_1
+         8: checkcast     #5                  // class l1rpb/b
+        11: invokevirtual #21                 // Method l1rpb/b.e:()Ll1rpb/ao;
+        14: areturn
+        15: new           #4                  // class l1rpb/ao
+        18: dup
+        19: aload_1
+        20: invokespecial #19                 // Method l1rpb/ao."<init>":(Ll1rpb/y;)V
+        23: areturn
+      LineNumberTable:
+        line 56: 0
+        line 57: 7
+        line 59: 15
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      24     0  this   Ll1rpb/c;
+            0      24     1 message   Ll1rpb/y;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      24     0  this   Ll1rpb/c<TMessageType;>;
+            0      24     1 message   TMessageType;
+    Signature: #142                         // (TMessageType;)Ll1rpb/ao;
+
+  private MessageType b(MessageType) throws l1rpb.s;
+    descriptor: (Ll1rpb/y;)Ll1rpb/y;
+    flags: (0x0002) ACC_PRIVATE
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_1
+         1: ifnull        26
+         4: aload_1
+         5: invokeinterface #61,  1           // InterfaceMethod l1rpb/y.a:()Z
+        10: ifne          26
+        13: aload_0
+        14: aload_1
+        15: invokespecial #27                 // Method a:(Ll1rpb/y;)Ll1rpb/ao;
+        18: invokevirtual #20                 // Method l1rpb/ao.b:()Ll1rpb/s;
+        21: aload_1
+        22: invokevirtual #56                 // Method l1rpb/s.a:(Ll1rpb/y;)Ll1rpb/s;
+        25: athrow
+        26: aload_1
+        27: areturn
+      LineNumberTable:
+        line 70: 0
+        line 71: 13
+        line 75: 26
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      28     0  this   Ll1rpb/c;
+            0      28     1 message   Ll1rpb/y;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      28     0  this   Ll1rpb/c<TMessageType;>;
+            0      28     1 message   TMessageType;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #143                         // (TMessageType;)TMessageType;
+
+  public MessageType a(l1rpb.h) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #46                 // Method d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+         8: checkcast     #13                 // class l1rpb/y
+        11: areturn
+      LineNumberTable:
+        line 83: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Ll1rpb/c;
+            0      12     1 input   Ll1rpb/h;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #124                         // (Ll1rpb/h;)TMessageType;
+
+  public MessageType a(l1rpb.h, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: aload_0
+         1: aload_0
+         2: aload_1
+         3: aload_2
+         4: invokevirtual #46                 // Method d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+         7: checkcast     #13                 // class l1rpb/y
+        10: invokespecial #37                 // Method b:(Ll1rpb/y;)Ll1rpb/y;
+        13: areturn
+      LineNumberTable:
+        line 89: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Ll1rpb/c;
+            0      14     1 input   Ll1rpb/h;
+            0      14     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #127                         // (Ll1rpb/h;Ll1rpb/n;)TMessageType;
+
+  public MessageType b(l1rpb.h) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #26                 // Method a:(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 95: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1 input   Ll1rpb/h;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #124                         // (Ll1rpb/h;)TMessageType;
+
+  public MessageType a(l1rpb.g, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=6, args_size=3
+         0: aload_1
+         1: invokevirtual #49                 // Method l1rpb/g.k:()Ll1rpb/h;
+         4: astore        4
+         6: aload_0
+         7: aload         4
+         9: aload_2
+        10: invokevirtual #46                 // Method d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+        13: checkcast     #13                 // class l1rpb/y
+        16: astore_3
+        17: aload         4
+        19: iconst_0
+        20: invokevirtual #50                 // Method l1rpb/h.a:(I)V
+        23: goto          35
+        26: astore        5
+        28: aload         5
+        30: aload_3
+        31: invokevirtual #56                 // Method l1rpb/s.a:(Ll1rpb/y;)Ll1rpb/s;
+        34: athrow
+        35: aload_3
+        36: areturn
+        37: astore        4
+        39: aload         4
+        41: athrow
+        42: astore        4
+        44: new           #17                 // class java/lang/RuntimeException
+        47: dup
+        48: ldc           #1                  // String Reading from a ByteString threw an IOException (should never happen).
+        50: aload         4
+        52: invokespecial #60                 // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+        55: athrow
+      Exception table:
+         from    to  target type
+            17    23    26   Class l1rpb/s
+             0    36    37   Class l1rpb/s
+             0    36    42   Class java/io/IOException
+      LineNumberTable:
+        line 103: 0
+        line 104: 6
+        line 106: 17
+        line 109: 23
+        line 107: 26
+        line 108: 28
+        line 110: 35
+        line 111: 37
+        line 112: 39
+        line 113: 42
+        line 114: 44
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           28       7     5     e   Ll1rpb/s;
+            6      31     4 input   Ll1rpb/h;
+           39       3     4     e   Ll1rpb/s;
+           44      12     4     e   Ljava/io/IOException;
+            0      56     0  this   Ll1rpb/c;
+            0      56     1  data   Ll1rpb/g;
+            0      56     2 extensionRegistry   Ll1rpb/n;
+           17      39     3 message   Ll1rpb/y;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      56     0  this   Ll1rpb/c<TMessageType;>;
+           17      39     3 message   TMessageType;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #121                         // (Ll1rpb/g;Ll1rpb/n;)TMessageType;
+
+  public MessageType a(l1rpb.g) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #24                 // Method a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 122: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1  data   Ll1rpb/g;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #118                         // (Ll1rpb/g;)TMessageType;
+
+  public MessageType b(l1rpb.g, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: aload_0
+         1: aload_0
+         2: aload_1
+         3: aload_2
+         4: invokevirtual #24                 // Method a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+         7: invokespecial #37                 // Method b:(Ll1rpb/y;)Ll1rpb/y;
+        10: areturn
+      LineNumberTable:
+        line 128: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c;
+            0      11     1  data   Ll1rpb/g;
+            0      11     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #121                         // (Ll1rpb/g;Ll1rpb/n;)TMessageType;
+
+  public MessageType b(l1rpb.g) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #35                 // Method b:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 133: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1  data   Ll1rpb/g;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #118                         // (Ll1rpb/g;)TMessageType;
+
+  public MessageType a(byte[], int, int, l1rpb.n) throws l1rpb.s;
+    descriptor: ([BIILl1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=8, args_size=5
+         0: aload_1
+         1: iload_2
+         2: iload_3
+         3: invokestatic  #53                 // Method l1rpb/h.a:([BII)Ll1rpb/h;
+         6: astore        5
+         8: aload_0
+         9: aload         5
+        11: aload         4
+        13: invokevirtual #46                 // Method d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+        16: checkcast     #13                 // class l1rpb/y
+        19: astore        6
+        21: aload         5
+        23: iconst_0
+        24: invokevirtual #50                 // Method l1rpb/h.a:(I)V
+        27: goto          40
+        30: astore        7
+        32: aload         7
+        34: aload         6
+        36: invokevirtual #56                 // Method l1rpb/s.a:(Ll1rpb/y;)Ll1rpb/s;
+        39: athrow
+        40: aload         6
+        42: areturn
+        43: astore        5
+        45: aload         5
+        47: athrow
+        48: astore        5
+        50: new           #17                 // class java/lang/RuntimeException
+        53: dup
+        54: ldc           #2                  // String Reading from a byte array threw an IOException (should never happen).
+        56: aload         5
+        58: invokespecial #60                 // Method java/lang/RuntimeException."<init>":(Ljava/lang/String;Ljava/lang/Throwable;)V
+        61: athrow
+      Exception table:
+         from    to  target type
+            21    27    30   Class l1rpb/s
+             0    42    43   Class l1rpb/s
+             0    42    48   Class java/io/IOException
+      LineNumberTable:
+        line 140: 0
+        line 141: 8
+        line 143: 21
+        line 146: 27
+        line 144: 30
+        line 145: 32
+        line 147: 40
+        line 148: 43
+        line 149: 45
+        line 150: 48
+        line 151: 50
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           32       8     7     e   Ll1rpb/s;
+            8      35     5 input   Ll1rpb/h;
+           21      22     6 message   Ll1rpb/y;
+           45       3     5     e   Ll1rpb/s;
+           50      12     5     e   Ljava/io/IOException;
+            0      62     0  this   Ll1rpb/c;
+            0      62     1  data   [B
+            0      62     2   off   I
+            0      62     3   len   I
+            0      62     4 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+           21      22     6 message   TMessageType;
+            0      62     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #153                         // ([BIILl1rpb/n;)TMessageType;
+
+  public MessageType a(byte[], int, int) throws l1rpb.s;
+    descriptor: ([BII)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=4, args_size=4
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: getstatic     #18                 // Field a:Ll1rpb/n;
+         7: invokevirtual #32                 // Method a:([BIILl1rpb/n;)Ll1rpb/y;
+        10: areturn
+      LineNumberTable:
+        line 159: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c;
+            0      11     1  data   [B
+            0      11     2   off   I
+            0      11     3   len   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #150                         // ([BII)TMessageType;
+
+  public MessageType a(byte[], l1rpb.n) throws l1rpb.s;
+    descriptor: ([BLl1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: iconst_0
+         3: aload_1
+         4: arraylength
+         5: aload_2
+         6: invokevirtual #32                 // Method a:([BIILl1rpb/n;)Ll1rpb/y;
+         9: areturn
+      LineNumberTable:
+        line 165: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c;
+            0      10     1  data   [B
+            0      10     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #156                         // ([BLl1rpb/n;)TMessageType;
+
+  public MessageType a(byte[]) throws l1rpb.s;
+    descriptor: ([B)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: iconst_0
+         3: aload_1
+         4: arraylength
+         5: getstatic     #18                 // Field a:Ll1rpb/n;
+         8: invokevirtual #32                 // Method a:([BIILl1rpb/n;)Ll1rpb/y;
+        11: areturn
+      LineNumberTable:
+        line 170: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Ll1rpb/c;
+            0      12     1  data   [B
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      12     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #146                         // ([B)TMessageType;
+
+  public MessageType b(byte[], int, int, l1rpb.n) throws l1rpb.s;
+    descriptor: ([BIILl1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=6, locals=5, args_size=5
+         0: aload_0
+         1: aload_0
+         2: aload_1
+         3: iload_2
+         4: iload_3
+         5: aload         4
+         7: invokevirtual #32                 // Method a:([BIILl1rpb/n;)Ll1rpb/y;
+        10: invokespecial #37                 // Method b:(Ll1rpb/y;)Ll1rpb/y;
+        13: areturn
+      LineNumberTable:
+        line 176: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Ll1rpb/c;
+            0      14     1  data   [B
+            0      14     2   off   I
+            0      14     3   len   I
+            0      14     4 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      14     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #153                         // ([BIILl1rpb/n;)TMessageType;
+
+  public MessageType b(byte[], int, int) throws l1rpb.s;
+    descriptor: ([BII)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=4, args_size=4
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: getstatic     #18                 // Field a:Ll1rpb/n;
+         7: invokevirtual #42                 // Method b:([BIILl1rpb/n;)Ll1rpb/y;
+        10: areturn
+      LineNumberTable:
+        line 182: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c;
+            0      11     1  data   [B
+            0      11     2   off   I
+            0      11     3   len   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #150                         // ([BII)TMessageType;
+
+  public MessageType b(byte[], l1rpb.n) throws l1rpb.s;
+    descriptor: ([BLl1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=5, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: iconst_0
+         3: aload_1
+         4: arraylength
+         5: aload_2
+         6: invokevirtual #42                 // Method b:([BIILl1rpb/n;)Ll1rpb/y;
+         9: areturn
+      LineNumberTable:
+        line 188: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c;
+            0      10     1  data   [B
+            0      10     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #156                         // ([BLl1rpb/n;)TMessageType;
+
+  public MessageType b(byte[]) throws l1rpb.s;
+    descriptor: ([B)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #43                 // Method b:([BLl1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 193: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1  data   [B
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #146                         // ([B)TMessageType;
+
+  public MessageType a(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=6, args_size=3
+         0: aload_1
+         1: invokestatic  #52                 // Method l1rpb/h.a:(Ljava/io/InputStream;)Ll1rpb/h;
+         4: astore_3
+         5: aload_0
+         6: aload_3
+         7: aload_2
+         8: invokevirtual #46                 // Method d:(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+        11: checkcast     #13                 // class l1rpb/y
+        14: astore        4
+        16: aload_3
+        17: iconst_0
+        18: invokevirtual #50                 // Method l1rpb/h.a:(I)V
+        21: goto          34
+        24: astore        5
+        26: aload         5
+        28: aload         4
+        30: invokevirtual #56                 // Method l1rpb/s.a:(Ll1rpb/y;)Ll1rpb/s;
+        33: athrow
+        34: aload         4
+        36: areturn
+      Exception table:
+         from    to  target type
+            16    21    24   Class l1rpb/s
+      LineNumberTable:
+        line 199: 0
+        line 200: 5
+        line 202: 16
+        line 205: 21
+        line 203: 24
+        line 204: 26
+        line 206: 34
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+           26       8     5     e   Ll1rpb/s;
+            0      37     0  this   Ll1rpb/c;
+            0      37     1 input   Ljava/io/InputStream;
+            0      37     2 extensionRegistry   Ll1rpb/n;
+            5      32     3 codedInput   Ll1rpb/h;
+           16      21     4 message   Ll1rpb/y;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      37     0  this   Ll1rpb/c<TMessageType;>;
+           16      21     4 message   TMessageType;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #139                         // (Ljava/io/InputStream;Ll1rpb/n;)TMessageType;
+
+  public MessageType a(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #29                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 211: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1 input   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #135                         // (Ljava/io/InputStream;)TMessageType;
+
+  public MessageType b(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: aload_0
+         1: aload_0
+         2: aload_1
+         3: aload_2
+         4: invokevirtual #29                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         7: invokespecial #37                 // Method b:(Ll1rpb/y;)Ll1rpb/y;
+        10: areturn
+      LineNumberTable:
+        line 217: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c;
+            0      11     1 input   Ljava/io/InputStream;
+            0      11     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #139                         // (Ljava/io/InputStream;Ll1rpb/n;)TMessageType;
+
+  public MessageType b(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #39                 // Method b:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 223: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1 input   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #135                         // (Ljava/io/InputStream;)TMessageType;
+
+  public MessageType c(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=5, args_size=3
+         0: aload_1
+         1: invokevirtual #58                 // Method java/io/InputStream.read:()I
+         4: istore        4
+         6: iload         4
+         8: iconst_m1
+         9: if_icmpne     14
+        12: aconst_null
+        13: areturn
+        14: iload         4
+        16: aload_1
+        17: invokestatic  #51                 // Method l1rpb/h.a:(ILjava/io/InputStream;)I
+        20: istore_3
+        21: goto          39
+        24: astore        4
+        26: new           #12                 // class l1rpb/s
+        29: dup
+        30: aload         4
+        32: invokevirtual #57                 // Method java/io/IOException.getMessage:()Ljava/lang/String;
+        35: invokespecial #55                 // Method l1rpb/s."<init>":(Ljava/lang/String;)V
+        38: athrow
+        39: new           #7                  // class l1rpb/b$a$a
+        42: dup
+        43: aload_1
+        44: iload_3
+        45: invokespecial #22                 // Method l1rpb/b$a$a."<init>":(Ljava/io/InputStream;I)V
+        48: astore        4
+        50: aload_0
+        51: aload         4
+        53: aload_2
+        54: invokevirtual #29                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+        57: areturn
+      Exception table:
+         from    to  target type
+             0    13    24   Class java/io/IOException
+            14    21    24   Class java/io/IOException
+      LineNumberTable:
+        line 232: 0
+        line 233: 6
+        line 234: 12
+        line 236: 14
+        line 239: 21
+        line 237: 24
+        line 238: 26
+        line 240: 39
+        line 241: 50
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            6      15     4 firstByte   I
+           26      13     4     e   Ljava/io/IOException;
+            0      58     0  this   Ll1rpb/c;
+            0      58     1 input   Ljava/io/InputStream;
+            0      58     2 extensionRegistry   Ll1rpb/n;
+           21      37     3  size   I
+           50       8     4 limitedInput   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      58     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #139                         // (Ljava/io/InputStream;Ll1rpb/n;)TMessageType;
+
+  public MessageType c(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #45                 // Method c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 246: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1 input   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #135                         // (Ljava/io/InputStream;)TMessageType;
+
+  public MessageType d(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=4, locals=3, args_size=3
+         0: aload_0
+         1: aload_0
+         2: aload_1
+         3: aload_2
+         4: invokevirtual #45                 // Method c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         7: invokespecial #37                 // Method b:(Ll1rpb/y;)Ll1rpb/y;
+        10: areturn
+      LineNumberTable:
+        line 253: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c;
+            0      11     1 input   Ljava/io/InputStream;
+            0      11     2 extensionRegistry   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      11     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #139                         // (Ljava/io/InputStream;Ll1rpb/n;)TMessageType;
+
+  public MessageType d(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ll1rpb/y;
+    flags: (0x0001) ACC_PUBLIC
+    Code:
+      stack=3, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: getstatic     #18                 // Field a:Ll1rpb/n;
+         5: invokevirtual #48                 // Method d:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         8: areturn
+      LineNumberTable:
+        line 259: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c;
+            0       9     1 input   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       9     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+    Signature: #135                         // (Ljava/io/InputStream;)TMessageType;
+
+  public java.lang.Object e(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #45                 // Method c:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ljava/io/InputStream;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object e(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #44                 // Method c:(Ljava/io/InputStream;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object f(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #48                 // Method d:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ljava/io/InputStream;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object f(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #47                 // Method d:(Ljava/io/InputStream;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object g(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #29                 // Method a:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ljava/io/InputStream;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object g(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #28                 // Method a:(Ljava/io/InputStream;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object h(java.io.InputStream, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #39                 // Method b:(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ljava/io/InputStream;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object h(java.io.InputStream) throws l1rpb.s;
+    descriptor: (Ljava/io/InputStream;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #38                 // Method b:(Ljava/io/InputStream;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ljava/io/InputStream;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(byte[], l1rpb.n) throws l1rpb.s;
+    descriptor: ([BLl1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #33                 // Method a:([BLl1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   [B
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(byte[]) throws l1rpb.s;
+    descriptor: ([B)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #30                 // Method a:([B)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   [B
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(byte[], int, int, l1rpb.n) throws l1rpb.s;
+    descriptor: ([BIILl1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=5, locals=5, args_size=5
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: aload         4
+         6: invokevirtual #32                 // Method a:([BIILl1rpb/n;)Ll1rpb/y;
+         9: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c;
+            0      10     1    x0   [B
+            0      10     2    x1   I
+            0      10     3    x2   I
+            0      10     4    x3   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(byte[], int, int) throws l1rpb.s;
+    descriptor: ([BII)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=4, args_size=4
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: invokevirtual #31                 // Method a:([BII)Ll1rpb/y;
+         7: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Ll1rpb/c;
+            0       8     1    x0   [B
+            0       8     2    x1   I
+            0       8     3    x2   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(byte[], l1rpb.n) throws l1rpb.s;
+    descriptor: ([BLl1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #43                 // Method b:([BLl1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   [B
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(byte[]) throws l1rpb.s;
+    descriptor: ([B)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #40                 // Method b:([B)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   [B
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(byte[], int, int, l1rpb.n) throws l1rpb.s;
+    descriptor: ([BIILl1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=5, locals=5, args_size=5
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: aload         4
+         6: invokevirtual #42                 // Method b:([BIILl1rpb/n;)Ll1rpb/y;
+         9: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c;
+            0      10     1    x0   [B
+            0      10     2    x1   I
+            0      10     3    x2   I
+            0      10     4    x3   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0      10     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(byte[], int, int) throws l1rpb.s;
+    descriptor: ([BII)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=4, locals=4, args_size=4
+         0: aload_0
+         1: aload_1
+         2: iload_2
+         3: iload_3
+         4: invokevirtual #41                 // Method b:([BII)Ll1rpb/y;
+         7: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Ll1rpb/c;
+            0       8     1    x0   [B
+            0       8     2    x1   I
+            0       8     3    x2   I
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       8     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(l1rpb.g, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #24                 // Method a:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ll1rpb/g;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(l1rpb.g) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #23                 // Method a:(Ll1rpb/g;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ll1rpb/g;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(l1rpb.g, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #35                 // Method b:(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ll1rpb/g;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(l1rpb.g) throws l1rpb.s;
+    descriptor: (Ll1rpb/g;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #34                 // Method b:(Ll1rpb/g;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ll1rpb/g;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object c(l1rpb.h) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #25                 // Method a:(Ll1rpb/h;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ll1rpb/h;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object b(l1rpb.h, l1rpb.n) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=3, locals=3, args_size=3
+         0: aload_0
+         1: aload_1
+         2: aload_2
+         3: invokevirtual #26                 // Method a:(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;
+         6: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c;
+            0       7     1    x0   Ll1rpb/h;
+            0       7     2    x1   Ll1rpb/n;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       7     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  public java.lang.Object d(l1rpb.h) throws l1rpb.s;
+    descriptor: (Ll1rpb/h;)Ljava/lang/Object;
+    flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC
+    Code:
+      stack=2, locals=2, args_size=2
+         0: aload_0
+         1: aload_1
+         2: invokevirtual #36                 // Method b:(Ll1rpb/h;)Ll1rpb/y;
+         5: areturn
+      LineNumberTable:
+        line 49: 0
+      LocalVariableTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c;
+            0       6     1    x0   Ll1rpb/h;
+      LocalVariableTypeTable:
+        Start  Length  Slot  Name   Signature
+            0       6     0  this   Ll1rpb/c<TMessageType;>;
+    Exceptions:
+      throws l1rpb.s
+
+  static {};
+    descriptor: ()V
+    flags: (0x0008) ACC_STATIC
+    Code:
+      stack=1, locals=0, args_size=0
+         0: invokestatic  #54                 // Method l1rpb/n.g:()Ll1rpb/n;
+         3: putstatic     #18                 // Field a:Ll1rpb/n;
+         6: return
+      LineNumberTable:
+        line 78: 0
+}
+InnerClasses:
+  public static abstract #183= #6 of #5;  // a=class l1rpb/b$a of class l1rpb/b
+  static final #183= #7 of #6;            // a=class l1rpb/b$a$a of class l1rpb/b$a
+Signature: #157                         // <MessageType::Ll1rpb/y;>Ljava/lang/Object;Ll1rpb/ab<TMessageType;>;
+SourceFile: "AbstractParser.java"
