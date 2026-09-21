@@ -325,6 +325,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
 
+      - name: Audit as/a synthetic accessor semantic parity
+        shell: bash
+        run: python ./tools/recovery/probe-synthetic-accessor-as-a.py
+
       - name: Extract current non-Protobuf errors
         shell: bash
         run: python ./tools/recovery/extract-nonprotobuf-error-details.py
@@ -800,6 +804,8 @@ jobs:
             recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md \
             recovery/normalized_stage_error_families.json \
             recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md \
+            recovery/synthetic_accessor_as_a_probe.json \
+            recovery/SYNTHETIC_ACCESSOR_AS_A_PROBE.md \
             recovery/protobuf_override_conflicts.json \
             recovery/PROTOBUF_OVERRIDE_CONFLICTS.md
           if git diff --cached --quiet; then
