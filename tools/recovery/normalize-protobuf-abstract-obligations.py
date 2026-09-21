@@ -26,6 +26,20 @@ PAIR_RULES=[
   ('l1rpb/y$a.class','l1rpb/b$a.class'),
 ]
 
+# Only prune the currently observed source-unrepresentable family.
+# Other exact parent/child pairs are real public parser/builder API and must
+# remain visible because generated source calls them directly.
+SAFE_DERIVED={
+  'l1rpb/ab.class': {
+    ('e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
+    ('e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+  },
+  'l1rpb/y$a.class': {
+    ('d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
+    ('d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
+  },
+}
+
 class R:
   def __init__(self,b): self.b=b; self.p=0
   def u1(self): v=self.b[self.p]; self.p+=1; return v
@@ -119,15 +133,20 @@ for abstract_cls, concrete_cls in PAIR_RULES:
   am=read_methods(raw_map[abstract_cls])
   cm=read_methods(raw_map[concrete_cls])
   concrete={(x['name'],x['descriptor']) for x in cm if not x['abstract']}
-  paired={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete}
-  if not paired:
-    raise SystemExit(f'no ABI-derived abstract obligations found for {abstract_cls} <- {concrete_cls}')
-  derived.setdefault(abstract_cls,set()).update(paired)
+  paired_all={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete}
+  selected=paired_all & SAFE_DERIVED.get(abstract_cls,set())
+  if not selected:
+    raise SystemExit(f'no safe ABI-derived obligations found for {abstract_cls} <- {concrete_cls}')
+  missing_safe=SAFE_DERIVED.get(abstract_cls,set())-paired_all
+  if missing_safe:
+    raise SystemExit(f'safe obligations missing donor concrete evidence for {abstract_cls}: {sorted(missing_safe)}')
+  derived.setdefault(abstract_cls,set()).update(selected)
   pair_details.append({
     'abstract_class':abstract_cls,
     'concrete_provider':concrete_cls,
-    'paired_count':len(paired),
-    'methods':[{'name':n,'descriptor':d} for n,d in sorted(paired)],
+    'paired_count_all':len(paired_all),
+    'selected_count':len(selected),
+    'selected_methods':[{'name':n,'descriptor':d} for n,d in sorted(selected)],
   })
 
 targets={k:set(v) for k,v in EXACT_REMOVE.items()}
@@ -181,6 +200,7 @@ MD.write_text(
   + f'- Removed compile-ref abstract obligations: **{len(hits)} / {expected}**\n'
   + f'- Exact special-case obligations: **{state["exact_obligations"]}**\n'
   + f'- ABI-derived pair rules: **{len(pair_details)}**\n'
+  + '- Derived pruning is restricted to the 4 currently observed InputStream bridge obligations.\n'
   + '- Required current e(InputStream[,n]) / d(InputStream[,n]) family present: **YES**\n'
   + '- Donor JAR changed: **NO**\n'
   + '- Recovered game source changed: **NO**\n'
