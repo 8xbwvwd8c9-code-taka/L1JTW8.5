@@ -156,7 +156,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-264`
+`850-267`
 
 Finding identity must come from actual report headers:
 
@@ -212,6 +212,9 @@ Recent high-value findings include:
 - `850-262` — weapon-skill proc probability is one percentage point high;
 - `850-263` — account login publishes the connection before binding the account, so accounts.online is skipped.
 - `850-264` — HtmlCraft amount arithmetic can wrap material requirements non-positive; failed material removal is ignored before output creation.
+- `850-265` — HomeTown monthly settlement zeros Contribution before calculating Pay, so monthly salary generation uses zero.
+- `850-266` — MobSkills inclusive 0..99 probability gate biases 989 bundled rows upward by one percentage point.
+- `850-267` — MobGroupTable keeps per-spawn flags in shared singleton fields across concurrent group respawns; keep as L2 RISK pending deterministic runtime reproduction.
 
 Recent verified defensive notes include:
 
@@ -321,7 +324,7 @@ Continue looking for patterns where:
 - Use the main-branch split DB table source for schema/seed verification before promoting any DB-dependent finding.
 - `RISK-850-259` was corrected after split DB verification: the baseline candidate pool has 66 rows, so only the <9-row robustness defect remains.
 
-Avoid duplicating any existing finding; current maximum is `850-264`.
+Avoid duplicating any existing finding; current maximum is `850-267`.
 
 ### Priority C — lifecycle / logout
 
@@ -387,6 +390,6 @@ If the user says:
 
 `GO` / `繼續`
 
-resume **audit-only** from `850-265` using the priorities above.
+resume **audit-only** from `850-268` using the priorities above.
 
 Do not return to repair mode unless the user explicitly asks to resume fixes.
