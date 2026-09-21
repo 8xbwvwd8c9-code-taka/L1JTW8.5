@@ -41,7 +41,33 @@ try:
     with zipfile.ZipFile(SRC) as zf:
         for n in zf.namelist():
             if n.endswith('.class'):
-                class_files+=1; top.add(n.split('$',1)[0])
+                class_files+=1; top.add(n.split('    STATE.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
+    # File count is diagnostic only: a Java source file may represent more than
+    # one top-level binary type. Final completeness is validated after javac by
+    # normalized generated class-set comparison against the runtime JAR.
+    ok=(proc.returncode==0 and copied>0)
+    MD.write_text(
+      '# Protobuf Runtime Source Decompile\n\n'
+      + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
+      + f'- Runtime class files: **{class_files}**\n'
+      + f'- Top-level classes: **{len(top)}**\n'
+      + f'- Vineflower Java files: **{copied} / {len(top)}** (diagnostic only)\n'
+      + f'- Missing source stems by filename: **{len(missing_source_stems)}**\n'
+      + f'- Extra source stems by filename: **{len(extra_source_stems)}**\n'
+      + '- File-count mismatch is **not** treated as proof of missing binary types.\n'
+      + '- Final completeness gate is generated normalized class-set comparison after javac.\n'
+      + '- Input is the recovery-relocated `l1rpb/**` runtime JAR.\n'
+      + '- Gameplay logic changed: **NO**\n',
+      encoding='utf-8')
+    print(json.dumps(state,indent=2))
+    if not ok: raise SystemExit(f'protobuf runtime decompile failed: files={copied} exit={proc.returncode}')
+finally:
+    shutil.rmtree(tmp,ignore_errors=True)
+,1)[0])
+    source_stems={p.relative_to(vfout).with_suffix('').as_posix() for p in java_files}
+    expected_stems={Path(n).with_suffix('').as_posix() for n in top}
+    missing_source_stems=sorted(expected_stems-source_stems)
+    extra_source_stems=sorted(source_stems-expected_stems)
     state={
       'source_jar':str(SRC),
       'vineflower_exit_code':proc.returncode,
@@ -49,6 +75,9 @@ try:
       'runtime_top_level_classes':len(top),
       'java_files_copied':copied,
       'expected_top_level_java_files':len(top),
+      'missing_source_stems':missing_source_stems,
+      'extra_source_stems':extra_source_stems,
+      'file_count_gate_is_final_completeness_gate':False,
       'package':'l1rpb',
       'gameplay_logic_changed':False,
     }
