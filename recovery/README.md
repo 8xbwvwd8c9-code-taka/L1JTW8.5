@@ -25,6 +25,53 @@ Donor ground truth: `l1jserver2.jar`
 | Full recovery completion | **NOT COMPLETE** |
 
 ## Primary remaining blocker
+### Latest WP5 finding — `l1rpb.j$j`
+
+Current highest-confidence root family:
+
+`l1rpb.j$j` is a donor nested interface whose simple name `j` is identical to enclosing class `l1rpb.j`.
+
+Donor bytecode / `InnerClasses` metadata is valid, but Java source cannot directly declare:
+
+`public final class j { public interface j { ... } }`
+
+A TEMP top-level `j$j.java` workaround was tested and **REJECTED**:
+
+- javac errors: `3970 -> 3969`
+- error files: `32 -> 33`
+- generated runtime classes: still `0`
+- donor `InnerClasses` identity would be lost
+
+Therefore the next repair must preserve nested identity through a legal recovery alias plus deterministic/reversible post-javac identity restoration, or another donor-proven representation. Filename-only / top-level `# L1JTW8.5 Recovery
+
+> **狀態：反編譯 / Source Recovery 尚未全部完成。**
+>
+> 目前 **788 個 application Java source 已可完整 javac 編譯，1109 個 application class 的 class-set / hierarchy / member recovery gate 已通過**；但 donor 內嵌的 **246-class protobuf runtime** 尚未完成 source-only recovery，因此不得標示「反編譯完成」。
+
+Branch: `analysis/l1jtw85-recovery`  
+Donor ground truth: `l1jserver2.jar`
+
+## Current status
+
+| Gate | Status |
+|---|---|
+| Application Java sources | **788** |
+| Application javac | **PASS / 0 errors** |
+| Generated application classes | **1109** |
+| Normalized class set | **PASS / 0 missing / 0 extra** |
+| Runtime hierarchy | **PASS** |
+| Compile-ref integrity | **PASS** |
+| Generic builder audit | **PASS with documented metadata differences** |
+| Member ABI recovery | **PASS with documented source/compiler exceptions** |
+| Mapping reversibility | **PASS** |
+| Embedded protobuf runtime source-only compile | **OPEN / FAIL** |
+| Final source-only dependency closure | **OPEN** |
+| Full recovery completion | **NOT COMPLETE** |
+
+ naming is not sufficient.
+
+Full decompilation status remains **NOT COMPLETE**.
+
 
 The embedded protobuf runtime currently has:
 
