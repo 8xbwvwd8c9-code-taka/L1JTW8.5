@@ -90,6 +90,22 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-2.5.0-official.py "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar"
 
+      - name: Setup Java 8 for legacy protobuf compiler probe
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Probe protobuf 2.5 source with JDK8 target 1.5
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-2.5.0-jdk8-target5.py "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" "$JAVA_HOME/bin/javac"
+
+      - name: Restore Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "17"
+
       - name: Compare donor runtime to protobuf-java 2.5.0 binary structure
         shell: bash
         run: python ./tools/recovery/probe-protobuf-2.5.0-binary-structural.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
