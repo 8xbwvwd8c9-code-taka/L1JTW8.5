@@ -57,7 +57,7 @@ def parse(data):
         return (fl,utf(ni),utf(di),code)
     fc,p=u2(data,p); fs=[mem("f") for _ in range(fc)]
     mc,p=u2(data,p); ms=[mem("m") for _ in range(mc)]
-    ac,p=u2(data,p); sf=None; inn=[]
+    ac,p=u2(data,p); sf=None; inn=[]; enclosing_owner=None; enclosing_name=None; enclosing_desc=None
     for _ in range(ac):
         ai,p=u2(data,p); ln,p=u4(data,p); an=utf(ai); pay=data[p:p+ln]
         if an=="SourceFile" and ln==2:
@@ -67,6 +67,13 @@ def parse(data):
             for __ in range(n):
                 ii,q=u2(pay,q); oi,q=u2(pay,q); ni,q=u2(pay,q); fl,q=u2(pay,q)
                 inn.append((cls(ii),cls(oi),utf(ni),fl))
+        elif an=="EnclosingMethod" and ln==4:
+            q=0; ci,q=u2(pay,q); mi,q=u2(pay,q)
+            enclosing_owner=cls(ci)
+            if mi:
+                e=cp[mi]
+                if e and e[0]==12:
+                    enclosing_name=utf(e[1]); enclosing_desc=utf(e[2])
         p+=ln
     strings=[]; nums=[]
     for e in cp:
@@ -80,7 +87,8 @@ def parse(data):
         if ii==cls(thisi): outer=oi; break
     return {"name":cls(thisi),"super":cls(superi),"interfaces":ifs,"fields":fs,"methods":ms,
             "source":sf,"access":access,"major":major,"minor":minor,"inners":inn,
-            "strings":Counter(strings),"nums":Counter(nums),"outer":outer}
+            "strings":Counter(strings),"nums":Counter(nums),"outer":outer,
+            "enclosing_owner":enclosing_owner,"enclosing_name":enclosing_name,"enclosing_desc":enclosing_desc}
 
 def load(path):
     out={}
@@ -218,6 +226,46 @@ if order_safe:
             if not order_safe: break
         if not order_safe: break
 
+# Resolve anonymous classes using EnclosingMethod owner and compiler-generated numeric suffix.
+used=set(mapping.values())
+anon_added=[]
+changed=True
+while changed:
+    changed=False
+    used=set(mapping.values())
+    remD=[n for n in D if n not in mapping]
+    remO=[n for n in O if n not in used]
+    for dn in list(remD):
+        dx=D[dn]
+        de=dx.get("enclosing_owner")
+        candidates=[]
+        for on in remO:
+            ox=O[on]
+            # Same local shape is mandatory.
+            if key(dx)!=key(ox): continue
+            # Enclosing owner, when present, must agree through existing mapping.
+            oe=ox.get("enclosing_owner")
+            if de and de in mapping:
+                if mapping[de] != oe: continue
+            # Preserve compiler anonymous suffix when both are numeric.
+            dm=re.search(r"\$(\d+)$",dn)
+            om=re.search(r"\$(\d+)$",on)
+            if dm and om and dm.group(1)!=om.group(1): continue
+            candidates.append(on)
+        if len(candidates)==1:
+            on=candidates[0]
+            mapping[dn]=on; anon_added.append((dn,on)); changed=True
+
+# Validate numeric anonymous suffix preservation on all mapped anonymous pairs.
+suffix_pairs=0; suffix_agree=0; suffix_disagree=[]
+for dn,on in mapping.items():
+    dm=re.search(r"\$(\d+)$",dn)
+    om=re.search(r"\$(\d+)$",on)
+    if dm and om:
+        suffix_pairs+=1
+        if dm.group(1)==om.group(1): suffix_agree+=1
+        else: suffix_disagree.append((dn,on,dm.group(1),om.group(1)))
+
 used=set(mapping.values())
 remD=[n for n in D if n not in mapping]; remO=[n for n in O if n not in used]
 state={
@@ -228,6 +276,12 @@ state={
  "order_validation_disagree":len(order_disagree),
  "order_safe":order_safe,
  "order_added":len(order_added),
+ "anonymous_added":len(anon_added),
+ "anonymous_added_pairs":anon_added,
+ "suffix_validation_pairs":suffix_pairs,
+ "suffix_validation_agree":suffix_agree,
+ "suffix_validation_disagree":len(suffix_disagree),
+ "suffix_disagree_pairs":suffix_disagree,
  "mapped":len(mapping),
  "unmapped_donor":len(remD),"unmapped_official":len(remO),
  "one_to_one":len(mapping)==len(set(mapping.values())),
