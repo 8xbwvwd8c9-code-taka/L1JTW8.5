@@ -176,6 +176,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-current-e-ap-alias.py
 
+      - name: Experiment builder c kf object typed alias
+        shell: bash
+        run: python ./tools/recovery/experiment-protobuf-builder-current-c-kf-obj-alias.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
@@ -329,6 +333,8 @@ jobs:
             recovery/PROTOBUF_BUILDER_CURRENT_B_AP_ALIAS_EXPERIMENT.md
             recovery/protobuf_builder_current_e_ap_alias_experiment.json
             recovery/PROTOBUF_BUILDER_CURRENT_E_AP_ALIAS_EXPERIMENT.md
+            recovery/protobuf_builder_current_c_kf_obj_alias_experiment.json
+            recovery/PROTOBUF_BUILDER_CURRENT_C_KF_OBJ_ALIAS_EXPERIMENT.md
             recovery/normalized_builder_source_bridge_transform.json
             recovery/NORMALIZED_BUILDER_SOURCE_BRIDGE_TRANSFORM.md
             recovery/protobuf_parser_bridge_flag_experiment.json
