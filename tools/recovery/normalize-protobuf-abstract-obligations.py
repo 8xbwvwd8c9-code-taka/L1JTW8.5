@@ -25,6 +25,7 @@ PAIR_RULES=[
   ('l1rpb/ab.class','l1rpb/c.class'),
   ('l1rpb/y$a.class','l1rpb/b$a.class'),
   ('l1rpb/a$a.class','l1rpb/p$a.class'),
+  ('l1rpb/b$a.class','l1rpb/p$a.class'),
 ]
 
 # Only prune the currently observed source-unrepresentable family.
@@ -41,6 +42,9 @@ SAFE_DERIVED={
   },
   'l1rpb/a$a.class': {
     ('d','()Ll1rpb/a$a;'),
+  },
+  'l1rpb/b$a.class': {
+    ('f','()Ll1rpb/b$a;'),
   },
 }
 
@@ -157,13 +161,14 @@ targets={k:set(v) for k,v in EXACT_REMOVE.items()}
 for cls,methods in derived.items():
   targets.setdefault(cls,set()).update(methods)
 
-# Mandatory evidence for the currently observed 88-error family.
+# Mandatory evidence for currently retained/pruned source-representation obligations.
 required={
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
   ('l1rpb/a$a.class','d','()Ll1rpb/a$a;'),
+  ('l1rpb/b$a.class','f','()Ll1rpb/b$a;'),
 }
 actual={(cls,n,d) for cls,methods in targets.items() for n,d in methods}
 missing_required=sorted(required-actual)
@@ -205,7 +210,7 @@ MD.write_text(
   + f'- Removed compile-ref abstract obligations: **{len(hits)} / {expected}**\n'
   + f'- Exact special-case obligations: **{state["exact_obligations"]}**\n'
   + f'- ABI-derived pair rules: **{len(pair_details)}**\n'
-  + '- Derived pruning is restricted to exact donor ABI obligations with concrete providers, including the final parser f(InputStream,n) and builder d() family.\n'
+  + '- Derived pruning is restricted to exact donor ABI obligations with concrete providers. Source-visible parser f(InputStream[,n]) declarations remain present; builder f() is pruned only as an inheritance-only synthetic-bridge obligation.\n'
   + '- Required current parser/builder bridge obligation family present: **YES**\n'
   + '- Donor JAR changed: **NO**\n'
   + '- Recovered game source changed: **NO**\n'
