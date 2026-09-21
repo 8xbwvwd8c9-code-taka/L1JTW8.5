@@ -9,6 +9,7 @@ APP=REC/"class_inventory.csv"
 PROTO=REC/"compile-ref-protobuf-obf.jar"
 OUT=REC/"final_1765_universe_audit.json"
 MD=REC/"FINAL_1765_UNIVERSE_AUDIT.md"
+WP5=REC/"source_only_exact_runtime_linkage.json"
 
 LIB_GROUPS={
   "c3p0_mchange_commons":[
@@ -20,13 +21,17 @@ LIB_GROUPS={
   "lombok_runtime_annotations":[ROOT/"lib/lombok-1.16.6.jar"],
 }
 
-for p in [MAP,APP,PROTO,*[x for xs in LIB_GROUPS.values() for x in xs]]:
+for p in [MAP,APP,PROTO,WP5,*[x for xs in LIB_GROUPS.values() for x in xs]]:
     if not p.exists():
         raise SystemExit(f"missing required input: {p}")
 
 def classset_from_jar(path):
     with zipfile.ZipFile(path) as z:
         return {n for n in z.namelist() if n.endswith(".class") and not n.startswith("META-INF/")}
+
+wp5=json.loads(WP5.read_text(encoding="utf-8"))
+if not wp5.get("pass") or wp5.get("application_classes")!=1109 or wp5.get("exact_source_built_protobuf_classes")!=246 or wp5.get("compile_view_runtime_dependency_count")!=0:
+    raise SystemExit("WP5 exact-runtime linkage is not closed")
 
 with MAP.open(encoding="utf-8-sig",newline="") as f:
     rows=list(csv.DictReader(f))
@@ -72,6 +77,7 @@ expected_categories={
 state={
   "gate":"FINAL_1765_UNIVERSE_ACCOUNTING",
   "authoritative_source":"class_source_mapping.csv",
+  "wp5_exact_runtime_linkage_pass":True,
   "total_target":len(authoritative),
   "application":{
     "source":"recovery/class_inventory.csv",
