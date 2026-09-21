@@ -10,18 +10,23 @@ TMP=REC/"protobuf-2.5.0-source-built-compile-view.tmp.jar"
 
 ACC_ABSTRACT=0x0400
 TARGET_INNER=b"l1rpb/p$b"
-EXACT_REMOVE={
+REMOVE={
+    "l1rpb/ab.class": {
+        ("e","(Ljava/io/InputStream;)Ljava/lang/Object;"),
+        ("e","(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;"),
+    },
+    "l1rpb/y$a.class": {
+        ("d","(Ljava/io/InputStream;)Ll1rpb/y$a;"),
+        ("d","(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"),
+    },
+    "l1rpb/a$a.class": {
+        ("d","()Ll1rpb/a$a;"),
+    },
     "l1rpb/b$a.class": {
+        ("f","()Ll1rpb/b$a;"),
         ("b","(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;"),
     },
 }
-
-PAIR_RULES=[
-    ("l1rpb/ab.class","l1rpb/c.class"),
-    ("l1rpb/y$a.class","l1rpb/b$a.class"),
-    ("l1rpb/a$a.class","l1rpb/p$a.class"),
-    ("l1rpb/b$a.class","l1rpb/p$a.class"),
-]
 
 class R:
     def __init__(self,b): self.b=b; self.p=0
@@ -138,32 +143,73 @@ def read_methods(data):
         rows.append({"name":name,"descriptor":desc,"flags":flags,"abstract":bool(flags & ACC_ABSTRACT)})
     return rows
 
+def strip_signature_attrs(data):
+    r=R(data); cp=parse_cp(r)
+    cp_end=r.p
+    pos=cp_end
+    out=bytearray(data[:cp_end])
+
+    out+=data[pos:pos+6]; pos+=6
+    ic=struct.unpack_from(">H",data,pos)[0]
+    out+=data[pos:pos+2+2*ic]; pos+=2+2*ic
+
+    def copy_member_table(pos,count):
+        nonlocal out
+        removed=0
+        for _ in range(count):
+            out+=data[pos:pos+6]; pos+=6
+            ac=struct.unpack_from(">H",data,pos)[0]; pos+=2
+            kept=[]
+            for __ in range(ac):
+                st=pos
+                ni=struct.unpack_from(">H",data,pos)[0]
+                ln=struct.unpack_from(">I",data,pos+2)[0]
+                pos+=6+ln
+                if utf(cp,ni)=="Signature":
+                    removed+=1
+                else:
+                    kept.append(data[st:pos])
+            out+=struct.pack(">H",len(kept))
+            for raw in kept: out+=raw
+        return pos,removed
+
+    fc=struct.unpack_from(">H",data,pos)[0]
+    out+=data[pos:pos+2]; pos+=2
+    pos,field_removed=copy_member_table(pos,fc)
+
+    mc=struct.unpack_from(">H",data,pos)[0]
+    out+=data[pos:pos+2]; pos+=2
+    pos,method_removed=copy_member_table(pos,mc)
+
+    ac=struct.unpack_from(">H",data,pos)[0]; pos+=2
+    kept=[]; class_removed=0
+    for _ in range(ac):
+        st=pos
+        ni=struct.unpack_from(">H",data,pos)[0]
+        ln=struct.unpack_from(">I",data,pos+2)[0]
+        pos+=6+ln
+        if utf(cp,ni)=="Signature":
+            class_removed+=1
+        else:
+            kept.append(data[st:pos])
+    out+=struct.pack(">H",len(kept))
+    for raw in kept: out+=raw
+    if pos!=len(data): raise SystemExit(f"signature strip parse ended {pos}/{len(data)}")
+    return bytes(out),class_removed,method_removed,field_removed
+
 if not SRC.exists(): raise SystemExit(f"missing exact source-built ABI jar: {SRC}")
 removed=[]
 visibility=0
+parser_signature_class_removed=0
+parser_signature_method_removed=0
+parser_signature_field_removed=0
 with zipfile.ZipFile(SRC,"r") as zin:
     raw_map={name:zin.read(name) for name in zin.namelist() if name.endswith(".class")}
     class_count=len(raw_map)
     if class_count!=246: raise SystemExit(f"exact source-built jar must contain 246 classes, got {class_count}")
 
-targets={k:set(v) for k,v in EXACT_REMOVE.items()}
+targets={k:set(v) for k,v in REMOVE.items()}
 pair_details=[]
-for abstract_cls,provider_cls in PAIR_RULES:
-    if abstract_cls not in raw_map or provider_cls not in raw_map:
-        raise SystemExit(f"missing pair classes: {abstract_cls} / {provider_cls}")
-    am=[m for m in read_methods(raw_map[abstract_cls]) if m["abstract"]]
-    pm=[m for m in read_methods(raw_map[provider_cls]) if not m["abstract"]]
-    provider_keys={(m["name"],descriptor_params(m["descriptor"])) for m in pm}
-    selected={(m["name"],m["descriptor"]) for m in am if (m["name"],descriptor_params(m["descriptor"])) in provider_keys}
-    if not selected:
-        raise SystemExit(f"no provider-backed abstract obligations for {abstract_cls} <- {provider_cls}")
-    targets.setdefault(abstract_cls,set()).update(selected)
-    pair_details.append({
-        "abstract_class":abstract_cls,
-        "concrete_provider":provider_cls,
-        "provider_backed_obligations":len(selected),
-        "methods":[{"name":n,"descriptor":d} for n,d in sorted(selected)],
-    })
 
 with zipfile.ZipFile(SRC,"r") as zin, zipfile.ZipFile(TMP,"w",zipfile.ZIP_DEFLATED) as zout:
     for info in zin.infolist():
@@ -171,6 +217,11 @@ with zipfile.ZipFile(SRC,"r") as zin, zipfile.ZipFile(TMP,"w",zipfile.ZIP_DEFLAT
         if info.filename.endswith(".class"):
             raw,n=widen_inner_visibility(raw)
             visibility+=n
+            if info.filename=="l1rpb/c.class":
+                raw,cr,mr,fr=strip_signature_attrs(raw)
+                parser_signature_class_removed+=cr
+                parser_signature_method_removed+=mr
+                parser_signature_field_removed+=fr
             if info.filename in targets:
                 raw,hits=remove_abstract_methods(raw,targets[info.filename])
                 removed += [{"class":info.filename,"name":n,"descriptor":d,"flags":f} for n,d,f in hits]
@@ -183,6 +234,9 @@ if len(removed)!=expected_removed:
 if visibility==0:
     TMP.unlink(missing_ok=True)
     raise SystemExit("expected at least one p$b InnerClasses visibility patch")
+if parser_signature_class_removed!=1 or parser_signature_method_removed<=0:
+    TMP.unlink(missing_ok=True)
+    raise SystemExit(f"expected c.class Signature normalization class=1 method>0, got class={parser_signature_class_removed} method={parser_signature_method_removed}")
 TMP.replace(OUT)
 
 state={
@@ -191,7 +245,10 @@ state={
     "output_compile_view":OUT.as_posix(),
     "source_built_classes":246,
     "abstract_obligations_removed":removed,
-    "provider_pair_rules":pair_details,
+    "parser_signature_target":"l1rpb/c.class",
+    "parser_signature_class_attrs_removed":parser_signature_class_removed,
+    "parser_signature_method_attrs_removed":parser_signature_method_removed,
+    "parser_signature_field_attrs_removed":parser_signature_field_removed,
     "abstract_obligation_count":len(removed),
     "inner_visibility_target":"l1rpb/p$b",
     "inner_visibility_entries_widened":visibility,
