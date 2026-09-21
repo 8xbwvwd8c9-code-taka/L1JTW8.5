@@ -1,7 +1,222 @@
 {
-  "total_error_headers": 0,
-  "protobuf_error_headers": 0,
-  "nonprotobuf_error_headers": 0,
-  "families": {},
-  "top_error_files": []
+  "total_error_headers": 743,
+  "protobuf_error_headers": 617,
+  "nonprotobuf_error_headers": 126,
+  "families": {
+    "PROTOBUF_OVERRIDE_BRIDGE": 528,
+    "PROTOBUF_CANNOT_FIND_SYMBOL": 44,
+    "NONPROTO_GENERIC_ERASURE": 40,
+    "NONPROTO_CANNOT_FIND_SYMBOL": 34,
+    "PROTOBUF_NAME_SHADOW_OR_OVERLOAD": 31,
+    "NONPROTO_OTHER": 16,
+    "NONPROTO_OVERLOAD_RETURN_AMBIGUITY": 13,
+    "NONPROTO_OVERRIDE_BRIDGE": 11,
+    "PROTOBUF_PROTECTED_NESTED_RUNTIME_TYPE": 9,
+    "NONPROTO_PROTOBUF_CONSTRUCTOR_RESOLUTION": 6,
+    "PROTOBUF_OTHER": 5,
+    "NONPROTO_AMBIGUOUS_REFERENCE": 4,
+    "NONPROTO_NAME_SHADOW_OR_OVERLOAD": 2
+  },
+  "top_error_files": [
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL7.java",
+      79
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL2.java",
+      73
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL6.java",
+      70
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL4.java",
+      68
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL3.java",
+      68
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL8.java",
+      68
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL.java",
+      67
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL5.java",
+      67
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL9.java",
+      57
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_ProtoBuffers.java",
+      21
+    ],
+    [
+      "_normalized-stage-src/l1r/aq/L1Craft.java",
+      19
+    ],
+    [
+      "_normalized-stage-src/l1r/aq/L1Alchemy.java",
+      9
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1DoorInstance.java",
+      6
+    ],
+    [
+      "_normalized-stage-src/l1r/as/L1ThebesBattle.java",
+      6
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1MonsterInstance.java",
+      5
+    ],
+    [
+      "_normalized-stage-src/l1r/aq/L1Character.java",
+      4
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1PetInstance.java",
+      4
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1PcInstance.java",
+      3
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1NpcInstance.java",
+      3
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_Result.java",
+      3
+    ],
+    [
+      "_normalized-stage-src/l1r/as/L1OrimBattle.java",
+      3
+    ],
+    [
+      "_normalized-stage-src/l1r/as/L1SoulTower.java",
+      3
+    ],
+    [
+      "_normalized-stage-src/l1r/bh/L1Account.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/au/L1Inventory.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_ItemUSe.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/al/L1GfxNpc.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/ao/DropTable.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/ao/ShopTable.java",
+      2
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1ItemInstance.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_ProtoBuffers.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_ShopWorld.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_SkillBuyItemOK.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/aj/C_SkillBuyOK.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/al/L1Buff.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/al/L1Recall.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ao/CharacterEquipment.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ao/MobQuestWeekTable.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ao/RankingTable.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1TowerInstance.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/bf/L1SkillExecutor.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1GfxInstance.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/ap/L1SummonInstance.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/aq/L1SpawnBoss.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/as/L1HardinBattle.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/bd/L1MonsterTrap.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_Board.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_CharEvent.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_FixWeaponList.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_Mail.java",
+      1
+    ],
+    [
+      "_normalized-stage-src/l1r/be/S_MapID.java",
+      1
+    ]
+  ]
 }
