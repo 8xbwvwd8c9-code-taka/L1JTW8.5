@@ -136,7 +136,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-225`
+`850-244`
 
 Finding identity must come from actual report headers:
 
@@ -164,7 +164,16 @@ Recent high-value findings include:
 - `850-202` — C_LeaveClan trusts client clan name instead of authoritative clan id;
 - `850-208` — C_GotoMap/C_Ship trusts client destination map/x/y; ticket failure originally ignored;
 - `850-210` — castle tax mutation lacks leader authority;
-- `850-211` — clan-watch relationships can be changed by non-leader members.
+- `850-211` — clan-watch relationships can be changed by non-leader members;
+- `850-215` — clan emblem mutation relies on rank codes rather than authoritative leader identity;
+- `850-218` — C_NpcTalk lacks generic same-map/range binding while concrete talk callbacks can mutate state;
+- `850-220` — online-gift claim leaves ready state reusable;
+- `850-221` — mentor unlink can clear another character's MasterID outside the caller's relationship;
+- `850-222` — C_GMTeleport lacks GM/access authorization and trusts client destination;
+- `850-226` — C_CharcterConfig allocates from an untrusted internal 32-bit length before validation;
+- `850-227` — C_RestartDead does not require authoritative dead state before respawn transition;
+- `850-228` — C_GotoPortal can replay stale stored teleport destination state;
+- `850-244` — character gift claim grants after swallowed DB persistence failure, creating RAM/DB reward divergence.
 
 Recent verified defensive notes include:
 
@@ -176,7 +185,11 @@ Recent verified defensive notes include:
 - `850-213` — player-call / teleport-to-player handlers are GM-gated.
 - `850-219` — C_Fight / proposal initiation use a one-tile + facing helper and are not global-target authorization gaps;
 - `850-224` — adjacent party handlers generally validate nullable party state before dereference;
-- `850-225` — C_Title uses authoritative clan-leader identity rather than the rank-only emblem gate.
+- `850-225` — C_Title uses authoritative clan-leader identity rather than the rank-only emblem gate;
+- `850-230` — trade add quantity is normalized/clamped in authoritative trade engine;
+- `850-232` — C_FishClick stops fishing but does not early-trigger reward generation;
+- `850-234` — C_Blink overwrites stale teleport destination with current position before finalization;
+- `850-240` — JoinClan/C_Rank retain proximity, same-clan and delegated rank-scope guards.
 
 ---
 
@@ -247,13 +260,15 @@ Do not add new fix commits while in audit-only mode.
 
 3. **Ownerless effect worker reachability**
    - Existing `RISK-850-168`.
-   - Find concrete production callers for caster-dependent effects spawned with null owner.
-   - Promote only if reachable.
+   - 2026-09-21 follow-up proved ownerless spawning is production-reachable for gfx `1263` (mob poison smoke) and several non-worker visual/control effects.
+   - Firewall gfx `168` and cube gfx `6706/6712/6718/6724` are created by recovered production skill paths with a non-null player owner.
+   - No production caller has yet been proven to pair the ownerless overload with the owner-dependent firewall/cube workers; keep as RISK.
 
-4. **Remaining object-id -> state mutation handlers**
-   - Continue targeted scan of client packet handlers that resolve a global world object id and then mutate it.
-   - Check: runtime type, ownership/master, same map, physical range, authoritative pending context.
-   - Do not repo-wide scan unless targeted discovery requires it.
+4. **Client packet handler coverage / residual risks**
+   - `class_source_mapping.csv` C_* coverage is now complete: every mapped client handler has at least one BUG/RISK/NOTE classification in the audit report; unclassified C_* count = 0.
+   - Residual `RISK-850-241`: C_ExitGhost is a no-op when isGhost=true; intended external state-machine semantics not yet proven.
+   - Residual `RISK-850-242`: C_AttackContinue writes client target id to currentAttackID without validation. Targeted reader scan across 96 primary runtime files (ai/ap/aq/ba/bc/bj) found no production reader outside the L1PcInstance accessor; risk materially reduced but not yet closed.
+   - Future object-id work should be evidence-driven outside the already-classified C_* set.
 
 ### Priority B — persistence / economic contracts
 
@@ -264,6 +279,7 @@ Continue looking for patterns where:
 - payout/reward occurs before durable consume/delete;
 - two-table ownership changes lack one transaction;
 - client amount/count/price reaches signed int multiplication.
+- Recent new persistence finding: `850-244` CharacterGiftTable marks RAM claimed, swallows DB UPDATE failure, then still grants the configured reward.
 
 Avoid duplicating existing 001–213 findings.
 
