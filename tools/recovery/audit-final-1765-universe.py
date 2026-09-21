@@ -73,13 +73,16 @@ if IDENTITY.exists():
     identity=json.loads(IDENTITY.read_text(encoding="utf-8"))
     rem=identity.get("REMAINING") or identity.get("remaining") or {}
     cats=identity.get("CATEGORIES") or identity.get("categories") or {}
-    total=rem.get("TOTAL", rem.get("total", rem.get("source_mapping_count")))
-    classified=rem.get("CLASSIFIED", rem.get("classified"))
-    unknown=rem.get("UNKNOWN", rem.get("unknown"))
-    ambiguous=rem.get("AMBIGUOUS", rem.get("ambiguous"))
-    dup=rem.get("DUPLICATE_CLASS_ASSIGNMENTS", rem.get("duplicate_class_assignments"))
+    total=rem.get("TOTAL", rem.get("total", rem.get("source_mapping_count", identity.get("remaining_source_mappings"))))
+    classified=rem.get("CLASSIFIED", rem.get("classified", identity.get("classified")))
+    unknown=rem.get("UNKNOWN", rem.get("unknown", identity.get("unknown")))
+    ambiguous=rem.get("AMBIGUOUS", rem.get("ambiguous", identity.get("ambiguous")))
+    dup=rem.get("DUPLICATE_CLASS_ASSIGNMENTS", rem.get("duplicate_class_assignments", identity.get("duplicate_class_assignments")))
     cat_sum=sum(v for v in cats.values() if isinstance(v,int))
     identity_valid=(
+        identity.get("total_source_mappings",1765)==1765 and
+        identity.get("application_source_mappings",788)==788 and
+        identity.get("protobuf_source_mappings",45)==45 and
         total==932 and classified==932 and unknown==0 and ambiguous==0 and dup==0 and cat_sum==932
     )
     identity_summary={
