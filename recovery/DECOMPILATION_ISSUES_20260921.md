@@ -1374,3 +1374,168 @@ BINARY_RUNTIME_ON_CLASSPATH=NO
 **狀態**
 
 `OPEN / PRIMARY REMAINING BLOCKER`
+
+
+---
+
+## 26. `l1rpb.j$j` same-name nested interface source representation
+
+**State: OPEN / FAILED CANDIDATE RECORDED**
+
+### 問題
+
+Donor 存在：
+
+`l1rpb.j$j`
+
+其中：
+
+- enclosing class：`l1rpb.j`
+- nested type simple name：`j`
+- nested type flags：`ACC_PUBLIC | ACC_INTERFACE | ACC_ABSTRACT`
+- superclass/interface signature：`l1rpb.p$e<l1rpb.j$i>`
+- donor `InnerClasses` 明確記錄：
+  `j = class l1rpb/j$j of class l1rpb/j`
+
+Vineflower 將它表示為 `j.java` 內：
+
+`public final class j { public interface j { ... } }`
+
+這在 Java source 中不可合法宣告，因為 nested type 與 enclosing type simple name 相同。
+
+### 現象
+
+Source-only runtime baseline：
+
+- runtime Java sources：**45**
+- javac exit：**1**
+- javac errors：**3970**
+- error files：**32**
+- `l1rpb/j.java`：**2553**
+- generated runtime classes：**0**
+- missing runtime classes：**246**
+- extra runtime classes：**0**
+
+### 根因
+
+這不是 donor bytecode 錯誤。
+
+根因是：
+
+**JVM nested identity 可表達 `j$j`，但 Java source language 無法在 class `j` 內再次宣告名為 `j` 的 nested type。**
+
+Decompiler 因此產生 source-illegal representation。
+
+### 已測試候選修正
+
+僅在 TEMP 副本做：
+
+1. 移出 1 個 nested-interface declaration；
+2. 改寫 7 個 type references；
+3. 新增 top-level `j$j.java`；
+4. application Java、compile-ref、正式 branch 均未修改。
+
+### 使用工具
+
+- Vineflower 1.12.0
+- `javap` / donor classfile metadata
+- `compile-protobuf-runtime-source.py`
+- Java 8 source/target javac gate
+- TEMP source copy A/B
+
+Javac provenance：
+
+```text
+javac -encoding UTF-8 -source 8 -target 8 -proc:none
+  -Xmaxerrs 20000 -Xmaxwarns 5000
+  -d recovery/protobuf-runtime-source-build
+  @recovery/protobuf_runtime_source_files.txt
+```
+
+`binary_runtime_on_classpath=false`
+
+### 候選結果
+
+After TEMP workaround：
+
+- runtime Java sources：**46**
+- javac exit：**1**
+- javac errors：**3969**
+- error files：**33**
+- `l1rpb/j.java`：**2551**
+- `l1rpb/j$j.java`：**1**
+- generated runtime classes：**0**
+- class set：**246 missing / 0 extra**
+
+Error reduction：
+
+`3970 -> 3969`
+
+只減少 **1**。
+
+### 為什麼拒絕
+
+Top-level `j$j.java` 雖可嘗試保留 binary name spelling，但：
+
+1. 無法保留 donor 的 `InnerClasses` enclosing identity；
+2. error files 反而從 32 增加到 33；
+3. errors 只下降 1；
+4. generated runtime classes 仍為 0；
+5. source-only class-set 仍為 246 missing。
+
+因此：
+
+**TOP_LEVEL_DOLLAR_WORKAROUND = REJECTED**
+
+### 解決方向
+
+下一步不得再把 `j$j` 當普通 top-level class 解。
+
+需要的是：
+
+**保留 donor nested identity 的 source-representation repair**
+
+可接受方向必須同時滿足：
+
+- recovered source 可 javac；
+- generated class internal name 對應 donor `l1rpb/j$j`；
+- `InnerClasses` / enclosing relationship 可在 post-javac normalization 後精確還原；
+- member descriptors unchanged；
+- caller references unchanged after donor normalization；
+- no application source changes；
+- no permanent donor binary fallback。
+
+若 Java source 本身無法直接表示該 nested identity，允許研究：
+
+- recovery-only legal alias + deterministic post-javac classfile identity restoration；
+- 但必須證明 classfile rename / InnerClasses patch / self references / constant-pool owners 全部一致且可逆。
+
+不得只改 filename 或 top-level class name就視為完成。
+
+### 驗證 Gate
+
+至少要求：
+
+```text
+SOURCE_COMPILE_ERROR_FAMILY_REDUCED=YES
+GENERATED_CLASS_FOR_ALIAS=YES
+NORMALIZED_INTERNAL_NAME=l1rpb/j$j
+INNERCLASSES_IDENTITY_MATCH=YES
+ENCLOSING_IDENTITY_MATCH=YES
+METHOD_DESCRIPTOR_DIFF=0
+FIELD_DESCRIPTOR_DIFF=0
+CALLSITE_OWNER_DIFF=0
+GAMEPLAY_LOGIC_CHANGED=NO
+```
+
+### 狀態
+
+`OPEN / SOURCE_REPRESENTATION_REPAIR_REQUIRED`
+
+### 禁止重做
+
+- 不再使用 top-level `j$j.java` 當最終解；
+- 不以 filename 等同 class identity；
+- 不犧牲 donor `InnerClasses` metadata；
+- 不用 binary compile-ref 掩蓋 source-only failure；
+- 不因 error count -1 就接受 transform。
