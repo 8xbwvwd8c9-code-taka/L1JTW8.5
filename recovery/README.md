@@ -316,3 +316,17 @@ completed/l1jtw85-core-fixes
 > 目前反編譯 Final Gate 尚未完成，因此不得提前建立或宣稱 `completed/l1jtw85-decompiled` 已完成。
 
 完整規則：[`recovery/BRANCH_LIFECYCLE.md`](./BRANCH_LIFECYCLE.md)
+
+### WP5 latest — same-name nested alias technique proven, but not the main frontier
+
+The `j.jj` legal source alias can be normalized post-javac back to donor `l1rpb/j$j` with exact `InnerClasses`, descriptor, signature and callsite parity.
+
+However, source-only compile improves only `3970 -> 3969` errors and still generates `0/246` runtime classes.
+
+Conclusion:
+
+- alias + post-javac identity restoration: **PROVEN**
+- material runtime source frontier reduction: **NO**
+- next priority: cluster `l1rpb/j.java` high-volume root error families before doing more single-identity repairs
+
+Full source-only recovery remains **NOT COMPLETE**.
