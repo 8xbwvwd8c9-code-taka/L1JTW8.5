@@ -134,6 +134,9 @@ extends cv {
                     return;
                 }
                 int emblemStatus = this.c();
+                if (emblemStatus != 0 && emblemStatus != 1) {
+                    return;
+                }
                 i clan = ao.q.a().a(pc.aF());
                 if (clan == null) {
                     return;
