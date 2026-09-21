@@ -9,12 +9,13 @@
   "orbuilder_interface_alignment_mismatches": 0,
   "normalized_superclass_mismatches": 0,
   "bridge_descriptor_mismatch_classes": 44,
-  "donor_bridge_total": 0,
+  "donor_bridge_total": 836,
   "generated_bridge_total": 836,
   "classification": {
     "runtime_linkage_hierarchy": "PASS",
     "reflective_generic_metadata": "DIFF",
     "javac_generated_bridge_descriptors": "DIFF",
+    "bridge_flag_representation": "DONOR_SYNTHETIC_ONLY__GENERATED_SYNTHETIC_PLUS_BRIDGE",
     "source_restore_required_for_runtime_linkage": false,
     "final_treatment": "DOCUMENT_EXACT_SOURCE_REPRESENTATION_EXCEPTION_OR_RESTORE_METADATA",
     "broad_generic_superclass_restore_permitted_by_this_wp": false
@@ -31,9 +32,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -112,7 +190,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -127,10 +266,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -141,10 +276,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -181,14 +312,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -203,9 +326,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -284,7 +484,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -299,10 +560,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -313,10 +570,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -353,14 +606,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -375,9 +620,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "aw",
+          "descriptor": "()Lan/a$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -456,7 +778,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "aw",
+          "descriptor": "()Lan/a$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -471,10 +854,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -485,10 +864,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -525,14 +900,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -547,9 +914,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -628,7 +1072,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -643,10 +1148,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -657,10 +1158,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -697,14 +1194,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -719,9 +1208,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -800,7 +1366,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/a$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/a$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -815,10 +1442,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -829,10 +1452,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -869,14 +1488,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -891,9 +1502,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$a$a;)V"
+        },
+        {
+          "name": "G",
+          "descriptor": "()Lan/b$a$a;"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -972,7 +1660,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$a$a;)V"
+        },
+        {
+          "name": "G",
+          "descriptor": "()Lan/b$a$a;"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -987,10 +1736,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1001,10 +1746,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1041,14 +1782,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1063,9 +1796,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "x",
+          "descriptor": "()Lan/b$c$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -1144,7 +1954,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "x",
+          "descriptor": "()Lan/b$c$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -1159,10 +2030,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1173,10 +2040,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1213,14 +2076,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1235,9 +2090,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "bs",
+          "descriptor": "()Lan/b$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -1316,7 +2248,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "bs",
+          "descriptor": "()Lan/b$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -1331,10 +2324,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1345,10 +2334,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1385,14 +2370,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1407,9 +2384,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "bm",
+          "descriptor": "()Lan/b$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -1488,7 +2542,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "bm",
+          "descriptor": "()Lan/b$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -1503,10 +2618,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1517,10 +2628,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1557,14 +2664,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1579,9 +2678,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aL",
+          "descriptor": "()Lan/b$i$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -1660,7 +2836,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/b$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aL",
+          "descriptor": "()Lan/b$i$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -1675,10 +2912,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1689,10 +2922,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1729,14 +2958,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1751,9 +2972,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -1832,7 +3130,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -1847,10 +3206,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -1861,10 +3216,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -1901,14 +3252,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -1923,9 +3266,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2004,7 +3424,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2019,10 +3500,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2033,10 +3510,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2073,14 +3546,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2095,9 +3560,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2176,7 +3718,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2191,10 +3794,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2205,10 +3804,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2245,14 +3840,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2267,9 +3854,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2348,7 +4012,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2363,10 +4088,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2377,10 +4098,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2417,14 +4134,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2439,9 +4148,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2520,7 +4306,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/c$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/c$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2535,10 +4382,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2549,10 +4392,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2589,14 +4428,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2611,9 +4442,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2692,7 +4600,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2707,10 +4676,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2721,10 +4686,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2761,14 +4722,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2783,9 +4736,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -2864,7 +4894,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -2879,10 +4970,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -2893,10 +4980,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -2933,14 +5016,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -2955,9 +5030,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3036,7 +5188,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3051,10 +5264,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3065,10 +5274,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3105,14 +5310,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3127,9 +5324,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3208,7 +5482,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3223,10 +5558,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3237,10 +5568,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3277,14 +5604,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3299,9 +5618,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3380,7 +5776,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/d$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/d$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3395,10 +5852,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3409,10 +5862,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3449,14 +5898,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3471,9 +5912,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3552,7 +6070,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3567,10 +6146,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3581,10 +6156,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3621,14 +6192,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3643,9 +6206,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3724,7 +6364,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3739,10 +6440,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3753,10 +6450,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3793,14 +6486,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3815,9 +6500,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -3896,7 +6658,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -3911,10 +6734,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -3925,10 +6744,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -3965,14 +6780,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -3987,9 +6794,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4068,7 +6952,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4083,10 +7028,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4097,10 +7038,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4137,14 +7074,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -4159,9 +7088,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4240,7 +7246,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/e$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/e$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4255,10 +7322,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4269,10 +7332,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4309,14 +7368,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -4331,9 +7382,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4412,7 +7540,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4427,10 +7616,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4441,10 +7626,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4481,14 +7662,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -4503,9 +7676,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4584,7 +7834,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4599,10 +7910,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4613,10 +7920,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4653,14 +7956,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -4675,9 +7970,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4756,7 +8128,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4771,10 +8204,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4785,10 +8214,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4825,14 +8250,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -4847,9 +8264,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -4928,7 +8422,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -4943,10 +8498,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -4957,10 +8508,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -4997,14 +8544,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5019,9 +8558,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5100,7 +8716,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/f$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/f$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5115,10 +8792,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5129,10 +8802,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -5169,14 +8838,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5191,9 +8852,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5272,7 +9010,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5287,10 +9086,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5301,10 +9096,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -5341,14 +9132,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5363,9 +9146,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aL",
+          "descriptor": "()Lan/g$c$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5444,7 +9304,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aL",
+          "descriptor": "()Lan/g$c$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5459,10 +9380,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5473,10 +9390,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -5513,14 +9426,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5535,9 +9440,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5616,7 +9598,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5631,10 +9674,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5645,10 +9684,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -5685,14 +9720,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5707,9 +9734,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5788,7 +9892,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5803,10 +9968,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5817,10 +9978,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -5857,14 +10014,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -5879,9 +10028,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -5960,7 +10186,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/g$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/g$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -5975,10 +10262,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -5989,10 +10272,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6029,14 +10308,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6051,9 +10322,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6132,7 +10480,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$a$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -6147,10 +10556,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -6161,10 +10566,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6201,14 +10602,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6223,9 +10616,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6304,7 +10774,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$c$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -6319,10 +10850,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -6333,10 +10860,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6373,14 +10896,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6395,9 +10910,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6476,7 +11068,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$e$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -6491,10 +11144,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -6505,10 +11154,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6545,14 +11190,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6567,9 +11204,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6648,7 +11362,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$g$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -6663,10 +11438,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -6677,10 +11448,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6717,14 +11484,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6739,9 +11498,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6820,7 +11656,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/h$i$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "at",
+          "descriptor": "()Lan/h$i$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -6835,10 +11732,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -6849,10 +11742,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -6889,14 +11778,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -6911,9 +11792,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "V",
+          "descriptor": "()Lan/i$a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -6992,7 +11950,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$a$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "V",
+          "descriptor": "()Lan/i$a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -7007,10 +12026,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -7021,10 +12036,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -7061,14 +12072,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -7083,9 +12086,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aI",
+          "descriptor": "()Lan/i$c$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -7164,7 +12244,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$c$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aI",
+          "descriptor": "()Lan/i$c$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -7179,10 +12320,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -7193,10 +12330,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -7233,14 +12366,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -7255,9 +12380,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "V",
+          "descriptor": "()Lan/i$e$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -7336,7 +12538,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$e$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "V",
+          "descriptor": "()Lan/i$e$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -7351,10 +12614,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -7365,10 +12624,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -7405,14 +12660,6 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     },
@@ -7427,9 +12674,86 @@
       "interface_alignment_ok": true,
       "normalized_super_match": true,
       "bridge_name_descriptor_match": false,
-      "donor_bridge_count": 0,
+      "donor_bridge_count": 19,
       "generated_bridge_count": 19,
-      "donor_bridges": [],
+      "donor_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aI",
+          "descriptor": "()Lan/i$g$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/x;)La/x$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(La/h;La/n;)La/x$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "i",
+          "descriptor": "()La/x$a;"
+        },
+        {
+          "name": "j",
+          "descriptor": "()La/x$a;"
+        }
+      ],
       "generated_bridges": [
         {
           "name": "b",
@@ -7508,7 +12832,68 @@
           "descriptor": "()La/x$a;"
         }
       ],
-      "donor_only_bridges": [],
+      "donor_only_bridges": [
+        {
+          "name": "<init>",
+          "descriptor": "(La/p$b;Lan/i$g$a;)V"
+        },
+        {
+          "name": "Q",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "R",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/h;La/n;)La/a$a;"
+        },
+        {
+          "name": "a",
+          "descriptor": "(La/x;)La/a$a;"
+        },
+        {
+          "name": "aI",
+          "descriptor": "()Lan/i$g$a;"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()La/p$a;"
+        },
+        {
+          "name": "aj",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "ak",
+          "descriptor": "()La/x;"
+        },
+        {
+          "name": "al",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "am",
+          "descriptor": "()La/y;"
+        },
+        {
+          "name": "c",
+          "descriptor": "(La/h;La/n;)La/y$a;"
+        },
+        {
+          "name": "g",
+          "descriptor": "()La/y$a;"
+        },
+        {
+          "name": "h",
+          "descriptor": "()La/y$a;"
+        }
+      ],
       "generated_only_bridges": [
         {
           "name": "b",
@@ -7523,10 +12908,6 @@
           "descriptor": "(La/k$f;Ljava/lang/Object;)La/x$a;"
         },
         {
-          "name": "c",
-          "descriptor": "(La/x;)La/x$a;"
-        },
-        {
           "name": "d",
           "descriptor": "(La/g;)La/x$a;"
         },
@@ -7537,10 +12918,6 @@
         {
           "name": "d",
           "descriptor": "(La/h;)La/x$a;"
-        },
-        {
-          "name": "d",
-          "descriptor": "(La/h;La/n;)La/x$a;"
         },
         {
           "name": "d",
@@ -7577,20 +12954,13 @@
         {
           "name": "f",
           "descriptor": "(La/k$f;)La/x$a;"
-        },
-        {
-          "name": "i",
-          "descriptor": "()La/x$a;"
-        },
-        {
-          "name": "j",
-          "descriptor": "()La/x$a;"
         }
       ]
     }
   ],
   "notes": [
     "Class Signature is optional JVM metadata for generic reflection/tooling; superclass and interface descriptors remain separately verified.",
+    "Donor covariant erased methods are identified by ACC_SYNTHETIC; javac-generated equivalents carry ACC_SYNTHETIC|ACC_BRIDGE.",
     "Generated builders intentionally use a raw p$a source representation, so their class-level Signature attribute is absent.",
     "This gate does not authorize changing the builder superclass or application source.",
     "A strict zero-difference generic-metadata policy would require a later safe representation; current completion rules also permit an exact documented source-representation equivalence."

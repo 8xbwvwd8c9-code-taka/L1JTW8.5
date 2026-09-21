@@ -12,7 +12,7 @@ Status: **PASS**
 - OrBuilder interface alignment mismatch: **0**
 - Runtime superclass mismatch: **0**
 - Bridge descriptor mismatch classes: **44**
-- Donor / generated bridge methods: **0 / 836**
+- Donor / generated bridge methods: **836 / 836**
 
 ## Classification
 
