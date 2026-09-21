@@ -106,6 +106,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-2.5.0-opcodes.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
 
+      - name: Compare compiler-insensitive protobuf opcode tiers
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-2.5.0-opcodes-tiered.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
+
       - name: Refine protobuf 2.5 class mapping by reference graph
         shell: bash
         run: python ./tools/recovery/map-protobuf-2.5.0-graph.py "$RUNNER_TEMP/protobuf-java-2.5.0.jar"
