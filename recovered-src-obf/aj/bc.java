@@ -33,7 +33,7 @@ extends cv {
         if (clan_id == 0) {
             return;
         }
-        i clan = q.a().c(clan_name);
+        i clan = q.a().a(clan_id);
         if (clan == null) {
             pc.ah(0);
             pc.c("");
@@ -48,6 +48,7 @@ extends cv {
             p.a().a(pc.fr());
             return;
         }
+        clan_name = clan.f();
         if (pc.x() && pc.fr() == clan.k()) {
             int castleId = clan.m();
             int houseId = clan.n();
