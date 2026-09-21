@@ -201,3 +201,75 @@ Then:
 - delete `work/l1jtw85-core-fixes`;
 - all legacy refs listed above should already be retired;
 - retain `main` as original baseline.
+
+## Completed decompilation branch content policy
+
+The final branch:
+
+`completed/l1jtw85-decompiled`
+
+must be a **clean recovered-source result branch**.
+
+### Keep
+
+Only the recovered/decompiled artifacts that represent the full donor mapping target:
+
+```text
+TOTAL_MAPPED_CLASSES=1765
+```
+
+The branch may additionally retain only the minimum identity manifest required to prove what the 1765 recovered artifacts correspond to, for example:
+
+- class/source mapping manifest;
+- namespace / reversible identity map;
+- minimal README stating source provenance and final PASS gate.
+
+### Delete / do not promote into this branch
+
+Do not carry recovery-workspace material into the completed decompilation branch:
+
+- `tools/recovery/**`
+- experimental scripts
+- CI-only recovery workflow artifacts
+- TEMP fixtures
+- javac logs
+- intermediate JSON/CSV diagnostics not required for final identity proof
+- failed experiment reports
+- bug-audit reports
+- core-fix reports
+- core-fix patches
+- donor `l1jserver2.jar`
+- compile-ref donor-derived JARs
+- temporary relocated protobuf JARs
+- build output directories
+- generated class output used only for validation
+- old checkpoints / WIP queues
+- archived conversation handoffs
+- unrelated DB/config/runtime assets
+- launcher/client research material
+
+### Final branch construction rule
+
+Do **not** clean the active recovery branch in place.
+
+When the source-recovery Final Gate passes:
+
+1. verify the authoritative 1765-class mapping target;
+2. build a fresh clean tree from the accepted recovered/decompiled source artifacts;
+3. include only the minimum mapping/identity manifest;
+4. create/update `completed/l1jtw85-decompiled` from that clean tree;
+5. verify the completed branch contains no recovery workspace residue;
+6. only then retire/delete the active recovery branch.
+
+The active branch `analysis/l1jtw85-recovery` keeps all evidence until Final Gate, because those files are still needed to finish and audit the recovery.
+
+### Final acceptance
+
+```text
+COMPLETED_DECOMPILED_BRANCH_CLASS_TARGET=1765
+RECOVERY_WORKSPACE_FILES_PRESENT=NO
+CORE_FIX_FILES_PRESENT=NO
+DONOR_BINARY_PRESENT=NO
+TEMP_ARTIFACTS_PRESENT=NO
+MINIMAL_IDENTITY_MANIFEST_PRESENT=YES
+```
