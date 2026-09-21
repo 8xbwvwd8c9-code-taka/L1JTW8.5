@@ -1,0 +1,32 @@
+{
+  "experiment": "PARSER_TYPED_F_ALIAS_FROM_D",
+  "class": "l1rpb/c.class",
+  "aliases": [
+    {
+      "source_name": "d",
+      "source_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "alias_name": "f",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "existing_source_method_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "source_name": "d",
+      "source_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "f",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "existing_source_method_preserved": true,
+      "code_and_signature_copied_exactly": true
+    }
+  ],
+  "purpose": "reconstruct Java-source-visible typed provider + erased synthetic bridge pair after obfuscator renamed typed provider",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_method_names_changed": false,
+  "existing_method_descriptors_changed": false,
+  "existing_bytecode_changed": false,
+  "added_alias_method_count": 2,
+  "gameplay_logic_changed": false,
+  "pass_signal": "parser 44 f(InputStream[,n]) obligations disappear; nonprotobuf remains 0"
+}
