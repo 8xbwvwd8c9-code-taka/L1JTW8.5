@@ -113,3 +113,27 @@ Classification is upgraded from UNKNOWN VERSION to:
 This does **not** close WP5 by itself. Binary/structural equivalence and absence of donor-private modifications remain mandatory.
 
 See: `recovery/PROTOBUF_2_5_0_IDENTITY_FINGERPRINT.md`.
+
+
+## Class identity gate closed
+
+The donor embedded runtime now has a deterministic one-to-one mapping to official protobuf-java 2.5.0:
+
+```text
+CLASS_MAPPING=246/246
+UNMAPPED=0/0
+ONE_TO_ONE=YES
+INNER_ORDER_PROOF=596/596
+ANONYMOUS_SUFFIX_PROOF=53/53
+```
+
+Class-level dependency identity is closed.
+
+Remaining WP5 work:
+
+1. donor-member -> official-member ABI mapping;
+2. source-built official runtime -> donor ABI normalization;
+3. application + runtime combined source-only compile;
+4. final class-set / hierarchy / member ABI gate.
+
+WP5 remains OPEN until those gates pass.
