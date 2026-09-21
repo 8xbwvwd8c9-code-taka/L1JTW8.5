@@ -207,10 +207,6 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-duplicate-locals.py
 
-      - name: Normalize protobuf builder caller references
-        shell: bash
-        run: python ./tools/recovery/normalize-protobuf-builder-caller-refs.py
-
       - name: Compile normalized source stage
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
