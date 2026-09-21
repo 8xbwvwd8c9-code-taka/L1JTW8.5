@@ -745,6 +745,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-source-only-application-with-source-built-protobuf.py
 
+      - name: Validate application linkage against exact source-built protobuf runtime
+        shell: bash
+        run: python ./tools/recovery/validate-source-only-exact-runtime-linkage.py
+
       - name: Upload source-only closure evidence
         uses: actions/upload-artifact@v4
         with:
@@ -754,6 +758,7 @@ jobs:
             recovery/source_only_application_compile.json
             recovery/source_only_application_javac.log
             recovery/source_only_application_sources.txt
+            recovery/source_only_exact_runtime_linkage.json
           if-no-files-found: error
           retention-days: 7
 
@@ -766,7 +771,8 @@ jobs:
           git add recovery/protobuf_2_5_0_source_built_compile_view.json \
             recovery/source_only_application_compile.json \
             recovery/source_only_application_javac.log \
-            recovery/source_only_application_sources.txt
+            recovery/source_only_application_sources.txt \
+            recovery/source_only_exact_runtime_linkage.json
           if git diff --cached --quiet; then
             echo "No source-only closure evidence changes."
             exit 0
