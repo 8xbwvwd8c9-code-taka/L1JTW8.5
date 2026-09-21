@@ -78,6 +78,27 @@ jobs:
             -o "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
             "https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0-sources.jar"
 
+      - name: Extract official protobuf 2.5.0 Java sources
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -rf recovery/final-protobuf-official-source
+          mkdir -p recovery/final-protobuf-official-source
+          unzip -q "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
+            'com/google/protobuf/*.java' \
+            -d recovery/final-protobuf-official-source
+          count="$(find recovery/final-protobuf-official-source/com/google/protobuf -maxdepth 1 -type f -name '*.java' | wc -l | tr -d ' ')"
+          echo "PROTOBUF_OFFICIAL_JAVA_SOURCES=$count"
+          test "$count" = "45"
+
+      - name: Upload official protobuf 2.5.0 Java sources
+        uses: actions/upload-artifact@v4
+        with:
+          name: protobuf-2.5.0-official-source
+          path: recovery/final-protobuf-official-source/com/google/protobuf
+          if-no-files-found: error
+          retention-days: 7
+
       - name: Download official protobuf-java 2.5.0 binary
         shell: bash
         run: |
