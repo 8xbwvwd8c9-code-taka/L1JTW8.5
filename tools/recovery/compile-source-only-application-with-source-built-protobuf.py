@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json, os, shutil, subprocess, zipfile
+from collections import Counter
 from pathlib import Path
 
 ROOT=Path(".")
@@ -59,7 +60,26 @@ with LOG.open("w",encoding="utf-8",errors="replace") as log:
     proc=subprocess.run(cmd,stdout=log,stderr=subprocess.STDOUT,text=True)
 
 log_text=LOG.read_text(encoding="utf-8",errors="replace")
-errors=[line for line in log_text.splitlines() if ": error:" in line]
+lines=log_text.splitlines()
+errors=[line for line in lines if ": error:" in line]
+error_files=Counter()
+error_messages=Counter()
+error_contexts=[]
+for idx,line in enumerate(lines):
+    if ": error:" not in line:
+        continue
+    try:
+        left,msg=line.split(": error:",1)
+        filepart=left.rsplit(":",1)[0]
+        if filepart.startswith(SRC.as_posix()+"/"):
+            filepart=filepart[len(SRC.as_posix())+1:]
+        error_files[filepart]+=1
+        error_messages[msg.strip()]+=1
+    except Exception:
+        pass
+    if len(error_contexts)<30:
+        lo=max(0,idx-1); hi=min(len(lines),idx+5)
+        error_contexts.append("\n".join(lines[lo:hi]))
 generated=sorted(p.relative_to(BUILD).as_posix() for p in BUILD.rglob("*.class"))
 
 state={
@@ -69,6 +89,10 @@ state={
     "compile_exit_code":proc.returncode,
     "javac_error_headers":len(errors),
     "generated_application_classes":len(generated),
+    "error_file_count":len(error_files),
+    "top_error_files":error_files.most_common(30),
+    "top_error_messages":error_messages.most_common(30),
+    "error_contexts":error_contexts,
     "expected_application_classes":1109,
     "full_donor_game_jar_on_classpath":False,
     "donor_protobuf_binary_on_classpath":False,
@@ -81,5 +105,7 @@ state={
 STATE.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
 if not state["pass"]:
-    print(log_text[-12000:])
+    print("TOP_ERROR_FILES="+json.dumps(error_files.most_common(30)))
+    print("TOP_ERROR_MESSAGES="+json.dumps(error_messages.most_common(30)))
+    print("ERROR_CONTEXTS="+json.dumps(error_contexts,ensure_ascii=False))
     raise SystemExit(1)
