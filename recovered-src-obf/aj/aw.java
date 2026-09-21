@@ -46,6 +46,12 @@ extends cv {
             return;
         }
         t target = (t)object;
+        if (target.fp() != pc.fp()) {
+            return;
+        }
+        if (Math.abs(target.fs() - pc.fs()) >= 3 || Math.abs(target.ft() - pc.ft()) >= 3) {
+            return;
+        }
         if (!this.a(target.U_())) {
             return;
         }
