@@ -1,18 +1,104 @@
 {
-  "experiment": "BUILDER_B_A_C_BYTE_RANGE_N_CLEAR_SYNTHETIC",
-  "class": "l1rpb/b$a.class",
-  "target": {
-    "name": "c",
-    "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;"
-  },
+  "experiment": "BUILDER_Y_A_TO_B_A_EXACT_PROVIDER_VISIBILITY",
+  "abstract_owner": "l1rpb/y$a.class",
+  "provider_class": "l1rpb/b$a.class",
+  "derived_exact_provider_count": 9,
+  "targets": [
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "([B)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "([BII)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "c",
+      "descriptor": "([BLl1rpb/n;)Ll1rpb/y$a;"
+    },
+    {
+      "name": "g",
+      "descriptor": "()Ll1rpb/y$a;"
+    }
+  ],
   "hits": [
     {
       "name": "c",
       "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;",
       "old_flags": 4097,
       "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "([BLl1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "([BII)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "([B)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/g;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "c",
+      "descriptor": "(Ll1rpb/h;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    },
+    {
+      "name": "g",
+      "descriptor": "()Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
     }
   ],
+  "selection_rule": "abstract method in current y$a + exact same name/descriptor concrete ACC_SYNTHETIC method in b$a",
+  "known_current_obligation_present": true,
   "compile_ref_only": true,
   "donor_jar_changed": false,
   "recovered_source_changed": false,
@@ -20,5 +106,6 @@
   "method_descriptor_changed": false,
   "bytecode_changed": false,
   "gameplay_logic_changed": false,
-  "expected_interpretation": "compare normalized-fast errors against 88-error baseline; 44 remaining would support synthetic-flag causality for builder only"
+  "baseline": "88 protobuf / 0 non-protobuf errors; builder current method c(byte[],int,int,n)",
+  "pass_signal": "builder 44-error family disappears or advances beyond y$a<-b$a exact provider family without non-protobuf regression"
 }
