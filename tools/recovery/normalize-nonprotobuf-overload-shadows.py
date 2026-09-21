@@ -49,11 +49,34 @@ if n!=4: raise SystemExit(f'L1DoorInstance null cast count {n} != 4')
 text=text.replace(old,new); p.write_text(text,encoding='utf-8')
 changes.append({'file':'l1r/ap/L1DoorInstance.java','sites':n,'target':'d(L1PcInstance):void'})
 
+# L1PcInstance: boolean visibility context must select inherited b(L1Object), not b(L1PcInstance):void.
+p,text=load('l1r/ap/L1PcInstance.java')
+old='if (!this.b(var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {'
+new='if (!this.b((L1Object)var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {'
+n=text.count(old)
+if n!=1: raise SystemExit(f'L1PcInstance boolean b site count {n} != 1')
+text=text.replace(old,new,1); p.write_text(text,encoding='utf-8')
+changes.append({'file':'l1r/ap/L1PcInstance.java','sites':1,'target':'b(L1Object):boolean'})
+
+# S_000: source overload resolution selects void overloads unless receiver arguments are widened to L1Object.
+p,text=load('l1r/bf/S_000.java')
+targets=[
+  ('var3.r && var6.e(var1) > 5.0','var3.r && var6.e((l1r.aq.L1Object)var1) > 5.0','e(L1Object):double'),
+  ('var1.ct(var1.a(var2));','var1.ct(var1.a((l1r.aq.L1Object)var2));','a(L1Object):int'),
+]
+n=0
+for old,new,target in targets:
+    if text.count(old)!=1: raise SystemExit(f'S_000 overload target count !=1: {old}')
+    text=text.replace(old,new,1)
+    n+=1
+p.write_text(text,encoding='utf-8')
+changes.append({'file':'l1r/bf/S_000.java','sites':n,'target':'compile-time L1Object overload selection'})
+
 total=sum(x['sites'] for x in changes)
 state={
  'error_family':'JAVA_SOURCE_OVERLOAD_SHADOW_REPRESENTATION',
  'sites_normalized':total,
- 'expected_sites':15,
+ 'expected_sites':18,
  'changes':changes,
  'method_descriptors_changed':False,
  'control_flow_changed':False,
@@ -61,11 +84,11 @@ state={
  'gameplay_logic_changed':False,
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
-ok=(total==15)
+ok=(total==18)
 MD.write_text(
  '# Non-Protobuf Overload Shadow Normalization\n\n'
  + f'Status: **{"PASS" if ok else "FAIL"}**\n\n'
- + f'- Source call sites normalized: **{total} / 15**\n'
+ + f'- Source call sites normalized: **{total} / 18**\n'
  + '- Transform: compile-time casts only; runtime argument values unchanged.\n'
  + '- Control flow changed: **NO**\n'
  + '- Gameplay logic changed: **NO**\n',
