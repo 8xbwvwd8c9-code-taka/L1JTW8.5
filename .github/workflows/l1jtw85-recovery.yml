@@ -110,6 +110,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-abstract-obligations.py
 
+      - name: Experiment exact parser bridge flags
+        shell: bash
+        run: python ./tools/recovery/experiment-protobuf-parser-bridge-flag.py
+
       - name: Experiment builder bridge synthetic flag
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-bridge-flag.py
@@ -243,6 +247,8 @@ jobs:
             recovery/PROTOBUF_ABSTRACT_OBLIGATION_NORMALIZATION.md
             recovery/protobuf_builder_bridge_flag_experiment.json
             recovery/PROTOBUF_BUILDER_BRIDGE_FLAG_EXPERIMENT.md
+            recovery/protobuf_parser_bridge_flag_experiment.json
+            recovery/PROTOBUF_PARSER_BRIDGE_FLAG_EXPERIMENT.md
           )
 
           existing=()
