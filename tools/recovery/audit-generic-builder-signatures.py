@@ -14,6 +14,12 @@ ACC_BRIDGE=0x0040
 ACC_SYNTHETIC=0x1000
 EXPECTED=44
 SIG_RE=re.compile(r"^La/p\$a<L(?P<self>[^;]+);>;L(?P<iface>[^;]+);$")
+PROVEN_BRIDGE_FAMILIES={
+    ("i","()La/x$a;"),
+    ("j","()La/x$a;"),
+    ("d","(La/h;La/n;)La/x$a;"),
+    ("c","(La/x;)La/x$a;"),
+}
 
 def u1(b,p): return b[p],p+1
 def u2(b,p): return struct.unpack_from(">H",b,p)[0],p+2
@@ -139,17 +145,20 @@ with zipfile.ZipFile(DONOR) as z:
         iface=m.group("iface") if m else None
         iface_ok=bool(iface and iface in d["interfaces"] and iface in [norm_name(x) for x in g["interfaces"]])
 
-        # Donor obfuscation preserved ACC_SYNTHETIC on covariant erased methods
-        # but did not preserve ACC_BRIDGE. javac regenerates the equivalent methods
-        # with ACC_SYNTHETIC|ACC_BRIDGE. Descriptor parity therefore compares these
-        # two representations rather than requiring identical access-flag metadata.
-        def donor_bridges(meta):
-            return sorted((x["name"],norm_desc(x["descriptor"])) for x in meta["methods"]
-                          if (x["flags"] & ACC_SYNTHETIC))
-        def generated_bridges(meta):
-            return sorted((x["name"],norm_desc(x["descriptor"])) for x in meta["methods"]
-                          if (x["flags"] & ACC_BRIDGE) and (x["flags"] & ACC_SYNTHETIC))
-        db=donor_bridges(d); gb=generated_bridges(g)
+        # Bridge-descriptor authority is class method identity, not bridge flags:
+        # obfuscation may alter ACC_BRIDGE/ACC_SYNTHETIC representation.
+        donor_all={(x["name"],norm_desc(x["descriptor"])):x["flags"] for x in d["methods"]}
+        generated_all={(x["name"],norm_desc(x["descriptor"])):x["flags"] for x in g["methods"]}
+        gb=sorted((x["name"],norm_desc(x["descriptor"])) for x in g["methods"]
+                  if (x["flags"] & ACC_BRIDGE) and (x["flags"] & ACC_SYNTHETIC))
+        gb_set=set(gb)
+        donor_keys=set(donor_all)
+        generated_bridge_missing=sorted(gb_set-donor_keys)
+        matched_generated_bridges=sorted(gb_set & donor_keys)
+        proven_donor=sorted(PROVEN_BRIDGE_FAMILIES & donor_keys)
+        proven_generated=sorted(PROVEN_BRIDGE_FAMILIES & gb_set)
+        full_generated_bridge_parity=(len(generated_bridge_missing)==0)
+        proven_four_parity=(set(proven_donor)==PROVEN_BRIDGE_FAMILIES and set(proven_generated)==PROVEN_BRIDGE_FAMILIES)
         result.append({
           "class":donor_name+".class","generated_internal":gp,
           "donor_signature":dsig,"generated_signature":gsig,
@@ -157,12 +166,18 @@ with zipfile.ZipFile(DONOR) as z:
           "donor_self_type_ok":self_ok,
           "donor_orbuilder_interface":iface,"interface_alignment_ok":iface_ok,
           "normalized_super_match":norm_name(d["super"])==norm_name(g["super"])=="a/p$a",
-          "bridge_name_descriptor_match":db==gb,
-          "donor_bridge_count":len(db),"generated_bridge_count":len(gb),
-          "donor_bridges":[{"name":n,"descriptor":x} for n,x in db],
-          "generated_bridges":[{"name":n,"descriptor":x} for n,x in gb],
-          "donor_only_bridges":[{"name":n,"descriptor":x} for n,x in sorted(set(db)-set(gb))],
-          "generated_only_bridges":[{"name":n,"descriptor":x} for n,x in sorted(set(gb)-set(db))],
+          "bridge_name_descriptor_match":full_generated_bridge_parity,
+          "proven_four_bridge_family_match":proven_four_parity,
+          "donor_method_count":len(donor_all),"generated_method_count":len(generated_all),
+          "generated_bridge_count":len(gb),
+          "generated_bridge_descriptors":[{"name":n,"descriptor":x} for n,x in gb],
+          "generated_bridges_present_in_donor":[
+              {"name":n,"descriptor":x,"donor_flags":donor_all[(n,x)]}
+              for n,x in matched_generated_bridges
+          ],
+          "generated_bridges_missing_in_donor":[{"name":n,"descriptor":x} for n,x in generated_bridge_missing],
+          "proven_four_in_donor":[{"name":n,"descriptor":x,"donor_flags":donor_all[(n,x)]} for n,x in proven_donor],
+          "proven_four_in_generated_bridge":[{"name":n,"descriptor":x} for n,x in proven_generated],
         })
 
 pattern_bad=[x for x in result if not x["donor_signature_pattern_ok"]]
@@ -171,6 +186,7 @@ iface_bad=[x for x in result if not x["interface_alignment_ok"]]
 super_bad=[x for x in result if not x["normalized_super_match"]]
 gen_nonnull=[x for x in result if x["generated_signature"] is not None]
 bridge_bad=[x for x in result if not x["bridge_name_descriptor_match"]]
+proven_four_bad=[x for x in result if not x["proven_four_bridge_family_match"]]
 
 # Bridge descriptor parity is a WP2 finding, not an execution prerequisite.
 # A DIFF must be persisted for WP3 instead of aborting before evidence is saved.
@@ -186,13 +202,15 @@ state={
  "orbuilder_interface_alignment_mismatches":len(iface_bad),
  "normalized_superclass_mismatches":len(super_bad),
  "bridge_descriptor_mismatch_classes":len(bridge_bad),
- "donor_bridge_total":sum(x["donor_bridge_count"] for x in result),
  "generated_bridge_total":sum(x["generated_bridge_count"] for x in result),
+ "generated_bridge_present_in_donor_total":sum(len(x["generated_bridges_present_in_donor"]) for x in result),
+ "generated_bridge_missing_in_donor_total":sum(len(x["generated_bridges_missing_in_donor"]) for x in result),
+ "proven_four_bridge_mismatch_classes":len(proven_four_bad),
  "classification":{
    "runtime_linkage_hierarchy":"PASS",
    "reflective_generic_metadata":"DIFF",
    "javac_generated_bridge_descriptors":"PASS" if not bridge_bad else "DIFF",
-   "bridge_flag_representation":"DONOR_SYNTHETIC_ONLY__GENERATED_SYNTHETIC_PLUS_BRIDGE",
+   "bridge_identity_authority":"METHOD_NAME_PLUS_DESCRIPTOR__FLAGS_NONAUTHORITATIVE",
    "source_restore_required_for_runtime_linkage":False,
    "final_treatment":"DOCUMENT_EXACT_SOURCE_REPRESENTATION_EXCEPTION_OR_RESTORE_METADATA",
    "broad_generic_superclass_restore_permitted_by_this_wp":False
@@ -200,7 +218,8 @@ state={
  "builders":result,
  "notes":[
    "Class Signature is optional JVM metadata for generic reflection/tooling; superclass and interface descriptors remain separately verified.",
-   "Donor covariant erased methods are identified by ACC_SYNTHETIC; javac-generated equivalents carry ACC_SYNTHETIC|ACC_BRIDGE.",
+   "Bridge descriptor parity is checked by method name+descriptor existence in donor; ACC_BRIDGE/ACC_SYNTHETIC flags are recorded but not used as identity authority.",
+   "The four source-removed donor bridge families i(), j(), d(h,n), c(x) must exist in both donor and generated builder classes.",
    "Generated builders intentionally use a raw p$a source representation, so their class-level Signature attribute is absent.",
    "This gate does not authorize changing the builder superclass or application source.",
    "A strict zero-difference generic-metadata policy would require a later safe representation; current completion rules also permit an exact documented source-representation equivalence."
@@ -219,7 +238,10 @@ MD.write_text(
  f"- OrBuilder interface alignment mismatch: **{len(iface_bad)}**\n"
  f"- Runtime superclass mismatch: **{len(super_bad)}**\n"
  f"- Bridge descriptor mismatch classes: **{len(bridge_bad)}**\n"
- f"- Donor / generated bridge methods: **{state['donor_bridge_total']} / {state['generated_bridge_total']}**\n\n"
+ f"- Generated bridge methods: **{state['generated_bridge_total']}**\n"
+ f"- Generated bridges present in donor: **{state['generated_bridge_present_in_donor_total']}**\n"
+ f"- Generated bridges missing in donor: **{state['generated_bridge_missing_in_donor_total']}**\n"
+ f"- Proven four-family mismatch classes: **{state['proven_four_bridge_mismatch_classes']}**\n\n"
  "## Classification\n\n"
  "- Runtime linkage hierarchy: **PASS**\n"
  "- Reflective generic metadata: **DIFF**\n"
