@@ -30,6 +30,7 @@ CP_REF_OPS={0xb2,0xb3,0xb4,0xb5,0xb6,0xb7,0xb8,0xb9}
 def u1(b,p): return b[p],p+1
 def u2(b,p): return struct.unpack_from(">H",b,p)[0],p+2
 def u4(b,p): return struct.unpack_from(">I",b,p)[0],p+4
+def i4(b,p): return struct.unpack_from(">i",b,p)[0],p+4
 
 def walk_code(code):
     p=0
@@ -37,11 +38,16 @@ def walk_code(code):
         op=code[p]; start=p; p+=1
         if op==0xaa:
             while p%4: p+=1
-            default,p=u4(code,p); low,p=u4(code,p); high,p=u4(code,p)
+            default,p=i4(code,p); low,p=i4(code,p); high,p=i4(code,p)
+            if high < low:
+                raise SystemExit(f"invalid tableswitch range low={low} high={high}")
             p += 4*(high-low+1)
         elif op==0xab:
             while p%4: p+=1
-            default,p=u4(code,p); npairs,p=u4(code,p); p += 8*npairs
+            default,p=i4(code,p); npairs,p=i4(code,p)
+            if npairs < 0:
+                raise SystemExit(f"invalid lookupswitch npairs={npairs}")
+            p += 8*npairs
         elif op==0xc4:
             sub=code[p]; p+=1
             p += 4 if sub==0x84 else 2
