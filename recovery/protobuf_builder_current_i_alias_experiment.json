@@ -1,0 +1,27 @@
+{
+  "experiment": "BUILDER_CURRENT_I_TYPED_ALIAS_P_A_POST176",
+  "target_class": "l1rpb/p$a.class",
+  "erased_bridge": {
+    "name": "i",
+    "descriptor": "()Ll1rpb/x$a;",
+    "flags": 4097
+  },
+  "typed_provider": {
+    "name": "ai",
+    "descriptor": "()Ll1rpb/p$a;",
+    "flags": 1
+  },
+  "alias": {
+    "name": "i",
+    "descriptor": "()Ll1rpb/p$a;"
+  },
+  "source_collision_gate": "run229 normalization removed 44 builder i() VF bridges; residual i()=0",
+  "provider_choice": "p$a only; a$a i() provider rejected because target d() is abstract",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_method_count": 1,
+  "gameplay_logic_changed": false,
+  "pass_signal": "44 current i() obligations disappear or advance; parser/nonprotobuf remain 0"
+}
