@@ -1,0 +1,79 @@
+{
+  "transform": "REMOVE_RECOVERED_BUILDER_VF_SYNTHETIC_BRIDGES",
+  "files": 9,
+  "families": {
+    "i()": 44,
+    "j()": 44,
+    "d(h,n)": 44,
+    "c(x)": 44
+  },
+  "total_removed": 176,
+  "parser_object_d_h_n_before": 44,
+  "parser_object_d_h_n_after": 44,
+  "residual_builder_bridge_counts": {
+    "i()": 0,
+    "j()": 0,
+    "d(h,n)": 0,
+    "c(x)": 0
+  },
+  "per_file": {
+    "_normalized-stage-src/l1r/an/PBMessageALL.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL2.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL3.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL4.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL5.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL6.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL7.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL8.java": {
+      "i()": 5,
+      "j()": 5,
+      "d(h,n)": 5,
+      "c(x)": 5
+    },
+    "_normalized-stage-src/l1r/an/PBMessageALL9.java": {
+      "i()": 4,
+      "j()": 4,
+      "d(h,n)": 4,
+      "c(x)": 4
+    }
+  },
+  "scope": "normalized source only",
+  "real_typed_provider_methods_changed": false,
+  "parser_bridges_changed": false,
+  "gameplay_logic_changed": false
+}
