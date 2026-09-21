@@ -115,40 +115,34 @@ public class g {
         return this.c.get(id);
     }
 
-    public void a(d castle) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE castle SET name=?, war_time=?, tax_rate=?, public_money=? ,mercenary_count_0=? ,mercenary_count_1=? ,mercenary_count_2=?,mercenary_count_3=? WHERE castle_id=?");
-                    pstm.setString(1, castle.b());
-                    SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-                    String fm2 = sdf.format(castle.c().getTime());
-                    pstm.setString(2, fm2);
-                    pstm.setInt(3, castle.e());
-                    pstm.setInt(4, castle.f());
-                    pstm.setInt(5, castle.k().isEmpty() ? 0 : castle.k().get((int)0).c);
-                    pstm.setInt(6, castle.k().isEmpty() ? 0 : castle.k().get((int)1).c);
-                    pstm.setInt(7, castle.k().isEmpty() ? 0 : castle.k().get((int)2).c);
-                    pstm.setInt(8, castle.k().isEmpty() ? 0 : castle.k().get((int)3).c);
-                    pstm.setInt(9, castle.a());
-                    pstm.execute();
-                    this.c.put(castle.a(), castle);
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
+    public boolean a(d castle) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE castle SET name=?, war_time=?, tax_rate=?, public_money=? ,mercenary_count_0=? ,mercenary_count_1=? ,mercenary_count_2=?,mercenary_count_3=? WHERE castle_id=?");
+            pstm.setString(1, castle.b());
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+            String fm2 = sdf.format(castle.c().getTime());
+            pstm.setString(2, fm2);
+            pstm.setInt(3, castle.e());
+            pstm.setInt(4, castle.f());
+            pstm.setInt(5, castle.k().isEmpty() ? 0 : castle.k().get((int)0).c);
+            pstm.setInt(6, castle.k().isEmpty() ? 0 : castle.k().get((int)1).c);
+            pstm.setInt(7, castle.k().isEmpty() ? 0 : castle.k().get((int)2).c);
+            pstm.setInt(8, castle.k().isEmpty() ? 0 : castle.k().get((int)3).c);
+            pstm.setInt(9, castle.a());
+            if (pstm.executeUpdate() != 1) {
+                return false;
             }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+            this.c.put(castle.a(), castle);
+            return true;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }
