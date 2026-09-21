@@ -1018,10 +1018,6 @@ jobs:
             recovery/normalized_stage_source_files.txt \
             recovery/normalized_builder_collision_transform.json \
             recovery/NORMALIZED_BUILDER_COLLISION_TRANSFORM.md \
-            recovery/normalized_af_accessor_transform.json \
-            recovery/NORMALIZED_AF_ACCESSOR_TRANSFORM.md \
-            recovery/normalized_protobuf_raw_super_transform.json \
-            recovery/NORMALIZED_PROTOBUF_RAW_SUPER_TRANSFORM.md \
             recovery/normalized_parser_bridge_transform.json \
             recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md \
             recovery/normalized_stage_error_families.json \
