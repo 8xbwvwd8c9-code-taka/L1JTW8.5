@@ -115,14 +115,14 @@ state["pass"]=state["pass_accounting"] and state["remaining"]["unknown_count"]==
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 MD.write_text(
   "# Final 1765 Universe Audit\n\n"
-  f"- PASS: **{state['pass']}**\n"
-  f"- Authoritative: **{len(authoritative)}**\n"
-  f"- Application: **{len(application)}**\n"
-  f"- Protobuf: **{len(protobuf)}**\n"
-  f"- Remaining: **{len(remaining)}**\n"
-  + "".join(f"- {k}: **{len(v)}**\n" for k,v in category_hits.items())
-  + f"- Unclassified: **{len(unclassified)}**\n"
-  f"- App/Proto overlap: **{len(overlap)}**\n"
+  f"- Accounting PASS: **{state['pass_accounting']}**\n"
+  f"- Final PASS: **{state['pass']}**\n"
+  f"- Authoritative source mappings: **{len(authoritative)}**\n"
+  f"- Application source mappings: **{len(app_keys)}**\n"
+  f"- Protobuf source mappings: **{len(proto_keys)}**\n"
+  f"- Remaining source mappings: **{len(remaining_keys)}**\n"
+  + "".join(f"- {k}: **{len(v)}**\n" for k,v in families.items())
+  + f"- Unknown source identity: **{state['remaining']['unknown_count']}**\n"
   f"- Missing / extra: **{state['set_accounting']['missing']} / {state['set_accounting']['extra']}**\n",
   encoding="utf-8"
 )
