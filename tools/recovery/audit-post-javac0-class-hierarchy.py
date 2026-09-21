@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-import csv, json, struct, zipfile
+import csv, json, re, struct, zipfile
 from collections import defaultdict
 from pathlib import Path
 
@@ -9,6 +9,7 @@ BUILD=REC/"normalized-stage-build"
 STATE=REC/"normalized_stage_compile.json"
 DONOR=ROOT/"l1jserver2.jar"
 INV=REC/"class_inventory.csv"
+NSMAP=REC/"source_namespace_map.csv"
 TRANSFORM=REC/"stage_transform.json"
 OUT=REC/"post_javac0_class_hierarchy.json"
 REPORT=REC/"POST_JAVAC0_CLASS_HIERARCHY.md"
@@ -118,43 +119,70 @@ if compile_state.get("compile_exit_code")!=0:
     print(json.dumps(state,indent=2))
     raise SystemExit(0)
 
-for pth in (BUILD,DONOR,INV):
+for pth in (BUILD,DONOR,INV,NSMAP):
     if not pth.exists(): raise SystemExit(f"missing required input: {pth}")
 
 renames={}
 if TRANSFORM.exists():
     try: renames=json.loads(TRANSFORM.read_text(encoding="utf-8")).get("recovery_only_class_renames",{})
     except Exception: renames={}
-rename_new_to_old={v.replace(".","/"):k.replace(".","/") for k,v in renames.items()}
+
+with NSMAP.open(encoding="utf-8-sig",newline="") as f:
+    ns_rows=list(csv.DictReader(f))
+ns_old_to_new={r["OldInternal"]:r["NewInternal"] for r in ns_rows}
+ns_new_to_old={r["NewInternal"]:r["OldInternal"] for r in ns_rows}
+if len(ns_old_to_new)!=1109 or len(ns_new_to_old)!=1109:
+    raise SystemExit(f"namespace map must be bijective 1109/1109, got {len(ns_old_to_new)}/{len(ns_new_to_old)}")
+
+# Keyword-safe source renames happen after namespace normalization.
+keyword_new_to_old={}
+for old_fq,new_fq in renames.items():
+    old=old_fq.replace(".","/")
+    new=new_fq.replace(".","/")
+    keyword_new_to_old[new]=old
+    keyword_new_to_old["l1r/"+new]=old
 
 def norm_name(name):
     if name is None: return None
-    if name.startswith("l1rpb/"): name="a/"+name[len("l1rpb/"):]
-    if name in rename_new_to_old: return rename_new_to_old[name]
-    for new,old in rename_new_to_old.items():
-        if name.startswith(new+"$"): return old+name[len(new):]
+    # Recovery-only embedded protobuf runtime relocation.
+    if name.startswith("l1rpb/"):
+        return "a/"+name[len("l1rpb/"):]
+    # Authoritative donor <-> readable-source namespace mapping.
+    if name in ns_new_to_old:
+        return ns_new_to_old[name]
+    # Keyword-safe top-level source aliases.
+    if name in keyword_new_to_old:
+        return keyword_new_to_old[name]
+    for new,old in keyword_new_to_old.items():
+        if name.startswith(new+"$"):
+            return old+name[len(new):]
     return name
 
+_type_token=re.compile(r"L([^;<]+)(?=[;<])")
 def norm_sig(s):
     if s is None: return None
-    s=s.replace("Ll1rpb/","La/")
-    for new,old in rename_new_to_old.items():
-        s=s.replace("L"+new+";","L"+old+";").replace("L"+new+"$","L"+old+"$")
-    return s
+    return _type_token.sub(lambda m:"L"+norm_name(m.group(1)),s)
 
 def normalize_meta(m):
     x=dict(m)
+    original_name=x["name"]
     x["name"]=norm_name(x["name"]); x["super"]=norm_name(x["super"])
     x["interfaces"]=sorted(norm_name(v) for v in x["interfaces"])
     x["signature"]=norm_sig(x["signature"])
     if x["inner_self"]:
-        x["inner_self"]=dict(x["inner_self"]); x["inner_self"]["outer"]=norm_name(x["inner_self"]["outer"])
+        x["inner_self"]=dict(x["inner_self"])
+        x["inner_self"]["outer"]=norm_name(x["inner_self"]["outer"])
+        # source namespace intentionally renames named inner segments (L1R_*).
+        # Normalize the readable InnerClasses.inner_name back to donor simple segment.
+        if x["inner_self"].get("inner_name") is not None and "$" in x["name"]:
+            x["inner_self"]["inner_name"]=x["name"].rsplit("$",1)[1]
     if x["enclosing"]:
         x["enclosing"]=dict(x["enclosing"])
         x["enclosing"]["class"]=norm_name(x["enclosing"]["class"])
         x["enclosing"]["method_descriptor"]=norm_sig(x["enclosing"]["method_descriptor"])
     x["nest_host"]=norm_name(x["nest_host"])
     x["nest_members"]=sorted(norm_name(v) for v in x["nest_members"])
+    x["recovered_internal_name"]=original_name
     return x
 
 with INV.open(encoding="utf-8-sig",newline="") as f:
@@ -270,6 +298,10 @@ state={
  "raw_class_set":{"missing":len(raw_missing),"extra":len(raw_extra),
                   "missing_sample":raw_missing[:100],"extra_sample":raw_extra[:100]},
  "normalization":{
+   "identity_authority":"recovery/source_namespace_map.csv",
+   "namespace_map_rows":len(ns_rows),
+   "namespace_map_old_unique":len(ns_old_to_new),
+   "namespace_map_new_unique":len(ns_new_to_old),
    "protobuf_runtime_reference":"l1rpb/** -> a/** for hierarchy descriptors",
    "recovery_only_class_renames":renames,
    "structural_inner_remaps":structural,
@@ -312,7 +344,8 @@ state={
    "nest_metadata_pass":len(nest_mm)==0,
  },
  "notes":[
-   "Embedded donor protobuf runtime a/** is excluded from application generated-class parity because normalized source compile supplies it via recovery compile-ref.",
+   "source_namespace_map.csv is the authoritative 1109-entry donor<->recovered class identity map.",
+   "Embedded donor protobuf runtime a/** is excluded from application generated-class parity only if present in class_inventory.csv; current inventory determines the actual count.",
    "Structural anonymous/local remapping is conservative: only unique same-fingerprint inner-class pairs are remapped.",
    "Method/field ABI is intentionally outside this gate."
  ]
