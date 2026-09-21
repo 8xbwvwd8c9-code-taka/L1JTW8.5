@@ -487,3 +487,246 @@ Current accurate wording:
 **APPLICATION CLASS SET / HIERARCHY / MEMBER RECOVERY GATES PASS.**
 
 **FULL DECOMPILATION / SOURCE-ONLY RECOVERY IS NOT YET COMPLETE.**
+
+
+---
+
+## 18. Multi-decompiler fallback / hard-tail overrides
+
+**State: RESOLVED FOR APPLICATION RECOVERY; IMPORTANT PROCESS NOTE**
+
+A single decompiler was not sufficient for all classes.
+
+Recovery used a mixed strategy:
+
+- CFR as the broad initial decompile;
+- Vineflower targeted overrides for hard-tail classes;
+- Vineflower targeted overrides for protobuf message sources.
+
+Known hard-tail Vineflower overrides:
+
+- `aj/aw.java`
+- `aj/bx.java`
+- `al/ab.java`
+- `ao/aw.java`
+- `ao/v.java`
+- `be/dc.java`
+- `bf/b.java`
+
+Protobuf Vineflower overrides:
+
+- `an/a.java`
+- `an/b.java`
+- `an/c.java`
+- `an/d.java`
+- `an/e.java`
+- `an/f.java`
+- `an/g.java`
+- `an/h.java`
+- `an/i.java`
+
+This is a decompiler-output quality issue, not donor bytecode corruption.
+
+---
+
+## 19. L1Craft static factory overload shadow
+
+**State: RESOLVED**
+
+Recovered `L1Craft.java` contained calls where decompiled short name `a(...)` was shadowed by methods on `L1Craft` itself.
+
+Recovery qualification:
+
+`l1rpb.g.a(...)`
+
+The transform only qualifies the donor-intended static factory target.
+
+Evidence tool:
+
+`tools/recovery/normalize-l1craft-static-factory.py`
+
+Classification:
+
+**STATIC_IMPORT / OVERLOAD SHADOW SOURCE REPRESENTATION**
+
+Method target changed: **NO**  
+Gameplay logic changed: **NO**
+
+---
+
+## 20. Non-protobuf and external protobuf Builder alias references
+
+**State: RESOLVED**
+
+After the 9 nested protobuf Builder identity collisions were repaired, external callers still referenced the source-illegal identity:
+
+`PBMessageALL*.L1R_a.L1R_a`
+
+Recovery caller identity:
+
+`PBMessageALL*.L1R_a.L1R_Builder`
+
+Dedicated transforms handled both non-protobuf and general external caller references.
+
+Evidence tools:
+
+- `normalize-nonproto-builder-aliases.py`
+- `normalize-protobuf-builder-caller-refs.py`
+- `normalize-protobuf-external-builder-identities.py`
+
+These are source identity rewrites only and normalize back to the donor nested identity.
+
+---
+
+## 21. Residual protobuf runtime imports after namespace relocation
+
+**State: RESOLVED**
+
+The broad `a/** -> l1rpb/**` namespace relocation still left explicit Java imports referring to the old runtime namespace.
+
+Exact residual import rewrites:
+
+**13 / 13**
+
+Transform:
+
+`import a.*` / `import static a.*` -> `l1rpb.*`
+
+Scope:
+
+- import statements only;
+- no method/body semantics changed.
+
+Evidence:
+
+`tools/recovery/normalize-protobuf-runtime-imports.py`
+
+---
+
+## 22. Protobuf runtime type-name shadowing inside recovered message source
+
+**State: RESOLVED**
+
+Decompiler output produced short runtime type names that were shadowed by local fields/classes in protobuf message source.
+
+Exact known family:
+
+- `p.a.a(...)` qualification: **28 / 28**
+- message blocks with local `ap` shadow: **2 / 2**
+- `ap.c()` qualifications: **2 / 2**
+- `ap.b()` qualifications: **2 / 2**
+
+Recovery uses fully qualified `l1rpb.*` identities.
+
+Method targets changed: **NO**  
+Gameplay logic changed: **NO**
+
+Evidence:
+
+`tools/recovery/normalize-protobuf-runtime-type-shadows.py`
+
+---
+
+## 23. Protobuf nested runtime visibility metadata
+
+**State: RESOLVED FOR RECOVERY COMPILE-REF**
+
+The runtime nested class `p$b` is publicly accessible at the class level, while donor `InnerClasses` metadata describes protected nested visibility.
+
+Recovery javac could not represent/use the relationship cleanly.
+
+Recovery-only compile-ref normalization:
+
+`InnerClasses ACC_PROTECTED -> ACC_PUBLIC`
+
+Target:
+
+`l1rpb/p$b`
+
+Important:
+
+- class access flags changed: **NO**
+- method descriptors changed: **NO**
+- bytecode changed: **NO**
+- donor JAR changed: **NO**
+- gameplay logic changed: **NO**
+
+This is compile-time source-representation metadata only.
+
+---
+
+## 24. Protobuf runtime synthetic bridge flags
+
+**State: RESOLVED FOR RECOVERY COMPILE-REF**
+
+Some donor-valid synthetic methods were hidden from javac source resolution because of decompiler/compile-reference bridge representation.
+
+Targeted compile-ref flag normalization was applied only to donor-proven parent methods.
+
+Important boundaries:
+
+- method names unchanged;
+- descriptors unchanged;
+- Code bytes unchanged;
+- donor JAR unchanged;
+- no global SYNTHETIC/BRIDGE toggle.
+
+Evidence:
+
+`tools/recovery/normalize-protobuf-runtime-bridge-flags.py`
+
+This must remain an exact whitelist transform.
+
+---
+
+## 25. Protobuf abstract obligation source representability
+
+**State: RESOLVED FOR APPLICATION COMPILE**
+
+After namespace/generic normalization, javac exposed abstract obligations that donor JVM inheritance/covariance already satisfies but recovered Java source cannot express directly.
+
+Recovery-only compile-ref obligation handling used exact donor parent/provider pairs, including:
+
+- `ab <- c`
+- `y$a <- b$a`
+- `a$a <- p$a`
+- `b$a <- p$a`
+
+Only a safe, explicitly proven subset was removed from compile-time abstract obligations.
+
+Important historical finding:
+
+`f(InputStream)` and `f(InputStream,n)` are real public parser APIs and must **not** be pruned.
+
+Evidence:
+
+`tools/recovery/normalize-protobuf-abstract-obligations.py`
+
+Classification:
+
+**SOURCE-UNREPRESENTABLE ABSTRACT/COVARIANT INHERITANCE**
+
+Donor behavior changed: **NO**
+
+---
+
+## Quick omission audit result
+
+The issue ledger was rechecked against the active recovery scripts and transforms.
+
+Newly documented in this pass:
+
+1. multi-decompiler hard-tail / Vineflower override strategy;
+2. `L1Craft` static-factory overload shadow;
+3. non-protobuf/external Builder caller alias rewrites;
+4. 13 residual protobuf runtime import rewrites;
+5. protobuf runtime type-name shadows;
+6. `p$b` nested visibility metadata normalization;
+7. targeted protobuf runtime bridge-flag normalization;
+8. donor-proven abstract-obligation source-representation handling.
+
+No evidence from this audit changes the completion state.
+
+**FULL DECOMPILATION / SOURCE-ONLY RECOVERY REMAINS NOT COMPLETE.**
+
+The remaining primary blocker is still the embedded 246-class protobuf runtime source-only recovery.
