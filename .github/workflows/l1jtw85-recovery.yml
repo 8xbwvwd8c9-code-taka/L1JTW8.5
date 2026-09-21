@@ -91,6 +91,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/relocate-protobuf-runtime.py
 
+      - name: Parser-only raw class Signature experiment
+        shell: bash
+        run: python ./tools/recovery/experiment-raw-protobuf-parser-class.py
+
       - name: Normalize protobuf protected inner visibility
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-inner-visibility.py
@@ -134,6 +138,10 @@ jobs:
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
+
+      - name: Parser-only raw source experiment
+        shell: bash
+        run: python ./tools/recovery/experiment-raw-protobuf-parser-source.py
 
       - name: Normalize residual protobuf runtime imports
         shell: bash
