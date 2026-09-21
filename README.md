@@ -282,124 +282,96 @@ BUG-850-114 下一步驗證範圍：
 
 ### 支線整理規則
 
-目前採三支線生命週期：
+目前遠端支線已重新盤點，固定分成「正式保留 / 工作中 / 待退休或待吸收」三類。
+
+#### 正式保留
 
 ```text
-analysis/l1jtw85-recovery
-= 反編譯尚未完成的工作支線
+main
+= 原始 baseline + 專案首頁 / 文件
+= 不作為反編譯或修補成果分支
+
+completed/l1jtw85-decompiled
+= 已完成反編譯的 frozen clean baseline
+= HEAD 008e4c6e62c5d6b87aec1a367a72fb1a70cf33f5
+= 後續禁止寫入 BUG fix / recovery experiment
 
 completed/l1jtw85-core-fixes
-= 已完成且驗證 PASS 的核心修復
-
-work/l1jtw85-core-fixes
-= 尚未完成 / 尚未驗證完成的核心修復
+= 已完成且通過驗證的 core-fix 成果
+= 只接受已完整驗證的修補
 ```
 
-反編譯 Final Gate 完成後：
+#### 工作中
+
+```text
+work/l1jtw85-core-fixes
+= 唯一主要工作支線
+= BUG audit / 未完成修補 / 驗證中的修補
+= 目前 audit-only / bug-only 工作持續在此進行
+```
+
+#### 待退休 / 待吸收
 
 ```text
 analysis/l1jtw85-recovery
-→ completed/l1jtw85-decompiled
+= RETIRE_READY
+= source recovery Final Gate 已 PASS
+= completed/l1jtw85-decompiled 已建立並獨立驗證
+= 不再新增 recovery 工作
+
+repair/bug-850-114
+= HOLD
+= 尚有 1 個相對 work branch 的唯一修補 commit
+= 不可直接刪除
+= 等恢復 repair mode 時驗證並收斂到 canonical core-fix flow
 ```
 
-所有核心修復完成後：
+目前遠端實際 branch 數：
 
 ```text
-work/l1jtw85-core-fixes
-→ PASS 成果移入 completed/l1jtw85-core-fixes
-→ work branch 刪除
-```
+6
 
-最終成果支線：
-
-```text
+main
 completed/l1jtw85-decompiled
 completed/l1jtw85-core-fixes
-```
-
-`main` 永遠保留原始 baseline，不計入上述兩條成果支線。
-
-完整支線規則：
-
-- [Branch Lifecycle](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/analysis/l1jtw85-recovery/recovery/BRANCH_LIFECYCLE.md)
-
-## 2026-09-21 支線整理更新
-
-本次已完成一次遠端支線收斂，重複、已吸收與純 CI probe 支線均已清理。
-
-### 已刪除的重複 / 已吸收支線
-
-```text
-analysis/l1jtw85-bug-audit
-fix/l1jtw85-audit-remediation
-recovery/l1jtw85-processed-checkpoint
-recovery/l1jtw85-verified
-completed/l1jtw85-decompiled-fixes-20260921
-```
-
-其中：
-
-- `analysis/l1jtw85-bug-audit` 的內容已被目前 BUG audit 工作吸收。
-- `fix/l1jtw85-audit-remediation` 已被 `completed/l1jtw85-core-fixes` 吸收。
-- `recovery/l1jtw85-processed-checkpoint` 已被 `analysis/l1jtw85-recovery` 吸收。
-- `recovery/l1jtw85-verified` 的 recovery 資料已併入現行 recovery；唯一缺少的 `VERIFIED_RECOVERY_README.md` 亦已保存至 `analysis/l1jtw85-recovery`。
-- `completed/l1jtw85-decompiled-fixes-20260921` 與 `completed/l1jtw85-core-fixes` 原本指向相同 commit，屬重複支線。
-
-### 已刪除的 CI probe 支線
-
-`ci/l1jtw85-runtime-probe` 至 `ci/l1jtw85-runtime-probe26` 共 26 條均已完成驗證並刪除。
-
-每條 CI probe 相對 recovery 主工作支線只保留一個獨立 trigger commit，內容僅為：
-
-```text
-tools/recovery/.runtime-probe-trigger*
-```
-
-這些 trigger 不包含唯一 recovery/source 成果，因此不需要長期保留。
-
-### 目前遠端必要支線
-
-```text
-main
-analysis/l1jtw85-recovery
 work/l1jtw85-core-fixes
-completed/l1jtw85-core-fixes
-```
-
-整理時確認的 HEAD：
-
-```text
-main
-488a7e63f77c2fe5da78018c50c40c97cbdfc843
-
-analysis/l1jtw85-recovery
-7829533cae021f01d57a2451ec28426e138cbd3a
-
-work/l1jtw85-core-fixes
-8b01f0f2c6cff8b2b1c2ca1c3166f0defc8d435a
-
-completed/l1jtw85-core-fixes
-e4ca01a6ed34af1b407da6d53b3b5ddcab955427
+analysis/l1jtw85-recovery        # RETIRE_READY
+repair/bug-850-114               # HOLD / unique fix
 ```
 
 ### 最終支線目標
 
-工作進行期間允許保留 `analysis/*` 與 `work/*`，但最終成果固定收斂為：
+Source recovery 已完成，因此 `analysis/l1jtw85-recovery` 不再是 active authority。
+
+核心修補全部完成後，最終專案只保留：
 
 ```text
+main
 completed/l1jtw85-decompiled
-= 完整反編譯、未套用 BUG 修復的原始核心
-
 completed/l1jtw85-core-fixes
-= 完整反編譯 + 全部已驗證 BUG 修復的核心
 ```
 
-完成條件：
+其中：
 
-1. Source Recovery Final Gate = PASS 後，將 `analysis/l1jtw85-recovery` 收成 `completed/l1jtw85-decompiled`。
-2. 全部 BUG 修復、編譯與必要 runtime validation = PASS 後，將成果統一收至 `completed/l1jtw85-core-fixes`。
-3. 兩個 Final Gate 都完成後，刪除不再需要的 `analysis/*` / `work/*` 暫時支線。
-4. `main` 保留原始 baseline，不作為修復成果支線。
+- `completed/l1jtw85-decompiled`：完整反編譯、未套 BUG 修復的 frozen baseline。
+- `completed/l1jtw85-core-fixes`：完整反編譯 + 全部已驗證 BUG 修復。
+- `main`：原始 baseline 與專案入口文件。
+
+`work/l1jtw85-core-fixes` 只在仍有 audit / repair 工作時存在；全部成果 promotion 完成後退休。
+
+`repair/bug-850-114` 必須先證明其唯一修補已被 canonical core-fix branch 吸收或明確拒絕，才能刪除。
+
+### 支線硬規則
+
+```text
+NO NEW RECOVERY BRANCHES
+NO NEW ONE-OFF REPAIR BRANCHES unless explicitly required
+ONE ACTIVE WORK BRANCH = work/l1jtw85-core-fixes
+DECOMPILED COMPLETED BRANCH = FROZEN
+MAIN = BASELINE + DOCS
+```
+
+如果需要臨時驗證，優先使用 commit / CI artifact，不再為每個 probe 建永久 branch。
 
 ## 目前重要狀態
 
