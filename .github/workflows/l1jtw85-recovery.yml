@@ -101,6 +101,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/probe-protobuf-parser-f-bytecode.py
 
+      - name: Probe builder e bridge delegate
+        shell: bash
+        run: python ./tools/recovery/probe-protobuf-builder-e-bytecode.py
+
       - name: Parser donor Signature restore A/B
         if: ${{ false }}
         shell: bash
@@ -260,6 +264,10 @@ jobs:
             recovery/PROTOBUF_PARSER_BRIDGE_FLAG_EXPERIMENT.md
             recovery/protobuf_parser_f_bytecode_probe.json
             recovery/PROTOBUF_PARSER_F_BYTECODE_PROBE.txt
+            recovery/protobuf_builder_e_bytecode_probe.json
+            recovery/PROTOBUF_BUILDER_E_BYTECODE_PROBE.txt
+            recovery/normalized_parser_bridge_transform.json
+            recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md
             recovery/protobuf_parser_typed_alias_experiment.json
             recovery/PROTOBUF_PARSER_TYPED_ALIAS_EXPERIMENT.md
           )
