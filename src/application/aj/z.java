@@ -22,9 +22,9 @@ extends cv {
     private static final Logger b = Logger.getLogger(z.class.getName());
     public static final int[] a;
     private static final int[] c;
-    private static final int d = 32780;
-    private static final int e = 32825;
-    private static final short f = 7783;
+    private static final int d = 32681;
+    private static final int e = 32866;
+    private static final short f = 69;
 
     static {
         int[] nArray = new int[8];
@@ -94,9 +94,9 @@ extends cv {
     private static void a(bj.d client, ap.u pc) throws IOException, Exception {
         pc.cF(ai.d.a().d());
         pc.n();
-        pc.cG(32780);
-        pc.cH(32825);
-        pc.cE(7783);
+        pc.cG(32681);
+        pc.cH(32866);
+        pc.cE(69);
         int initHp = bi.c.a(pc);
         int initMp = bi.c.c(pc);
         pc.m(initHp);
