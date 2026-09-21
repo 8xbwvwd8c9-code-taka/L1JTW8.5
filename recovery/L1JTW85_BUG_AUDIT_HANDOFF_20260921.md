@@ -156,7 +156,7 @@ Detailed per-finding `Severity` text may be more specific and remains authoritat
 
 Current report maximum finding:
 
-`850-267`
+`850-269`
 
 Finding identity must come from actual report headers:
 
@@ -214,7 +214,9 @@ Recent high-value findings include:
 - `850-264` — HtmlCraft amount arithmetic can wrap material requirements non-positive; failed material removal is ignored before output creation.
 - `850-265` — HomeTown monthly settlement zeros Contribution before calculating Pay, so monthly salary generation uses zero.
 - `850-266` — MobSkills inclusive 0..99 probability gate biases 989 bundled rows upward by one percentage point.
-- `850-267` — MobGroupTable keeps per-spawn flags in shared singleton fields across concurrent group respawns; keep as L2 RISK pending deterministic runtime reproduction.
+- `850-267` — MobGroupTable keeps per-spawn flags in shared singleton fields across concurrent group respawns; historical RISK only, excluded from BUG-only classification.
+- `850-268` — persistent mob/NPC spawn insertion writes SQL but does not update live spawn indexes until restart (L3 BUG).
+- `850-269` — fixed-time boss scheduling treats same-hour minute difference as milliseconds (L2 BUG).
 
 Recent verified defensive notes include:
 
@@ -324,7 +326,7 @@ Continue looking for patterns where:
 - Use the main-branch split DB table source for schema/seed verification before promoting any DB-dependent finding.
 - `RISK-850-259` was corrected after split DB verification: the baseline candidate pool has 66 rows, so only the <9-row robustness defect remains.
 
-Avoid duplicating any existing finding; current maximum is `850-267`.
+Avoid duplicating any existing finding; current maximum is `850-269`.
 
 ### Priority C — lifecycle / logout
 
@@ -391,7 +393,7 @@ User directive: **only annotate confirmed BUG findings**.
 
 - Three classes: `L1 Severe / L2 Major / L3 General`.
 - Classification index: `recovery/BUG_AUDIT_CLASSIFIED_20260921.md`.
-- Current BUG counts at classification pass: `TOTAL=167 / L1=41 / L2=78 / L3=48`.
+- Current BUG counts at classification pass: `TOTAL=169 / L1=41 / L2=79 / L3=49`.
 - Do not add new RISK/NOTE entries during BUG-only rounds.
 - If evidence is insufficient for BUG confidence, leave the candidate unrecorded and continue auditing.
 - Continue to follow `main:README.md`: core call path + config + DB/loader + default/fallback + ACTIVE source + runtime evidence.
@@ -405,6 +407,6 @@ If the user says:
 
 `GO` / `繼續`
 
-resume **audit-only** from `850-268` using the priorities above.
+resume **audit-only / BUG-only** from `850-270` using the priorities above.
 
 Do not return to repair mode unless the user explicitly asks to resume fixes.
