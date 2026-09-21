@@ -733,6 +733,10 @@ jobs:
           name: protobuf-source-built-donor-abi
           path: recovery
 
+      - name: Probe final builder byte4 obligation
+        shell: bash
+        run: python ./tools/recovery/probe-final-builder-byte4-obligation.py
+
       - name: Build source-built protobuf javac compile view
         shell: bash
         run: python ./tools/recovery/build-source-built-protobuf-compile-view.py
