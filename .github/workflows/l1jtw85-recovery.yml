@@ -123,6 +123,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-tail-local-generics-2.py
 
+      - name: Normalize final raw local generic batch
+        shell: bash
+        run: python ./tools/recovery/normalize-nonprotobuf-tail-local-generics-3.py
+
       - name: Normalize non-Protobuf overload shadows
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-overload-shadows.py
