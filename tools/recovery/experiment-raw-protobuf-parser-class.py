@@ -23,7 +23,7 @@ def cp_end_utf8(data):
   return pos,utf
 
 def copy_attrs(data,pos,count,utf,strip_sig=False):
-  kept=[]; class_removed=0; method_removed=0
+  kept=[]; removed=0
   for _ in range(count):
     st=pos; ni=struct.unpack_from('>H',data,pos)[0]; ln=struct.unpack_from('>I',data,pos+2)[0]; pos+=6+ln
     if strip_sig and utf.get(ni)==b'Signature': removed+=1
@@ -50,7 +50,8 @@ def patch(data):
   if pos!=len(data): raise ValueError(f'parse ended {pos}/{len(data)}')
   return bytes(out),class_removed,method_removed
 
-removed=0
+class_removed=0
+method_removed=0
 with zipfile.ZipFile(JAR,'r') as zin, zipfile.ZipFile(TMP,'w',zipfile.ZIP_DEFLATED) as zout:
   for info in zin.infolist():
     raw=zin.read(info.filename)
