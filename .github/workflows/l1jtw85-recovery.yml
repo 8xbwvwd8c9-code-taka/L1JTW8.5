@@ -127,6 +127,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-parser-bridge-flag.py
 
+      - name: Snapshot compile-ref method baseline
+        shell: bash
+        run: python ./tools/recovery/audit-protobuf-compile-ref-method-integrity.py --snapshot
+
       - name: Experiment typed parser f provider alias
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-parser-typed-alias.py
@@ -211,6 +215,10 @@ jobs:
       - name: Experiment post176 builder j typed alias
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-current-j-alias.py
+
+      - name: Audit compile-ref method integrity
+        shell: bash
+        run: python ./tools/recovery/audit-protobuf-compile-ref-method-integrity.py --audit
 
       - name: Build normalized source stage
         shell: bash
@@ -327,6 +335,7 @@ jobs:
           cat recovery/normalized_stage_compile.json
           cat recovery/normalized_stage_error_families.json
           cat recovery/protobuf_override_conflicts.json
+          cat recovery/protobuf_compile_ref_method_integrity.json
 
       - name: Persist authoritative normalized-fast state
         shell: bash
@@ -336,6 +345,9 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           files=(
+            recovery/protobuf_compile_ref_method_baseline.json
+            recovery/protobuf_compile_ref_method_integrity.json
+            recovery/PROTOBUF_COMPILE_REF_METHOD_INTEGRITY.md
             recovery/normalized_stage_compile.json
             recovery/NORMALIZED_STAGE_COMPILE.md
             recovery/post_javac0_class_hierarchy.json
