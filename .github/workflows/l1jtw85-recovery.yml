@@ -144,6 +144,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-safe-aliases.py
 
+      - name: Experiment current builder d typed alias
+        shell: bash
+        run: python ./tools/recovery/experiment-protobuf-builder-current-d-alias.py
+
       - name: Build normalized source stage
         shell: bash
         run: python ./tools/recovery/build-normalized-stage.py
@@ -277,6 +281,8 @@ jobs:
             recovery/PROTOBUF_BUILDER_E_TYPED_ALIAS_EXPERIMENT.md
             recovery/protobuf_builder_safe_alias_experiment.json
             recovery/PROTOBUF_BUILDER_SAFE_ALIAS_EXPERIMENT.md
+            recovery/protobuf_builder_current_d_alias_experiment.json
+            recovery/PROTOBUF_BUILDER_CURRENT_D_ALIAS_EXPERIMENT.md
             recovery/protobuf_parser_bridge_flag_experiment.json
             recovery/PROTOBUF_PARSER_BRIDGE_FLAG_EXPERIMENT.md
             recovery/protobuf_parser_f_bytecode_probe.json
