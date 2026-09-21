@@ -7,6 +7,7 @@ BUILD=Path("recovery/normalized-stage-build")
 OFFICIAL=Path("lib/protobuf-java-2.5.0.jar")
 DONOR=Path("recovery/compile-ref-protobuf-l1rpb-pristine.jar")
 MAP=Path("recovery/protobuf_2_5_0_order_mapping.json")
+ALIASES=Path("recovery/protobuf_compile_ref_method_integrity.json")
 OUT=Path("recovery/application_protobuf_dependency_surface.json")
 if not BUILD.exists(): raise SystemExit("missing normalized-stage-build")
 if not OFFICIAL.exists(): raise SystemExit("missing official protobuf 2.5.0 jar")
@@ -14,6 +15,11 @@ if not MAP.exists(): raise SystemExit("missing protobuf class mapping")
 
 CMAP=json.loads(MAP.read_text(encoding="utf-8"))["mapping"]
 if len(CMAP)!=246: raise SystemExit(f"class map incomplete: {len(CMAP)}")
+alias_state=json.loads(ALIASES.read_text(encoding="utf-8"))
+ALIAS_MAP={}
+for a in alias_state.get("aliases",[]):
+    owner=a["owner"][:-6] if a["owner"].endswith(".class") else a["owner"]
+    ALIAS_MAP[(owner,a["name"],a["descriptor"])]=a
 
 def u1(b,p): return b[p],p+1
 def u2(b,p): return struct.unpack_from(">H",b,p)[0],p+2
@@ -196,8 +202,35 @@ for (tag,owner,name,desc),uses in sorted(surface.items(),key=lambda kv:str(kv[0]
     elif kind=="method" and dmember is not None:
         shaped=[x for x in cands if x.get("opcode_shape_match")]
         if len(shaped)==1: cands=shaped
+    alias_info=None
+    # Recovery-only typed aliases are not expected in official protobuf.
+    # Resolve them through their byte-identical pristine provider.
+    if len(cands)==0 and kind=="method":
+        alias_info=ALIAS_MAP.get((owner,name,desc))
+        if alias_info:
+            p_name=alias_info["provider_name"]
+            p_desc=alias_info["provider_descriptor"]
+            provider=None
+            if owner in donor:
+                pm=[m for m in donor[owner]["methods"] if m["name"]==p_name and m["desc"]==p_desc]
+                if len(pm)==1: provider=pm[0]
+            if provider is not None and off_owner in official:
+                ptdesc=trans_desc(p_desc)
+                pc=[]
+                for m in official[off_owner]["methods"]:
+                    if m["desc"]!=ptdesc: continue
+                    if bool(m["flags"]&0x0008)!=bool(provider["flags"]&0x0008): continue
+                    pc.append({"name":m["name"],"desc":m["desc"],"flags":m["flags"],"static":bool(m["flags"]&0x0008),
+                               "opcode_shape_match":opcode_shape(provider["code"])==opcode_shape(m["code"])})
+                exact=[x for x in pc if x["name"]==p_name]
+                if len(exact)==1: pc=exact
+                else:
+                    shaped=[x for x in pc if x.get("opcode_shape_match")]
+                    if len(shaped)==1: pc=shaped
+                if len(pc)==1:
+                    cands=pc
     if len(cands)==1:
-        status="UNIQUE"; unique+=1
+        status="ALIAS_PROVIDER_UNIQUE" if alias_info else "UNIQUE"; unique+=1
     elif len(cands)==0:
         status="MISSING"; missing+=1
     else:
@@ -208,6 +241,7 @@ for (tag,owner,name,desc),uses in sorted(surface.items(),key=lambda kv:str(kv[0]
       "caller_count":len(callers[(tag,owner,name,desc)]),
       "callers":sorted(callers[(tag,owner,name,desc)])[:50],
       "status":status,"candidates":cands,
+      "alias_provider": alias_info,
     })
 
 out={
