@@ -8,8 +8,10 @@ import ao.be;
 import ap.u;
 import be.ds;
 import be.ee;
+import be.dy;
 import bh.v;
 import bj.d;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.concurrent.CopyOnWriteArrayList;
 
@@ -24,11 +26,20 @@ extends cv {
         }
         int size = this.d();
         int cost_price = 0;
+        ArrayList<Integer> allowed = dy.a(pc);
         CopyOnWriteArrayList<Integer> list = new CopyOnWriteArrayList<Integer>();
         int i2 = 0;
         while (i2 < size) {
             int skillid = this.b() + 1;
+            if (!allowed.contains(skillid - 1)) {
+                ++i2;
+                continue;
+            }
             l1skills = be.a().a(skillid);
+            if (l1skills == null) {
+                ++i2;
+                continue;
+            }
             int level = l1skills.c();
             int skillLv = l1skills.c();
             if (pc.U() >= skillLv) {
