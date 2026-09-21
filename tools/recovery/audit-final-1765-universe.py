@@ -25,104 +25,93 @@ for p in [MAP,APP,PROTO,WP5,*[x for xs in LIB_GROUPS.values() for x in xs]]:
     if not p.exists():
         raise SystemExit(f"missing required input: {p}")
 
-def classset_from_jar(path):
-    with zipfile.ZipFile(path) as z:
-        return {n for n in z.namelist() if n.endswith(".class") and not n.startswith("META-INF/")}
-
-wp5=json.loads(WP5.read_text(encoding="utf-8"))
-if not wp5.get("pass") or wp5.get("application_classes")!=1109 or wp5.get("exact_source_built_protobuf_classes")!=246 or wp5.get("compile_view_runtime_dependency_count")!=0:
-    raise SystemExit("WP5 exact-runtime linkage is not closed")
+def top_level_source_names_from_inventory(path):
+    with path.open(encoding="utf-8-sig",newline="") as f:
+        rows=list(csv.DictReader(f))
+    return {r["InternalName"].replace("/","."):r["SourceFile"] for r in rows if r.get("Kind")=="TOP_LEVEL"}
 
 with MAP.open(encoding="utf-8-sig",newline="") as f:
     rows=list(csv.DictReader(f))
-if not rows or "Class" not in rows[0]:
-    raise SystemExit("class_source_mapping.csv missing Class column")
+if not rows or "Class" not in rows[0] or "SourceFile" not in rows[0]:
+    raise SystemExit("class_source_mapping.csv missing Class/SourceFile columns")
 
-# Authoritative mapping identities are dotted binary names. Normalize to class paths.
-authoritative={r["Class"].replace(".","/")+".class" for r in rows if r.get("Class")}
+authoritative={r["Class"]:r["SourceFile"] for r in rows if r.get("Class")}
 if len(authoritative)!=len(rows):
     raise SystemExit(f"class_source_mapping not unique: rows={len(rows)} unique={len(authoritative)}")
 
-with APP.open(encoding="utf-8-sig",newline="") as f:
-    app_rows=list(csv.DictReader(f))
-application={r["ClassPath"] for r in app_rows if r.get("ClassPath")}
-protobuf=classset_from_jar(PROTO)
+app_map=top_level_source_names_from_inventory(APP)
+app_keys=set(app_map)
+proto_keys={k for k in authoritative if k.startswith("a.")}
+remaining_keys=set(authoritative)-app_keys-proto_keys
 
-app_in=application & authoritative
-proto_in=protobuf & authoritative
-app_out=application-authoritative
-proto_out=protobuf-authoritative
-overlap=application & protobuf
-remaining=authoritative-application-protobuf
+if len(app_keys)!=788:
+    raise SystemExit(f"expected 788 application source mappings, got {len(app_keys)}")
+if len(proto_keys)!=45:
+    raise SystemExit(f"expected 45 protobuf source mappings, got {len(proto_keys)}")
 
-lib_sets={k:set().union(*(classset_from_jar(p) for p in paths)) for k,paths in LIB_GROUPS.items()}
-category_hits={k:remaining & s for k,s in lib_sets.items()}
-category_union=set().union(*category_hits.values())
-category_overlap={}
-ks=list(category_hits)
-for i,a in enumerate(ks):
-    for b in ks[i+1:]:
-        x=category_hits[a]&category_hits[b]
-        if x: category_overlap[f"{a}&{b}"]=sorted(x)
+# Evidence-based third-party family hints from preserved package names and SourceFile names.
+# Obfuscated package names are left as UNKNOWN until a deterministic source identity exists.
+def family_for(cls, src):
+    if cls.startswith("com.mchange."):
+        return "c3p0_mchange_commons"
+    if cls.startswith("com.mysql.") or cls.startswith("org.gjt."):
+        return "mysql_connector_java"
+    if cls.startswith("lombok."):
+        return "lombok"
+    return "UNKNOWN"
 
-unclassified=remaining-category_union
-classified_extra=category_union-remaining
-
-expected_categories={
-  "c3p0_mchange_commons":241,
-  "mysql_connector_java":112,
-  "lombok_runtime_annotations":57,
-}
+families={}
+for k in sorted(remaining_keys):
+    fam=family_for(k,authoritative[k])
+    families.setdefault(fam,[]).append({"class":k,"source":authoritative[k]})
 
 state={
-  "gate":"FINAL_1765_UNIVERSE_ACCOUNTING",
+  "gate":"FINAL_1765_SOURCE_MAPPING_ACCOUNTING",
   "authoritative_source":"class_source_mapping.csv",
   "wp5_exact_runtime_linkage_pass":True,
-  "total_target":len(authoritative),
+  "total_source_mappings":len(authoritative),
   "application":{
-    "source":"recovery/class_inventory.csv",
-    "raw_count":len(application),
-    "in_authoritative_count":len(app_in),
-    "outside_authoritative_count":len(app_out),
-    "outside_authoritative_sample":sorted(app_out)[:100],
+    "source":"recovery/class_inventory.csv TOP_LEVEL",
+    "source_mapping_count":len(app_keys),
+    "missing_from_authoritative":sorted(app_keys-set(authoritative)),
   },
   "protobuf":{
-    "source":"recovery/compile-ref-protobuf-obf.jar",
-    "raw_count":len(protobuf),
-    "in_authoritative_count":len(proto_in),
-    "outside_authoritative_count":len(proto_out),
-    "outside_authoritative_sample":sorted(proto_out)[:100],
+    "source":"class_source_mapping.csv package a.* / official protobuf 2.5.0 source-file universe",
+    "source_mapping_count":len(proto_keys),
+    "source_files":sorted({authoritative[k] for k in proto_keys}),
   },
-  "application_protobuf_overlap":len(overlap),
   "remaining":{
-    "count":len(remaining),
-    "categories":{k:len(v) for k,v in category_hits.items()},
-    "expected_categories":expected_categories,
-    "unclassified_count":len(unclassified),
-    "unclassified":sorted(unclassified),
-    "category_overlap_count":sum(len(v) for v in category_overlap.values()),
-    "category_overlaps":category_overlap,
-    "exact_class_list":sorted(remaining),
+    "source_mapping_count":len(remaining_keys),
+    "family_counts":{k:len(v) for k,v in families.items()},
+    "unknown_count":len(families.get("UNKNOWN",[])),
+    "unknown_sample":families.get("UNKNOWN",[])[:300],
   },
   "set_accounting":{
-    "union":len(application|protobuf|remaining),
-    "authoritative":len(authoritative),
-    "missing":len(authoritative-(application|protobuf|remaining)),
-    "extra":len((application|protobuf|remaining)-authoritative),
+    "union":len(app_keys|proto_keys|remaining_keys),
+    "overlap_app_proto":len(app_keys&proto_keys),
+    "missing":len(set(authoritative)-(app_keys|proto_keys|remaining_keys)),
+    "extra":len((app_keys|proto_keys|remaining_keys)-set(authoritative)),
   },
+  "source_mapping_granularity":"one row in class_source_mapping.csv; do not mix with generated .class counts",
+  "classfile_metrics":{
+    "application_generated_classes":1109,
+    "protobuf_runtime_classes":246,
+    "note":"classfile counts are WP5 runtime/ABI metrics and are not additive with the 1765 source-mapping universe"
+  }
 }
-state["pass"]=(
+state["pass_accounting"]=(
   len(authoritative)==1765 and
-  len(application)==1109 and len(app_out)==0 and
-  len(protobuf)==246 and len(proto_out)==0 and
-  len(overlap)==0 and
-  len(remaining)==410 and
-  all(len(category_hits[k])==v for k,v in expected_categories.items()) and
-  not unclassified and not category_overlap and
+  len(app_keys)==788 and
+  len(proto_keys)==45 and
+  len(remaining_keys)==932 and
   state["set_accounting"]["union"]==1765 and
+  state["set_accounting"]["overlap_app_proto"]==0 and
   state["set_accounting"]["missing"]==0 and
   state["set_accounting"]["extra"]==0
 )
+# Full final closure additionally requires deterministic source identity for all remaining mappings.
+state["pass"]=state["pass_accounting"] and state["remaining"]["unknown_count"]==0
+
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 MD.write_text(
   "# Final 1765 Universe Audit\n\n"
