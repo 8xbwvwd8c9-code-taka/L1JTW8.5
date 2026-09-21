@@ -1,0 +1,27 @@
+{
+  "experiment": "PARSER_F_EXACT_ADD_ACC_BRIDGE",
+  "class": "l1rpb/c.class",
+  "hits": [
+    {
+      "name": "f",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "old_flags": 4097,
+      "new_flags": 4161
+    },
+    {
+      "name": "f",
+      "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "old_flags": 4097,
+      "new_flags": 4161
+    }
+  ],
+  "change": "add ACC_BRIDGE while preserving ACC_PUBLIC|ACC_SYNTHETIC",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "method_names_changed": false,
+  "method_descriptors_changed": false,
+  "bytecode_changed": false,
+  "gameplay_logic_changed": false,
+  "pass_signal": "parser 44 obligations disappear with nonprotobuf remaining 0"
+}
