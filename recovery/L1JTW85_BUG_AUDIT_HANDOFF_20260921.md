@@ -384,6 +384,21 @@ Do not provide:
 
 ---
 
+
+## BUG-Only Classification Rule — 2026-09-21
+
+User directive: **only annotate confirmed BUG findings**.
+
+- Three classes: `L1 Severe / L2 Major / L3 General`.
+- Classification index: `recovery/BUG_AUDIT_CLASSIFIED_20260921.md`.
+- Current BUG counts at classification pass: `TOTAL=167 / L1=41 / L2=78 / L3=48`.
+- Do not add new RISK/NOTE entries during BUG-only rounds.
+- If evidence is insufficient for BUG confidence, leave the candidate unrecorded and continue auditing.
+- Continue to follow `main:README.md`: core call path + config + DB/loader + default/fallback + ACTIVE source + runtime evidence.
+- AUDIT_ONLY remains active: no Java/SQL/config/runtime repair.
+
+---
+
 ## 10. Resume Command
 
 If the user says:
