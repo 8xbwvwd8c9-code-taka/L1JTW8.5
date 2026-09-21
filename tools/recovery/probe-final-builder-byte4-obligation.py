@@ -4,7 +4,7 @@ from pathlib import Path
 
 JAR=Path("recovery/protobuf-2.5.0-source-built-donor-abi.jar")
 OUT=Path("recovery/final_builder_byte4_obligation_probe.json")
-TARGET_PARAMS="([BIILl1rpb/n;)"
+TARGET_PARAMS="([BLl1rpb/n;)"
 
 class R:
     def __init__(self,b): self.b=b; self.p=0
@@ -75,4 +75,4 @@ state={"target_name":"c","target_params":TARGET_PARAMS,"c_matches":matches,"same
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
 if not any(x["abstract"] for x in matches):
-    raise SystemExit("no abstract c(byte[],int,int,n) match")
+    raise SystemExit("no abstract c(byte[],n) match")
