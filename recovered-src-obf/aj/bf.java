@@ -118,6 +118,11 @@ extends cv {
             client.c();
             return;
         }
+        if (pc.ay() < 0 || pc.ay() > 7) {
+            a.log(Level.WARNING, "Reject non-playable character type during login: char=" + charName + " type=" + pc.ay());
+            client.c();
+            return;
+        }
         System.out.println("\u89d2\u8272\u767b\u5165\u5230\u4f3a\u670d\u5668\u4e2d: char=" + charName + " account=" + login + " host=" + client.g());
         int currentHpAtLoad = pc.ea();
         int currentMpAtLoad = pc.eb();
