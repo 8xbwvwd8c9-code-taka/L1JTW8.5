@@ -1,0 +1,41 @@
+{
+  "gate": "WP3_FINAL_MEMBER_ABI",
+  "status": "PASS_WITH_SOURCE_REPRESENTATION_EXCEPTIONS",
+  "class_count": 1109,
+  "non_synthetic_field_loss": 0,
+  "non_synthetic_method_loss": 0,
+  "unclassified_member_deltas": 0,
+  "synthetic_accessors": {
+    "donor_missing": 1347,
+    "generated_accessors": 1347,
+    "per_class_count_mismatches": 0,
+    "owner_parameter_groups": 381,
+    "dominant_representation_groups": 150,
+    "exact_exception_groups_probed": 1,
+    "as_a_donor_methods": 5,
+    "as_a_generated_methods": 5,
+    "as_a_semantic_group_mismatches": 0,
+    "semantic_parity": "PASS"
+  },
+  "field_exceptions": {
+    "donor_missing_synthetic": 131,
+    "exact_owner_descriptor_pairs": 131,
+    "this0": 127,
+    "other_compiler_fields": 4,
+    "recovery_only_l1r_m_Z": 44,
+    "synthetic_flag_only_mismatches": 1
+  },
+  "generated_only_method_exceptions": {
+    "wp2_builder_bridges": 660,
+    "parser_anonymous_methods": 968,
+    "comparator_typed_methods": 9,
+    "enum_values_helpers": 2,
+    "residual_unclassified": 0
+  },
+  "method_generic_signature_exceptions": 3,
+  "exceptions_attribute_mismatches": 0,
+  "linkage_flag_mismatches_excluding_bridge_synthetic": 0,
+  "member_abi_recovery_gate": "PASS",
+  "strict_byte_for_byte_member_identity": "NOT_REQUIRED",
+  "application_source_modified": false
+}
