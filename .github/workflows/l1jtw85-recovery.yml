@@ -5,6 +5,9 @@ on:
   push:
     branches:
       - analysis/l1jtw85-recovery
+  pull_request:
+    branches:
+      - analysis/l1jtw85-recovery
     paths:
       - ".github/workflows/l1jtw85-recovery.yml"
       - "tools/recovery/**"
@@ -80,6 +83,7 @@ jobs:
         run: python ./tools/recovery/snapshot-protobuf-runtime-frontier.py
 
       - name: Persist protobuf runtime frontier
+        if: github.event_name == 'push'
         shell: bash
         run: |
           set -euo pipefail
@@ -126,6 +130,7 @@ jobs:
           retention-days: 7
 
   normalized-fast:
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 10
 
@@ -524,6 +529,7 @@ jobs:
           git push origin "HEAD:${GITHUB_REF_NAME}"
 
   recover:
+    if: github.event_name == 'push'
     needs: normalized-fast
     runs-on: ubuntu-latest
     timeout-minutes: 30
