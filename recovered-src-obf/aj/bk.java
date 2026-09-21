@@ -112,6 +112,9 @@ extends cv {
         }
         t npc = (t)obj;
         int npcid = npc.z();
+        if ((obj instanceof ap.v || obj instanceof z) && npc.M() != pc) {
+            return;
+        }
         if (!(obj instanceof ap.v) && !(obj instanceof z) && npc.fu().c(pc.fu()) > 11) {
             return;
         }
