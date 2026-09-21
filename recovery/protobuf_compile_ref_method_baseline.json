@@ -1,0 +1,851 @@
+{
+  "gate": "PROTOBUF_COMPILE_REF_METHOD_BASELINE",
+  "phase": "before_active_typed_alias_mutations",
+  "owners": {
+    "l1rpb/c.class": {
+      "method_count": 50,
+      "methods": [
+        {
+          "name": "<init>",
+          "descriptor": "()V",
+          "sha256": "6f895c8adc637075ea785615b897bebf13827ab2e230e6f93a94151485d6d24d"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/y;)Ll1rpb/ao;",
+          "sha256": "47225d53f8ccd65cbcbf697b139bba07fd0f0b988f48516e00d4ddc4fe01a95a"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/y;)Ll1rpb/y;",
+          "sha256": "215daaf75aaa5f5e9f707e09ef40066fab50d9dcdc3c9a09b0c105e17844bb84"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+          "sha256": "f70bb3e933b8a8a2bfe109eceba8f63189ced9900eccb33c6cfc1bc21b54dc34"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "dca96738bf38b2438e35aa23625db5f29bc9940072622a0b7b527fac1c424670"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+          "sha256": "267831f6fffebfd8edd7b7c6404055e245b5bf9f4d054eb28472fc286ba9746b"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "722c8991f1086f189f4b8dd05063555701e298a6aefdb019c668ae175892c028"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+          "sha256": "c5a153978ce3d5dd14bf82677bdd2ac3a9df058391976686461bc15d04a308e5"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "e74f0dfbee6aef50114e275e485b3670151e74f14c20eceaf805a49ccd47501b"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+          "sha256": "64d131327672c8fe1a4e69ffebe848d261def989df58f0a8c537225aea37ed19"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+          "sha256": "c358fc27086d72c415ff22115e10de33b70e343131dfd388d07dbe472fd30d8e"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BII)Ll1rpb/y;",
+          "sha256": "e3af359d3c05d7e0db5bf57644c59443e6d77fa79e3b7598691fab16b16946ea"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+          "sha256": "b4442a5f899adff61043d0fad97bc00fde0777acc78c6270147e80de919912bf"
+        },
+        {
+          "name": "a",
+          "descriptor": "([B)Ll1rpb/y;",
+          "sha256": "a9dad829b8c7cb5fba7722f522367246769b212e4719dba3d790b9cedb64fddb"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+          "sha256": "593c05e5de5e2f5de57cb8bbde9fae85c0e59504f63e0f44981819c4d9cb6c75"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BII)Ll1rpb/y;",
+          "sha256": "5f49dd39715a794bd8bee5f3877e498625a0cbcdb65d8c3977005fa7850f5dc7"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+          "sha256": "4e6a9ebb0388454769b3b05162c30d695e0b124f699b48d72e0b64d81d15a781"
+        },
+        {
+          "name": "b",
+          "descriptor": "([B)Ll1rpb/y;",
+          "sha256": "5247832db9418fd3382cf3e4173293efd0f505e0d8fbcdd4a29e56e6438013d6"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "95d9e5987bea1f2db3e070918f101cacf5c4a79f8a0d1ae9309bdcf1f39251d2"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+          "sha256": "7ae8b8818ac791ccbd7b4f85e545dff90209805c5872f9e9a7009a5c868d1f6b"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "7e13e053bcdf6280290a8e72435215339c8b2b1d1bf1a0272dab3fcacdddfc5d"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+          "sha256": "f2d49f3c8d1654c567cb512ef4a4800546461547bf838397a3d0da46dbcd8d27"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "217ab7dfeb33c50666017d5bec1da9e7ec1f316c542c6001675cedc4062262b9"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+          "sha256": "51b60147e8d2b85572eb87833a446d895828c246155948f00a2d5affed22928f"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+          "sha256": "7aeff422698f564aeb9950a37fd94db6787a67eac71cf401f80e0aab67516642"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+          "sha256": "0e91b8fef01e25d173ddaa34a63808476c769b0379f0919ee34dd5902a986802"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "04dce006a6bbfb5ed9be7ab3c126619e340a98c78d572f4d494761f072aa9dd3"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+          "sha256": "7fd4a79101390c6278a1cee8683574ccbaa658db692b99639abb93d0de29d2b6"
+        },
+        {
+          "name": "f",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "4893787ced9c7477007ffe7a30beb71e3c7643ea37b18dcc900c872e0804ab24"
+        },
+        {
+          "name": "f",
+          "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+          "sha256": "cf940e6ccf84fc4783aedcf5e2ccd192c783fa73625ef402959f1fa8dd6494e4"
+        },
+        {
+          "name": "g",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "3a07d2d7306dd1469f07a89bf2f32da9d6c63600048e1a0a845d7c2caeb142ec"
+        },
+        {
+          "name": "g",
+          "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+          "sha256": "e80ab331d3f548f897942ad47c426a53fc46c1ab18b500b6f5dd8b815d68915a"
+        },
+        {
+          "name": "h",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "4720f3e2cdd3af1817222f63dcc94a7c6375d828a96c3c88b50fd60eb6aab852"
+        },
+        {
+          "name": "h",
+          "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+          "sha256": "b15338219886eb1b9acfecb48fa4e3df90382b85a2bca1e640ad4e796f184b45"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+          "sha256": "aac6de076cc803948653ac94a0ffee1a0433a3c02c8603993e01facaabac6ff4"
+        },
+        {
+          "name": "c",
+          "descriptor": "([B)Ljava/lang/Object;",
+          "sha256": "02146baa861be37b5ed729463bebcda4515e74057ac3c923bf48bdb21cac4f82"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+          "sha256": "1cca88a98866747e22153c1a44222ffa3011b1d56159ae73f9b8a6f27aa7edd0"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BII)Ljava/lang/Object;",
+          "sha256": "d53772e94dc40236d74aa4be63e8523297642803bb41146cfed3da5fe453e29d"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+          "sha256": "532c66a45f100f624cf90bb3b51c434fce7066a50c34ebf3c6654cf1d9d5dfa4"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)Ljava/lang/Object;",
+          "sha256": "46c121fdd5715b2afc8b9fa8526013db9abbe54717a3a2010681358f9cbe161e"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+          "sha256": "6e0316904b1f8ea57cd2a28b248b4a8a12144b284ca7b55e1308f03c7de43cdc"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)Ljava/lang/Object;",
+          "sha256": "4182659a95691038c2479ffdcff16e61d332b761a35da6e396d4eb72b20d4bf0"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "13afdd0ea72bc65b692adf3673d9ebd2a474c1a68fdc6cdc7c61227183602a59"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+          "sha256": "c62ad1c8489568a42add88cce655b413d857f0cd8286c0458d2a531a7f6bd5ee"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "97e8df77ede4ffd28472d4cd6f0da7253d6b969119dc4b262a5af280af2c525b"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+          "sha256": "674da327c237e85c248a86b72b3a3a595bc23cd3b872fd203fc3fe241aa4ef88"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+          "sha256": "a129cc68a06b4b1380e8602a55e4c6c6c232adf511b8fbb29002991c0e319b3d"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;",
+          "sha256": "4a10b6c0faa619175274e88d20237c743e8ba97702e3485462125a36b652ed3b"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+          "sha256": "a14c40c2b7bf449219b0731ca2d16f26e13a92ee05fd65d4c453a2549f64a57f"
+        },
+        {
+          "name": "<clinit>",
+          "descriptor": "()V",
+          "sha256": "e26a82306d854124bb93a138b2b8f4b662e9b421803814f2ad3b8d6cd7977509"
+        }
+      ]
+    },
+    "l1rpb/a$a.class": {
+      "method_count": 71,
+      "methods": [
+        {
+          "name": "<init>",
+          "descriptor": "()V",
+          "sha256": "497453c94a5a4522ecfd9dc0296009ebd568b9d518925a9808c68da9baf2608f"
+        },
+        {
+          "name": "e",
+          "descriptor": "()Ll1rpb/a$a;",
+          "sha256": "efc2025341831b3497f74141d427c1b61a6531f2f185f6352e05d4ee631fd58e"
+        },
+        {
+          "name": "b",
+          "descriptor": "()Ljava/util/List;",
+          "sha256": "3ad56747101146ae34682952cc29a6fbedce9eb890a9056cd32fd3eddfac4cf6"
+        },
+        {
+          "name": "c",
+          "descriptor": "()Ljava/lang/String;",
+          "sha256": "5f0febefe18b8936d3f2ab091c159b8e1ff6dfc90b0b1b74c2c20078b02bad48"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;",
+          "sha256": "bf05cc1484b726f5c044c27d69666ea9de1545bee0374d37de943935240c48be"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;",
+          "sha256": "a8597f2b05ac87a6e0ac8e8b855ed7b4e050b93dbca0f89abcf011f579b97d6d"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;",
+          "sha256": "1894d66aca34f9c6dd747351132b3d6873fc675370d6aa9e6e68dfdfb933a828"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/x$a;Ll1rpb/o;Ll1rpb/k$f;Ljava/lang/Object;)V",
+          "sha256": "a8e54bf46b27eb536b7c44d0d6e828291fb1f9cfa46a1314157f59d22182d749"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/x$a;Ll1rpb/o;Ll1rpb/k$f;Ljava/lang/Object;)V",
+          "sha256": "f19b697e9d164389b2d71753f396d0c88fb7458a745624a99ba2be961be8d268"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/x$a;Ll1rpb/o;Ll1rpb/k$f;)Z",
+          "sha256": "5daa774a7d75220d7c0bd21b75e060c48bee0a9309fc0116e9b01d3886cb5352"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/x$a;Ll1rpb/o;Ll1rpb/k$f;)Ll1rpb/x;",
+          "sha256": "aad55246d3ba62192f54198c5ed21a8d445d07add19acb7804d589efb99768fb"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/x$a;Ll1rpb/o;Ll1rpb/k$f;Ll1rpb/x$a;)V",
+          "sha256": "2fcb399d6914a8a8ef5a4e31749beb600e6157e72108675c1d04d43adde97cac"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/ap$a;Ll1rpb/n;Ll1rpb/k$a;Ll1rpb/x$a;Ll1rpb/o;I)Z",
+          "sha256": "d7a6fa25d26826e0d58ab0a5f47e85ad0b0d60d4b46cbd8793de1f95a0a43716"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/ap$a;Ll1rpb/n;Ll1rpb/k$a;Ll1rpb/x$a;Ll1rpb/o;)V",
+          "sha256": "cf59e5ba797c849aef2db531328fe27372ccce8905bbff9403b932fe1518961a"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/m$b;Ll1rpb/n;Ll1rpb/x$a;Ll1rpb/o;)V",
+          "sha256": "761938899712091ba39257b92ee66d0f30ad963fa4b70951a834193b24080607"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/m$b;Ll1rpb/n;Ll1rpb/x$a;Ll1rpb/o;)V",
+          "sha256": "96e52bc6918a34b11e1e36c886c8d2b0cf6a47f38d6daf28be0b2a745ea9fb7d"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/a$a;",
+          "sha256": "bb97eb6f244ec6576fce29c37dc3714567c4a29db4a3423a1e6dace5d7206ce8"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "sha256": "e398dabaff9bc797b9482efcd0aff657caf569b18280c3e14b9978a011f4353d"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/x;)Ll1rpb/ao;",
+          "sha256": "588004d1e907b6695ed09c3a823ca8cd5829b4297cec3f3f4720137f86784f60"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/aa;)Ljava/util/List;",
+          "sha256": "d3675936841d605487adfd972a4afa52983db927e10b7acde54a2416bf04486a"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/aa;Ljava/lang/String;Ljava/util/List;)V",
+          "sha256": "e2bc0035cdb89b5ae11ec1650a4d6ffacd242a45f5e083f29bad15849c16f0f4"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ljava/lang/String;Ll1rpb/k$f;I)Ljava/lang/String;",
+          "sha256": "21d666c234029bb874e4c7d847a893d4a83c0d954981911bd846562489bed087"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;",
+          "sha256": "4825a80f9971dd86a5b80c2952893382b16388c4db462e8daa3131354c91977a"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;",
+          "sha256": "69f165d67e706811eb138fbd3de89578174b633b90d2f33fa84a02e50d2d48e7"
+        },
+        {
+          "name": "a",
+          "descriptor": "([B)Ll1rpb/a$a;",
+          "sha256": "a30ae6be6dc27398a5c0fd3c376639678f9bed127ed371e12b76f265f0b97d38"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BII)Ll1rpb/a$a;",
+          "sha256": "047526a7fa9321f8d0a39ccc0d1580bdc9a733b49611022d86eedc77b2c6423b"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;",
+          "sha256": "f9057271353f7f5ff45d25024915cf72a2c7ec933504583a1781ea343f21171e"
+        },
+        {
+          "name": "a",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;",
+          "sha256": "f4e9c981f24d47690bcec13f541adfa898cb793dc705014d3ee2f475cc3617c4"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+          "sha256": "68f123fb9f92f6381b3808d53b180e136f48e41607eb47e95e0427acea945151"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+          "sha256": "1ffbfd2a3c64033066e56447171fbd5459b1d1be22cb9398c2043c241da40c5c"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;)Z",
+          "sha256": "684d882dfe19f4dfebd0da3d17904691523d2510886652e864a6eeab6e373c0c"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Z",
+          "sha256": "f52cb1f854c81f1f2f13929c46999da84c8f6cb56d4d230e14ece0d1e2b3d48f"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/b$a;",
+          "sha256": "c84284a6ecea77e9f6748dedda1b6e9eefa09b1df79b77841149966cacb6d033"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/b$a;",
+          "sha256": "fe9ffa4461b291cdd34b5de351008c4366780b74f965f2cffb1d02950adf289c"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/b$a;",
+          "sha256": "b0eff788f459ea32583bc2b8aa8eb70db5528fdaa33156229be55d183e14b04e"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/b$a;",
+          "sha256": "be6d365de0b0691f89be9e288686d087578a1f6a3397de749ff36fc456d34fe6"
+        },
+        {
+          "name": "b",
+          "descriptor": "([BII)Ll1rpb/b$a;",
+          "sha256": "c9662f3ea211e51bcc5b83cbcdd14e8854f1b1900ef72c46171b14bfc6ed92dc"
+        },
+        {
+          "name": "b",
+          "descriptor": "([B)Ll1rpb/b$a;",
+          "sha256": "3cb85a48788a34091893a7c57710249948ca784056ce89469fed4937411f0177"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/b$a;",
+          "sha256": "f52752a582f7eacea33bacc9204321bc3c07d479d4daaaccb052b47595f80ba8"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/b$a;",
+          "sha256": "09a459583ccdde8be336867f099ddc61bc9121c1149519137b4a72dcb5839f54"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;",
+          "sha256": "6db53ce98ac03606f799245566dc42faab142b319642bb0dd658b27213d44912"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/b$a;",
+          "sha256": "e3f2cc16b6062136023756ae46401487c5225ecb81cae73a23851ca3cbfa9366"
+        },
+        {
+          "name": "f",
+          "descriptor": "()Ll1rpb/b$a;",
+          "sha256": "78c2d17711d95251828f020ac5a740c9d6477fb7036891cb707d770c04ea367a"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;",
+          "sha256": "ef99135f82df3a016c9bfa809bc046e7cbe4f1e790bb088adca814057c721079"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y$a;",
+          "sha256": "d8019cf6311cd3fe05ef3ae1a126ee71d4438d08b47b3ab697eb6fc3639635c1"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;",
+          "sha256": "c16f2557bed883450b84d457757d9a1d054b313071c00ef092482abd6c4d7bc8"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/y$a;",
+          "sha256": "092a7aeb19daaca592afdd5df7cc458cf7055b70282acbfaa10327a9698e6862"
+        },
+        {
+          "name": "c",
+          "descriptor": "([BII)Ll1rpb/y$a;",
+          "sha256": "98a8ccc97fbf6e4cc4372fef8c7e51995a155db75fa457de283f850a6e4483e7"
+        },
+        {
+          "name": "c",
+          "descriptor": "([B)Ll1rpb/y$a;",
+          "sha256": "6a13d6ea444c95960d300cf1b40aceef97d5eecffeb9bd4c04a96b6c88d14706"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y$a;",
+          "sha256": "0491b157997af853599d8caea66de9f8ba79f39a0d6b646206df314f5a15d8d5"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/y$a;",
+          "sha256": "7e82c5aa9919e13f3f11dfafb9711f79f82ca2423c6d1bf07d9150d5d0d5ffef"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y$a;",
+          "sha256": "343d68a798320e02de6cadf84d18447eaad2d6500da49e923580461e303e26e5"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/y$a;",
+          "sha256": "38cc03126b3d97ac7ae167042ada3f9151cabe91157513d41ff7a09b9cec6486"
+        },
+        {
+          "name": "g",
+          "descriptor": "()Ll1rpb/y$a;",
+          "sha256": "576cb66cdc9aed2d6be14c007e638ef8cabfa76e6d40dbe12fe9e05be524d0aa"
+        },
+        {
+          "name": "h",
+          "descriptor": "()Ll1rpb/y$a;",
+          "sha256": "b0f93bbba6a3daca9934c68c4c66ce9094763de19ca8caad878cba20a931bc0c"
+        },
+        {
+          "name": "clone",
+          "descriptor": "()Ljava/lang/Object;",
+          "sha256": "c492e0b01a9802160ffff3f091232c6edb073c33eeb9173ec8d30b3cfd6b33ee"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+          "sha256": "1450692b98a1db0b520d83dcaa8e03214d0259635efb0551566f111a17454497"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+          "sha256": "aff4b966e55ea1627808e3a91bf7587c97aa88b17b58a72546970eb1d63968ba"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BIILl1rpb/n;)Ll1rpb/x$a;",
+          "sha256": "a4d4a9b56b63e480121d9bd9a734bf3599296987a7d9461af2423e14a714b636"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BLl1rpb/n;)Ll1rpb/x$a;",
+          "sha256": "d1bed42cb9ef9fc81f5e2d80b9bedd9a42f2e542ec6d40bc62d70264e51828cf"
+        },
+        {
+          "name": "d",
+          "descriptor": "([BII)Ll1rpb/x$a;",
+          "sha256": "9ffe0819760926d93bcf33b6f01086caa52bed14f8470f784f238ada0c800df7"
+        },
+        {
+          "name": "d",
+          "descriptor": "([B)Ll1rpb/x$a;",
+          "sha256": "1ea906b930c4a270a809467081251d18161399d9014e19f553975e3644dcbe70"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;",
+          "sha256": "e2ce2fcc3ae3f0d6ebfca0309331e7c9dbe23444425b4b0d839a2649af7e4fa8"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/g;)Ll1rpb/x$a;",
+          "sha256": "1a6036cf4ddc7bbc2ca0d0d379516ccb9537b6bae9c7a6ceb55581417f12447f"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "sha256": "b9e1bfe1fff4fc52b2aba32146cc40a8e3b2dd14211df2c781256fe98723240e"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;",
+          "sha256": "c2a777d06c407419c43e194bc633736a736f75f3cca107edd73ebab73c9af4de"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/h;)Ll1rpb/x$a;",
+          "sha256": "4044aacd100c4feebd868e0e0417dee9438c9439166f0ceb0dce1aae47a40daa"
+        },
+        {
+          "name": "i",
+          "descriptor": "()Ll1rpb/x$a;",
+          "sha256": "b66d4d2ac09412c0065b794e7fb2ac325e96ed74725827f6ed4f213e5a4d1ee7"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+          "sha256": "15d67fc962e769e2a00d2a74b4f363c668192871ed15eb4a6e1670e3a41b06ff"
+        },
+        {
+          "name": "j",
+          "descriptor": "()Ll1rpb/x$a;",
+          "sha256": "7bf69028917831913d10f8b50a8387846c4699a3e866d7f81ebed3d8fcb007ad"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/aa;)Ljava/util/List;",
+          "sha256": "2ada54bf6458bcd5f4d595ea025d602f7a80d5eca7966ae9237bb0e5812ebc2b"
+        }
+      ]
+    },
+    "l1rpb/p$a.class": {
+      "method_count": 45,
+      "methods": [
+        {
+          "name": "<init>",
+          "descriptor": "()V",
+          "sha256": "65b5c66e68ec5f06641f95e6a1a33f379390920e944869ce55340d9a8b9b2e13"
+        },
+        {
+          "name": "<init>",
+          "descriptor": "(Ll1rpb/p$b;)V",
+          "sha256": "fbea2e0091e4066162541ee77c94969e0053e5ba177a57d3f1aed2b6118d8f1d"
+        },
+        {
+          "name": "aA",
+          "descriptor": "()V",
+          "sha256": "a76907bcecf55cbb7999363546d03373f5a8e1ab714ec24e9cd3b1a115831e41"
+        },
+        {
+          "name": "q_",
+          "descriptor": "()V",
+          "sha256": "5366c56a83e0b8aaadd39271ec266ffc2426ff9a7a7224927b435e67ceed35ae"
+        },
+        {
+          "name": "r_",
+          "descriptor": "()V",
+          "sha256": "fcbf626eea477dcfdd37525a4e96cd57e99615ebc833e803aacf3ac1f39403f8"
+        },
+        {
+          "name": "s_",
+          "descriptor": "()Z",
+          "sha256": "42b6d3f3e885a4fe067675f256023c5e9e56f564b88318f4af80cf6e90f27af0"
+        },
+        {
+          "name": "ai",
+          "descriptor": "()Ll1rpb/p$a;",
+          "sha256": "581c7637f5aaec0f9560cac2af4c91c831f3a6458970f902e510085be4f2e81e"
+        },
+        {
+          "name": "ah",
+          "descriptor": "()Ll1rpb/p$a;",
+          "sha256": "022b321b08d3c94017c0ccea99c8f7ef1adde65db1b482c279667097baa524fa"
+        },
+        {
+          "name": "l",
+          "descriptor": "()Ll1rpb/p$g;",
+          "sha256": "330441287c67c6c5315b2de99eac040e460af373f8e1f535c70f69e7001d21ac"
+        },
+        {
+          "name": "J",
+          "descriptor": "()Ll1rpb/k$a;",
+          "sha256": "3f8725e2f533ff3eb11e2f50ab3b4d05f84c3d611d5ba52bc4c43b21608b0659"
+        },
+        {
+          "name": "a_",
+          "descriptor": "()Ljava/util/Map;",
+          "sha256": "8ec7eea47b1d8bdc680120b292364395d8219b5655fa92fd00f8c904bee7ac83"
+        },
+        {
+          "name": "k",
+          "descriptor": "()Ljava/util/Map;",
+          "sha256": "7ed1545d8d445525598a06dedebdfcc9654c5d68f75648b39f05a60fd5121a0e"
+        },
+        {
+          "name": "g",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "sha256": "78ebe946be48d1a7bced9431bab81a929a3fe8ef203ec1c663519c9c144ff871"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "sha256": "e25cac3d5ef5874f321a40ab330324f79250280bf241d9925f6ebda101f9e16d"
+        },
+        {
+          "name": "a_",
+          "descriptor": "(Ll1rpb/k$f;)Z",
+          "sha256": "d7b75668ee12305b1004b54a7af05e68fd8977a0e8650f815bbbe285f43c7315"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/k$f;)Ljava/lang/Object;",
+          "sha256": "75029bc2b7405dde615783c4419a443d2a1d6a36174dc99217d52dd574def64e"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+          "sha256": "5f3b626cee544c40200e754aa7850dcbf1243f667bfe09b190b815359e90f35b"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;",
+          "sha256": "8572ce44e3e04cfea5ec77d6f6214c98db25c1e6c3f36a1857683a40d35bcf57"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/k$f;)I",
+          "sha256": "4d9378c5f7ed973c7200ede5c65cfe9359f4f12a6d2e4d3ca3426cb4ce76bc10"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;I)Ljava/lang/Object;",
+          "sha256": "00665f7b15a5b140660fc35b25913bb1ebec36abde04d6cc8bfa4f1a3739aebe"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;",
+          "sha256": "141023148380300491daeb0c1221923581131d13504da16cd6c3779cb4a7fa43"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+          "sha256": "342eb25ed682a859eda79a286c0dbd02c831a1c723f12720bef75a82b50d7550"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+          "sha256": "930e41436308f4bc527f7362a58ab0911945c5dcef76feeca388e6cf403b34f6"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+          "sha256": "04dc18baf4956dcc3453aaf9c09228f30cf8f0c91d790fb50f546ca4344e5eef"
+        },
+        {
+          "name": "a",
+          "descriptor": "()Z",
+          "sha256": "8d6635bf08401264bc5364e937d0dd735a2b3deb0af24eea1d7dd7212e5c6f59"
+        },
+        {
+          "name": "b_",
+          "descriptor": "()Ll1rpb/ap;",
+          "sha256": "7498983361753fba6e45846ed3b2b593e42511fb5f1d7c0d010f129e438ea08d"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/h;Ll1rpb/ap$a;Ll1rpb/n;I)Z",
+          "sha256": "12fc6c58b37f490a8742439bc7a6f5f6ad06f0a490ee233e07dc63e62de3ade0"
+        },
+        {
+          "name": "aE",
+          "descriptor": "()Ll1rpb/p$b;",
+          "sha256": "418c8d769417808a523d5f4744454c8b28d27fb52946d2586d619c1d4b6a29dc"
+        },
+        {
+          "name": "t_",
+          "descriptor": "()V",
+          "sha256": "afa824e79762853ce20d3ba0c8425d50d1d43ffc1d6f2a091cef0702ebde8426"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/a$a;",
+          "sha256": "39263a9c2c4f1d71397d30d4f41e4e2c370a9167fc89fe406a02bab5f289a4e8"
+        },
+        {
+          "name": "e",
+          "descriptor": "()Ll1rpb/a$a;",
+          "sha256": "644f0a803de130be909f77cd6f24cd77c8a10d17ce6ca9b284a41791138a745c"
+        },
+        {
+          "name": "d",
+          "descriptor": "()Ll1rpb/a$a;",
+          "sha256": "be9c9c969cd71e18d98dfcd97106aeef41ce2ade46179e0caab997fc39e4984c"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "sha256": "b57395dfa13bf8250c2aba104f77ab41682fb3ea5b1f33427cf77b4cf4ab52d2"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+          "sha256": "fec580fefc97d78636f2fc778298df007c94e5c58c42d12796614eb1d9d61c69"
+        },
+        {
+          "name": "c",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+          "sha256": "333a527047c76f5f32d415028e81bf793dfc28dc1e090b07c974aeff212e249b"
+        },
+        {
+          "name": "b",
+          "descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+          "sha256": "71e803f5883f1aa1e8395c83f5dd8b2a8df7ae9bd626090a04539cd84e17e50d"
+        },
+        {
+          "name": "f",
+          "descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+          "sha256": "c5c2a468a5c63e90a44ea0064fb3eb0047768201f07e9aa17b4c1b39fef24149"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+          "sha256": "3e869cc14df31ff8cdce0b899b1a591c3fe7e734b0dd7729f6400e5f24f69a8d"
+        },
+        {
+          "name": "i",
+          "descriptor": "()Ll1rpb/x$a;",
+          "sha256": "c7ba3436054aab52e51a1690748cb6d8e1a0a4fa31d029b52a8c08c96fcd446f"
+        },
+        {
+          "name": "j",
+          "descriptor": "()Ll1rpb/x$a;",
+          "sha256": "8754aed729638452b21c87e430bca33b2d4edce32682478115304d4d3f469484"
+        },
+        {
+          "name": "g",
+          "descriptor": "()Ll1rpb/y$a;",
+          "sha256": "243dc00e4cb5036543cb5f1c574f55b079969dffb4ba8a8c86b602d05399da92"
+        },
+        {
+          "name": "h",
+          "descriptor": "()Ll1rpb/y$a;",
+          "sha256": "7b6608e022ff20ec80f516e7bdd488a86b24e4ce86d4104a44cd090079f35ab7"
+        },
+        {
+          "name": "f",
+          "descriptor": "()Ll1rpb/b$a;",
+          "sha256": "6c4ce39e57e8e5390bab8e3b574cc213ae9520348048c09288b7e8d425efc525"
+        },
+        {
+          "name": "clone",
+          "descriptor": "()Ljava/lang/Object;",
+          "sha256": "2e4bae80811dc5e929d31c87a9208824db4befb70f2d43915f80a88bb2dc3a11"
+        },
+        {
+          "name": "a",
+          "descriptor": "(Ll1rpb/p$a;)Ljava/util/Map;",
+          "sha256": "f4aec0972ab8c0c389fb0c315498a6590d59ed516dc58e70ee2e9ebf0b55b5b3"
+        }
+      ]
+    }
+  }
+}
