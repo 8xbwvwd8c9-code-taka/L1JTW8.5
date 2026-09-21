@@ -72,6 +72,8 @@ jobs:
     steps:
       - name: Checkout recovery branch
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Java
         uses: actions/setup-java@v4
@@ -214,7 +216,51 @@ jobs:
           cat recovery/normalized_stage_error_families.json
           cat recovery/protobuf_override_conflicts.json
 
+      - name: Persist authoritative normalized-fast state
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          files=(
+            recovery/normalized_stage_compile.json
+            recovery/NORMALIZED_STAGE_COMPILE.md
+            recovery/normalized_stage_javac.log
+            recovery/normalized_stage_error_families.json
+            recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md
+            recovery/protobuf_override_conflicts.json
+            recovery/PROTOBUF_OVERRIDE_CONFLICTS.md
+            recovery/protobuf_final_obligation_probe.json
+            recovery/PROTOBUF_FINAL_OBLIGATION_PROBE.md
+            recovery/protobuf_abstract_obligation_normalization.json
+            recovery/PROTOBUF_ABSTRACT_OBLIGATION_NORMALIZATION.md
+          )
+
+          existing=()
+          for file in "${files[@]}"; do
+            if [[ -e "$file" ]]; then
+              existing+=("$file")
+            fi
+          done
+
+          if [[ "${#existing[@]}" -eq 0 ]]; then
+            echo "No normalized-fast artifacts to persist."
+            exit 0
+          fi
+
+          git add -- "${existing[@]}"
+          if git diff --cached --quiet; then
+            echo "No normalized-fast artifact changes."
+            exit 0
+          fi
+
+          git commit -m "research: persist normalized-fast state [skip ci]"
+          git pull --rebase origin "${GITHUB_REF_NAME}"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
+
   recover:
+    needs: normalized-fast
     runs-on: ubuntu-latest
     timeout-minutes: 30
 
