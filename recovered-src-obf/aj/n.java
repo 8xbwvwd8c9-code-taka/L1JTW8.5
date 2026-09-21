@@ -5,6 +5,7 @@ package aj;
 
 import aj.cv;
 import ap.c;
+import ap.u;
 import aq.aa;
 import aq.aq;
 import bj.d;
@@ -18,8 +19,15 @@ extends cv {
         int objId = this.b();
         int topicNumber = this.b();
         aa obj = aq.a().a(objId);
+        u pc = client.f();
+        if (pc == null || !(obj instanceof c)) {
+            return;
+        }
+        if (obj.fu().c(pc.fu()) > 11) {
+            return;
+        }
         c board = (c)obj;
-        board.b(client.f(), topicNumber);
+        board.b(pc, topicNumber);
     }
 
     @Override
