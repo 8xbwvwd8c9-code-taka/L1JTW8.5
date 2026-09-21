@@ -849,6 +849,18 @@ jobs:
               raise SystemExit(1)
           PY
 
+      - name: Download official protobuf 2.5.0 sources for final source representation
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl -fL --retry 3 --retry-delay 2 \
+            -o "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar" \
+            "https://repo1.maven.org/maven2/com/google/protobuf/protobuf-java/2.5.0/protobuf-java-2.5.0-sources.jar"
+
+      - name: Validate final source representation
+        shell: bash
+        run: python ./tools/recovery/validate-final-source-representation.py "$RUNNER_TEMP/protobuf-java-2.5.0-sources.jar"
+
   recover:
     if: github.event_name == 'push'
     needs: normalized-fast
