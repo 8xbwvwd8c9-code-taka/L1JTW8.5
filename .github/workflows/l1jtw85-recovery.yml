@@ -733,6 +733,10 @@ jobs:
           name: protobuf-source-built-donor-abi
           path: recovery
 
+      - name: Build source-built protobuf javac compile view
+        shell: bash
+        run: python ./tools/recovery/build-source-built-protobuf-compile-view.py
+
       - name: Compile application against source-built protobuf only
         shell: bash
         run: python ./tools/recovery/compile-source-only-application-with-source-built-protobuf.py
@@ -742,6 +746,7 @@ jobs:
         with:
           name: source-only-application-closure
           path: |
+            recovery/protobuf_2_5_0_source_built_compile_view.json
             recovery/source_only_application_compile.json
             recovery/source_only_application_javac.log
             recovery/source_only_application_sources.txt
@@ -754,7 +759,8 @@ jobs:
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/source_only_application_compile.json \
+          git add recovery/protobuf_2_5_0_source_built_compile_view.json \
+            recovery/source_only_application_compile.json \
             recovery/source_only_application_javac.log \
             recovery/source_only_application_sources.txt
           if git diff --cached --quiet; then
