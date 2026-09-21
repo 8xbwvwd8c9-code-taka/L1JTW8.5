@@ -32,10 +32,6 @@ extends cv {
             return;
         }
         v pet = (v)obj;
-        if (pet.M() != pc) {
-            pc.a(new ds(328));
-            return;
-        }
         f target = (f)targetObj;
         if (pet.M() != pc || pet.fp() != pc.fp() || target.fp() != pet.fp()) {
             pc.a(new ds(328));
