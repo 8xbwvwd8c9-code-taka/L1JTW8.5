@@ -6,53 +6,77 @@
   "java_sources_submitted": 788,
   "compile_exit_code": 1,
   "generated_class_files_total": 259,
-  "javac_error_headers": 44,
+  "javac_error_headers": 176,
   "error_file_count": 9,
   "top_error_files": [
     [
       "l1r/an/PBMessageALL4.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL2.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL3.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL5.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL6.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL7.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL8.java",
-      5
+      20
     ],
     [
       "l1r/an/PBMessageALL9.java",
-      4
+      16
     ]
   ],
   "top_error_messages": [
     [
-      "L1R_a is not abstract and does not override abstract method d(byte[],int,int,n) in a",
+      "i() in L1R_a cannot override i() in l1rpb.p.a",
       35
     ],
     [
-      "L1R_Builder is not abstract and does not override abstract method d(byte[],int,int,n) in a",
+      "d(h,n) in L1R_a cannot override d(h,n) in l1rpb.a.a",
+      35
+    ],
+    [
+      "c(x) in L1R_a cannot override c(x) in l1rpb.a.a",
+      35
+    ],
+    [
+      "j() in L1R_a cannot override j() in l1rpb.p.a",
+      35
+    ],
+    [
+      "i() in L1R_Builder cannot override i() in l1rpb.p.a",
+      9
+    ],
+    [
+      "d(h,n) in L1R_Builder cannot override d(h,n) in l1rpb.a.a",
+      9
+    ],
+    [
+      "c(x) in L1R_Builder cannot override c(x) in l1rpb.a.a",
+      9
+    ],
+    [
+      "j() in L1R_Builder cannot override j() in l1rpb.p.a",
       9
     ]
   ]

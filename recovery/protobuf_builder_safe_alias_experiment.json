@@ -1,0 +1,332 @@
+{
+  "experiment": "BUILDER_XA_SAFE_TYPED_ALIAS_SET",
+  "safe_alias_input_count": 21,
+  "added_alias_count": 19,
+  "already_present_count": 2,
+  "results": [
+    {
+      "abstract_name": "j",
+      "abstract_descriptor": "()Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "j",
+      "provider_descriptor": "()Ll1rpb/x$a;",
+      "typed_target_name": "e",
+      "typed_target_descriptor": "()Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "()TBuilderType;"
+      ],
+      "alias_name": "j",
+      "alias_descriptor": "()Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "c",
+      "abstract_descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "c",
+      "provider_descriptor": "(Ll1rpb/x;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/x;)TBuilderType;"
+      ],
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/x;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "(Ll1rpb/h;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "(Ll1rpb/h;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/h;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/h;Ll1rpb/n;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "b",
+      "abstract_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "b",
+      "provider_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/ap;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/ap;)TBuilderType;"
+      ],
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/ap;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "(Ll1rpb/g;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "(Ll1rpb/g;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/g;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/g;Ll1rpb/n;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "([B)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "([B)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "([B)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "([B)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "([B)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "([BII)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "([BII)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "([BII)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "([BII)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "([BII)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "([BLl1rpb/n;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "([BLl1rpb/n;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "([BLl1rpb/n;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "([BIILl1rpb/n;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "d",
+      "provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "([BIILl1rpb/n;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/a$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "e",
+      "abstract_descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "e",
+      "provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ljava/io/InputStream;)TBuilderType;"
+      ],
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/a$a;",
+      "status": "ALREADY_PRESENT"
+    },
+    {
+      "abstract_name": "e",
+      "abstract_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.a$a",
+      "provider_name": "e",
+      "provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+      "typed_target_signatures": [
+        "(Ljava/io/InputStream;Ll1rpb/n;)TBuilderType;"
+      ],
+      "alias_name": "e",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/a$a;",
+      "status": "ALREADY_PRESENT"
+    },
+    {
+      "abstract_name": "j",
+      "abstract_descriptor": "()Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "j",
+      "provider_descriptor": "()Ll1rpb/x$a;",
+      "typed_target_name": "ah",
+      "typed_target_descriptor": "()Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "()TBuilderType;"
+      ],
+      "alias_name": "j",
+      "alias_descriptor": "()Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "i",
+      "abstract_descriptor": "()Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "i",
+      "provider_descriptor": "()Ll1rpb/x$a;",
+      "typed_target_name": "ai",
+      "typed_target_descriptor": "()Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "()TBuilderType;"
+      ],
+      "alias_name": "i",
+      "alias_descriptor": "()Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "d",
+      "abstract_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "d",
+      "provider_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/k$f;Ljava/lang/Object;)TBuilderType;"
+      ],
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "f",
+      "abstract_descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "f",
+      "provider_descriptor": "(Ll1rpb/k$f;)Ll1rpb/x$a;",
+      "typed_target_name": "d",
+      "typed_target_descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/k$f;)TBuilderType;"
+      ],
+      "alias_name": "f",
+      "alias_descriptor": "(Ll1rpb/k$f;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "b",
+      "abstract_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "b",
+      "provider_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/x$a;",
+      "typed_target_name": "a",
+      "typed_target_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/k$f;ILjava/lang/Object;)TBuilderType;"
+      ],
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/k$f;ILjava/lang/Object;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "c",
+      "abstract_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "c",
+      "provider_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/x$a;",
+      "typed_target_name": "b",
+      "typed_target_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/k$f;Ljava/lang/Object;)TBuilderType;"
+      ],
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/k$f;Ljava/lang/Object;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "e",
+      "abstract_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "e",
+      "provider_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "typed_target_name": "c",
+      "typed_target_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/ap;)TBuilderType;"
+      ],
+      "alias_name": "e",
+      "alias_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    },
+    {
+      "abstract_name": "b",
+      "abstract_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "provider_owner": "l1rpb.p$a",
+      "provider_name": "b",
+      "provider_descriptor": "(Ll1rpb/ap;)Ll1rpb/x$a;",
+      "typed_target_name": "d",
+      "typed_target_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "typed_target_signatures": [
+        "(Ll1rpb/ap;)TBuilderType;"
+      ],
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/ap;)Ll1rpb/p$a;",
+      "status": "ADDED"
+    }
+  ],
+  "selection_rule": "x$a abstract exact synthetic provider -> exactly one same-owner same-parameter invoke -> concrete a$a/p$a/b$a return target -> target Signature contains TBuilderType",
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "existing_methods_changed": false,
+  "added_methods_only": true,
+  "gameplay_logic_changed": false,
+  "parser_scope_changed": false,
+  "pass_signal": "builder 44 errors disappear or advance with parser=0 and nonprotobuf=0"
+}
