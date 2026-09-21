@@ -139,6 +139,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-override-annotations.py
 
+      - name: Normalize L1Account Base64 compatibility
+        shell: bash
+        run: python ./tools/recovery/normalize-l1account-base64-compat.py
+
       - name: Normalize protobuf synthetic boolean accessors
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-af-accessors.py
