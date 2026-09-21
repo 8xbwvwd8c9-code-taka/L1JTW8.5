@@ -27,9 +27,21 @@ PAIR_RULES=[
   ('l1rpb/y$a.class','l1rpb/b$a.class'),
 ]
 
-# Safe derived rule: only abstract obligations whose exact concrete provider
-# method is itself ACC_SYNTHETIC. This isolates JVM bridge/covariant artifacts
-# and leaves real typed public API obligations intact.
+# Generated message source calls these parser methods directly through its
+# static ab<Message> field. They must remain visible in the compile reference.
+# All other exact ab->c pairs are recovery-only alias/bridge obligations.
+DIRECT_AB_API={
+  ('d','(Ll1rpb/h;)Ljava/lang/Object;'),
+  ('b','(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;'),
+  ('d','(Ll1rpb/g;)Ljava/lang/Object;'),
+  ('d','(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;'),
+  ('d','([B)Ljava/lang/Object;'),
+  ('d','([BLl1rpb/n;)Ljava/lang/Object;'),
+  ('h','(Ljava/io/InputStream;)Ljava/lang/Object;'),
+  ('h','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+  ('f','(Ljava/io/InputStream;)Ljava/lang/Object;'),
+  ('f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+}
 
 class R:
   def __init__(self,b): self.b=b; self.p=0
@@ -124,17 +136,23 @@ for abstract_cls, concrete_cls in PAIR_RULES:
   am=read_methods(raw_map[abstract_cls])
   cm=read_methods(raw_map[concrete_cls])
   concrete_all={(x['name'],x['descriptor']) for x in cm if not x['abstract']}
-  concrete_synth={(x['name'],x['descriptor']) for x in cm if not x['abstract'] and (x['flags'] & ACC_SYNTHETIC)}
   paired_all={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete_all}
-  selected={(x['name'],x['descriptor']) for x in am if x['abstract'] and (x['name'],x['descriptor']) in concrete_synth}
+  if abstract_cls=='l1rpb/ab.class':
+    missing_direct=DIRECT_AB_API-paired_all
+    if missing_direct:
+      raise SystemExit(f'direct parser API lacks exact donor concrete provider evidence: {sorted(missing_direct)}')
+    selected=paired_all-DIRECT_AB_API
+  elif abstract_cls=='l1rpb/y$a.class':
+    selected=set(paired_all)
+  else:
+    raise SystemExit(f'unexpected pair rule: {abstract_cls} <- {concrete_cls}')
   if not selected:
-    raise SystemExit(f'no synthetic-bridge obligations found for {abstract_cls} <- {concrete_cls}')
+    raise SystemExit(f'no safe bridge obligations found for {abstract_cls} <- {concrete_cls}')
   derived.setdefault(abstract_cls,set()).update(selected)
   pair_details.append({
     'abstract_class':abstract_cls,
     'concrete_provider':concrete_cls,
     'paired_count_all':len(paired_all),
-    'synthetic_provider_pair_count':len(selected),
     'selected_count':len(selected),
     'selected_methods':[{'name':n,'descriptor':d} for n,d in sorted(selected)],
   })
@@ -143,19 +161,16 @@ targets={k:set(v) for k,v in EXACT_REMOVE.items()}
 for cls,methods in derived.items():
   targets.setdefault(cls,set()).update(methods)
 
-# Mandatory evidence for the observed bridge-obligation chain.
-required={
-  ('l1rpb/ab.class','e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
-  ('l1rpb/ab.class','e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
-  ('l1rpb/ab.class','f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
-  ('l1rpb/y$a.class','d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
-  ('l1rpb/y$a.class','d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
-  ('l1rpb/y$a.class','c','([BIILl1rpb/n;)Ll1rpb/y$a;'),
-}
-actual={(cls,n,d) for cls,methods in targets.items() for n,d in methods}
-missing_required=sorted(required-actual)
-if missing_required:
-  raise SystemExit(f'missing required synthetic bridge obligations: {missing_required}')
+# Safety gates for the evidence-derived sets.
+# The donor pair inventory is stable at 23 parser pairs and 13 builder pairs.
+# Ten parser signatures are retained because generated source invokes them
+# directly through ab<Message>; therefore exactly 13 parser aliases are pruned.
+if len(derived.get('l1rpb/ab.class',set())) != 13:
+  raise SystemExit(f'unexpected parser obligation count: {len(derived.get("l1rpb/ab.class",set()))} != 13')
+if len(derived.get('l1rpb/y$a.class',set())) != 13:
+  raise SystemExit(f'unexpected builder obligation count: {len(derived.get("l1rpb/y$a.class",set()))} != 13')
+if derived.get('l1rpb/ab.class',set()) & DIRECT_AB_API:
+  raise SystemExit('direct parser API selected for pruning')
 
 hits=[]
 with zipfile.ZipFile(JAR,'r') as zin, zipfile.ZipFile(TMP,'w',zipfile.ZIP_DEFLATED) as zout:
@@ -178,13 +193,13 @@ state={
   'expected_obligations':expected,
   'removed_obligations':len(hits),
   'targets':hits,
-  'required_bridge_chain_present':True,
+  'direct_parser_api_preserved':True,
   'scope':'recovery compile reference only',
   'donor_jar_changed':False,
   'recovered_source_changed':False,
   'method_bytecode_changed':False,
   'gameplay_logic_changed':False,
-  'reason':'exact donor ABI ACC_SYNTHETIC concrete bridges satisfy JVM inheritance, while normalized Java source cannot express the obfuscated generic/covariant obligation cleanly',
+  'reason':'exact donor ABI concrete providers satisfy JVM inheritance; parser direct-call API remains declared while only non-callable aliases and inherited builder obligations are pruned',
 }
 OUT.write_text(json.dumps(state,indent=2)+'\n',encoding='utf-8')
 MD.write_text(
@@ -192,8 +207,9 @@ MD.write_text(
   + f'- Removed compile-ref abstract obligations: **{len(hits)} / {expected}**\n'
   + f'- Exact special-case obligations: **{state["exact_obligations"]}**\n'
   + f'- ABI-derived pair rules: **{len(pair_details)}**\n'
-  + '- Derived pruning is restricted to exact abstract ↔ ACC_SYNTHETIC concrete bridge pairs.\n'
-  + '- Required observed e/f + c/d bridge-chain descriptors present: **YES**\n'
+  + '- Parser direct-call API preserved: **10 signatures**\n'
+  + '- Parser alias obligations pruned: **13**\n'
+  + '- Builder inherited obligations pruned: **13**\n'
   + '- Donor JAR changed: **NO**\n'
   + '- Recovered game source changed: **NO**\n'
   + '- Method bytecode changed: **NO**\n'
