@@ -9,7 +9,9 @@ STATE=REC/"protobuf_2_5_0_source_built_compile_view.json"
 TMP=REC/"protobuf-2.5.0-source-built-compile-view.tmp.jar"
 
 ACC_ABSTRACT=0x0400
+ACC_SYNTHETIC=0x1000
 TARGET_INNER=b"l1rpb/p$b"
+BRIDGE_FLAG_STATE=REC/"protobuf_builder_bridge_flag_experiment.json"
 REMOVE={
     "l1rpb/ab.class": {
         ("e","(Ljava/io/InputStream;)Ljava/lang/Object;"),
@@ -18,7 +20,6 @@ REMOVE={
     "l1rpb/y$a.class": {
         ("d","(Ljava/io/InputStream;)Ll1rpb/y$a;"),
         ("d","(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"),
-        ("c","([BIILl1rpb/n;)Ll1rpb/y$a;"),
     },
     "l1rpb/a$a.class": {
         ("d","()Ll1rpb/a$a;"),
@@ -116,6 +117,41 @@ def remove_abstract_methods(data,wanted):
     for raw in kept: out+=raw
     out+=data[r.p:]
     return bytes(out),removed
+
+def load_bridge_flag_targets():
+    if not BRIDGE_FLAG_STATE.exists():
+        raise SystemExit(f"missing bridge flag evidence: {BRIDGE_FLAG_STATE}")
+    s=json.loads(BRIDGE_FLAG_STATE.read_text(encoding="utf-8"))
+    if s.get("provider_class")!="l1rpb/b$a.class":
+        raise SystemExit(f"unexpected bridge provider: {s.get('provider_class')}")
+    targets={(x["name"],x["descriptor"]) for x in s.get("targets",[])}
+    if len(targets)!=9:
+        raise SystemExit(f"expected 9 proven builder bridge targets, got {len(targets)}")
+    return targets
+
+def clear_synthetic_bridge_flags(data,wanted):
+    r=R(data); cp=parse_cp(r)
+    r.skip(6); r.skip(2*r.u2())
+    for _ in range(r.u2()): skip_member(r)
+    mc=r.u2()
+    out=bytearray(data); hits=[]
+    for _ in range(mc):
+        flags_pos=r.p
+        flags=r.u2(); ni=r.u2(); di=r.u2()
+        name=utf(cp,ni); desc=utf(cp,di)
+        skip_attrs(r)
+        if (name,desc) in wanted:
+            if flags & ACC_ABSTRACT:
+                raise SystemExit(f"bridge provider unexpectedly abstract: {name}{desc}")
+            if not (flags & ACC_SYNTHETIC):
+                raise SystemExit(f"bridge provider missing ACC_SYNTHETIC before patch: {name}{desc} flags={flags:#x}")
+            new_flags=flags & ~ACC_SYNTHETIC
+            struct.pack_into(">H",out,flags_pos,new_flags)
+            hits.append({"name":name,"descriptor":desc,"old_flags":flags,"new_flags":new_flags})
+    missing=wanted-{(x["name"],x["descriptor"]) for x in hits}
+    if missing:
+        raise SystemExit(f"missing proven bridge providers: {sorted(missing)}")
+    return bytes(out),hits
 
 def widen_inner_visibility(data):
     r=R(data); cp=parse_cp(r)
@@ -310,6 +346,8 @@ removed=[]
 visibility=0
 alias_specs_by_owner,expected_alias_count=load_alias_specs()
 typed_aliases_added=[]
+bridge_flag_targets=load_bridge_flag_targets()
+bridge_flags_cleared=[]
 with zipfile.ZipFile(SRC,"r") as zin:
     raw_map={name:zin.read(name) for name in zin.namelist() if name.endswith(".class")}
     class_count=len(raw_map)
@@ -327,6 +365,9 @@ with zipfile.ZipFile(SRC,"r") as zin, zipfile.ZipFile(TMP,"w",zipfile.ZIP_DEFLAT
             if info.filename in targets:
                 raw,hits=remove_abstract_methods(raw,targets[info.filename])
                 removed += [{"class":info.filename,"name":n,"descriptor":d,"flags":f} for n,d,f in hits]
+            if info.filename=="l1rpb/b$a.class":
+                raw,hits=clear_synthetic_bridge_flags(raw,bridge_flag_targets)
+                bridge_flags_cleared += [{"class":info.filename,**x} for x in hits]
             if info.filename in alias_specs_by_owner:
                 raw,added=add_typed_aliases(raw,alias_specs_by_owner[info.filename])
                 typed_aliases_added += [{"class":info.filename,**x} for x in added]
@@ -342,6 +383,9 @@ if visibility==0:
 if len(typed_aliases_added)!=expected_alias_count:
     TMP.unlink(missing_ok=True)
     raise SystemExit(f"expected {expected_alias_count} typed aliases added, got {len(typed_aliases_added)}")
+if len(bridge_flags_cleared)!=9:
+    TMP.unlink(missing_ok=True)
+    raise SystemExit(f"expected 9 proven builder bridge synthetic flags cleared, got {len(bridge_flags_cleared)}")
 TMP.replace(OUT)
 
 state={
@@ -352,6 +396,8 @@ state={
     "abstract_obligations_removed":removed,
     "proven_typed_alias_count":len(typed_aliases_added),
     "typed_aliases_added":typed_aliases_added,
+    "builder_bridge_synthetic_flags_cleared":bridge_flags_cleared,
+    "builder_bridge_synthetic_flag_clear_count":len(bridge_flags_cleared),
     "abstract_obligation_count":len(removed),
     "inner_visibility_target":"l1rpb/p$b",
     "inner_visibility_entries_widened":visibility,
@@ -359,7 +405,7 @@ state={
     "donor_binary_used":False,
     "method_bytecode_changed":False,
     "gameplay_logic_changed":False,
-    "scope":"javac compile view only; 40 proven typed aliases + targeted obligations/visibility; runtime/linkage validation remains against exact source-built donor ABI",
+    "scope":"javac compile view only; 40 proven typed aliases + 9 proven builder bridge synthetic-flag clears + targeted obligations/visibility; runtime/linkage validation remains against exact source-built donor ABI",
 }
 STATE.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
 print(json.dumps(state,indent=2))
