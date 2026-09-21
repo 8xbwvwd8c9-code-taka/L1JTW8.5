@@ -115,6 +115,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-local-generics.py
 
+      - name: Normalize high-confidence tail local generics
+        shell: bash
+        run: python ./tools/recovery/normalize-nonprotobuf-tail-local-generics.py
+
       - name: Normalize non-Protobuf overload shadows
         shell: bash
         run: python ./tools/recovery/normalize-nonprotobuf-overload-shadows.py
