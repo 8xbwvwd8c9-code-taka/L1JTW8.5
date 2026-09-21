@@ -356,6 +356,9 @@ extends t {
 
     @Override
     public void a(u player, String action) {
+        if (player == null || this.k != player) {
+            return;
+        }
         int status = this.c(action);
         if (status == 0) {
             return;
