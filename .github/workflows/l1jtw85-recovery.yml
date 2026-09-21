@@ -745,6 +745,11 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-source-only-application-with-source-built-protobuf.py
 
+      - name: Classify exact runtime linkage by generated method
+        if: always()
+        shell: bash
+        run: python ./tools/recovery/classify-source-only-exact-runtime-linkage.py
+
       - name: Validate application linkage against exact source-built protobuf runtime
         shell: bash
         run: python ./tools/recovery/validate-source-only-exact-runtime-linkage.py
