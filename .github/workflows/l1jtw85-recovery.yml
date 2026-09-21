@@ -65,6 +65,22 @@ jobs:
           cat recovery/protobuf_runtime_source_decompile.json
           cat recovery/protobuf_runtime_source_compile.json
 
+      - name: Upload protobuf runtime source experiment
+        uses: actions/upload-artifact@v4
+        with:
+          name: protobuf-runtime-source-experiment
+          path: |
+            recovery/protobuf-runtime-src-vf
+            recovery/protobuf_runtime_source_decompile.json
+            recovery/protobuf_runtime_source_compile.json
+            recovery/PROTOBUF_RUNTIME_SOURCE_COMPILE.md
+            recovery/protobuf_runtime_source_javac.log
+            recovery/protobuf_runtime_source_files.txt
+            recovery/protobuf_runtime_source_class_set_missing.txt
+            recovery/protobuf_runtime_source_class_set_extra.txt
+          if-no-files-found: error
+          retention-days: 7
+
   normalized-fast:
     runs-on: ubuntu-latest
     timeout-minutes: 10
