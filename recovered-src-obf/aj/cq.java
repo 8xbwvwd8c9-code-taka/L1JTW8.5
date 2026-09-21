@@ -9,6 +9,7 @@ import ao.ax;
 import ap.q;
 import ap.u;
 import ap.v;
+import aq.aa;
 import aq.aq;
 import be.ds;
 import bh.o;
@@ -28,8 +29,15 @@ extends cv {
         int data = this.c();
         int petId = this.b();
         int listNo = this.c();
-        v pet = (v)aq.a().a(petId);
-        if (pet == null) {
+        aa object = aq.a().a(petId);
+        if (!(object instanceof v)) {
+            return;
+        }
+        v pet = (v)object;
+        if (pet.M() != pc) {
+            return;
+        }
+        if (listNo < 0 || listNo >= pet.y().d().size()) {
             return;
         }
         q item = pet.y().d().get(listNo);
@@ -38,12 +46,16 @@ extends cv {
         }
         if (item.f() && item.a().aP() == 11) {
             p petType = ax.b().a(pet.U_().b());
-            if (!petType.j()) {
+            if (petType == null || !petType.j()) {
                 pc.a(new ds(74, item.s()));
                 return;
             }
             int itemId = item.N();
             o petItem = av.a().a(itemId);
+            if (petItem == null) {
+                pc.a(new ds(74, item.s()));
+                return;
+            }
             if (petItem.n() == 1) {
                 pet.a(pet, item);
                 pc.a(new be.cq(data, pet, listNo));
