@@ -313,6 +313,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/audit-post-javac0-class-hierarchy.py
 
+      - name: Audit generic builder class signatures
+        shell: bash
+        run: python ./tools/recovery/audit-generic-builder-signatures.py
+
       - name: Summarize normalized compile error families
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
@@ -336,6 +340,7 @@ jobs:
           cat recovery/normalized_stage_error_families.json
           cat recovery/protobuf_override_conflicts.json
           cat recovery/protobuf_compile_ref_method_integrity.json
+          cat recovery/generic_builder_signature_audit.json
 
       - name: Persist authoritative normalized-fast state
         shell: bash
@@ -345,6 +350,8 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
 
           files=(
+            recovery/generic_builder_signature_audit.json
+            recovery/GENERIC_BUILDER_SIGNATURE_AUDIT.md
             recovery/protobuf_compile_ref_method_baseline.json
             recovery/protobuf_compile_ref_method_integrity.json
             recovery/PROTOBUF_COMPILE_REF_METHOD_INTEGRITY.md
