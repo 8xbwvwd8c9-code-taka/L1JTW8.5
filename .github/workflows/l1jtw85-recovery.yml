@@ -1125,10 +1125,14 @@ jobs:
             recovery/NORMALIZED_PARSER_BRIDGE_TRANSFORM.md \
             recovery/normalized_stage_error_families.json \
             recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md \
-            recovery/synthetic_accessor_as_a_probe.json \
-            recovery/SYNTHETIC_ACCESSOR_AS_A_PROBE.md \
             recovery/protobuf_override_conflicts.json \
             recovery/PROTOBUF_OVERRIDE_CONFLICTS.md
+          for optional in \
+            recovery/synthetic_accessor_as_a_probe.json \
+            recovery/SYNTHETIC_ACCESSOR_AS_A_PROBE.md
+          do
+            [ -e "$optional" ] && git add "$optional"
+          done
           if git diff --cached --quiet; then
             echo "No generated changes."
             exit 0
