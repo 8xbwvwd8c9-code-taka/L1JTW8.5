@@ -8,6 +8,7 @@ RUNTIME=REC/"protobuf-2.5.0-source-built-donor-abi.jar"
 COMPILE_VIEW=REC/"protobuf-2.5.0-source-built-compile-view.jar"
 COMPILE_STATE=REC/"source_only_application_compile.json"
 OUT=REC/"source_only_exact_runtime_linkage.json"
+CLASSIFICATION=REC/"source_only_exact_runtime_linkage_classification.json"
 
 def u1(b,p): return b[p],p+1
 def u2(b,p): return struct.unpack_from(">H",b,p)[0],p+2
@@ -78,9 +79,16 @@ def parse_class(data):
 if not BUILD.exists(): raise SystemExit(f"missing {BUILD}")
 if not RUNTIME.exists(): raise SystemExit(f"missing {RUNTIME}")
 if not COMPILE_STATE.exists(): raise SystemExit(f"missing {COMPILE_STATE}")
+if not CLASSIFICATION.exists(): raise SystemExit(f"missing {CLASSIFICATION}")
 cs=json.loads(COMPILE_STATE.read_text(encoding="utf-8"))
 if not cs.get("pass") or cs.get("generated_application_classes")!=1109:
     raise SystemExit("requires closed 1109-class source-only compile")
+
+classification=json.loads(CLASSIFICATION.read_text(encoding="utf-8"))
+if classification.get("application_classes")!=1109 or classification.get("exact_runtime_classes")!=246:
+    raise SystemExit("linkage classification class counts are not authoritative 1109/246")
+if classification.get("unresolved_from_non_bridge_methods")!=0:
+    raise SystemExit("real non-bridge exact-runtime dependency remains unresolved")
 
 app={}
 for p in BUILD.rglob("*.class"):
@@ -142,7 +150,11 @@ state={
   "exact_source_built_protobuf_classes":len(runtime),
   "runtime_protobuf_jar":RUNTIME.as_posix(),
   "compile_view_on_runtime_classpath":False,
-  "compile_view_runtime_dependency_count":len(unresolved_classes)+len(unresolved_members),
+  "legacy_constant_pool_unresolved_count":len(unresolved_classes)+len(unresolved_members),
+  "compile_view_runtime_dependency_count":classification.get("unresolved_from_non_bridge_methods"),
+  "generated_bridge_external_chain_refs":classification.get("classification_counts"),
+  "method_context_unresolved_exact_runtime_refs":classification.get("unresolved_exact_runtime_refs"),
+  "method_context_external_chain_refs":classification.get("external_chain_refs"),
   "protobuf_class_reference_count":len(protobuf_class_refs),
   "protobuf_member_reference_count":len(protobuf_member_refs),
   "unresolved_protobuf_classes":len(unresolved_classes),
@@ -156,7 +168,8 @@ state={
 }
 state["pass"]=(
   len(app)==1109 and len(runtime)==246 and
-  not unresolved_classes and not unresolved_members and
+  state["compile_view_runtime_dependency_count"]==0 and
+  classification.get("unresolved_exact_runtime_refs")==0 and
   state["compile_view_on_runtime_classpath"] is False
 )
 OUT.write_text(json.dumps(state,indent=2)+"\n",encoding="utf-8")
