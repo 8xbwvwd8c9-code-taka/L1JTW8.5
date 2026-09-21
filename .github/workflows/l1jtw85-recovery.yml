@@ -200,7 +200,8 @@ jobs:
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-builder-superclass.py
 
-      - name: Normalize protobuf parser synthetic bridges
+      - name: Preserve explicit protobuf parser synthetic bridges A/B
+        if: ${{ false }}
         shell: bash
         run: python ./tools/recovery/normalize-protobuf-parser-bridges.py
 
