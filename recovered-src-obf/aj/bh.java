@@ -6,9 +6,12 @@ package aj;
 import aj.cv;
 import ao.au;
 import ao.g;
+import ao.q;
+import ap.t;
 import ap.u;
 import ap.z;
 import bh.d;
+import aq.i;
 import bh.l;
 import bj.d;
 
@@ -27,6 +30,19 @@ extends cv {
         int count = this.d();
         bh.d l1castle = g.a().a(castaleID);
         if (l1castle == null) {
+            return;
+        }
+        i clan = q.a().a(pc.aF());
+        if (clan == null || clan.m() != castaleID) {
+            return;
+        }
+        int petcost = 0;
+        for (t petNpc : pc.ek().values()) {
+            petcost += petNpc.Q();
+        }
+        int charisma = pc.eC() + 6 - petcost;
+        int maxCount = Math.min(5, Math.min(l1castle.i(), Math.max(charisma / 6, 0)));
+        if (count <= 0 || count > maxCount) {
             return;
         }
         int i2 = 0;
