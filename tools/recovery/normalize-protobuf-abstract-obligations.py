@@ -24,6 +24,7 @@ EXACT_REMOVE={
 PAIR_RULES=[
   ('l1rpb/ab.class','l1rpb/c.class'),
   ('l1rpb/y$a.class','l1rpb/b$a.class'),
+  ('l1rpb/a$a.class','l1rpb/p$a.class'),
 ]
 
 # Only prune the currently observed source-unrepresentable family.
@@ -33,10 +34,14 @@ SAFE_DERIVED={
   'l1rpb/ab.class': {
     ('e','(Ljava/io/InputStream;)Ljava/lang/Object;'),
     ('e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+    ('f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   },
   'l1rpb/y$a.class': {
     ('d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
     ('d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
+  },
+  'l1rpb/a$a.class': {
+    ('d','()Ll1rpb/a$a;'),
   },
 }
 
@@ -159,6 +164,8 @@ required={
   ('l1rpb/ab.class','e','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;)Ll1rpb/y$a;'),
   ('l1rpb/y$a.class','d','(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;'),
+  ('l1rpb/ab.class','f','(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;'),
+  ('l1rpb/a$a.class','d','()Ll1rpb/a$a;'),
 }
 actual={(cls,n,d) for cls,methods in targets.items() for n,d in methods}
 missing_required=sorted(required-actual)
@@ -200,8 +207,8 @@ MD.write_text(
   + f'- Removed compile-ref abstract obligations: **{len(hits)} / {expected}**\n'
   + f'- Exact special-case obligations: **{state["exact_obligations"]}**\n'
   + f'- ABI-derived pair rules: **{len(pair_details)}**\n'
-  + '- Derived pruning is restricted to the 4 currently observed InputStream bridge obligations.\n'
-  + '- Required current e(InputStream[,n]) / d(InputStream[,n]) family present: **YES**\n'
+  + '- Derived pruning is restricted to exact donor ABI obligations with concrete providers, including the final parser f(InputStream,n) and builder d() family.\n'
+  + '- Required current parser/builder bridge obligation family present: **YES**\n'
   + '- Donor JAR changed: **NO**\n'
   + '- Recovered game source changed: **NO**\n'
   + '- Method bytecode changed: **NO**\n'
