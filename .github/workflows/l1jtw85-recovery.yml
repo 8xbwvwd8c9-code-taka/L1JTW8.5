@@ -139,7 +139,8 @@ jobs:
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-e-typed-alias.py
 
-      - name: Experiment proven builder typed alias set
+      - name: Prior proven builder typed alias set A/B
+        if: ${{ false }}
         shell: bash
         run: python ./tools/recovery/experiment-protobuf-builder-safe-aliases.py
 
