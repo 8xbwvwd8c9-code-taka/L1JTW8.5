@@ -301,6 +301,10 @@ jobs:
         shell: bash
         run: python ./tools/recovery/compile-normalized-stage.py
 
+      - name: Audit post-javac0 class set and hierarchy
+        shell: bash
+        run: python ./tools/recovery/audit-post-javac0-class-hierarchy.py
+
       - name: Summarize normalized compile error families
         shell: bash
         run: python ./tools/recovery/summarize-normalized-stage-errors.py
@@ -334,6 +338,8 @@ jobs:
           files=(
             recovery/normalized_stage_compile.json
             recovery/NORMALIZED_STAGE_COMPILE.md
+            recovery/post_javac0_class_hierarchy.json
+            recovery/POST_JAVAC0_CLASS_HIERARCHY.md
             recovery/normalized_stage_javac.log
             recovery/normalized_stage_error_families.json
             recovery/NORMALIZED_STAGE_ERROR_FAMILIES.md
