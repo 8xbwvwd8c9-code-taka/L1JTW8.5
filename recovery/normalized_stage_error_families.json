@@ -1,0 +1,46 @@
+{
+  "total_error_headers": 88,
+  "protobuf_error_headers": 88,
+  "nonprotobuf_error_headers": 0,
+  "families": {
+    "PROTOBUF_OVERRIDE_BRIDGE": 88
+  },
+  "top_error_files": [
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL4.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL2.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL3.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL5.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL6.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL7.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL8.java",
+      10
+    ],
+    [
+      "_normalized-stage-src/l1r/an/PBMessageALL9.java",
+      8
+    ]
+  ]
+}

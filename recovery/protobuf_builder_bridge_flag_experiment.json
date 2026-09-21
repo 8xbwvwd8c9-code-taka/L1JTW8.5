@@ -1,0 +1,24 @@
+{
+  "experiment": "BUILDER_B_A_C_BYTE_RANGE_N_CLEAR_SYNTHETIC",
+  "class": "l1rpb/b$a.class",
+  "target": {
+    "name": "c",
+    "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;"
+  },
+  "hits": [
+    {
+      "name": "c",
+      "descriptor": "([BIILl1rpb/n;)Ll1rpb/y$a;",
+      "old_flags": 4097,
+      "new_flags": 1
+    }
+  ],
+  "compile_ref_only": true,
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "method_name_changed": false,
+  "method_descriptor_changed": false,
+  "bytecode_changed": false,
+  "gameplay_logic_changed": false,
+  "expected_interpretation": "compare normalized-fast errors against 88-error baseline; 44 remaining would support synthetic-flag causality for builder only"
+}

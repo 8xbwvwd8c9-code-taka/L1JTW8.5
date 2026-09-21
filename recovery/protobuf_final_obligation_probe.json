@@ -1,0 +1,122 @@
+{
+  "jar": "recovery/compile-ref-protobuf-l1rpb.jar",
+  "pairs": [
+    {
+      "abstract_class": "l1rpb.ab",
+      "concrete_class": "l1rpb.c",
+      "name": "f",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "label": "parser f(InputStream,n)",
+      "abstract_matches": [
+        {
+          "name": "f",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "flags": "flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT",
+          "decl": "public abstract MessageType f(java.io.InputStream, l1rpb.n) throws l1rpb.s;"
+        }
+      ],
+      "concrete_matches": [
+        {
+          "name": "f",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+          "flags": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+          "decl": "public java.lang.Object f(java.io.InputStream, l1rpb.n) throws l1rpb.s;"
+        }
+      ],
+      "abstract_exact": true,
+      "concrete_exact": true,
+      "pass": true
+    },
+    {
+      "abstract_class": "l1rpb.a$a",
+      "concrete_class": "l1rpb.p$a",
+      "name": "d",
+      "descriptor": "()Ll1rpb/a$a;",
+      "label": "builder d()",
+      "abstract_matches": [
+        {
+          "name": "d",
+          "descriptor": "()Ll1rpb/a$a;",
+          "flags": "flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT",
+          "decl": "public abstract BuilderType d();"
+        }
+      ],
+      "concrete_matches": [
+        {
+          "name": "d",
+          "descriptor": "()Ll1rpb/a$a;",
+          "flags": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+          "decl": "public l1rpb.a$a d();"
+        }
+      ],
+      "abstract_exact": true,
+      "concrete_exact": true,
+      "pass": true
+    }
+  ],
+  "all_pass": true,
+  "remaining_obligation_discovery": [
+    {
+      "abstract_class": "l1rpb.ab",
+      "concrete_class": "l1rpb.c",
+      "name": "f",
+      "params": "(Ljava/io/InputStream;)",
+      "label": "remaining parser f(InputStream)",
+      "abstract_candidate_count": 1,
+      "candidates": [
+        {
+          "abstract": {
+            "name": "f",
+            "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+            "flags": "flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT",
+            "decl": "public abstract MessageType f(java.io.InputStream) throws l1rpb.s;"
+          },
+          "concrete_exact_matches": [
+            {
+              "name": "f",
+              "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+              "flags": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+              "decl": "public java.lang.Object f(java.io.InputStream) throws l1rpb.s;"
+            }
+          ],
+          "exact_provider": true
+        }
+      ],
+      "all_have_exact_concrete_provider": true,
+      "source_call_safety_checked": false,
+      "safe_to_prune": "UNKNOWN"
+    },
+    {
+      "abstract_class": "l1rpb.b$a",
+      "concrete_class": "l1rpb.p$a",
+      "name": "f",
+      "params": "()",
+      "label": "remaining builder f()",
+      "abstract_candidate_count": 1,
+      "candidates": [
+        {
+          "abstract": {
+            "name": "f",
+            "descriptor": "()Ll1rpb/b$a;",
+            "flags": "flags: (0x0401) ACC_PUBLIC, ACC_ABSTRACT",
+            "decl": "public abstract BuilderType f();"
+          },
+          "concrete_exact_matches": [
+            {
+              "name": "f",
+              "descriptor": "()Ll1rpb/b$a;",
+              "flags": "flags: (0x1001) ACC_PUBLIC, ACC_SYNTHETIC",
+              "decl": "public l1rpb.b$a f();"
+            }
+          ],
+          "exact_provider": true
+        }
+      ],
+      "all_have_exact_concrete_provider": true,
+      "source_call_safety_checked": false,
+      "safe_to_prune": "UNKNOWN"
+    }
+  ],
+  "discovery_changes_compile_ref": false,
+  "gameplay_logic_changed": false
+}

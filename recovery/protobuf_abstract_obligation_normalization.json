@@ -1,0 +1,114 @@
+{
+  "exact_obligations": 1,
+  "derived_pair_rules": [
+    {
+      "abstract_class": "l1rpb/ab.class",
+      "concrete_provider": "l1rpb/c.class",
+      "paired_count_all": 23,
+      "selected_count": 2,
+      "selected_methods": [
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;"
+        },
+        {
+          "name": "e",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;"
+        }
+      ]
+    },
+    {
+      "abstract_class": "l1rpb/y$a.class",
+      "concrete_provider": "l1rpb/b$a.class",
+      "paired_count_all": 13,
+      "selected_count": 2,
+      "selected_methods": [
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y$a;"
+        },
+        {
+          "name": "d",
+          "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;"
+        }
+      ]
+    },
+    {
+      "abstract_class": "l1rpb/a$a.class",
+      "concrete_provider": "l1rpb/p$a.class",
+      "paired_count_all": 1,
+      "selected_count": 1,
+      "selected_methods": [
+        {
+          "name": "d",
+          "descriptor": "()Ll1rpb/a$a;"
+        }
+      ]
+    },
+    {
+      "abstract_class": "l1rpb/b$a.class",
+      "concrete_provider": "l1rpb/p$a.class",
+      "paired_count_all": 1,
+      "selected_count": 1,
+      "selected_methods": [
+        {
+          "name": "f",
+          "descriptor": "()Ll1rpb/b$a;"
+        }
+      ]
+    }
+  ],
+  "expected_obligations": 7,
+  "removed_obligations": 7,
+  "targets": [
+    {
+      "class": "l1rpb/a$a.class",
+      "name": "d",
+      "descriptor": "()Ll1rpb/a$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/ab.class",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/ab.class",
+      "name": "e",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "f",
+      "descriptor": "()Ll1rpb/b$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/b$a.class",
+      "name": "b",
+      "descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/b$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/y$a.class",
+      "name": "d",
+      "descriptor": "(Ljava/io/InputStream;)Ll1rpb/y$a;",
+      "flags": 1025
+    },
+    {
+      "class": "l1rpb/y$a.class",
+      "name": "d",
+      "descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y$a;",
+      "flags": 1025
+    }
+  ],
+  "required_current_family_present": true,
+  "scope": "recovery compile reference only",
+  "donor_jar_changed": false,
+  "recovered_source_changed": false,
+  "method_bytecode_changed": false,
+  "gameplay_logic_changed": false,
+  "reason": "exact donor ABI concrete implementations satisfy JVM inheritance, while normalized Java source cannot express the obfuscated generic/covariant obligation cleanly"
+}
