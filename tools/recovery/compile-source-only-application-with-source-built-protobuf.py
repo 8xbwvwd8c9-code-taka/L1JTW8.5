@@ -8,12 +8,14 @@ SRC=ROOT/"_normalized-stage-src"
 REC=ROOT/"recovery"
 RUNTIME=REC/"protobuf-2.5.0-source-built-donor-abi.jar"
 RUNTIME_STATE=REC/"protobuf_2_5_0_source_built_donor_abi.json"
+COMPILE_VIEW=REC/"protobuf-2.5.0-source-built-compile-view.jar"
+COMPILE_VIEW_STATE=REC/"protobuf_2_5_0_source_built_compile_view.json"
 BUILD=REC/"source-only-application-build"
 LOG=REC/"source_only_application_javac.log"
 STATE=REC/"source_only_application_compile.json"
 SOURCES=REC/"source_only_application_sources.txt"
 
-for p in (SRC,RUNTIME,RUNTIME_STATE):
+for p in (SRC,RUNTIME,RUNTIME_STATE,COMPILE_VIEW,COMPILE_VIEW_STATE):
     if not p.exists():
         raise SystemExit(f"missing required input: {p}")
 
@@ -49,7 +51,7 @@ for p in sorted((ROOT/"lib").glob("*.jar")):
         continue
     lib_jars.append(p)
 
-classpath_entries=lib_jars+[RUNTIME]
+classpath_entries=lib_jars+[COMPILE_VIEW]
 classpath=os.pathsep.join(str(p) for p in classpath_entries)
 cmd=[
     "javac","-encoding","UTF-8","-source","8","-target","8","-proc:none",
@@ -97,7 +99,9 @@ state={
     "full_donor_game_jar_on_classpath":False,
     "donor_protobuf_binary_on_classpath":False,
     "official_prebuilt_protobuf_binary_on_classpath":False,
-    "source_built_protobuf_abi_jar_on_classpath":True,
+    "source_built_protobuf_abi_jar_on_classpath":False,
+    "source_built_protobuf_compile_view_on_classpath":True,
+    "source_built_protobuf_exact_runtime_jar_preserved":True,
     "excluded_prebuilt_protobuf_jars":excluded,
     "classpath":[p.as_posix() for p in classpath_entries],
     "pass":proc.returncode==0 and len(errors)==0 and len(generated)==1109,
