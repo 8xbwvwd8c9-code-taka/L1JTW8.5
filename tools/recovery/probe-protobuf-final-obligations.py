@@ -36,7 +36,7 @@ DISCOVER=[
     'label':'remaining parser f(InputStream)',
   },
   {
-    'abstract_class':'l1rpb.a$a',
+    'abstract_class':'l1rpb.b$a',
     'concrete_class':'l1rpb.p$a',
     'name':'f',
     'params':'()',
