@@ -33,9 +33,9 @@ Use for bounded validation defects, packet/session robustness, stale/null/type/i
 ## Summary
 
 ```text
-TOTAL_BUGS=168
+TOTAL_BUGS=169
 L1=41
-L2=78
+L2=79
 L3=49
 RISK_INCLUDED=0
 NOTE_INCLUDED=0
@@ -85,7 +85,7 @@ NOTE_INCLUDED=0
 - `BUG-850-261` — non-stackable cursed-drop branch mutates the wrong item object, so configured unbless chance is not applied to the item that actually drops — HIGH — persistent dropped-item bless/curse state
 - `BUG-850-264` — HtmlCraft amount path allows 32-bit count multiplication to bypass material consumption while continuing output creation — CRITICAL — direct item/crafting integrity
 
-## L2 — Major (78)
+## L2 — Major (79)
 
 - `BUG-850-010` — one malformed craft row can abort loading all remaining craft definitions — HIGH for content availability / startup correctness
 - `BUG-850-027` — character deletion is not transactional across dependent tables — HIGH — persistent data integrity
@@ -166,6 +166,8 @@ NOTE_INCLUDED=0
 - `BUG-850-265` — HomeTown monthly salary calculation zeros Contribution before calculating Pay — HIGH — town salary subsystem / persistent reward calculation failure
 - `BUG-850-266` — MobSkills probability gate uses an inclusive 0..99 threshold and biases configured rates upward — MEDIUM/HIGH — systematic monster-skill selection-rate distortion
 
+- `BUG-850-269` — fixed-time boss scheduling treats same-hour minute difference as milliseconds — HIGH — deterministic boss schedule timing failure
+
 ## L3 — General (49)
 
 - `BUG-850-001` — GM command parameter underflow can reach ClientThread disconnect path — HIGH for GM/admin session stability
@@ -217,7 +219,7 @@ NOTE_INCLUDED=0
 - `BUG-850-247` — RankingTable places Type 7 characters into the Type 3 ranking bucket and never populates the dedicated eighth-class bucket — LOW/MEDIUM — ranking correctness / class leaderboard integrity
 - `BUG-850-248` — RankingTable's intended top-50 truncation only reassigns a local variable and does not trim the stored ranking lists — LOW/MEDIUM — ranking response size / leaderboard correctness
 
-- `BUG-850-268` — persistent NPC spawn insertion does not update NpcSpawnTable live index until restart — MEDIUM — live admin/runtime state does not match successful persistent spawn creation
+- `BUG-850-268` — persistent mob/NPC spawn insertion does not update live spawn indexes until restart — MEDIUM — live admin/runtime state does not match successful persistent spawn creation
 
 ## Classification maintenance rule
 
