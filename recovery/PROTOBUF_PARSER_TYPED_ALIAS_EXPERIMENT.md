@@ -1,7 +1,9 @@
-# Protobuf Parser Typed Alias Experiment
+# Protobuf Parser Typed Provider Reconstruction
 
-- Recovery compile-ref only.
-- Copy exact typed c.d(InputStream[,n])->MessageType method_info as c.f(InputStream[,n])->MessageType aliases.
-- Preserve original d methods and existing synthetic f(...)->Object bridges.
+- Interface methods discovered: **22**
+- Synthetic bridges matched: **21**
+- Typed aliases added: **21**
+- Rule: exact interface bridge + donor bytecode single typed y-return delegate.
 - Existing donor method names/descriptors/bytecode: unchanged.
+- Scope: recovery compile-ref only.
 - Recovered source/gameplay: unchanged.

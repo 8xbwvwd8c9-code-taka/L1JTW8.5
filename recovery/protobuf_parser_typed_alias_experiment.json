@@ -1,32 +1,358 @@
 {
-  "experiment": "PARSER_TYPED_F_ALIAS_FROM_D",
+  "experiment": "PARSER_AB_INTERFACE_TYPED_PROVIDER_RECONSTRUCTION",
   "class": "l1rpb/c.class",
+  "interface": "l1rpb.ab",
+  "abstract_interface_method_count": 22,
+  "matched_synthetic_bridge_count": 21,
+  "added_typed_alias_count": 21,
+  "bridge_map": [
+    {
+      "interface_name": "f",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "f",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "g",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "g",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "h",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "h",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([B)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BII)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([B)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BII)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "b",
+      "bridge_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;"
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;"
+    }
+  ],
   "aliases": [
     {
-      "source_name": "d",
-      "source_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "interface_name": "f",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
       "alias_name": "f",
-      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
-      "existing_source_method_preserved": true,
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
       "code_and_signature_copied_exactly": true
     },
     {
-      "source_name": "d",
-      "source_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "interface_name": "f",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "d",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
       "alias_name": "f",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "g",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "g",
       "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
-      "existing_source_method_preserved": true,
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "g",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "alias_name": "g",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "h",
+      "bridge_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "h",
+      "alias_descriptor": "(Ljava/io/InputStream;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "h",
+      "bridge_descriptor": "(Ljava/io/InputStream;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "alias_name": "h",
+      "alias_descriptor": "(Ljava/io/InputStream;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([B)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "([B)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "([BII)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "([BII)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BLl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "([BLl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([B)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([B)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "([B)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BIILl1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "([BIILl1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "([BII)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "([BII)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "([BII)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/g;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/g;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "c",
+      "bridge_descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "alias_name": "c",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "b",
+      "bridge_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ljava/lang/Object;",
+      "typed_provider_name": "a",
+      "typed_provider_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;",
+      "alias_name": "b",
+      "alias_descriptor": "(Ll1rpb/h;Ll1rpb/n;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
+      "code_and_signature_copied_exactly": true
+    },
+    {
+      "interface_name": "d",
+      "bridge_descriptor": "(Ll1rpb/h;)Ljava/lang/Object;",
+      "typed_provider_name": "b",
+      "typed_provider_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "alias_name": "d",
+      "alias_descriptor": "(Ll1rpb/h;)Ll1rpb/y;",
+      "typed_provider_preserved": true,
       "code_and_signature_copied_exactly": true
     }
   ],
-  "purpose": "reconstruct Java-source-visible typed provider + erased synthetic bridge pair after obfuscator renamed typed provider",
+  "selection_rule": "exact ab name+erased descriptor -> c synthetic bridge -> single invokevirtual typed y-return provider",
+  "purpose": "reconstruct Java-source-visible typed provider + erased synthetic bridge pairs after obfuscator renamed typed providers",
   "compile_ref_only": true,
   "donor_jar_changed": false,
   "recovered_source_changed": false,
   "existing_method_names_changed": false,
   "existing_method_descriptors_changed": false,
   "existing_bytecode_changed": false,
-  "added_alias_method_count": 2,
   "gameplay_logic_changed": false,
-  "pass_signal": "parser 44 f(InputStream[,n]) obligations disappear; nonprotobuf remains 0"
+  "pass_signal": "all parser abstract obligations disappear; nonprotobuf remains 0"
 }
