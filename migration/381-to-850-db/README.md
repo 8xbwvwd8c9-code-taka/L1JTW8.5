@@ -138,3 +138,5 @@ Do not port its entire 381 UI/core blindly.
 
 - `w_物品掉落限制三`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/DROP_LIMIT_THREE_AUDIT.md`, commit=`77737d6b509556427cd027814f51d7ddec6f240a`. Timer support is 720..899, strict-after gate, reset can leave stale cache, and quota arithmetic is safe only under valid nonnegative state.
 - `MAP_HPR_MPR_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/MAP_HPR_MPR_FAMILY_AUDIT.md`, commit=`c89fd24232a1f0bfd9457f0eeed184265b6c284e`. Multiple range rows per map are destroyed by last-write-wins HashMap; map4 loses 5/6 rows and map800 candidate rectangle is invalid.
+
+- Calculation proof ledger: `CALCULATION_PROOF_LEDGER.md` — durable numeric/formula/overflow reference for later core implementation; module audits remain runtime authority.
