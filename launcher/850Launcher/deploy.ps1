@@ -44,10 +44,14 @@ if (-not (Test-Path -LiteralPath $inventoryMapIni)) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "inventory-map.ini.example") -Destination $inventoryMapIni
 }
 
+$itemNames = Join-Path $ClientDir "item-names.csv"
+Copy-Item -LiteralPath (Join-Path $PSScriptRoot "item-names.csv") -Destination $itemNames -Force
+
 Write-Host "STATUS=PASS"
 Write-Host "DEPLOYED=$(Join-Path $ClientDir '850Launcher.exe')"
 Write-Host "LAUNCHER_INI=$launcherIni"
 Write-Host "HELPER_INI=$helperIni"
 Write-Host "RUNTIME_MAP_INI=$runtimeMapIni"
 Write-Host "INVENTORY_MAP_INI=$inventoryMapIni"
+Write-Host "ITEM_NAMES=$itemNames"
 Write-Host "NEXT=Run 850Launcher.exe; runtime-map.ini and inventory-map.ini remain disabled until validation passes."
