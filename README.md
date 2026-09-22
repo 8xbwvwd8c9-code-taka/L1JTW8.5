@@ -4,6 +4,11 @@
 
 目前 `main` 保留原始 baseline。反編譯、核心修復與支線整理請從以下入口進入。
 
+
+### 850 資料整理 / 客戶端研究
+
+- [8.5 / 850 變身 UI 資料統整](docs/850/變身UI資料統整.md) — 整理 `Tile.idx → PolymorphUI.xml / Polymorphlist*.xml`、`Text.idx → desc-c.tbl`、`polymorphs` / `etcitem` DB 對應，以及尚待核心驗證的 item-use / UI packet 路徑。
+
 ### 反編譯 / Source Recovery
 
 目前狀態：**完成 / Final Gate PASS**。
