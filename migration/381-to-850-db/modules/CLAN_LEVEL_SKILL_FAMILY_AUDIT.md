@@ -453,3 +453,61 @@ Required events:
 - clan skill forget
 - GM/admin mutation
 - definition reload, if supported
+
+
+## Clan level upgrade executor closure
+
+Targeted donor inspection covered:
+- `ConfigClan`
+- `ClanLevelUpCondition`
+- `ClanContribution`
+- `NpcClanContribution`
+- `clan_lv`
+- `C_NPCAction`
+- clan join/leave/create packets
+- `ClanReading` / `ClanTable`
+- `L1Clan`
+
+Proven:
+- level-up requirement definitions exist in `ConfigClan`
+- 10 `ClanLevelUpCondition` objects are built
+- clan state persists `clan_level`, `clan_contribution`, `clan_adena`
+- `clan_lv` displays current clan/player contribution state
+- `ClanTable.updateClan()` persists level/contribution/adena when called
+
+Not proven:
+- any runtime consumer of `ConfigClan.clansLevelUpCondition`
+- any action path that atomically consumes configured materials + clan energy + clan adena
+- any action path that invokes `L1Clan.setClanLevel()` for a live upgrade
+- any online-member stat recompute after clan level change
+
+```text
+CLAN_LEVEL_REQUIREMENT_MODEL=PROVEN
+CLAN_LEVEL_PERSISTENCE=PROVEN
+CLAN_LEVEL_DISPLAY=PROVEN
+CLAN_LEVEL_UPGRADE_EXECUTOR=NOT_PROVEN
+CLAN_LEVEL_RUNTIME_REACHABILITY=NOT_PROVEN
+```
+
+This means current donor evidence supports a partially implemented / disconnected level-up subsystem.
+
+Do not implement 850 migration by guessing the missing action semantics.
+
+## Contribution ownership clarification
+
+Three separate concepts exist:
+
+1. `w_血盟等級.Contribution`
+   - current rows all 0
+   - runtime consumer not proven
+
+2. `clan_data.clan_contribution`
+   - persisted on `L1Clan`
+   - displayed by `clan_lv`
+
+3. `ConfigClan.clanenergyN`
+   - explicit per-level requirement values
+
+These must not be merged by name alone.
+
+Target migration must keep them semantically distinct until the original upgrade executor is recovered or behavior is intentionally redesigned.
