@@ -30,6 +30,7 @@ BUG
 | BUG-850-294 | L2 | NPC sell-to-shop inventory / payout consistency | PASS / PROMOTED |
 | BUG-850-293 | L2 | NPC purchase war-tax treasury accounting | PASS / PROMOTED |
 | BUG-850-292 | L2 | c3p0 connection acquisition / checkout liveness | PASS / PROMOTED |
+| BUG-850-291 | L2 | clan-mail sender/target clan authorization binding | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -314,6 +315,106 @@ This is a targeted dependency/runtime regression gate, not a live production DB 
 
 ```text
 BUG-850-292=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-291 — clan mail target was selected by client clan name instead of sender ClanID
+
+### Problem
+
+The clan-mail send branch first checked only that the sender belonged to some clan.
+
+It then parsed a clan-name string from the request and resolved the recipient clan from that client-provided name. The resolved clan's member list was used to create durable clan-mail rows.
+
+The sender's authoritative `ClanID` therefore proved only "the sender belongs to a clan"; it did not bind the persistent mail mutation to that same clan.
+
+### Root cause
+
+The active path used two separate authorities:
+
+```text
+authorization gate = sender ClanID != 0
+target selection    = client clanName -> ClanTable lookup
+```
+
+Those values were never compared or rebound.
+
+### Runtime source map
+
+- CORE: `C_Mail`, clan-mail send type
+- Sender authority: `L1PcInstance.ClanID`
+- Clan lookup authority: `ClanTable.a(int clan_id)`
+- Recipient set: authoritative clan member list
+- Persistence: `MailTable` clan-mail rows
+- Config/default layer: none
+- Protocol change: **none**
+- DB schema change: **none**
+
+### 380 / 880 cross-check
+
+The inspected 380 / 880 clan-mail implementations also accept a client clan-name field and use that field to resolve the target clan.
+
+Therefore they were useful as protocol/history references but **not** as a safe repair donor for this authorization defect.
+
+The 8.5 repair instead follows the server-authority invariant:
+
+```text
+sender ClanID -> authoritative clan -> recipient member list
+```
+
+### Fix
+
+The request's clan-name field is still parsed so packet compatibility is unchanged, but it no longer selects the target clan.
+
+The target clan is now resolved only from the sender's current authoritative `ClanID`:
+
+```text
+client clanName = protocol data only
+sender ClanID   = target-clan authority
+```
+
+If the authoritative ClanID does not resolve to a live clan object, the path fails closed before persistent clan mail is created.
+
+### Modified core source
+
+- `recovered-src-obf/aj/bg.java`
+- `recovery/normalized-src-vf/l1r/aj/C_Mail.java`
+
+Promotion commits:
+
+- obfuscated source: `e397bf6b531e02e2fbb01b067b664ad2f06810c3`
+- normalized source: `ef0351a37c6095d960a09b47d164dd0b675c892e`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35674676538
+STATUS = PASS
+
+BUG_850_291_CONTRACT=PASS
+TARGET_CLAN_AUTHORITY=sender.ClanID
+BUG_850_291_TARGET_BINDING_RUNTIME=PASS
+CLIENT_NAME_CANNOT_SELECT_OTHER_CLAN=PASS
+BUG_850_291_EXACT_BASE_TRANSFORM=PASS
+BUG_850_291_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The isolated workflow proves that the promoted staging files equal the then-current completed files with only the intended clan-authority lookup changed. This prevents unrelated work-branch `C_Mail` repairs from being promoted accidentally.
+
+The Java behavior regression verifies that a mismatching client clan name cannot change the authoritative target selected by the sender ClanID.
+
+This is a targeted authorization/runtime regression gate, not a live multi-client game-server session.
+
+### Result
+
+```text
+BUG-850-291=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
