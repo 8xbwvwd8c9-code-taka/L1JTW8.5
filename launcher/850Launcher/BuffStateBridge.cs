@@ -117,6 +117,15 @@ namespace L1JTW850Launcher
                 return result;
             }
 
+            if (!runtime.PlayerObjectId.HasValue ||
+                !runtime.PlayerX.HasValue ||
+                !runtime.PlayerY.HasValue)
+            {
+                result.Status =
+                    "Buff/SkillUse 已映射，但玩家 objectId/X/Y 尚未完成 WP3 驗證。";
+                return result;
+            }
+
             result.Ready = true;
 
             foreach (var skillId in selected)
@@ -153,9 +162,9 @@ namespace L1JTW850Launcher
                 var use =
                     _skillUse.UseGeneral(
                         skillId,
-                        0,
-                        0,
-                        0);
+                        runtime.PlayerObjectId.Value,
+                        runtime.PlayerX.Value,
+                        runtime.PlayerY.Value);
 
                 result.ActionSucceeded =
                     use.Success;
