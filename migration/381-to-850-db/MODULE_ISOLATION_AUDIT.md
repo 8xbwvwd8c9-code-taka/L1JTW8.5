@@ -159,3 +159,65 @@ Completed 850 core contains:
 - `S_HowManyMake` for quantity input
 
 This is the preferred target for adapting 381 XML/master-craft recipes.
+
+
+## Second-pass call-path findings
+
+### Auto Learn Skill -> L2 confirmed
+381:
+- Startup: `GameServer.initialize() -> AutoAddSkillTable.get()`
+- Runtime hook: `L1PcInstance.levelUp() -> AutoAddSkillTable.get().forAutoAddSkill(this)`
+- Dedicated DB: `w_自動學習技能`
+
+850:
+- Completed core already has a central level-up path:
+  `L1PcInstance.g() -> cJ(levelGap)`
+- `cJ()` performs HP/MP/stat updates and already invokes `QuestNewTable.a().a(this)`.
+
+Migration mapping:
+- add isolated `w_自動學習技能` table
+- add/adapt one AutoLearnSkill loader/table
+- initialize it in 850 GameServer
+- invoke it from existing 850 `cJ()` level-up hook
+- reuse 850 SkillsTable / character_skills persistence
+
+Difficulty: **L2**
+Reason: no new packet/UI/NPC system is required; only data loader + existing level-up integration.
+
+### Prestige -> L3 confirmed
+381:
+- `w_威望怪物` -> `NpcPrestigeTable`
+- `w_威望設置` -> `RewardPrestigeTable`
+- player persistence is NOT isolated to those tables:
+  `characters.PrestigeLv`
+- MySqlCharacterStorage reads/inserts/updates `PrestigeLv`
+- L1PcInstance owns `_prestige`, `_prestigeLv`
+- runtime hooks include score changes, death loss, title/stats and gfx timer application.
+
+Migration requirement:
+- two module tables
+- additive player persistence migration
+- character load/create/update storage patch
+- L1PcInstance fields/methods
+- monster kill award hook
+- death-loss hook
+- stat/title/gfx application
+
+Difficulty: **L3**
+Reason: independent feature DB can still be packaged separately, but core/player-persistence changes are mandatory.
+
+### 381 startup registration evidence
+`GameServer.initialize()` explicitly initializes:
+- `MasterCraftTable.getInstance().load()`
+- `CardSetTable.get().load()`
+- `ACardTable.get().load()`
+- `AutoAddSkillTable.get()`
+
+This confirms these are active server modules, not dead DB tables.
+
+### 850 native crafting startup evidence
+850 completed core `GameServer` initializes:
+- `HtmlCraftTable.a()`
+- `CraftListTable.a()`
+
+Therefore the high-version crafting framework is a first-class boot-time subsystem and is the preferred target for 381 recipe conversion.
