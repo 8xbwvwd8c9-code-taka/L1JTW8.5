@@ -39,6 +39,8 @@ namespace L1JTW850Launcher
         public int Pid;
         public long ModuleBase;
         public DateTime? ProcessStartTimeUtc;
+        public string ClientSha256 = "";
+        public bool ClientAuthority;
 
         public readonly Dictionary<uint, NativeEvidenceFunction> Functions =
             new Dictionary<uint, NativeEvidenceFunction>();
@@ -142,6 +144,20 @@ namespace L1JTW850Launcher
                     continue;
                 }
 
+                if (line.StartsWith("CLIENT_SHA256=", StringComparison.Ordinal))
+                {
+                    current.ClientSha256 =
+                        line.Substring("CLIENT_SHA256=".Length).Trim();
+                    continue;
+                }
+
+                if (line.StartsWith("CLIENT_AUTHORITY=", StringComparison.Ordinal))
+                {
+                    current.ClientAuthority =
+                        line.EndsWith("=1");
+                    continue;
+                }
+
                 var fm = FuncRegex.Match(line);
                 if (fm.Success)
                 {
@@ -218,15 +234,24 @@ namespace L1JTW850Launcher
             int sessionCount)
         {
             var result = new NativeEvidenceComparison();
-            var sessions = LoadSessions(path);
+            var all = LoadSessions(path);
 
             if (sessionCount < 2)
                 sessionCount = 2;
 
+            var sessions =
+                new List<NativeEvidenceSession>();
+
+            foreach (var session in all)
+            {
+                if (IsAuthoritativeSession(session))
+                    sessions.Add(session);
+            }
+
             if (sessions.Count < sessionCount)
             {
                 result.Status =
-                    "證據 session 不足：目前 " +
+                    "authoritative 850 證據 session 不足：目前 " +
                     sessions.Count +
                     "，需要至少 " +
                     sessionCount + "。";
@@ -369,6 +394,17 @@ namespace L1JTW850Launcher
                 result.DistinctProcessInstances + "。";
 
             return result;
+        }
+
+        private static bool IsAuthoritativeSession(
+            NativeEvidenceSession session)
+        {
+            return session != null &&
+                   session.ClientAuthority &&
+                   string.Equals(
+                       session.ClientSha256,
+                       ClientVerifier.LinBin2Sha256,
+                       StringComparison.OrdinalIgnoreCase);
         }
 
         private static bool TryParseHexUInt(
