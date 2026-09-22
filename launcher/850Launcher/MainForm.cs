@@ -22,6 +22,8 @@ namespace L1JTW850Launcher
         private Label _potionStatus;
         private ListView _inventory;
         private RuntimeSnapshot _latestSnapshot = new RuntimeSnapshot();
+        private readonly Timer _runtimePollTimer;
+        private readonly Timer _potionPollTimer;
 
         public MainForm(string appDir, LauncherConfig config, HelperSettings helper)
         {
@@ -41,13 +43,13 @@ namespace L1JTW850Launcher
             BuildUi();
             LoadValues();
 
-            var poll = new Timer { Interval = 1000 };
-            poll.Tick += delegate { RefreshRuntime(); };
-            poll.Start();
+            _runtimePollTimer = new Timer { Interval = 1000 };
+            _runtimePollTimer.Tick += delegate { RefreshRuntime(); };
+            _runtimePollTimer.Start();
 
-            var potionPoll = new Timer { Interval = 100 };
-            potionPoll.Tick += delegate { RefreshPotionFast(); };
-            potionPoll.Start();
+            _potionPollTimer = new Timer { Interval = 100 };
+            _potionPollTimer.Tick += delegate { RefreshPotionFast(); };
+            _potionPollTimer.Start();
         }
 
         private void BuildUi()
