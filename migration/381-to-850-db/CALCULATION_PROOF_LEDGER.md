@@ -256,4 +256,4 @@ Reference audit:
 `modules/ITEM_TIME_LIMIT_AUDIT.md`
 
 Core repair note:
-Never implement expiry milliseconds in int. Preserve absolute per-item-instance expiry across relog and ownership transfer. Stack merge with differing expiries requires explicit policy.
+Donor runtime now proven to build expiry with Calendar.add(DAY/HOUR/MINUTE), so the 30d int-millisecond overflow is a target rewrite hazard, not a donor failure. Preserve absolute per-item-instance expiry across relog and ownership transfer. Stack merge with differing expiries requires explicit policy; expiry scan is 60s with strict-before semantics.
