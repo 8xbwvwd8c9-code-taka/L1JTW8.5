@@ -76,6 +76,7 @@ namespace L1JTW850Launcher
             tabs.TabPages.Add(BuildStateTab());
             tabs.TabPages.Add(BuildSpecialTab());
             tabs.TabPages.Add(BuildProbeTab());
+            tabs.TabPages.Add(BuildInventoryProbeTab());
             tabs.TabPages.Add(BuildItemTab());
             tabs.TabPages.Add(BuildHotkeyTab());
             tabs.TabPages.Add(BuildTimerTab());
@@ -132,6 +133,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("偵測");
             p.Controls.Add(new RuntimeProbeControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildInventoryProbeTab()
+        {
+            var p = NewPage("物品偵測");
+            p.Controls.Add(new InventoryProbeControl(_appDir));
             return p;
         }
 
