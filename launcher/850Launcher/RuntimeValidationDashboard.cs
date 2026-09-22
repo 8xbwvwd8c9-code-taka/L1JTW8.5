@@ -16,6 +16,8 @@ namespace L1JTW850Launcher
     {
         public bool ClientConnected;
         public string ClientStatus = "";
+        public string ClientSha256 = "";
+        public bool ClientHashAuthoritative;
         public readonly List<RuntimeGateRow> Rows =
             new List<RuntimeGateRow>();
         public string NextAction = "";
@@ -38,6 +40,12 @@ namespace L1JTW850Launcher
 
             state.ClientStatus =
                 runtime.Status;
+
+            state.ClientSha256 =
+                runtime.ClientSha256 ?? "";
+
+            state.ClientHashAuthoritative =
+                runtime.ClientHashAuthoritative;
 
             var pointerPath =
                 Path.Combine(
