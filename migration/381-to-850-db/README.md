@@ -122,3 +122,5 @@ Do not port its entire 381 UI/core blindly.
 - `w_變身箭矢特效`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/TRANSFORM_ARROW_EFFECT_AUDIT.md`, commit=`f02fac7129cecb7dfbd84842a674dfe992935b29`. One poly->arrow-GFX mapping; downstream consumer/client mapping not closed.
 
 - `w_變身卡片能力登入`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/TRANSFORM_CARD_LOGIN_ABILITY_AUDIT.md`, commit=`50199cd6bb05a84dffcbdd294848cb09b0721003`. Quest-owned card unlocks and stat display are proven; login stat application/recompute remains unclosed.
+
+- `w_變身卡片能力組合套卡`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/TRANSFORM_CARD_COLLECTION_SET_AUDIT.md`, commit=`e5c4eb861e5b1f50c5c63dc791c02b00e8d4b638`. Quest-owned set unlock + login stat application proven; donor is incremental and drift-prone, so 850 should recompute collection bonus.
