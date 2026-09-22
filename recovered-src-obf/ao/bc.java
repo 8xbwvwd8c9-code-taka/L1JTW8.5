@@ -264,6 +264,7 @@ public class bc {
             return;
         }
         long totalPrice = 0L;
+        ArrayList<int[]> validatedOrderList = new ArrayList<int[]>();
         for (int[] order : orderList) {
             int objid = order[0];
             int count = order[1];
@@ -290,6 +291,7 @@ public class bc {
                 return;
             }
             totalPrice += linePrice;
+            validatedOrderList.add(new int[]{objid, true_count});
             aa.a().d(pc, "\u8ce3\u7d66\u5546\u5e97", item, true_count);
         }
         if (totalPrice > 2000000000L) {
@@ -305,7 +307,7 @@ public class bc {
             pc.a(new ei("\u7e3d\u5171\u8ca9\u8ce3\u50f9\u683c\u7121\u6cd5\u8d85\u904e" + (2000000000 - invCount) + "\u91d1\u5e63\u3002"));
             return;
         }
-        for (int[] order : orderList) {
+        for (int[] order : validatedOrderList) {
             int objid = order[0];
             int count = order[1];
             pc.j().c(objid, count);
