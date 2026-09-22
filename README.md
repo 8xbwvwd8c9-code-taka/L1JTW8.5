@@ -536,6 +536,17 @@ REWARD_COUNT_RULE=validated unique key count only
 
 權威規則：request key 清單不可為空、不可有重複 key、每一個 key 都必須存在 authoritative pendingMap。任一 key 不存在時整批拒絕，不得部分發獎；成功時 rewardCount 等於完整驗證後的 unique key 數量。
 
+### BUG-850-75 Mail owner gate 驗證（2026-09-22）
+
+```text
+OWNER_GATE=PASS
+EXISTENCE_GATE=PASS
+BATCH_INDIVIDUAL_GATE=PASS
+CROSS_PLAYER_ACCESS=REJECT
+```
+
+權威規則：每個 client-selected mail id 都必須先 resolve 存在，再要求 `mail.inbox_id==pc.id`。單封 read/status/delete 與 batch delete 都不得只靠 global mail id 存在性授權。Batch 採 per-entry gate：合法 mail 可處理，非法或不存在 mail 必須各自拒絕，不得被同批其他合法 mail 繞過。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
