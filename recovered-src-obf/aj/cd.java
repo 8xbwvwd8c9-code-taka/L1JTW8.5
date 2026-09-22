@@ -66,6 +66,9 @@ extends cv {
                 int itemobjid = this.b();
                 int itemobjid2 = this.b();
                 t npc = (t)aq.a().a(npcobjid);
+                if (npc != null && (npc.fu().b() != pc.fp() || npc.fu().c(pc.fu()) > 11)) {
+                    return;
+                }
                 q resolvent = pc.j().e(itemobjid);
                 if (resolvent == null) {
                     return;
