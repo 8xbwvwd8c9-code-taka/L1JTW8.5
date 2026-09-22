@@ -16,7 +16,9 @@
 [Player]
 ObjectId=
 X=
+XWidth=4
 Y=
+YWidth=4
 
 [HPMP]
 CurrentHP=
