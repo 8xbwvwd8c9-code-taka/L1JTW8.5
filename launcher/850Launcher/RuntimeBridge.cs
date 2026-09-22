@@ -122,6 +122,134 @@ namespace L1JTW850Launcher
             }
         }
 
+        public bool TryRefreshHpMp(
+            RuntimeSnapshot snapshot,
+            out string error)
+        {
+            error = "";
+
+            if (snapshot == null ||
+                !snapshot.Connected ||
+                snapshot.ProcessId <= 0 ||
+                snapshot.ModuleBase == IntPtr.Zero)
+            {
+                error = "尚未有可用的 Lin.bin2 runtime snapshot。";
+                return false;
+            }
+
+            RuntimeMap map;
+            try
+            {
+                map = RuntimeMap.Load(_runtimeMapPath);
+            }
+            catch (Exception ex)
+            {
+                error = "runtime-map.ini 格式錯誤：" + ex.Message;
+                return false;
+            }
+
+            if (!map.HasHpMp)
+            {
+                error = "HP/MP 映射尚未設定。";
+                return false;
+            }
+
+            try
+            {
+                var process = Process.GetProcessById(
+                    snapshot.ProcessId);
+
+                if (process.HasExited)
+                {
+                    error = "Lin.bin2 程序已結束。";
+                    return false;
+                }
+
+                if (snapshot.ProcessStartTimeUtc.HasValue)
+                {
+                    DateTime actualStart;
+                    try
+                    {
+                        actualStart =
+                            process.StartTime.ToUniversalTime();
+                    }
+                    catch
+                    {
+                        actualStart = DateTime.MinValue;
+                    }
+
+                    if (actualStart != DateTime.MinValue &&
+                        actualStart !=
+                            snapshot.ProcessStartTimeUtc.Value)
+                    {
+                        error = "PID 已被新程序重用，等待完整刷新。";
+                        return false;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                error = "程序驗證失敗：" + ex.Message;
+                return false;
+            }
+
+            using (var reader = new RuntimeMapReader())
+            {
+                if (!reader.Attach(
+                    snapshot.ProcessId,
+                    snapshot.ModuleBase,
+                    out error))
+                    return false;
+
+                int currentHp;
+                int maxHp;
+                int currentMp;
+                int maxMp;
+
+                if (!reader.TryReadInt32(
+                    map.CurrentHp,
+                    out currentHp,
+                    out error))
+                    return false;
+
+                if (!reader.TryReadInt32(
+                    map.MaxHp,
+                    out maxHp,
+                    out error))
+                    return false;
+
+                if (!reader.TryReadInt32(
+                    map.CurrentMp,
+                    out currentMp,
+                    out error))
+                    return false;
+
+                if (!reader.TryReadInt32(
+                    map.MaxMp,
+                    out maxMp,
+                    out error))
+                    return false;
+
+                if (currentHp < 0 ||
+                    maxHp <= 0 ||
+                    currentHp > maxHp ||
+                    currentMp < 0 ||
+                    maxMp < 0 ||
+                    currentMp > maxMp)
+                {
+                    error = "HP/MP 快速讀取值不合理，mapping 尚未可信。";
+                    return false;
+                }
+
+                snapshot.CurrentHp = currentHp;
+                snapshot.MaxHp = maxHp;
+                snapshot.CurrentMp = currentMp;
+                snapshot.MaxMp = maxMp;
+
+                return true;
+            }
+        }
+
         public RuntimeSnapshot Read()
         {
             var snapshot = new RuntimeSnapshot();
