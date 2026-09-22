@@ -32,6 +32,7 @@ BUG
 | BUG-850-292 | L2 | c3p0 connection acquisition / checkout liveness | PASS / PROMOTED |
 | BUG-850-291 | L2 | clan-mail sender/target clan authorization binding | PASS / PROMOTED |
 | BUG-850-284 | L2 | ShopWorld clan-announcement governance authorization | PASS / PROMOTED |
+| BUG-850-283 | L2 | ShopWorld account debit / pending-item durable atomicity | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -525,4 +526,176 @@ BUG-850-284=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-283 — ShopWorld debit and pending-item persistence were not atomic
+
+### Problem
+
+ShopWorld action 8 previously performed one purchase through two unrelated durable operations:
+
+1. mutate the live account shop-currency balance;
+2. persist `accounts.WorldShopAdena`;
+3. independently insert purchased pending items into `character_shop`.
+
+Both helpers swallowed DB failures and returned `void`, so the caller could not know whether one durable side succeeded while the other failed.
+
+The original schema made the split stronger:
+
+```text
+accounts        = MyISAM
+character_shop  = InnoDB
+```
+
+Therefore merely sharing a JDBC transaction would still not make the original two-table purchase atomic.
+
+### Root cause
+
+The purchase had three independent publication boundaries:
+
+```text
+live L1Account balance
+accounts.WorldShopAdena
+character_shop pending rows / pending RAM map
+```
+
+There was no single success result spanning them, no shared transactional engine, and no rollback/compensation path.
+
+### Runtime source map
+
+- CORE entry: `C_ShopWorld` action 8
+- Durable helper: `ShopWorldTable`
+- Account durable field: `accounts.WorldShopAdena`
+- Purchased pending rows: `character_shop`
+- Original DB engines:
+  - `accounts = MyISAM`
+  - `character_shop = InnoDB`
+- Config/default layer: none
+- Protocol change: **none**
+
+### DB migration requirement
+
+Existing databases must apply:
+
+```text
+db/migrations/BUG-850-283_accounts_innodb.sql
+```
+
+The migration changes:
+
+```sql
+ALTER TABLE accounts ENGINE=InnoDB;
+```
+
+and includes an engine verification query for both `accounts` and `character_shop`.
+
+The repaired core also checks the live database engines before every transactional ShopWorld purchase. If either table is not InnoDB, the purchase fails closed instead of performing a non-atomic debit/delivery.
+
+### Fix
+
+A new ShopWorld purchase helper now owns the complete durable transaction.
+
+The repaired order is:
+
+```text
+validate request
+-> stage pending indexes/items in memory only
+-> verify accounts + character_shop are InnoDB
+-> disable auto-commit
+-> conditional UPDATE accounts balance
+-> INSERT all character_shop rows
+-> commit
+-> publish pending items to live RAM
+-> update live L1Account balance
+-> send success/history
+```
+
+The account UPDATE is conditional on the durable balance still matching the balance used by the request:
+
+```text
+WHERE login=? AND WorldShopAdena=expectedBalance
+```
+
+If that update affects anything other than exactly one row, the transaction rolls back.
+
+If any pending-item INSERT fails, the same transaction rolls back.
+
+The old independent `AccountTable.update(account)` + separate 3-argument pending-item insert sequence is no longer used by ShopWorld action 8.
+
+### Failure behavior
+
+The following cases now fail without publishing a partial purchase:
+
+- required tables are not both InnoDB;
+- durable account balance changed before commit;
+- a pending-item row cannot be inserted;
+- connection/SQL failure occurs before commit.
+
+Live account balance and pending RAM publication occur only after durable commit succeeds.
+
+### 380 / 880 reference
+
+This defect is driven by the 8.5 schema engines and its own ShopWorld persistence helpers. No donor implementation was copied as a transaction authority.
+
+The repair is based on the active 8.5 DB/storage boundary and preserves the existing ShopWorld packet shape.
+
+### Modified core / DB
+
+- `recovered-src-obf/aj/cd.java`
+- `recovery/normalized-src-vf/l1r/aj/C_ShopWorld.java`
+- `recovered-src-obf/ao/bd.java`
+- `recovery/normalized-src-vf/l1r/ao/ShopWorldTable.java`
+- `db/migrations/BUG-850-283_accounts_innodb.sql`
+
+Promotion commits:
+
+- normalized `C_ShopWorld`: `903f1b2798dfbbc6fdc46bd0806e55e16d6b88f5`
+- obfuscated `C_ShopWorld`: `4e33e861ad5f7739a325b7e30bc56e089dda7caf`
+- normalized `ShopWorldTable`: `d4a81baa91a0601cf88a327ae6fe42d864bf30af`
+- obfuscated `ShopWorldTable`: `5f64a8dd40baa8e16cb588cbcedf6e10bfb02127`
+- DB migration: `2c3f7447919ad746ded01252b79e3c7af3f33349`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35676841423
+STATUS = PASS
+
+BUG_850_283_CONTRACT=PASS
+DURABLE_ORDER=engine_gate->tx->conditional_debit->pending_insert->commit->RAM
+DB_MIGRATION=accounts_to_InnoDB
+BUG_850_283_TRANSACTION_MODEL_RUNTIME=PASS
+FAILURE_ROLLBACK=PASS
+COMMIT_BEFORE_RAM_PUBLICATION=PASS
+BUG_850_283_EXACT_BASE_TRANSFORM=PASS
+BUG_850_283_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The normalized recovery pair has pre-existing compile errors, so the compile gate compares baseline and staged javac error signatures and requires no new error signature.
+
+The transaction behavior regression explicitly verifies engine-mismatch fail-closed behavior, conditional-balance rejection, rollback on an injected pending-item failure, and commit-before-RAM publication.
+
+This is a targeted transaction/runtime model plus source-contract gate; it is not a live production MySQL failure-injection session.
+
+### Deployment
+
+```text
+1. Apply db/migrations/BUG-850-283_accounts_innodb.sql
+2. Verify accounts and character_shop both report ENGINE=InnoDB
+3. Build/deploy the repaired core
+4. Restart the server
+```
+
+### Result
+
+```text
+BUG-850-283=L2
+STATUS=PASS
+PROMOTED=YES
+DB_MIGRATION_REQUIRED=YES
+RESTART_REQUIRED=YES
 ```
