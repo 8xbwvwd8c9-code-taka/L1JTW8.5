@@ -105,6 +105,20 @@ public class C_ProtoBuffers extends ClientBasePacket {
             int var114 = var91.p();
             L1QuestNew var132 = var4.dS().get(var114);
             if (var132 != null && !var132.w()) {
+               if (var91.q()) {
+                  int var147 = var91.r();
+                  if (var132.i() == null
+                     || var132.j() == null
+                     || var132.k() == null
+                     || var147 < 0
+                     || var147 >= var132.i().length
+                     || var147 >= var132.j().length
+                     || var147 >= var132.k().length) {
+                     var4.a(new S_ServerMessage(79));
+                     return;
+                  }
+               }
+
                for (int var146 = 0; var146 < var132.f().length; var146++) {
                   ItemTable.a(var4, var132.f()[var146], var132.g()[var146], var132.h()[var146]);
                }
@@ -175,6 +189,15 @@ public class C_ProtoBuffers extends ClientBasePacket {
             PBMessageALL.L1R_a var88 = PBMessageALL.L1R_a.a(var64);
             int var111 = var88.p();
             PBMessageALL4.L1R_i var129 = MonsterListReader.a().a(var111);
+            int var144 = var111;
+            if (var144 >= 1700) {
+               var144 -= 30;
+            }
+
+            if (var129 == null || var4.dR() == null || var144 <= 0 || var144 > var4.dR().length) {
+               var4.a(new S_ServerMessage(79));
+               return;
+            }
 
             for (g var143 : var129.o()) {
                PBMessageALL.L1R_a var165 = PBMessageALL.L1R_a.a(var143);
@@ -214,11 +237,6 @@ public class C_ProtoBuffers extends ClientBasePacket {
 
                   ItemTable.a(var4, var187, var182);
                }
-            }
-
-            int var144 = var111;
-            if (var144 >= 1700) {
-               var144 -= 30;
             }
 
             var4.dR()[var144 - 1] = 1;
@@ -299,7 +317,14 @@ public class C_ProtoBuffers extends ClientBasePacket {
                PBMessageALL.L1R_a var85 = PBMessageALL.L1R_a.a(var61);
                int var106 = var85.p();
                int var125 = var85.r();
-               if (var4.dY() == null || var4.dY()[var106 * 3][3] == 5) {
+               int[][] weeklyData = var4.dY();
+               long weeklyIndex = (long)var106 * 3L;
+               if (weeklyData == null
+                  || weeklyIndex < 0L
+                  || weeklyIndex >= weeklyData.length
+                  || weeklyData[(int)weeklyIndex] == null
+                  || weeklyData[(int)weeklyIndex].length <= 3
+                  || weeklyData[(int)weeklyIndex][3] == 5) {
                   var4.a(new S_ServerMessage(79));
                   return;
                }
@@ -321,7 +346,7 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   var4.x((int)(var141 * var157));
                }
 
-               var4.dY()[var106 * 3][3] = 5;
+               weeklyData[(int)weeklyIndex][3] = 5;
                var4.a(new S_ProtoBuffers(814, var106, 5));
             } else if (var3 == 820) {
                var2.a(new S_ServerVersion());
@@ -366,6 +391,10 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   byte[] var52 = this.a(var29);
                   PBMessageALL5.L1R_a var76 = PBMessageALL5.L1R_a.a(var52);
                   L1Craft var98 = CraftListTable.a().a(var76.r());
+                  if (var98 == null) {
+                     a.log(Level.WARNING, "拒絕不存在的 craft id=" + var76.r() + " player=" + var4.et());
+                     return;
+                  }
                   L1ItemInstance var119 = var98.f();
                   int var136 = var76.t();
                   ArrayList var152 = new ArrayList<>();

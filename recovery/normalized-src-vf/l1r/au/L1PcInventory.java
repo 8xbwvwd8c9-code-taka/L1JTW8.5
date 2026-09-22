@@ -719,6 +719,10 @@ public class L1PcInventory extends L1Inventory {
    }
 
    public L1ItemInstance n() {
+      if (this.a.isEmpty()) {
+         return null;
+      }
+
       int var1 = Random.a(this.a.size());
       L1ItemInstance var2 = this.a.get(var1);
       if (var2.N() != 40308 && var2.a().s()) {

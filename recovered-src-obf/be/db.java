@@ -66,6 +66,10 @@ extends eu {
                 int count = psbl.b();
                 int price = psbl.c();
                 ap.q item = shopPc.j().e(itemObjectId);
+                if (item == null) {
+                    ++i3;
+                    continue;
+                }
                 for (ap.q pcItem : pc.j().d()) {
                     if (item.N() != pcItem.N() || item.G() != pcItem.G()) continue;
                     this.c(i3);

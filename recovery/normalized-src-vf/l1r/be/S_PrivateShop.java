@@ -57,6 +57,9 @@ public class S_PrivateShop extends ServerBasePacket {
                int var23 = var21.b();
                int var24 = var21.c();
                L1ItemInstance var25 = var4.j().e(var22);
+               if (var25 == null) {
+                  continue;
+               }
 
                for (L1ItemInstance var26 : var1.j().d()) {
                   if (var25.N() == var26.N() && var25.G() == var26.G()) {

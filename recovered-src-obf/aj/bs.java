@@ -111,6 +111,13 @@ extends cv {
                     int questID = msg.p();
                     bh.s qn = pc.dS().get(questID);
                     if (qn != null && !qn.w()) {
+                        if (msg.q()) {
+                            int idx = msg.r();
+                            if (qn.i() == null || qn.j() == null || qn.k() == null || idx < 0 || idx >= qn.i().length || idx >= qn.j().length || idx >= qn.k().length) {
+                                pc.a(new ds(79));
+                                return;
+                            }
+                        }
                         int i2 = 0;
                         while (i2 < qn.f().length) {
                             ah.a(pc, qn.f()[i2], qn.g()[i2], qn.h()[i2]);
@@ -195,6 +202,14 @@ extends cv {
                     a.a msg = a.a.a(data);
                     int number = msg.p();
                     d.i msg15 = am.d.a().a(number);
+                    int achievementIDX = number;
+                    if (achievementIDX >= 1700) {
+                        achievementIDX -= 30;
+                    }
+                    if (msg15 == null || pc.dR() == null || achievementIDX <= 0 || achievementIDX > pc.dR().length) {
+                        pc.a(new ds(79));
+                        return;
+                    }
                     for (g bs2 : msg15.o()) {
                         a.a msg1 = a.a.a(bs2);
                         int id = msg1.r();
@@ -236,10 +251,6 @@ extends cv {
                             itemid = 640819;
                         }
                         ah.a(pc, itemid, count);
-                    }
-                    int achievementIDX = number;
-                    if (achievementIDX >= 1700) {
-                        achievementIDX -= 30;
                     }
                     pc.dR()[achievementIDX - 1] = 1;
                     pc.a(new dc(564, 0, number));
@@ -330,7 +341,9 @@ extends cv {
                     a.a msg = a.a.a(data);
                     int line = msg.p();
                     int choice = msg.r();
-                    if (pc.dY() == null || pc.dY()[line * 3][3] == 5) {
+                    int[][] weeklyData = pc.dY();
+                    long weeklyIndex = (long)line * 3L;
+                    if (weeklyData == null || weeklyIndex < 0L || weeklyIndex >= weeklyData.length || weeklyData[(int)weeklyIndex] == null || weeklyData[(int)weeklyIndex].length <= 3 || weeklyData[(int)weeklyIndex][3] == 5) {
                         pc.a(new ds(79));
                         return;
                     }
@@ -349,7 +362,7 @@ extends cv {
                         double exppenalty = w.d(pc.ev());
                         pc.x((int)((double)exp * exppenalty));
                     }
-                    pc.dY()[line * 3][3] = 5;
+                    weeklyData[(int)weeklyIndex][3] = 5;
                     pc.a(new dc(814, line, 5));
                 } else if (type == 820) {
                     client.a(new dt());
@@ -393,6 +406,10 @@ extends cv {
                         byte[] data = this.a(dataLength);
                         e.a msg = e.a.a(data);
                         k craft = ao.s.a().a(msg.r());
+                        if (craft == null) {
+                            a.log(Level.WARNING, "Reject unknown craft id=" + msg.r() + " player=" + pc.et());
+                            return;
+                        }
                         q addchanceitem = craft.f();
                         int counts = msg.t();
                         ArrayList<q> trueMaterialList = new ArrayList<q>();
