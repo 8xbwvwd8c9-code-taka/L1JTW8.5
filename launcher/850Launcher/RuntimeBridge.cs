@@ -208,6 +208,7 @@ namespace L1JTW850Launcher
 
             if (snapshot == null ||
                 !snapshot.Connected ||
+                !snapshot.ClientHashAuthoritative ||
                 snapshot.ProcessId <= 0 ||
                 snapshot.ModuleBase == IntPtr.Zero)
             {
@@ -378,6 +379,7 @@ namespace L1JTW850Launcher
 
                         if (_lastHashMatch != true)
                         {
+                            snapshot.Connected = false;
                             snapshot.Status =
                                 "已找到 Lin.bin2，但 SHA256 與目前 850 authority 不符：" + _lastHash;
                             return snapshot;
