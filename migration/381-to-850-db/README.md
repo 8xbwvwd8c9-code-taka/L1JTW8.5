@@ -128,3 +128,6 @@ Do not port its entire 381 UI/core blindly.
 - `w_自訂變形卷軸`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/CUSTOM_POLYMORPH_SCROLL_AUDIT.md`, commit=`e8d7db6274990589c8d8cfc9f5a6f9c0d6cbb898`. Donor callsite and server-side native poly mapping are proven; remaining blockers are action ownership, item 40308 semantics, and client resources.
 
 - `w_城堡狀態_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_STATUS_FAMILY_AUDIT.md`, commit=`e54c0e0c2ca219f3d7b9801dc5e63c5ef17bfd3b`. Login-time castle reward add and NPC access/buff path are proven; 850 needs authoritative castle-state recompute and safer cost/action ordering.
+
+- `w_血盟能量怪物`: STATUS=PASS/SKIP, LEVEL=N/A, audit=`modules/CLAN_ENERGY_MONSTER_AUDIT.md`, commit=`1983a76942043a51ebbb9f3b8b82317bd8ea2ff4`. Current split SQL is empty; no migration work until source/runtime appears.
+- `w_血盟等級_血盟技能_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CLAN_LEVEL_SKILL_FAMILY_AUDIT.md`, commit=`eec012c15df5098c5288d7aad94ee73c01d86936`. Both are ClanState-owned login-time additive modifiers; 850 should recompute from authoritative clan state.
