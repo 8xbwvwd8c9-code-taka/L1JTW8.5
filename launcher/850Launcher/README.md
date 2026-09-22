@@ -323,3 +323,63 @@ Recovered 850 server packet evidence currently used as weak markers:
 ```
 
 These opcode hits do not prove a client handler. A BuffStateBridge handler still requires stable RVA/fingerprint and runtime action correlation.
+
+## WP6 runtime inventory gate
+
+The hidden **背包驗證** page validates the actual mapped `InventoryBridge` against known current inventory values.
+
+Input format:
+
+```text
+40010=155
+40011=87
+40100=23
+```
+
+Validation checks:
+
+```text
+InventoryBridge mapped
+record list readable
+ObjectId nonzero
+ObjectId unique per record
+expected ItemId totals match actual totals
+count summation has no overflow
+```
+
+Evidence is appended to `inventory_validation_evidence.txt`.
+
+The hidden **背包比對** page compares the latest sessions. The restart gate requires:
+
+```text
+at least 3 validation sessions
+every session PASS
+at least 2 distinct client process instances
+the same expectation set in all compared sessions
+```
+
+A single-session match is not WP6 PASS.
+
+## Runtime mapping restart comparison
+
+Pointer-chain evidence now records:
+
+```text
+FIELD
+PROCESS_START_UTC
+EXPR
+ROOT_RVA
+DEPTH
+```
+
+The hidden **映射比對** page groups evidence by FIELD and reports expressions that survive repeated sessions and full client restart.
+
+Default gate:
+
+```text
+minimum sessions = 3
+minimum client process instances = 2
+status = RESTART_STABLE
+```
+
+`RESTART_STABLE` is necessary but not sufficient for WP3/WP4 PASS; the original controlled HP/MP or player movement correlation must already be valid.
