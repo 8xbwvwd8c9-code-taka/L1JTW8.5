@@ -2,16 +2,25 @@ param([string]$Configuration = "Release")
 $ErrorActionPreference = "Stop"
 $project = Join-Path $PSScriptRoot "850Launcher.csproj"
 
-$msbuild = Get-Command msbuild.exe -ErrorAction SilentlyContinue
-if ($msbuild) {
-    & $msbuild.Source $project /t:Restore,Build /p:Configuration=$Configuration /m
+$msbuildCandidates = @(
+    (Get-Command msbuild.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue),
+    "$env:WINDIR\Microsoft.NET\Framework\v4.0.30319\MSBuild.exe",
+    "$env:WINDIR\Microsoft.NET\Framework64\v4.0.30319\MSBuild.exe"
+) | Where-Object { $_ -and (Test-Path $_) } | Select-Object -Unique
+
+foreach ($msbuild in $msbuildCandidates) {
+    & $msbuild $project /t:Build /p:Configuration=$Configuration /p:Platform=x86 /m
+    if ($LASTEXITCODE -eq 0) { exit 0 }
+}
+
+$csc = "$env:WINDIR\Microsoft.NET\Framework\v4.0.30319\csc.exe"
+if (Test-Path $csc) {
+    $outDir = Join-Path $PSScriptRoot ("bin\" + $Configuration)
+    New-Item -ItemType Directory -Force -Path $outDir | Out-Null
+    $sources = Get-ChildItem $PSScriptRoot -Filter *.cs | ForEach-Object FullName
+    $outExe = Join-Path $outDir "850Launcher.exe"
+    & $csc /nologo /target:winexe /platform:x86 /optimize+ /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /out:$outExe $sources
     exit $LASTEXITCODE
 }
 
-$dotnet = Get-Command dotnet.exe -ErrorAction SilentlyContinue
-if ($dotnet) {
-    & $dotnet.Source build $project -c $Configuration
-    exit $LASTEXITCODE
-}
-
-throw "Neither MSBuild nor dotnet SDK was found."
+throw "No usable .NET Framework 4.x MSBuild/csc was found."
