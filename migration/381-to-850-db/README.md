@@ -1,0 +1,110 @@
+# 381 -> 850 DB / Module Migration
+
+Base: `completed/l1jtw85-core-fixes`
+
+Purpose: analysis-only branch for 381 -> 850 DB/module migration. Keep BUG repair branch clean.
+
+## Rules
+- ANALYSIS / RECORDS / REQUIRED DATA only.
+- No production merge from this branch.
+- No direct bulk SQL import into 850.
+- Judge each module as a full chain:
+  `control/config -> Java core -> DB schema/data -> NPC/action -> XML/HTML/menu -> client/protocol dependency`.
+- Prefer adapting 381 content to 850 native high-version systems over porting old 381 frameworks unchanged.
+- 850 authority for core behavior: `completed/l1jtw85-core-fixes`.
+
+## Current baseline
+### 381
+- DB split source: `L381/main/DB/381_DB_AI用`
+- 320 SQL files total.
+- 210 non-empty SQL files.
+- 381 contains dedicated module tables and Java implementations.
+- NPC action resources include:
+  - `data/xml/NpcActions/ItemMaking.xml`
+  - `data/xml/NpcActions/SingleItemMaking.xml`
+  - `data/xml/NpcActions/Teleporter.xml`
+- Config also includes multiple `config/其他控制端/*.properties` files.
+
+### 850
+- DB baseline: `db/8.5.sql`
+- Split inspection DB: `db/無使用給AI檢查用資料庫DB`
+- 100 split DB files observed.
+- 45 table names directly overlap with 381.
+- Completed core contains two crafting paths:
+
+1. Legacy NPC/HTML crafting:
+   `C_NpcAction -> HtmlCraftTable -> html_craft`
+
+2. High-version crafting:
+   `CraftListTable -> craft + craft_exchange -> L1Craft -> protobuf crafting UI`
+
+Key recovered paths:
+- `recovery/normalized-src-vf/l1r/aj/C_NpcAction.java`
+- `recovery/normalized-src-vf/l1r/ao/HtmlCraftTable.java`
+- `recovery/normalized-src-vf/l1r/ao/CraftListTable.java`
+- `recovery/normalized-src-vf/l1r/aq/L1Craft.java`
+- `recovery/normalized-src-vf/l1r/be/S_HowManyMake.java`
+
+## Important finding
+381 XML crafting should NOT be assumed to require direct XML-engine porting.
+
+Preferred direction:
+- Convert suitable 381 `ItemMaking.xml / SingleItemMaking.xml` recipes into 850 native `craft / craft_exchange`.
+- Use 850 high-version crafting UI where possible.
+- Use `html_craft` only where NPC action / custom HTML behavior is still required.
+- Port 381 Java module code only when its behavior cannot be represented by 850 native crafting/data systems.
+
+This may reduce many crafting migrations from L3 to L2.
+
+## Migration difficulty
+- L1: 850 already has compatible core path; mostly DB/data mapping.
+- L2: 850 has compatible framework; schema/action/menu conversion required.
+- L3: independent 381 Java module + DB + NPC/action integration required.
+- L4: packet/client/opcode/resource dependency or major protocol mismatch.
+
+## Priority analysis set
+1. `x_大師製作系統`
+2. 381 XML ItemMaking / SingleItemMaking
+3. `w_天m合成系統`
+4. `w_變身卡片能力登入` / combination collection
+5. `w_自動學習技能`
+6. `w_血盟技能` / `w_血盟等級`
+7. `w_威望*`
+8. `w_道具附魔系統` / `w_道具升級*`
+9. `w_全服怪物提升`
+
+## Required evidence per module
+Record:
+- control switch / config source
+- Java loader/table/event/item/NPC classes
+- startup registration
+- DB table DDL and populated rows
+- NPC IDs and class/action handlers
+- XML actions if any
+- HTML/menu IDs/files if any
+- output/material item IDs
+- 850 equivalent framework
+- client/protobuf/opcode/resource dependency
+- migration mapping
+- difficulty L1-L4
+- blockers / validation plan
+
+## First crafting assessment
+`x_大師製作系統` is feature-rich and contains fields beyond basic recipes:
+- NPC/action/category hierarchy
+- display ordering
+- chance / bonus item
+- inheritance of material/enchant/bless/additional state
+- fail return
+- level/class limits
+- HP/MP cost
+- quantity input / batch settlement
+- success/fail HTML
+- global announcement
+
+Therefore it must be split into:
+A. fields directly representable by 850 `craft/craft_exchange`
+B. fields requiring small 850 framework extension
+C. fields requiring dedicated behavior
+
+Do not port its entire 381 UI/core blindly.
