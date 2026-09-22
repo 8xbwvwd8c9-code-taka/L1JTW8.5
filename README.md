@@ -29,6 +29,7 @@ BUG
 |---|---|---|---|
 | BUG-850-294 | L2 | NPC sell-to-shop inventory / payout consistency | PASS / PROMOTED |
 | BUG-850-293 | L2 | NPC purchase war-tax treasury accounting | PASS / PROMOTED |
+| BUG-850-292 | L2 | c3p0 connection acquisition / checkout liveness | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -216,6 +217,103 @@ This is a targeted runtime regression gate, not a live game-server session.
 
 ```text
 BUG-850-293=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-292 — database connection acquisition could wait indefinitely
+
+### Problem
+
+The active 8.5 `DatabaseFactory` explicitly configured bundled c3p0 0.9.5.2 with:
+
+```text
+acquireRetryAttempts=0
+acquireRetryDelay=500
+checkoutTimeout=0
+breakAfterAcquireFailure=false
+```
+
+For the bundled c3p0 generation, non-positive acquisition retry attempts mean unlimited acquisition retries, while `checkoutTimeout=0` means callers of `getConnection()` can wait indefinitely.
+
+`DatabaseFactory.b()` adds no higher-level deadline, and startup validation also calls `getConnection()`, so the same unbounded policy affected both startup and runtime DB callers.
+
+### Runtime source map
+
+- CORE: `DatabaseFactory`
+- Runtime dependency: `lib/c3p0-0.9.5.2.jar`
+- DB endpoint config: `config/server.properties`
+  - `URL`
+  - `Login`
+  - `Password`
+- External pool timeout/retry config: **none**
+- DB schema changes: **none**
+- Protocol changes: **none**
+
+### 380 / 880 cross-check
+
+The 380 / 880 repositories were searched for an equivalent c3p0 timeout/retry repair, but no matching pool policy was found.
+
+Therefore this repair does **not** copy donor numbers. The policy is based on the bundled 8.5 c3p0 version and its documented semantics, then validated against the bundled runtime JAR.
+
+### Fix
+
+The pool now uses:
+
+```text
+acquireRetryAttempts=30
+acquireRetryDelay=500
+checkoutTimeout=30000 ms
+breakAfterAcquireFailure=false
+```
+
+Rationale:
+
+- `30` restores a finite retry count instead of unlimited acquisition attempts;
+- the existing 500 ms retry delay is preserved;
+- `30000 ms` gives callers a finite checkout deadline;
+- `breakAfterAcquireFailure=false` is preserved so the pool can remain available for future requests after a transient DB outage.
+
+### Modified core source
+
+- `recovered-src-obf/l1j/server/b.java`
+- `recovery/normalized-src-vf/l1r/l1j/server/DatabaseFactory.java`
+
+Promotion commits:
+
+- obfuscated source: `7c357efb9051b914e393338e239d7a6b596dcbd6`
+- normalized source: `44b99388e0bbed1a9a30b0cce18a78e2de1f427b`
+
+### Validation
+
+Final targeted validation:
+
+```text
+GitHub Actions run = 35672679021
+STATUS = PASS
+
+BUG_850_292_CONTRACT=PASS
+BUG_850_292_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_292_BUNDLED_C3P0_RUNTIME=PASS
+PRODUCTION_POLICY_GETTERS=PASS
+BUG_850_292_PROMOTION_CONTRACT=PASS
+POOL_RECOVERY_POLICY_PRESERVED=PASS
+BUG_850_292_PROMOTION_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The runtime gate compiles and executes against the repository's actual c3p0 0.9.5.2 / mchange / MySQL Connector/J dependencies. A deliberately unreachable local DB endpoint is required to fail with `SQLException` inside a bounded test envelope; the final successful run failed in 467 ms under the short test policy.
+
+The production policy itself is also asserted through c3p0 getters.
+
+This is a targeted dependency/runtime regression gate, not a live production DB outage test.
+
+### Result
+
+```text
+BUG-850-292=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
