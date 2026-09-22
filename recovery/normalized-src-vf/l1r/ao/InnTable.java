@@ -43,36 +43,37 @@ public class InnTable {
       this.c();
    }
 
-   public void a(int var1, int var2, int var3) {
-      Connection var4 = null;
-      PreparedStatement var5 = null;
+   public boolean a(int var1, int var2, int var3) {
+      if (var1 <= 0 || var2 <= 0 || var3 < 0 || this.f.containsKey(var1)) {
+         return false;
+      }
+
+      InnTable.L1R_a var4 = new InnTable.L1R_a(null);
+      var4.a = var1;
+      var4.b = "note";
+      var4.c = var2;
+      var4.d = var3;
+      var4.e = new Timestamp(System.currentTimeMillis() + 14400000L);
+      Connection var5 = null;
+      PreparedStatement var6 = null;
 
       try {
-         var4 = DatabaseFactory.a().b();
-         var5 = var4.prepareStatement("INSERT INTO inns SET keyid=?,note=?, count=?, roomid=?, dueTime=? ");
-         InnTable.L1R_a var6 = new InnTable.L1R_a(null);
-         var6.a = var1;
-         var6.b = "note";
-         var6.c = var2;
-         var6.d = var3;
-         var6.e = new Timestamp(System.currentTimeMillis() + 14400000L);
-         if (this.f.containsKey(var6.a)) {
-            this.f.remove(var6.a);
-            this.b(var6.a);
-         }
-
-         this.f.put(var6.a, var6);
-         var5.setInt(1, var6.a);
-         var5.setString(2, var6.b);
-         var5.setInt(3, var6.c);
-         var5.setInt(4, var6.d);
-         var5.setTimestamp(5, var6.e);
-         var5.execute();
+         var5 = DatabaseFactory.a().b();
+         var6 = var5.prepareStatement("INSERT INTO inns SET keyid=?,note=?, count=?, roomid=?, dueTime=? ");
+         var6.setInt(1, var4.a);
+         var6.setString(2, var4.b);
+         var6.setInt(3, var4.c);
+         var6.setInt(4, var4.d);
+         var6.setTimestamp(5, var4.e);
+         var6.execute();
+         this.f.put(var4.a, var4);
+         return true;
       } catch (SQLException var10) {
          d.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+         return false;
       } finally {
+         SQLUtil.a(var6);
          SQLUtil.a(var5);
-         SQLUtil.a(var4);
       }
    }
 
