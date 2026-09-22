@@ -8,7 +8,7 @@ $project = Join-Path $root "850Launcher.csproj"
 if (-not (Test-Path -LiteralPath $project)) {
     Write-Host "STATUS=FAIL"
     Write-Host "REASON=PROJECT_NOT_FOUND"
-    exit 1
+    throw "PROJECT_NOT_FOUND"
 }
 
 $actual = @(
@@ -188,7 +188,7 @@ if ($errors.Count -gt 0) {
     foreach ($errorText in $errors) {
         Write-Host "ERROR=$errorText"
     }
-    exit 1
+    throw "SOURCE_AUDIT_FAILED"
 }
 
 Write-Host "STATUS=PASS"
@@ -197,4 +197,4 @@ Write-Host "CSPROJ_COMPILE_ENTRIES=$($compiled.Count)"
 Write-Host "MISSING_FROM_PROJECT=0"
 Write-Host "MISSING_SOURCE_FILES=0"
 Write-Host "LEXICAL_ESCAPE_AUDIT=PASS"
-exit 0
+return
