@@ -35,9 +35,9 @@ public class b {
             this.a.setInitialPoolSize(10);
             this.a.setMinPoolSize(10);
             this.a.setMaxPoolSize(100);
-            this.a.setAcquireRetryAttempts(0);
+            this.a.setAcquireRetryAttempts(30);
             this.a.setAcquireRetryDelay(500);
-            this.a.setCheckoutTimeout(0);
+            this.a.setCheckoutTimeout(30000);
             this.a.setAcquireIncrement(5);
             this.a.setAutomaticTestTable("connection_test_table");
             this.a.setTestConnectionOnCheckin(false);
