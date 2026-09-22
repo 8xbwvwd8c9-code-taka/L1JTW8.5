@@ -417,3 +417,23 @@ PlayerObjectId / PlayerX / PlayerY
 ```
 
 The truth values are allowed to change between sessions. The gate proves that the mapping keeps resolving the correct live values after relog and full client restart.
+
+## Safe mapping promotion
+
+The hidden **映射比對** page now supports **套用映射** for restart-stable WP3/WP4 candidates.
+
+Allowed fields:
+
+```text
+CurrentHP
+MaxHP
+CurrentMP
+MaxMP
+PlayerObjectId
+PlayerX
+PlayerY
+```
+
+The button is enabled only when the selected candidate is `RESTART_STABLE`.
+
+It writes only to `runtime-map.ini`; it does not write to game memory. The next mandatory gate remains **映射驗證 → 語意比對**.
