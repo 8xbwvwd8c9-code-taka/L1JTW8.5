@@ -95,14 +95,21 @@ public class C_ShopWorld extends ClientBasePacket {
                   int var27 = this.b();
                   ConcurrentHashMap var28 = ShopWorldTable.a().a(var2.a());
                   L1ItemInstance var29 = var28.get(var26);
-                  if (var3.j().a(var29, var27) != 0) {
+                  if (var29 == null) {
+                     return;
+                  }
+                  int authoritativeCount = var29.E();
+                  if (authoritativeCount <= 0) {
+                     return;
+                  }
+                  if (var3.j().a(var29, authoritativeCount) != 0) {
                      return;
                   }
 
                   var3.j().d(var29);
                   var3.a(new S_ServerMessage(403, var29.s()));
                   ShopWorldTable.a().a(var2.a(), var26);
-                  HistoryTable.a().h(var3, "領取", var29, var27);
+                  HistoryTable.a().h(var3, "領取", var29, authoritativeCount);
                }
                break;
             case 11:
