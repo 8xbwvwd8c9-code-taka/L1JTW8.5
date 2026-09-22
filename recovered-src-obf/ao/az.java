@@ -6,6 +6,7 @@ package ao;
 import a.g;
 import an.c;
 import an.g;
+import ap.q;
 import ap.u;
 import be.dc;
 import bh.s;
@@ -56,6 +57,23 @@ public class az {
             }
             pc.dS().put(i2, quest);
             pc.a(new dc(518, quest));
+            int objectiveIndex = 0;
+            while (objectiveIndex < quest.r().length) {
+                long inventoryCount = 0L;
+                for (q inventoryItem : pc.j().d()) {
+                    if (quest.r()[objectiveIndex] == inventoryItem.N()
+                    && quest.t()[objectiveIndex] <= inventoryItem.G()
+                    && inventoryItem.E() > 0) {
+                        inventoryCount += (long)inventoryItem.E();
+                        if (inventoryCount >= (long)quest.s()[objectiveIndex]) {
+                            inventoryCount = quest.s()[objectiveIndex];
+                            break;
+                        }
+                    }
+                }
+                quest.a(objectiveIndex, (int)inventoryCount);
+                ++objectiveIndex;
+            }
         }
     }
 
