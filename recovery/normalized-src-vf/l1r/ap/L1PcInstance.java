@@ -712,6 +712,10 @@ public class L1PcInstance extends L1Character {
          }
 
          for (L1FollowerInstance var11 : this.em().values()) {
+            if (var11 == null || var11.ah()) {
+               continue;
+            }
+
             var11.V(true);
             var11.a(var11.z(), var11.fs(), var11.ft(), var11.fb(), var11.fp());
             var11.aa_();
