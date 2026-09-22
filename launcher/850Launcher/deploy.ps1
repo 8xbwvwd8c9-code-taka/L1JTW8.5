@@ -39,9 +39,15 @@ if (-not (Test-Path -LiteralPath $runtimeMapIni)) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "runtime-map.ini.example") -Destination $runtimeMapIni
 }
 
+$inventoryMapIni = Join-Path $ClientDir "inventory-map.ini"
+if (-not (Test-Path -LiteralPath $inventoryMapIni)) {
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot "inventory-map.ini.example") -Destination $inventoryMapIni
+}
+
 Write-Host "STATUS=PASS"
 Write-Host "DEPLOYED=$(Join-Path $ClientDir '850Launcher.exe')"
 Write-Host "LAUNCHER_INI=$launcherIni"
 Write-Host "HELPER_INI=$helperIni"
 Write-Host "RUNTIME_MAP_INI=$runtimeMapIni"
-Write-Host "NEXT=Run 850Launcher.exe; runtime-map.ini remains empty until WP3/WP4 validation passes."
+Write-Host "INVENTORY_MAP_INI=$inventoryMapIni"
+Write-Host "NEXT=Run 850Launcher.exe; runtime-map.ini and inventory-map.ini remain disabled until validation passes."
