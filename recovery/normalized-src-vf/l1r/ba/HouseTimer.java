@@ -2,6 +2,7 @@ package l1r.ba;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.TimerTask;
@@ -52,6 +53,26 @@ public class HouseTimer {
       int var4 = var1.m();
       String var5 = var1.n();
       int var6 = var1.o();
+      L1Clan var14 = var6 == 0 ? null : this.findEligibleBidderClan(var6);
+      if (var6 != 0 && var14 == null) {
+         if (var3 > 0 && !this.refundBidder(var6, var3)) {
+            return;
+         }
+
+         String var15 = var1.n();
+         int var16 = var1.o();
+         var1.d("");
+         var1.f(0);
+         if (!this.a((L1Clan)null, var1)) {
+            var1.d(var15);
+            var1.f(var16);
+            if (var3 > 0) {
+               this.reclaimBidderRefund(var6, var3);
+            }
+         }
+         return;
+      }
+
       if (var4 != 0 && var6 != 0) {
          L1PcInstance var12 = (L1PcInstance)L1World.a().a(var4);
          int var8 = (int)(var3 * 0.9);
@@ -183,6 +204,110 @@ public class HouseTimer {
          var1.a(var11);
          var1.b(var12);
          var1.a(var13);
+      }
+   }
+
+   private L1Clan findEligibleBidderClan(int var1) {
+      for (L1Clan var2 : ClanTable.a().b().values()) {
+         if (var2.k() == var1 && var2.n() == 0) {
+            return var2;
+         }
+      }
+
+      return null;
+   }
+
+   private boolean refundBidder(int var1, int var2) {
+      if (var2 <= 0) {
+         return false;
+      }
+
+      L1PcInstance var3 = (L1PcInstance)L1World.a().a(var1);
+      if (var3 != null) {
+         return ItemTable.a(var3, 40308, var2) != null;
+      }
+
+      L1ItemInstance var4 = ItemTable.a().b(40308);
+      if (var4 == null) {
+         return false;
+      }
+
+      var4.e(var2);
+      try {
+         CharacterItemTable.a().a(var1, var4);
+         return true;
+      } catch (Exception var6) {
+         a.log(Level.SEVERE, var6.getLocalizedMessage(), var6);
+         return false;
+      }
+   }
+
+   private boolean reclaimBidderRefund(int var1, int var2) {
+      if (var2 <= 0) {
+         return true;
+      }
+
+      L1PcInstance var3 = (L1PcInstance)L1World.a().a(var1);
+      if (var3 != null) {
+         return var3.j().b(40308, var2);
+      }
+
+      Connection var4 = null;
+      PreparedStatement var5 = null;
+      ResultSet var6 = null;
+
+      try {
+         var4 = l1r.l1j.server.DatabaseFactory.a().b();
+         var5 = var4.prepareStatement("SELECT id,count FROM character_items WHERE char_id=? AND item_id=40308 ORDER BY id DESC LIMIT 1");
+         var5.setInt(1, var1);
+         var6 = var5.executeQuery();
+         if (!var6.next()) {
+            return false;
+         }
+
+         int var7 = var6.getInt("id");
+         int var8 = var6.getInt("count");
+         if (var8 < var2) {
+            return false;
+         }
+
+         var6.close();
+         var6 = null;
+         var5.close();
+         var5 = null;
+
+         if (var8 == var2) {
+            var5 = var4.prepareStatement("DELETE FROM character_items WHERE id=?");
+            var5.setInt(1, var7);
+         } else {
+            var5 = var4.prepareStatement("UPDATE character_items SET count=? WHERE id=?");
+            var5.setInt(1, var8 - var2);
+            var5.setInt(2, var7);
+         }
+
+         return var5.executeUpdate() == 1;
+      } catch (SQLException var10) {
+         a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+         return false;
+      } finally {
+         if (var6 != null) {
+            try {
+               var6.close();
+            } catch (SQLException ignored) {
+            }
+         }
+         if (var5 != null) {
+            try {
+               var5.close();
+            } catch (SQLException ignored) {
+            }
+         }
+         if (var4 != null) {
+            try {
+               var4.close();
+            } catch (SQLException ignored) {
+            }
+         }
       }
    }
 
