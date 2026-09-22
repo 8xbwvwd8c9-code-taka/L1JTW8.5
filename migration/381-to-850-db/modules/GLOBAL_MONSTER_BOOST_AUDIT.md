@@ -15,10 +15,10 @@
 
 | 項目 | 證據 | 判定 |
 |---|---|---|
-| L381 主程式 | `I:\L381\Atu-381伺服器端\src`；以表名、模組名及欄位名作 targeted search | 未找到 `w_全服怪物提升`、`hp_rate`、`mp_rate`、`mr_rate`、`ac_add`、`dmg_rate` 的 Java 使用點 |
-| L381 DB package | `I:\L381\Atu-381伺服器端\DB\381_DB_AI用\w_全服怪物提升_202609221205.sql:1-2` | 精確 SQL 為 `INSERT INTO atu381.w_全服怪物提升 (id,hp_rate,mp_rate,mr_rate,ac_add,dmg_rate) VALUES (1,100,100,100,0,100);` |
+| L381 主程式 | `I:\L381\Atu-381伺服器端主\src`；以表名、模組名及欄位名作 targeted search | 未找到 `w_全服怪物提升`、`hp_rate`、`mp_rate`、`mr_rate`、`ac_add`、`dmg_rate` 的 Java 使用點 |
+| L381 DB package | `I:\L381\Atu-381伺服器端主\DB\381_DB_AI用\w_全服怪物提升_202609221205.sql:1-2` | 精確 SQL 為 `INSERT INTO atu381.w_全服怪物提升 (id,hp_rate,mp_rate,mr_rate,ac_add,dmg_rate) VALUES (1,100,100,100,0,100);` |
 | Schema | 指定 DB package 檔案只有 INSERT，沒有 `CREATE TABLE` 或欄位註解 | table DDL 未在指定 package 提供；不能推斷缺失 schema/type |
-| 850 DB | `origin/completed/l1jtw85-core-fixes:db/8.5.sql`；exact search `w_全服怪物提升`、`hp_rate`、`dmg_rate` 無命中 | 850 DB 沒有已確認的同名表或欄位 |
+| 850 DB | `I:\L1JTW8.5\db\無使用給AI檢查用資料庫DB`；exact search `w_全服怪物提升`、`hp_rate`、`dmg_rate` 無命中 | 850 AI-check DB package 沒有已確認的同名檔案、表或欄位 |
 | 850 startup | `recovery/normalized-src-vf/l1r/ai/GameServer.java:117-192`（目標分支） | 啟動明確初始化 `NpcTable`、`SpawnTable` 等；沒有怪物提升 table 初始化 |
 | 850 NPC loader | `recovery/normalized-src-vf/l1r/ao/NpcTable.java:36-116` | 只執行 `SELECT * FROM npc`，將 npc 的 hp/mp/ac/mr/base_damage/random_damage 等欄位載入 `L1Npc` |
 | 850 spawn/runtime | `recovery/normalized-src-vf/l1r/ao/SpawnTable.java:42-109,220-288` | 從 `spawnlist` 建立 spawn；runtime 建立 `L1NpcInstance`，對 `L1MonsterInstance` 僅套用既有 spawn flags/通用初始化，沒有全服倍率表查詢 |
@@ -35,13 +35,13 @@ VALUES
   (1, 100, 100, 100, 0, 100);
 ```
 
-此 row 的數值代表欄位值，但沒有可由來源證實的計算語意、單位、適用範圍或更新策略。指定 DB package 沒有 CREATE TABLE，因此不補寫推定 DDL。
+此 row 的數值代表欄位值，但沒有可由來源證實的計算語意、單位、適用範圍或更新策略。381 指定 DB package 沒有 CREATE TABLE，因此不補寫推定 DDL。850 指定 `db\無使用給AI檢查用資料庫DB` 也沒有同名檔案或命中欄位。
 
 ## Loader、startup 與 runtime trace
 
 ### L381
 
-在 `I:\L381\Atu-381伺服器端\src` 內對模組表名、欄位名及相關中文名做 targeted search，沒有命中 Java loader、table class、startup registration、reload command 或 monster hook。故目前證據只能確認「DB package 存在」，不能確認「L381 runtime 曾消費此表」。
+在 `I:\L381\Atu-381伺服器端主\src` 內對模組表名、欄位名及相關中文名做 targeted search，沒有命中 Java loader、table class、startup registration、reload command 或 monster hook。故目前證據只能確認「DB package 存在」，不能確認「L381 runtime 曾消費此表」。
 
 ### 850
 
