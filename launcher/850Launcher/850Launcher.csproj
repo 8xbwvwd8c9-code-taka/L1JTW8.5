@@ -49,6 +49,7 @@
     <Compile Include="NativeSendProbeControl.cs" />
     <Compile Include="NativeCallGraphScanner.cs" />
     <Compile Include="NativeCallGraphControl.cs" />
+    <Compile Include="NativeCodeWindow.cs" />
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
