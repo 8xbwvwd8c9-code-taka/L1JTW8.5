@@ -131,3 +131,73 @@ Total immediate DB-only candidate rows: 10, subject to NPC/HTML/material existen
 3. Keep each NPC/content family independently installable.
 4. For old action-driven NPC recipes, use `html_craft` unless there is a deliberate UI migration.
 5. Validate item/material IDs + NPC ID + HTML ID before marking import-ready.
+
+
+## Final NPC/action availability check
+
+### NPC 70520
+850 `spawnlist_npc` contains multiple active spawns for NPC 70520 (煉金術師).
+Status: **NPC EXISTS / PASS**
+
+The three missing N/O/P recipes therefore remain valid `html_craft` DB-only candidates, subject only to action-menu/client HTML reachability verification.
+
+### NPC 80102
+850 `spawnlist_npc` contains:
+- NPC 80102 傢飾商^菲力士
+- coordinates 32593,32735 map 4
+
+Status: **NPC EXISTS / PASS**
+
+Existing actions 0,2,3,4,5,6,7 already work through 850 `html_craft`.
+Missing actions b,c,d,e,f therefore fit the same server-side mechanism.
+
+Material verification:
+- 49077 exists
+- 49078 exists
+- 49079 exists
+- 49080 exists
+- 49081 exists
+
+Remaining blocker:
+- `fillis10` HTML resource is not present in the current server repository evidence.
+- This may be a client Text/HTML resource rather than a server-side file.
+
+Classification: **DB-only server delta, client-resource gate remains**
+
+### NPC 80089
+381 spawn data:
+- 獎牌兌換管理人
+- npcid 80089
+- x=32635 y=32741 map=4
+
+850:
+- no NPC 80089 spawn found
+- no spawn found at the same 32635,32741 location
+
+Status: **NPC MISSING from confirmed 850 spawn data**
+
+Therefore the two recipes are NOT pure html_craft-only imports.
+To restore this content as the original NPC flow requires at minimum:
+- prove NPC template 80089 exists in authoritative 850 npc table
+- add an isolated spawnlist_npc row if template exists
+- restore/verify the NPC talk/menu that emits:
+  - `request new surprise bag`
+  - `request gold apple`
+- add the two html_craft rows
+
+If the 850 NPC template/menu no longer exists, preferred migration is to move these two exchanges into an existing 850 high-version craft category instead of restoring the legacy NPC.
+
+Classification: **L2 if native craft conversion; L2-L3 if legacy NPC/menu must be reconstructed**
+
+## Updated actionable split
+
+### Ready server-side DB delta
+- 70520 N/O/P: 3 rows
+- 80102 b/c/d/e/f: 5 rows (client fillis10 gate)
+
+### Hold
+- 80089: 2 rows, because NPC/menu path is absent in confirmed 850 spawn data
+
+### Do not import
+- 70904 old XML set: 22 rows, already represented by 850 native craft IDs 135-156
+
