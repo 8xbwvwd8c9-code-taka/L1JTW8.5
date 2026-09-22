@@ -33,6 +33,7 @@ BUG
 | BUG-850-291 | L2 | clan-mail sender/target clan authorization binding | PASS / PROMOTED |
 | BUG-850-284 | L2 | ShopWorld clan-announcement governance authorization | PASS / PROMOTED |
 | BUG-850-283 | L2 | ShopWorld account debit / pending-item durable atomicity | PASS / PROMOTED |
+| BUG-850-282 | L2 | ShopWorld claim capacity/count authority | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -698,4 +699,94 @@ STATUS=PASS
 PROMOTED=YES
 DB_MIGRATION_REQUIRED=YES
 RESTART_REQUIRED=YES
+```
+
+
+## BUG-850-282 — ShopWorld claim capacity trusted the request count instead of the pending item
+
+### Problem
+
+ShopWorld action 10 receives a pending-item index plus a client count.
+
+The original handler resolved the server-side pending `L1ItemInstance`, but then passed the client count into inventory capacity/weight validation and history logging before inserting the authoritative pending object.
+
+The count used to decide whether the claim could fit therefore did not have the same authority as the object actually delivered.
+
+### Runtime source map
+
+- CORE: `C_ShopWorld`, action 10
+- Pending source: `ShopWorldTable`
+- Durable pending source: `character_shop`
+- Pending item factory: `ItemTable.b(itemId)`
+- Factory default count: `new L1ItemInstance(item, 1)`
+- Authoritative runtime count: `L1ItemInstance.E()`
+- Config/default layer: none
+- Protocol change: **none**
+- DB schema change: **none**
+
+### Root cause
+
+The path mixed two sources:
+
+```text
+delivered object = server pending item
+capacity count   = client request count
+```
+
+The request count was parsed as protocol data but incorrectly retained authority over capacity and history.
+
+### Fix
+
+Action 10 now:
+
+1. resolves the pending item by server-side pending index;
+2. fails closed if the pending item is missing;
+3. reads `authoritativeCount = pendingItem.E()`;
+4. fails closed if that count is non-positive;
+5. uses the authoritative count for inventory capacity/weight validation;
+6. inserts the same authoritative pending object;
+7. records history using the same authoritative count.
+
+The request count is still parsed for packet compatibility but no longer controls claim capacity or history.
+
+### Modified core source
+
+- `recovery/normalized-src-vf/l1r/aj/C_ShopWorld.java`
+- `recovered-src-obf/aj/cd.java`
+
+Promotion commits:
+
+- normalized source: `c46cdd93857096cd36dd06032e232af62734c436`
+- obfuscated source: `4b49066ed5679c3fc3633e29ab6ebc746d108c21`
+
+### Validation
+
+Final isolated validation:
+
+```text
+GitHub Actions run = 35677827084
+STATUS = PASS
+
+BUG_850_282_CONTRACT=PASS
+PENDING_COUNT_AUTHORITY=L1ItemInstance.E
+PENDING_FACTORY_COUNT=1
+CLIENT_COUNT_AUTHORITY=NONE
+BUG_850_282_TARGETED_BEHAVIOR_RUNTIME=PASS
+CLIENT_COUNT_CANNOT_CHANGE_CAPACITY=PASS
+BUG_850_282_EXACT_BASE_TRANSFORM=PASS
+BUG_850_282_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+An earlier run failed because a concurrent work-branch update restored the old action-10 block after the repair had first been applied. The L2 lane already owned BUG-850-282, so the same minimal action-10 fix was reapplied to the latest work file without touching other blocks; the subsequent isolated run passed.
+
+This is a targeted authority/capacity regression gate, not a live inventory load test.
+
+### Result
+
+```text
+BUG-850-282=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
 ```
