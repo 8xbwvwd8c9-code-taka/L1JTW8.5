@@ -125,3 +125,50 @@ PASS gate before expanding:
 - server boots with module installed
 - module behavior works without any other optional 381 module
 - no existing 850 craft IDs/items/NPC bindings are overwritten
+
+
+## User decision update
+### Auto Learn Skill
+Status: **SKIP**
+Reason: user explicitly chose to skip this module and continue to the next module.
+Do not spend additional migration time on its DDL/implementation unless scope changes.
+
+### XML Crafting differential audit
+
+#### SingleItemMaking.xml / NPC 70520
+381 recipes found: 42
+850 html_craft exact action+npc matches: 39
+Missing in 850: 3
+
+Missing:
+- action N: output 40031 x5; materials 40524 x1 + 40308 x10000
+- action O: output 40031 x50; materials 40524 x10 + 40308 x100000
+- action P: output 40031 x250; materials 40524 x50 + 40308 x500000
+
+Conclusion:
+Do NOT migrate the whole SingleItemMaking.xml system.
+850 already contains the overwhelming majority of these recipes in native `html_craft`.
+Treat this as a delta-only data migration.
+
+#### ItemMaking.xml NPC-bound recipes
+381 NPC-bound recipes detected: 138
+850 html_craft exact action+npc matches: 109
+Missing exact action+npc matches: 29
+
+The missing set includes:
+- NPC 80089 medal exchange recipes
+- NPC 80102 recipes requiring deeper XML semantics check
+- NPC 70904 material/weapon/armor crafting chain
+
+All item IDs sampled from the missing set were found in 850 item tables.
+
+NPC verification:
+- current split `npc.sql` is not usable as an authority for these IDs.
+- verify NPC presence from authoritative full 850 DB / live clean DB before classifying these missing recipes as import-ready.
+
+Migration rule:
+- existing 850 html_craft rows are authoritative and must not be duplicated.
+- migration package contains only proven missing recipes.
+- use `html_craft` for old NPC/action semantics when no high-version UI benefit exists.
+- only convert to `craft/craft_exchange` when the recipe belongs in the high-version craft UI.
+
