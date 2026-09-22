@@ -533,6 +533,35 @@ RELOG_AND_RESTART_VALIDATION_REQUIRED
 ```
 
 
+## 2026-09-22 850Launcher v0.4 inventory probe scaffold
+
+```text
+STATUS=PASS_SOURCE
+WP5_PROBE=IMPLEMENTED
+INPUT=stack item exact count
+FIRST_SCAN=aligned 32-bit exact count
+REFINE=previous candidates only
+NEARBY_DWORD_DUMP=+-0x40
+WRITE_PROCESS_MEMORY=NO
+EVIDENCE=inventory_probe_evidence.txt
+```
+
+The new **物品偵測** tab can isolate candidate count fields by controlled stack changes. Selecting a candidate displays nearby 32-bit values, allowing later correlation of stable objectId/itemId fields around the changing count field.
+
+PASS boundary:
+
+```text
+WP5=NOT_YET_PROVEN
+OBJECT_ID=UNKNOWN
+ITEM_ID=UNKNOWN
+COUNT=UNKNOWN_UNTIL_RUNTIME_VALIDATION
+ENCHANT=UNKNOWN
+EQUIPPED=UNKNOWN
+```
+
+No donor address or guessed item layout is embedded.
+
+
 ## 下一步
 
 ```text
