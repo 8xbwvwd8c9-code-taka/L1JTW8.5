@@ -484,3 +484,40 @@ FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4
 ```
 
 Evidence created by older launcher builds without these fields is intentionally ignored by the new PASS gates.
+
+## WP5/WP6 authoritative inventory hardening
+
+The mapped inventory path now rejects any runtime that is not the authoritative 850 `Lin.bin2`.
+
+`MappedInventoryBridge` also validates:
+
+```text
+PID still belongs to the same process instance
+module base is nonzero
+ObjectId is nonzero
+ObjectId is unique per returned record
+ItemId is positive
+Count is nonnegative
+```
+
+All WP5 discovery evidence now records:
+
+```text
+PROCESS_START_UTC
+CLIENT_SHA256
+CLIENT_AUTHORITY
+```
+
+WP6 restart comparison was corrected so that counts may change between sessions.
+
+The stable condition is now:
+
+```text
+same ItemId set
+at least 2 known ItemIds per session
+each session's entered count matches that session's actual inventory
+>=3 PASS sessions
+>=2 distinct client process instances
+```
+
+This allows legitimate inventory count changes after relog/restart while still proving the same item records are resolved correctly.
