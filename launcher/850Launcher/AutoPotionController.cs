@@ -118,7 +118,12 @@ namespace L1JTW850Launcher
             result.Status = useResult.Status;
 
             if (useResult.Success)
+            {
                 _lastUseUtc = DateTime.UtcNow;
+
+                if (selected.Count > 0)
+                    selected.Count--;
+            }
 
             return result;
         }
