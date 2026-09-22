@@ -27,18 +27,18 @@ public class C_Mail extends ClientBasePacket {
          } else if (var4 == 16 || var4 == 17 || var4 == 18) {
             int var19 = this.b();
             L1Mail var24 = MailTable.a().c(var19);
+            if (var24 == null) {
+               return;
+            }
             if (var24.f() == 0) {
+               if (!MailTable.a().d(var19)) {
+                  return;
+               }
                var24.c(1);
-               MailTable.a().a(var19);
             }
 
             var3.a(new S_Mail(var24, var4));
          } else if (var4 == 32) {
-            if (!var3.j().b(40308, 50)) {
-               var3.a(new S_ServerMessage(189));
-               return;
-            }
-
             this.d();
             String var5 = this.g();
             byte[] var6 = this.h();
@@ -46,6 +46,10 @@ public class C_Mail extends ClientBasePacket {
             if (var7 != null) {
                if (this.a(var7, S_Mail.a) >= 40) {
                   var3.a(new S_Mail(var4, false));
+                  return;
+               }
+               if (!var3.j().b(40308, 50)) {
+                  var3.a(new S_ServerMessage(189));
                   return;
                }
 
@@ -67,6 +71,10 @@ public class C_Mail extends ClientBasePacket {
                      var3.a(new S_Mail(var4, false));
                      return;
                   }
+                  if (!var3.j().b(40308, 50)) {
+                     var3.a(new S_ServerMessage(189));
+                     return;
+                  }
 
                   L1Mail var30 = MailTable.a().a(S_Mail.a, var27, var3, var6, true);
                   var3.a(new S_Mail(var3, var30, true));
@@ -83,17 +91,16 @@ public class C_Mail extends ClientBasePacket {
                return;
             }
 
-            if (!var3.j().b(40308, 1000)) {
-               var3.a(new S_ServerMessage(189));
-               return;
-            }
-
             this.d();
             String var15 = this.g();
             byte[] var20 = this.h();
             L1Clan var25 = ClanTable.a().a(var3.aF());
             if (var25 == null) {
                var3.a(new S_ServerMessage(3982));
+               return;
+            }
+            if (!var3.j().b(40308, 1000)) {
+               var3.a(new S_ServerMessage(189));
                return;
             }
 
@@ -120,12 +127,20 @@ public class C_Mail extends ClientBasePacket {
          } else if (var4 == 64) {
             int var16 = this.b();
             L1Mail var21 = MailTable.a().c(var16);
+            if (var21 == null) {
+               return;
+            }
+            if (!MailTable.a().b(var16, S_Mail.c)) {
+               return;
+            }
             var21.b(S_Mail.c);
             var3.a(new S_Mail(var21, var4));
-            MailTable.a().a(var21);
          } else if (var4 != 48 && var4 != 49 && var4 != 50) {
             if (var4 == 96 || var4 == 97 || var4 == 98) {
                int var18 = this.b();
+               if (var18 < 0 || var1.length < 6 || var18 > (var1.length - 6) / 4) {
+                  return;
+               }
 
                for (int var23 = 0; var23 < var18; var23++) {
                   int var26 = this.b();

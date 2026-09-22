@@ -24,8 +24,9 @@ public class C_AddBuddy extends ClientBasePacket {
                for (int var7 = 0; var7 < var8; var7++) {
                   CharacterTable.L1R_a var6 = var9[var7];
                   if (var5.equalsIgnoreCase(var6.b)) {
-                     var4.a(var6.a, var6.b);
-                     BuddyTable.a().a(var3.fr(), var6.a, var6.b);
+                     if (BuddyTable.a().b(var3.fr(), var6.a, var6.b)) {
+                        var4.a(var6.a, var6.b);
+                     }
                      return;
                   }
                }
