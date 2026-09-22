@@ -39,6 +39,8 @@ namespace L1JTW850Launcher
 
         private int _pid;
         private DateTime? _processStartUtc;
+        private string _clientSha256 = "";
+        private bool _clientHashAuthoritative;
         private uint _scanObjectId;
         private int _scanXWidth;
         private int _scanYWidth;
@@ -323,6 +325,12 @@ namespace L1JTW850Launcher
 
             _processStartUtc =
                 runtime.ProcessStartTimeUtc;
+
+            _clientSha256 =
+                runtime.ClientSha256;
+
+            _clientHashAuthoritative =
+                runtime.ClientHashAuthoritative;
 
             _scanObjectId =
                 objectId;
@@ -868,6 +876,14 @@ namespace L1JTW850Launcher
                         : ""));
 
                 sb.AppendLine(
+                    "CLIENT_SHA256=" +
+                    (_clientSha256 ?? ""));
+
+                sb.AppendLine(
+                    "CLIENT_AUTHORITY=" +
+                    (_clientHashAuthoritative ? 1 : 0));
+
+                sb.AppendLine(
                     "MODULE_BASE=0x" +
                     _moduleBase.ToInt64()
                     .ToString("X8"));
@@ -955,6 +971,8 @@ namespace L1JTW850Launcher
 
             _pid = 0;
             _processStartUtc = null;
+            _clientSha256 = "";
+            _clientHashAuthoritative = false;
             _scanObjectId = 0;
             _scanXWidth = 0;
             _scanYWidth = 0;
