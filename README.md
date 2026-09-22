@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-166 | L2 | clan creation / Adena / membership atomicity | PASS / PROMOTED |
 | BUG-850-167 | L2 | NPC AI exception / running-flag lifecycle | PASS / PROMOTED |
 | BUG-850-178 | L2 | board-write local interaction / persistence-fee consistency | PASS / PROMOTED |
 | BUG-850-294 | L2 | NPC sell-to-shop inventory / payout consistency | PASS / PROMOTED |
@@ -40,6 +41,83 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-166 — clan creation was not transactionally bound to the 30,000 Adena fee
+
+### Problem
+
+The original create-clan path performed durable and live mutations in separate steps:
+
+- insert `clan_data`;
+- publish clan state to the player;
+- separately insert/update clan membership;
+- separately consume item `40308 x30000` (Adena).
+
+A failure between those operations could leave a clan created without the fee, a fee consumed without complete clan persistence, or partially persisted membership/player state.
+
+### Fix
+
+Clan creation now uses one JDBC transaction over:
+
+- `clan_data`
+- `clan_members`
+- `characters`
+- `character_items`
+
+The transaction:
+
+1. validates the player is clanless and has at least 30,000 Adena;
+2. requires all four durable tables to be InnoDB;
+3. inserts `clan_data`;
+4. inserts the leader into `clan_members`;
+5. CAS-updates `characters.ClanID/Clanname/ClanRank` only while `ClanID=0`;
+6. CAS-updates or deletes the Adena stack using the previously validated count;
+7. commits all durable state together;
+8. only after commit publishes clan/RAM state and the committed inventory change.
+
+Any durable failure rolls back the entire operation.
+
+### Migration
+
+Apply once to existing databases:
+
+```text
+db/migrations/BUG-850-166_clan_creation_innodb.sql
+```
+
+### Validation
+
+```text
+GitHub Actions run = 35705902092
+STATUS = PASS
+
+BUG_850_166_CONTRACT=PASS
+BUG_850_166_TARGETED_JAVAC=PASS
+BUG_850_166_TARGETED_BEHAVIOR_RUNTIME=PASS
+ROLLBACK_ALL_STAGES=PASS
+POST_COMMIT_RAM_PUBLICATION=PASS
+```
+
+### Promotion
+
+```text
+normalized handler = aeb601dc3b3b2d276bc54f036921c3b8d6dce91f
+obfuscated handler = d9c7de484f67ce56fa4ec2e6196ba288fdf9b106
+normalized transaction = 86cd593f2b9e310e1d0dbfd34e76baea32540424
+obfuscated transaction = 6549adbbbf853df61e07650480f058d7aed1e810
+migration = d9113f3b92865aa9654bbd90d95d8239428e0e46
+```
+
+### Result
+
+```text
+BUG-850-166=L2
+STATUS=PASS
+PROMOTED=YES
+DB_MIGRATION_REQUIRED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
 
 ## BUG-850-167 — NPC AI exception could leave the running flag stuck
 
