@@ -54,6 +54,70 @@ namespace L1JTW850Launcher
             _inventoryBridge = new MappedInventoryBridge(appDir);
         }
 
+        private void ApplyPlayerMap(
+            RuntimeSnapshot snapshot)
+        {
+            if (!File.Exists(_runtimeMapPath))
+                return;
+
+            RuntimeMap map;
+            try
+            {
+                map = RuntimeMap.Load(
+                    _runtimeMapPath);
+            }
+            catch
+            {
+                return;
+            }
+
+            if (!map.HasPlayerIdentity)
+                return;
+
+            using (var reader =
+                   new RuntimeMapReader())
+            {
+                string error;
+
+                if (!reader.Attach(
+                    snapshot.ProcessId,
+                    snapshot.ModuleBase,
+                    out error))
+                    return;
+
+                uint objectId;
+                ushort x;
+                ushort y;
+
+                if (!reader.TryReadUInt32(
+                    map.PlayerObjectId,
+                    out objectId,
+                    out error))
+                    return;
+
+                if (!reader.TryReadUInt16(
+                    map.PlayerX,
+                    out x,
+                    out error))
+                    return;
+
+                if (!reader.TryReadUInt16(
+                    map.PlayerY,
+                    out y,
+                    out error))
+                    return;
+
+                if (objectId == 0)
+                    return;
+
+                snapshot.PlayerObjectId =
+                    objectId;
+
+                snapshot.PlayerX = x;
+                snapshot.PlayerY = y;
+            }
+        }
+
         private void ApplyHpMpMap(RuntimeSnapshot snapshot)
         {
             if (!File.Exists(_runtimeMapPath))
@@ -304,6 +368,7 @@ namespace L1JTW850Launcher
                             "已連接 Lin.bin2，PID=" + process.Id +
                             "，基址=0x" + module.BaseAddress.ToInt64().ToString("X8");
 
+                        ApplyPlayerMap(snapshot);
                         ApplyHpMpMap(snapshot);
 
                         var inventory = _inventoryBridge.Read(snapshot);
