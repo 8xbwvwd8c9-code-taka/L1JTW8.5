@@ -425,6 +425,21 @@ LONG_ARITHMETIC_REQUIRED=YES
 
 BUG-850-12 算術權威：`newAdena=(long)adena+count`、`newTreasury=(long)treasury-count` 必須先用 long 計算再驗證；不得以 int32 先相加後才檢查上限。此項僅完成 arithmetic proof，source contract / targeted runtime / CI 尚未全數 PASS 前不得標記 DONE。
 
+### BUG-850-14 / BUG-850-15 算術驗證（2026-09-22）
+
+```text
+ARITHMETIC=PASS
+MAX_TOTAL=2,000,000,000
+COUNT_POSITIVE_REQUIRED=YES
+CLIENT_PRICE_EXACT_MATCH=YES
+INT32_MULTIPLICATION_SAFE=NO
+LONG_REQUIRED=YES
+BOUNDARY=PASS
+OVERFLOW_WITH_LONG=PASS
+```
+
+權威公式：`total=(long)unitPrice*count`。先用 long 計算，再驗證 `0<=total<=2,000,000,000` 且 `clientPrice==total`；不得先用 int32 乘法後再做上限檢查。等於 2,000,000,000 合法，超過即拒絕；count=0 與 client/server price mismatch 皆拒絕。此項完成 arithmetic proof，source contract / targeted runtime / CI 尚未全部 PASS 前維持 `PATCHED_PENDING_VALIDATION`。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
