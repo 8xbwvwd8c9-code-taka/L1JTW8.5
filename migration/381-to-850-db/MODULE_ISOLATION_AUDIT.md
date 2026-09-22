@@ -221,3 +221,37 @@ This confirms these are active server modules, not dead DB tables.
 - `CraftListTable.a()`
 
 Therefore the high-version crafting framework is a first-class boot-time subsystem and is the preferred target for 381 recipe conversion.
+
+
+### Clan Skill -> L3 confirmed
+381 DB/core coupling:
+- dedicated table: `w_血盟技能`
+- clan persistence also extends `clan_data` with:
+  - `clan_level`
+  - `clan_contribution`
+  - `clanskill`
+  - `skilltime`
+  - `clan_adena`
+  - `clanskill_id`
+  - `clanskill_lv`
+- `ClanTable` reads/writes these fields.
+- `L1Clan` owns matching state.
+- `ClanSkillDBSet` is event-driven and mutually exclusive with another clan-skill implementation.
+
+850 baseline:
+- current `clan_data` only contains base clan identity/leader/castle/house/emblem/watch-clan fields.
+- required 381 clan-skill persistence fields are absent.
+
+Isolation package requirement:
+- `w_血盟技能` table
+- additive ALTERs for `clan_data`
+- matching L1Clan/storage changes
+- event/startup registration
+- skill application/removal hooks
+- explicit conflict guard with any other clan-skill implementation
+
+Difficulty: **L3**
+
+Note:
+`w_血盟等級` is a related but separate subsystem until further call-graph proof. Do not force it into the clan-skill package unless required.
+
