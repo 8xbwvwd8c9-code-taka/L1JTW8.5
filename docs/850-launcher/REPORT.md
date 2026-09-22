@@ -562,6 +562,47 @@ EQUIPPED=UNKNOWN
 No donor address or guessed item layout is embedded.
 
 
+## 2026-09-22 850Launcher v0.5 stable mapping pipeline
+
+```text
+STATUS=PASS_SOURCE
+POINTER_CHAIN_SCAN=READ_ONLY
+POINTER_DEPTH=1|2
+STATIC_ROOT=Lin.bin2 module RVA
+RUNTIME_MAP_FILE=runtime-map.ini
+RUNTIME_MAP_UI=IMPLEMENTED
+WRITE_PROCESS_MEMORY=NO
+```
+
+Added:
+
+- read-only pointer-chain search from a validated absolute HP/MP candidate back to a static `Lin.bin2` root;
+- one-level and two-level pointer expressions;
+- configurable max offset;
+- evidence export to `pointer_probe_evidence.txt`;
+- **映射** UI for CurrentHP / MaxHP / CurrentMP / MaxMP;
+- mapping syntax validation;
+- `runtime-map.ini` hot reload through the normal runtime bridge;
+- deploy creates `runtime-map.ini` only when missing and never overwrites an existing mapping.
+
+Supported syntax:
+
+```text
+RVA:0x<RVA>
+PTR:0x<baseRVA>|0x<finalOffset>
+PTR:0x<baseRVA>|0x<offset1>|0x<finalOffset>
+```
+
+Acceptance boundary remains:
+
+```text
+FORMAT_PASS != WP4_PASS
+SINGLE_SESSION != WP4_PASS
+RELOG_REQUIRED
+FULL_CLIENT_RESTART_REQUIRED
+```
+
+
 ## 下一步
 
 ```text
