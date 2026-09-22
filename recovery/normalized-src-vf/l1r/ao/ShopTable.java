@@ -394,7 +394,7 @@ public class ShopTable {
                   int var34 = var6.d((int)var7);
                   L1Castle var36 = CastleTable.a().a(7);
                   L1Castle var38 = CastleTable.a().a(8);
-                  if (var34 <= 0) {
+                  if (var34 > 0) {
                      synchronized (var36) {
                         if (var36.f() < 2000000000) {
                            var36.b(var36.f() + var34 / 2);
@@ -490,7 +490,7 @@ public class ShopTable {
                int var28 = var5.d((int)var6);
                L1Castle var30 = CastleTable.a().a(7);
                L1Castle var32 = CastleTable.a().a(8);
-               if (var28 <= 0) {
+               if (var28 > 0) {
                   synchronized (var30) {
                      if (var30.f() < 2000000000) {
                         var30.b(var30.f() + var28 / 2);
