@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-144 | L2 | house-sale price range validation | PASS / PROMOTED |
 | BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
 | BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
 | BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
@@ -50,6 +51,58 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-144 — unchecked house-sale price flowed into auction settlement
+
+### Problem
+
+The original house-sale amount response accepted the client-supplied sale price without a bounded server-side range, and settlement later trusted the stored house price for payout/accounting.
+
+### Fix
+
+The accepted sale-price domain is now enforced at both boundaries:
+
+```text
+100000 <= price <= 2000000000
+```
+
+- `C_Amount agsell` rejects prices outside the range before mutating house state.
+- `HouseTimer` revalidates the persisted/live price again before settlement.
+- No payout-percentage formula was changed.
+
+### Validation
+
+```text
+GitHub Actions run = 35714805839
+STATUS = PASS
+
+BUG_850_144_CONTRACT=PASS
+BUG_850_144_TARGETED_JAVAC=PASS
+BUG_850_144_TARGETED_BEHAVIOR_RUNTIME=PASS
+PRICE_99999_REJECTED=PASS
+PRICE_100000_ALLOWED=PASS
+PRICE_2000000000_ALLOWED=PASS
+PRICE_2000000001_REJECTED=PASS
+```
+
+### Promotion
+
+```text
+normalized C_Amount = b1e0702cd79373a9a6b5d6ab8c5b43c24939ea5e
+obfuscated C_Amount = d1f9914ebe9b6fdbe70cb575381fd623032a27bf
+normalized HouseTimer = ed020fc740d27b820087ab8cffec9992db18acd9
+obfuscated HouseTimer = 702e8a44065f6f342c43465201d16998dba37643
+```
+
+### Result
+
+```text
+BUG-850-144=L2
+STATUS=PASS
+PROMOTED=YES
+CALC_RULE_CHANGE=NO
+```
+
 
 ## BUG-850-145 — seller payout was not bound to durable ownership transfer
 
