@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-165 | L2 | summon logout lifecycle cleanup | PASS / PROMOTED |
 | BUG-850-166 | L2 | clan creation / Adena / membership atomicity | PASS / PROMOTED |
 | BUG-850-167 | L2 | NPC AI exception / running-flag lifecycle | PASS / PROMOTED |
 | BUG-850-178 | L2 | board-write local interaction / persistence-fee consistency | PASS / PROMOTED |
@@ -41,6 +42,59 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-165 — logout hid summons without releasing their server lifecycle
+
+### Problem
+
+The recovered logout path notified nearby clients that a summon disappeared, but left the summon object alive in server state.
+
+This could retain owner/world references after the player had logged out.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains:
+
+- `cc1a753c736ee6c965c90bd659d37b01fc57ee24` — guard already-destroyed summons and call the existing summon release path during logout.
+
+### Fix
+
+The normalized `L1PcInstance.java` now mirrors that completed behavior:
+
+- skip already-destroyed summons;
+- send removal packets to nearby players;
+- call the summon's existing `h()` release/dismiss path.
+
+### Validation
+
+```text
+GitHub Actions run = 35710509931
+STATUS = PASS
+
+BUG_850_165_CONTRACT=PASS
+BUG_850_165_SYNTHETIC_PROMOTION_JAVAC_REGRESSION=PASS
+BUG_850_165_TARGETED_BEHAVIOR_RUNTIME=PASS
+LIVE_SUMMON_RELEASED=PASS
+DESTROYED_SUMMON_SKIPPED=PASS
+```
+
+### Promotion
+
+```text
+normalized parity = 563ebacec28d023de36d149ab40ea5f80578c217
+obfuscated existing repair = cc1a753c736ee6c965c90bd659d37b01fc57ee24
+```
+
+### Result
+
+```text
+BUG-850-165=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+```
+
 
 ## BUG-850-166 — clan creation was not transactionally bound to the 30,000 Adena fee
 
