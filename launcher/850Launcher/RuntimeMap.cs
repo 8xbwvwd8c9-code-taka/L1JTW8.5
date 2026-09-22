@@ -13,29 +13,44 @@ namespace L1JTW850Launcher
         public int BaseRva;
         public readonly List<int> Offsets = new List<int>();
 
-        public static RuntimeFieldMap Parse(string name, string text)
+        public static RuntimeFieldMap Parse(
+            string name,
+            string text)
         {
             if (string.IsNullOrWhiteSpace(text))
                 return null;
 
             text = text.Trim();
 
-            if (text.StartsWith("RVA:", StringComparison.OrdinalIgnoreCase))
+            if (text.StartsWith(
+                "RVA:",
+                StringComparison.OrdinalIgnoreCase))
             {
                 return new RuntimeFieldMap
                 {
                     Name = name,
                     IsPointerChain = false,
-                    BaseRva = ParseInt(text.Substring(4))
+                    BaseRva = ParseInt(
+                        text.Substring(4))
                 };
             }
 
-            if (text.StartsWith("PTR:", StringComparison.OrdinalIgnoreCase))
+            if (text.StartsWith(
+                "PTR:",
+                StringComparison.OrdinalIgnoreCase))
             {
                 var body = text.Substring(4);
-                var parts = body.Split(new[] { '|' }, StringSplitOptions.RemoveEmptyEntries);
+
+                var parts = body.Split(
+                    new[] { '|' },
+                    StringSplitOptions.RemoveEmptyEntries);
+
                 if (parts.Length < 2)
-                    throw new InvalidDataException(name + " PTR 格式至少需要 baseRVA 與一個 offset。");
+                {
+                    throw new InvalidDataException(
+                        name +
+                        " PTR 格式至少需要 baseRVA 與一個 offset。");
+                }
 
                 var map = new RuntimeFieldMap
                 {
@@ -44,32 +59,78 @@ namespace L1JTW850Launcher
                     BaseRva = ParseInt(parts[0])
                 };
 
-                for (var i = 1; i < parts.Length; i++)
-                    map.Offsets.Add(ParseInt(parts[i]));
+                for (var i = 1;
+                     i < parts.Length;
+                     i++)
+                {
+                    map.Offsets.Add(
+                        ParseInt(parts[i]));
+                }
 
                 return map;
             }
 
             throw new InvalidDataException(
-                name + " 格式錯誤。支援 RVA:0x1234 或 PTR:0x1234|0x10|0x20。");
+                name +
+                " 格式錯誤。支援 RVA:0x1234 或 PTR:0x1234|0x10|0x20。");
         }
 
-        private static int ParseInt(string text)
+        private static int ParseInt(
+            string text)
         {
             text = text.Trim();
-            if (text.StartsWith("0x", StringComparison.OrdinalIgnoreCase))
-                return int.Parse(text.Substring(2), NumberStyles.HexNumber, CultureInfo.InvariantCulture);
 
-            return int.Parse(text, NumberStyles.Integer, CultureInfo.InvariantCulture);
+            var negative =
+                text.StartsWith("-");
+
+            if (negative)
+                text = text.Substring(1);
+
+            int value;
+
+            if (text.StartsWith(
+                "0x",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                value = int.Parse(
+                    text.Substring(2),
+                    NumberStyles.HexNumber,
+                    CultureInfo.InvariantCulture);
+            }
+            else
+            {
+                value = int.Parse(
+                    text,
+                    NumberStyles.Integer,
+                    CultureInfo.InvariantCulture);
+            }
+
+            return negative
+                ? -value
+                : value;
         }
     }
 
     internal sealed class RuntimeMap
     {
+        public RuntimeFieldMap PlayerObjectId;
+        public RuntimeFieldMap PlayerX;
+        public RuntimeFieldMap PlayerY;
+
         public RuntimeFieldMap CurrentHp;
         public RuntimeFieldMap MaxHp;
         public RuntimeFieldMap CurrentMp;
         public RuntimeFieldMap MaxMp;
+
+        public bool HasPlayerIdentity
+        {
+            get
+            {
+                return PlayerObjectId != null &&
+                       PlayerX != null &&
+                       PlayerY != null;
+            }
+        }
 
         public bool HasHpMp
         {
@@ -82,31 +143,98 @@ namespace L1JTW850Launcher
             }
         }
 
-        public static RuntimeMap Load(string path)
+        public static RuntimeMap Load(
+            string path)
         {
             var ini = IniDocument.Load(path);
+
             return new RuntimeMap
             {
-                CurrentHp = RuntimeFieldMap.Parse("CurrentHP", ini.Get("HPMP", "CurrentHP", "")),
-                MaxHp = RuntimeFieldMap.Parse("MaxHP", ini.Get("HPMP", "MaxHP", "")),
-                CurrentMp = RuntimeFieldMap.Parse("CurrentMP", ini.Get("HPMP", "CurrentMP", "")),
-                MaxMp = RuntimeFieldMap.Parse("MaxMP", ini.Get("HPMP", "MaxMP", ""))
+                PlayerObjectId =
+                    RuntimeFieldMap.Parse(
+                        "PlayerObjectId",
+                        ini.Get(
+                            "Player",
+                            "ObjectId",
+                            "")),
+
+                PlayerX =
+                    RuntimeFieldMap.Parse(
+                        "PlayerX",
+                        ini.Get(
+                            "Player",
+                            "X",
+                            "")),
+
+                PlayerY =
+                    RuntimeFieldMap.Parse(
+                        "PlayerY",
+                        ini.Get(
+                            "Player",
+                            "Y",
+                            "")),
+
+                CurrentHp =
+                    RuntimeFieldMap.Parse(
+                        "CurrentHP",
+                        ini.Get(
+                            "HPMP",
+                            "CurrentHP",
+                            "")),
+
+                MaxHp =
+                    RuntimeFieldMap.Parse(
+                        "MaxHP",
+                        ini.Get(
+                            "HPMP",
+                            "MaxHP",
+                            "")),
+
+                CurrentMp =
+                    RuntimeFieldMap.Parse(
+                        "CurrentMP",
+                        ini.Get(
+                            "HPMP",
+                            "CurrentMP",
+                            "")),
+
+                MaxMp =
+                    RuntimeFieldMap.Parse(
+                        "MaxMP",
+                        ini.Get(
+                            "HPMP",
+                            "MaxMP",
+                            ""))
             };
         }
     }
 
-    internal sealed class RuntimeMapReader : IDisposable
+    internal sealed class RuntimeMapReader :
+        IDisposable
     {
-        private const uint PROCESS_VM_READ = 0x0010;
-        private const uint PROCESS_QUERY_INFORMATION = 0x0400;
+        private const uint PROCESS_VM_READ =
+            0x0010;
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern IntPtr OpenProcess(uint access, bool inheritHandle, int processId);
+        private const uint PROCESS_QUERY_INFORMATION =
+            0x0400;
 
-        [DllImport("kernel32.dll", SetLastError = true)]
-        private static extern bool CloseHandle(IntPtr handle);
+        [DllImport(
+            "kernel32.dll",
+            SetLastError = true)]
+        private static extern IntPtr OpenProcess(
+            uint access,
+            bool inheritHandle,
+            int processId);
 
-        [DllImport("kernel32.dll", SetLastError = true)]
+        [DllImport(
+            "kernel32.dll",
+            SetLastError = true)]
+        private static extern bool CloseHandle(
+            IntPtr handle);
+
+        [DllImport(
+            "kernel32.dll",
+            SetLastError = true)]
         private static extern bool ReadProcessMemory(
             IntPtr processHandle,
             IntPtr baseAddress,
@@ -114,18 +242,32 @@ namespace L1JTW850Launcher
             int size,
             out IntPtr bytesRead);
 
-        private IntPtr _handle = IntPtr.Zero;
-        private IntPtr _moduleBase = IntPtr.Zero;
+        private IntPtr _handle =
+            IntPtr.Zero;
 
-        public bool Attach(int pid, IntPtr moduleBase, out string error)
+        private IntPtr _moduleBase =
+            IntPtr.Zero;
+
+        public bool Attach(
+            int pid,
+            IntPtr moduleBase,
+            out string error)
         {
             error = "";
             Dispose();
 
-            _handle = OpenProcess(PROCESS_QUERY_INFORMATION | PROCESS_VM_READ, false, pid);
+            _handle = OpenProcess(
+                PROCESS_QUERY_INFORMATION |
+                PROCESS_VM_READ,
+                false,
+                pid);
+
             if (_handle == IntPtr.Zero)
             {
-                error = "OpenProcess 失敗，Win32=" + Marshal.GetLastWin32Error();
+                error =
+                    "OpenProcess 失敗，Win32=" +
+                    Marshal.GetLastWin32Error();
+
                 return false;
             }
 
@@ -133,49 +275,189 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        public bool TryReadInt32(RuntimeFieldMap map, out int value, out string error)
+        public bool TryReadInt32(
+            RuntimeFieldMap map,
+            out int value,
+            out string error)
         {
             value = 0;
+
+            IntPtr address;
+            if (!TryResolveAddress(
+                map,
+                out address,
+                out error))
+                return false;
+
+            return TryReadInt32At(
+                address,
+                out value,
+                out error);
+        }
+
+        public bool TryReadUInt32(
+            RuntimeFieldMap map,
+            out uint value,
+            out string error)
+        {
+            value = 0;
+
+            IntPtr address;
+            if (!TryResolveAddress(
+                map,
+                out address,
+                out error))
+                return false;
+
+            return TryReadUInt32At(
+                address,
+                out value,
+                out error);
+        }
+
+        public bool TryReadUInt16(
+            RuntimeFieldMap map,
+            out ushort value,
+            out string error)
+        {
+            value = 0;
+
+            IntPtr address;
+            if (!TryResolveAddress(
+                map,
+                out address,
+                out error))
+                return false;
+
+            return TryReadUInt16At(
+                address,
+                out value,
+                out error);
+        }
+
+        private bool TryResolveAddress(
+            RuntimeFieldMap map,
+            out IntPtr address,
+            out string error)
+        {
+            address = IntPtr.Zero;
             error = "";
 
-            if (_handle == IntPtr.Zero || _moduleBase == IntPtr.Zero)
+            if (_handle == IntPtr.Zero ||
+                _moduleBase == IntPtr.Zero)
             {
                 error = "尚未連接程序。";
                 return false;
             }
 
+            if (map == null)
+            {
+                error = "Runtime field map 為空。";
+                return false;
+            }
+
             try
             {
-                long address = _moduleBase.ToInt64() + (uint)map.BaseRva;
+                long current =
+                    _moduleBase.ToInt64() +
+                    (long)(uint)map.BaseRva;
 
                 if (!map.IsPointerChain)
-                    return TryReadInt32At(new IntPtr(address), out value, out error);
+                {
+                    if (!IsX86Address(current))
+                    {
+                        error =
+                            map.Name +
+                            " RVA 解析後超出 x86 範圍。";
+
+                        return false;
+                    }
+
+                    address =
+                        new IntPtr(current);
+
+                    return true;
+                }
 
                 if (map.Offsets.Count == 0)
                 {
-                    error = "Pointer chain 無 offset。";
+                    error =
+                        map.Name +
+                        " pointer chain 無 offset。";
+
                     return false;
                 }
 
                 uint pointer;
-                if (!TryReadUInt32At(new IntPtr(address), out pointer, out error))
+                if (!TryReadUInt32At(
+                    new IntPtr(current),
+                    out pointer,
+                    out error))
                     return false;
 
-                for (var i = 0; i < map.Offsets.Count - 1; i++)
+                if (pointer < 0x10000)
                 {
-                    var nextAddress = unchecked((uint)(pointer + map.Offsets[i]));
-                    if (!TryReadUInt32At(new IntPtr(nextAddress), out pointer, out error))
+                    error =
+                        map.Name +
+                        " pointer chain root 為 NULL/無效。";
+
+                    return false;
+                }
+
+                for (var i = 0;
+                     i < map.Offsets.Count - 1;
+                     i++)
+                {
+                    var nextAddress =
+                        (long)pointer +
+                        map.Offsets[i];
+
+                    if (!IsX86Address(
+                        nextAddress))
+                    {
+                        error =
+                            map.Name +
+                            " pointer chain 中間位址超出 x86 範圍。";
+
+                        return false;
+                    }
+
+                    if (!TryReadUInt32At(
+                        new IntPtr(
+                            nextAddress),
+                        out pointer,
+                        out error))
                         return false;
 
-                    if (pointer == 0)
+                    if (pointer < 0x10000)
                     {
-                        error = "Pointer chain 遇到 NULL。";
+                        error =
+                            map.Name +
+                            " pointer chain 遇到 NULL/無效 pointer。";
+
                         return false;
                     }
                 }
 
-                var finalAddress = unchecked((uint)(pointer + map.Offsets[map.Offsets.Count - 1]));
-                return TryReadInt32At(new IntPtr(finalAddress), out value, out error);
+                var finalAddress =
+                    (long)pointer +
+                    map.Offsets[
+                        map.Offsets.Count - 1];
+
+                if (!IsX86Address(
+                    finalAddress))
+                {
+                    error =
+                        map.Name +
+                        " final address 超出 x86 範圍。";
+
+                    return false;
+                }
+
+                address =
+                    new IntPtr(finalAddress);
+
+                return true;
             }
             catch (Exception ex)
             {
@@ -184,44 +466,119 @@ namespace L1JTW850Launcher
             }
         }
 
-        private bool TryReadUInt32At(IntPtr address, out uint value, out string error)
+        private bool TryReadUInt32At(
+            IntPtr address,
+            out uint value,
+            out string error)
         {
             value = 0;
             error = "";
+
             var buffer = new byte[4];
             IntPtr bytesRead;
 
-            if (!ReadProcessMemory(_handle, address, buffer, 4, out bytesRead) ||
+            if (!ReadProcessMemory(
+                _handle,
+                address,
+                buffer,
+                4,
+                out bytesRead) ||
                 bytesRead.ToInt64() != 4)
             {
-                error = "ReadProcessMemory 失敗 @0x" +
-                        address.ToInt64().ToString("X8") +
-                        " Win32=" + Marshal.GetLastWin32Error();
+                error =
+                    "ReadProcessMemory 失敗 @0x" +
+                    address.ToInt64().ToString("X8") +
+                    " Win32=" +
+                    Marshal.GetLastWin32Error();
+
                 return false;
             }
 
-            value = BitConverter.ToUInt32(buffer, 0);
+            value =
+                BitConverter.ToUInt32(
+                    buffer,
+                    0);
+
             return true;
         }
 
-        private bool TryReadInt32At(IntPtr address, out int value, out string error)
+        private bool TryReadUInt16At(
+            IntPtr address,
+            out ushort value,
+            out string error)
         {
             value = 0;
             error = "";
-            var buffer = new byte[4];
+
+            var buffer = new byte[2];
             IntPtr bytesRead;
 
-            if (!ReadProcessMemory(_handle, address, buffer, 4, out bytesRead) ||
-                bytesRead.ToInt64() != 4)
+            if (!ReadProcessMemory(
+                _handle,
+                address,
+                buffer,
+                2,
+                out bytesRead) ||
+                bytesRead.ToInt64() != 2)
             {
-                error = "ReadProcessMemory 失敗 @0x" +
-                        address.ToInt64().ToString("X8") +
-                        " Win32=" + Marshal.GetLastWin32Error();
+                error =
+                    "ReadProcessMemory 失敗 @0x" +
+                    address.ToInt64().ToString("X8") +
+                    " Win32=" +
+                    Marshal.GetLastWin32Error();
+
                 return false;
             }
 
-            value = BitConverter.ToInt32(buffer, 0);
+            value =
+                BitConverter.ToUInt16(
+                    buffer,
+                    0);
+
             return true;
+        }
+
+        private bool TryReadInt32At(
+            IntPtr address,
+            out int value,
+            out string error)
+        {
+            value = 0;
+            error = "";
+
+            var buffer = new byte[4];
+            IntPtr bytesRead;
+
+            if (!ReadProcessMemory(
+                _handle,
+                address,
+                buffer,
+                4,
+                out bytesRead) ||
+                bytesRead.ToInt64() != 4)
+            {
+                error =
+                    "ReadProcessMemory 失敗 @0x" +
+                    address.ToInt64().ToString("X8") +
+                    " Win32=" +
+                    Marshal.GetLastWin32Error();
+
+                return false;
+            }
+
+            value =
+                BitConverter.ToInt32(
+                    buffer,
+                    0);
+
+            return true;
+        }
+
+        private static bool IsX86Address(
+            long address)
+        {
+            return address >= 0x10000L &&
+                   address <= uint.MaxValue;
         }
 
         public void Dispose()
@@ -231,7 +588,9 @@ namespace L1JTW850Launcher
                 CloseHandle(_handle);
                 _handle = IntPtr.Zero;
             }
-            _moduleBase = IntPtr.Zero;
+
+            _moduleBase =
+                IntPtr.Zero;
         }
     }
 }
