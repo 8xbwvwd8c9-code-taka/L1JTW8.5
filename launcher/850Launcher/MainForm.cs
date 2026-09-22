@@ -119,6 +119,8 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildPointerProbeTab());
                 tabs.TabPages.Add(BuildPointerEvidenceCompareTab());
                 tabs.TabPages.Add(BuildRuntimeMapTab());
+                tabs.TabPages.Add(BuildRuntimeSemanticValidationTab());
+                tabs.TabPages.Add(BuildRuntimeSemanticValidationCompareTab());
                 tabs.TabPages.Add(BuildItemUseProtocolTab());
                 tabs.TabPages.Add(BuildNativeSendProbeTab());
                 tabs.TabPages.Add(BuildNativeCallGraphTab());
@@ -398,6 +400,20 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("映射");
             p.Controls.Add(new RuntimeMapControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildRuntimeSemanticValidationTab()
+        {
+            var p = NewPage("映射驗證");
+            p.Controls.Add(new RuntimeSemanticValidationControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildRuntimeSemanticValidationCompareTab()
+        {
+            var p = NewPage("語意比對");
+            p.Controls.Add(new RuntimeSemanticValidationCompareControl(_appDir));
             return p;
         }
 
