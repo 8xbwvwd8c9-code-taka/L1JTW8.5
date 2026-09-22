@@ -35,6 +35,7 @@ BUG
 | BUG-850-142 | L2 | house bid payment / persistence / refund atomicity | PASS / PROMOTED |
 | BUG-850-141 | L2 | house bid state / eligibility / minimum-price revalidation | PASS / PROMOTED |
 | BUG-850-137 | L2 | inn rental amount multiplication overflow | PASS / PROMOTED |
+| BUG-850-132 | L2 | town salary claim reset / payout atomicity | PASS / PROMOTED |
 | BUG-850-136 | L2 | inn payment/key/lease persistence coupling | PASS / PROMOTED |
 | BUG-850-140 | L2 | house sale ownership / keeper / leader revalidation | PASS / PROMOTED |
 | BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
@@ -453,6 +454,63 @@ obfuscated existing economic guard = 7615d0eedb211c61b880782d9fdbaf30403ad52f
 BUG-850-137=L2
 STATUS=PASS
 PROMOTED=YES
+```
+
+
+## BUG-850-132 — town salary claim returned Pay even when durable reset failed
+
+### Problem
+
+The original claim path read `Pay`, attempted a separate reset to zero, swallowed SQL failures, and returned the previously read value regardless of whether the reset succeeded.
+
+Concurrent or failed claims could therefore duplicate salary.
+
+### Fix
+
+The normalized claim path now mirrors the completed transactional authority:
+
+- open an explicit transaction;
+- `SELECT Pay ... FOR UPDATE`;
+- reject missing/zero salary;
+- CAS reset with `WHERE objid=? AND Pay=?`;
+- require `affectedRows == 1`;
+- commit before returning the salary;
+- rollback and return `0` on every failure.
+
+### Storage prerequisite
+
+```text
+db/migrations/BUG-850-132_characters_innodb.sql
+```
+
+The `characters` table is explicitly required to use InnoDB so row locking and rollback are authoritative.
+
+### Validation
+
+```text
+RUN=35722329957
+STATUS=PASS
+BUG_850_132_CONTRACT=PASS
+BUG_850_132_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_132_TARGETED_BEHAVIOR_RUNTIME=PASS
+CHARACTERS_INNODB_MIGRATION=PASS
+```
+
+### Promotion
+
+```text
+normalized HomeTownTimer = b9d5553cbd65f92ba0348982b13038a44ece4e36
+migration = 90c03e09822d94d390f7b5b279408987edb189e1
+obfuscated existing authority = e3e9684c92a57cfc4433e6a1994ef977f30cbfef
+```
+
+### Result
+
+```text
+BUG-850-132=L2
+STATUS=PASS
+PROMOTED=YES
+DB_MIGRATION_REQUIRED=YES
 ```
 
 
