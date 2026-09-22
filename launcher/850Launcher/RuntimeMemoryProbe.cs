@@ -169,6 +169,161 @@ namespace L1JTW850Launcher
             return result;
         }
 
+        public ProbeResult FirstScanUInt16(
+            IDictionary<string, ushort> fields)
+        {
+            var result = new ProbeResult();
+
+            foreach (var field in fields)
+                result.Candidates[field.Key] =
+                    new List<IntPtr>();
+
+            if (_handle == IntPtr.Zero)
+            {
+                result.Status = "尚未連接程序。";
+                return result;
+            }
+
+            var byValue =
+                new Dictionary<ushort, List<string>>();
+
+            foreach (var kv in fields)
+            {
+                List<string> names;
+                if (!byValue.TryGetValue(
+                    kv.Value,
+                    out names))
+                {
+                    names = new List<string>();
+                    byValue.Add(
+                        kv.Value,
+                        names);
+                }
+
+                names.Add(kv.Key);
+            }
+
+            var mbiSize =
+                (uint)Marshal.SizeOf(
+                    typeof(MEMORY_BASIC_INFORMATION));
+
+            long address = 0x10000;
+            const long maxAddress =
+                0x7FFF0000;
+
+            while (address < maxAddress)
+            {
+                MEMORY_BASIC_INFORMATION mbi;
+
+                var queried =
+                    VirtualQueryEx(
+                        _handle,
+                        new IntPtr(address),
+                        out mbi,
+                        mbiSize);
+
+                if (queried == 0)
+                    break;
+
+                var regionBase =
+                    mbi.BaseAddress.ToInt64();
+
+                var regionSize =
+                    (long)mbi.RegionSize.ToUInt32();
+
+                if (regionSize <= 0)
+                    break;
+
+                if (mbi.State == MEM_COMMIT &&
+                    (mbi.Protect & PAGE_GUARD) == 0 &&
+                    (mbi.Protect & PAGE_NOACCESS) == 0)
+                {
+                    ScanRegionUInt16(
+                        regionBase,
+                        regionSize,
+                        byValue,
+                        result);
+
+                    if (result.CandidateLimitReached)
+                        break;
+                }
+
+                var next =
+                    regionBase + regionSize;
+
+                if (next <= address)
+                    break;
+
+                address = next;
+            }
+
+            result.Status =
+                result.CandidateLimitReached
+                    ? "16-bit 首次掃描完成，但候選數達安全上限。"
+                    : "16-bit 首次掃描完成。";
+
+            return result;
+        }
+
+        public ProbeResult RefineUInt16(
+            IDictionary<string, ushort> currentValues,
+            IDictionary<string, List<IntPtr>> previous)
+        {
+            var result = new ProbeResult();
+
+            foreach (var field in currentValues)
+                result.Candidates[field.Key] =
+                    new List<IntPtr>();
+
+            if (_handle == IntPtr.Zero)
+            {
+                result.Status = "尚未連接程序。";
+                return result;
+            }
+
+            var buffer = new byte[2];
+
+            foreach (var field in currentValues)
+            {
+                List<IntPtr> oldList;
+
+                if (!previous.TryGetValue(
+                    field.Key,
+                    out oldList))
+                    continue;
+
+                foreach (var candidate in oldList)
+                {
+                    IntPtr bytesRead;
+
+                    if (!ReadProcessMemory(
+                        _handle,
+                        candidate,
+                        buffer,
+                        2,
+                        out bytesRead) ||
+                        bytesRead.ToInt64() != 2)
+                        continue;
+
+                    if (BitConverter.ToUInt16(
+                        buffer,
+                        0) ==
+                        field.Value)
+                    {
+                        result.Candidates[
+                            field.Key].Add(
+                                candidate);
+                    }
+                }
+            }
+
+            result.Status =
+                "16-bit 再次篩選完成。";
+
+            return result;
+        }
+
+
         private static ProbeResult NewResult(IDictionary<string, int> fields)
         {
             var result = new ProbeResult();
@@ -219,6 +374,97 @@ namespace L1JTW850Launcher
                                 return;
                             }
                             list.Add(new IntPtr(regionBase + offset + i));
+                        }
+                    }
+                }
+
+                offset += wanted;
+            }
+        }
+
+        private void ScanRegionUInt16(
+            long regionBase,
+            long regionSize,
+            Dictionary<ushort, List<string>> targets,
+            ProbeResult result)
+        {
+            long offset = 0;
+
+            while (offset < regionSize)
+            {
+                var remaining =
+                    regionSize - offset;
+
+                var wanted =
+                    (int)Math.Min(
+                        (long)ChunkSize,
+                        remaining);
+
+                if (wanted < 2)
+                    break;
+
+                var buffer =
+                    new byte[wanted];
+
+                IntPtr bytesReadPtr;
+
+                var ok =
+                    ReadProcessMemory(
+                        _handle,
+                        new IntPtr(
+                            regionBase +
+                            offset),
+                        buffer,
+                        wanted,
+                        out bytesReadPtr);
+
+                var bytesRead =
+                    ok
+                        ? (int)Math.Min(
+                            (long)wanted,
+                            bytesReadPtr.ToInt64())
+                        : 0;
+
+                if (bytesRead >= 2)
+                {
+                    result.BytesScanned +=
+                        bytesRead;
+
+                    for (var i = 0;
+                         i <= bytesRead - 2;
+                         i += 2)
+                    {
+                        var value =
+                            BitConverter.ToUInt16(
+                                buffer,
+                                i);
+
+                        List<string> fields;
+
+                        if (!targets.TryGetValue(
+                            value,
+                            out fields))
+                            continue;
+
+                        foreach (var field in fields)
+                        {
+                            var list =
+                                result.Candidates[field];
+
+                            if (list.Count >=
+                                MaxCandidatesPerField)
+                            {
+                                result.CandidateLimitReached =
+                                    true;
+
+                                return;
+                            }
+
+                            list.Add(
+                                new IntPtr(
+                                    regionBase +
+                                    offset +
+                                    i));
                         }
                     }
                 }
