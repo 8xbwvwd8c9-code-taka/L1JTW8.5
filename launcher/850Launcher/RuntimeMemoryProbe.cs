@@ -266,6 +266,32 @@ namespace L1JTW850Launcher
             return true;
         }
 
+        public bool TryReadInt64(IntPtr address, out long value, out string error)
+        {
+            value = 0;
+            error = "";
+
+            if (_handle == IntPtr.Zero)
+            {
+                error = "尚未連接程序。";
+                return false;
+            }
+
+            var buffer = new byte[8];
+            IntPtr bytesRead;
+            if (!ReadProcessMemory(_handle, address, buffer, 8, out bytesRead) ||
+                bytesRead.ToInt64() != 8)
+            {
+                error = "ReadProcessMemory 失敗 @0x" +
+                        address.ToInt64().ToString("X8") +
+                        " Win32=" + Marshal.GetLastWin32Error();
+                return false;
+            }
+
+            value = BitConverter.ToInt64(buffer, 0);
+            return true;
+        }
+
         public bool TryReadInt16(IntPtr address, out short value, out string error)
         {
             value = 0;
