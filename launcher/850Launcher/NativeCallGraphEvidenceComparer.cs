@@ -72,12 +72,12 @@ namespace L1JTW850Launcher
     {
         private static readonly Regex FuncRegex =
             new Regex(
-                @"^FUNC depth=(?<depth>d+) rva=0x(?<rva>[0-9A-Fa-f]+) trigger=0x[0-9A-Fa-f]+ marker=(?<marker>S*) sha256_64=(?<sha>[0-9A-Fa-f]*) bytes=d+ source=(?<source>.*)$",
+                @"^FUNC depth=(?<depth>\d+) rva=0x(?<rva>[0-9A-Fa-f]+) trigger=0x[0-9A-Fa-f]+ marker=(?<marker>\S*) sha256_64=(?<sha>[0-9A-Fa-f]*) bytes=\d+ source=(?<source>.*)$",
                 RegexOptions.Compiled);
 
         private static readonly Regex EdgeRegex =
             new Regex(
-                @"^EDGE depth=(?<depth>d+) caller_func=0x(?<caller>[0-9A-Fa-f]+) call_rva=0x(?<call>[0-9A-Fa-f]+) target_func=0x(?<target>[0-9A-Fa-f]+) marker=.*$",
+                @"^EDGE depth=(?<depth>\d+) caller_func=0x(?<caller>[0-9A-Fa-f]+) call_rva=0x(?<call>[0-9A-Fa-f]+) target_func=0x(?<target>[0-9A-Fa-f]+) marker=.*$",
                 RegexOptions.Compiled);
 
         public static List<NativeEvidenceSession> LoadSessions(
