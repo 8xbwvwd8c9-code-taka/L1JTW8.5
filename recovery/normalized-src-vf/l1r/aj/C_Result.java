@@ -42,7 +42,14 @@ public class C_Result extends ClientBasePacket {
                int var31 = this.b();
                HashMap var32 = LuckyDrawTable.a().c(var2.e().d());
                L1ItemInstance var39 = var32.get(var30);
-               if (var3.j().a(var39, var31) != 0) {
+               if (var39 == null) {
+                  break;
+               }
+               int authoritativeCount = var39.E();
+               if (authoritativeCount <= 0) {
+                  break;
+               }
+               if (var3.j().a(var39, authoritativeCount) != 0) {
                   break;
                }
 
