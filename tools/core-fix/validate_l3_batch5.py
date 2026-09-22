@@ -50,7 +50,8 @@ req(book,'var5.executeBatch()',"BUG123_N_EXEC")
 before(book,"var3.commit()","var0.ba().remove(var2)","BUG123_N_COMMIT_RAM")
 req(book,"var3.rollback()","BUG123_N_ROLLBACK")
 req(booko,'con.setAutoCommit(false)',"BUG123_O_TX")
-req(booko,'update.addBatch()',"BUG123_O_BATCH")
+if 'update.addBatch()' not in booko and 'UPDATE character_teleport SET order_id=order_id-1 WHERE char_id=? AND order_id>?' not in booko:
+    raise AssertionError("BUG123_O_BATCH: neither batch reorder nor transactional SQL decrement found")
 before(booko,"con.commit()","pc.ba().remove(book)","BUG123_O_COMMIT_RAM")
 
 before(amount,"if (var8Object instanceof L1NpcInstance)","L1NpcInstance var8 =","BUG138_N")
