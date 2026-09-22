@@ -34,8 +34,14 @@ if (-not (Test-Path -LiteralPath $helperIni)) {
     Copy-Item -LiteralPath (Join-Path $PSScriptRoot "helper.ini.example") -Destination $helperIni
 }
 
+$runtimeMapIni = Join-Path $ClientDir "runtime-map.ini"
+if (-not (Test-Path -LiteralPath $runtimeMapIni)) {
+    Copy-Item -LiteralPath (Join-Path $PSScriptRoot "runtime-map.ini.example") -Destination $runtimeMapIni
+}
+
 Write-Host "STATUS=PASS"
 Write-Host "DEPLOYED=$(Join-Path $ClientDir '850Launcher.exe')"
 Write-Host "LAUNCHER_INI=$launcherIni"
 Write-Host "HELPER_INI=$helperIni"
-Write-Host "NEXT=Run 850Launcher.exe and test Save + Launch 850."
+Write-Host "RUNTIME_MAP_INI=$runtimeMapIni"
+Write-Host "NEXT=Run 850Launcher.exe; runtime-map.ini remains empty until WP3/WP4 validation passes."
