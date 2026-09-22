@@ -7,10 +7,12 @@ namespace L1JTW850Launcher
     internal sealed class MappedInventoryBridge : IInventoryBridge
     {
         private readonly string _mapPath;
+        private readonly ItemNameResolver _names;
 
         public MappedInventoryBridge(string appDir)
         {
             _mapPath = Path.Combine(appDir, "inventory-map.ini");
+            _names = new ItemNameResolver(appDir);
         }
 
         public InventoryReadResult Read(RuntimeSnapshot runtime)
@@ -349,7 +351,7 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        private static bool TryReadRecord(
+        private bool TryReadRecord(
             RuntimeMemoryProbe probe,
             IntPtr record,
             InventoryMap map,
@@ -434,7 +436,7 @@ namespace L1JTW850Launcher
                 ObjectId = (uint)objectIdRaw,
                 ItemId = (int)itemIdRaw,
                 Count = countRaw,
-                Name = "Item#" + itemIdRaw,
+                Name = _names.Resolve((int)itemIdRaw),
                 Enchant = (int)enchantRaw,
                 Equipped = equippedRaw != 0
             };
