@@ -48,6 +48,10 @@ public class i {
         int oldOwnerId = house.m();
         String bidder = house.n();
         int bidderId = house.o();
+        if (price < 100000 || price > 2000000000) {
+            a.log(Level.WARNING, "Invalid house auction price; settlement blocked. houseId={0}, price={1}", new Object[]{houseId, price});
+            return;
+        }
 
         aq.i oldClan = this.e(houseId);
         aq.i bidderClan = bidderId == 0 ? null : this.f(bidderId);
