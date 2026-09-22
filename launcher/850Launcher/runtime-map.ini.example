@@ -13,6 +13,11 @@
 ;
 ; Never copy 381/880 addresses here.
 
+[Player]
+ObjectId=
+X=
+Y=
+
 [HPMP]
 CurrentHP=
 MaxHP=
