@@ -104,6 +104,8 @@ namespace L1JTW850Launcher
                 return;
             }
 
+            var includeDepth2 = _depth2.Checked;
+
             _scan.Enabled = false;
             _copy.Enabled = false;
             _status.Text = "正在唯讀搜尋 Lin.bin2 靜態 root 與 pointer chain...";
@@ -122,7 +124,7 @@ namespace L1JTW850Launcher
                     runtime.ModuleSize,
                     maxOffset,
                     300,
-                    _depth2.Checked,
+                    includeDepth2,
                     out status);
 
                 e.Result = new object[] { list, status, runtime, target, maxOffset };
@@ -144,14 +146,14 @@ namespace L1JTW850Launcher
                 var targetValue = (long)data[3];
                 var offsetValue = (int)data[4];
 
-                ShowResults(list, rt.ModuleBase.ToInt64());
+                ShowResults(list);
                 _status.Text = status;
                 SaveEvidence(list, rt, targetValue, offsetValue);
             };
             worker.RunWorkerAsync();
         }
 
-        private void ShowResults(List<PointerChainCandidate> list, long moduleBase)
+        private void ShowResults(List<PointerChainCandidate> list)
         {
             _results.BeginUpdate();
             _results.Items.Clear();
