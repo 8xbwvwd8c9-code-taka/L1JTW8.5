@@ -28,6 +28,9 @@ BUG
 | BUG | Level | Area | Status |
 |---|---|---|---|
 | BUG-850-144 | L2 | house-sale price range validation | PASS / PROMOTED |
+| BUG-850-140 | L2 | house-sale authority revalidation | PASS / ALREADY COVERED |
+| BUG-850-141 | L2 | house-bid state / eligibility / minimum revalidation | PASS / PROMOTED |
+| BUG-850-142 | L2 | house-bid payment / persistence / refund atomicity | PASS / PROMOTED |
 | BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
 | BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
 | BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
@@ -101,6 +104,170 @@ BUG-850-144=L2
 STATUS=PASS
 PROMOTED=YES
 CALC_RULE_CHANGE=NO
+```
+
+
+## BUG-850-140 — house-sale amount response lacked mutation-time ownership authority
+
+### Existing repair coverage
+
+The completed normalized and obfuscated C_Amount paths already revalidate the sale authority before mutating house state:
+
+- the player must still belong to the owning clan;
+- the clan must still own the requested house;
+- the player must still be the clan leader;
+- the interacted NPC must still be that house's keeper;
+- an already-on-sale house is rejected.
+
+### Validation
+
+```text
+GitHub Actions run = 35716361051
+STATUS = PASS
+
+BUG_850_140_CONTRACT=PASS
+BUG_850_140_TARGETED_BEHAVIOR_RUNTIME=PASS
+CROSS_HOUSE_REJECTED=PASS
+NON_LEADER_REJECTED=PASS
+WRONG_KEEPER_REJECTED=PASS
+```
+
+### Result
+
+```text
+BUG-850-140=L2
+STATUS=PASS_ALREADY_COVERED
+NEW_CORE_PATCH=NO
+```
+
+
+## BUG-850-141 — house-bid amount response trusted stale auction eligibility
+
+### Problem
+
+The bid response originally relied on checks performed when the amount dialog was opened.
+
+At mutation time it did not re-prove auction state, bidder clan eligibility, deadline or the current minimum bid.
+
+### Fix
+
+The normalized C_Amount path now mirrors the existing hardened authority:
+
+- bidder clan must still exist;
+- player must still be leader and level >= 15;
+- clan must still own no house;
+- house must still be on sale;
+- deadline must still be in the future;
+- NPC distance must be <= 11;
+- first bid must meet current price;
+- rebid must be at least current price + 1;
+- amount must remain within the accepted upper bound.
+
+### Validation
+
+```text
+GitHub Actions run = 35716252593
+STATUS = PASS
+
+BUG_850_141_CONTRACT=PASS
+BUG_850_141_TARGETED_JAVAC=PASS
+BUG_850_141_TARGETED_BEHAVIOR_RUNTIME=PASS
+DEADLINE_EQUALITY_REJECTED=PASS
+REMOTE_BID_REJECTED=PASS
+MINIMUM_INCREMENT=PASS
+```
+
+### Promotion
+
+```text
+normalized = f264d9cb6322e1a021b521db349856f781992ac0
+obfuscated authority = 7615d0eedb211c61b880782d9fdbaf30403ad52f
+```
+
+### Result
+
+```text
+BUG-850-141=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-142 — house bid payment, persistence and previous-bidder refund were not atomic
+
+### Problem
+
+The old flow charged the new bidder, changed live house state, persisted the house, then refunded the previous bidder as separate operations.
+
+A failure in the middle could split the durable auction state from both players' Adena state.
+
+### Fix
+
+The bid replacement now uses one JDBC transaction across `house` and `character_items`:
+
+1. house row updates through an expected-state CAS over house id, sale flag, price, bidder id and deadline;
+2. the new bidder's Adena stack updates/deletes through expected-count CAS;
+3. the previous bidder's refund is applied in the same transaction, including offline characters;
+4. transaction commits only if every durable mutation succeeds;
+5. house RAM and inventory RAM/packets publish only after commit;
+6. any SQL/CAS failure rolls back without publishing the new bid.
+
+Both tables are required to use InnoDB.
+
+### Calculation authority
+
+The repair follows CALC-005 refund/CAS conservation rules:
+
+```text
+new bidder delta = -newBid
+old bidder delta = +oldBid
+escrow delta     = newBid-oldBid
+sum delta        = 0
+
+CAS success authority = affectedRows == 1
+```
+
+### Migration
+
+```text
+db/migrations/BUG-850-142_house_bid_innodb.sql
+```
+
+### Validation
+
+```text
+GitHub Actions run = 35718028574
+STATUS = PASS
+
+BUG_850_142_CONTRACT=PASS
+BUG_850_142_TARGETED_JAVAC=PASS
+BUG_850_142_TARGETED_BEHAVIOR_RUNTIME=PASS
+ALL_FAILURE_STAGES_ROLLBACK=PASS
+STALE_CAS_REJECTED=PASS
+POST_COMMIT_PUBLICATION=PASS
+```
+
+### Promotion
+
+```text
+normalized C_Amount = 3360764b0cd65ed610499dd916ed4867c84c1916
+obfuscated C_Amount = 14471b5738505c8f3e8eef44eef885c0a45d3dd0
+
+normalized CharacterItemTable = c26e4fe4b271581385234da9d1decb4f58194812
+normalized L1PcInventory = aa219293110d63634310edd91990619eb1d483d1
+obfuscated CharacterItemTable = 4dad35f1e7b0b81a56ed2d78033f0bea12dda989
+obfuscated L1PcInventory = fd8dfa2a662dc44628f2a7cda4aa6ab27295631b
+
+migration = ea844c3759609e26535d8f7b11bdcba3dcc64267
+```
+
+### Result
+
+```text
+BUG-850-142=L2
+STATUS=PASS
+PROMOTED=YES
+DB_MIGRATION_REQUIRED=YES
 ```
 
 
