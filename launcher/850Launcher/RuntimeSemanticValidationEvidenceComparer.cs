@@ -22,6 +22,8 @@ namespace L1JTW850Launcher
     {
         public int Sessions;
         public int DistinctProcessInstances;
+        public int HpMpDistinctProcessInstances;
+        public int PlayerDistinctProcessInstances;
 
         public int HpMpCheckedSessions;
         public int HpMpPassSessions;
@@ -184,14 +186,26 @@ namespace L1JTW850Launcher
                 new HashSet<string>(
                     StringComparer.OrdinalIgnoreCase);
 
+            var hpMpProcessInstances =
+                new HashSet<string>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            var playerProcessInstances =
+                new HashSet<string>(
+                    StringComparer.OrdinalIgnoreCase);
+
             foreach (var session in sessions)
             {
+                var processKey =
+                    BuildProcessKey(session);
+
                 processInstances.Add(
-                    BuildProcessKey(session));
+                    processKey);
 
                 if (session.CheckHpMp)
                 {
                     result.HpMpCheckedSessions++;
+                    hpMpProcessInstances.Add(processKey);
 
                     if (session.HpMpPass)
                         result.HpMpPassSessions++;
@@ -200,6 +214,7 @@ namespace L1JTW850Launcher
                 if (session.CheckPlayer)
                 {
                     result.PlayerCheckedSessions++;
+                    playerProcessInstances.Add(processKey);
 
                     if (session.PlayerPass)
                         result.PlayerPassSessions++;
@@ -209,17 +224,23 @@ namespace L1JTW850Launcher
             result.DistinctProcessInstances =
                 processInstances.Count;
 
+            result.HpMpDistinctProcessInstances =
+                hpMpProcessInstances.Count;
+
+            result.PlayerDistinctProcessInstances =
+                playerProcessInstances.Count;
+
             result.HpMpRestartPass =
                 result.HpMpCheckedSessions >= 3 &&
                 result.HpMpPassSessions ==
                     result.HpMpCheckedSessions &&
-                result.DistinctProcessInstances >= 2;
+                result.HpMpDistinctProcessInstances >= 2;
 
             result.PlayerRestartPass =
                 result.PlayerCheckedSessions >= 3 &&
                 result.PlayerPassSessions ==
                     result.PlayerCheckedSessions &&
-                result.DistinctProcessInstances >= 2;
+                result.PlayerDistinctProcessInstances >= 2;
 
             result.Status =
                 "sessions=" +
@@ -230,11 +251,15 @@ namespace L1JTW850Launcher
                 result.HpMpPassSessions +
                 "/" +
                 result.HpMpCheckedSessions +
-                " / Player=" +
+                "@" +
+                result.HpMpDistinctProcessInstances +
+                "proc / Player=" +
                 result.PlayerPassSessions +
                 "/" +
                 result.PlayerCheckedSessions +
-                "。";
+                "@" +
+                result.PlayerDistinctProcessInstances +
+                "proc。";
 
             return result;
         }
