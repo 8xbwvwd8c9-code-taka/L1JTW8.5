@@ -12,6 +12,10 @@ Purpose: analysis-only branch for 381 -> 850 DB/module migration. Keep BUG repai
   `control/config -> Java core -> DB schema/data -> NPC/action -> XML/HTML/menu -> client/protocol dependency`.
 - Prefer adapting 381 content to 850 native high-version systems over porting old 381 frameworks unchanged.
 - 850 authority for core behavior: `completed/l1jtw85-core-fixes`.
+- Every migrated module MUST be DB-isolated and independently importable. Do not require a monolithic all-modules SQL import.
+- Each module package must contain its own schema/data changes plus dependency notes. Where applicable, provide separate `install.sql` and `rollback.sql` (or clearly documented irreversible/data-loss cases).
+- Cross-module DB dependencies must be explicit. Shared base tables may be referenced, but one optional module must not silently require another optional module's SQL.
+- A module is not considered migration-ready until its DB can be applied independently to a clean 850 baseline and its required core/config/NPC/menu dependencies are identified.
 
 ## Current baseline
 ### 381
