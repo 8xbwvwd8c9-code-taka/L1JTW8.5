@@ -14,6 +14,9 @@ namespace L1JTW850Launcher
         public DateTime? ProcessStartTimeUtc = null;
         public IntPtr ModuleBase = IntPtr.Zero;
         public int ModuleSize;
+        public uint? PlayerObjectId = null;
+        public ushort? PlayerX = null;
+        public ushort? PlayerY = null;
         public int? CurrentHp = null;
         public int? MaxHp = null;
         public int? CurrentMp = null;
