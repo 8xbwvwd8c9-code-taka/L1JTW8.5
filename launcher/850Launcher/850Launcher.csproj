@@ -43,6 +43,7 @@
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
     <Compile Include="RuntimeMap.cs" />
+    <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
