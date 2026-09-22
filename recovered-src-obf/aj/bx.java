@@ -48,7 +48,10 @@ extends cv {
                     return;
                 }
                 item = whList.get(index);
-                if (pc.j().a(item, count) != 0) break;
+                if (item == null) break;
+                authoritativeCount = item.E();
+                if (authoritativeCount <= 0) break;
+                if (pc.j().a(item, authoritativeCount) != 0) break;
                 pc.j().d(item);
                 pc.a(new ds(403, new String[]{item.s()}));
                 al.a().a(client.e().d(), index);
