@@ -131,3 +131,5 @@ Do not port its entire 381 UI/core blindly.
 
 - `w_血盟能量怪物`: STATUS=PASS/SKIP, LEVEL=N/A, audit=`modules/CLAN_ENERGY_MONSTER_AUDIT.md`, commit=`1983a76942043a51ebbb9f3b8b82317bd8ea2ff4`. Current split SQL is empty; no migration work until source/runtime appears.
 - `w_血盟等級_血盟技能_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CLAN_LEVEL_SKILL_FAMILY_AUDIT.md`, commit=`3a9b222f123706d1dd74f0f2fe997c181a97ad8a`. ClanState recompute is required; clan level requirement/persistence models exist but the actual live level-up executor remains unproven.
+
+- `w_城戰獲勝獎勵`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_WAR_VICTORY_REWARD_AUDIT.md`, commit=`513ce8ab735e9a2258a85d0e30385701bf4d6eb2`. Castle-war end callsite is proven; donor double-distributes rewards and table load callsite remains unproven, so 850 needs idempotent native war-end settlement.
