@@ -30,6 +30,8 @@ namespace L1JTW850Launcher
 
         private int _scanPid;
         private DateTime? _processStartUtc;
+        private string _clientSha256 = "";
+        private bool _clientHashAuthoritative;
         private IntPtr _moduleBase = IntPtr.Zero;
         private int _moduleSize;
 
@@ -143,6 +145,8 @@ namespace L1JTW850Launcher
             SetBusy(true, "正在唯讀掃描 Lin.bin2 程序記憶體...");
             _scanPid = runtime.ProcessId;
             _processStartUtc = runtime.ProcessStartTimeUtc;
+            _clientSha256 = runtime.ClientSha256;
+            _clientHashAuthoritative = runtime.ClientHashAuthoritative;
             _moduleBase = runtime.ModuleBase;
             _moduleSize = runtime.ModuleSize;
 
@@ -322,6 +326,8 @@ namespace L1JTW850Launcher
             _probe.Detach();
             _scanPid = 0;
             _processStartUtc = null;
+            _clientSha256 = "";
+            _clientHashAuthoritative = false;
             _moduleBase = IntPtr.Zero;
             _moduleSize = 0;
             _candidates.Clear();
@@ -349,6 +355,8 @@ namespace L1JTW850Launcher
                 sb.AppendLine("STAGE=" + stage);
                 sb.AppendLine("PID=" + _scanPid);
                 sb.AppendLine("PROCESS_START_UTC=" + (_processStartUtc.HasValue ? _processStartUtc.Value.ToString("o") : ""));
+                sb.AppendLine("CLIENT_SHA256=" + (_clientSha256 ?? ""));
+                sb.AppendLine("CLIENT_AUTHORITY=" + (_clientHashAuthoritative ? 1 : 0));
                 sb.AppendLine("MODULE_BASE=0x" + _moduleBase.ToInt64().ToString("X8"));
                 sb.AppendLine("MODULE_SIZE=" + _moduleSize);
                 sb.AppendLine("CURRENT_HP=" + values["CurrentHP"]);
