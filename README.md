@@ -577,6 +577,19 @@ POST_DB_GRANT_FAILURE_CONSERVATION=FAIL
 
 既有專案權威沿用玩家 Adena 上限 `2,000,000,000`，所以提款在 DB UPDATE 前還必須 preflight `(long)adena+count<=2,000,000,000`；CASE6 應拒絕，CASE7 剛好到上限可接受。Castle lock 可防兩筆提款同時以舊 treasury 通過，但 DB-first 仍不足以單獨保證金流守恆：若 DB 已扣款而 grant 失敗，必須有 transaction/compensation/可證明恢復機制，否則 CASE10 仍為 loss-of-funds。守恆條件：`treasury_before-treasury_after == adena_after-adena_before == count`。
 
+### A–E 驗算總結（2026-09-22）
+
+```text
+STATUS=PASS_WITH_NOTES
+DOCUMENT_CONSISTENCY=PASS
+MATHEMATICAL_ERRORS=NONE_FOUND
+TASKS=A,B,C,D,E
+MISSING_CONTEXT=MINOR
+ACTION=NONE
+```
+
+A–E 驗算已確認數學一致：Castle compensation / recovery、Adena preflight、CAS treasury、Achievement claim atomicity、Private Shop settlement conservation 均依既定規則成立。保留兩項 minor context note：TASK-A 部分 RAM 值為假設；TASK-E CASE5–9 缺完整 count/price/item/account context，因此部分結果僅能定性。共享安全流程固定為 `VALIDATE ALL -> AUTHORITATIVE CAS/LOCK -> DURABLE MUTATION -> LIVE STATE PUBLICATION -> COMMIT/DONE`；失敗時需 rollback 或 idempotent durable compensation。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
