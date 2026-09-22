@@ -241,3 +241,33 @@ at least 2 distinct PROCESS_START_UTC values for restart stability
 ```
 
 A restart-stable candidate is still not WP7 PASS until it is correlated with a normal manual potion use.
+
+## WP9 auto-buff scaffold
+
+850 server recovery proves:
+
+```text
+C_UseSkill = aj.cr
+PacketHandler opcode = 128 (0x80)
+row = readC()
+column = readC()
+skillId = row * 8 + column + 1
+general = targetId(D) + targetX(H) + targetY(H)
+skill 58/63 = targetX(H) + targetY(H)
+skill 5/69 = mapId(H) + x(H) + y(H)
+skill 116/118 = message string branch
+```
+
+Player UI now loads `skill-names.csv` generated from the authoritative 850 `skills.sql`.
+The **狀態** page shows Chinese buff-capable skills and persists checked SkillIds.
+
+Execution remains gated:
+
+```text
+selected buff skills
+ -> BuffStateBridge must be mapped
+ -> SkillUseBridge must be mapped
+ -> only then may AutoBuffController request a cast
+```
+
+The hidden **SkillUse協定** page builds logical decrypted payloads for evidence only. SEND=NO.
