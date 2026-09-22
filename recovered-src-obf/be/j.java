@@ -18,6 +18,10 @@ extends eu {
         this.a(objectId);
         this.a("agsel");
         this.a(house_number);
+        if (house == null || house.j() == null) {
+            this.b(0);
+            return;
+        }
         this.b(9);
         this.a(house.c());
         this.a(house.e());
