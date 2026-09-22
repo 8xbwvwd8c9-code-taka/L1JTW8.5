@@ -130,7 +130,11 @@ public class C_ShopWorld extends ClientBasePacket {
                int var6 = this.b();
                int var7 = this.b();
                int var8 = this.b();
-               L1NpcInstance var9 = (L1NpcInstance)L1World.a().a(var6);
+               l1r.aq.L1Object var9Object = L1World.a().a(var6);
+               if (!(var9Object instanceof L1NpcInstance)) {
+                  return;
+               }
+               L1NpcInstance var9 = (L1NpcInstance)var9Object;
                L1ItemInstance var10 = var3.j().e(var7);
                if (var10 == null) {
                   return;

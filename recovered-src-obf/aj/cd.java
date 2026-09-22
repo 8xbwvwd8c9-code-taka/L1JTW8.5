@@ -65,7 +65,11 @@ extends cv {
                 int npcobjid = this.b();
                 int itemobjid = this.b();
                 int itemobjid2 = this.b();
-                t npc = (t)aq.a().a(npcobjid);
+                aq.aa npcObject = aq.a().a(npcobjid);
+                if (!(npcObject instanceof t)) {
+                    return;
+                }
+                t npc = (t)npcObject;
                 q resolvent = pc.j().e(itemobjid);
                 if (resolvent == null) {
                     return;

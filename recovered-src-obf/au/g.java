@@ -482,7 +482,7 @@ extends f {
             int i2 = 0;
             while (i2 < qn.r().length) {
                 if (qn.r()[i2] == item.N() && qn.t()[i2] <= item.G()) {
-                    qn.a(i2, qn.B()[i2] - item.E());
+                    qn.a(i2, Math.max(0, qn.B()[i2] - item.E()));
                 }
                 ++i2;
             }

@@ -159,6 +159,9 @@ public class C_SendLocation extends ClientBasePacket {
                      {32852, 32932},
                      {32799, 32927}
                   };
+                  if (var24 < 0 || var24 >= var48.length) {
+                     return;
+                  }
                   var33 = var48[var24][0];
                   var40 = var48[var24][1];
                }
