@@ -502,6 +502,17 @@ FINAL_STAT_MAX=45
 
 單一能力值與總量預算必須同時成立：`currentStat<45`、`newStat<=45`、`baseStatTotal+1<=allowed(nextLevel)`。總量通過但單一能力值已為45仍必須拒絕；單一能力值可加但總量超預算亦必須拒絕。
 
+### BUG-850-93 靈藥能力值驗證（2026-09-22）
+
+```text
+NO_STAT_DECREASE_GATE=PASS
+STAT_MAX_45_GATE=PASS
+ELIXIR_DELTA_EXACT_GATE=PASS
+COMBINED_GATE=PASS
+```
+
+Stage 3 權威規則：每個新能力值必須 `newStat>=oldStat` 且 `newStat<=45`；六圍增量總和 `delta` 必須精確等於 `elixirCount`。不得用一項下降抵銷另一項上升來偽造相同 delta；任一條件失敗即拒絕。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
