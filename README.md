@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
 | BUG-850-149 | L2 | house tax-expiry foreclosure atomicity | PASS / PROMOTED |
 | BUG-850-152 | L2 | board post fee / DB success coupling | PASS / ALREADY COVERED |
 | BUG-850-154 | L2 | duel logout peer-id preservation | PASS / PROMOTED |
@@ -47,6 +48,53 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-148 — auction-board house selection dereferenced unknown house ids
+
+### Problem
+
+The auction-board read packet parsed a house id and immediately dereferenced the result of `HouseTable.get(houseId)`.
+
+A stale or invalid id could therefore abort packet construction with a null dereference.
+
+### Fix
+
+Both normalized and obfuscated packet constructors now:
+
+- resolve the house id;
+- return a zero-argument `agsel` response if the house is absent;
+- also fail closed when the deadline is null;
+- serialize the normal 9-argument response only for a valid house.
+
+### Validation
+
+```text
+GitHub Actions run = 35713093198
+STATUS = PASS
+
+BUG_850_148_CONTRACT=PASS
+BUG_850_148_TARGETED_JAVAC=PASS
+BUG_850_148_TARGETED_BEHAVIOR_RUNTIME=PASS
+UNKNOWN_HOUSE_SAFE_RESPONSE=PASS
+NULL_DEADLINE_SAFE_RESPONSE=PASS
+VALID_HOUSE_SERIALIZED=PASS
+```
+
+### Promotion
+
+```text
+normalized = fcd71e084a3a49f0fabf129d1d1eb5fdc612a069
+obfuscated = 9c9d6f52c22238fb3f912fcbf7c476c4d0e95db1
+```
+
+### Result
+
+```text
+BUG-850-148=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
 
 ## BUG-850-149 — tax-expiry foreclosure mutated clan ownership and house state independently
 
