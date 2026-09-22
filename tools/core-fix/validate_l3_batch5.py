@@ -43,7 +43,11 @@ before(at,"if (!(var14Object instanceof L1PetInstance))","L1PetInstance var14 ="
 before(ato,"if (!(petObject instanceof ap.v))","ap.v pet =","BUG115_O")
 
 before(book,'var0.a(new S_ServerMessage(327));\n               return;',"L1BookMark var3 =","BUG120_N")
-before(booko,'pc.a(new ds(327));\n                return;',"bookmark = new c();","BUG120_O")
+guard_o = req(booko, "if (pc.a(s2) != null)", "BUG120_O_GUARD")
+return_o = booko.find("return;", guard_o)
+new_o = booko.find("new c()", guard_o)
+if return_o < 0 or new_o < 0 or return_o >= new_o:
+    raise AssertionError("BUG120_O: duplicate bookmark path does not return before creating a new bookmark")
 req(book,'var3.setAutoCommit(false)',"BUG123_N_TX")
 req(book,'var5.addBatch()',"BUG123_N_BATCH")
 req(book,'var5.executeBatch()',"BUG123_N_EXEC")
