@@ -254,6 +254,7 @@ public class ShopTable {
          a.log(Level.SEVERE, "不存在的商店,npcid=" + var3.z());
       } else {
          long var6 = 0L;
+         ArrayList<int[]> validatedOrderList = new ArrayList<>();
 
          for (int[] var8 : var2) {
             int var10 = var8[0];
@@ -273,6 +274,7 @@ public class ShopTable {
                   }
 
                   var6 += var15;
+                  validatedOrderList.add(new int[]{var10, var14});
                   HistoryTable.a().d(var1, "賣給商店", var12, var14);
                }
             }
@@ -287,7 +289,7 @@ public class ShopTable {
             if (var6 + var16 > 2000000000L) {
                var1.a(new S_SystemMessage("總共販賣價格無法超過" + (2000000000 - var16) + "金幣。"));
             } else {
-               for (int[] var17 : var2) {
+               for (int[] var17 : validatedOrderList) {
                   int var19 = var17[0];
                   int var20 = var17[1];
                   var1.j().c(var19, var20);
