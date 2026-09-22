@@ -738,6 +738,37 @@ WP7=BLOCKED_RUNTIME_EVIDENCE
 ```
 
 
+## 2026-09-23 WP7 cross-session evidence comparator
+
+```text
+STATUS=PASS_SOURCE
+EVIDENCE_FILE=native_call_graph_evidence.txt
+SESSION_COMPARE=IMPLEMENTED
+FUNCTION_ID=RVA+SHA256(first64)
+EDGE_ID=caller_func+target_func+call_rva
+PROCESS_INSTANCE=PROCESS_START_UTC
+FULL_RESTART_GATE=distinct_process_instances>=2
+WP7_AUTO_PASS=NO
+```
+
+Added:
+
+- `RuntimeSnapshot.ProcessStartTimeUtc`.
+- every native call graph session records `PROCESS_START_UTC`.
+- `NativeCallGraphEvidenceComparer` parses appended sessions and intersects:
+  - function RVA + 64-byte SHA-256;
+  - caller/target/call-site edges.
+- hidden **Send比對** page ranks stable functions by stable edge count, marker presence, and depth.
+- repeated scans from the same process do not count as full-client restart evidence.
+
+Current remaining native gate:
+
+```text
+RESTART_STABLE_CANDIDATE != WP7_PASS
+MANUAL_NORMAL_POTION_ACTION_CORRELATION_REQUIRED
+```
+
+
 ## 下一步
 
 ```text
