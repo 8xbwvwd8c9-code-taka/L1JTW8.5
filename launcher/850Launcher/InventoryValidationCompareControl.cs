@@ -147,12 +147,20 @@ namespace L1JTW850Launcher
                     : "尚無跨 client restart");
 
             Add(
-                "Expectation sets",
-                summary.DistinctExpectationSets
+                "ItemId sets",
+                summary.DistinctItemIdSets
                     .ToString(),
-                summary.DistinctExpectationSets == 1
-                    ? "同一組已知背包資料"
-                    : "比對條件不同，不能合併");
+                summary.DistinctItemIdSets == 1
+                    ? "同一批 ItemId；Count 可每次不同"
+                    : "驗證的 ItemId 集合不同，不能合併");
+
+            Add(
+                "Known items/session",
+                summary.MinimumExpectedItems
+                    .ToString(),
+                summary.MinimumExpectedItems >= 2
+                    ? "PASS"
+                    : "每次至少驗證 2 個 ItemId");
 
             Add(
                 "WP6 restart gate",
