@@ -140,3 +140,5 @@ Do not port its entire 381 UI/core blindly.
 - `MAP_HPR_MPR_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/MAP_HPR_MPR_FAMILY_AUDIT.md`, commit=`c89fd24232a1f0bfd9457f0eeed184265b6c284e`. Multiple range rows per map are destroyed by last-write-wins HashMap; map4 loses 5/6 rows and map800 candidate rectangle is invalid.
 
 - Calculation proof ledger: `CALCULATION_PROOF_LEDGER.md` — durable numeric/formula/overflow reference for later core implementation; module audits remain runtime authority.
+
+- `w_物品時間限制`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/ITEM_TIME_LIMIT_AUDIT.md`, commit=`171157c264edba4787cef80270e9e7ee5acfad21`. 35 rows normalize to 8 durations; 30d exceeds int milliseconds, so 850 must use widened arithmetic and preserve absolute item-instance expiry across relog/transfer.
