@@ -292,6 +292,8 @@ namespace L1JTW850Launcher
                     (runtime != null && runtime.ProcessStartTimeUtc.HasValue
                         ? runtime.ProcessStartTimeUtc.Value.ToString("o")
                         : ""));
+                sb.AppendLine("CLIENT_SHA256=" + (runtime == null ? "" : (runtime.ClientSha256 ?? "")));
+                sb.AppendLine("CLIENT_AUTHORITY=" + (runtime != null && runtime.ClientHashAuthoritative ? 1 : 0));
                 sb.AppendLine(
                     "MODULE_BASE=" +
                     (runtime != null
