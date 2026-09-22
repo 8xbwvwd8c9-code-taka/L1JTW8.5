@@ -60,7 +60,7 @@ $asciiMatches = $asciiMatches | Sort-Object -Unique
 Write-Utf8 (Join-Path $out "STRINGS_ASCII.txt") $asciiMatches
 
 $unicodeText = [Text.Encoding]::Unicode.GetString($bytes)
-$unicodeMatches = [regex]::Matches($unicodeText, '[ -~一-鿿]{4,}') | ForEach-Object Value
+$unicodeMatches = [regex]::Matches($unicodeText, '[\x20-\x7E]{4,}') | ForEach-Object Value
 $unicodeMatches = $unicodeMatches | Sort-Object -Unique
 Write-Utf8 (Join-Path $out "STRINGS_UTF16.txt") $unicodeMatches
 
