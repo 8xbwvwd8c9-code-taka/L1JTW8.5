@@ -668,8 +668,9 @@ public class L1PcInstance extends L1Character {
          }
 
          if (this.cp() != 0) {
+            int var17 = this.cp();
             this.aN(0);
-            L1PcInstance var8 = (L1PcInstance)L1World.a().a(this.cp());
+            L1PcInstance var8 = (L1PcInstance)L1World.a().a(var17);
             if (var8 != null) {
                var8.aN(0);
                var8.a(new S_PacketBox(5, 0, 0));
