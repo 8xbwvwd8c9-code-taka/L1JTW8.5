@@ -1,4 +1,4 @@
-# 850Launcher v0.1
+# 850Launcher v0.5
 
 Client-only launcher/helper shell for the 8.50 target.
 
@@ -92,3 +92,25 @@ Workflow:
 
 This is intended to identify the real 850 item-record neighborhood before proving objectId/itemId/count/enchant/equipped fields.
 
+
+## Pointer-chain + runtime map (v0.5)
+
+After an HP/MP candidate survives controlled value changes:
+
+1. Use **指標鏈** and paste the candidate absolute address.
+2. Search 1-level / 2-level read-only pointer chains rooted in the Lin.bin2 module.
+3. Copy a candidate expression such as:
+   `PTR:0x00123456|0x18|0x2C`
+4. Re-login / fully restart the client and repeat validation.
+5. Only after the expression remains correct, paste it into **映射**.
+6. Save `runtime-map.ini`.
+
+Supported mapping syntax:
+
+```text
+RVA:0x00123456
+PTR:0x00123456|0x18
+PTR:0x00123456|0x18|0x2C
+```
+
+The launcher reloads `runtime-map.ini` while running. No runtime address from 381/880 is accepted.
