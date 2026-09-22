@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
 | BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
 | BUG-850-149 | L2 | house tax-expiry foreclosure atomicity | PASS / PROMOTED |
 | BUG-850-152 | L2 | board post fee / DB success coupling | PASS / ALREADY COVERED |
@@ -48,6 +49,59 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-146 — auction settlement could close without assigning the house to any bidder clan
+
+### Problem
+
+The original settlement path treated bidder-clan assignment as a best-effort loop. If no eligible clan matched the stored bidder leader id, assignment silently did nothing while the remaining settlement path could still clear the seller and close the auction.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains:
+
+- `08b1760c5bbef690dadd602a1fbf7752ef0d7879` — bidder-clan validation plus rollback-safe settlement/foreclosure.
+
+### Fix
+
+The normalized settlement path now mirrors the bidder-clan guard:
+
+- resolve the bidder clan before normal settlement;
+- require the clan leader id to match and the clan to currently own no house;
+- when the bidder clan is unavailable, refund the stored bid and clear the stale bidder fields instead of completing the sale;
+- if house persistence fails, restore bidder state and reclaim the refund;
+- never enter the normal close/ownership-transfer path without a valid bidder clan.
+
+### Validation
+
+```text
+GitHub Actions run = 35713481799
+STATUS = PASS
+
+BUG_850_146_CONTRACT=PASS
+BUG_850_146_TARGETED_JAVAC=PASS
+BUG_850_146_TARGETED_BEHAVIOR_RUNTIME=PASS
+MISSING_BIDDER_CLAN_BLOCKED=PASS
+PERSIST_FAILURE_RESTORED=PASS
+VALID_SETTLEMENT_ALLOWED=PASS
+```
+
+### Promotion
+
+```text
+normalized = 72f6255a010e7799fb11461e4c6bb4cb769b4f09
+obfuscated existing repair = 08b1760c5bbef690dadd602a1fbf7752ef0d7879
+```
+
+### Result
+
+```text
+BUG-850-146=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+```
+
 
 ## BUG-850-148 — auction-board house selection dereferenced unknown house ids
 
