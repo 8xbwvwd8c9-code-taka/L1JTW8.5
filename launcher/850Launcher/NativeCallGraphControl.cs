@@ -277,6 +277,12 @@ namespace L1JTW850Launcher
                         ? runtime.ProcessStartTimeUtc.Value.ToString("o")
                         : ""));
                 sb.AppendLine(
+                    "CLIENT_SHA256=" +
+                    (runtime.ClientSha256 ?? ""));
+                sb.AppendLine(
+                    "CLIENT_AUTHORITY=" +
+                    (runtime.ClientHashAuthoritative ? 1 : 0));
+                sb.AppendLine(
                     "ROOT_SEND_XREFS=" +
                     roots.Count);
                 sb.AppendLine(
