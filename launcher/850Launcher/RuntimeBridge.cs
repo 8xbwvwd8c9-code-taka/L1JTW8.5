@@ -47,7 +47,7 @@ namespace L1JTW850Launcher
         {
             _expectedClientPath = Path.GetFullPath(Path.Combine(appDir, "Lin.bin2"));
             _runtimeMapPath = Path.Combine(appDir, "runtime-map.ini");
-            _inventoryBridge = new UnmappedInventoryBridge();
+            _inventoryBridge = new MappedInventoryBridge(appDir);
         }
 
         private void ApplyHpMpMap(RuntimeSnapshot snapshot)
