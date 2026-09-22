@@ -52,6 +52,8 @@
     <Compile Include="InventoryRecordAnalyzer.cs" />
     <Compile Include="InventoryRecordProbeControl.cs" />
     <Compile Include="InventoryFieldValidatorControl.cs" />
+    <Compile Include="InventoryCollectionAnalyzer.cs" />
+    <Compile Include="InventoryCollectionProbeControl.cs" />
     <Compile Include="PointerChainScanner.cs" />
     <Compile Include="PointerProbeControl.cs" />
     <Compile Include="MainForm.cs" />
