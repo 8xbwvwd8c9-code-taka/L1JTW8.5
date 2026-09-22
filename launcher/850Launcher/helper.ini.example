@@ -8,6 +8,7 @@ CooldownMs=350
 
 [State]
 AutoBuff=0
+SkillIds=
 
 [Special]
 AutoTransform=0
