@@ -27,8 +27,9 @@ public class C_Amount extends ClientBasePacket {
          int var5 = this.b();
          int var6 = this.c();
          String var7 = this.g();
-         L1NpcInstance var8 = (L1NpcInstance)L1World.a().a(var4);
-         if (var8 != null) {
+         l1r.aq.L1Object var8Object = L1World.a().a(var4);
+         if (var8Object instanceof L1NpcInstance) {
+            L1NpcInstance var8 = (L1NpcInstance)var8Object;
             if (!HtmlCraftTable.a().a(var7, var3, var8, var5)) {
                String var9 = "";
                String var10 = "";

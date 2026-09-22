@@ -218,8 +218,12 @@ public class C_Attr extends ClientBasePacket {
             case 325: {
                var6 = this.c();
                String var28 = this.g();
-               L1PetInstance var14 = (L1PetInstance)L1World.a().a(var3.aQ());
+               L1Object var14Object = L1World.a().a(var3.aQ());
                var3.am(0);
+               if (!(var14Object instanceof L1PetInstance)) {
+                  return;
+               }
+               L1PetInstance var14 = (L1PetInstance)var14Object;
                a(var14, var28);
                break;
             }
@@ -280,6 +284,9 @@ public class C_Attr extends ClientBasePacket {
                var3.am(0);
                if (var27.length() <= 16) {
                   L1House var55 = HouseTable.a().a(var15);
+                  if (var55 == null) {
+                     return;
+                  }
                   var55.a(var27);
                   HouseTable.a().a(var55);
                } else {
@@ -290,6 +297,10 @@ public class C_Attr extends ClientBasePacket {
             case 630:
                var6 = this.d();
                L1PcInstance var16 = (L1PcInstance)L1World.a().a(var3.cp());
+               if (var16 == null) {
+                  var3.aN(0);
+                  return;
+               }
                if (var6 == 0) {
                   var3.aN(0);
                   var16.aN(0);
