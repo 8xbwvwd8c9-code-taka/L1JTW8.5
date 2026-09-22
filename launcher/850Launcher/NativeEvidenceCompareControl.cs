@@ -116,7 +116,11 @@ namespace L1JTW850Launcher
             }
 
             _functions.EndUpdate();
-            _status.Text = result.Status;
+            _status.Text =
+                result.Status +
+                (result.DistinctProcessInstances >= 2
+                    ? " 跨完整客戶端重啟條件=PASS；仍需正常喝水行為關聯。"
+                    : " 跨完整客戶端重啟條件=NOT_YET。");
         }
 
         private static string ShortHash(string value)
