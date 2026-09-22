@@ -7,6 +7,9 @@
 
 ### 850 資料整理 / 客戶端研究
 
+- [850 登入器 / 內掛開發支線](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/850-launcher-helper) — 僅收納 850 LoginWithoutUI、外部 IP/Port/ServerName、850 Helper、Inventory/Item bridge、LinHelperZ donor 研究與 UI；不收錄主線服務端核心/DB/修復文件。
+- [850 登入器 / 內掛開發報告](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/850-launcher-helper/docs/850-launcher/REPORT.md) — AUTHORITY=850；381/880 僅作功能與 UI donor；第一個主要 PASS gate 為 850 背包道具列舉（WP6）。
+
 - [8.5 / 850 變身 UI 資料統整](docs/850/變身UI資料統整.md) — 整理 `Tile.idx → PolymorphUI.xml / Polymorphlist*.xml`、`Text.idx → desc-c.tbl`、`polymorphs` / `etcitem` DB 對應，以及尚待核心驗證的 item-use / UI packet 路徑。
 
 ### 反編譯 / Source Recovery
