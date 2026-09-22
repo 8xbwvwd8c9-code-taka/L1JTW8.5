@@ -81,7 +81,7 @@ public class HouseTimer {
       }
 
       if (var4 != 0 && var6 != 0) {
-         int var8 = (int)(var3 * 0.9);
+         int var8 = (int)(((long)var3 * 90L) / 100L);
          if (var8 <= 0 || !this.refundBidder(var4, var8)) {
             return;
          }
@@ -96,7 +96,7 @@ public class HouseTimer {
          }
          var18.h(var2);
          var1.a(false);
-         var1.a(new Timestamp(System.currentTimeMillis() + Config.an * 24 * 60 * 60 * 1000L));
+         var1.a(new Timestamp(System.currentTimeMillis() + ((long)Config.an) * 24L * 60L * 60L * 1000L));
 
          if (!this.settleAtomic(var17, var18, var1)) {
             if (var17 != null) {
@@ -128,7 +128,7 @@ public class HouseTimer {
 
          var18.h(var2);
          var1.a(false);
-         var1.a(new Timestamp(System.currentTimeMillis() + Config.an * 24 * 60 * 60 * 1000L));
+         var1.a(new Timestamp(System.currentTimeMillis() + ((long)Config.an) * 24L * 60L * 60L * 1000L));
 
          if (!this.settleAtomic(null, var18, var1)) {
             var18.h(var15);
@@ -148,7 +148,7 @@ public class HouseTimer {
          boolean var23 = var1.g();
          Timestamp var24 = var1.i();
          var1.a(false);
-         var1.a(new Timestamp(System.currentTimeMillis() + Config.an * 24 * 60 * 60 * 1000L));
+         var1.a(new Timestamp(System.currentTimeMillis() + ((long)Config.an) * 24L * 60L * 60L * 1000L));
 
          if (!this.settleAtomic(null, null, var1)) {
             var1.a(var23);
@@ -320,7 +320,7 @@ public class HouseTimer {
       var1.f(0);
       var1.a(true);
       var1.b(false);
-      var1.a(new Timestamp(System.currentTimeMillis() + Config.an * 24 * 60 * 60 * 1000L));
+      var1.a(new Timestamp(System.currentTimeMillis() + ((long)Config.an) * 24L * 60L * 60L * 1000L));
       var1.a();
 
       if (!this.a(var3, var1)) {
