@@ -150,10 +150,10 @@ namespace L1JTW850Launcher
 
         public static RuntimeSemanticValidationSummary CompareLatest(
             string path,
-            int latestSessions)
+            int latestSessionsPerGate)
         {
-            if (latestSessions < 3)
-                latestSessions = 3;
+            if (latestSessionsPerGate < 3)
+                latestSessionsPerGate = 3;
 
             var all =
                 Load(path);
@@ -168,67 +168,71 @@ namespace L1JTW850Launcher
                 return result;
             }
 
-            var start =
-                Math.Max(
-                    0,
-                    all.Count -
-                    latestSessions);
+            var hpSessions =
+                TakeLatestChecked(
+                    all,
+                    latestSessionsPerGate,
+                    true);
 
-            var sessions =
-                all.GetRange(
-                    start,
-                    all.Count - start);
+            var playerSessions =
+                TakeLatestChecked(
+                    all,
+                    latestSessionsPerGate,
+                    false);
 
-            result.Sessions =
-                sessions.Count;
-
-            var processInstances =
+            var unionProcesses =
                 new HashSet<string>(
                     StringComparer.OrdinalIgnoreCase);
 
-            var hpMpProcessInstances =
+            var hpProcesses =
                 new HashSet<string>(
                     StringComparer.OrdinalIgnoreCase);
 
-            var playerProcessInstances =
+            var playerProcesses =
                 new HashSet<string>(
                     StringComparer.OrdinalIgnoreCase);
 
-            foreach (var session in sessions)
+            foreach (var session in hpSessions)
             {
-                var processKey =
+                var key =
                     BuildProcessKey(session);
 
-                processInstances.Add(
-                    processKey);
+                unionProcesses.Add(key);
+                hpProcesses.Add(key);
 
-                if (session.CheckHpMp)
-                {
-                    result.HpMpCheckedSessions++;
-                    hpMpProcessInstances.Add(processKey);
+                result.HpMpCheckedSessions++;
 
-                    if (session.HpMpPass)
-                        result.HpMpPassSessions++;
-                }
-
-                if (session.CheckPlayer)
-                {
-                    result.PlayerCheckedSessions++;
-                    playerProcessInstances.Add(processKey);
-
-                    if (session.PlayerPass)
-                        result.PlayerPassSessions++;
-                }
+                if (session.HpMpPass)
+                    result.HpMpPassSessions++;
             }
 
+            foreach (var session in playerSessions)
+            {
+                var key =
+                    BuildProcessKey(session);
+
+                unionProcesses.Add(key);
+                playerProcesses.Add(key);
+
+                result.PlayerCheckedSessions++;
+
+                if (session.PlayerPass)
+                    result.PlayerPassSessions++;
+            }
+
+            result.Sessions =
+                Math.Max(
+                    hpSessions.Count,
+                    playerSessions.Count);
+
             result.DistinctProcessInstances =
-                processInstances.Count;
+                unionProcesses.Count;
 
             result.HpMpDistinctProcessInstances =
-                hpMpProcessInstances.Count;
+                hpProcesses.Count;
 
             result.PlayerDistinctProcessInstances =
-                playerProcessInstances.Count;
+                playerProcesses.Count;
 
             result.HpMpRestartPass =
                 result.HpMpCheckedSessions >= 3 &&
@@ -243,10 +247,8 @@ namespace L1JTW850Launcher
                 result.PlayerDistinctProcessInstances >= 2;
 
             result.Status =
-                "sessions=" +
-                result.Sessions +
-                " / processes=" +
-                result.DistinctProcessInstances +
+                "latest/gate=" +
+                latestSessionsPerGate +
                 " / HPMP=" +
                 result.HpMpPassSessions +
                 "/" +
@@ -262,6 +264,37 @@ namespace L1JTW850Launcher
                 "proc。";
 
             return result;
+        }
+
+        private static List<RuntimeSemanticValidationSession> TakeLatestChecked(
+            IList<RuntimeSemanticValidationSession> all,
+            int count,
+            bool hpMp)
+        {
+            var output =
+                new List<RuntimeSemanticValidationSession>();
+
+            for (var i = all.Count - 1;
+                 i >= 0 &&
+                 output.Count < count;
+                 i--)
+            {
+                var session =
+                    all[i];
+
+                var selected =
+                    hpMp
+                        ? session.CheckHpMp
+                        : session.CheckPlayer;
+
+                if (!selected)
+                    continue;
+
+                output.Add(session);
+            }
+
+            output.Reverse();
+            return output;
         }
 
         private static string BuildProcessKey(
