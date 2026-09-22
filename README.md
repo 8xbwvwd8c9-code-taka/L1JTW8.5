@@ -524,6 +524,18 @@ TEN_LEVEL_JUMP_GATE=PASS
 
 10級跳升權威規則：`newLevel=currentLevel+10`，且必須同時滿足 `currentLevel>=1`、`currentLevel<40`、`newLevel<=targetLevel`。39→49 可接受；40→50 必須由 `currentLevel<40` 拒絕；targetLevel 僅差9級時必須拒絕，差10級可接受。
 
+### BUG-850-48 LuckyDraw key 驗證（2026-09-22）
+
+```text
+NON_EMPTY_GATE=PASS
+DUPLICATE_GATE=PASS
+AUTHORITATIVE_EXISTENCE_GATE=PASS
+ALL_OR_NOTHING_GATE=PASS
+REWARD_COUNT_RULE=validated unique key count only
+```
+
+權威規則：request key 清單不可為空、不可有重複 key、每一個 key 都必須存在 authoritative pendingMap。任一 key 不存在時整批拒絕，不得部分發獎；成功時 rewardCount 等於完整驗證後的 unique key 數量。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
