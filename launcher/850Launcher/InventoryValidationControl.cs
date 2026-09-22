@@ -395,6 +395,14 @@ namespace L1JTW850Launcher
                         : ""));
 
                 sb.AppendLine(
+                    "CLIENT_SHA256=" +
+                    (runtime.ClientSha256 ?? ""));
+
+                sb.AppendLine(
+                    "CLIENT_AUTHORITY=" +
+                    (runtime.ClientHashAuthoritative ? 1 : 0));
+
+                sb.AppendLine(
                     "MODULE_BASE=0x" +
                     runtime.ModuleBase.ToInt64()
                     .ToString("X8"));
