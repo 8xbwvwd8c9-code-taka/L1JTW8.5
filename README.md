@@ -31,6 +31,10 @@ BUG
 | BUG-850-140 | L2 | house-sale authority revalidation | PASS / ALREADY COVERED |
 | BUG-850-141 | L2 | house-bid state / eligibility / minimum revalidation | PASS / PROMOTED |
 | BUG-850-142 | L2 | house-bid payment / persistence / refund atomicity | PASS / PROMOTED |
+| BUG-850-143 | L2 | amount-dialog pending context / proximity binding | PASS / PROMOTED |
+| BUG-850-142 | L2 | house bid payment / persistence / refund atomicity | PASS / PROMOTED |
+| BUG-850-141 | L2 | house bid state / eligibility / minimum-price revalidation | PASS / PROMOTED |
+| BUG-850-140 | L2 | house sale ownership / keeper / leader revalidation | PASS / PROMOTED |
 | BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
 | BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
 | BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
@@ -268,6 +272,166 @@ BUG-850-142=L2
 STATUS=PASS
 PROMOTED=YES
 DB_MIGRATION_REQUIRED=YES
+```
+
+
+## BUG-850-143 — amount responses were not bound to a live server-side dialog context
+
+### Fix
+
+House bid/sale amount dialogs now bind a short-lived one-shot context on the player:
+
+```text
+{ npcObjId, mode, expiry=15s }
+```
+
+`C_NpcAction` sets the context when the authorized dialog is opened.
+
+`C_Amount` consumes it before mutation and additionally requires the NPC to remain within the allowed interaction range.
+
+Modes:
+
+```text
+1 = auction bid
+2 = house sale
+```
+
+The context is cleared on successful consume, mismatch, or expiry.
+
+### Validation
+
+```text
+RUN=35717948815
+STATUS=PASS
+HOUSE_CONTEXT_SOURCE_CONTRACT=PASS
+HOUSE_CONTEXT_RUNTIME=PASS
+```
+
+### Promotion
+
+```text
+normalized C_Amount = 41d40bf66f1996291506e926ee3cbf198e4f6411
+obfuscated C_Amount = 66d5f1bc689e4c50c80ee1705a945e1c143de333
+```
+
+### Result
+
+```text
+BUG-850-143=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-142 — house bid payment, house persistence and previous-bid refund were non-atomic
+
+### Fix
+
+The bid path now uses one transaction over:
+
+- `house`
+- `character_items`
+
+The transaction:
+
+1. validates the new bidder's Adena stack;
+2. CAS-updates the house row against the expected current price, bidder id and deadline;
+3. CAS-updates/deletes the new bidder's Adena stack;
+4. refunds the previous bidder in the same transaction, online or offline;
+5. commits all durable mutations together;
+6. publishes RAM/inventory changes only after commit.
+
+Both required tables must be InnoDB.
+
+### Migration
+
+```text
+db/migrations/BUG-850-142_house_bid_innodb.sql
+```
+
+### Validation
+
+```text
+RUN=35718028574
+STATUS=PASS
+SOURCE_CONTRACT=PASS
+DEPENDENCY_CLOSURE_JAVAC=PASS
+TARGETED_BEHAVIOR_RUNTIME=PASS
+```
+
+### Result
+
+```text
+BUG-850-142=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-141 — house bid response trusted stale auction state and price assumptions
+
+### Fix
+
+Before charging or committing a bid, the amount-response handler now revalidates:
+
+- bidder clan exists;
+- player is clan leader;
+- level requirement;
+- clan owns no house;
+- target house exists and is on sale;
+- deadline is still active;
+- NPC remains in interaction range;
+- submitted amount is positive and within configured bounds;
+- bid meets the current minimum/current-price requirement.
+
+### Validation
+
+```text
+RUN=35716252593
+STATUS=PASS
+SOURCE_CONTRACT=PASS
+TARGETED_JAVAC=PASS
+TARGETED_BEHAVIOR_RUNTIME=PASS
+```
+
+### Result
+
+```text
+BUG-850-141=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-140 — house sale response trusted first-stage ownership authority
+
+### Fix
+
+At the state-changing amount response, the server now revalidates:
+
+- player clan;
+- clan ownership of the target house;
+- clan-leader identity;
+- house keeper/NPC identity;
+- house not already on sale;
+- server-side amount-dialog context and proximity through BUG-850-143.
+
+### Validation
+
+```text
+RUN=35719307753
+STATUS=PASS
+SOURCE_CONTRACT=PASS
+TARGETED_RUNTIME_CONTRACT=PASS
+TARGETED_BEHAVIOR_RUNTIME=PASS
+```
+
+### Result
+
+```text
+BUG-850-140=L2
+STATUS=PASS
+PROMOTED=YES
 ```
 
 
