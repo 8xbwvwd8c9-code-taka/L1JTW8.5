@@ -632,6 +632,18 @@ J_CASE7 權威修正：無 lock/CAS 時確定 UNSAFE，但最終 item 值不唯�
 
 K–O 驗算結論：BUG-850-269 正確使用 minute→millisecond 換算；BUG-850-266 / 262 正確 proc predicate 為 `roll < threshold`；BUG-850-265 正確先以舊 Contribution 計算 Pay 再清零，且大值需注意 storage range；BUG-850-274 完成條件必須比較 `A[i] >= q[i]`，不得使用 monster id `p[i]`。
 
+### 核心修復進度更新（2026-09-23 / BUG-850-130）
+
+```text
+BUG-850-130=DONE
+BUG-850-130_CI=35756269461 PASS
+REMAINING_CORE_BLOCKERS=2
+BUG-850-179=trainer authority unresolved
+BUG-850-214=repair NPC authority unresolved
+```
+
+BUG-850-130 已將 NPC 81260 的 7 條濃縮藥水交換改為同一 durable transaction：材料扣除、產物 stack insert/update、Contribution CAS 全部同 commit；rollback 不發布 RAM，commit 後才同步背包與 Contribution。另提供 `BUG-850-130_contribution_exchange_atomicity.sql` 將 `character_items` / `characters` 明確切換 InnoDB。
+
 ### 核心修復進度更新（2026-09-23）
 
 ```text
