@@ -93,6 +93,7 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildInventoryMapTab());
                 tabs.TabPages.Add(BuildPointerProbeTab());
                 tabs.TabPages.Add(BuildRuntimeMapTab());
+                tabs.TabPages.Add(BuildItemUseProtocolTab());
             }
         }
 
@@ -271,6 +272,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("映射");
             p.Controls.Add(new RuntimeMapControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildItemUseProtocolTab()
+        {
+            var p = NewPage("UseItem協定");
+            p.Controls.Add(new ItemUseProtocolControl(_appDir));
             return p;
         }
 
