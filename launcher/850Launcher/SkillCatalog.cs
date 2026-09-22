@@ -13,6 +13,18 @@ namespace L1JTW850Launcher
         public int HpConsume;
         public int MpConsume;
         public int ReuseDelay;
+
+        public override string ToString()
+        {
+            var duration =
+                BuffDuration > 0
+                    ? " / " + BuffDuration + "s"
+                    : "";
+
+            return Name +
+                   "  [" + SkillId + "]" +
+                   duration;
+        }
     }
 
     internal sealed class SkillCatalog
