@@ -107,7 +107,7 @@ public class QuestNewTable {
                L1QuestNew var5 = new L1QuestNew(var2);
                var5.a(var1);
                if (var5.n() > 0) {
-                  var5.d(var1.ev());
+                  var5.a(var1.ev());
                }
 
                var1.dS().put(var2, var5);
