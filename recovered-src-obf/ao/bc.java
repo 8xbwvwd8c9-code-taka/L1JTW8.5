@@ -433,7 +433,7 @@ public class bc {
             int warTax = _taxCalc.d((int)total_price);
             d aden = g.a().a(7);
             d diad = g.a().a(8);
-            if (warTax <= 0) {
+            if (warTax > 0) {
                 d d2 = aden;
                 synchronized (d2) {
                     if (aden.f() < 2000000000) {
@@ -533,7 +533,7 @@ public class bc {
         int warTax = taxCalc.d((int)total_price);
         d aden = g.a().a(7);
         d diad = g.a().a(8);
-        if (warTax <= 0) {
+        if (warTax > 0) {
             d d2 = aden;
             synchronized (d2) {
                 if (aden.f() < 2000000000) {
