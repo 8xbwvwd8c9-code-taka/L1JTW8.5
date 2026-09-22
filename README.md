@@ -632,6 +632,18 @@ J_CASE7 權威修正：無 lock/CAS 時確定 UNSAFE，但最終 item 值不唯�
 
 K–O 驗算結論：BUG-850-269 正確使用 minute→millisecond 換算；BUG-850-266 / 262 正確 proc predicate 為 `roll < threshold`；BUG-850-265 正確先以舊 Contribution 計算 Pay 再清零，且大值需注意 storage range；BUG-850-274 完成條件必須比較 `A[i] >= q[i]`，不得使用 monster id `p[i]`。
 
+### 核心修復進度更新（2026-09-23 / authority blockers cleared）
+
+```text
+BUG-850-179=DONE
+BUG-850-179_CI=35757742927 PASS
+BUG-850-214=DONE
+BUG-850-214_CI=35757749690 PASS
+REMAINING_CORE_BLOCKERS=0
+```
+
+最後兩個 authority blocker 已清除。技能金幣購買只接受伺服器證明的 70003 / 70009 / 190139 / 190143，材料學技維持 70080；一般武器修理只接受 10 個經 Text 服務鏈與 850 NPC DB 交集證明的 repair NPC，`fixFree` 專用的 70517 不混入一般修理。兩條路徑都在 mutation 前重新驗證 NPC authority、同 NPC context、map/range 與單次 TTL。
+
 ### 核心修復進度更新（2026-09-23 / BUG-850-130）
 
 ```text
