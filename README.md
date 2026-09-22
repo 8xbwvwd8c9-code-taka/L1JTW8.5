@@ -34,6 +34,8 @@ BUG
 | BUG-850-143 | L2 | amount-dialog pending context / proximity binding | PASS / PROMOTED |
 | BUG-850-142 | L2 | house bid payment / persistence / refund atomicity | PASS / PROMOTED |
 | BUG-850-141 | L2 | house bid state / eligibility / minimum-price revalidation | PASS / PROMOTED |
+| BUG-850-137 | L2 | inn rental amount multiplication overflow | PASS / PROMOTED |
+| BUG-850-136 | L2 | inn payment/key/lease persistence coupling | PASS / PROMOTED |
 | BUG-850-140 | L2 | house sale ownership / keeper / leader revalidation | PASS / PROMOTED |
 | BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
 | BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
@@ -398,6 +400,107 @@ TARGETED_BEHAVIOR_RUNTIME=PASS
 
 ```text
 BUG-850-141=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-137 — inn rental amount multiplication could overflow before payment validation
+
+### Fix
+
+The inn rental charge now uses exact widened arithmetic:
+
+```text
+chargeLong = 300L * amount
+```
+
+The request is rejected when:
+
+```text
+amount <= 0
+chargeLong > INT_MAX
+```
+
+Only after the bound is proven is the value narrowed to `int`.
+
+### Calculation authority
+
+```text
+MAX_SAFE_AMOUNT = 7_158_278
+FIRST_REJECTED_AMOUNT = 7_158_279
+```
+
+### Validation
+
+```text
+RUN=35720707260
+STATUS=PASS
+BUG_850_137_CONTRACT=PASS
+BUG_850_137_TARGETED_BEHAVIOR_RUNTIME=PASS
+```
+
+### Promotion
+
+```text
+normalized C_Amount = 0ad36cd8b8a566a25772a79457bcf3791e03a5bc
+obfuscated existing economic guard = 7615d0eedb211c61b880782d9fdbaf30403ad52f
+```
+
+### Result
+
+```text
+BUG-850-137=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+
+## BUG-850-136 — inn payment, key delivery and lease persistence were not one success contract
+
+### Problem
+
+The original flow could charge Adena and publish a key before confirming that the lease row had been durably inserted.
+
+### Fix
+
+The normalized path now mirrors the completed obfuscated authority:
+
+1. validate amount/cost and available Adena;
+2. validate inn availability;
+3. create a key template and verify inventory capacity;
+4. remove Adena;
+5. publish the key;
+6. persist the lease;
+7. if lease persistence fails, remove the key and refund the full Adena charge;
+8. send the success message only after durable lease creation.
+
+`InnTable.a(keyid,count,roomid)` now returns a boolean persistence result and publishes its RAM cache only after the DB INSERT succeeds.
+
+### Validation
+
+```text
+RUN=35722261060
+STATUS=PASS
+BUG_850_136_CONTRACT=PASS
+BUG_850_136_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_136_TARGETED_BEHAVIOR_RUNTIME=PASS
+LEASE_FAILURE_COMPENSATED=PASS
+SUCCESS_AFTER_DURABLE_LEASE=PASS
+```
+
+### Promotion
+
+```text
+normalized InnTable = 819f5ee1773a178db295f71129b475154776041e
+normalized C_Amount = 0ad36cd8b8a566a25772a79457bcf3791e03a5bc
+obfuscated existing lease authority = a0ffdc3b0c9ae06157479a494395020488323bde
+```
+
+### Result
+
+```text
+BUG-850-136=L2
 STATUS=PASS
 PROMOTED=YES
 ```
