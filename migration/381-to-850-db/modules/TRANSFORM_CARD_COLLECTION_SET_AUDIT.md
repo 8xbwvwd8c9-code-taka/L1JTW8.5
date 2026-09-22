@@ -62,7 +62,11 @@ Collection loops use i=0..table.size() and getCard(i). Current set IDs 1..10 hap
 5109 INT+11
 
 TOTAL_SET_VECTOR=STR9;DEX11;CON13;INT15;WIS5;CHA7
-INT_OVERFLOW=NO_CURRENT_SET_VALUES
+MAX_COLLECTION_VECTOR=STR23;DEX25;CON27;INT33;WIS17;CHA7;ALL_OTHER_AUDITED_FIELDS=0
+INT_OVERFLOW=NO_CURRENT_VALUES
+
+The set-only vector above is not the full collection maximum. Cross-checking all unlocked base-card rows plus all active set rows yields the authoritative current maximum collection vector:
+STR23, DEX25, CON27, INT33, WIS17, CHA7.
 
 ## 850 target model
 Base cards and sets share Quest persistence, one collection domain, one numeric vocabulary, and one login application hook. They should share one 850 CollectionOwner.
@@ -82,17 +86,23 @@ TRANSFORM_OWNER_SHARED=NO
 ## UI
 Donor UI uses card_0, card_10, card_11, cardset, cardset2, polycard, and a1..a64. These are presentation/control paths, not authoritative collection state. Preserve semantics, not necessarily donor HTML.
 
+## Reference integrity
+QUEST_REFERENCES=PASS.
+CARD_REFERENCES=PARTIAL: the donor card-id field repeats literal 1 and is not used as the runtime ownership key. Future 850 identity mapping must use semantic card/quest identity rather than this field.
+
 ## Classification
-LEVEL=L4
-Pure server collection/recompute portion is conceptually L3, but current module includes donor UI/polymorph integration and no proven 850-native collection equivalent.
+LEVEL=L3/L4.
+The collection owner/stat recompute core is L3. Donor UI/polymorph presentation/resource coupling raises the complete feature surface to L4.
 
 ## Status
 STATUS=BLOCKED
 AUDIT=PASS
 MODULE=w_變身卡片能力組合套卡
-LEVEL=L4
+LEVEL=L3/L4
 SOURCE_ROWS=10
 PARALLEL_ARRAYS=PASS
+CARD_REFERENCES=PARTIAL_CARD_ID_FIELD_REPEATS_1_AND_UNUSED
+QUEST_REFERENCES=PASS
 SET_OWNER=QUEST_STATE
 SET_UNLOCK_EVENT=PROVEN
 STAT_APPLICATION=PROVEN
@@ -100,10 +110,11 @@ LOGIN_HOOK=C_LoginToServer.getCard
 DISPLAY_RUNTIME=BOTH
 DONOR_INCREMENTAL=YES
 DONOR_RECOMPUTE=NO
-DRIFT_RISK=YES
+DRIFT_RISK=HIGH
 SET_ONLY_MAX_VECTOR=STR9;DEX11;CON13;INT15;WIS5;CHA7
-INT_OVERFLOW=NO_CURRENT_SET_VALUES
+MAX_COLLECTION_VECTOR=STR23;DEX25;CON27;INT33;WIS17;CHA7
+INT_OVERFLOW=NO
 SHARED_MODIFIER=YES_STAT_VECTOR_ONLY
 COLLECTION_OWNER_SHARED_WITH_BASE_CARDS=YES
 SOURCE_SCHEMA=NOT_PROVEN
-BLOCKERS=850 collection/recompute owner unproven; login exactly-once assumption; sparse-key iteration bug pattern; semantic quest/card identity mapping; UI/polymorph integration
+BLOCKERS=850 collection engine/UI and idempotent stat recompute unproven; CREATE schema absent; persistent quest activation and stat removal/rebuild contract required; donor card-id field is invalid for future identity consumers; sparse-key iteration bug pattern
