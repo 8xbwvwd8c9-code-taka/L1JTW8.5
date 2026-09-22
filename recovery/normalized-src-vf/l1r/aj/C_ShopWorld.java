@@ -62,12 +62,15 @@ public class C_ShopWorld extends ClientBasePacket {
                      return;
                   }
 
-                  var34.g(var24 - var18);
-                  AccountTable.a().a(var34);
+                  int newBalance = var24 - var18;
+                  if (!ShopWorldTable.a().a(var34.d(), var24, newBalance, var33.N(), var17)) {
+                     var3.a(new S_ServerMessage(156));
+                     return;
+                  }
+                  var34.g(newBalance);
                   var3.a(new S_ServerMessage(2745));
                   var3.a(new S_CharEvent(37, var34.p()));
                   var3.bd(var3.cQ() + var18);
-                  ShopWorldTable.a().a(var34.d(), var33.N(), var17);
                   HistoryTable.a().h(var3, "購買", var33, var17);
                } else if (var20 == 1) {
                   String var31 = this.g();
