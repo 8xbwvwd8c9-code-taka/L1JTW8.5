@@ -68,6 +68,8 @@
     <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
+    <Compile Include="PlayerIdentityClusterer.cs" />
+    <Compile Include="PlayerIdentityProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
     <Compile Include="InventoryProbeControl.cs" />
     <Compile Include="InventoryRecordAnalyzer.cs" />
