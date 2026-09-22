@@ -636,6 +636,59 @@ Developer.Enabled=1 => reverse/probe tabs visible
 This keeps reverse-engineering controls out of the normal helper interface.
 
 
+## 2026-09-22 WP7/WP8 protocol and native-send discovery
+
+```text
+STATUS=PASS_SOURCE
+850_C_ITEMUSE_CLASS=aj.az
+850_PACKET_HANDLER=ai.e
+C_ITEMUSE_OPCODE=94=0x5E
+FIRST_FIELD=objectId LE32
+NORMAL_HEAL_POTION_EXTRA_FIELDS=NONE
+RAW_SOCKET_SEND=NO
+ITEM_USE_BRIDGE=UNMAPPED
+AUTO_POTION_CONTROLLER=IMPLEMENTED_GATED
+NATIVE_SEND_XREF_SCAN=IMPLEMENTED_READ_ONLY
+ITEM_NAME_ROWS=4388
+```
+
+Recovered 850 server evidence:
+
+- `identity/class_source_mapping.csv`: `aj.az -> C_ItemUSe.java`, `ai.e -> PacketHandler.java`, `bj.d -> ClientThread.java`.
+- `PacketHandler`: case `94` constructs `aj.az` / `C_ItemUSe`.
+- `C_ItemUSe`: first field is `itemObjid = readD()`, then inventory lookup is by objectId.
+- base packet reader `cv.b()` is a 4-byte little-endian integer.
+- 850 DB rows such as item 40010/40011/40012 use `use_type='normal'`; the use-type switch consumes no additional fields for these healing potions.
+
+Thus the logical decrypted normal-potion payload is:
+
+```text
+0x5E + objectId(LE32)
+```
+
+This does **not** prove the external launcher can send that payload safely. The active Lin.bin2 connection applies its own framing/encryption state.
+
+Added client-side tooling:
+
+- `ItemUseProtocol`: builds the logical payload for evidence only.
+- hidden `UseItem協定` page: objectId -> logical payload preview, SEND=NO.
+- `PeImportParser`: PE32 import parser.
+- `NativeSendXrefScanner`: finds runtime `CALL/JMP [IAT]` references to `send/sendto/WSASend/WSASendTo` in executable Lin.bin2 sections.
+- hidden `Send掃描` page and `native_send_xref_evidence.txt`.
+- `AutoPotionController`: percent/exact HP policy -> configured potion itemId priority -> mapped inventory objectId -> cooldown -> gated ItemUse bridge.
+- `item-names.csv`: 4388 names generated from the authoritative 850 SQL tables; mapped inventory can display names without DB access.
+
+PASS boundary:
+
+```text
+WP7=NOT_YET_PASS
+SERVER_PROTOCOL_PROOF=PASS
+CLIENT_NATIVE_SEND_PATH=NOT_YET_PROVEN
+RAW_PACKET_INJECTION=REJECTED
+WP8_ACTION=GATED_BY_WP7
+```
+
+
 ## 下一步
 
 ```text
