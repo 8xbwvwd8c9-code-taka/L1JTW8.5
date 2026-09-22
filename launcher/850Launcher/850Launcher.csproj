@@ -44,6 +44,9 @@
     <Compile Include="ItemUseBridge.cs" />
     <Compile Include="ItemUseProtocol.cs" />
     <Compile Include="ItemUseProtocolControl.cs" />
+    <Compile Include="SkillUseProtocol.cs" />
+    <Compile Include="SkillCatalog.cs" />
+    <Compile Include="BuffStateBridge.cs" />
     <Compile Include="PeImportParser.cs" />
     <Compile Include="NativeSendXrefScanner.cs" />
     <Compile Include="NativeSendProbeControl.cs" />
@@ -78,6 +81,9 @@
   <ItemGroup>
     <None Include="app.manifest" />
     <None Include="item-names.csv">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="skill-names.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
   </ItemGroup>
