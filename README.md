@@ -547,6 +547,19 @@ CROSS_PLAYER_ACCESS=REJECT
 
 權威規則：每個 client-selected mail id 都必須先 resolve 存在，再要求 `mail.inbox_id==pc.id`。單封 read/status/delete 與 batch delete 都不得只靠 global mail id 存在性授權。Batch 採 per-entry gate：合法 mail 可處理，非法或不存在 mail 必須各自拒絕，不得被同批其他合法 mail 繞過。
 
+### BUG-850-19 Achievement reward gate 驗證（2026-09-22）
+
+```text
+PROGRESS_GATE=PASS
+CLAIMED_GATE=PASS
+IDEMPOTENCY_GATE=PASS
+OVERFLOW_GATE=PASS
+ZERO_REQUIRED=ALLOWED_BY_CURRENT_RULE
+ZERO_REQUIRED_POLICY=NEEDS_DATA_AUTHORITY
+```
+
+權威規則目前為 `progress>=required && claimed==0`；達標或超額達標皆可領，成功後 claimed 必須轉為 1，重放請求必須拒絕。當 `required=0` 時，依現行規則會直接視為達標；是否應另加 `required>0` 不由算術決定，必須查 achievement/character_mobs 的資料定義與 loader，確認 0 是否為合法配置後再決定。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
