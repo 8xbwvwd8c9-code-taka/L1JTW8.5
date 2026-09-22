@@ -56,6 +56,9 @@
     <Compile Include="NativeCodeWindow.cs" />
     <Compile Include="NativeCallGraphEvidenceComparer.cs" />
     <Compile Include="NativeEvidenceCompareControl.cs" />
+    <Compile Include="NativeReceiveXrefScanner.cs" />
+    <Compile Include="NativeReceiveFlowScanner.cs" />
+    <Compile Include="NativeReceiveFlowControl.cs" />
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
