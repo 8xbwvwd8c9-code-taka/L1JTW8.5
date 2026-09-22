@@ -82,6 +82,8 @@
     <Compile Include="InventoryCollectionProbeControl.cs" />
     <Compile Include="PointerChainScanner.cs" />
     <Compile Include="PointerProbeControl.cs" />
+    <Compile Include="PointerEvidenceComparer.cs" />
+    <Compile Include="PointerEvidenceCompareControl.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <ItemGroup>
