@@ -257,35 +257,37 @@ BUG / FEATURE
 
 - [Recovery / 核心修復首頁](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/analysis/l1jtw85-recovery/recovery/README.md)
 
-### 最新 L1 修復進度（2026-09-21）
+### 最新 L1 修復進度（2026-09-22）
 
 ```text
-BUG-850-114
-STATUS=PASS
 WORK_BRANCH=work/l1jtw85-core-fixes
-
 VALID_L1_PROGRESS=14/45
-NEXT_L1=BUG-850-137
-BUG-850-137=PATCHED_PENDING_VALIDATION
-BUG-850-140=PATCHED_PENDING_VALIDATION
-BUG-850-141=PATCHED_PENDING_VALIDATION
-BUG-850-144=PATCHED_PENDING_VALIDATION
-BUG-850-171=PATCHED_PENDING_VALIDATION
-BUG-850-172=PATCHED_PENDING_VALIDATION
-BUG-850-177=PATCHED_PENDING_VALIDATION
+VALIDATED_PASS=BUG-850-114
+
+CURRENT_AUDIT_TIER_L1_SCAN=27 sections
+FULLY_UNPATCHED_IN_CURRENT_SCAN=0
+PARTIAL_BLOCKER=BUG-850-208
+GITHUB_WORKFLOW_RUNS_FOR_LATEST_PATCH=0
+LATEST_PATCH_STATUS=PATCHED_PENDING_VALIDATION
+NEXT_PHASE=L1 targeted compile/runtime validation + BUG-850-208 route-authority evidence
 ```
 
-BUG-850-114 已完成 canonical 吸收與驗證紀錄。來源物品 41761 會先驗證並成功扣除，再建立 41762；bookmark export 使用 transaction / rollback，失敗時回滾替代品並補回來源。
+本輪已依「CORE entry → config/DB → fallback → active source → minimal fix」規則收斂目前 audit 中可辨識的 Tier L1 項目。除 `BUG-850-208` 外，current Tier-L1 scan 沒有仍維持「完全未修」的項目；但這代表 **code repair pass 已收斂**，不代表已通過 runtime validation，因此 `VALID_L1_PROGRESS` 仍保持 `14/45`，不提前升級。
 
-BUG-850-137 已在 work branch 補上正數檢查、`300L * amount` 溢位邊界，以及「扣款成功才建立房卡/租約」；GitHub 此提交沒有 workflow run，因此仍需 targeted Java compile / runtime 驗證後才能標 DONE 或 promotion。
+主要新增修補群組：
 
-BUG-850-140 / 141 已在 work branch 補上房屋出售與競標第二階段的伺服器端重驗：房屋/血盟 ownership、leader/royal、keeper/interaction context、sale/deadline、以及由目前 DB/runtime house 狀態重新計算最低競標價。兩項同樣等待 targeted Java compile / runtime gate。
+- ownership / authority：`171, 194, 195, 197, 200, 210, 211, 215, 221, 222`
+- server-offer / state revalidation：`172, 198, 199, 220, 227, 273`
+- location / teleport trust boundary：`177, 218, 228`
+- arithmetic / economic integrity：`264, 270, 286, 287`
+- persistent/data integrity：`144, 226, 260, 261`
+- house auction/rental earlier queue：`137, 140, 141`
 
-BUG-850-144 已在 work branch 依 `S_SellHouse` 的 100000..2000000000 邊界補上出售價格驗證，並在 `HouseTimer` 增加 legacy invalid price settlement guard；同樣等待 targeted Java compile / runtime gate。
+`BUG-850-208` 目前為 `PARTIAL_BLOCKED_ROUTE_AUTHORITY`：六個 ship map 的 ticket mapping 與「扣票失敗即停止」已修；但 destination map/x/y 仍缺 server-authoritative route table。已交叉檢查 380、381、880 與公開 L1J-TW 3.80c 同類實作，皆只有 current-map → ticket 對應，destination 仍由 client 提供，因此不虛構目的地座標。
 
-BUG-850-171 / 172 已在 work branch 補上 pet inventory ownership gate 與 skill-purchase current-offer membership gate；兩項皆在任何資料序列化／扣款／扣材料／`character_skills` persistence 前 fail closed。仍等待 targeted Java compile / runtime gate。
+最新 `BUG-850-287` 已把 craft command 58 綁回 DB `craft.max_count`，並在任何材料消耗前用 long 預驗固定材料、可選材料、所有 success output 與 fail output 的 batch 數量；`BUG-850-286` 同樣修正 LuckyDraw ticket batch 的乘法與 consume/result count 一致性。
 
-BUG-850-177 已在 shared `L1Dungeon` helper 補上實際 map 與相鄰座標綁定，避免 client-selected entrance 座標直接驅動 dungeon transition；等待 targeted Java compile / runtime gate。
+GitHub 對最新 patch commit 沒有 combined status，也沒有 workflow run；repo work branch 亦無可直接使用的 `.github/workflows`。因此目前所有未具既有實際編譯證據的修補仍維持 `PATCHED_PENDING_VALIDATION`，不得 promotion 到 `completed/l1jtw85-core-fixes`。
 
 ### 支線整理規則
 
