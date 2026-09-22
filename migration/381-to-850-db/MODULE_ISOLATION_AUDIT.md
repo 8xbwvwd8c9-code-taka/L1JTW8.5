@@ -255,3 +255,107 @@ Difficulty: **L3**
 Note:
 `w_血盟等級` is a related but separate subsystem until further call-graph proof. Do not force it into the clan-skill package unless required.
 
+
+
+## Third-pass findings
+
+### Transformation Card / Collection -> L3 provisional confirmed
+381 active path:
+- startup:
+  - `CardSetTable.get().load()`
+  - `ACardTable.get().load()`
+- item entry:
+  - `CardBook.execute() -> S_NPCTalkReturn(..., "card_01")`
+- command/menu:
+  - `CardBookCmd`
+  - HTML IDs include `card_01`, `card_0`, `card_10`, `card_11`
+- persistence model:
+  - card ownership/completion is stored through quest state:
+    `pc.getQuest().get_step(card.getQuestId())`
+- combo completion also checks required quest IDs.
+- transformation can consume configured item and call `L1PolyMorph.doPoly()`.
+
+DB:
+- `w_變身卡片能力登入`
+- `w_變身卡片能力組合套卡`
+
+Isolation package:
+- two card definition tables
+- quest-state dependency (no separate card ownership table is required by this implementation)
+- CardBook item executor
+- CardBookCmd command/action integration
+- HTML resources/menu IDs
+- stat aggregation hooks
+- optional transformation command path
+
+Difficulty: **L3**
+Reason: DB is cleanly isolated, but the feature depends on quest-state persistence + HTML command UI + player stat aggregation. It is not a DB-only port.
+
+Potential simplification:
+- keep quest-state persistence model to avoid adding a new character-card table
+- replace old HTML presentation later only if 850 has a better native collection UI
+
+### Item Upgrade family must be split into separate modules
+
+#### A. NPC Item Update
+381:
+- table: `server_item_update`
+- loader: `ItemUpdateTable`
+- event switch: `ItemUpdateSet`
+- NPC executor: `Npc_ItemUpdate`
+- HTML/menu: `y_up_i0`, `y_up_i2`
+- list packet: `S_PowerItemList`
+
+This is a dedicated NPC-driven item-upgrade subsystem.
+
+Isolation: GOOD, but includes event + NPC + packet/html dependencies.
+Difficulty: provisional **L3** until 850 packet/UI equivalent is checked.
+
+#### B. Item-use Upgrade
+381:
+- table: `w_道具升級系統`
+- item executor: `com.lineage.data.item_etcitem.add.Item_up`
+- runtime engine: `com.lineage.william.Itemup`
+- Itemup loads `SELECT * FROM w_道具升級系統`
+
+This is distinct from `server_item_update`.
+
+Isolation: GOOD.
+Difficulty: provisional **L2-L3** depending on 850 item-executor compatibility.
+
+#### C. Integration Upgrade
+381:
+- table: `w_道具升級`
+- engine: `com.lineage.william.ItemIntegration`
+- loads `SELECT * FROM w_道具升級`
+- supports:
+  - class/level constraints
+  - primary + secondary target item
+  - extra material arrays
+  - target enchant requirement
+  - random success
+  - multiple outputs
+  - success/fail message
+  - gfx
+  - broadcast
+  - failure destroy/keep behavior
+  - weapon/armor item-id transformation while preserving configurable state
+
+Isolation: GOOD as its own optional module.
+Difficulty: provisional **L3**.
+
+Rule:
+Do NOT merge A/B/C DBs or implementations during migration analysis. They are separate optional modules even though all are “item upgrade” features.
+
+### Enchant level systems are separate again
+- `EnchantOrginal -> w_裝武強化lv`
+- `EnchantAccessory -> w_飾品等級`
+These are passive/stat-by-enchant-level systems, NOT the same as the three item-upgrade systems.
+
+### Clan Level
+`w_血盟等級` defines clan-level passive bonuses and contribution thresholds.
+It must remain separate from `w_血盟技能` unless a direct runtime dependency is proven.
+Shared dependency: both may need additive `clan_data` state fields.
+
+Status: call-path still under audit.
+
