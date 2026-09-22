@@ -133,3 +133,5 @@ Do not port its entire 381 UI/core blindly.
 - `w_血盟等級_血盟技能_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CLAN_LEVEL_SKILL_FAMILY_AUDIT.md`, commit=`3a9b222f123706d1dd74f0f2fe997c181a97ad8a`. ClanState recompute is required; clan level requirement/persistence models exist but the actual live level-up executor remains unproven.
 
 - `w_城戰獲勝獎勵`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_WAR_VICTORY_REWARD_AUDIT.md`, commit=`513ce8ab735e9a2258a85d0e30385701bf4d6eb2`. Castle-war end callsite is proven; donor double-distributes rewards and table load callsite remains unproven, so 850 needs idempotent native war-end settlement.
+
+- `w_負面魔法機率`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/NEGATIVE_MAGIC_PROBABILITY_AUDIT.md`, commit=`41138a459226aa8011e8b761b3fb3b20e839fd87`. Runtime arithmetic is proven, including type24-28 low-MR sign reversal and Elf 70→35 / 71→55 discontinuity; skill_id and 850 formula mapping remain blocked.
