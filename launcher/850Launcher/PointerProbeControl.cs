@@ -230,6 +230,8 @@ namespace L1JTW850Launcher
                 sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 sb.AppendLine("PID=" + runtime.ProcessId);
                 sb.AppendLine("PROCESS_START_UTC=" + (runtime.ProcessStartTimeUtc.HasValue ? runtime.ProcessStartTimeUtc.Value.ToString("o") : ""));
+                sb.AppendLine("CLIENT_SHA256=" + (runtime.ClientSha256 ?? ""));
+                sb.AppendLine("CLIENT_AUTHORITY=" + (runtime.ClientHashAuthoritative ? 1 : 0));
                 sb.AppendLine("FIELD=" + (fieldName ?? ""));                sb.AppendLine("MODULE_BASE=0x" + runtime.ModuleBase.ToInt64().ToString("X8"));
                 sb.AppendLine("MODULE_SIZE=" + runtime.ModuleSize);
                 sb.AppendLine("TARGET=0x" + target.ToString("X8"));
