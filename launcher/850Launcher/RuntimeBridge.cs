@@ -86,8 +86,8 @@ namespace L1JTW850Launcher
                     return;
 
                 uint objectId;
-                ushort x;
-                ushort y;
+                uint xRaw;
+                uint yRaw;
 
                 if (!reader.TryReadUInt32(
                     map.PlayerObjectId,
@@ -95,26 +95,33 @@ namespace L1JTW850Launcher
                     out error))
                     return;
 
-                if (!reader.TryReadUInt16(
+                if (!reader.TryReadUnsigned(
                     map.PlayerX,
-                    out x,
+                    map.PlayerXWidth,
+                    out xRaw,
                     out error))
                     return;
 
-                if (!reader.TryReadUInt16(
+                if (!reader.TryReadUnsigned(
                     map.PlayerY,
-                    out y,
+                    map.PlayerYWidth,
+                    out yRaw,
                     out error))
                     return;
 
-                if (objectId == 0)
+                if (objectId == 0 ||
+                    xRaw > ushort.MaxValue ||
+                    yRaw > ushort.MaxValue)
                     return;
 
                 snapshot.PlayerObjectId =
                     objectId;
 
-                snapshot.PlayerX = x;
-                snapshot.PlayerY = y;
+                snapshot.PlayerX =
+                    (ushort)xRaw;
+
+                snapshot.PlayerY =
+                    (ushort)yRaw;
             }
         }
 
