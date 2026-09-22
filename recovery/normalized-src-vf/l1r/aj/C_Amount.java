@@ -51,7 +51,22 @@ public class C_Amount extends ClientBasePacket {
                   }
 
                   int var21 = Integer.valueOf(var10);
+                  L1Clan var32 = ClanTable.a().a(var3.aF());
+                  if (var32 == null || !var3.x() || var3.fr() != var32.k() || var3.ev() < 15 || var32.n() != 0) {
+                     var3.a(new S_ServerMessage(518));
+                     return;
+                  }
+
                   L1House var24 = HouseTable.a().a(var21);
+                  if (var24 == null || !var24.g() || var24.j() == null || var24.j().getTime() <= System.currentTimeMillis() || var8.fu().c(var3.fu()) > 11) {
+                     return;
+                  }
+
+                  long var33 = var24.o() == 0 ? (long)var24.k() : (long)var24.k() + 1L;
+                  if (var5 <= 0 || var5 > 2000000000 || (long)var5 < var33) {
+                     return;
+                  }
+
                   if (!var3.j().b(40308, var5)) {
                      var3.a(new S_ServerMessage(189));
                      return;
