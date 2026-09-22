@@ -1,0 +1,52 @@
+; 850 inventory mapping
+; KEEP Mode=UNMAPPED until WP5/WP6 runtime proof passes.
+;
+; Root uses the same syntax as runtime-map.ini:
+;   RVA:0x00123456
+;   PTR:0x00123456|0x10|0x20
+;
+; Supported Collection.Mode:
+;   UNMAPPED
+;   POINTER_ARRAY
+;   LINKED_LIST
+;   CONTIGUOUS
+;
+; Never copy 381/880 runtime addresses into this file.
+
+[Collection]
+Mode=UNMAPPED
+Root=
+MaxItems=500
+
+; POINTER_ARRAY / CONTIGUOUS
+CountOffset=0
+DataPointerOffset=0
+
+; POINTER_ARRAY
+EntryStride=4
+EntryPointerOffset=0
+
+; LINKED_LIST
+HeadPointerOffset=0
+NextPointerOffset=0
+RecordPointerOffset=0
+RecordInline=0
+
+; CONTIGUOUS
+RecordStride=0
+
+[Record]
+ObjectIdOffset=0
+ObjectIdWidth=4
+
+ItemIdOffset=0
+ItemIdWidth=4
+
+CountOffset=0
+CountWidth=4
+
+EnchantOffset=0
+EnchantWidth=2
+
+EquippedOffset=0
+EquippedWidth=1
