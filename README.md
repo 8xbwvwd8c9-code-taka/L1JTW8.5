@@ -36,6 +36,7 @@ BUG
 | BUG-850-282 | L2 | ShopWorld claim capacity/count authority | PASS / PROMOTED |
 | BUG-850-281 | L2 | ShopWorld resolvent local-NPC interaction authorization | PASS / PROMOTED |
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
+| BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -973,6 +974,104 @@ This is a targeted reward-capacity authority regression gate, not a live invento
 
 ```text
 BUG-850-280=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-277 — newly attached item-collection quests ignored already-loaded inventory
+
+### Problem
+
+The login path loads the player's inventory before `QuestNewTable` restores and attaches newly eligible quests.
+
+Item-collection progress is normally updated by `L1PcInventory` callbacks when inventory items are added/changed/removed. A newly attached quest therefore started with zero `B[]` item progress even when matching items were already present before the quest existed.
+
+### Existing 8.5 objective rule
+
+The active inventory callback matches an item objective using:
+
+```text
+quest item id == inventory item id
+AND
+quest minimum enchant <= inventory item enchant
+```
+
+and then updates quest progress through:
+
+```text
+L1QuestNew.a(objectiveIndex, count)
+```
+
+That setter caps progress to the quest requirement and runs the normal completion evaluator.
+
+### Fix
+
+Immediately after a new quest is attached, `QuestNewTable` now scans the player's already-loaded inventory for each item objective.
+
+For every objective it:
+
+1. aggregates counts from all matching stacks;
+2. applies the same item-id and minimum-enchant rule used by `L1PcInventory`;
+3. ignores non-positive item counts;
+4. stops once the objective requirement is reached;
+5. sends the total through the existing quest progress setter.
+
+A `long` accumulator is used while summing inventory stacks; the value is capped to the quest requirement before converting back to the quest's `int` progress field.
+
+### Runtime source map
+
+- Login order: inventory load precedes `QuestNewTable.a().b(pc)`
+- Quest attach: `QuestNewTable.a(L1PcInstance)`
+- Existing live-update rule: `L1PcInventory`
+- Item objective ids: `L1QuestNew.r[]`
+- Minimum enchant: `L1QuestNew.t[]`
+- Required count: `L1QuestNew.s[]`
+- Progress: `L1QuestNew.B[]`
+- Progress/completion setter: `L1QuestNew.a(index,count)`
+- Protocol change: **none**
+- DB schema change: **none**
+
+### Modified core source
+
+- `recovery/normalized-src-vf/l1r/ao/QuestNewTable.java`
+- `recovered-src-obf/ao/az.java`
+
+Promotion commits:
+
+- normalized source: `ad90a3c0a1553a5ed5b805234c4a97b3498d085b`
+- obfuscated source: `49a876fb0e1984ca692e73707056e8539957d91b`
+
+### Validation
+
+Final isolated validation:
+
+```text
+GitHub Actions run = 35682206004
+STATUS = PASS
+
+BUG_850_277_CONTRACT=PASS
+INITIAL_PROGRESS_SOURCE=loaded_inventory
+OBJECTIVE_RULE=item_id+enchant_threshold
+PROGRESS_SETTER=L1QuestNew.a(index,count)
+BUG_850_277_TARGETED_BEHAVIOR_RUNTIME=PASS
+EXISTING_INVENTORY_SYNC=PASS
+ENCHANT_THRESHOLD=PASS
+REQUIREMENT_CAP=PASS
+BUG_850_277_EXACT_BASE_TRANSFORM=PASS
+BASE_JAVAC_RC=0
+STAGE_JAVAC_RC=0
+BUG_850_277_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The first validation attempt failed only because the obfuscated staging file disappeared from the latest work HEAD during concurrent branch updates. The missing staging file was rebuilt from the unchanged completed baseline; the subsequent isolated run passed all gates.
+
+### Result
+
+```text
+BUG-850-277=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
