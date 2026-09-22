@@ -37,6 +37,7 @@ BUG
 | BUG-850-281 | L2 | ShopWorld resolvent local-NPC interaction authorization | PASS / PROMOTED |
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
+| BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -1072,6 +1073,101 @@ The first validation attempt failed only because the obfuscated staging file dis
 
 ```text
 BUG-850-277=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-276 — newly attached level-objective quests skipped completion evaluation
+
+### Problem
+
+When `QuestNewTable` attached a newly eligible quest with a level objective, it initialized level progress through the direct restore-style setter:
+
+```text
+quest.d(currentLevel)
+```
+
+That setter only assigns the stored level-progress field. It does not run the quest completion evaluator.
+
+The normal level-progress updater instead:
+
+```text
+quest.a(currentLevel)
+```
+
+caps progress to the target and invokes the standard completion evaluator.
+
+Because new quest attachment occurs after the existing-quest level update pass, a quest created by the level event that made it eligible could start with satisfied level progress while its completion state remained false.
+
+### Runtime source map
+
+- New quest attach: `QuestNewTable.a(L1PcInstance)`
+- Level target: `L1QuestNew.n`
+- Stored level progress: `L1QuestNew.z`
+- Normal evaluating setter: `L1QuestNew.a(int)`
+- Direct restore setter: `L1QuestNew.d(int)`
+- Completion evaluator: `L1QuestNew.D()`
+- Protocol change: **none**
+- DB schema change: **none**
+
+### Fix
+
+Only the **new quest attach** path changes:
+
+```text
+if quest has level objective:
+    evaluatingSet(currentPlayerLevel)
+```
+
+The DB restore path intentionally continues using the direct setter for serialized progress restoration.
+
+This preserves the distinction between:
+
+```text
+new runtime progress event -> evaluate completion
+database state restore      -> restore serialized state directly
+```
+
+### Modified core source
+
+- `recovery/normalized-src-vf/l1r/ao/QuestNewTable.java`
+- `recovered-src-obf/ao/az.java`
+
+Promotion commits:
+
+- normalized source: `5a66f0a883e0c7ee0b4a33b606e5e3ffe03df924`
+- obfuscated source: `c467ebe7a15fc7c80ce83cebe776b5167ce5339a`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35682433910
+STATUS = PASS
+
+BUG_850_276_CONTRACT=PASS
+NEW_ATTACH_LEVEL_SETTER=evaluating
+DB_RESTORE_LEVEL_SETTER=direct
+COMPLETION_EVALUATOR=L1QuestNew.D
+BUG_850_276_TARGETED_BEHAVIOR_RUNTIME=PASS
+ATTACH_COMPLETION_TRANSITION=PASS
+LEVEL_PROGRESS_CAP=PASS
+BUG_850_276_EXACT_BASE_TRANSFORM=PASS
+BASE_JAVAC_RC=0
+STAGE_JAVAC_RC=0
+BUG_850_276_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The staging base already contained the completed BUG-850-277 inventory synchronization repair, so this promotion preserves that prior fix and changes only the level-objective initialization setter.
+
+### Result
+
+```text
+BUG-850-276=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
