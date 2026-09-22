@@ -137,7 +137,7 @@ namespace L1JTW850Launcher
                         ? (hpSemanticPass
                             ? "WP4 完成"
                             : "映射驗證 → 語意比對")
-                        : "把穩定 expression 填入「映射」")
+                        : "映射比對 → 選 RESTART_STABLE → 套用映射")
                     : "偵測 → 指標鏈 → 映射比對");
 
             var playerStable =
@@ -176,7 +176,7 @@ namespace L1JTW850Launcher
                         ? (playerSemanticPass
                             ? "WP3 完成"
                             : "映射驗證 → 語意比對")
-                        : "把穩定 expression 填入「映射」")
+                        : "映射比對 → 選 RESTART_STABLE → 套用映射")
                     : "玩家偵測 → 指標鏈 → 映射比對");
 
             InventoryMap inventoryMap =
