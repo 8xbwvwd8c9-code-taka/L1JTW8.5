@@ -75,6 +75,8 @@
     <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
+    <Compile Include="RuntimeValidationDashboard.cs" />
+    <Compile Include="RuntimeValidationDashboardControl.cs" />
     <Compile Include="PlayerIdentityClusterer.cs" />
     <Compile Include="PlayerIdentityProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
