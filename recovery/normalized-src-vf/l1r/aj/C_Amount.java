@@ -1,5 +1,9 @@
 package l1r.aj;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -17,6 +21,7 @@ import l1r.be.S_Html;
 import l1r.be.S_ServerMessage;
 import l1r.bh.L1House;
 import l1r.bj.ClientThread;
+import l1r.l1j.server.DatabaseFactory;
 
 public class C_Amount extends ClientBasePacket {
    public C_Amount(byte[] var1, ClientThread var2) throws Exception {
@@ -67,27 +72,13 @@ public class C_Amount extends ClientBasePacket {
                      return;
                   }
 
-                  if (!var3.j().b(40308, var5)) {
+                  if (!var3.j().g(40308, var5)) {
                      var3.a(new S_ServerMessage(189));
                      return;
                   }
 
-                  int var13 = var24.k();
-                  int var14 = var24.o();
-                  var24.d(var5);
-                  var24.d(var3.et());
-                  var24.f(var3.fr());
-                  HouseTable.a().a(var24);
-                  if (var14 != 0) {
-                     L1PcInstance var15 = (L1PcInstance)L1World.a().a(var14);
-                     if (var15 != null) {
-                        ItemTable.a(var15, 40308, var13, 0, false);
-                        var15.a(new S_ServerMessage(525, String.valueOf(var13)));
-                     } else {
-                        L1ItemInstance var16 = ItemTable.a().b(40308);
-                        var16.e(var13);
-                        CharacterItemTable.a().a(var14, var16);
-                     }
+                  if (!this.commitAuctionBidAtomic(var3, var24, var5)) {
+                     return;
                   }
                } else if (var9.equalsIgnoreCase("agsell")) {
                   int var22 = Integer.valueOf(var10);
@@ -155,6 +146,179 @@ public class C_Amount extends ClientBasePacket {
                   }
                }
             }
+         }
+      }
+   }
+
+   private boolean commitAuctionBidAtomic(L1PcInstance var1, L1House var2, int var3) {
+      synchronized(var2) {
+         L1ItemInstance var4 = var1.j().b(40308);
+         if (var4 == null || var4.E() < var3) {
+            return false;
+         }
+
+         int var5 = var4.E();
+         int var6 = var5 - var3;
+         int var7 = var2.k();
+         int var8 = var2.o();
+         String var9 = var2.n();
+         Timestamp var10 = var2.j();
+         L1PcInstance var11 = var8 == 0 ? null : (L1PcInstance)L1World.a().a(var8);
+         L1ItemInstance var12 = null;
+         L1ItemInstance var13 = null;
+         int var14 = 0;
+         int var15 = 0;
+
+         Connection var16 = null;
+         boolean var17 = true;
+         boolean var18 = false;
+
+         try {
+            var16 = DatabaseFactory.a().b();
+            this.requireAuctionBidInnoDb(var16);
+            var17 = var16.getAutoCommit();
+            var16.setAutoCommit(false);
+
+            try (PreparedStatement var19 = var16.prepareStatement(
+               "UPDATE house SET price=?, bidder=?, bidder_id=? WHERE house_id=? AND is_on_sale=1 AND price=? AND bidder_id=? AND deadline=?"
+            )) {
+               var19.setInt(1, var3);
+               var19.setString(2, var1.et());
+               var19.setInt(3, var1.fr());
+               var19.setInt(4, var2.b());
+               var19.setInt(5, var7);
+               var19.setInt(6, var8);
+               var19.setTimestamp(7, var10);
+               if (var19.executeUpdate() != 1) {
+                  throw new SQLException("BUG-850-142 house bid CAS failed");
+               }
+            }
+
+            CharacterItemTable var28 = CharacterItemTable.a();
+            if (var6 == 0) {
+               var28.deleteQuestRewardItem(var16, var1.fr(), var4, var5);
+            } else {
+               var28.updateQuestRewardCount(var16, var1.fr(), var4, var5, var6);
+            }
+
+            if (var8 != 0 && var7 > 0) {
+               if (var11 != null) {
+                  var12 = var11.j().b(40308);
+                  if (var12 != null) {
+                     var14 = var12.E();
+                     long var20 = (long)var14 + (long)var7;
+                     if (var20 > 2147483647L) {
+                        throw new SQLException("BUG-850-142 old bidder Adena overflow");
+                     }
+                     var15 = (int)var20;
+                     var28.updateQuestRewardCount(var16, var8, var12, var14, var15);
+                  } else {
+                     var13 = ItemTable.a().b(40308);
+                     if (var13 == null) {
+                        throw new SQLException("BUG-850-142 refund item template unavailable");
+                     }
+                     var13.e(var7);
+                     var28.insertQuestReward(var16, var8, var13);
+                  }
+               } else {
+                  try (PreparedStatement var21 = var16.prepareStatement(
+                     "SELECT id,count FROM character_items WHERE char_id=? AND item_id=40308 ORDER BY id LIMIT 1 FOR UPDATE"
+                  )) {
+                     var21.setInt(1, var8);
+                     try (ResultSet var22 = var21.executeQuery()) {
+                        if (var22.next()) {
+                           int var23 = var22.getInt("id");
+                           int var24 = var22.getInt("count");
+                           long var25 = (long)var24 + (long)var7;
+                           if (var25 > 2147483647L) {
+                              throw new SQLException("BUG-850-142 offline old bidder Adena overflow");
+                           }
+                           try (PreparedStatement var26 = var16.prepareStatement(
+                              "UPDATE character_items SET count=? WHERE id=? AND char_id=? AND count=?"
+                           )) {
+                              var26.setInt(1, (int)var25);
+                              var26.setInt(2, var23);
+                              var26.setInt(3, var8);
+                              var26.setInt(4, var24);
+                              if (var26.executeUpdate() != 1) {
+                                 throw new SQLException("BUG-850-142 offline refund CAS failed");
+                              }
+                           }
+                        } else {
+                           var13 = ItemTable.a().b(40308);
+                           if (var13 == null) {
+                              throw new SQLException("BUG-850-142 offline refund item template unavailable");
+                           }
+                           var13.e(var7);
+                           var28.insertQuestReward(var16, var8, var13);
+                        }
+                     }
+                  }
+               }
+            }
+
+            var16.commit();
+            var18 = true;
+         } catch (Exception var32) {
+            if (var16 != null) {
+               try {
+                  var16.rollback();
+               } catch (SQLException var31) {
+               }
+            }
+         } finally {
+            if (var16 != null) {
+               try {
+                  var16.setAutoCommit(var17);
+               } catch (SQLException var30) {
+               }
+               try {
+                  var16.close();
+               } catch (SQLException var29) {
+               }
+            }
+         }
+
+         if (!var18) {
+            return false;
+         }
+
+         var2.d(var3);
+         var2.d(var1.et());
+         var2.f(var1.fr());
+
+         if (var6 == 0) {
+            var1.j().publishCommittedQuestDelete(var4);
+         } else {
+            var1.j().publishCommittedQuestUpdate(var4, var6);
+         }
+
+         if (var11 != null && var8 != 0 && var7 > 0) {
+            if (var12 != null) {
+               var11.j().publishCommittedQuestUpdate(var12, var15);
+            } else if (var13 != null) {
+               var11.j().publishCommittedQuestInsert(var13);
+            }
+            var11.a(new S_ServerMessage(525, String.valueOf(var7)));
+         }
+
+         return true;
+      }
+   }
+
+   private void requireAuctionBidInnoDb(Connection var1) throws SQLException {
+      try (PreparedStatement var2 = var1.prepareStatement(
+         "SELECT TABLE_NAME,ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('house','character_items')"
+      ); ResultSet var3 = var2.executeQuery()) {
+         int var4 = 0;
+         while (var3.next()) {
+            if (!"InnoDB".equalsIgnoreCase(var3.getString("ENGINE"))) {
+               throw new SQLException("BUG-850-142 requires InnoDB auction tables");
+            }
+            ++var4;
+         }
+         if (var4 != 2) {
+            throw new SQLException("BUG-850-142 missing auction transaction table");
          }
       }
    }
