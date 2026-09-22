@@ -99,6 +99,17 @@ namespace L1JTW850Launcher
                 };
         }
 
+        private static string ShortHash(
+            string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "--";
+
+            return value.Length <= 12
+                ? value
+                : value.Substring(0, 12);
+        }
+
         private void RefreshState()
         {
             RuntimeValidationDashboardState state;
@@ -125,6 +136,12 @@ namespace L1JTW850Launcher
                 (state.ClientConnected
                     ? "CONNECTED"
                     : "NOT_CONNECTED") +
+                " / AUTH=" +
+                (state.ClientHashAuthoritative
+                    ? "PASS"
+                    : "NO") +
+                " / SHA=" +
+                ShortHash(state.ClientSha256) +
                 " / " +
                 state.ClientStatus;
 
