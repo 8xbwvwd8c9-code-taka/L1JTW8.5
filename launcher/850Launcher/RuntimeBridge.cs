@@ -12,6 +12,7 @@ namespace L1JTW850Launcher
         public int ProcessId;
         public string ProcessPath = "";
         public IntPtr ModuleBase = IntPtr.Zero;
+        public int ModuleSize;
         public int? CurrentHp = null;
         public int? MaxHp = null;
         public int? CurrentMp = null;
@@ -67,6 +68,7 @@ namespace L1JTW850Launcher
                         snapshot.ProcessId = process.Id;
                         snapshot.ProcessPath = path;
                         snapshot.ModuleBase = module.BaseAddress;
+                        snapshot.ModuleSize = module.ModuleMemorySize;
 
                         if (!_lastHashMatch.HasValue)
                         {
