@@ -120,3 +120,5 @@ Do not port its entire 381 UI/core blindly.
 - `w_指定道具賦予狀態`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/DESIGNATED_ITEM_STATUS_AUDIT.md`, commit=`4ea2d90d9cb80433870080ad47393a731f1b12b3`. Shares stat-vector logic with timed item status but must keep equipped-item lifecycle separate.
 
 - `w_變身箭矢特效`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/TRANSFORM_ARROW_EFFECT_AUDIT.md`, commit=`f02fac7129cecb7dfbd84842a674dfe992935b29`. One poly->arrow-GFX mapping; downstream consumer/client mapping not closed.
+
+- `w_變身卡片能力登入`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/TRANSFORM_CARD_LOGIN_ABILITY_AUDIT.md`, commit=`50199cd6bb05a84dffcbdd294848cb09b0721003`. Quest-owned card unlocks and stat display are proven; login stat application/recompute remains unclosed.
