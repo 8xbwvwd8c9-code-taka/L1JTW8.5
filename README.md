@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-149 | L2 | house tax-expiry foreclosure atomicity | PASS / PROMOTED |
 | BUG-850-152 | L2 | board post fee / DB success coupling | PASS / ALREADY COVERED |
 | BUG-850-154 | L2 | duel logout peer-id preservation | PASS / PROMOTED |
 | BUG-850-155 | L2 | doll cleanup timer/logout idempotency | PASS / PROMOTED |
@@ -46,6 +47,74 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-149 — tax-expiry foreclosure mutated clan ownership and house state independently
+
+### Problem
+
+The original foreclosure path cleared the owning clan's `hashouse` state and independently rewrote the `house` row into a fresh auction state.
+
+A failure in only one persistence operation could leave contradictory durable ownership.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains:
+
+- `08b1760c5bbef690dadd602a1fbf7752ef0d7879` — rollback-safe house settlement and foreclosure.
+
+### Fix
+
+The normalized foreclosure path now mirrors the same transaction boundary for BUG-850-149:
+
+- snapshot clan/house RAM state;
+- clear the clan's house ownership;
+- rewrite the house into fresh sale state;
+- persist `clan_data` and `house` through one JDBC transaction;
+- require one-row updates where applicable;
+- commit both durable mutations together;
+- on SQL failure rollback and restore the RAM snapshot.
+
+Existing work-branch auction price guards are preserved and were not overwritten.
+
+### Migration
+
+```text
+db/migrations/BUG-850-149_house_foreclosure_innodb.sql
+```
+
+Both `clan_data` and `house` must use InnoDB for transaction rollback to be authoritative.
+
+### Validation
+
+```text
+GitHub Actions run = 35712675633
+STATUS = PASS
+
+BUG_850_149_CONTRACT=PASS
+BUG_850_149_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_149_TARGETED_BEHAVIOR_RUNTIME=PASS
+CLAN_FAILURE_ROLLBACK=PASS
+HOUSE_FAILURE_ROLLBACK=PASS
+```
+
+### Promotion
+
+```text
+normalized foreclosure = 9bfc4bb8ee99d365e8bd8c905d6f6632997b61a9
+migration = 5cad39351b76e571e760a5a7c3f731f79ae448b5
+obfuscated existing repair = 08b1760c5bbef690dadd602a1fbf7752ef0d7879
+```
+
+### Result
+
+```text
+BUG-850-149=L2
+STATUS=PASS
+PROMOTED=YES
+DB_MIGRATION_REQUIRED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+```
+
 
 ## BUG-850-152 — board post fee and DB creation were not one success contract
 
