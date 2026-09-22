@@ -295,3 +295,31 @@ Workflow:
 9. Validate across relog and full client restart before saving them in `runtime-map.ini`.
 
 The probe locks objectId and coordinate widths after the first scan so evidence cannot be mixed across incompatible layouts.
+
+## Receive-side buff discovery
+
+The hidden **Recv追蹤** page prepares WP9 BuffStateBridge without assuming a memory layout.
+
+Read-only flow:
+
+```text
+recv / recvfrom / WSARecv / WSARecvFrom
+ -> runtime IAT xref
+ -> containing receive wrapper
+ -> direct E8 callees
+ -> repeat to configured depth
+ -> fingerprint each function
+ -> mark proven 850 buff packet opcodes as heuristics only
+```
+
+Recovered 850 server packet evidence currently used as weak markers:
+
+```text
+241 / 0xF1 = S_SkillBrave
+121 / 0x79 = S_SkillIconAura
+111 / 0x6F = S_SkillIconBlessOfEva
+147 / 0x93 = S_SkillIconShield
+225 / 0xE1 = S_Invis
+```
+
+These opcode hits do not prove a client handler. A BuffStateBridge handler still requires stable RVA/fingerprint and runtime action correlation.
