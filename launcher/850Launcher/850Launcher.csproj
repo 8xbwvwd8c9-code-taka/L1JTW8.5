@@ -47,6 +47,8 @@
     <Compile Include="PeImportParser.cs" />
     <Compile Include="NativeSendXrefScanner.cs" />
     <Compile Include="NativeSendProbeControl.cs" />
+    <Compile Include="NativeCallGraphScanner.cs" />
+    <Compile Include="NativeCallGraphControl.cs" />
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
