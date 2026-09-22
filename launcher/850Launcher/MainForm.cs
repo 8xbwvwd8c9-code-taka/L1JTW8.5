@@ -78,6 +78,7 @@ namespace L1JTW850Launcher
             tabs.TabPages.Add(BuildProbeTab());
             tabs.TabPages.Add(BuildInventoryProbeTab());
             tabs.TabPages.Add(BuildPointerProbeTab());
+            tabs.TabPages.Add(BuildRuntimeMapTab());
             tabs.TabPages.Add(BuildItemTab());
             tabs.TabPages.Add(BuildHotkeyTab());
             tabs.TabPages.Add(BuildTimerTab());
@@ -148,6 +149,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("指標鏈");
             p.Controls.Add(new PointerProbeControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildRuntimeMapTab()
+        {
+            var p = NewPage("映射");
+            p.Controls.Add(new RuntimeMapControl(_appDir));
             return p;
         }
 
