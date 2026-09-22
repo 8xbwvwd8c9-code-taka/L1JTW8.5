@@ -200,38 +200,58 @@ Current amount is 1, so present data avoids the bug.
 newValue = min(cap, current + amount)
 ```
 
-## Critical missing runtime proof: per-second drain
+## Proven per-second rage drain
 
-The DB field explicitly says:
+The donor contains:
 ```text
-每秒扣一怒氣值
+com.lineage.server.timecontroller.pc.Quburcount
 ```
 
-and activation sets:
+It schedules itself every 1000 ms through `PcOtherThreadPool`.
+
+For every online player:
 ```text
-checkOutbur = true
+checkOutbur == true
+AND Outbur == true
+AND Quburcount > 0
 ```
 
-However targeted source inspection has NOT proven:
-- the scheduler/timer that decrements `Quburcount`
-- exact tick frequency
-- exact decrement amount
-- behavior at zero
-- whether zero automatically calls deactivation
-- logout/login handling
-- persistence of rage value
+it performs:
+```text
+Quburcount = Quburcount - 1
+```
+
+When remaining rage is 1..20 it sends a remaining-value message.
+
+When rage reaches zero, it iterates world items and calls:
+```java
+ItemOutburst.falseOutburst(tgpc, item)
+```
 
 Therefore:
-
 ```text
-RAGE_DRAIN_RUNTIME=NOT_PROVEN
+RAGE_DRAIN_RUNTIME=PROVEN
+RAGE_DRAIN_INTERVAL_MS=1000
+RAGE_DRAIN_AMOUNT=1
+AUTO_DISABLE_AT_ZERO=PROVEN_INTENT
 RAGE_PERSISTENCE=NOT_PROVEN
-AUTO_DISABLE_AT_ZERO=NOT_PROVEN
 ```
 
-This is a hard migration blocker.
+### Donor zero-state implementation hazard
 
-Do not infer the missing behavior merely from the DB column name.
+At zero the timer loops over ALL world item instances and calls `falseOutburst` for each one until a matching item/rule eventually performs deactivation.
+
+This is extremely broad and inefficient, and it couples player buff shutdown to unrelated global item enumeration.
+
+Do NOT reproduce this.
+
+850 should retain the active outburst definition/session identity directly and deactivate that owned modifier without scanning WorldItem.
+
+### Timer failure behavior
+
+If the timer throws, donor code cancels the existing scheduled future and creates a new `Quburcount` timer.
+
+Target should use the 850 scheduler's normal failure isolation instead of self-respawning timer logic.
 
 ## 850-first design
 
@@ -349,14 +369,14 @@ RECHARGE_ITEM=ItemFireCount
 RAGE_CAP_CURRENT_CONFIG=5000
 RAGE_RECHARGE_CURRENT_CONFIG=1
 PLAYER_STATE=_isOutbur+_ischeckOutbur+_Quburcount
-RAGE_DRAIN_RUNTIME=NOT_PROVEN
+RAGE_DRAIN_RUNTIME=PROVEN
 RAGE_PERSISTENCE=NOT_PROVEN
-AUTO_DISABLE_AT_ZERO=NOT_PROVEN
+AUTO_DISABLE_AT_ZERO=PROVEN_INTENT
 CURRENT_CUSTOM_GFX=NO
 DONOR_HP_MP_DEACTIVATION_BUG=YES
 DONOR_RECHARGE_CAP_CLAMP=NO
 850_REUSABLE_PRIMITIVES=YES
 WHOLESALE_RUNTIME_PORT=NO
 SOURCE_SCHEMA=NOT_PROVEN
-BLOCKERS=drain scheduler semantics,persistence policy,zero-state behavior,item semantic mapping,850 stat-modifier adapter
+BLOCKERS=persistence policy,owned zero-state cleanup,item semantic mapping,850 stat-modifier adapter
 ```
