@@ -689,6 +689,55 @@ WP8_ACTION=GATED_BY_WP7
 ```
 
 
+## 2026-09-23 WP7 native send caller graph
+
+```text
+STATUS=PASS_SOURCE
+ROOT=send|sendto|WSASend|WSASendTo IAT xref
+CALL_GRAPH=relative E8 callers
+MAX_DEPTH=5
+FUNCTION_START=heuristic x86 prologue / RET-padding recovery
+OPCODE_5E_MARKER=HEURISTIC_ONLY
+FUNCTION_FINGERPRINT=SHA256(first 64 runtime bytes)
+MEMORY_WRITE=NO
+```
+
+Added:
+
+- `NativeCallGraphScanner`: starts from proven network-send IAT xrefs and walks direct relative-call callers upward.
+- candidate functions are module-relative RVAs, not process absolute addresses.
+- strong immediate `0x5E` encodings are flagged only as weak ranking evidence:
+  - `push 0x5E`
+  - `push 0x0000005E`
+  - `mov reg,0x5E`
+  - `mov al,0x5E`
+- `NativeCodeWindow`: SHA-256 fingerprint of the first 64 runtime bytes for restart identity checks.
+- hidden **Send追蹤** page.
+- evidence: `native_call_graph_evidence.txt`.
+
+WP7 native identity PASS gate:
+
+```text
+1. target binary SHA256 = authoritative 850 Lin.bin2
+2. function represented by module RVA
+3. first-64-byte SHA256 stable across relog and full restart
+4. caller relation to network-send layer stable
+5. function/action correlation established during a normal potion use
+6. no 381/880 runtime address accepted
+7. no raw socket injection accepted
+```
+
+Current state:
+
+```text
+SERVER_C_ITEMUSE_PROTOCOL=PROVEN
+NATIVE_SEND_ROOT_DISCOVERY=IMPLEMENTED
+CALLER_GRAPH_DISCOVERY=IMPLEMENTED
+NATIVE_ITEMUSE_FUNCTION=NOT_YET_PROVEN
+WP7=BLOCKED_RUNTIME_EVIDENCE
+```
+
+
 ## 下一步
 
 ```text
