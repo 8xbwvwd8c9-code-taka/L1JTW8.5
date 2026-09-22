@@ -810,6 +810,46 @@ WP9=BLOCKED_RUNTIME_EVIDENCE
 ```
 
 
+## 2026-09-23 WP3 player identity/coordinate probe
+
+```text
+STATUS=PASS_SOURCE
+FIELDS=PlayerObjectId,PlayerX,PlayerY
+OBJECT_ID_WIDTH=32-bit
+X_WIDTH=2|4 configurable
+Y_WIDTH=2|4 configurable
+FIRST_SCAN=exact value
+REFINE=controlled movement
+CLUSTER_WINDOW=0x200
+MEMORY_WRITE=NO
+EVIDENCE=player_identity_probe_evidence.txt
+```
+
+Added:
+
+- `RuntimeMemoryProbe.FirstScanUInt16/RefineUInt16`.
+- `PlayerIdentityClusterer`: correlates objectId/X/Y candidates in the same nearby memory neighborhood.
+- hidden **玩家偵測** page.
+- `runtime-map.ini [Player]` support:
+  - `ObjectId`
+  - `X`
+  - `XWidth=2|4`
+  - `Y`
+  - `YWidth=2|4`
+- `RuntimeSnapshot` now reserves validated `PlayerObjectId/PlayerX/PlayerY`.
+- auto-buff requires these player fields and will not send a skill with targetId/X/Y = 0.
+
+WP3 PASS remains runtime-dependent:
+
+```text
+SINGLE_SCAN=NO_PASS
+CONTROLLED_MOVE_REQUIRED
+RELOG_REQUIRED
+FULL_CLIENT_RESTART_REQUIRED
+MODULE_RVA_OR_POINTER_CHAIN_REQUIRED
+```
+
+
 ## 下一步
 
 ```text
