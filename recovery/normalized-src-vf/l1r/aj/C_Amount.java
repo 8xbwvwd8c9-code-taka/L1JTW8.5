@@ -48,6 +48,10 @@ public class C_Amount extends ClientBasePacket {
                }
 
                if (var9.equalsIgnoreCase("agapply")) {
+                  if (!var3.consumeL1rAmountContext(var4, 1)) {
+                     return;
+                  }
+
                   for (L1House var20 : HouseTable.a().c().values()) {
                      if (var3.et().equalsIgnoreCase(var20.n())) {
                         var3.a(new S_ServerMessage(523));
@@ -81,6 +85,10 @@ public class C_Amount extends ClientBasePacket {
                      return;
                   }
                } else if (var9.equalsIgnoreCase("agsell")) {
+                  if (!var3.consumeL1rAmountContext(var4, 2) || var8.fu().c(var3.fu()) > 11) {
+                     return;
+                  }
+
                   int var22 = Integer.valueOf(var10);
                   L1Clan var31 = ClanTable.a().a(var3.aF());
                   if (var31 == null || var31.n() != var22 || !var3.x() || var3.fr() != var31.k()) {
