@@ -209,40 +209,50 @@ public class q {
     }
 
     public void b(String clan_name) {
-        i clan;
-        block6: {
-            clan = this.c(clan_name);
-            if (clan == null) {
-                return;
+        i clan = this.c(clan_name);
+        if (clan == null) {
+            return;
+        }
+        Connection con = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM clan_warehouse_history WHERE clan_id=?")) {
+                pstm.setInt(1, clan.e());
+                pstm.executeUpdate();
             }
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM clan_data WHERE clan_name=?")) {
+                pstm.setString(1, clan_name);
+                pstm.executeUpdate();
+            }
+            con.commit();
+        }
+        catch (SQLException e2) {
+            if (con != null) {
                 try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("DELETE FROM clan_data WHERE clan_name=?");
-                    pstm.setString(1, clan_name);
-                    pstm.execute();
+                    con.rollback();
                 }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block6;
+                catch (SQLException ignored) {
                 }
             }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return;
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
             }
-            j.a(pstm);
             j.a(con);
         }
         clan.c().g();
         clan.c().b();
         this.b.remove(clan.e());
     }
+
 
     public i a(int clan_id) {
         return this.b.get(clan_id);
