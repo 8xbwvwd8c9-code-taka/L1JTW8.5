@@ -560,6 +560,23 @@ ZERO_REQUIRED_POLICY=NEEDS_DATA_AUTHORITY
 
 權威規則目前為 `progress>=required && claimed==0`；達標或超額達標皆可領，成功後 claimed 必須轉為 1，重放請求必須拒絕。當 `required=0` 時，依現行規則會直接視為達標；是否應另加 `required>0` 不由算術決定，必須查 achievement/character_mobs 的資料定義與 loader，確認 0 是否為合法配置後再決定。
 
+### BUG-850-12/40/45 城堡提款守恆驗證（2026-09-22）
+
+```text
+COUNT_POSITIVE_GATE=PASS
+COUNT_LE_TREASURY_GATE=PASS
+DB_BEFORE_GRANT_ORDER_GATE=PARTIAL
+LOCK_SERIALIZATION_GATE=PASS
+ADENA_CAP=2,000,000,000
+ADENA_CAP_GATE=REQUIRED
+CONSERVATION_CASE3=FAIL
+CONSERVATION_CASE8=FAIL_WITHOUT_LOCK_OR_CAS
+CONSERVATION_CASE10=FAIL_WITHOUT_COMPENSATION
+POST_DB_GRANT_FAILURE_CONSERVATION=FAIL
+```
+
+既有專案權威沿用玩家 Adena 上限 `2,000,000,000`，所以提款在 DB UPDATE 前還必須 preflight `(long)adena+count<=2,000,000,000`；CASE6 應拒絕，CASE7 剛好到上限可接受。Castle lock 可防兩筆提款同時以舊 treasury 通過，但 DB-first 仍不足以單獨保證金流守恆：若 DB 已扣款而 grant 失敗，必須有 transaction/compensation/可證明恢復機制，否則 CASE10 仍為 loss-of-funds。守恆條件：`treasury_before-treasury_after == adena_after-adena_before == count`。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
