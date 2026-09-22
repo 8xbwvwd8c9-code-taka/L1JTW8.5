@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-162 | L2 | follower logout stale/destroyed guard | PASS / PROMOTED |
 | BUG-850-165 | L2 | summon logout lifecycle cleanup | PASS / PROMOTED |
 | BUG-850-166 | L2 | clan creation / Adena / membership atomicity | PASS / PROMOTED |
 | BUG-850-167 | L2 | NPC AI exception / running-flag lifecycle | PASS / PROMOTED |
@@ -42,6 +43,61 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-162 — follower logout cleanup could reprocess stale/destroyed followers
+
+### Problem
+
+The recovered logout path iterated follower snapshots and unconditionally executed follower relocation/deletion cleanup.
+
+If a follower entry was null or already destroyed by another lifecycle path, logout could reprocess stale state and abort later cleanup through an exception.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains the guard in:
+
+- `cc1a753c736ee6c965c90bd659d37b01fc57ee24` — complete summon and follower cleanup on logout.
+
+### Fix
+
+The normalized `L1PcInstance.java` now mirrors that behavior:
+
+- skip null follower entries;
+- skip already-destroyed followers;
+- run the existing follower relocation/deletion path only for live followers.
+
+### Validation
+
+```text
+GitHub Actions run = 35710977451
+STATUS = PASS
+
+BUG_850_162_CONTRACT=PASS
+BUG_850_162_CANDIDATE_BUILD=PASS
+BUG_850_162_SYNTHETIC_PROMOTION_JAVAC_REGRESSION=PASS
+BUG_850_162_TARGETED_BEHAVIOR_RUNTIME=PASS
+NULL_FOLLOWER_SKIPPED=PASS
+DESTROYED_FOLLOWER_SKIPPED=PASS
+LIVE_FOLLOWER_CLEANED=PASS
+```
+
+### Promotion
+
+```text
+normalized parity = eee89a35258f65dd511665618571c9f29ae6c138
+obfuscated existing repair = cc1a753c736ee6c965c90bd659d37b01fc57ee24
+```
+
+### Result
+
+```text
+BUG-850-162=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+```
+
 
 ## BUG-850-165 — logout hid summons without releasing their server lifecycle
 
