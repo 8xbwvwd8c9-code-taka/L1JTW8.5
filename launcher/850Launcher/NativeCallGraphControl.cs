@@ -272,6 +272,11 @@ namespace L1JTW850Launcher
                     "MODULE_BASE=0x" +
                     runtime.ModuleBase.ToInt64().ToString("X8"));
                 sb.AppendLine(
+                    "PROCESS_START_UTC=" +
+                    (runtime.ProcessStartTimeUtc.HasValue
+                        ? runtime.ProcessStartTimeUtc.Value.ToString("o")
+                        : ""));
+                sb.AppendLine(
                     "ROOT_SEND_XREFS=" +
                     roots.Count);
                 sb.AppendLine(
