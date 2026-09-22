@@ -440,6 +440,20 @@ OVERFLOW_WITH_LONG=PASS
 
 權威公式：`total=(long)unitPrice*count`。先用 long 計算，再驗證 `0<=total<=2,000,000,000` 且 `clientPrice==total`；不得先用 int32 乘法後再做上限檢查。等於 2,000,000,000 合法，超過即拒絕；count=0 與 client/server price mismatch 皆拒絕。此項完成 arithmetic proof，source contract / targeted runtime / CI 尚未全部 PASS 前維持 `PATCHED_PENDING_VALIDATION`。
 
+### BUG-850-20 算術驗證（2026-09-22）
+
+```text
+ARITHMETIC=PASS
+MAX_VALUE=2,000,000,000
+PRICE_INT32_SAFE=NO
+WEIGHT_INT32_SAFE=NO
+LONG_REQUIRED=YES
+BOUNDARY=PASS
+OVERFLOW_WITH_LONG=PASS
+```
+
+權威公式：`totalPrice=(long)unitPrice*count`、`totalWeight=(long)unitWeight*count`。兩者都必須先用 long 計算，再各自驗證 `0..2,000,000,000`；`count<=0` 直接拒絕。等於上限合法，任一價格或重量超上限即拒絕。此項僅完成 arithmetic proof，source contract / targeted runtime / CI 未全 PASS 前仍維持 `PATCHED_PENDING_VALIDATION`。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
