@@ -429,3 +429,55 @@ Therefore create separate optional packages:
 
 Difficulty for `w_道具附魔系統`: provisional **L3** until its item-use/equip hooks and 850 equivalent item-instance persistence are mapped.
 
+
+
+## Fifth-pass findings
+
+### Item Enchant Card system -> L3 confirmed
+381:
+- definition table: `w_道具附魔系統`
+- loader: `PowerItemTable`
+- socket/attachment use entry: `data/item_etcitem/poweritem/Power`
+- per-item-instance persistence: `character_item_power`
+- persistence key: `item_obj_id`
+- stored state:
+  - `hole_count`
+  - `hole_1`
+  - `hole_2`
+  - `hole_3`
+  - `hole_4`
+  - `hole_5`
+- runtime item state: `L1ItemInstance._power_name`
+- equip/unequip application: `L1EquipmentSlot`
+- configured power definitions are resolved from each hole through `PowerItemTable`.
+
+850 completed core:
+- no equivalent `character_item_power` table found.
+- no equivalent power/hole/socket model found in recovered `L1ItemInstance` / `L1EquipmentSlot`.
+
+Isolation package design:
+- keep socket state in a dedicated `character_item_power` table.
+- do NOT add hole columns to `character_items`.
+- add module-specific item-instance state + load/store + equip/unequip hooks.
+- install/uninstall can therefore remain isolated from the base item table.
+
+Difficulty: **L3**
+No client/protocol dependency has been proven yet, so do not raise to L4.
+
+### Item-use Upgrade (`w_道具升級系統`) -> L3 provisional
+381 implementation relies on its modular ItemExecutor/classname framework:
+- etcitem classname -> `add.Item_up`
+- `Item_up.execute()`
+- `Itemup.forresolvent()`
+- DB: `w_道具升級系統`
+
+850 recovered source:
+- no equivalent generic ItemExecutor/data-item executor framework was found.
+- `C_ItemUSe` is primarily direct packet/item-type dispatch.
+
+Implication:
+- DB mapping itself is simple, but the 381 execution mechanism cannot be copied as data-only configuration.
+- likely needs an explicit 850 item-use hook or a small reusable custom-item dispatcher.
+
+Difficulty: **L3 provisional**, not L2, unless a compatible 850 generic item action hook is found later.
+
