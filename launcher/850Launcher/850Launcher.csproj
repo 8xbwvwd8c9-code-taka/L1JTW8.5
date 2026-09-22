@@ -39,6 +39,7 @@
     <Compile Include="LauncherConfig.cs" />
     <Compile Include="HelperSettings.cs" />
     <Compile Include="ClientLauncher.cs" />
+    <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
