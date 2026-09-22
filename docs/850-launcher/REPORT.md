@@ -903,10 +903,89 @@ DEPLOY_REQUIRED_FILES_MISSING=0
 ```
 
 
+## 2026-09-23 WP3/WP4 mapping and WP6 inventory restart gates
+
+```text
+STATUS=PASS_SOURCE
+POINTER_EVIDENCE_FIELD_LABEL=IMPLEMENTED
+POINTER_EVIDENCE_PROCESS_IDENTITY=IMPLEMENTED
+MAPPING_COMPARE=IMPLEMENTED
+WP6_RUNTIME_VALIDATOR=IMPLEMENTED
+WP6_CROSS_SESSION_COMPARE=IMPLEMENTED
+MEMORY_WRITE=NO
+```
+
+Runtime mapping evidence now records:
+
+```text
+FIELD
+PID
+PROCESS_START_UTC
+EXPR
+ROOT_RVA
+DEPTH
+```
+
+The hidden **映射比對** page accepts only same-field expressions and ranks restart-stable candidates. Default comparison gate:
+
+```text
+MIN_SESSIONS=3
+MIN_CLIENT_INSTANCES=2
+STATUS=RESTART_STABLE
+```
+
+This does not bypass the original semantic proof requirement:
+
+```text
+CurrentHP/MaxHP/CurrentMP/MaxMP
+  -> controlled exact value changes first
+
+PlayerObjectId/PlayerX/PlayerY
+  -> authoritative objectId + controlled movement first
+```
+
+WP6 validation now uses the actual `MappedInventoryBridge`.
+
+Hidden **背包驗證** checks:
+
+- inventory mapping is enabled/readable;
+- every returned record has a unique nonzero ObjectId;
+- known `itemId=count` totals exactly match current inventory;
+- count aggregation is checked for overflow;
+- full mapped inventory is exported to `inventory_validation_evidence.txt`.
+
+Hidden **背包比對** restart gate:
+
+```text
+SESSIONS>=3
+ALL_SESSIONS_PASS
+DISTINCT_PROCESS_INSTANCES>=2
+SAME_EXPECTATION_SET=YES
+```
+
+Only then:
+
+```text
+WP6_RESTART_GATE=PASS
+```
+
+Source consistency after this checkpoint:
+
+```text
+CS_FILES=54
+CSPROJ_COMPILE_ENTRIES=54
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+DEPLOY_REQUIRED_FILES_MISSING=0
+```
+
+
 ## 下一步
 
 ```text
-NEXT=850 Lin.bin2 / LoginWithoutUI runtime mapping
-GOAL=定位 Player / HPMP / Inventory
-FIRST_GATE=WP6 inventory listing
+NEXT=RUN_RUNTIME_VALIDATION_ON_LOGGED_IN_850
+ORDER=WP4 HPMP -> WP3 Player -> WP5 Inventory Layout -> WP6 Inventory Restart Gate -> WP7 Native UseItem
+FIRST_GATE=WP6 inventory restart PASS
+REQUIRED_SESSIONS=login + relog + full client restart
+STATIC_SCAFFOLD=COMPLETE_FOR_CURRENT_GATE
 ```
