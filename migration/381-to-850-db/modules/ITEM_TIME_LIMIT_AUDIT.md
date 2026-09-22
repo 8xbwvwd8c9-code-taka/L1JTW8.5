@@ -245,3 +245,114 @@ CLIENT_DEP=NO_CURRENT_PROOF
 LEVEL=L3
 BLOCKERS=exact d/h/m -> usertime creation path; expiry deletion/disable action; offline countdown policy verification; transfer/split/merge hooks; 850 item-instance timed-item mapping
 ```
+
+
+## Runtime lifecycle closure
+
+Definition application is now proven in `L1Inventory.set_time_item(item)`.
+
+For items entering a player inventory through the normal `storeItem(...)` path:
+
+```text
+if item.get_time()==null
+  lookup ItemTimeTable.TIME[itemId]
+  Calendar now
+  add DAY_OF_MONTH by d
+  add HOUR_OF_DAY by h
+  add MINUTE by m
+  Timestamp ts=calendar millis
+  item.set_time(ts)
+  CharItemsTimeReading.addTime(itemObjId,ts)
+```
+
+Therefore:
+```text
+DURATION_TO_EXPIRY_PATH=PROVEN
+EXPIRY_MODEL=ABSOLUTE_TIMESTAMP
+PERSISTENCE_KEY=item_obj_id
+DONOR_INT_MILLIS_OVERFLOW=NO_CURRENT_PATH
+```
+
+The donor uses `Calendar.add` rather than a single int-millisecond multiplication, so the 30-day int overflow is a target rewrite hazard, not a proven donor failure.
+
+### Trade behavior
+
+`storeTradeItem(...)` does not call `set_time_item`.
+
+For a non-merged item instance this is desirable because the same `L1ItemInstance` already carries its absolute `_time`, so transfer does not recreate the duration.
+
+However, stackable trade/store merge paths can merge incoming count into an existing stack and return the existing item without reconciling two expiry timestamps.
+
+Therefore:
+```text
+NONMERGED_TRANSFER_TIMER_RESET=NO_PROVEN
+STACK_MERGE_TIMER_RECONCILIATION=NOT_PROVEN
+STACK_TIMER_LOSS_RISK=YES_IF_TIMED_STACKABLE_ITEMS_EXIST
+```
+
+## Expiry consumer
+
+`ServerItemUserTimer`:
+- starts every 60,000 ms
+- scans `WorldItem.get().all()`
+- ignores items with null time
+- expires normal timed items when `item.get_time().before(now)`
+
+Exact gate:
+```text
+expiry < now  => expired
+expiry == now => not yet expired
+expiry > now  => active
+```
+
+Thus:
+```text
+EXPIRY_GATE=STRICT_BEFORE
+SCAN_PERIOD_MS=60000
+DELETION_JITTER=UP_TO_APPROX_ONE_SCAN_PERIOD_PLUS_SCAN_COST
+```
+
+The loop also sleeps 5 ms per timed item, so total scan duration grows with timed-item population.
+
+For expired equipped items:
+- unequip first
+- then remove from inventory
+
+For expired pet-related item:
+- pet drop/delete cleanup follows.
+
+## character_items_time cleanup asymmetry
+
+In the visible expiry path, explicit:
+```text
+CharItemsTimeTable.delete(item.getId())
+```
+is performed inside the VIP-item branch.
+
+For ordinary timed-item expiry, no direct `character_items_time` delete is proven before inventory removal.
+
+Separately, `CharItemsTimeTable.load()` cleans a time row when its referenced item object cannot be found.
+
+Therefore:
+```text
+GENERAL_EXPIRY_TIME_ROW_IMMEDIATE_DELETE=NOT_PROVEN
+STALE_TIME_ROW_AFTER_EXPIRY=PROVEN_RISK
+EVENTUAL_CLEANUP_ON_TIME_TABLE_LOAD=PROVEN
+```
+
+Target 850 should delete item + expiry metadata atomically or in one ownership transaction.
+
+## Updated lifecycle status
+
+```text
+DEFINITION_LOAD=PROVEN
+DURATION_TO_EXPIRY=PROVEN
+ABSOLUTE_TIMESTAMP_PERSISTENCE=PROVEN
+RELOGIN_RESET_RISK=DONOR_MITIGATED_BY_PERSISTED_TIMESTAMP
+NONMERGED_TRANSFER_PRESERVES_INSTANCE_TIME=PROVEN_BY_OBJECT_FLOW
+STACK_MERGE_EXPIRY_POLICY=NOT_PROVEN
+EXPIRY_CONSUMER=PROVEN
+EXPIRY_SCAN_PERIOD=60S
+STRICT_BEFORE_GATE=PROVEN
+GENERAL_TIME_ROW_CLEANUP=INCOMPLETE/DEFERRED
+```
