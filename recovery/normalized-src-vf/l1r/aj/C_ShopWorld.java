@@ -135,6 +135,13 @@ public class C_ShopWorld extends ClientBasePacket {
             case 15:
                String var21 = this.g();
                L1Clan var22 = ClanTable.a().a(var3.aF());
+               if (var22 == null) {
+                  return;
+               }
+               if (!var3.x() || var3.fr() != var22.k()) {
+                  var3.a(new S_ServerMessage(518));
+                  return;
+               }
                var22.f(var21);
                ClanTable.a().b(var22);
                break;
