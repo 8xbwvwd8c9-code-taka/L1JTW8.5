@@ -12,6 +12,8 @@ namespace L1JTW850Launcher
         public int ProcessId;
         public string ProcessPath = "";
         public DateTime? ProcessStartTimeUtc = null;
+        public string ClientSha256 = "";
+        public bool ClientHashAuthoritative;
         public IntPtr ModuleBase = IntPtr.Zero;
         public int ModuleSize;
         public uint? PlayerObjectId = null;
@@ -46,6 +48,8 @@ namespace L1JTW850Launcher
         private readonly IInventoryBridge _inventoryBridge;
         private string _lastHash = "";
         private bool? _lastHashMatch;
+        private long _lastHashLength = -1;
+        private DateTime _lastHashWriteTimeUtc = DateTime.MinValue;
 
         public ProcessRuntimeBridge(string appDir)
         {
@@ -357,12 +361,20 @@ namespace L1JTW850Launcher
                         snapshot.ModuleBase = module.BaseAddress;
                         snapshot.ModuleSize = module.ModuleMemorySize;
 
-                        if (!_lastHashMatch.HasValue)
+                        var fileInfo = new FileInfo(path);
+                        if (!_lastHashMatch.HasValue ||
+                            fileInfo.Length != _lastHashLength ||
+                            fileInfo.LastWriteTimeUtc != _lastHashWriteTimeUtc)
                         {
                             string actual;
                             _lastHashMatch = ClientVerifier.IsAuthoritativeLinBin2(path, out actual);
                             _lastHash = actual;
+                            _lastHashLength = fileInfo.Length;
+                            _lastHashWriteTimeUtc = fileInfo.LastWriteTimeUtc;
                         }
+
+                        snapshot.ClientSha256 = _lastHash;
+                        snapshot.ClientHashAuthoritative = _lastHashMatch == true;
 
                         if (_lastHashMatch != true)
                         {
