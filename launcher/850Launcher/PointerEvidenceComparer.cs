@@ -37,7 +37,7 @@ namespace L1JTW850Launcher
     {
         private static readonly Regex EntryRegex =
             new Regex(
-                @"^DEPTH=(?<depth>d+)s+EXPR=(?<expr>S+)s+ROOT=0x[0-9A-Fa-f]+s+ROOT_RVA=0x(?<rva>[0-9A-Fa-f]+)",
+                @"^DEPTH=(?<depth>\d+)\s+EXPR=(?<expr>\S+)\s+ROOT=0x[0-9A-Fa-f]+\s+ROOT_RVA=0x(?<rva>[0-9A-Fa-f]+)",
                 RegexOptions.Compiled);
 
         public static List<PointerEvidenceSession> Load(
@@ -202,8 +202,7 @@ namespace L1JTW850Launcher
 
                     var key =
                         session.Field +
-                        "
-" +
+                        "\n" +
                         entry.Expression;
 
                     if (!seenInSession.Add(key))
