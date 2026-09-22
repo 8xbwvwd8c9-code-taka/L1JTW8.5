@@ -151,3 +151,41 @@ InventoryBridge
 ```
 
 No single-session or single-value match is accepted as WP5/WP6 PASS.
+
+## WP7 / WP8 gate
+
+Recovered 850 server proof:
+
+```text
+PacketHandler opcode 94 (0x5E) -> C_ItemUSe
+C_ItemUSe first field -> objectId (readD / LE32)
+heal potion rows use_type=normal -> no extra C_ItemUSe payload fields
+```
+
+Therefore the decrypted logical payload for a normal healing potion is:
+
+```text
+5E <objectId LE32>
+```
+
+This is **not** sent directly by the launcher. Session framing/encryption remains client-owned.
+
+The hidden **UseItem協定** tab only builds the logical payload for comparison/evidence.
+The hidden **Send掃描** tab parses the Lin.bin2 PE import table and finds runtime xrefs to send/WSASend-style IAT entries, read-only.
+
+Auto-potion is wired end-to-end up to the WP7 gate:
+
+```text
+HP policy
+ -> inventory priority itemId
+ -> objectId
+ -> cooldown
+ -> IItemUseBridge
+```
+
+Until the native 850 use-item path is proven, the bridge remains unmapped and no use action is emitted.
+
+## Offline item names
+
+`item-names.csv` is generated from the current 850 `etcitem`, `weapon`, and `armor` SQL tables.
+It currently contains 4388 item IDs and lets the mapped inventory display Chinese names without connecting the launcher to MySQL.
