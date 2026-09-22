@@ -76,6 +76,10 @@ public class C_Amount extends ClientBasePacket {
                   }
                } else if (var9.equalsIgnoreCase("agsell")) {
                   int var22 = Integer.valueOf(var10);
+                  if (var5 < 100000 || var5 > 2000000000) {
+                     return;
+                  }
+
                   L1House var25 = HouseTable.a().a(var22);
                   Timestamp var27 = new Timestamp(System.currentTimeMillis() + 432000000L);
                   var25.b(var27);
