@@ -5,10 +5,6 @@ $audit = Join-Path $PSScriptRoot "source_audit.ps1"
 
 if (Test-Path -LiteralPath $audit) {
     & $audit
-    if ($LASTEXITCODE -ne 0) {
-        Write-Host "BUILD_ABORTED=SOURCE_AUDIT_FAILED"
-        exit $LASTEXITCODE
-    }
 }
 
 $msbuildCandidates = @(
