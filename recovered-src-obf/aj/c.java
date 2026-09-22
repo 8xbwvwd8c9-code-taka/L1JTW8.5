@@ -67,6 +67,9 @@ extends cv {
         }
 
         if (s1.equalsIgnoreCase("agapply")) {
+            if (!pc.consumeL1rAmountContext(objectId, 1) || npc.fu().c(pc.fu()) > 11) {
+                return;
+            }
             if (!(npc instanceof ap.b)) {
                 return;
             }
@@ -105,6 +108,9 @@ extends cv {
         }
 
         if (s1.equalsIgnoreCase("agsell")) {
+            if (!pc.consumeL1rAmountContext(objectId, 2) || npc.fu().c(pc.fu()) > 11) {
+                return;
+            }
             if (!(npc instanceof ap.p)) {
                 return;
             }
