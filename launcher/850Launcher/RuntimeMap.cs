@@ -116,6 +116,8 @@ namespace L1JTW850Launcher
         public RuntimeFieldMap PlayerObjectId;
         public RuntimeFieldMap PlayerX;
         public RuntimeFieldMap PlayerY;
+        public int PlayerXWidth = 4;
+        public int PlayerYWidth = 4;
 
         public RuntimeFieldMap CurrentHp;
         public RuntimeFieldMap MaxHp;
@@ -141,6 +143,17 @@ namespace L1JTW850Launcher
                        CurrentMp != null &&
                        MaxMp != null;
             }
+        }
+
+        private static int NormalizeCoordinateWidth(
+            int width)
+        {
+            if (width == 2 ||
+                width == 4)
+                return width;
+
+            throw new InvalidDataException(
+                "Player X/Y width 只支援 2 或 4 bytes。");
         }
 
         public static RuntimeMap Load(
@@ -173,6 +186,20 @@ namespace L1JTW850Launcher
                             "Player",
                             "Y",
                             "")),
+
+                PlayerXWidth =
+                    NormalizeCoordinateWidth(
+                        ini.GetInt(
+                            "Player",
+                            "XWidth",
+                            4)),
+
+                PlayerYWidth =
+                    NormalizeCoordinateWidth(
+                        ini.GetInt(
+                            "Player",
+                            "YWidth",
+                            4)),
 
                 CurrentHp =
                     RuntimeFieldMap.Parse(
@@ -313,6 +340,39 @@ namespace L1JTW850Launcher
                 address,
                 out value,
                 out error);
+        }
+
+        public bool TryReadUnsigned(
+            RuntimeFieldMap map,
+            int width,
+            out uint value,
+            out string error)
+        {
+            value = 0;
+
+            if (width == 2)
+            {
+                ushort v;
+                if (!TryReadUInt16(
+                    map,
+                    out v,
+                    out error))
+                    return false;
+
+                value = v;
+                return true;
+            }
+
+            if (width == 4)
+                return TryReadUInt32(
+                    map,
+                    out value,
+                    out error);
+
+            error =
+                "unsigned runtime field width 只支援 2 或 4 bytes。";
+
+            return false;
         }
 
         public bool TryReadUInt16(
