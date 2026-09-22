@@ -126,7 +126,14 @@ public class C_Amount extends ClientBasePacket {
                      || var23 == 70065
                      || var23 == 70054
                      || var23 == 70096) {
-                     if (!var3.j().g(40308, 300 * var5)) {
+                     long var29 = 300L * (long)var5;
+                     if (var5 <= 0 || var29 > 2147483647L) {
+                        var3.a(new S_Html(var23, "inn3", var8.et()));
+                        return;
+                     }
+
+                     int var30 = (int)var29;
+                     if (!var3.j().g(40308, var30)) {
                         var3.a(new S_Html(var23, "inn3", var8.et()));
                         return;
                      }
@@ -137,18 +144,28 @@ public class C_Amount extends ClientBasePacket {
                      }
 
                      L1ItemInstance var26 = ItemTable.a().b(40312);
-                     var26.e(var5);
-                     var26.j(var26.fr());
-                     var3.j().b(40308, 300 * var5);
-                     L1Inventory var28;
-                     if (var3.j().a(var26, var5) == 0) {
-                        var28 = var3.j();
-                     } else {
-                        var28 = L1World.a().a(var3.fu());
+                     if (var26 == null) {
+                        return;
                      }
 
-                     var28.d(var26);
-                     InnTable.a().a(var26.M(), var5, var3.dM());
+                     var26.e(var5);
+                     var26.j(var26.fr());
+                     if (var3.j().a(var26, var5) != 0) {
+                        return;
+                     }
+
+                     if (!var3.j().b(40308, var30)) {
+                        var3.a(new S_Html(var23, "inn3", var8.et()));
+                        return;
+                     }
+
+                     var3.j().d(var26);
+                     if (!InnTable.a().a(var26.M(), var5, var3.dM())) {
+                        var3.j().f(var26);
+                        ItemTable.a(var3, 40308, var30);
+                        return;
+                     }
+
                      var3.a(new S_ServerMessage(143, var8.et(), var26.s()));
                      var3.a(new S_Html(var23, "inn4", var8.et()));
                   }
