@@ -101,21 +101,42 @@ namespace L1JTW850Launcher
                 runtimeMap != null &&
                 runtimeMap.HasHpMp;
 
+            var semanticPath =
+                Path.Combine(
+                    appDir,
+                    "runtime_semantic_validation_evidence.txt");
+
+            var semantic =
+                RuntimeSemanticValidationEvidenceComparer
+                .CompareLatest(
+                    semanticPath,
+                    3);
+
+            var hpSemanticPass =
+                semantic.HpMpRestartPass;
+
+
             Add(
                 state,
                 "WP4 HP/MP",
-                hpStable && hpMapped
-                    ? "RESTART_STABLE"
-                    : "NOT_YET",
-                BuildPairEvidence(
+                hpStable && hpMapped && hpSemanticPass
+                    ? "PASS"
+                    : (hpStable && hpMapped
+                        ? "RESTART_STABLE"
+                        : "NOT_YET"),
+                BuildTripleEvidence(
                     "stable=",
                     hpStable,
                     "map=",
                     hpMapped,
+                    "semantic=",
+                    hpSemanticPass,
                     runtimeMapError),
                 hpStable
                     ? (hpMapped
-                        ? "執行實際 HP/MP 讀值驗證"
+                        ? (hpSemanticPass
+                            ? "WP4 完成"
+                            : "映射驗證 → 語意比對")
                         : "把穩定 expression 填入「映射」")
                     : "偵測 → 指標鏈 → 映射比對");
 
@@ -130,21 +151,31 @@ namespace L1JTW850Launcher
                 runtimeMap != null &&
                 runtimeMap.HasPlayerIdentity;
 
+            var playerSemanticPass =
+                semantic.PlayerRestartPass;
+
+
             Add(
                 state,
                 "WP3 Player",
-                playerStable && playerMapped
-                    ? "RESTART_STABLE"
-                    : "NOT_YET",
-                BuildPairEvidence(
+                playerStable && playerMapped && playerSemanticPass
+                    ? "PASS"
+                    : (playerStable && playerMapped
+                        ? "RESTART_STABLE"
+                        : "NOT_YET"),
+                BuildTripleEvidence(
                     "stable=",
                     playerStable,
                     "map=",
                     playerMapped,
+                    "semantic=",
+                    playerSemanticPass,
                     runtimeMapError),
                 playerStable
                     ? (playerMapped
-                        ? "執行 objectId/X/Y 實際移動驗證"
+                        ? (playerSemanticPass
+                            ? "WP3 完成"
+                            : "映射驗證 → 語意比對")
                         : "把穩定 expression 填入「映射」")
                     : "玩家偵測 → 指標鏈 → 映射比對");
 
@@ -275,11 +306,11 @@ namespace L1JTW850Launcher
             foreach (var row in state.Rows)
             {
                 if (row.WorkPackage.StartsWith("WP4") &&
-                    row.State != "RESTART_STABLE")
+                    row.State != "PASS")
                     return row.Next;
 
                 if (row.WorkPackage.StartsWith("WP3") &&
-                    row.State != "RESTART_STABLE")
+                    row.State != "PASS")
                     return row.Next;
 
                 if (row.WorkPackage.StartsWith("WP5") &&
@@ -308,6 +339,35 @@ namespace L1JTW850Launcher
             }
 
             return true;
+        }
+
+        private static string BuildTripleEvidence(
+            string labelA,
+            bool valueA,
+            string labelB,
+            bool valueB,
+            string labelC,
+            bool valueC,
+            string error)
+        {
+            var text =
+                labelA +
+                (valueA ? "YES" : "NO") +
+                " / " +
+                labelB +
+                (valueB ? "YES" : "NO") +
+                " / " +
+                labelC +
+                (valueC ? "YES" : "NO");
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                text +=
+                    " / map error=" +
+                    error;
+            }
+
+            return text;
         }
 
         private static string BuildPairEvidence(
