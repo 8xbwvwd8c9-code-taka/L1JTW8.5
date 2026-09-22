@@ -50,6 +50,7 @@
     <Compile Include="InventoryBridge.cs" />
     <Compile Include="InventoryMap.cs" />
     <Compile Include="MappedInventoryBridge.cs" />
+    <Compile Include="ItemNameResolver.cs" />
     <Compile Include="InventoryMapControl.cs" />
     <Compile Include="RuntimeMap.cs" />
     <Compile Include="RuntimeMapControl.cs" />
@@ -68,6 +69,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
+    <None Include="item-names.csv" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
