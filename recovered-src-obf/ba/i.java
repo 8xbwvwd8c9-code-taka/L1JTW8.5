@@ -78,7 +78,7 @@ public class i {
             if (price <= 0) {
                 return;
             }
-            int payPrice = (int)((double)price * 0.9);
+            int payPrice = (int)(((long)price * 90L) / 100L);
             if (payPrice <= 0 || !this.a(oldOwnerId, payPrice)) {
                 return;
             }
@@ -93,7 +93,7 @@ public class i {
             }
             bidderClan.h(houseId);
             house.a(false);
-            house.a(new Timestamp(System.currentTimeMillis() + (long)(l1j.server.a.an * 24 * 60 * 60) * 1000L));
+            house.a(new Timestamp(System.currentTimeMillis() + ((long)l1j.server.a.an) * 24L * 60L * 60L * 1000L));
 
             if (!this.a(oldClan, bidderClan, house)) {
                 if (oldClan != null) {
@@ -123,7 +123,7 @@ public class i {
             Timestamp oldTax = house.i();
             bidderClan.h(houseId);
             house.a(false);
-            house.a(new Timestamp(System.currentTimeMillis() + (long)(l1j.server.a.an * 24 * 60 * 60) * 1000L));
+            house.a(new Timestamp(System.currentTimeMillis() + ((long)l1j.server.a.an) * 24L * 60L * 60L * 1000L));
             if (!this.a(null, bidderClan, house)) {
                 bidderClan.h(bidderClanHouse);
                 house.a(oldSale);
@@ -141,7 +141,7 @@ public class i {
             boolean oldSale = house.g();
             Timestamp oldTax = house.i();
             house.a(false);
-            house.a(new Timestamp(System.currentTimeMillis() + (long)(l1j.server.a.an * 24 * 60 * 60) * 1000L));
+            house.a(new Timestamp(System.currentTimeMillis() + ((long)l1j.server.a.an) * 24L * 60L * 60L * 1000L));
             if (!this.a(null, null, house)) {
                 house.a(oldSale);
                 house.a(oldTax);
@@ -375,7 +375,7 @@ public class i {
         house.f(0);
         house.a(true);
         house.b(false);
-        house.a(new Timestamp(System.currentTimeMillis() + (long)(l1j.server.a.an * 24 * 60 * 60) * 1000L));
+        house.a(new Timestamp(System.currentTimeMillis() + ((long)l1j.server.a.an) * 24L * 60L * 60L * 1000L));
         house.a();
 
         if (!this.a(ownerClan, null, house)) {
