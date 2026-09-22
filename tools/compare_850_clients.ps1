@@ -1,7 +1,7 @@
 param(
-  [string]$A = "I:\8.50c客服端\Lin.bin",
-  [string]$B = "I:\8.50c客服端\Lin.bin2",
-  [string]$OutDir = "I:\8.50c客服端\850_COMPARE"
+  [string]$A = ".\Lin.bin",
+  [string]$B = ".\Lin.bin2",
+  [string]$OutDir = ".\850_COMPARE"
 )
 
 $ErrorActionPreference = "Stop"
