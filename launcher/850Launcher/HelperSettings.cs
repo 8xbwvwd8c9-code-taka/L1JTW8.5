@@ -12,6 +12,7 @@ namespace L1JTW850Launcher
         public string PotionItemIds = "";
         public int PotionCooldownMs = 350;
         public bool AutoBuff;
+        public string BuffSkillIds = "";
         public bool AutoTransform;
         public bool AutoAntidote;
         public bool AutoRepair;
@@ -41,6 +42,33 @@ namespace L1JTW850Launcher
             return result;
         }
 
+        public List<int> GetBuffSkillIds()
+        {
+            var result = new List<int>();
+
+            if (string.IsNullOrWhiteSpace(BuffSkillIds))
+                return result;
+
+            var parts = BuffSkillIds.Split(
+                new[] { ',', ';', ' ' },
+                StringSplitOptions.RemoveEmptyEntries);
+
+            foreach (var raw in parts)
+            {
+                int skillId;
+                if (!int.TryParse(
+                    raw.Trim(),
+                    out skillId) ||
+                    skillId <= 0)
+                    continue;
+
+                if (!result.Contains(skillId))
+                    result.Add(skillId);
+            }
+
+            return result;
+        }
+
         public static HelperSettings Load(string path)
         {
             var ini = IniDocument.Load(path);
@@ -53,6 +81,7 @@ namespace L1JTW850Launcher
                 PotionItemIds = ini.Get("Potion", "ItemIds", ""),
                 PotionCooldownMs = ini.GetInt("Potion", "CooldownMs", 350),
                 AutoBuff = ini.GetBool("State", "AutoBuff", false),
+                BuffSkillIds = ini.Get("State", "SkillIds", ""),
                 AutoTransform = ini.GetBool("Special", "AutoTransform", false),
                 AutoAntidote = ini.GetBool("Special", "AutoAntidote", false),
                 AutoRepair = ini.GetBool("Extend", "AutoRepair", false),
@@ -73,6 +102,7 @@ namespace L1JTW850Launcher
             ini.Set("Potion", "ItemIds", PotionItemIds ?? "");
             ini.Set("Potion", "CooldownMs", PotionCooldownMs);
             ini.Set("State", "AutoBuff", AutoBuff ? 1 : 0);
+            ini.Set("State", "SkillIds", BuffSkillIds ?? "");
             ini.Set("Special", "AutoTransform", AutoTransform ? 1 : 0);
             ini.Set("Special", "AutoAntidote", AutoAntidote ? 1 : 0);
             ini.Set("Extend", "AutoRepair", AutoRepair ? 1 : 0);
