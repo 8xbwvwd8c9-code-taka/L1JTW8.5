@@ -182,7 +182,7 @@ namespace L1JTW850Launcher
             }
 
             // Header RVAs may map directly.
-            if (rva < fileLength)
+            if (rva < (uint)fileLength)
                 return (int)rva;
 
             return -1;
