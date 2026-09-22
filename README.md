@@ -1172,3 +1172,58 @@ STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
 ```
+
+
+## L3 修復收尾狀態 — 2026-09-22
+
+### 狀態
+
+```text
+L3_REPAIR_SCOPE=54
+REPAIRED_AND_VALIDATED=54
+BATCH1_7=PASS
+FINAL_PROMOTION_VALIDATION=PASS
+FINAL_RUN=35684550488
+PR=#29
+PROMOTION_TO_COMPLETED=BLOCKED_BY_MERGE_CONFLICT
+SOURCE_OVERWRITE=NO
+```
+
+### 問題與解法摘要
+
+本輪 L3 共 54 顆，主要涵蓋：
+
+- 封包/指令長度、索引與 EOF 防呆：在任何陣列、清單、固定 buffer 與 token 使用前 fail closed。
+- Shop / PrivateShop / Quest / Achievement：以 server-side authoritative object/list 為準，補 null/type/range guard。
+- JDBC / Character delete / Mail / Buddy：縮小 SQL resource lifetime、交易化需要原子性的流程，DB 成功後才修改 RAM。
+- Bookmark / Clan：重名直接終止；刪除/重排與 clan 歷史清理使用 transaction，rollback 保護。
+- Board / Pet / Party / Heading：補物件型別、同地圖/距離、packet index 與狀態檢查。
+- Ranking / Spawn：修正 class routing / top-50 截斷；動態 spawn INSERT 取得 generated key 後同步 live index。
+- Polymorph：保留實際選中的 morph rule identity，後續武防具驗證不再只靠可能歧義的 polyid。
+- Ghost exit：補保存 x/y/map/heading、ExitGhost 回傳與 teleport finalize 後才清 ghost 狀態。
+
+### 驗證
+
+- Batch1 PASS — run `35671637284`
+- Batch2 PASS — run `35671890739`
+- Batch3 PASS — run `35673217261`
+- Batch5 PASS — run `35674825429`
+- Batch6 PASS — run `35678192602`
+- Batch7 PASS — run `35678060134`
+- completed-base promotion contract PASS — run `35684550488`
+
+### 為什麼尚未寫入 completed 核心
+
+驗證期間 `completed/l1jtw85-core-fixes` 又前進了 12 個 commit；PR #29 與最新 completed 存在 merge conflict。為避免覆蓋其他 lane 已完成修補，本輪停止在已驗證 promotion branch：
+
+`promote/l3-validated-20260922`
+
+PR：
+
+`https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/pull/29`
+
+詳細報告目前在該 promotion branch：
+
+`recovery/L3_CORE_REPAIR_COMPLETION_20260922.md`
+
+下一次接手應從 **最新 completed HEAD** 解 PR #29 衝突；不得用 force update 或整檔覆蓋已完成修補。
