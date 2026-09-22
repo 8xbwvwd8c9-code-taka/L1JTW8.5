@@ -38,6 +38,7 @@ namespace L1JTW850Launcher
             new List<IntPtr>();
 
         private int _pid;
+        private DateTime? _processStartUtc;
         private uint _scanObjectId;
         private int _scanXWidth;
         private int _scanYWidth;
@@ -319,6 +320,9 @@ namespace L1JTW850Launcher
 
             _pid =
                 runtime.ProcessId;
+
+            _processStartUtc =
+                runtime.ProcessStartTimeUtc;
 
             _scanObjectId =
                 objectId;
@@ -858,6 +862,12 @@ namespace L1JTW850Launcher
                     _pid);
 
                 sb.AppendLine(
+                    "PROCESS_START_UTC=" +
+                    (_processStartUtc.HasValue
+                        ? _processStartUtc.Value.ToString("o")
+                        : ""));
+
+                sb.AppendLine(
                     "MODULE_BASE=0x" +
                     _moduleBase.ToInt64()
                     .ToString("X8"));
@@ -944,6 +954,7 @@ namespace L1JTW850Launcher
             _yCandidates.Clear();
 
             _pid = 0;
+            _processStartUtc = null;
             _scanObjectId = 0;
             _scanXWidth = 0;
             _scanYWidth = 0;
