@@ -1648,6 +1648,7 @@ public class L1NpcInstance extends L1Character {
             this.b();
          } catch (Exception var2) {
             L1NpcInstance.y.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
+            L1NpcInstance.this.i(false);
          }
       }
 
