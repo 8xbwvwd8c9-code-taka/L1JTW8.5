@@ -14,6 +14,12 @@ namespace L1JTW850Launcher
         public bool CandidateLimitReached;
     }
 
+    internal sealed class ProbeDword
+    {
+        public IntPtr Address;
+        public int Value;
+    }
+
     internal sealed class RuntimeMemoryProbe : IDisposable
     {
         private const uint PROCESS_VM_READ = 0x0010;
@@ -219,6 +225,38 @@ namespace L1JTW850Launcher
 
                 offset += wanted;
             }
+        }
+
+        public List<ProbeDword> ReadDwords(IntPtr center, int bytesBefore, int bytesAfter)
+        {
+            var result = new List<ProbeDword>();
+            if (_handle == IntPtr.Zero) return result;
+
+            var start = center.ToInt64() - bytesBefore;
+            if (start < 0x10000) start = 0x10000;
+
+            start = start & ~3L;
+            var end = (center.ToInt64() + bytesAfter + 3) & ~3L;
+            var sizeLong = end - start;
+            if (sizeLong <= 0 || sizeLong > 0x10000) return result;
+
+            var size = (int)sizeLong;
+            var buffer = new byte[size];
+            IntPtr bytesReadPtr;
+            if (!ReadProcessMemory(_handle, new IntPtr(start), buffer, size, out bytesReadPtr))
+                return result;
+
+            var bytesRead = (int)Math.Min((long)size, bytesReadPtr.ToInt64());
+            for (var i = 0; i <= bytesRead - 4; i += 4)
+            {
+                result.Add(new ProbeDword
+                {
+                    Address = new IntPtr(start + i),
+                    Value = BitConverter.ToInt32(buffer, i)
+                });
+            }
+
+            return result;
         }
 
         public void Detach()
