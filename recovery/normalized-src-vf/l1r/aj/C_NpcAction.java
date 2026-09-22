@@ -454,6 +454,7 @@ public class C_NpcAction extends ClientBasePacket {
                                     var10 = "";
                                  } else if (var3.ev() >= 15) {
                                     if (var144.n() == 0) {
+                                       var3.setL1rAmountContext(var4, 1);
                                        var3.a(new S_ApplyAuction(var4, var88));
                                     } else {
                                        var3.a(new S_ServerMessage(521));
@@ -3574,6 +3575,7 @@ public class C_NpcAction extends ClientBasePacket {
          return "agonsale";
       }
 
+      var1.setL1rAmountContext(var2, 2);
       var1.a(new S_SellHouse(var2, String.valueOf(var5)));
       return null;
    }
