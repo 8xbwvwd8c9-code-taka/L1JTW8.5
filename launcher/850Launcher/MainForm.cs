@@ -183,13 +183,13 @@ namespace L1JTW850Launcher
             _timerSeconds.Value = Math.Max(_timerSeconds.Minimum, Math.Min(_timerSeconds.Maximum, _helper.TimerSeconds));
         }
 
-        private void SaveAll()
+        private bool SaveAll()
         {
             int port;
             if (!int.TryParse(_port.Text.Trim(), out port) || port < 1 || port > 65535)
             {
                 MessageBox.Show("Invalid port.");
-                return;
+                return false;
             }
 
             _config.ServerName = _serverName.Text.Trim();
@@ -210,13 +210,14 @@ namespace L1JTW850Launcher
             _config.Save(Path.Combine(_appDir, "launcher.ini"));
             _helper.Save(Path.Combine(_appDir, "helper.ini"));
             _runtimeState.Text = "Settings saved.";
+            return true;
         }
 
         private void Launch850()
         {
             try
             {
-                SaveAll();
+                if (!SaveAll()) return;
                 var process = new ClientLauncher(_appDir).Launch(_config);
                 _runtimeState.Text = process == null ? "Launch returned no process." : "Launcher PID " + process.Id + " started.";
             }
