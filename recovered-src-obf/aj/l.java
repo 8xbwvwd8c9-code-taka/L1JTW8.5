@@ -24,7 +24,7 @@ extends cv {
         if (pc == null || !(obj instanceof c)) {
             return;
         }
-        if (obj.fu().c(pc.fu()) > 11) {
+        if (pc.fp() != obj.fp() || pc.f(obj) > 3) {
             return;
         }
         b topic = b.a(topicId);

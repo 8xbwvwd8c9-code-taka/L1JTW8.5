@@ -27,7 +27,7 @@ extends cv {
         if (!(obj instanceof c)) {
             return;
         }
-        if (obj.fu().c(pc.fu()) > 11) {
+        if (pc.fp() != obj.fp() || pc.f(obj) > 3) {
             return;
         }
         c board = (c)obj;
