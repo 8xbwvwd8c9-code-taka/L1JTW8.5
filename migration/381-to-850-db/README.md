@@ -130,4 +130,4 @@ Do not port its entire 381 UI/core blindly.
 - `w_城堡狀態_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_STATUS_FAMILY_AUDIT.md`, commit=`e54c0e0c2ca219f3d7b9801dc5e63c5ef17bfd3b`. Login-time castle reward add and NPC access/buff path are proven; 850 needs authoritative castle-state recompute and safer cost/action ordering.
 
 - `w_血盟能量怪物`: STATUS=PASS/SKIP, LEVEL=N/A, audit=`modules/CLAN_ENERGY_MONSTER_AUDIT.md`, commit=`1983a76942043a51ebbb9f3b8b82317bd8ea2ff4`. Current split SQL is empty; no migration work until source/runtime appears.
-- `w_血盟等級_血盟技能_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CLAN_LEVEL_SKILL_FAMILY_AUDIT.md`, commit=`35f98ed8055b9e859a0a2c3712e056ad9035bcc3`. Join/leave/disband and skill changes can leave stale clan-derived stats; 850 requires idempotent ClanStateOwner recompute on every authoritative transition.
+- `w_血盟等級_血盟技能_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CLAN_LEVEL_SKILL_FAMILY_AUDIT.md`, commit=`3a9b222f123706d1dd74f0f2fe997c181a97ad8a`. ClanState recompute is required; clan level requirement/persistence models exist but the actual live level-up executor remains unproven.
