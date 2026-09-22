@@ -49,4 +49,4 @@ Copy-Item helper.ini.example helper.ini
 pwsh -File .\build.ps1
 ```
 
-The project targets .NET Framework 4.8 and x86.
+The project targets .NET Framework 4.0 and x86. `build.ps1` falls back to the Windows Framework v4 MSBuild/csc toolchain when no standalone MSBuild is on PATH.
