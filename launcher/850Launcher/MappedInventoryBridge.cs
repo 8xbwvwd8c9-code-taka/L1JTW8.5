@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 
 namespace L1JTW850Launcher
@@ -32,6 +33,42 @@ namespace L1JTW850Launcher
             {
                 result.Status =
                     "Lin.bin2 module base 無效。";
+                return result;
+            }
+
+            try
+            {
+                var process =
+                    Process.GetProcessById(
+                        runtime.ProcessId);
+
+                if (process.HasExited)
+                {
+                    result.Status =
+                        "Lin.bin2 程序已結束。";
+                    return result;
+                }
+
+                if (runtime.ProcessStartTimeUtc.HasValue)
+                {
+                    var actualStart =
+                        process.StartTime
+                        .ToUniversalTime();
+
+                    if (actualStart !=
+                        runtime.ProcessStartTimeUtc.Value)
+                    {
+                        result.Status =
+                            "PID 已被新程序重用，InventoryBridge 拒絕讀取。";
+                        return result;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                result.Status =
+                    "InventoryBridge 程序身分驗證失敗：" +
+                    ex.Message;
                 return result;
             }
 
@@ -641,6 +678,24 @@ namespace L1JTW850Launcher
                 uint v;
                 if (!probe.TryReadUInt32(address, out v, out error))
                     return false;
+                value = v;
+                return true;
+            }
+
+            if (width == 8)
+            {
+                long v;
+                if (!probe.TryReadInt64(address, out v, out error))
+                    return false;
+
+                if (v < 0)
+                {
+                    error =
+                        "ObjectId 8-byte 值為負數：" +
+                        v;
+                    return false;
+                }
+
                 value = v;
                 return true;
             }
