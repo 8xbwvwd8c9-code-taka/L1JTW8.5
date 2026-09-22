@@ -229,3 +229,129 @@ LEVEL=L3
 SOURCE_SCHEMA=NOT_PROVEN
 BLOCKERS=850 ClanStateOwner/recompute contract; clan state-change hooks; material/item semantic mapping; skill-upgrade action path; HP/MP policy; CREATE schemas
 ```
+
+
+## Clan skill upgrade / forget control path
+
+Donor control owner:
+- `com.lineage.data.npc.Npc_clan`
+
+For DB-driven clan skills (`ClanSkillDBSet.START`):
+
+### Learn / upgrade
+
+Command `2`:
+1. resolves selected ClanSkillId
+2. computes next ClanSkillLv
+3. loads next `L1ClanSkills`
+4. validates Material / MaterialCount / MaterialLevel arrays
+5. consumes all configured materials
+6. writes:
+   - clan.setClanSkillId(...)
+   - clan.setClanSkillLv(...)
+7. persists through `ClanReading.updateClanSkill(clan)`
+
+No call to:
+- remove old ClanSkill modifier
+- add new ClanSkill modifier
+- recompute online clan members
+
+is present in this action path.
+
+### Forget
+
+Command `4`:
+1. records current skill name
+2. sets ClanSkillId=0
+3. sets ClanSkillLv=0
+4. persists through `ClanReading.updateClanSkill(clan)`
+
+No stat removal/recompute is performed for online members.
+
+Therefore:
+```text
+MID_SESSION_UPGRADE_STATE_CHANGE=PROVEN
+MID_SESSION_STAT_RECOMPUTE=NO
+MID_SESSION_OLD_MODIFIER_REMOVE=NO
+MID_SESSION_NEW_MODIFIER_APPLY=NO
+RELOG_REQUIRED_FOR_EFFECT_REFRESH=EFFECTIVELY_YES
+```
+
+This is a concrete donor lifecycle defect for online members.
+
+## Material transaction model
+
+Upgrade material arrays are parallel:
+- Material
+- MaterialCount
+- MaterialLevel
+
+Donor performs two passes:
+1. validate all required materials
+2. consume each requirement sequentially
+
+This avoids consuming when validation already fails, but the consume phase is not transactional across multiple materials.
+
+Potential partial failure:
+- item 1 consumed successfully
+- later consume operation fails or runtime exception occurs
+- clan skill state may not update, but earlier material is already lost
+
+850 target should use an atomic/rollback-safe material settlement policy.
+
+## Skill selection scope
+
+Current source contains ClanSkillId 1..3 only.
+Npc_clan accepts a selected id when:
+`clanSkillId <= 10`
+
+Thus ids 4..10 are accepted by the control gate but currently have no source row; lookup returns null and no upgrade occurs.
+
+Do not assume 10 active skill families exist merely because the UI/control gate allows ids <=10.
+
+## ClanStateOwner recompute triggers
+
+850 should trigger clan-derived modifier recomputation on at least:
+
+- login / clan attachment
+- clan level change
+- clan skill learn
+- clan skill level upgrade
+- clan skill forget/reset
+- join clan
+- leave clan
+- clan disband
+- any administrative mutation of clan level/skill
+- reload of clan modifier definitions if runtime reload is supported
+
+Required safe transition:
+```text
+old = authoritative previous ClanState modifier
+new = recompute(current clan state)
+
+effective = baseline - old + new
+```
+
+or preferably rebuild from authoritative modifier sources rather than trusting incremental mutation history.
+
+## Additional donor defects
+
+1. Skill upgrade/forget does not refresh online member stats.
+   - impact: stale modifier until relog
+   - do not reproduce: state mutation must trigger recompute
+
+2. Multi-material consumption is not atomic.
+   - impact: partial item loss on mid-consume failure
+   - do not reproduce: validate + atomic settlement / rollback
+
+3. Control gate permits skill ids <=10 while current DB defines only 1..3.
+   - impact: UI/control may expose nonexistent ids if misrouted
+   - do not reproduce: source-defined identity validation
+
+4. `getMaterialName()` returns `note.toString()` without null guard.
+   - if any source row has null/misaligned material arrays, this can throw.
+   - current populated rows have all three arrays, so current content does not trigger it.
+
+5. Material array lengths are not explicitly cross-validated before indexed use.
+   - malformed future rows could cause index errors.
+   - migration installer should validate equal lengths.
