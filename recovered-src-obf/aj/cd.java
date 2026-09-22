@@ -99,6 +99,10 @@ extends cv {
                 int type = this.c();
                 if (type == 0) {
                     bd.b shopData = bd.a().b().get(itemid);
+                    if (shopData == null) {
+                        pc.a(new ds(156));
+                        return;
+                    }
                     q item = shopData.a;
                     bh.a account = client.e();
                     if (price != shopData.b * count) {

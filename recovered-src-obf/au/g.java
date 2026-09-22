@@ -650,6 +650,9 @@ extends f {
     }
 
     public q n() {
+        if (this.a.isEmpty()) {
+            return null;
+        }
         int rnd = bi.i.a(this.a.size());
         q penaltyItem = (q)this.a.get(rnd);
         if (penaltyItem.N() == 40308 || !penaltyItem.a().s()) {

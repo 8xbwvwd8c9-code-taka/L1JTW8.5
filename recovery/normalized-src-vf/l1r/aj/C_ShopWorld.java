@@ -39,6 +39,10 @@ public class C_ShopWorld extends ClientBasePacket {
                int var20 = this.c();
                if (var20 == 0) {
                   ShopWorldTable.L1R_b var30 = ShopWorldTable.a().b().get(var15);
+                  if (var30 == null) {
+                     var3.a(new S_ServerMessage(156));
+                     return;
+                  }
                   L1ItemInstance var33 = var30.a;
                   L1Account var34 = var2.e();
                   if (var18 != var30.b * var17) {
