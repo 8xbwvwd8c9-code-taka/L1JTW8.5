@@ -632,6 +632,17 @@ J_CASE7 權威修正：無 lock/CAS 時確定 UNSAFE，但最終 item 值不唯�
 
 K–O 驗算結論：BUG-850-269 正確使用 minute→millisecond 換算；BUG-850-266 / 262 正確 proc predicate 為 `roll < threshold`；BUG-850-265 正確先以舊 Contribution 計算 Pay 再清零，且大值需注意 storage range；BUG-850-274 完成條件必須比較 `A[i] >= q[i]`，不得使用 monster id `p[i]`。
 
+### 核心修復進度更新（2026-09-23）
+
+```text
+BUG-850-257=DONE / PASS_ALREADY_COVERED
+BUG-850-143=DONE
+BUG-850-143_CI=35753728578 PASS
+REMAINING_CORE_BLOCKERS=3
+```
+
+BUG-850-257 已由既有 SoulTower `size<10` admission 修復涵蓋，新增空榜第一筆 targeted case 並通過專用 CI。BUG-850-143 已補齊 Inn amount-dialog authority：僅 InnTable 的 9 個伺服器端旅館 NPC 可建立 mode=3 one-shot context，送回數量時必須同 NPC、15 秒內、單次使用且距離 ≤11，之後才允許扣款/租房 mutation。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
