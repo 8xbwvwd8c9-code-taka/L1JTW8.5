@@ -693,12 +693,17 @@ public class L1PcInstance extends L1Character {
                var16.aa_();
             } else if (var9 instanceof L1SummonInstance) {
                L1SummonInstance var15 = (L1SummonInstance)var9;
+               if (var15.ah()) {
+                  continue;
+               }
 
                for (L1PcInstance var4 : L1World.a().f(var15)) {
                   if (var4.fr() != this.fr()) {
                      var4.a(new S_SummonPack(var15, var4, false));
                   }
                }
+
+               var15.h();
             }
          }
 
