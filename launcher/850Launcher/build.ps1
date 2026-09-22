@@ -1,6 +1,15 @@
 param([string]$Configuration = "Release")
 $ErrorActionPreference = "Stop"
 $project = Join-Path $PSScriptRoot "850Launcher.csproj"
+$audit = Join-Path $PSScriptRoot "source_audit.ps1"
+
+if (Test-Path -LiteralPath $audit) {
+    & $audit
+    if ($LASTEXITCODE -ne 0) {
+        Write-Host "BUILD_ABORTED=SOURCE_AUDIT_FAILED"
+        exit $LASTEXITCODE
+    }
+}
 
 $msbuildCandidates = @(
     (Get-Command msbuild.exe -ErrorAction SilentlyContinue | Select-Object -ExpandProperty Source -ErrorAction SilentlyContinue),
