@@ -609,6 +609,29 @@ F/G 已證明 Inn refund 的乘法與 wallet cap 邊界：`refund=(long)60*keyCo
 
 J_CASE7 註記：無 lock/CAS 時可能超賣/重複 Karma mutation，但最終 item count 不一定唯一為 -4；依實作可能出現 lost-update（例如兩邊皆由4寫0）或 sequential over-debit。J_CASE8 註記：item CAS 只能證明單一 item winner；若 Karma update 不在同一 transaction/可恢復 closure，仍不能單獨宣告整筆 exchange 原子成功。
 
+### J 修正 + K–O 最終驗算（2026-09-23）
+
+```text
+STATUS=PASS
+DOCUMENT=L1JTW85_VALIDATION_J_FIX_K_TO_O_20260923.md
+PROJECT=L1JTW8.5
+J_CASE7=ACCEPTED
+J_CASE8=ACCEPTED
+TASK_K=PASS
+TASK_L=PASS
+TASK_M=PASS
+TASK_N=PASS
+TASK_O=PASS
+DOCUMENT_CONSISTENCY=PASS
+MATHEMATICAL_ERRORS=NONE_FOUND
+ACTION=NONE
+NEXT=NONE
+```
+
+J_CASE7 權威修正：無 lock/CAS 時確定 UNSAFE，但最終 item 值不唯一，可能 over-debit、lost-update 或其他競態結果，不得斷言唯一為 -4。J_CASE8 權威修正：item CAS 僅證明 item 單一 winner；Karma update 仍需同一 transaction 或可恢復且冪等的 recovery closure 才能宣告整筆原子成功。
+
+K–O 驗算結論：BUG-850-269 正確使用 minute→millisecond 換算；BUG-850-266 / 262 正確 proc predicate 為 `roll < threshold`；BUG-850-265 正確先以舊 Contribution 計算 Pay 再清零，且大值需注意 storage range；BUG-850-274 完成條件必須比較 `A[i] >= q[i]`，不得使用 monster id `p[i]`。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
