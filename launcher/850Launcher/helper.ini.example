@@ -1,6 +1,8 @@
 [Potion]
 Enabled=0
+UsePercent=1
 HPPercent=70
+HPExact=1000
 
 [State]
 AutoBuff=0
