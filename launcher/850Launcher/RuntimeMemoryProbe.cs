@@ -198,7 +198,7 @@ namespace L1JTW850Launcher
                 {
                     result.BytesScanned += bytesRead;
 
-                    for (var i = 0; i <= bytesRead - 4; i++)
+                    for (var i = 0; i <= bytesRead - 4; i += 4)
                     {
                         var value = BitConverter.ToInt32(buffer, i);
                         List<string> fields;
