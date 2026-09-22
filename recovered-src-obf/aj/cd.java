@@ -115,12 +115,15 @@ extends cv {
                         pc.a(new ds(2743));
                         return;
                     }
-                    account.g(adena - price);
-                    a.a().a(account);
+                    int newBalance = adena - price;
+                    if (!bd.a().a(account.d(), adena, newBalance, item.N(), count)) {
+                        pc.a(new ds(156));
+                        return;
+                    }
+                    account.g(newBalance);
                     pc.a(new ds(2745));
                     pc.a(new v(37, account.p()));
                     pc.bd(pc.cQ() + price);
-                    bd.a().a(account.d(), item.N(), count);
                     aa.a().h(pc, "\u8cfc\u8cb7", item, count);
                     break;
                 }
