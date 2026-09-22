@@ -17,6 +17,8 @@ namespace L1JTW850Launcher
         public int RecordCount;
         public int UniqueObjectIds;
         public string ExpectedFingerprint = "";
+        public string ExpectedItemIdsFingerprint = "";
+        public int ExpectedItemCount;
     }
 
     internal sealed class InventoryValidationSummary
@@ -25,6 +27,8 @@ namespace L1JTW850Launcher
         public int PassSessions;
         public int DistinctProcessInstances;
         public int DistinctExpectationSets;
+        public int DistinctItemIdSets;
+        public int MinimumExpectedItems;
         public bool RestartStablePass;
         public string Status = "";
     }
@@ -296,6 +300,13 @@ namespace L1JTW850Launcher
                 new HashSet<string>(
                     StringComparer.Ordinal);
 
+            var itemIdSets =
+                new HashSet<string>(
+                    StringComparer.Ordinal);
+
+            var minimumExpectedItems =
+                int.MaxValue;
+
             var allPass = true;
 
             foreach (var session in sessions)
@@ -317,6 +328,17 @@ namespace L1JTW850Launcher
                 expectedSets.Add(
                     session.ExpectedFingerprint ??
                     "");
+
+                itemIdSets.Add(
+                    session.ExpectedItemIdsFingerprint ??
+                    "");
+
+                if (session.ExpectedItemCount <
+                    minimumExpectedItems)
+                {
+                    minimumExpectedItems =
+                        session.ExpectedItemCount;
+                }
             }
 
             result.DistinctProcessInstances =
@@ -325,11 +347,21 @@ namespace L1JTW850Launcher
             result.DistinctExpectationSets =
                 expectedSets.Count;
 
+            result.DistinctItemIdSets =
+                itemIdSets.Count;
+
+            result.MinimumExpectedItems =
+                minimumExpectedItems ==
+                    int.MaxValue
+                    ? 0
+                    : minimumExpectedItems;
+
             result.RestartStablePass =
                 sessions.Count >= 3 &&
                 allPass &&
                 processes.Count >= 2 &&
-                expectedSets.Count == 1;
+                itemIdSets.Count == 1 &&
+                result.MinimumExpectedItems >= 2;
 
             result.Status =
                 "sessions=" +
@@ -338,8 +370,10 @@ namespace L1JTW850Launcher
                 result.PassSessions +
                 "，process instances=" +
                 result.DistinctProcessInstances +
-                "，expectation sets=" +
-                result.DistinctExpectationSets +
+                "，itemId sets=" +
+                result.DistinctItemIdSets +
+                "，min expected items=" +
+                result.MinimumExpectedItems +
                 "，WP6 restart gate=" +
                 (result.RestartStablePass
                     ? "PASS"
@@ -374,6 +408,45 @@ namespace L1JTW850Launcher
                 string.Join(
                     "|",
                     expected.ToArray());
+
+            var itemIds =
+                new List<int>();
+
+            foreach (var line in expected)
+            {
+                var split =
+                    line.IndexOf('=');
+
+                if (split <= 0)
+                    continue;
+
+                int itemId;
+
+                if (int.TryParse(
+                    line.Substring(0, split)
+                    .Trim(),
+                    out itemId) &&
+                    itemId > 0 &&
+                    !itemIds.Contains(itemId))
+                {
+                    itemIds.Add(itemId);
+                }
+            }
+
+            itemIds.Sort();
+
+            session.ExpectedItemCount =
+                itemIds.Count;
+
+            session.ExpectedItemIdsFingerprint =
+                string.Join(
+                    ",",
+                    itemIds.ConvertAll(
+                        delegate(int value)
+                        {
+                            return value.ToString();
+                        })
+                    .ToArray());
         }
 
         private static string BuildProcessKey(
