@@ -109,3 +109,78 @@ Royal custom sword:
 ## Key rule
 For cross-version migrations, semantic identity (skill/name/function) overrides numeric item ID.
 Never preserve donor item IDs when the target already has the same native item under a different ID.
+
+
+## 240240 dependency resolved
+
+381 `droplist` uses item 240240 as **Boss證明**.
+Observed drops:
+- numerous boss NPCs
+- quantity 1
+- configured drop rate 1000000 in the donor data
+
+381 `etcitem` row for `Boss證明` is a plain item:
+- classname: `0`
+- type: other
+- use type: normal
+- material: paper
+- no custom executor
+
+Therefore 240240 is a simple token/currency item, not a runtime-core dependency.
+
+Migration consequence:
+- create/migrate one plain Boss證明 etcitem row using an 850-safe item ID
+- map all high-skill craft recipes to that migrated token ID
+- optionally migrate boss droplist rows as a separate acquisition module
+- do not hard-code donor 240240 if the target ID namespace conflicts
+
+This removes the last core blocker for the standard skill exchange.
+
+### Final classification
+Standard Knight/Elf/Mage/Dark-Elf high-skill exchange:
+**L2 confirmed / implementation-ready design**
+
+Dependencies:
+- 850 existing native skillbook/crystal IDs
+- adena 40308
+- migrated plain Boss證明 token
+- native 850 craft rows
+- optional boss-drop acquisition package
+
+Royal 王者之劍 remains separate because its behavior is custom.
+
+## Royal 王者之劍 behavior resolved
+
+381 class:
+`com.lineage.data.item_etcitem.teleport.ItemKingShockStun`
+
+Behavior:
+- Crown-only use
+- blocked in safety zone
+- cooldown flag skill id 9001
+- consumes configurable MP
+- consumes one configurable magic gem
+- targeted L1Character in range
+- configurable success chance
+- configurable stun duration min/max
+- applies configured stun skill effect
+- spawns configured visual effect NPC
+- supports PC, monster, summon and pet targets
+
+This is not a passive item and not a standard skillbook.
+
+It depends on:
+- `ConfigPrinceSkill.KING_SWORD_MP_COST`
+- `KING_SWORD_GEM_ID`
+- `KING_SWORD_RANGE`
+- `KING_SWORD_COOLDOWN`
+- `KING_SWORD_CHANCE`
+- `KING_SWORD_MIN_SEC/MAX_SEC`
+- `KING_SWORD_STUN_SKILL`
+- `KING_SWORD_EFFECT_NPCID`
+- target/action item-use packet plumbing
+
+Classification:
+**L3 confirmed**
+
+Keep it out of the standard skill-exchange L2 package.
