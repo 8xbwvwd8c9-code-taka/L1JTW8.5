@@ -10,6 +10,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import l1r.an.PBMessageALL3;
 import l1r.an.PBMessageALL7;
+import l1r.ap.L1ItemInstance;
 import l1r.ap.L1PcInstance;
 import l1r.be.S_ProtoBuffers;
 import l1r.bh.L1QuestNew;
@@ -111,6 +112,24 @@ public class QuestNewTable {
 
                var1.dS().put(var2, var5);
                var1.a(new S_ProtoBuffers(518, var5));
+
+               for (int objectiveIndex = 0; objectiveIndex < var5.r().length; objectiveIndex++) {
+                  long inventoryCount = 0L;
+
+                  for (L1ItemInstance inventoryItem : var1.j().d()) {
+                     if (var5.r()[objectiveIndex] == inventoryItem.N()
+                        && var5.t()[objectiveIndex] <= inventoryItem.G()
+                        && inventoryItem.E() > 0) {
+                        inventoryCount += inventoryItem.E();
+                        if (inventoryCount >= var5.s()[objectiveIndex]) {
+                           inventoryCount = var5.s()[objectiveIndex];
+                           break;
+                        }
+                     }
+                  }
+
+                  var5.a(objectiveIndex, (int)inventoryCount);
+               }
             }
          }
       }
