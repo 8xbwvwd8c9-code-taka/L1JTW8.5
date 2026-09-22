@@ -736,3 +736,20 @@ BUG-850-126_LOG_COMMIT=47d2e6356ffc0ee54ca65ccb24ad6d8d8cbc2b21
 - `recovery/DUAL_LANE_CORE_WORK_LEDGER.md`
 
 然後從 `BUG-850-124` 繼續。L2 backlog 未清空前，不進 L3。
+
+## 2026-09-23 BUG-850-208 Ship Route Authority
+
+```text
+STATUS=PASS
+BUG=BUG-850-208
+OLD_STATE=PARTIAL_BLOCKED_ROUTE_AUTHORITY
+ROOT_CAUSE=route authority was present in the existing dungeon DB table but had not been reused by C_Ship
+SERVER_AUTHORITY=L1Dungeon + dungeon(src_x,src_y,src_mapid,new_x,new_y,new_mapid,new_heading)
+SHIP_PAIRS=5<->6,83<->84,446<->447
+CLIENT_DESTINATION_AUTHORITY=REMOVED
+MISSING_OR_CONFLICTING_ROUTE=FAIL_CLOSED_BEFORE_TICKET_CONSUME
+TICKET_CONSUME_SUCCESS_REQUIRED=YES
+CI=35764583423
+```
+
+`C_GotoMap/C_Ship` now parses the client destination fields only for protocol compatibility. The actual destination is derived from the server-loaded `dungeon` route table. This replaces the earlier stale conclusion that no authoritative ship route source was available.
