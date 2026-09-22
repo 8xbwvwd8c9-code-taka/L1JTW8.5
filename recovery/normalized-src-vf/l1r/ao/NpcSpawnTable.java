@@ -3,6 +3,7 @@ package l1r.ao;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -92,7 +93,7 @@ public class NpcSpawnTable {
          int var5 = 1;
          String var6 = var2.c();
          var3 = DatabaseFactory.a().b();
-         var4 = var3.prepareStatement("INSERT INTO spawnlist_npc SET location=?,count=?,npc_templateid=?,locx=?,locy=?,heading=?,mapid=?");
+         var4 = var3.prepareStatement("INSERT INTO spawnlist_npc SET location=?,count=?,npc_templateid=?,locx=?,locy=?,heading=?,mapid=?", Statement.RETURN_GENERATED_KEYS);
          var4.setString(1, var6);
          var4.setInt(2, 1);
          var4.setInt(3, var2.b());
@@ -100,7 +101,37 @@ public class NpcSpawnTable {
          var4.setInt(5, var1.ft());
          var4.setInt(6, var1.fb());
          var4.setInt(7, var1.fp());
-         var4.execute();
+         if (var4.executeUpdate() <= 0) {
+            return;
+         }
+         try (ResultSet var7 = var4.getGeneratedKeys()) {
+            if (!var7.next()) {
+               return;
+            }
+            int var8 = var7.getInt(1);
+            L1Spawn var9 = new L1Spawn(var2);
+            var9.a(var8);
+            var9.b(1);
+            var9.e(var1.fs());
+            var9.f(var1.ft());
+            var9.g(0);
+            var9.h(0);
+            var9.i(0);
+            var9.j(0);
+            var9.k(0);
+            var9.l(0);
+            var9.m(var1.fb());
+            var9.n(0);
+            var9.o(0);
+            var9.p(var1.fp());
+            var9.q(0);
+            synchronized (this.c) {
+               this.c.put(var8, var9);
+               if (var8 > this.d) {
+                  this.d = var8;
+               }
+            }
+         }
       } catch (Exception var10) {
          a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
       } finally {

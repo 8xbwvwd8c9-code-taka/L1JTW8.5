@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -141,7 +142,7 @@ public class bg {
                     int maxRespawnDelay = 120;
                     String note = npc.c();
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO spawnlist SET location=?,count=?,npc_templateid=?,group_id=?,locx=?,locy=?,randomx=?,randomy=?,heading=?,min_respawn_delay=?,max_respawn_delay=?,mapid=?");
+                    pstm = con.prepareStatement("INSERT INTO spawnlist SET location=?,count=?,npc_templateid=?,group_id=?,locx=?,locy=?,randomx=?,randomy=?,heading=?,min_respawn_delay=?,max_respawn_delay=?,mapid=?", Statement.RETURN_GENERATED_KEYS);
                     pstm.setString(1, note);
                     pstm.setInt(2, 1);
                     pstm.setInt(3, npc.b());
@@ -154,7 +155,38 @@ public class bg {
                     pstm.setInt(10, 60);
                     pstm.setInt(11, 120);
                     pstm.setInt(12, pc.fp());
-                    pstm.execute();
+                    if (pstm.executeUpdate() <= 0) {
+                        return;
+                    }
+                    try (ResultSet keys = pstm.getGeneratedKeys()) {
+                        if (!keys.next()) {
+                            return;
+                        }
+                        int id = keys.getInt(1);
+                        ag spawn = new ag(npc);
+                        spawn.a(id);
+                        spawn.b(1);
+                        spawn.e(pc.fs());
+                        spawn.f(pc.ft());
+                        spawn.g(12);
+                        spawn.h(12);
+                        spawn.i(0);
+                        spawn.j(0);
+                        spawn.k(0);
+                        spawn.l(0);
+                        spawn.m(pc.fb());
+                        spawn.n(60);
+                        spawn.o(120);
+                        spawn.p(pc.fp());
+                        spawn.q(0);
+                        bg table = bg.a();
+                        synchronized (table.c) {
+                            table.c.put(id, spawn);
+                            if (id > table.d) {
+                                table.d = id;
+                            }
+                        }
+                    }
                 }
                 catch (Exception e2) {
                     a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
