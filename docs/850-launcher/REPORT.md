@@ -499,6 +499,40 @@ Implemented:
 This advances the launcher from UI-only shell to process-aware runtime scaffold without importing donor addresses.
 
 
+## 2026-09-22 850Launcher v0.3 read-only runtime probe
+
+```text
+STATUS=PASS_SOURCE
+PROCESS_ATTACH=IMPLEMENTED
+READ_PROCESS_MEMORY=IMPLEMENTED
+WRITE_PROCESS_MEMORY=NO
+SCAN_WIDTH=32-bit aligned
+FIRST_SCAN=exact HP/MaxHP/MP/MaxMP
+REFINE_SCAN=exact-value candidate filtering
+NEAR_CLUSTER_WINDOW=0x100
+EVIDENCE=runtime_probe_evidence.txt
+```
+
+Implementation details:
+
+- launcher now requests administrator elevation so it can inspect the elevated 850 client it launches;
+- **偵測** tab accepts exact current/max HP/MP values;
+- one read-only memory pass collects candidates for all four values;
+- subsequent scans only re-read previous candidate addresses, avoiding repeated full scans;
+- candidates within 0x100 bytes are correlated/ranked as possible player-structure neighborhoods;
+- module-relative RVA is emitted when a candidate lies inside the main `Lin.bin2` image;
+- probe evidence records PID, module base, values, candidate counts and top nearby clusters.
+
+PASS boundary remains unchanged:
+
+```text
+WP3=NOT_YET_PROVEN
+WP4=NOT_YET_PROVEN
+NO_ADDRESS_ACCEPTED_FROM_SINGLE_SESSION
+RELOG_AND_RESTART_VALIDATION_REQUIRED
+```
+
+
 ## 下一步
 
 ```text
