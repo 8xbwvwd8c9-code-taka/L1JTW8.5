@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-145 | L2 | auction seller payout / ownership atomicity | PASS / PROMOTED |
 | BUG-850-146 | L2 | auction settlement bidder-clan guard | PASS / PROMOTED |
 | BUG-850-148 | L2 | auction-board unknown house-id guard | PASS / PROMOTED |
 | BUG-850-149 | L2 | house tax-expiry foreclosure atomicity | PASS / PROMOTED |
@@ -49,6 +50,68 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-145 — seller payout was not bound to durable ownership transfer
+
+### Problem
+
+The original settlement path paid the old owner before the old-clan, bidder-clan and house ownership mutations were durably committed.
+
+A later persistence failure could therefore leave the seller paid while durable ownership remained partially old/partially new.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated repair already contains:
+
+- `06b3bd47dea027f5f0acc331faed7cf533625658` — surface house persistence failures.
+- `08b1760c5bbef690dadd602a1fbf7752ef0d7879` — rollback-safe house settlement and foreclosure.
+
+### Fix
+
+The normalized settlement path now mirrors that authority:
+
+- seller payout must succeed before ownership mutation proceeds;
+- old clan, bidder clan and house state are staged in RAM;
+- old-clan `hashouse`, bidder-clan `hashouse` and the house row commit through one JDBC transaction;
+- if persistence fails, RAM ownership/sale state is restored;
+- seller payout is compensated/reclaimed on rollback;
+- settlement-success packets are sent only after durable commit.
+
+`HouseTable.a(L1House)` now returns a boolean persistence result so callers can fail closed instead of swallowing SQL failure.
+
+### Validation
+
+```text
+GitHub Actions run = 35714152035
+STATUS = PASS
+
+BUG_850_145_CONTRACT=PASS
+BUG_850_145_TARGETED_JAVAC=PASS
+BUG_850_145_TARGETED_BEHAVIOR_RUNTIME=PASS
+PAYOUT_FAILURE_ABORTS=PASS
+PERSIST_FAILURE_RESTORES_OWNERSHIP=PASS
+PERSIST_FAILURE_COMPENSATES_PAYOUT=PASS
+SUCCESS_MESSAGE_POST_COMMIT=PASS
+```
+
+### Promotion
+
+```text
+normalized HouseTimer = 6bbf97194fe6dd80a0b7f18527f8f0b9fd51e7f0
+normalized HouseTable = 26dcd1df3896f890b8a0a907f89f6afbc02cbf75
+obfuscated HouseTimer authority = 08b1760c5bbef690dadd602a1fbf7752ef0d7879
+obfuscated HouseTable authority = 06b3bd47dea027f5f0acc331faed7cf533625658
+```
+
+### Result
+
+```text
+BUG-850-145=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+```
+
 
 ## BUG-850-146 — auction settlement could close without assigning the house to any bidder clan
 
@@ -89,7 +152,7 @@ VALID_SETTLEMENT_ALLOWED=PASS
 ### Promotion
 
 ```text
-normalized = 72f6255a010e7799fb11461e4c6bb4cb769b4f09
+normalized full settlement = 6bbf97194fe6dd80a0b7f18527f8f0b9fd51e7f0
 obfuscated existing repair = 08b1760c5bbef690dadd602a1fbf7752ef0d7879
 ```
 
