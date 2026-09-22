@@ -374,3 +374,111 @@ Do not preserve donor defects:
 - giant if/else pity increment chain
 
 Implement pity increment as bounded arithmetic with explicit threshold/reset.
+
+
+## Transformation-card tier source audit
+
+The existing card subsystem does NOT expose a TianM synthesis rarity/tier field.
+
+`w_變身卡片能力登入` contains:
+- display/acquisition message
+- display-page name
+- command
+- quest ID
+- poly ID/time
+- poly cost item/count
+- stat bonuses
+
+`ACardTable` loads exactly those fields into `ACard`.
+There is no:
+- rarity
+- color grade
+- synthesis tier
+- synthesis weight
+- next-tier pool
+
+Card ownership is represented by:
+`pc.getQuest().get_step(card.questId) != 0`.
+
+The visible card names may contain labels such as 一階/二階/... or color wording, but those strings are presentation data, not a reliable synthesis schema and must not be parsed as authoritative tier metadata.
+
+### Consequence
+
+The TianM poly-card DB rows:
+- input pool = 0
+- output pool = NULL
+- probability = 0
+
+and the card definition table provides no synthesis-tier metadata.
+
+Therefore the donor repository, as currently recovered, does **not contain enough structured data to reconstruct the intended poly-card synthesis pools deterministically**.
+
+Possible explanations:
+1. missing/deleted donor table or code
+2. client/HTML hard-coded grouping
+3. unfinished feature
+4. intended manual grouping that was never encoded in DB
+
+No evidence currently supports choosing one of these as authoritative.
+
+### Migration rule
+
+Do NOT infer tiers from item names, invgfx color, quest ranges, poly IDs, or row order.
+
+If poly-card synthesis is later implemented in 850, introduce an explicit module-owned mapping such as:
+
+```
+tianm_polycard_pool(
+  tier,
+  card_quest_id,
+  weight,
+  enabled
+)
+```
+
+and a result mapping:
+
+```
+tianm_polycard_rule(
+  from_tier,
+  to_tier,
+  input_count,
+  chance,
+  pity_id,
+  pity_count,
+  failure_return
+)
+```
+
+Populate it only from authoritative user-approved mapping or recovered source evidence.
+
+## Card subsystem adapter boundary
+
+What IS proven and reusable:
+- card identity: ACard row
+- ownership: quest step by card.questId
+- acquisition: Cards executor sets quest step to 1
+- transformation: CardBookCmd uses owned card and poly data
+- aggregate bonuses: CardBookCmd scans owned card quest IDs
+- set bonuses: CardSetTable/CardPolySet
+
+Therefore a future TianM adapter can safely operate on **card quest IDs**, but the tier membership list must be supplied separately.
+
+## Final TianM analysis status
+
+Doll synthesis:
+- runtime fully traced
+- L3
+- migration design complete enough for implementation planning
+
+Poly-card synthesis:
+- ownership adapter proven
+- tier/result data source NOT FOUND
+- donor generic loader broken for NULL result pool
+- feature is not implementation-ready without authoritative tier mapping
+
+Overall:
+- MODULE=L3
+- DOLL=READY_FOR_DESIGN
+- POLYCARD=BLOCKED_ON_TIER_MAPPING
+- L4=NOT_PROVEN
