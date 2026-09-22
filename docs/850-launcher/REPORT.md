@@ -980,6 +980,67 @@ DEPLOY_REQUIRED_FILES_MISSING=0
 ```
 
 
+## 2026-09-23 WP3/WP4 semantic restart validation
+
+```text
+STATUS=PASS_SOURCE
+STRUCTURAL_MAPPING_GATE=RVA/PTR restart-stable
+SEMANTIC_GATE=IMPLEMENTED
+SEMANTIC_EVIDENCE=runtime_semantic_validation_evidence.txt
+MIN_CHECKED_SESSIONS=3
+MIN_CLIENT_INSTANCES=2
+MEMORY_WRITE=NO
+```
+
+Added:
+
+- `RuntimeSemanticValidator`.
+- hidden **映射驗證** page.
+- `RuntimeSemanticValidationEvidenceComparer`.
+- hidden **語意比對** page.
+- **驗證總覽** now distinguishes:
+  - `NOT_YET`
+  - `RESTART_STABLE`
+  - `PASS`
+
+Final WP4 PASS:
+
+```text
+CurrentHP/MaxHP/CurrentMP/MaxMP pointer expressions restart-stable
+AND runtime-map.ini contains all four mappings
+AND >=3 semantic sessions checked
+AND every HP/MP semantic session PASS
+AND >=2 distinct Lin.bin2 process instances
+```
+
+Final WP3 PASS:
+
+```text
+PlayerObjectId/PlayerX/PlayerY pointer expressions restart-stable
+AND runtime-map.ini contains all three mappings
+AND >=3 semantic sessions checked
+AND every Player semantic session PASS
+AND >=2 distinct Lin.bin2 process instances
+```
+
+Important:
+
+```text
+RESTART_STABLE != PASS
+```
+
+The expected live values may differ per session; the requirement is that the mapped runtime values match the truth supplied for that session.
+
+Source consistency:
+
+```text
+CS_FILES=60
+CSPROJ_COMPILE_ENTRIES=60
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+```
+
+
 ## 下一步
 
 ```text
