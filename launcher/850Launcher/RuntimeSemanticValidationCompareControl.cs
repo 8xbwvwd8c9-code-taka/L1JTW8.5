@@ -106,7 +106,7 @@ namespace L1JTW850Launcher
                     "WP4 HP/MP",
                     summary.HpMpCheckedSessions.ToString(),
                     summary.HpMpPassSessions.ToString(),
-                    summary.DistinctProcessInstances.ToString(),
+                    summary.HpMpDistinctProcessInstances.ToString(),
                     summary.HpMpRestartPass ? "PASS" : "NOT_YET"
                 }));
 
@@ -116,7 +116,7 @@ namespace L1JTW850Launcher
                     "WP3 Player",
                     summary.PlayerCheckedSessions.ToString(),
                     summary.PlayerPassSessions.ToString(),
-                    summary.DistinctProcessInstances.ToString(),
+                    summary.PlayerDistinctProcessInstances.ToString(),
                     summary.PlayerRestartPass ? "PASS" : "NOT_YET"
                 }));
 
