@@ -65,7 +65,7 @@ public class HouseTable {
       return this.c.get(var1);
    }
 
-   public void a(L1House var1) {
+   public boolean a(L1House var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;
 
@@ -89,8 +89,10 @@ public class HouseTable {
          var3.setInt(13, var1.o());
          var3.setInt(14, var1.b());
          var3.execute();
-      } catch (SQLException var8) {
-         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return true;
+      } catch (SQLException var7) {
+         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
+         return false;
       } finally {
          SQLUtil.a(var3);
          SQLUtil.a(var2);
