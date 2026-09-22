@@ -47,6 +47,8 @@
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
     <Compile Include="InventoryProbeControl.cs" />
+    <Compile Include="PointerChainScanner.cs" />
+    <Compile Include="PointerProbeControl.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <ItemGroup>
