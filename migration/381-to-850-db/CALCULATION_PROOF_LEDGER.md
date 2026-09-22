@@ -225,3 +225,35 @@ Before fixing a module:
 3. Treat exact numeric proofs here as expected-value tests.
 4. Re-validate only if runtime formula or source data changed.
 5. Record new calculation-agent results here after validation.
+
+
+## w_物品時間限制
+
+```text
+STATUS=PASS
+ROWS=35
+DISTINCT_DURATIONS=8
+MIN_DURATION=1h=3,600,000ms
+MAX_DURATION=30d=720h=2,592,000,000ms
+MEAN_DURATION_HOURS=30446/105~=289.9619047619
+MEDIAN_DURATION_HOURS=72
+MODE_DURATION=720h/30d (13 rows)
+THREE_DAY_EQUIVALENCE=YES
+THIRTY_DAY_EQUIVALENCE=YES
+LABEL_MISMATCHES=NONE
+CURRENT_INT_MILLIS_OVERFLOW=YES_AT_720H
+MAX_SAFE_WHOLE_HOURS_INT_MS=596
+CANONICAL_72H=3d0h0m
+CANONICAL_168H=7d0h0m
+CANONICAL_720H=30d0h0m
+RELOGIN_EXAMPLE=72h total; 10h elapsed +20h offline => 42h remaining
+TRANSFER_EXAMPLE=30d transferred after 5d => 25d remaining
+STACK_MERGE_POLICY=REQUIRED
+SAFE_FORMULA=long widened duration arithmetic + checked epoch addition
+```
+
+Reference audit:
+`modules/ITEM_TIME_LIMIT_AUDIT.md`
+
+Core repair note:
+Never implement expiry milliseconds in int. Preserve absolute per-item-instance expiry across relog and ownership transfer. Stack merge with differing expiries requires explicit policy.
