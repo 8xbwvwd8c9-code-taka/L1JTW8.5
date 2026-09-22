@@ -69,6 +69,11 @@ public class GMCommands {
 
    public void a(L1PcInstance var1, String var2) {
       StringTokenizer var3 = new StringTokenizer(var2);
+      if (!var3.hasMoreTokens()) {
+         var1.a(new S_SystemMessage("指令參數不足。"));
+         return;
+      }
+
       String var4 = var3.nextToken();
       String var5 = "";
 
@@ -80,11 +85,21 @@ public class GMCommands {
       var1.a(new S_Ability(3, 1));
       if (var4.equalsIgnoreCase("1")) {
          StringTokenizer var20 = new StringTokenizer(var5);
+         if (!var20.hasMoreTokens()) {
+            var1.a(new S_SystemMessage("指令參數不足。"));
+            return;
+         }
+
          int var26 = Integer.parseInt(var20.nextToken());
          L1ItemInstance var32 = var1.j().b(40308);
          var1.a(new S_EquipmentSlot(var32.fr(), var26, true));
       } else if (var4.equalsIgnoreCase("ca")) {
          StringTokenizer var19 = new StringTokenizer(var5);
+         if (var19.countTokens() < 2) {
+            var1.a(new S_SystemMessage("指令參數不足。"));
+            return;
+         }
+
          int var25 = Integer.parseInt(var19.nextToken());
          int var31 = Integer.parseInt(var19.nextToken());
          var1.a(new S_SkillSound(var1.fr(), var25));
@@ -99,6 +114,11 @@ public class GMCommands {
          } else {
             if (var4.equalsIgnoreCase("4")) {
                StringTokenizer var18 = new StringTokenizer(var5);
+               if (!var18.hasMoreTokens()) {
+                  var1.a(new S_SystemMessage("指令參數不足。"));
+                  return;
+               }
+
                int var24 = Integer.parseInt(var18.nextToken());
                L1DoorInstance[] var35;
                int var34 = (var35 = DoorTable.b().c()).length;

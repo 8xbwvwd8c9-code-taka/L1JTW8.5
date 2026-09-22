@@ -59,7 +59,7 @@ implements Runnable {
     private byte[] k() throws Exception {
         int hiByte = this.d.read();
         int loByte = this.d.read();
-        if (loByte < 0) {
+        if (hiByte < 0 || loByte < 0) {
             c.log(Level.SEVERE, " \u3010\u95dc\u9589\u9023\u7dda\u3011\u5ba2\u6236\u7aef\u65b7\u7dda\u4e86 ip=" + this.n);
             return null;
         }

@@ -58,7 +58,7 @@ public class ClientThread implements Runnable {
    private byte[] k() throws Exception {
       int var1 = this.d.read();
       int var2 = this.d.read();
-      if (var2 < 0) {
+      if (var1 < 0 || var2 < 0) {
          c.log(Level.SEVERE, " 【關閉連線】客戶端斷線了 ip=" + this.n);
          return null;
       }

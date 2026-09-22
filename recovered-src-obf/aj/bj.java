@@ -75,6 +75,10 @@ extends cv {
             locx = pc.fs();
             locy = pc.ft();
         }
+        if (heading < 0 || heading >= this.a.length) {
+            pc.a(new k());
+            return;
+        }
         locx += this.a[heading][0];
         locy += this.a[heading][1];
         if (!pc.fq().b(pc.fs(), pc.ft(), heading)) {

@@ -76,6 +76,10 @@ public class b {
 
     public void a(u gm2, String cmdLine) {
         StringTokenizer token = new StringTokenizer(cmdLine);
+        if (!token.hasMoreTokens()) {
+            gm2.a(new ei("\u6307\u4ee4\u53c3\u6578\u4e0d\u8db3\u3002"));
+            return;
+        }
         String cmd = token.nextToken();
         String param = "";
         while (token.hasMoreTokens()) {
@@ -85,6 +89,10 @@ public class b {
         gm2.a(new be.a(3, 1));
         if (cmd.equalsIgnoreCase("1")) {
             StringTokenizer st = new StringTokenizer(param);
+            if (!st.hasMoreTokens()) {
+                gm2.a(new ei("\u6307\u4ee4\u53c3\u6578\u4e0d\u8db3\u3002"));
+                return;
+            }
             int val = Integer.parseInt(st.nextToken());
             q item = gm2.j().b(40308);
             gm2.a(new as(item.fr(), val, true));
@@ -92,6 +100,10 @@ public class b {
         }
         if (cmd.equalsIgnoreCase("ca")) {
             StringTokenizer st = new StringTokenizer(param);
+            if (st.countTokens() < 2) {
+                gm2.a(new ei("\u6307\u4ee4\u53c3\u6578\u4e0d\u8db3\u3002"));
+                return;
+            }
             int val = Integer.parseInt(st.nextToken());
             int val2 = Integer.parseInt(st.nextToken());
             gm2.a(new ee(gm2.fr(), val));
@@ -108,6 +120,10 @@ public class b {
         } else {
             if (cmd.equalsIgnoreCase("4")) {
                 StringTokenizer st = new StringTokenizer(param);
+                if (!st.hasMoreTokens()) {
+                    gm2.a(new ei("\u6307\u4ee4\u53c3\u6578\u4e0d\u8db3\u3002"));
+                    return;
+                }
                 int val = Integer.parseInt(st.nextToken());
                 f[] fArray = ao.t.b().c();
                 int n2 = fArray.length;

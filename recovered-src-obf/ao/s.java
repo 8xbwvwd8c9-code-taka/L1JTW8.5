@@ -99,6 +99,10 @@ public class s {
                 }
                 this.c.put(craft.a(), craft);
             }
+            j.a(rs, pstm, con);
+            rs = null;
+            pstm = null;
+            con = null;
             con = l1j.server.b.a().b();
             pstm = con.prepareStatement("SELECT * FROM craft_exchange");
             rs = pstm.executeQuery();
