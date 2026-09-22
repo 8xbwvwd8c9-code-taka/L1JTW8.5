@@ -568,10 +568,10 @@ extends f {
     public void k(int itemobjid) {
         for (q item : this.a) {
             if (item.fr() != itemobjid) continue;
-            if (item.g() && ae.a(this.i.fe(), item.a().aP())) {
+            if (item.g() && ae.a(this.i, item.a().aP())) {
                 this.a(item, true);
             }
-            if (!item.h() || !ae.b(this.i.fe(), item.a().aP()) || item.N() == 21397 && this.i.fp() != 1700 && this.i.fp() != 1703) continue;
+            if (!item.h() || !ae.b(this.i, item.a().aP()) || item.N() == 21397 && this.i.fp() != 1700 && this.i.fp() != 1703) continue;
             this.a(item, true);
         }
     }
@@ -579,10 +579,10 @@ extends f {
     public void l(int polyid) {
         for (q item : this.a) {
             if (!item.D()) continue;
-            if (item.g() && !ae.a(polyid, item.a().aP())) {
+            if (item.g() && !ae.a(this.i, item.a().aP())) {
                 this.a(item, false);
             }
-            if (!item.h() || ae.b(polyid, item.a().aP())) continue;
+            if (!item.h() || ae.b(this.i, item.a().aP())) continue;
             this.a(item, false);
         }
     }

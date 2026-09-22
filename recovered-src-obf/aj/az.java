@@ -2146,7 +2146,7 @@ extends cv {
         boolean bl2 = hasEquipeSpace = pcInventory.i(type) <= maxEquipeCount - 1;
         if (hasEquipeSpace && !armor.D()) {
             int polyid = pc.fe();
-            if (!ae.b(polyid, type)) {
+            if (!ae.b(pc, type)) {
                 pc.a(new ds(2055, armor.s()));
                 return;
             }
@@ -2229,7 +2229,7 @@ extends cv {
         if (pc.v() == null || !pc.v().equals(weapon)) {
             int weapon_type = weapon.a().aP();
             int polyid = pc.fe();
-            if (!ae.a(polyid, weapon_type)) {
+            if (!ae.a(pc, weapon_type)) {
                 pc.a(new ds(2055, weapon.s()));
                 return;
             }

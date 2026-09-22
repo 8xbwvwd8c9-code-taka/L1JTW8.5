@@ -2314,7 +2314,7 @@ public class C_ItemUSe extends ClientBasePacket {
       var5 = var4.i(var3) <= var6 - 1;
       if (var5 && !var2.D()) {
          int var7 = var1.fe();
-         if (!L1PolyMorph.b(var7, var3)) {
+         if (!L1PolyMorph.b(var1, var3)) {
             var1.a(new S_ServerMessage(2055, var2.s()));
             return;
          }
@@ -2414,7 +2414,7 @@ public class C_ItemUSe extends ClientBasePacket {
       if (var1.v() == null || !var1.v().equals(var2)) {
          int var4 = var2.a().aP();
          int var5 = var1.fe();
-         if (!L1PolyMorph.a(var5, var4)) {
+         if (!L1PolyMorph.a(var1, var4)) {
             var1.a(new S_ServerMessage(2055, var2.s()));
             return;
          }
