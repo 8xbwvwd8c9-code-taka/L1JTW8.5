@@ -325,6 +325,40 @@ WP6=BLOCKED_BY_WP3-WP5
 
 目前不接受任何 381/880 address 作 850 authority。850 `Lin.bin2` 必須輸出自己的 hash / PE / strings / runtime correlation evidence 後，才可建立 Player、HP/MP、Inventory mapping。
 
+## 2026-09-22 850 Client static scan result
+
+User-local authoritative client path:
+
+```text
+I:\8.50c客服端
+```
+
+Four primary binaries were scanned successfully:
+
+| File | Size | Arch | PE | Sections | SHA256 |
+|---|---:|---|---|---:|---|
+| Lin.bin2 | 7,488,696 | x86 | PE32 | 6 | FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4 |
+| Lin.bin | 8,219,320 | x86 | PE32 | 6 | 6CC9F57862926FDFDC983BA1B027BE3267FBDBF1A0E8A98D966EB0DF0D7E1B78 |
+| Lineage.exe | 1,532,600 | x86 | PE32 | 4 | 219E09156A57C84ED3EA87C74AFBE1BBCAB84EF7E2EF2531A898C39588D962A4 |
+| LoginWithoutUI.exe | 67,584 | x86 | PE32 | 3 | 378CC782B2D7143A07DCA9F5453A37C693D4F30E9AAD2DB65B2CA516E77FA93A |
+
+Conclusions:
+
+```text
+STATIC_SCAN=PASS
+850_CLIENT_ARCH=x86/PE32
+LIN_BIN_EQ_LIN_BIN2=NO
+LIN_BIN2_LOGIN_BASELINE=CONFIRMED_BY_LOGINWITHOUTUI_SOURCE
+PLAYER_POINTER=NOT_PROVEN
+HP_MP=NOT_PROVEN
+INVENTORY=NOT_PROVEN
+```
+
+The first string scan produced many false positives because random packed/compressed bytes matched short ASCII patterns such as `hp` / `mp`. Those results are not accepted as Player/HP/MP evidence.
+
+Next action is binary structural diff between `Lin.bin` and `Lin.bin2`, then runtime correlation.
+
+
 ## 下一步
 
 ```text
