@@ -590,6 +590,25 @@ ACTION=NONE
 
 A–E 驗算已確認數學一致：Castle compensation / recovery、Adena preflight、CAS treasury、Achievement claim atomicity、Private Shop settlement conservation 均依既定規則成立。保留兩項 minor context note：TASK-A 部分 RAM 值為假設；TASK-E CASE5–9 缺完整 count/price/item/account context，因此部分結果僅能定性。共享安全流程固定為 `VALIDATE ALL -> AUTHORITATIVE CAS/LOCK -> DURABLE MUTATION -> LIVE STATE PUBLICATION -> COMMIT/DONE`；失敗時需 rollback 或 idempotent durable compensation。
 
+### F–J 驗算總結（2026-09-23）
+
+```text
+STATUS=PASS_WITH_NOTES
+TASK_F=PASS
+TASK_G=PASS
+TASK_H=PASS
+TASK_I=PASS
+TASK_J=PASS_WITH_NOTES
+BUG_850_129_ARITHMETIC=PASS
+BUG_850_129_TRANSACTION_CLOSURE=NOT_PROVEN
+BUG_850_126_ARITHMETIC=PASS
+BUG_850_126_TRANSACTION_CLOSURE=NOT_PROVEN
+```
+
+F/G 已證明 Inn refund 的乘法與 wallet cap 邊界：`refund=(long)60*keyCount`，`MAX_SAFE_KEYCOUNT=35,791,394`，`FIRST_REJECTED=35,791,395`，且 `(long)adena+refund<=2,000,000,000`。H 證明 key/Adena/inn durable state 必須同一原子邊界或具 exactly-once compensation；MyISAM 參與時 rollback atomicity 不成立。I 已證明 Karma 使用 LONG 中間值並以 INT_MIN/INT_MAX 做 checked signed range gate。J 證明 item debit + Karma update 必須同一 transactional/CAS closure。
+
+J_CASE7 註記：無 lock/CAS 時可能超賣/重複 Karma mutation，但最終 item count 不一定唯一為 -4；依實作可能出現 lost-update（例如兩邊皆由4寫0）或 sequential over-debit。J_CASE8 註記：item CAS 只能證明單一 item winner；若 Karma update 不在同一 transaction/可恢復 closure，仍不能單獨宣告整筆 exchange 原子成功。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
