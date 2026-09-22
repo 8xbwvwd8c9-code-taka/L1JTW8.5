@@ -94,6 +94,7 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildPointerProbeTab());
                 tabs.TabPages.Add(BuildRuntimeMapTab());
                 tabs.TabPages.Add(BuildItemUseProtocolTab());
+                tabs.TabPages.Add(BuildNativeSendProbeTab());
             }
         }
 
@@ -279,6 +280,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("UseItem協定");
             p.Controls.Add(new ItemUseProtocolControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildNativeSendProbeTab()
+        {
+            var p = NewPage("Send掃描");
+            p.Controls.Add(new NativeSendProbeControl(_appDir));
             return p;
         }
 
