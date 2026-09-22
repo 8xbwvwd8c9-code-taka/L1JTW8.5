@@ -19,7 +19,7 @@ if (Test-Path $csc) {
     New-Item -ItemType Directory -Force -Path $outDir | Out-Null
     $sources = Get-ChildItem $PSScriptRoot -Filter *.cs | ForEach-Object FullName
     $outExe = Join-Path $outDir "850Launcher.exe"
-    & $csc /nologo /target:winexe /platform:x86 /optimize+ /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /out:$outExe $sources
+    & $csc /nologo /target:winexe /platform:x86 /optimize+ /win32manifest:(Join-Path $PSScriptRoot "app.manifest") /r:System.dll /r:System.Core.dll /r:System.Drawing.dll /r:System.Windows.Forms.dll /out:$outExe $sources
     exit $LASTEXITCODE
 }
 
