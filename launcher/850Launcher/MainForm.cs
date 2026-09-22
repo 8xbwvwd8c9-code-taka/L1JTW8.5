@@ -13,9 +13,9 @@ namespace L1JTW850Launcher
         private readonly IRuntimeBridge _runtime;
 
         private TextBox _serverName, _ip, _port;
-        private Label _runtimeState, _hpmp;
-        private CheckBox _autoPotion, _autoBuff, _autoTransform, _autoAntidote, _autoRepair, _autoFood, _showClock, _showDamage;
-        private NumericUpDown _hpPercent, _timerSeconds;
+        private Label _runtimeState;
+        private CheckBox _autoPotion, _potionUsePercent, _autoBuff, _autoTransform, _autoAntidote, _autoRepair, _autoFood, _showClock, _showDamage;
+        private NumericUpDown _hpPercent, _hpExact, _timerSeconds;
         private ListView _inventory;
 
         public MainForm(string appDir, LauncherConfig config, HelperSettings helper)
@@ -62,10 +62,8 @@ namespace L1JTW850Launcher
             launch.Click += delegate { Launch850(); };
             top.Controls.Add(launch);
 
-            _runtimeState = new Label { Left = 12, Top = 50, Width = 520, Text = "執行狀態：尚未連接" };
-            _hpmp = new Label { Left = 540, Top = 50, Width = 190, TextAlign = ContentAlignment.MiddleRight, Text = "HP --/--  MP --/--" };
+            _runtimeState = new Label { Left = 12, Top = 50, Width = 710, Text = "執行狀態：尚未連接" };
             top.Controls.Add(_runtimeState);
-            top.Controls.Add(_hpmp);
 
             var tabs = new TabControl { Dock = DockStyle.Fill };
             Controls.Add(tabs);
@@ -101,15 +99,43 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("藥水");
             _autoPotion = AddCheck(p, "啟用自動喝水", 24, 24);
-            p.Controls.Add(new Label { Text = "HP 低於等於", Left = 24, Top = 66, Width = 110 });
-            _hpPercent = new NumericUpDown { Left = 140, Top = 62, Minimum = 1, Maximum = 100, Width = 70 };
+
+            _potionUsePercent = AddCheck(p, "使用生命值百分比判斷", 24, 58);
+
+            p.Controls.Add(new Label { Text = "百分比門檻", Left = 24, Top = 98, Width = 90 });
+            _hpPercent = new NumericUpDown { Left = 120, Top = 94, Minimum = 1, Maximum = 100, Width = 70 };
             p.Controls.Add(_hpPercent);
-            p.Controls.Add(new Label { Text = "%", Left = 214, Top = 66, Width = 20 });
+            p.Controls.Add(new Label { Text = "%", Left = 194, Top = 98, Width = 20 });
+
+            p.Controls.Add(new Label { Text = "精準 HP 門檻", Left = 260, Top = 98, Width = 90 });
+            _hpExact = new NumericUpDown
+            {
+                Left = 356,
+                Top = 94,
+                Minimum = 1,
+                Maximum = 2000000000,
+                Width = 110
+            };
+            p.Controls.Add(_hpExact);
+
             p.Controls.Add(new Label
             {
-                Left = 24, Top = 108, Width = 620, Height = 70,
+                Left = 24, Top = 136, Width = 650, Height = 70,
+                Text = "勾選「使用生命值百分比判斷」時使用 % 門檻；取消勾選時使用精準 HP 門檻。HP/MP 僅供內部判斷，不在一般輔助頁面顯示。"
+            });
+
+            p.Controls.Add(new Label
+            {
+                Left = 24, Top = 200, Width = 650, Height = 50,
                 Text = "藥水道具綁定尚未啟用，需先完成 850 背包 objectId / item 身分驗證。"
             });
+
+            _potionUsePercent.CheckedChanged += delegate
+            {
+                _hpPercent.Enabled = _potionUsePercent.Checked;
+                _hpExact.Enabled = !_potionUsePercent.Checked;
+            };
+
             return p;
         }
 
@@ -205,7 +231,11 @@ namespace L1JTW850Launcher
             _ip.Text = _config.ServerIp;
             _port.Text = _config.ServerPort.ToString();
             _autoPotion.Checked = _helper.AutoPotion;
+            _potionUsePercent.Checked = _helper.PotionUsePercent;
             _hpPercent.Value = Math.Max(_hpPercent.Minimum, Math.Min(_hpPercent.Maximum, _helper.PotionHpPercent));
+            _hpExact.Value = Math.Max(_hpExact.Minimum, Math.Min(_hpExact.Maximum, _helper.PotionHpExact));
+            _hpPercent.Enabled = _potionUsePercent.Checked;
+            _hpExact.Enabled = !_potionUsePercent.Checked;
             _autoBuff.Checked = _helper.AutoBuff;
             _autoTransform.Checked = _helper.AutoTransform;
             _autoAntidote.Checked = _helper.AutoAntidote;
@@ -230,7 +260,9 @@ namespace L1JTW850Launcher
             _config.ServerPort = port;
 
             _helper.AutoPotion = _autoPotion.Checked;
+            _helper.PotionUsePercent = _potionUsePercent.Checked;
             _helper.PotionHpPercent = (int)_hpPercent.Value;
+            _helper.PotionHpExact = (int)_hpExact.Value;
             _helper.AutoBuff = _autoBuff.Checked;
             _helper.AutoTransform = _autoTransform.Checked;
             _helper.AutoAntidote = _autoAntidote.Checked;
@@ -264,7 +296,6 @@ namespace L1JTW850Launcher
         {
             var s = _runtime.Read();
             _runtimeState.Text = "執行狀態：" + s.Status;
-            _hpmp.Text = "HP " + F(s.CurrentHp) + "/" + F(s.MaxHp) + "  MP " + F(s.CurrentMp) + "/" + F(s.MaxMp);
 
             _inventory.BeginUpdate();
             _inventory.Items.Clear();
@@ -280,6 +311,5 @@ namespace L1JTW850Launcher
             _inventory.EndUpdate();
         }
 
-        private static string F(int? value) { return value.HasValue ? value.Value.ToString() : "--"; }
     }
 }
