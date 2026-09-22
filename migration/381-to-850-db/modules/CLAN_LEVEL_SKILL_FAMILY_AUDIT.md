@@ -355,3 +355,101 @@ or preferably rebuild from authoritative modifier sources rather than trusting i
 5. Material array lengths are not explicitly cross-validated before indexed use.
    - malformed future rows could cause index errors.
    - migration installer should validate equal lengths.
+
+
+## Clan level configuration / contribution path
+
+`ConfigClan` loads:
+- 10 level-up material definitions (`clanlv1..10`)
+- parallel material counts (`clanlvcount1..10`)
+- required clan energy (`clanenergy1..10`)
+- required clan adena (`clanadena1..10`)
+- player contribution limits
+- contribution/reset policy
+
+The loader validates material-id/count array length equality and builds 10 `ClanLevelUpCondition` objects.
+
+Current configured level-up requirements are therefore proven as config-owned, not from the `Contribution` column of `w_血盟等級`.
+
+Current `w_血盟等級.Contribution` values are all 0 and no direct consumption of that column is proven.
+
+```text
+LEVEL_UP_REQUIREMENT_OWNER=ConfigClan
+W_血盟等級_CONTRIBUTION_RUNTIME=NOT_PROVEN
+```
+
+`ClanContribution` event enables the subsystem and loads `NpcClanContribution`.
+The current split SQL for `w_血盟能量怪物` is empty, so current monster-energy source contributes no configured rows.
+
+## Clan-level upgrade action closure
+
+`clan_lv` NPC is proven as a display/status NPC:
+- clan level
+- clan contribution
+- player contribution
+- clan/player adena contribution
+
+However the exact action consumer that:
+- checks `ClanLevelUpCondition`
+- consumes required materials/energy/adena
+- calls `setClanLevel()`
+
+is NOT_PROVEN in the currently traced donor paths.
+
+Do not invent the upgrade executor.
+
+```text
+CLAN_LEVEL_DISPLAY_NPC=PROVEN
+CLAN_LEVEL_UPGRADE_EXECUTOR=NOT_PROVEN
+```
+
+## Join / leave lifecycle defect
+
+`C_JoinClan` performs membership negotiation but no clan-derived modifier apply/recompute is proven on successful join.
+
+`C_LeaveClan` and clan disband cleanup clear clan identity/contribution fields for online players, but do not call any inverse for:
+- `ClanOriginal.forIntensifyArmor`
+- `ClanSkillDBSet.add`
+- a ClanState modifier removal/recompute path
+
+Therefore an online player can retain previously applied clan-level / clan-skill stats after leaving until character state is rebuilt/relogged.
+
+Likewise a player joining a clan does not have a proven immediate application path for clan level/skill bonuses.
+
+```text
+JOIN_RECOMPUTE=NOT_PROVEN
+LEAVE_RECOMPUTE=NO
+DISBAND_RECOMPUTE=NO
+STALE_MODIFIER_AFTER_LEAVE=PROVEN_RISK
+STALE_MODIFIER_AFTER_JOIN=PROVEN_RISK
+```
+
+This elevates ClanState recompute from a design preference to a required correctness contract.
+
+## Required 850 transition contract
+
+Every authoritative ClanState transition must trigger one idempotent recompute:
+
+```text
+membership old -> new
+clan level old -> new
+clan skill id/lv old -> new
+
+oldModifier = previously owned clan modifier
+newModifier = derive(current authoritative ClanState)
+
+replace(oldModifier,newModifier)
+```
+
+Required events:
+- login
+- successful join
+- leave
+- kick
+- clan disband
+- clan level-up
+- clan skill learn
+- clan skill upgrade
+- clan skill forget
+- GM/admin mutation
+- definition reload, if supported
