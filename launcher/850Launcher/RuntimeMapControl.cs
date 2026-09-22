@@ -8,6 +8,9 @@ namespace L1JTW850Launcher
     {
         private readonly string _path;
 
+        private TextBox _playerObjectId;
+        private TextBox _playerX;
+        private TextBox _playerY;
         private TextBox _currentHp;
         private TextBox _maxHp;
         private TextBox _currentMp;
@@ -33,22 +36,26 @@ namespace L1JTW850Launcher
                 Text = "只在候選經過數值變化、重登與完整重啟驗證後才儲存。支援 RVA:0x... 或 PTR:baseRVA|offset..."
             });
 
-            AddField("目前 HP", 72, out _currentHp);
-            AddField("最大 HP", 112, out _maxHp);
-            AddField("目前 MP", 152, out _currentMp);
-            AddField("最大 MP", 192, out _maxMp);
+            AddField("玩家 ObjectId", 72, out _playerObjectId);
+            AddField("玩家 X", 112, out _playerX);
+            AddField("玩家 Y", 152, out _playerY);
 
-            var validate = new Button { Text = "驗證格式", Left = 122, Top = 240, Width = 110 };
-            var save = new Button { Text = "儲存映射", Left = 242, Top = 240, Width = 110 };
-            var reload = new Button { Text = "重新載入", Left = 362, Top = 240, Width = 110 };
-            var clear = new Button { Text = "全部清空", Left = 482, Top = 240, Width = 110 };
+            AddField("目前 HP", 208, out _currentHp);
+            AddField("最大 HP", 248, out _maxHp);
+            AddField("目前 MP", 288, out _currentMp);
+            AddField("最大 MP", 328, out _maxMp);
+
+            var validate = new Button { Text = "驗證格式", Left = 122, Top = 376, Width = 110 };
+            var save = new Button { Text = "儲存映射", Left = 242, Top = 376, Width = 110 };
+            var reload = new Button { Text = "重新載入", Left = 362, Top = 376, Width = 110 };
+            var clear = new Button { Text = "全部清空", Left = 482, Top = 376, Width = 110 };
 
             Controls.Add(validate);
             Controls.Add(save);
             Controls.Add(reload);
             Controls.Add(clear);
 
-            _status = new Label { Left = 122, Top = 286, Width = 520, Height = 48 };
+            _status = new Label { Left = 122, Top = 422, Width = 520, Height = 56 };
             Controls.Add(_status);
 
             validate.Click += delegate { ValidateOnly(); };
@@ -56,6 +63,9 @@ namespace L1JTW850Launcher
             reload.Click += delegate { LoadValues(); };
             clear.Click += delegate
             {
+                _playerObjectId.Clear();
+                _playerX.Clear();
+                _playerY.Clear();
                 _currentHp.Clear();
                 _maxHp.Clear();
                 _currentMp.Clear();
@@ -76,6 +86,9 @@ namespace L1JTW850Launcher
             try
             {
                 var ini = IniDocument.Load(_path);
+                _playerObjectId.Text = ini.Get("Player", "ObjectId", "");
+                _playerX.Text = ini.Get("Player", "X", "");
+                _playerY.Text = ini.Get("Player", "Y", "");
                 _currentHp.Text = ini.Get("HPMP", "CurrentHP", "");
                 _maxHp.Text = ini.Get("HPMP", "MaxHP", "");
                 _currentMp.Text = ini.Get("HPMP", "CurrentMP", "");
@@ -98,6 +111,9 @@ namespace L1JTW850Launcher
             {
                 var fields = new[]
                 {
+                    new[] { "PlayerObjectId", _playerObjectId.Text },
+                    new[] { "PlayerX", _playerX.Text },
+                    new[] { "PlayerY", _playerY.Text },
                     new[] { "CurrentHP", _currentHp.Text },
                     new[] { "MaxHP", _maxHp.Text },
                     new[] { "CurrentMP", _currentMp.Text },
@@ -146,6 +162,9 @@ namespace L1JTW850Launcher
             try
             {
                 var ini = new IniDocument();
+                ini.Set("Player", "ObjectId", _playerObjectId.Text.Trim());
+                ini.Set("Player", "X", _playerX.Text.Trim());
+                ini.Set("Player", "Y", _playerY.Text.Trim());
                 ini.Set("HPMP", "CurrentHP", _currentHp.Text.Trim());
                 ini.Set("HPMP", "MaxHP", _maxHp.Text.Trim());
                 ini.Set("HPMP", "CurrentMP", _currentMp.Text.Trim());
