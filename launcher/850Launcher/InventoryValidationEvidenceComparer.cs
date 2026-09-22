@@ -213,6 +213,25 @@ namespace L1JTW850Launcher
             return output;
         }
 
+        public static InventoryValidationSession LatestAuthoritative(
+            string path)
+        {
+            var all = Load(path);
+
+            for (var i = all.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                if (IsAuthoritativeSession(
+                    all[i]))
+                {
+                    return all[i];
+                }
+            }
+
+            return null;
+        }
+
         public static InventoryValidationSummary CompareLatest(
             string path,
             int latestSessions)
@@ -330,7 +349,7 @@ namespace L1JTW850Launcher
             return result;
         }
 
-        private static bool IsAuthoritativeSession(
+        public static bool IsAuthoritativeSession(
             InventoryValidationSession session)
         {
             return session != null &&
