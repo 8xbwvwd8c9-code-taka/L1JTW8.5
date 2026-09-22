@@ -1,0 +1,13 @@
+[Server]
+Name=850 Test Server
+IP=127.0.0.1
+Port=2000
+
+[Client]
+Binary=Lin.bin2
+LoginBinary=LoginWithoutUI.exe
+UseLegacyLogin=1
+RequestElevation=1
+
+[Helper]
+Enabled=1
