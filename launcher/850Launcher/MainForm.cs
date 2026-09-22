@@ -118,6 +118,7 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildNativeSendProbeTab());
                 tabs.TabPages.Add(BuildNativeCallGraphTab());
                 tabs.TabPages.Add(BuildNativeEvidenceCompareTab());
+                tabs.TabPages.Add(BuildSkillUseProtocolTab());
             }
         }
 
@@ -384,6 +385,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("Send比對");
             p.Controls.Add(new NativeEvidenceCompareControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildSkillUseProtocolTab()
+        {
+            var p = NewPage("SkillUse協定");
+            p.Controls.Add(new SkillUseProtocolControl(_appDir));
             return p;
         }
 
