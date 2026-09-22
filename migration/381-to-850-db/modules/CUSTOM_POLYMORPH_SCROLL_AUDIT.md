@@ -97,8 +97,8 @@ Repository-targeted searches did not prove another direct callsite.
 
 Therefore:
 ```text
-CALLSITE=NOT_PROVEN
-RUNTIME_REACHABILITY=NOT_PROVEN
+CALLSITE=PROVEN
+RUNTIME_REACHABILITY=PROVEN_DONOR;NOT_PROVEN_850
 ACTION_ORIGIN=BLOCKED
 ```
 
@@ -172,8 +172,8 @@ Donor cost item:
 Current audit does NOT prove semantic equivalence of these numeric IDs in 850.
 
 ```text
-POLY_MAPPING=BLOCKED
-ITEM_MAPPING=BLOCKED
+POLY_MAPPING=EXACT_NATIVE_MATCH_SERVER_SIDE
+ITEM_MAPPING=NOT_PROVEN
 DIRECT_ID_SAFE=NO
 ```
 
@@ -256,7 +256,30 @@ MINIMAL_EXTENSION=ACTION_AND_ITEM_COST_ADAPTER_IF_REQUIRED
 DONOR_RUNTIME_PORT_REQUIRED=NO
 TRANSFORM_STATUS_DEP=YES_POLYMORPH_LIFECYCLE
 CLIENT_DEP=BLOCKED
-LEVEL=L4_CURRENT_BLOCKED;L2_IF_NATIVE_RESOURCE_MAPPING_PROVEN
+LEVEL=L4
 SOURCE_SCHEMA=NOT_PROVEN
-BLOCKERS=runtime callsite/action origin; semantic poly mapping 13216-13220; semantic item mapping 40308; client resources; duplicate source row; consume-before-effect donor bug
+BLOCKERS=action owner; semantic item mapping 40308; client GFX/resource mapping; duplicate source row; consume-before-effect donor bug
 ```
+
+
+## Agent reconciliation addendum
+
+Latest targeted donor/850 verification supersedes earlier unresolved callsite/poly mapping state:
+
+```text
+CALLSITE=PROVEN
+RUNTIME_REACHABILITY=PROVEN donor / NOT_PROVEN 850
+POLY_MAPPING=EXACT_NATIVE_MATCH server-side
+ITEM_MAPPING=NOT_PROVEN
+850_NATIVE=PROVEN
+MINIMAL_EXTENSION=generic action/item-cost adapter
+TRANSFORM_STATUS_DEP=CHECKED; L1PolyMorph owns lifecycle
+CLIENT_DEP=BLOCKED
+LEVEL=L4
+```
+
+Interpretation:
+- donor action path is reachable
+- 13216..13220 have server-side native polymorph equivalents
+- 850 should still not port ItemActionPoly
+- remaining migration blockers are action ownership mapping, semantic identity of item 40308, and client GFX/resource compatibility
