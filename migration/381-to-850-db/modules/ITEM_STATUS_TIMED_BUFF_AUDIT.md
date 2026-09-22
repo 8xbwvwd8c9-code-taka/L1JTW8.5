@@ -305,3 +305,91 @@ SOURCE_SCHEMA=NOT_PROVEN
 DATA_ANOMALIES=92183_STR_10_VS_DESC_1;92200_HP_0_VS_DESC_400;92201_MP_0_VS_DESC_200;92186_MULTI_STAT_VECTOR
 BLOCKERS=CREATE schema absent; semantic item mapping; exact login restore/apply-once path; custom modifier persistence ownership; HP/MP clamp semantics; source data anomalies require policy decision
 ```
+
+
+## Mathematical validation addendum
+
+Independent calculation review confirmed the following algebraic constraints for the current timed-buff model:
+
+```text
+activate: S' = S + d
+replace:  S'' = S' - d_old + d_new
+expire:   S''' = S'' - d_new
+```
+
+This conserves baseline only under exactly-once activation/removal.
+
+Counterexamples:
+- duplicate activation then single expiry => +d drift
+- single activation then double expiry => -d drift
+- replacement without old removal => +d_old drift
+- remove old twice => -d_old drift
+- reconnect/login reapply twice => +d drift after one expiry
+
+Therefore 850 target must use authoritative modifier ownership and idempotent activate/remove.
+
+### HP/MP invariant
+
+Required:
+```text
+0 <= currentHP <= maxHP
+0 <= currentMP <= maxMP
+```
+
+Removing a max-HP/MP modifier must clamp current values to the new maxima. Percentage-preserving transforms are not exact inverses when integer rounding occurs.
+
+### Duration / overflow
+
+Current duration:
+```text
+1200 sec = 20 min
+durationMs = 1,200,000
+```
+
+Safe target arithmetic:
+```java
+long durationMs = (long) durationSec * 1000L;
+long deadline = currentTimeMillis + durationMs;
+long total = (long) bonusPerTick * tickCount;
+```
+
+Do not use int multiplication for generic duration or accumulated tick totals.
+
+### 92186 scale proof
+
+Configured vector:
+```text
+HPR 500
+MPR 300
+melee dmg 50
+melee hit 15
+ranged dmg 70
+ranged hit 15
+physical reduction 12
+magic reduction 10
+stun resist 15
+sleep resist 5
+```
+
+Description is `攻擊+5`.
+
+No single common scale factor maps 5 to the entire configured vector.
+
+```text
+NO_SINGLE_SCALE_FACTOR=PROVEN
+```
+
+This confirms the description is not an exact scalar specification of runtime behavior.
+
+### Source-evidence correction
+
+The external calculation review lacked the raw INSERT definition and therefore could not prove column alignment or 92200/92201 HP/MP values.
+
+Repository source resolves that uncertainty:
+```text
+COLUMN_ALIGNMENT=42/42_ALL_ROWS
+92200 add_hp=0
+92201 add_mp=0
+```
+
+Repository SQL remains authoritative over incomplete handoff input.
