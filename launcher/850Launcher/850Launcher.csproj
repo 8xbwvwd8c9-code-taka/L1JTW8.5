@@ -44,6 +44,7 @@
     <Compile Include="RuntimeBridge.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
+    <Compile Include="ProbeClusterer.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <ItemGroup>
