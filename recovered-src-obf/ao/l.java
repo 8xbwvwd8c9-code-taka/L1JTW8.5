@@ -292,6 +292,60 @@ public class l {
         j.a(con);
     }
 
+    public void insertQuestReward(Connection con, int charId, q item) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "INSERT INTO character_items SET id = ?, item_id = ?, char_id = ?, item_name = ?, count = ?, enchantlvl = ?, is_id = ?, durability = ?, charge_count = ?, temp_value = ?, last_used = ?, bless = ?, attr_enchant_kind = ?, attr_enchant_level = ?,super_enchant_field_1 = ? ,super_enchant_field_2 = ?,super_enchant_field_3 = ? ,super_enchant_field_4=? ,limit_time=?,is_equipped=?")) {
+            pstm.setInt(1, item.fr());
+            pstm.setInt(2, item.N());
+            pstm.setInt(3, charId);
+            pstm.setString(4, item.a().h());
+            pstm.setInt(5, item.E());
+            pstm.setInt(6, item.G());
+            pstm.setInt(7, item.C() ? 1 : 0);
+            pstm.setInt(8, item.H());
+            pstm.setInt(9, item.I());
+            pstm.setInt(10, item.M());
+            pstm.setTimestamp(11, item.J());
+            pstm.setInt(12, item.F());
+            pstm.setInt(13, item.K());
+            pstm.setInt(14, item.L());
+            pstm.setInt(15, item.X());
+            pstm.setInt(16, item.Y());
+            pstm.setInt(17, item.Z());
+            pstm.setInt(18, item.aa());
+            pstm.setTimestamp(19, item.bb());
+            pstm.setBoolean(20, item.D());
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-275 reward insert affected unexpected row count");
+            }
+        }
+    }
+
+    public void updateQuestRewardCount(Connection con, int charId, q item, int expectedCount, int newCount) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "UPDATE character_items SET count=? WHERE id=? AND char_id=? AND count=?")) {
+            pstm.setInt(1, newCount);
+            pstm.setInt(2, item.fr());
+            pstm.setInt(3, charId);
+            pstm.setInt(4, expectedCount);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-275 reward stack CAS failed");
+            }
+        }
+    }
+
+    public void deleteQuestRewardItem(Connection con, int charId, q item, int expectedCount) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "DELETE FROM character_items WHERE id=? AND char_id=? AND count=?")) {
+            pstm.setInt(1, item.fr());
+            pstm.setInt(2, charId);
+            pstm.setInt(3, expectedCount);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-275 reward delete CAS failed");
+            }
+        }
+    }
+
     private void a(int objId, String sql, int updateNum) throws SQLException {
         Connection con = null;
         PreparedStatement pstm = null;
