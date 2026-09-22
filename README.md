@@ -404,3 +404,71 @@ completed/l1jtw85-decompiled:
 ```
 
 反編譯 Final Gate 已完成；後續不再把 BUG 修復混入 completed decompilation baseline。
+
+### 最新核心修復停止點（2026-09-22）
+
+本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
+
+```text
+STATE=PAUSED_CLEAN_CHECKPOINT
+WORK_BRANCH=work/l1jtw85-core-fixes
+STOP_AFTER=BUG-850-126 transaction analysis
+NEXT_REPAIR=BUG-850-124
+DO_NOT_ADVANCE_UNTIL_RESUME=YES
+```
+
+#### Calculation authority
+
+```text
+CALC-009=PASS_WITH_CORRECTIONS
+COMMIT=bc79acad47536c8bfb3ace30da175882cfcbe3cf
+
+CALC-010=PASS_WITH_CLARIFICATIONS
+COMMIT=d53abb39b1460efb0859031e435ad6639684cf0b
+
+CALC-011=PASS_WITH_CORRECTIONS
+COMMIT=58e1fcafac8395f79481e196906f08ccaab8b451
+```
+
+CALC-011 重要修正：
+
+```text
+ceil(LONG_MAX / INT_MAX)=4_294_967_299
+```
+
+不是 4_294_967_298。Inventory stack / ceilDiv / CAS / object-id allocation authority 已寫入 `recovery/CALC_AUTHORITY_LEDGER_20260922.md`。
+
+#### L2 repair checkpoint
+
+```text
+BUG-850-132=PASS_PROMOTED
+BUG-850-136=PASS_PROMOTED
+BUG-850-137=PASS_PROMOTED
+
+BUG-850-130=PARTIAL_BLOCKED_TRANSACTION_CLOSURE
+BUG-850-129=PARTIAL_BLOCKED_TRANSACTION_CLOSURE
+BUG-850-126=PARTIAL_BLOCKED_TRANSACTION_CLOSURE
+
+NEXT=BUG-850-124
+```
+
+`BUG-850-130`：NPC material exchange 的 input/output inventory persistence 與 `Contribution` RAM mutation 不在同一 durable boundary。不得以單獨 character save / Contribution UPDATE 假裝完成；需 inventory + Contribution 的 transaction closure。
+
+`BUG-850-129`：inn refund 目前分散在 key item removal、Adena refund、`inns` count/delete、InnTable RAM state。`character_items` 已知為 MyISAM，現階段無法證明跨資源 rollback，因此保留 blocker。
+
+`BUG-850-126`：karma-for-item exchange 的 inventory persistence 與 `characters.Karma` persistence 分離。單獨補 character save 不構成 atomic repair；需 item mutation + Karma expected-state update 共用 durable transaction，或有可證明的 idempotent compensation。
+
+Repair log checkpoint：
+
+```text
+BUG-850-129_LOG_COMMIT=ab3f52473b3c937ffbdbe4d2625b5c977ea6537f
+BUG-850-126_LOG_COMMIT=47d2e6356ffc0ee54ca65ccb24ad6d8d8cbc2b21
+```
+
+恢復工作時先讀：
+
+- `recovery/L2_CORE_REPAIR_LOG_20260922.md`
+- `recovery/CALC_AUTHORITY_LEDGER_20260922.md`
+- `recovery/DUAL_LANE_CORE_WORK_LEDGER.md`
+
+然後從 `BUG-850-124` 繼續。L2 backlog 未清空前，不進 L3。
