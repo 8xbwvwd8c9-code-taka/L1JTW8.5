@@ -1,0 +1,20 @@
+; 850 runtime mapping
+; Keep empty until a mapping survives controlled changes + relog + full client restart.
+;
+; Direct field inside Lin.bin2 image:
+;   CurrentHP=RVA:0x00123456
+;
+; Pointer chain semantics:
+;   PTR:baseRVA|offset1|offset2
+; means:
+;   p = *(uint32*)(moduleBase + baseRVA)
+;   p = *(uint32*)(p + offset1)
+;   value = *(int32*)(p + offset2)
+;
+; Never copy 381/880 addresses here.
+
+[HPMP]
+CurrentHP=
+MaxHP=
+CurrentMP=
+MaxMP=
