@@ -11,11 +11,15 @@ namespace L1JTW850Launcher
         private readonly LauncherConfig _config;
         private readonly HelperSettings _helper;
         private readonly IRuntimeBridge _runtime;
+        private readonly IItemUseBridge _itemUse;
+        private readonly AutoPotionController _autoPotionController;
 
         private TextBox _serverName, _ip, _port;
         private Label _runtimeState;
         private CheckBox _autoPotion, _potionUsePercent, _autoBuff, _autoTransform, _autoAntidote, _autoRepair, _autoFood, _showClock, _showDamage;
-        private NumericUpDown _hpPercent, _hpExact, _timerSeconds;
+        private NumericUpDown _hpPercent, _hpExact, _potionCooldown, _timerSeconds;
+        private TextBox _potionItemIds;
+        private Label _potionStatus;
         private ListView _inventory;
 
         public MainForm(string appDir, LauncherConfig config, HelperSettings helper)
@@ -24,6 +28,8 @@ namespace L1JTW850Launcher
             _config = config;
             _helper = helper;
             _runtime = new ProcessRuntimeBridge(appDir);
+            _itemUse = new UnmappedItemUseBridge();
+            _autoPotionController = new AutoPotionController(_helper, _itemUse);
 
             Text = "L1JTW 8.50 登入器 + 輔助";
             Width = 760;
@@ -111,7 +117,14 @@ namespace L1JTW850Launcher
             _potionUsePercent = AddCheck(p, "使用生命值百分比判斷", 24, 58);
 
             p.Controls.Add(new Label { Text = "百分比門檻", Left = 24, Top = 98, Width = 90 });
-            _hpPercent = new NumericUpDown { Left = 120, Top = 94, Minimum = 1, Maximum = 100, Width = 70 };
+            _hpPercent = new NumericUpDown
+            {
+                Left = 120,
+                Top = 94,
+                Minimum = 1,
+                Maximum = 100,
+                Width = 70
+            };
             p.Controls.Add(_hpPercent);
             p.Controls.Add(new Label { Text = "%", Left = 194, Top = 98, Width = 20 });
 
@@ -128,15 +141,55 @@ namespace L1JTW850Launcher
 
             p.Controls.Add(new Label
             {
-                Left = 24, Top = 136, Width = 650, Height = 70,
-                Text = "勾選「使用生命值百分比判斷」時使用 % 門檻；取消勾選時使用精準 HP 門檻。HP/MP 僅供內部判斷，不在一般輔助頁面顯示。"
+                Text = "喝水道具 ID（優先順序）",
+                Left = 24,
+                Top = 140,
+                Width = 150
             });
+            _potionItemIds = new TextBox
+            {
+                Left = 180,
+                Top = 136,
+                Width = 330
+            };
+            p.Controls.Add(_potionItemIds);
 
             p.Controls.Add(new Label
             {
-                Left = 24, Top = 200, Width = 650, Height = 50,
-                Text = "藥水道具綁定尚未啟用，需先完成 850 背包 objectId / item 身分驗證。"
+                Text = "冷卻(ms)",
+                Left = 528,
+                Top = 140,
+                Width = 65
             });
+            _potionCooldown = new NumericUpDown
+            {
+                Left = 596,
+                Top = 136,
+                Minimum = 50,
+                Maximum = 10000,
+                Increment = 50,
+                Width = 100
+            };
+            p.Controls.Add(_potionCooldown);
+
+            p.Controls.Add(new Label
+            {
+                Left = 24,
+                Top = 176,
+                Width = 675,
+                Height = 44,
+                Text = "可在「物品」頁選取背包道具後加入喝水清單。HP/MP 只供內部判斷，不在一般輔助頁面顯示。"
+            });
+
+            _potionStatus = new Label
+            {
+                Left = 24,
+                Top = 224,
+                Width = 675,
+                Height = 64,
+                Text = "喝水狀態：等待 HP / 背包 / UseItem 映射。"
+            };
+            p.Controls.Add(_potionStatus);
 
             _potionUsePercent.CheckedChanged += delegate
             {
@@ -224,7 +277,41 @@ namespace L1JTW850Launcher
         private TabPage BuildItemTab()
         {
             var p = NewPage("物品");
-            _inventory = new ListView { Dock = DockStyle.Fill, View = View.Details, FullRowSelect = true };
+
+            var actions = new Panel
+            {
+                Dock = DockStyle.Bottom,
+                Height = 44
+            };
+
+            var addPotion = new Button
+            {
+                Text = "加入喝水清單",
+                Left = 8,
+                Top = 8,
+                Width = 120
+            };
+            addPotion.Click += delegate { AddSelectedInventoryItemToPotionList(); };
+            actions.Controls.Add(addPotion);
+
+            actions.Controls.Add(new Label
+            {
+                Text = "刪除 / 溶解動作尚未接入，先完成 WP5-WP7。",
+                Left = 144,
+                Top = 13,
+                Width = 420
+            });
+
+            p.Controls.Add(actions);
+
+            _inventory = new ListView
+            {
+                Dock = DockStyle.Fill,
+                View = View.Details,
+                FullRowSelect = true,
+                MultiSelect = false,
+                GridLines = true
+            };
             _inventory.Columns.Add("物件ID", 100);
             _inventory.Columns.Add("道具ID", 80);
             _inventory.Columns.Add("名稱", 220);
@@ -232,6 +319,8 @@ namespace L1JTW850Launcher
             _inventory.Columns.Add("強化", 70);
             _inventory.Columns.Add("裝備中", 80);
             p.Controls.Add(_inventory);
+            _inventory.BringToFront();
+
             return p;
         }
 
@@ -270,6 +359,10 @@ namespace L1JTW850Launcher
             _potionUsePercent.Checked = _helper.PotionUsePercent;
             _hpPercent.Value = Math.Max(_hpPercent.Minimum, Math.Min(_hpPercent.Maximum, _helper.PotionHpPercent));
             _hpExact.Value = Math.Max(_hpExact.Minimum, Math.Min(_hpExact.Maximum, _helper.PotionHpExact));
+            _potionItemIds.Text = _helper.PotionItemIds ?? "";
+            _potionCooldown.Value = Math.Max(
+                _potionCooldown.Minimum,
+                Math.Min(_potionCooldown.Maximum, _helper.PotionCooldownMs));
             _hpPercent.Enabled = _potionUsePercent.Checked;
             _hpExact.Enabled = !_potionUsePercent.Checked;
             _autoBuff.Checked = _helper.AutoBuff;
@@ -299,6 +392,8 @@ namespace L1JTW850Launcher
             _helper.PotionUsePercent = _potionUsePercent.Checked;
             _helper.PotionHpPercent = (int)_hpPercent.Value;
             _helper.PotionHpExact = (int)_hpExact.Value;
+            _helper.PotionItemIds = _potionItemIds.Text.Trim();
+            _helper.PotionCooldownMs = (int)_potionCooldown.Value;
             _helper.AutoBuff = _autoBuff.Checked;
             _helper.AutoTransform = _autoTransform.Checked;
             _helper.AutoAntidote = _autoAntidote.Checked;
@@ -337,14 +432,19 @@ namespace L1JTW850Launcher
             _inventory.Items.Clear();
             foreach (var item in s.Items)
             {
-                _inventory.Items.Add(new ListViewItem(new[]
+                var row = new ListViewItem(new[]
                 {
                     item.ObjectId.ToString(), item.ItemId.ToString(), item.Name, item.Count.ToString(),
                     item.Enchant.HasValue ? item.Enchant.Value.ToString() : "",
                     item.Equipped.HasValue ? item.Equipped.Value.ToString() : ""
-                }));
+                });
+                row.Tag = item;
+                _inventory.Items.Add(row);
             }
             _inventory.EndUpdate();
+
+            var potion = _autoPotionController.Tick(s);
+            _potionStatus.Text = "喝水狀態：" + potion.Status;
         }
 
     }
