@@ -10,6 +10,8 @@ namespace L1JTW850Launcher
         public DateTime Time;
         public int Pid;
         public DateTime? ProcessStartUtc;
+        public string ClientSha256 = "";
+        public bool ClientAuthority;
         public bool InventoryMapped;
         public bool Passed;
         public int RecordCount;
@@ -136,6 +138,26 @@ namespace L1JTW850Launcher
                 }
 
                 if (line.StartsWith(
+                    "CLIENT_SHA256="))
+                {
+                    current.ClientSha256 =
+                        line.Substring(
+                            "CLIENT_SHA256=".Length)
+                        .Trim();
+
+                    continue;
+                }
+
+                if (line.StartsWith(
+                    "CLIENT_AUTHORITY="))
+                {
+                    current.ClientAuthority =
+                        line.EndsWith("=1");
+
+                    continue;
+                }
+
+                if (line.StartsWith(
                     "INVENTORY_MAPPED="))
                 {
                     current.InventoryMapped =
@@ -212,16 +234,37 @@ namespace L1JTW850Launcher
                 return result;
             }
 
+            var authoritative =
+                new List<InventoryValidationSession>();
+
+            foreach (var session in all)
+            {
+                if (IsAuthoritativeSession(
+                    session))
+                {
+                    authoritative.Add(
+                        session);
+                }
+            }
+
+            if (authoritative.Count == 0)
+            {
+                result.Status =
+                    "尚無 authoritative 850 inventory evidence。";
+
+                return result;
+            }
+
             var start =
                 Math.Max(
                     0,
-                    all.Count -
+                    authoritative.Count -
                     latestSessions);
 
             var sessions =
-                all.GetRange(
+                authoritative.GetRange(
                     start,
-                    all.Count - start);
+                    authoritative.Count - start);
 
             result.Sessions =
                 sessions.Count;
@@ -285,6 +328,17 @@ namespace L1JTW850Launcher
                 "。";
 
             return result;
+        }
+
+        private static bool IsAuthoritativeSession(
+            InventoryValidationSession session)
+        {
+            return session != null &&
+                   session.ClientAuthority &&
+                   string.Equals(
+                       session.ClientSha256,
+                       ClientVerifier.LinBin2Sha256,
+                       StringComparison.OrdinalIgnoreCase);
         }
 
         private static void FinalizeExpected(
