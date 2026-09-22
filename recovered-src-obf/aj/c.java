@@ -161,6 +161,9 @@ extends cv {
             if (house == null || clan == null || !pc.x() || pc.fr() != clan.k() || clan.n() != houseId || npc.z() != house.f() || house.g()) {
                 return;
             }
+            if (amount < 100000 || amount > 2000000000) {
+                return;
+            }
 
             Timestamp oldDeadline = house.j();
             int oldPrice = house.k();
