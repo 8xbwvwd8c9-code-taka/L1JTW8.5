@@ -114,3 +114,40 @@ PTR:0x00123456|0x18|0x2C
 ```
 
 The launcher reloads `runtime-map.ini` while running. No runtime address from 381/880 is accepted.
+
+## Developer mode
+
+Reverse/probe tabs are hidden in normal player mode.
+
+To enable the internal validation pages temporarily:
+
+```ini
+[Developer]
+Enabled=1
+```
+
+Normal player UI keeps only the Chinese helper pages. Probe pages include HP/MP scanning, inventory count scanning, inventory record comparison, field validation, pointer-chain search and runtime mapping.
+
+## Inventory field proof
+
+WP5 now has a staged read-only proof workflow:
+
+```text
+物品偵測
+  -> isolate Count candidate
+
+物品結構
+  -> capture A/B around the candidate
+  -> highlight changed/stable fields
+  -> optional known ItemId match
+
+物品欄位
+  -> validate candidate record base + offsets
+  -> ObjectId / ItemId / Count / Enchant / Equipped
+  -> save repeated evidence snapshots
+
+InventoryBridge
+  -> remains UNMAPPED until the fields and collection structure are proven
+```
+
+No single-session or single-value match is accepted as WP5/WP6 PASS.
