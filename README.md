@@ -35,6 +35,7 @@ BUG
 | BUG-850-283 | L2 | ShopWorld account debit / pending-item durable atomicity | PASS / PROMOTED |
 | BUG-850-282 | L2 | ShopWorld claim capacity/count authority | PASS / PROMOTED |
 | BUG-850-281 | L2 | ShopWorld resolvent local-NPC interaction authorization | PASS / PROMOTED |
+| BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -877,6 +878,101 @@ This is a targeted interaction-authorization regression gate, not a live multi-c
 
 ```text
 BUG-850-281=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-280 — LuckyDraw claim capacity used the request count instead of the pending reward count
+
+### Problem
+
+The LuckyDraw claim branch resolves a server-side pending `L1ItemInstance`, but the original inventory-capacity check used a client-provided count.
+
+The actual grant path inserts the entire pending item object, whose count comes from the LuckyDraw reward definition / persisted pending row.
+
+That created a mismatch between the quantity that passed capacity/weight validation and the quantity actually delivered.
+
+### Runtime source map
+
+- CORE: `C_Result`, LuckyDraw result type 29
+- Pending source: `LuckyDrawTable`
+- Reward configuration count: `luckydraw.count`
+- Durable pending count: `character_luckydraw.count`
+- Authoritative runtime count: `L1ItemInstance.E()`
+- Protocol change: **none**
+- DB schema change: **none**
+
+### Authoritative count path
+
+The active 8.5 path is:
+
+```text
+luckydraw.count
+-> LuckyDrawTable creates pending L1ItemInstance and sets count
+-> character_luckydraw.count persists pending count
+-> reload restores that count into L1ItemInstance
+-> C_Result grants that pending object
+```
+
+Therefore the authoritative quantity for capacity validation is the pending item's `E()`, not the request count.
+
+### Fix
+
+The client count is still parsed for packet compatibility / existing sanity checks, but it no longer controls reward capacity.
+
+The claim path now:
+
+1. resolves the pending reward;
+2. fails closed if the pending item is missing;
+3. reads `authoritativeCount = pendingItem.E()`;
+4. fails closed if that count is non-positive;
+5. runs inventory capacity/weight validation with that authoritative count;
+6. inserts the same pending item object.
+
+### Scope note
+
+The completed obfuscated baseline already contained an earlier packet-sanity guard for LuckyDraw index/count values. That guard is preserved.
+
+This repair changes only the capacity authority from client count to pending reward count.
+
+### Modified core source
+
+- `recovery/normalized-src-vf/l1r/aj/C_Result.java`
+- `recovered-src-obf/aj/bx.java`
+
+Promotion commits:
+
+- normalized source: `7a463b2d175715d3b7bf665b217e976ed9a2649d`
+- obfuscated source: `3c0af015c7bf9fc0ee63ce92d6a0135f7ca67468`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35679277832
+STATUS = PASS
+
+BUG_850_280_CONTRACT=PASS
+CAPACITY_COUNT_AUTHORITY=pending_item.E
+REWARD_COUNT_SOURCE=luckydraw.count/character_luckydraw.count
+BUG_850_280_TARGETED_BEHAVIOR_RUNTIME=PASS
+CLIENT_COUNT_CANNOT_CHANGE_REWARD_CAPACITY=PASS
+BUG_850_280_EXACT_BASE_TRANSFORM=PASS
+BUG_850_280_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The exact-transform gate used the then-current completed C_Result files as the base and preserved the pre-existing packet-sanity guard.
+
+This is a targeted reward-capacity authority regression gate, not a live inventory/load test.
+
+### Result
+
+```text
+BUG-850-280=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
