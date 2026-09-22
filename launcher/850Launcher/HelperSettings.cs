@@ -3,7 +3,9 @@ namespace L1JTW850Launcher
     internal sealed class HelperSettings
     {
         public bool AutoPotion;
+        public bool PotionUsePercent = true;
         public int PotionHpPercent = 70;
+        public int PotionHpExact = 1000;
         public bool AutoBuff;
         public bool AutoTransform;
         public bool AutoAntidote;
@@ -19,7 +21,9 @@ namespace L1JTW850Launcher
             return new HelperSettings
             {
                 AutoPotion = ini.GetBool("Potion", "Enabled", false),
+                PotionUsePercent = ini.GetBool("Potion", "UsePercent", true),
                 PotionHpPercent = ini.GetInt("Potion", "HPPercent", 70),
+                PotionHpExact = ini.GetInt("Potion", "HPExact", 1000),
                 AutoBuff = ini.GetBool("State", "AutoBuff", false),
                 AutoTransform = ini.GetBool("Special", "AutoTransform", false),
                 AutoAntidote = ini.GetBool("Special", "AutoAntidote", false),
@@ -35,7 +39,9 @@ namespace L1JTW850Launcher
         {
             var ini = new IniDocument();
             ini.Set("Potion", "Enabled", AutoPotion ? 1 : 0);
+            ini.Set("Potion", "UsePercent", PotionUsePercent ? 1 : 0);
             ini.Set("Potion", "HPPercent", PotionHpPercent);
+            ini.Set("Potion", "HPExact", PotionHpExact);
             ini.Set("State", "AutoBuff", AutoBuff ? 1 : 0);
             ini.Set("Special", "AutoTransform", AutoTransform ? 1 : 0);
             ini.Set("Special", "AutoAntidote", AutoAntidote ? 1 : 0);
