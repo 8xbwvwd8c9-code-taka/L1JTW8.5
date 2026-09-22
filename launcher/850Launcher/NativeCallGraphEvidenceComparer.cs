@@ -38,6 +38,7 @@ namespace L1JTW850Launcher
         public DateTime Time;
         public int Pid;
         public long ModuleBase;
+        public DateTime? ProcessStartTimeUtc;
 
         public readonly Dictionary<uint, NativeEvidenceFunction> Functions =
             new Dictionary<uint, NativeEvidenceFunction>();
@@ -60,6 +61,7 @@ namespace L1JTW850Launcher
     {
         public int SessionsCompared;
         public int StableEdges;
+        public int DistinctProcessInstances;
         public readonly List<NativeStableFunction> StableFunctions =
             new List<NativeStableFunction>();
 
@@ -125,6 +127,18 @@ namespace L1JTW850Launcher
                         line.Substring("MODULE_BASE=".Length),
                         out value))
                         current.ModuleBase = value;
+                    continue;
+                }
+
+                if (line.StartsWith("PROCESS_START_UTC=", StringComparison.Ordinal))
+                {
+                    DateTime value;
+                    if (DateTime.TryParse(
+                        line.Substring("PROCESS_START_UTC=".Length),
+                        null,
+                        DateTimeStyles.RoundtripKind,
+                        out value))
+                        current.ProcessStartTimeUtc = value.ToUniversalTime();
                     continue;
                 }
 
@@ -224,6 +238,23 @@ namespace L1JTW850Launcher
                 sessionCount);
 
             result.SessionsCompared = selected.Count;
+
+            var processInstances =
+                new HashSet<string>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            foreach (var session in selected)
+            {
+                var key =
+                    session.ProcessStartTimeUtc.HasValue
+                        ? session.ProcessStartTimeUtc.Value.ToString("o")
+                        : "PID:" + session.Pid;
+
+                processInstances.Add(key);
+            }
+
+            result.DistinctProcessInstances =
+                processInstances.Count;
 
             var stableEdgeKeys =
                 new HashSet<string>(
@@ -333,7 +364,9 @@ namespace L1JTW850Launcher
                 " sessions：stable functions=" +
                 result.StableFunctions.Count +
                 "，stable edges=" +
-                result.StableEdges + "。";
+                result.StableEdges +
+                "，process instances=" +
+                result.DistinctProcessInstances + "。";
 
             return result;
         }
