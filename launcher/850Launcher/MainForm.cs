@@ -107,6 +107,7 @@ namespace L1JTW850Launcher
             if (_config.DeveloperMode)
             {
                 tabs.TabPages.Add(BuildProbeTab());
+                tabs.TabPages.Add(BuildPlayerIdentityProbeTab());
                 tabs.TabPages.Add(BuildInventoryProbeTab());
                 tabs.TabPages.Add(BuildInventoryRecordProbeTab());
                 tabs.TabPages.Add(BuildInventoryFieldValidatorTab());
@@ -308,6 +309,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("偵測");
             p.Controls.Add(new RuntimeProbeControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildPlayerIdentityProbeTab()
+        {
+            var p = NewPage("玩家偵測");
+            p.Controls.Add(new PlayerIdentityProbeControl(_appDir));
             return p;
         }
 
