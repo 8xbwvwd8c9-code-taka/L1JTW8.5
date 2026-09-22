@@ -89,6 +89,7 @@ public class am {
         aq.a().a((aa)pc, mapId);
         pc.d(x2, y2, mapId);
         pc.ct(head);
+        pc.finishGhostReturn();
         pc.a(new bx(pc.fp(), pc.fq().g()));
         pc.a(new cj(pc));
         pc.es();

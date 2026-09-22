@@ -85,6 +85,7 @@ public class L1Teleport {
             L1World.a().a(var0, var3);
             var0.d(var1, var2, var3);
             var0.ct(var4);
+            var0.finishGhostReturn();
             var0.a(new S_MapID(var0.fp(), var0.fq().g()));
             var0.a(new S_OwnCharPack(var0));
             var0.es();

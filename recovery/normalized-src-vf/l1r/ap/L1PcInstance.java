@@ -35,6 +35,8 @@ import l1r.aq.L1Karma;
 import l1r.aq.L1Magic;
 import l1r.aq.L1Master;
 import l1r.aq.L1Object;
+import l1r.aq.L1PolyMorph;
+import l1r.aq.L1Teleport;
 import l1r.aq.L1Party;
 import l1r.aq.L1PinkName;
 import l1r.aq.L1Quest;
@@ -216,6 +218,13 @@ public class L1PcInstance extends L1Character {
    private static final long bg = 3000L;
    private ScheduledFuture<?> bh;
    private boolean bi = false;
+   private L1PolyMorph l1rActivePolyMorphRule;
+   private int l1rGhostSaveLocX;
+   private int l1rGhostSaveLocY;
+   private int l1rGhostSaveMapId;
+   private int l1rGhostSaveHeading;
+   private boolean l1rGhostSaveValid = false;
+   private boolean l1rGhostReturnPending = false;
    private final L1Karma bj = new L1Karma();
    private Timestamp bk;
    private Timestamp bl;
@@ -2523,7 +2532,44 @@ public class L1PcInstance extends L1Character {
    }
 
    public void j(boolean var1) {
+      if (var1 && !this.bi) {
+         this.l1rGhostSaveLocX = this.fs();
+         this.l1rGhostSaveLocY = this.ft();
+         this.l1rGhostSaveMapId = this.fp();
+         this.l1rGhostSaveHeading = this.fb();
+         this.l1rGhostSaveValid = true;
+         this.l1rGhostReturnPending = false;
+      }
       this.bi = var1;
+      if (!var1) {
+         this.l1rGhostSaveValid = false;
+         this.l1rGhostReturnPending = false;
+      }
+   }
+
+   public L1PolyMorph getActivePolyMorphRule() {
+      return this.l1rActivePolyMorphRule;
+   }
+
+   public void setActivePolyMorphRule(L1PolyMorph var1) {
+      this.l1rActivePolyMorphRule = var1;
+   }
+
+   public void makeReadyEndGhost() {
+      if (!this.bi || !this.l1rGhostSaveValid || this.l1rGhostReturnPending) {
+         return;
+      }
+      this.l1rGhostReturnPending = true;
+      L1Teleport.a(this, this.l1rGhostSaveLocX, this.l1rGhostSaveLocY, this.l1rGhostSaveMapId, this.l1rGhostSaveHeading, true);
+   }
+
+   public void finishGhostReturn() {
+      if (!this.l1rGhostReturnPending) {
+         return;
+      }
+      this.bi = false;
+      this.l1rGhostReturnPending = false;
+      this.l1rGhostSaveValid = false;
    }
 
    public Timestamp bO() {
