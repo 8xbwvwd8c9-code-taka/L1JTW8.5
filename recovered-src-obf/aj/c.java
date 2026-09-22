@@ -146,6 +146,9 @@ extends cv {
             if (!(npc instanceof ap.p)) {
                 return;
             }
+            if (amount < 100000 || amount > 2000000000) {
+                return;
+            }
             int houseId;
             try {
                 houseId = Integer.parseInt(s22);
