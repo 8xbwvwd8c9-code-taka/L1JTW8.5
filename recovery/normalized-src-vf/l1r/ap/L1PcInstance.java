@@ -216,6 +216,9 @@ public class L1PcInstance extends L1Character {
    private static final long bg = 3000L;
    private ScheduledFuture<?> bh;
    private boolean bi = false;
+   private int l1rAmountNpcObjId = 0;
+   private int l1rAmountMode = 0;
+   private long l1rAmountContextExpiry = 0L;
    private final L1Karma bj = new L1Karma();
    private Timestamp bk;
    private Timestamp bl;
@@ -583,6 +586,31 @@ public class L1PcInstance extends L1Character {
 
    public L1PcInventory j() {
       return this.L;
+   }
+
+   public synchronized void setL1rAmountContext(int var1, int var2) {
+      this.l1rAmountNpcObjId = var1;
+      this.l1rAmountMode = var2;
+      this.l1rAmountContextExpiry = System.currentTimeMillis() + 15000L;
+   }
+
+   public synchronized boolean consumeL1rAmountContext(int var1, int var2) {
+      if (this.l1rAmountNpcObjId == 0
+         || this.l1rAmountNpcObjId != var1
+         || this.l1rAmountMode != var2
+         || System.currentTimeMillis() > this.l1rAmountContextExpiry) {
+         this.clearL1rAmountContext();
+         return false;
+      }
+
+      this.clearL1rAmountContext();
+      return true;
+   }
+
+   public synchronized void clearL1rAmountContext() {
+      this.l1rAmountNpcObjId = 0;
+      this.l1rAmountMode = 0;
+      this.l1rAmountContextExpiry = 0L;
    }
 
    public int k() {
