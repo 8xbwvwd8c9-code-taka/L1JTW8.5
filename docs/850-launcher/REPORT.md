@@ -412,6 +412,43 @@ Rationale: more than 99% of the shared byte range differs, entry RVA differs, an
 Next: runtime correlation must target Lin.bin2 directly.
 
 
+## 2026-09-22 850Launcher v0.1 implementation
+
+```text
+IMPLEMENTATION=PASS_SOURCE
+PROJECT=launcher/850Launcher
+FRAMEWORK=.NET Framework 4.0
+PLATFORM=x86
+RUNTIME_BRIDGE=UNMAPPED_BY_DESIGN
+DONOR_ADDRESSES=NONE
+```
+
+Implemented:
+
+- external Server Name / IP / Port;
+- persistent `launcher.ini`;
+- persistent `helper.ini`;
+- writes legacy two-line `ip.ini` for the accepted LoginWithoutUI flow;
+- launches `LoginWithoutUI.exe` with optional UAC elevation;
+- 850 helper UI shell with Extend / Potion / State / Special / Items / Hotkeys / Timer tabs;
+- inventory list UI contract;
+- HP/MP display contract;
+- runtime bridge interface with explicit UNMAPPED implementation;
+- x86 build project and PowerShell build script with .NET Framework v4 MSBuild/csc fallback.
+
+Safety/correctness gate:
+
+```text
+NO_FAKE_PLAYER_POINTER
+NO_FAKE_HPMP_ADDRESS
+NO_FAKE_INVENTORY_ADDRESS
+NO_381_880_RUNTIME_ADDRESS
+NO_USEITEM_BEFORE_WP5_WP6
+```
+
+The v0.1 executable shell can be built now. Helper actions that require runtime mappings remain disabled until WP3-WP6 evidence passes.
+
+
 ## 下一步
 
 ```text
