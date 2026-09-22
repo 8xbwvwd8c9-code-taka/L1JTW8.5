@@ -189,3 +189,32 @@ Until the native 850 use-item path is proven, the bridge remains unmapped and no
 
 `item-names.csv` is generated from the current 850 `etcitem`, `weapon`, and `armor` SQL tables.
 It currently contains 4388 item IDs and lets the mapped inventory display Chinese names without connecting the launcher to MySQL.
+
+## Native send caller graph
+
+The hidden **Send追蹤** page extends the read-only native send scan:
+
+```text
+send / WSASend IAT xref
+ -> nearest x86 function candidate
+ -> relative E8 callers
+ -> repeat up to depth 5
+ -> mark strong immediate 0x5E patterns
+ -> fingerprint first 64 bytes with SHA-256
+```
+
+The 0x5E marker is heuristic-only. It is not accepted as C_ItemUSe identity by itself.
+
+Stable native identity requires:
+
+```text
+same Lin.bin2 authority hash
+same module-relative function RVA
+same 64-byte function fingerprint
+same caller relationship
+relog stability
+full client restart stability
+manual normal-potion action correlation
+```
+
+Evidence is written to `native_call_graph_evidence.txt`.
