@@ -603,6 +603,39 @@ FULL_CLIENT_RESTART_REQUIRED
 ```
 
 
+## 2026-09-22 WP5 inventory field proof scaffold
+
+```text
+STATUS=PASS_SOURCE
+INVENTORY_BRIDGE_CONTRACT=IMPLEMENTED
+INVENTORY_BRIDGE_RUNTIME=UNMAPPED
+COUNT_PROBE=IMPLEMENTED
+RECORD_AB_COMPARE=IMPLEMENTED
+FIELD_VALIDATOR=IMPLEMENTED
+WRITE_PROCESS_MEMORY=NO
+```
+
+Added staged proof tooling:
+
+1. **物品偵測** isolates a stack-count candidate through controlled count changes.
+2. **物品結構** compares two read-only snapshots around that candidate and flags changing/stable fields plus optional known ItemId matches.
+3. **物品欄位** validates hypothesized record offsets for ObjectId, ItemId, Count, Enchant and Equipped with configurable field widths.
+4. Evidence is appended to:
+   - `inventory_probe_evidence.txt`
+   - `inventory_record_evidence.txt`
+   - `inventory_field_validation.txt`
+5. A formal `IInventoryBridge` contract now exists, but the runtime implementation remains intentionally unmapped until the record layout and collection traversal are proven.
+
+UI separation:
+
+```text
+NORMAL_PLAYER_UI=Chinese helper tabs only
+Developer.Enabled=1 => reverse/probe tabs visible
+```
+
+This keeps reverse-engineering controls out of the normal helper interface.
+
+
 ## 下一步
 
 ```text
