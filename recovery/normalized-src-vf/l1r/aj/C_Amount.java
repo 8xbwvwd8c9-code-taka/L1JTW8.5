@@ -76,11 +76,21 @@ public class C_Amount extends ClientBasePacket {
                   }
                } else if (var9.equalsIgnoreCase("agsell")) {
                   int var22 = Integer.valueOf(var10);
-                  if (var5 < 100000 || var5 > 2000000000) {
+                  L1Clan var31 = ClanTable.a().a(var3.aF());
+                  if (var31 == null || var31.n() != var22 || !var3.x() || var3.fr() != var31.k()) {
+                     var3.a(new S_ServerMessage(518));
                      return;
                   }
 
                   L1House var25 = HouseTable.a().a(var22);
+                  if (var25 == null || var8.z() != var25.f() || var25.g()) {
+                     return;
+                  }
+
+                  if (var5 < 100000 || var5 > 2000000000) {
+                     return;
+                  }
+
                   Timestamp var27 = new Timestamp(System.currentTimeMillis() + 432000000L);
                   var25.b(var27);
                   var25.d(var5);
