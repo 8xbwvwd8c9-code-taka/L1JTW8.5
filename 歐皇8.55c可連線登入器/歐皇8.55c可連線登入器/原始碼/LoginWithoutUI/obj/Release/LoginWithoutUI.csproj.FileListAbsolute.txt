@@ -1,9 +1,0 @@
-C:\Users\Rose\Desktop\.NET\LoginWithoutUI\bin\Release\LoginWithoutUI.exe
-C:\Users\Rose\Desktop\.NET\LoginWithoutUI\bin\Release\LoginWithoutUI.pdb
-C:\Users\Rose\Desktop\.NET\LoginWithoutUI\obj\Release\LoginWithoutUI.exe
-C:\Users\Rose\Desktop\.NET\LoginWithoutUI\obj\Release\LoginWithoutUI.pdb
-C:\Users\Rose\Desktop\歐皇8.55可連線登入器\原始碼\LoginWithoutUI\bin\Release\LoginWithoutUI.exe
-C:\Users\Rose\Desktop\歐皇8.55可連線登入器\原始碼\LoginWithoutUI\bin\Release\LoginWithoutUI.pdb
-C:\Users\Rose\Desktop\歐皇8.55可連線登入器\原始碼\LoginWithoutUI\obj\Release\LoginWithoutUI.csprojAssemblyReference.cache
-C:\Users\Rose\Desktop\歐皇8.55可連線登入器\原始碼\LoginWithoutUI\obj\Release\LoginWithoutUI.exe
-C:\Users\Rose\Desktop\歐皇8.55可連線登入器\原始碼\LoginWithoutUI\obj\Release\LoginWithoutUI.pdb
