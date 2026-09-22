@@ -41,6 +41,8 @@
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
+    <Compile Include="RuntimeMemoryProbe.cs" />
+    <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
