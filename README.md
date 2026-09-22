@@ -408,6 +408,23 @@ completed/l1jtw85-decompiled:
 
 反編譯 Final Gate 已完成；後續不再把 BUG 修復混入 completed decompilation baseline。
 
+### 最新核心修復即時紀錄（2026-09-22 23:38 +08:00）
+
+```text
+BUG-850-287=DONE/PASS (CI 35743735957)
+BUG-850-12=PATCHED_PENDING_VALIDATION
+BUG-850-12_ARITHMETIC=PASS
+ADENA_CAP=2,000,000,000
+BOUNDARY_2B=VALID
+BOUNDARY_2B_PLUS_1=REJECT
+COUNT_GT_TREASURY=REJECT
+COUNT_ZERO=REJECT
+INT32_INTERMEDIATE_SAFE=NO
+LONG_ARITHMETIC_REQUIRED=YES
+```
+
+BUG-850-12 算術權威：`newAdena=(long)adena+count`、`newTreasury=(long)treasury-count` 必須先用 long 計算再驗證；不得以 int32 先相加後才檢查上限。此項僅完成 arithmetic proof，source contract / targeted runtime / CI 尚未全數 PASS 前不得標記 DONE。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
