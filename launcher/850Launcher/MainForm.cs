@@ -10,7 +10,7 @@ namespace L1JTW850Launcher
         private readonly string _appDir;
         private readonly LauncherConfig _config;
         private readonly HelperSettings _helper;
-        private readonly IRuntimeBridge _runtime;
+        private readonly ProcessRuntimeBridge _runtime;
         private readonly IItemUseBridge _itemUse;
         private readonly AutoPotionController _autoPotionController;
 
@@ -21,6 +21,7 @@ namespace L1JTW850Launcher
         private TextBox _potionItemIds;
         private Label _potionStatus;
         private ListView _inventory;
+        private RuntimeSnapshot _latestSnapshot = new RuntimeSnapshot();
 
         public MainForm(string appDir, LauncherConfig config, HelperSettings helper)
         {
@@ -43,6 +44,10 @@ namespace L1JTW850Launcher
             var poll = new Timer { Interval = 1000 };
             poll.Tick += delegate { RefreshRuntime(); };
             poll.Start();
+
+            var potionPoll = new Timer { Interval = 100 };
+            potionPoll.Tick += delegate { RefreshPotionFast(); };
+            potionPoll.Start();
         }
 
         private void BuildUi()
@@ -458,6 +463,7 @@ namespace L1JTW850Launcher
         private void RefreshRuntime()
         {
             var s = _runtime.Read();
+            _latestSnapshot = s;
             _runtimeState.Text = "執行狀態：" + s.Status;
 
             _inventory.BeginUpdate();
@@ -474,9 +480,34 @@ namespace L1JTW850Launcher
                 _inventory.Items.Add(row);
             }
             _inventory.EndUpdate();
+        }
 
-            var potion = _autoPotionController.Tick(s);
-            _potionStatus.Text = "喝水狀態：" + potion.Status;
+        private void RefreshPotionFast()
+        {
+            if (_latestSnapshot == null ||
+                !_latestSnapshot.Connected)
+            {
+                _potionStatus.Text =
+                    "喝水狀態：尚未連接 850。";
+                return;
+            }
+
+            string error;
+            if (!_runtime.TryRefreshHpMp(
+                _latestSnapshot,
+                out error))
+            {
+                _potionStatus.Text =
+                    "喝水狀態：" + error;
+                return;
+            }
+
+            var potion =
+                _autoPotionController.Tick(
+                    _latestSnapshot);
+
+            _potionStatus.Text =
+                "喝水狀態：" + potion.Status;
         }
 
         private void AddSelectedInventoryItemToPotionList()
