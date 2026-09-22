@@ -323,6 +323,42 @@ obfuscated HouseTimer authority = 08b1760c5bbef690dadd602a1fbf7752ef0d7879
 obfuscated HouseTable authority = 06b3bd47dea027f5f0acc331faed7cf533625658
 ```
 
+### CALC-005 exact payout authority
+
+Calculator proof:
+
+```text
+STATUS=PASS
+FLOAT_0_9_SAFE_OVER_DOMAIN=YES
+EXACT_SELLER_FORM=floor(((long)price)*90L/100L)
+MAX_PRICE=2000000000
+MAX_SELLER_PAYOUT=1800000000
+ConfigDays*24*60*60*1000L max safe ConfigDays=24855
+```
+
+Production was still changed to explicit integer arithmetic so intent and overflow behavior are visible:
+
+```text
+seller=(int)(((long)price*90L)/100L)
+deadline=((long)Config.an)*24L*60L*60L*1000L
+```
+
+Validation:
+
+```text
+GitHub Actions run = 35719258360
+CALC_005_EXACT_PAYOUT=PASS
+CALC_005_SAFE_DEADLINE_MULTIPLY=PASS
+```
+
+Promotion:
+
+```text
+normalized = 94e49a7ec89be7ad7f67166f6e3126ca1b059c8a
+obfuscated = cfb770220f6de1866c6fa9857ed7754764e2c3a9
+```
+
+
 ### Result
 
 ```text
