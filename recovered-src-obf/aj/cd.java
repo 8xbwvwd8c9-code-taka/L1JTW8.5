@@ -42,11 +42,14 @@ extends cv {
                     int itemCount = this.b();
                     ConcurrentHashMap<Integer, q> whList = bd.a().a(client.a());
                     q item = whList.get(index);
-                    if (pc.j().a(item, itemCount) != 0) break block0;
+                    if (item == null) break block0;
+                    int authoritativeCount = item.E();
+                    if (authoritativeCount <= 0) break block0;
+                    if (pc.j().a(item, authoritativeCount) != 0) break block0;
                     pc.j().d(item);
                     pc.a(new ds(403, item.s()));
                     bd.a().a(client.a(), index);
-                    aa.a().h(pc, "\u9818\u53d6", item, itemCount);
+                    aa.a().h(pc, "\u9818\u53d6", item, authoritativeCount);
                     ++i2;
                 }
                 break;
