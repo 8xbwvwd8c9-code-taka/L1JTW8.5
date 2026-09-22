@@ -106,7 +106,7 @@ extends cv {
                         this.d();
                         String clanName = this.g();
                         byte[] text = this.h();
-                        i clan = q.a().c(clanName);
+                        i clan = q.a().a(pc.aF());
                         if (clan == null) {
                             pc.a(new ds(3982));
                             return;
