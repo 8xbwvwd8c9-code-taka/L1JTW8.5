@@ -45,6 +45,7 @@
     <Compile Include="ItemUseProtocol.cs" />
     <Compile Include="ItemUseProtocolControl.cs" />
     <Compile Include="SkillUseProtocol.cs" />
+    <Compile Include="SkillUseProtocolControl.cs" />
     <Compile Include="SkillCatalog.cs" />
     <Compile Include="BuffStateBridge.cs" />
     <Compile Include="PeImportParser.cs" />
