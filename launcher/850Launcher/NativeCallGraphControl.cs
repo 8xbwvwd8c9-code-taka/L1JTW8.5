@@ -104,7 +104,8 @@ namespace L1JTW850Launcher
             _functions.Columns.Add("Function RVA", 110);
             _functions.Columns.Add("Trigger RVA", 110);
             _functions.Columns.Add("來源", 220);
-            _functions.Columns.Add("0x5E 標記", 160);
+            _functions.Columns.Add("0x5E 標記", 150);
+            _functions.Columns.Add("SHA256(64B)", 150);
             split.Panel1.Controls.Add(_functions);
 
             _edges = new ListView
@@ -190,19 +191,26 @@ namespace L1JTW850Launcher
                 xrefs,
                 (int)_depth.Value);
 
-            ShowGraph(graph);
+            ShowGraph(graph, runtime);
             _status.Text = graph.Status;
             SaveEvidence(runtime, xrefs, graph);
         }
 
         private void ShowGraph(
-            NativeCallGraphResult graph)
+            NativeCallGraphResult graph,
+            RuntimeSnapshot runtime)
         {
             _functions.BeginUpdate();
             _functions.Items.Clear();
 
             foreach (var node in graph.Functions)
             {
+                var fingerprint = NativeCodeWindow.Read(
+                    _probe,
+                    runtime,
+                    node.FunctionRva,
+                    64);
+
                 _functions.Items.Add(
                     new ListViewItem(new[]
                     {
@@ -212,7 +220,8 @@ namespace L1JTW850Launcher
                         node.Source,
                         node.StrongOpcode5EMarker
                             ? node.MarkerKind
-                            : ""
+                            : "",
+                        ShortHash(fingerprint.Sha256)
                     }));
             }
 
@@ -279,6 +288,12 @@ namespace L1JTW850Launcher
 
                 foreach (var node in graph.Functions)
                 {
+                    var fingerprint = NativeCodeWindow.Read(
+                        _probe,
+                        runtime,
+                        node.FunctionRva,
+                        64);
+
                     sb.AppendLine(
                         "FUNC depth=" + node.Depth +
                         " rva=0x" +
@@ -289,6 +304,10 @@ namespace L1JTW850Launcher
                         (node.StrongOpcode5EMarker
                             ? node.MarkerKind
                             : "") +
+                        " sha256_64=" +
+                        fingerprint.Sha256 +
+                        " bytes=" +
+                        fingerprint.BytesRead +
                         " source=" +
                         node.Source);
                 }
@@ -322,6 +341,17 @@ namespace L1JTW850Launcher
             catch
             {
             }
+        }
+
+
+        private static string ShortHash(string value)
+        {
+            if (string.IsNullOrEmpty(value))
+                return "";
+
+            return value.Length <= 16
+                ? value
+                : value.Substring(0, 16);
         }
 
         protected override void Dispose(
