@@ -45,6 +45,10 @@ public class C_CreateChar extends ClientBasePacket {
             var3.e(var4);
             var3.ad(this.c());
             var3.aj(this.c());
+            if (var3.ay() < 0 || var3.ay() >= a.length) {
+               var2.a(new S_CharCreateStatus(21));
+               return;
+            }
             var3.i(var3.aJ() == 0 ? a[var3.ay()] : c[var3.ay()]);
             var3.o(this.c());
             var3.q(this.c());
