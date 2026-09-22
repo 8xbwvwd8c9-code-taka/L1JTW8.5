@@ -75,6 +75,7 @@ namespace L1JTW850Launcher
             tabs.TabPages.Add(BuildPotionTab());
             tabs.TabPages.Add(BuildStateTab());
             tabs.TabPages.Add(BuildSpecialTab());
+            tabs.TabPages.Add(BuildProbeTab());
             tabs.TabPages.Add(BuildItemTab());
             tabs.TabPages.Add(BuildHotkeyTab());
             tabs.TabPages.Add(BuildTimerTab());
@@ -124,6 +125,13 @@ namespace L1JTW850Launcher
             _autoAntidote = AddCheck(p, "自動解毒", 24, 56);
             AddCheck(p, "自動娃娃（待接核心）", 24, 88).Enabled = false;
             AddCheck(p, "自動精煉魔法石（待接核心）", 24, 120).Enabled = false;
+            return p;
+        }
+
+        private TabPage BuildProbeTab()
+        {
+            var p = NewPage("偵測");
+            p.Controls.Add(new RuntimeProbeControl(_appDir));
             return p;
         }
 
