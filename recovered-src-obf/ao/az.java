@@ -53,7 +53,7 @@ public class az {
             s quest = new s(i2);
             quest.a(pc);
             if (quest.n() > 0) {
-                quest.d(pc.ev());
+                quest.a(pc.ev());
             }
             pc.dS().put(i2, quest);
             pc.a(new dc(518, quest));
