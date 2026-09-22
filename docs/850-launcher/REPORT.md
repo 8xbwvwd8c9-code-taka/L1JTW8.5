@@ -477,6 +477,28 @@ RUNTIME_MAPPING=STILL_UNMAPPED
 The compiler resolved framework assemblies from the GAC and produced the executable successfully. Runtime bridge field warnings were subsequently eliminated by explicit initialization.
 
 
+## 2026-09-22 850Launcher v0.2 runtime attach scaffold
+
+```text
+STATUS=PASS_SOURCE
+RUNTIME_PROCESS_DETECT=IMPLEMENTED
+TARGET_PATH=<launcher dir>\Lin.bin2
+SHA256_AUTHORITY=FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4
+MEMORY_READ=NOT_YET
+MEMORY_WRITE=NO
+```
+
+Implemented:
+
+- scans running processes for the exact deployed `Lin.bin2` path;
+- reads PID and main module base when accessible;
+- verifies the live executable SHA256 against the authoritative 850 binary;
+- reports connected/unconnected state in the helper UI;
+- keeps HP/MP/inventory values unmapped until WP3-WP5 proof exists.
+
+This advances the launcher from UI-only shell to process-aware runtime scaffold without importing donor addresses.
+
+
 ## 下一步
 
 ```text
