@@ -850,6 +850,59 @@ MODULE_RVA_OR_POINTER_CHAIN_REQUIRED
 ```
 
 
+## 2026-09-23 WP9 receive-side buff discovery
+
+```text
+STATUS=PASS_SOURCE
+RECV_IMPORTS=recv,recvfrom,WSARecv,WSARecvFrom
+RECV_IAT_XREF_SCAN=IMPLEMENTED
+DIRECT_CALLEE_FLOW=IMPLEMENTED
+MAX_DEPTH=5
+FUNCTION_FINGERPRINT=SHA256(first64)
+MEMORY_WRITE=NO
+BUFF_OPCODE_MARKERS=HEURISTIC_ONLY
+```
+
+Recovered 850 server-to-client packet constructors used only as weak receive-flow markers:
+
+```text
+S_SkillBrave             opcode 241 / 0xF1
+S_SkillIconAura          opcode 121 / 0x79
+S_SkillIconBlessOfEva    opcode 111 / 0x6F
+S_SkillIconShield        opcode 147 / 0x93
+S_Invis                  opcode 225 / 0xE1
+```
+
+Added:
+
+- `NativeReceiveXrefScanner`.
+- `NativeReceiveFlowScanner`.
+- hidden **Recv追蹤** page.
+- evidence: `native_receive_flow_evidence.txt`.
+- every receive-flow candidate records module RVA + first-64-byte SHA-256.
+- Buff opcode immediates are ranking hints only and cannot independently identify a handler.
+
+WP9 receive gate:
+
+```text
+RECV_ROOT_DISCOVERY=IMPLEMENTED
+DECRYPT_DISPATCH_FLOW=HEURISTIC
+BUFF_HANDLER_IDENTITY=NOT_YET_PROVEN
+BUFF_STATE_BRIDGE=UNMAPPED
+WP9=BLOCKED_RUNTIME_EVIDENCE
+```
+
+Source consistency check:
+
+```text
+CS_FILES=48
+CSPROJ_COMPILE_ENTRIES=48
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+DEPLOY_REQUIRED_FILES_MISSING=0
+```
+
+
 ## 下一步
 
 ```text
