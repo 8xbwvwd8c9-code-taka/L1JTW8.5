@@ -492,6 +492,60 @@ public class L1PcInventory extends L1Inventory {
       this.i(var1);
    }
 
+   public synchronized void publishCommittedQuestInsert(L1ItemInstance var1) {
+      var1.q();
+      this.a.add(var1);
+      L1World.a().a(var1);
+
+      for (L1QuestNew var2 : this.i.dS().values()) {
+         for (int var3 = 0; var3 < var2.r().length; var3++) {
+            if (var2.r()[var3] == var1.N() && var2.t()[var3] <= var1.G()) {
+               var2.a(var3, var1.E());
+            }
+         }
+      }
+
+      this.i.a(new S_AddItem(var1));
+      if (var1.N() == 640100 || var1.N() == 640102) {
+         this.i.ae();
+      }
+
+      if (var1.a().l() != 0) {
+         this.i.a(new S_ProtoBuffers(485, this.i));
+      }
+   }
+
+   public synchronized void publishCommittedQuestUpdate(L1ItemInstance var1, int var2) {
+      var1.e(var2);
+      var1.a[0] = var2;
+      this.b(var1);
+   }
+
+   public synchronized void publishCommittedQuestDelete(L1ItemInstance var1) {
+      if (var1.D()) {
+         this.a(var1, false);
+      }
+
+      if (var1.a().l() != 0) {
+         this.i.a(new S_ProtoBuffers(485, this.i));
+      }
+
+      this.i.a(new S_DeleteInventoryItem(var1));
+      this.a.remove(var1);
+      L1World.a().b(var1);
+      if (var1.N() == 640100) {
+         this.i.bz(25005);
+      }
+
+      for (L1QuestNew var2 : this.i.dS().values()) {
+         for (int var3 = 0; var3 < var2.r().length; var3++) {
+            if (var2.r()[var3] == var1.N() && var2.t()[var3] <= var1.G()) {
+               var2.a(var3, Math.max(0, var2.B()[var3] - var1.E()));
+            }
+         }
+      }
+   }
+
    @Override
    public void c(L1ItemInstance var1) {
       try {
