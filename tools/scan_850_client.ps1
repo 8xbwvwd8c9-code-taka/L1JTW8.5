@@ -68,8 +68,7 @@ $terms = @(
     'item','inventory','equip','skill','spell','buff',
     'hp','mp','health','mana','player','character',
     'object','count','enchant','use','packet','socket',
-    'login','server','port','127.0.0.1',
-    '道具','背包','裝備','技能','角色','血','魔'
+    'login','server','port','127.0.0.1'
 )
 $interesting = foreach ($s in ($asciiMatches + $unicodeMatches)) {
     foreach ($t in $terms) {
@@ -108,6 +107,7 @@ if (-not $toolResults) {
 }
 
 $summary = @(
+    "SOURCE_ENCODING=ASCII_SAFE",
     "STATUS=PASS",
     "FILE=$($fi.Name)",
     "SIZE=$($fi.Length)",
