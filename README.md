@@ -31,6 +31,7 @@ BUG
 | BUG-850-293 | L2 | NPC purchase war-tax treasury accounting | PASS / PROMOTED |
 | BUG-850-292 | L2 | c3p0 connection acquisition / checkout liveness | PASS / PROMOTED |
 | BUG-850-291 | L2 | clan-mail sender/target clan authorization binding | PASS / PROMOTED |
+| BUG-850-284 | L2 | ShopWorld clan-announcement governance authorization | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -415,6 +416,112 @@ This is a targeted authorization/runtime regression gate, not a live multi-clien
 
 ```text
 BUG-850-291=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-284 — ShopWorld clan announcement lacked clan-governance authorization
+
+### Problem
+
+ShopWorld action 15 resolves the active player's clan and persists a shared clan announcement to `clan_data.announcement`.
+
+Before this repair, any session belonging to a clan could reach the mutation path without proving that the requester was the current clan leader / crown authority.
+
+### Root cause
+
+The handler used the player's `ClanID` to find the clan object, but treated clan membership itself as sufficient authorization for a clan-wide persistent governance mutation.
+
+The same 8.5 core already uses a stronger boundary in `C_BanClan`:
+
+```text
+requester is crown/royal
+AND
+requester object id == clan leader id
+```
+
+### Runtime source map
+
+- CORE: `C_ShopWorld`, action 15
+- Clan source: active player's `ClanID`
+- Leader authority: `L1Clan.leaderId`
+- Persistence: `ClanTable.update(clan)`
+- DB: `clan_data.announcement`
+- Config/default layer: none
+- Protocol change: **none**
+- DB schema change: **none**
+
+### 380 / 880 cross-check
+
+A direct matching `C_ShopWorld` action-15 implementation was not available at the expected donor paths during this repair, so no donor authorization logic was guessed or copied.
+
+The repair instead reuses the already-established 8.5 clan-governance boundary from `C_BanClan`.
+
+### Fix
+
+Before changing or persisting the announcement, action 15 now requires:
+
+```text
+clan exists
+AND requester is crown/royal
+AND requester object id == current clan leader id
+```
+
+Unauthorized requests fail closed and use the existing clan-governance denial message `518`.
+
+The clan-name/announcement payload format and persistence schema are unchanged.
+
+### Required null guard
+
+The completed baseline did not yet contain the work branch's action-15 clan-null guard.
+
+Because leader authorization cannot safely evaluate `clan.leaderId` on a missing clan, this promotion includes the minimal:
+
+```text
+if clan == null -> return
+```
+
+as a prerequisite to the L2 authorization boundary.
+
+No other ShopWorld action-8/action-10 work-branch changes were promoted with this repair.
+
+### Modified core source
+
+- `recovered-src-obf/aj/cd.java`
+- `recovery/normalized-src-vf/l1r/aj/C_ShopWorld.java`
+
+Promotion commits:
+
+- obfuscated source: `1e080de4b8544618c065b71cc02e3f62416e244d`
+- normalized source: `fc246c4c47464a07fd1ae4e8a55963007b6ffc15`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35675169378
+STATUS = PASS
+
+BUG_850_284_CONTRACT=PASS
+ANNOUNCEMENT_AUTHORITY=crown+current_clan_leader
+BUG_850_284_TARGETED_BEHAVIOR_RUNTIME=PASS
+CLAN_GOVERNANCE_AUTHORITY=PASS
+BUG_850_284_EXACT_BASE_TRANSFORM=PASS
+BUG_850_284_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+An earlier run failed only because YAML block indentation altered a multiline string inside the exact-transform harness. The exact comparison was moved to a standalone Python validator and the corrected run passed.
+
+This is a targeted governance/runtime regression gate, not a live multi-client game-server session.
+
+### Result
+
+```text
+BUG-850-284=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
