@@ -45,6 +45,7 @@
     <Compile Include="InventoryBridge.cs" />
     <Compile Include="InventoryMap.cs" />
     <Compile Include="MappedInventoryBridge.cs" />
+    <Compile Include="InventoryMapControl.cs" />
     <Compile Include="RuntimeMap.cs" />
     <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
