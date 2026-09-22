@@ -222,19 +222,10 @@ namespace L1JTW850Launcher
                     appDir,
                     "inventory_validation_evidence.txt");
 
-            var validationSessions =
+            var latestInventory =
                 InventoryValidationEvidenceComparer
-                .Load(validationPath);
-
-            InventoryValidationSession latestInventory =
-                null;
-
-            if (validationSessions.Count > 0)
-            {
-                latestInventory =
-                    validationSessions[
-                        validationSessions.Count - 1];
-            }
+                .LatestAuthoritative(
+                    validationPath);
 
             var inventorySessionStructurallyValid =
                 latestInventory != null &&
