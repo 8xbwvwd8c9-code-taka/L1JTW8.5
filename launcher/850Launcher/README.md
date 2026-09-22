@@ -271,3 +271,27 @@ selected buff skills
 ```
 
 The hidden **SkillUse協定** page builds logical decrypted payloads for evidence only. SEND=NO.
+
+## WP3 player identity probe
+
+The hidden **玩家偵測** page performs a read-only search for:
+
+```text
+player objectId
+player X
+player Y
+```
+
+Workflow:
+
+1. Read the character objectId from the authoritative 850 character DB.
+2. Enter current in-game X/Y.
+3. Select X/Y memory width (2 or 4 bytes).
+4. Run **首次掃描**.
+5. Move the character.
+6. Enter the new X/Y and run **再次篩選**.
+7. Repeat until objectId/X/Y candidates form a small nearby cluster.
+8. Convert stable addresses to module RVA / pointer chains.
+9. Validate across relog and full client restart before saving them in `runtime-map.ini`.
+
+The probe locks objectId and coordinate widths after the first scan so evidence cannot be mixed across incompatible layouts.
