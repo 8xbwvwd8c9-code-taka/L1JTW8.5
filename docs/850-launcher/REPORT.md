@@ -1104,6 +1104,62 @@ MISSING_SOURCE_FILES=0
 ```
 
 
+## 2026-09-23 Source integrity + client authority gate
+
+```text
+STATUS=PASS_SOURCE
+SOURCE_AUDIT=IMPLEMENTED
+BUILD_PRE_AUDIT=ENABLED
+CLIENT_SHA256_GATE=IMPLEMENTED
+AUTHORITY_SHA256=FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4
+OLD_EVIDENCE_WITHOUT_HASH=IGNORED
+NON_AUTH_CLIENT_RUNTIME=REJECTED
+```
+
+Source audit found and fixed three real corruption families introduced during generated-source writes:
+
+```text
+PointerEvidenceComparer.cs
+- Regex \d/\s/\S escapes had been lost
+- session key contained an accidental physical newline in an ordinary C# string
+
+NativeCallGraphEvidenceComparer.cs
+- Regex \d/\S escapes had been lost
+
+ItemNameResolver.cs
+- CSV quote escaping had become invalid C# triple quotes
+```
+
+Added `source_audit.ps1`; `build.ps1` executes it before compilation.
+
+Current audit targets:
+
+- csproj/source inclusion parity;
+- ordinary-string physical newline;
+- unterminated string/char literal;
+- C#4-incompatible triple quote;
+- known generated Regex lost-backslash signatures.
+
+Runtime authority was tightened:
+
+- `RuntimeSnapshot` now carries `ClientSha256` + `ClientHashAuthoritative`;
+- hash cache invalidates when Lin.bin2 length/write-time changes;
+- non-authoritative Lin.bin2 is no longer considered a connected runtime;
+- fast HP/MP refresh also requires authoritative client identity;
+- WP3/WP4 pointer evidence, semantic evidence, WP6 inventory evidence, WP7 send/xref/call-graph evidence, and WP9 receive-flow evidence now record client hash identity;
+- pointer, semantic, inventory, and native send comparers accept only authoritative-hash sessions;
+- **驗證總覽** shows client hash authority directly.
+
+Source consistency:
+
+```text
+CS_FILES=60
+CSPROJ_COMPILE_ENTRIES=60
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+```
+
+
 ## 下一步
 
 ```text
