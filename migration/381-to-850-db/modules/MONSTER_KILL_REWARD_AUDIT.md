@@ -23,6 +23,18 @@ Fields used by runtime:
 
 Current donor content includes ordinary and world-boss style monsters.
 
+## Source DB authority
+
+Current split SQL artifact is INSERT-only and does not include a CREATE schema.
+
+More importantly, the current INSERT column list does **not** include `Npc編號`, while `L1MonTable.load()` requires `rs.getInt("Npc編號")` as the rule key.
+
+Therefore:
+- framework semantics are sufficiently proven for difficulty classification
+- an installable migration schema/data set is **not** proven
+- do not infer `Npc編號` values from row order or NPC names
+- authoritative CREATE schema and keyed source rows are required before generating install.sql
+
 ## Loader
 
 `L1MonTable.load()` loads `w_怪物擊殺系統` into `L1Mon` templates keyed by NPC ID.
@@ -199,7 +211,8 @@ No evidence justifies L4 because no custom client dependency is required.
 ## Status
 
 ```
-STATUS=PASS
+STATUS=BLOCKED
+AUDIT=PASS
 MODULE=w_怪物擊殺系統
 LEVEL=L3
 CORE_DEP=YES
@@ -209,4 +222,7 @@ DEATH_HOOK=L1MonsterInstance.distributeExpDropKarma
 PERSISTENCE=NONE_FOR_DAMAGE
 CLIENT_DEP=NO
 NATIVE_850_EQUIVALENT=NOT_FOUND
+SOURCE_SCHEMA=NOT_PROVEN
+SOURCE_KEY_DATA=NOT_PROVEN
+BLOCKER=Npc編號 required by loader but absent from current split INSERT column list
 ```
