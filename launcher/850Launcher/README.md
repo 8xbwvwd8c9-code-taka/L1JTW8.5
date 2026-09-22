@@ -383,3 +383,37 @@ status = RESTART_STABLE
 ```
 
 `RESTART_STABLE` is necessary but not sufficient for WP3/WP4 PASS; the original controlled HP/MP or player movement correlation must already be valid.
+
+## WP3/WP4 semantic restart gate
+
+Pointer-chain restart stability is structural evidence only.
+
+Final WP3/WP4 PASS now requires a separate semantic validation workflow:
+
+```text
+映射驗證
+  -> enter current in-game truth
+  -> read runtime-map.ini through ProcessRuntimeBridge
+  -> compare actual mapped values with the entered truth
+  -> append session evidence
+
+語意比對
+  -> compare latest sessions
+  -> require >=3 checked sessions
+  -> every checked session PASS
+  -> require >=2 distinct client process instances
+```
+
+WP4 truth fields:
+
+```text
+CurrentHP / MaxHP / CurrentMP / MaxMP
+```
+
+WP3 truth fields:
+
+```text
+PlayerObjectId / PlayerX / PlayerY
+```
+
+The truth values are allowed to change between sessions. The gate proves that the mapping keeps resolving the correct live values after relog and full client restart.
