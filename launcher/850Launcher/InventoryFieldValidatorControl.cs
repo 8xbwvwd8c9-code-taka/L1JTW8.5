@@ -280,6 +280,9 @@ namespace L1JTW850Launcher
 
                 sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 sb.AppendLine("PID=" + _lastRuntime.ProcessId);
+                sb.AppendLine("PROCESS_START_UTC=" + (_lastRuntime.ProcessStartTimeUtc.HasValue ? _lastRuntime.ProcessStartTimeUtc.Value.ToString("o") : ""));
+                sb.AppendLine("CLIENT_SHA256=" + (_lastRuntime.ClientSha256 ?? ""));
+                sb.AppendLine("CLIENT_AUTHORITY=" + (_lastRuntime.ClientHashAuthoritative ? 1 : 0));
                 sb.AppendLine("MODULE_BASE=0x" + _lastRuntime.ModuleBase.ToInt64().ToString("X8"));
                 sb.AppendLine("RECORD_BASE=" + _recordBase.Text.Trim());
                 sb.AppendLine("OBJECT_ID_OFFSET=" + _objectIdOffset.Text.Trim());
