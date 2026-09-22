@@ -10,7 +10,7 @@ namespace L1JTW850Launcher
         private readonly string _appDir;
         private readonly LauncherConfig _config;
         private readonly HelperSettings _helper;
-        private readonly IRuntimeBridge _runtime = new UnmappedRuntimeBridge();
+        private readonly IRuntimeBridge _runtime;
 
         private TextBox _serverName, _ip, _port;
         private Label _runtimeState, _hpmp;
@@ -23,6 +23,7 @@ namespace L1JTW850Launcher
             _appDir = appDir;
             _config = config;
             _helper = helper;
+            _runtime = new ProcessRuntimeBridge(appDir);
 
             Text = "L1JTW 8.50 登入器 + 輔助";
             Width = 760;
