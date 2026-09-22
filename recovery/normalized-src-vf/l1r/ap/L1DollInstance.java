@@ -138,7 +138,11 @@ public class L1DollInstance extends L1NpcInstance {
       var2.j().b(this.A);
    }
 
-   public void e() {
+   public synchronized void e() {
+      if (this.ah()) {
+         return;
+      }
+
       this.b(new S_SkillSound(this.fr(), 5936));
       if (this.k != null) {
          L1PcInstance var1 = (L1PcInstance)this.k;
