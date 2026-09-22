@@ -45,6 +45,7 @@
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
+    <Compile Include="InventoryProbeControl.cs" />
     <Compile Include="MainForm.cs" />
   </ItemGroup>
   <ItemGroup>
