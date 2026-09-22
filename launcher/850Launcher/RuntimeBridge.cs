@@ -39,6 +39,7 @@ namespace L1JTW850Launcher
     {
         private readonly string _expectedClientPath;
         private readonly string _runtimeMapPath;
+        private readonly IInventoryBridge _inventoryBridge;
         private string _lastHash = "";
         private bool? _lastHashMatch;
 
@@ -46,6 +47,7 @@ namespace L1JTW850Launcher
         {
             _expectedClientPath = Path.GetFullPath(Path.Combine(appDir, "Lin.bin2"));
             _runtimeMapPath = Path.Combine(appDir, "runtime-map.ini");
+            _inventoryBridge = new UnmappedInventoryBridge();
         }
 
         private void ApplyHpMpMap(RuntimeSnapshot snapshot)
@@ -162,6 +164,10 @@ namespace L1JTW850Launcher
                             "，基址=0x" + module.BaseAddress.ToInt64().ToString("X8");
 
                         ApplyHpMpMap(snapshot);
+
+                        var inventory = _inventoryBridge.Read(snapshot);
+                        foreach (var item in inventory.Items)
+                            snapshot.Items.Add(item);
 
                         return snapshot;
                     }
