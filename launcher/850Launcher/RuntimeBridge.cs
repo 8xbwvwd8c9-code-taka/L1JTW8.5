@@ -11,6 +11,7 @@ namespace L1JTW850Launcher
         public string Status = "UNMAPPED";
         public int ProcessId;
         public string ProcessPath = "";
+        public DateTime? ProcessStartTimeUtc = null;
         public IntPtr ModuleBase = IntPtr.Zero;
         public int ModuleSize;
         public int? CurrentHp = null;
@@ -142,6 +143,15 @@ namespace L1JTW850Launcher
                         snapshot.Connected = true;
                         snapshot.ProcessId = process.Id;
                         snapshot.ProcessPath = path;
+                        try
+                        {
+                            snapshot.ProcessStartTimeUtc =
+                                process.StartTime.ToUniversalTime();
+                        }
+                        catch
+                        {
+                            snapshot.ProcessStartTimeUtc = null;
+                        }
                         snapshot.ModuleBase = module.BaseAddress;
                         snapshot.ModuleSize = module.ModuleMemorySize;
 
