@@ -307,6 +307,24 @@ core-fix handoff
 
 若研究過程需要參照服務端資料，只在報告內留下最小必要結論，不複製服務端文件進本支線。
 
+## 2026-09-22 Reverse checkpoint
+
+```text
+WP1=PASS_ANALYSIS
+WP2=DESIGN_READY
+WP3=READY_FOR_LOCAL_SCAN
+WP4=READY_FOR_RUNTIME_CORRELATION
+WP5=READY_FOR_RUNTIME_CORRELATION
+WP6=BLOCKED_BY_WP3-WP5
+```
+
+新增：
+
+- `docs/850-launcher/reverse/WP3-WP5_STATIC_PLAN.md`
+- `tools/scan_850_client.ps1`
+
+目前不接受任何 381/880 address 作 850 authority。850 `Lin.bin2` 必須輸出自己的 hash / PE / strings / runtime correlation evidence 後，才可建立 Player、HP/MP、Inventory mapping。
+
 ## 下一步
 
 ```text
