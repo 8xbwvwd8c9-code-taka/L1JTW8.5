@@ -14,6 +14,7 @@ namespace L1JTW850Launcher
         private readonly ProcessRuntimeBridge _bridge;
         private readonly PointerChainScanner _scanner = new PointerChainScanner();
 
+        private ComboBox _field;
         private TextBox _target;
         private TextBox _maxOffset;
         private CheckBox _depth2;
@@ -35,26 +36,46 @@ namespace L1JTW850Launcher
             var top = new Panel { Dock = DockStyle.Top, Height = 84, Padding = new Padding(8) };
             Controls.Add(top);
 
-            top.Controls.Add(new Label { Text = "目標位址", Left = 12, Top = 15, Width = 62 });
-            _target = new TextBox { Left = 80, Top = 11, Width = 130 };
+            top.Controls.Add(new Label { Text = "欄位", Left = 12, Top = 15, Width = 34 });
+            _field = new ComboBox
+            {
+                Left = 50,
+                Top = 11,
+                Width = 130,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+            _field.Items.Add("CurrentHP");
+            _field.Items.Add("MaxHP");
+            _field.Items.Add("CurrentMP");
+            _field.Items.Add("MaxMP");
+            _field.Items.Add("PlayerObjectId");
+            _field.Items.Add("PlayerX");
+            _field.Items.Add("PlayerY");
+            _field.Items.Add("InventoryCount");
+            _field.Items.Add("InventoryRecord");
+            _field.SelectedIndex = 0;
+            top.Controls.Add(_field);
+
+            top.Controls.Add(new Label { Text = "目標位址", Left = 196, Top = 15, Width = 62 });
+            _target = new TextBox { Left = 264, Top = 11, Width = 118 };
             top.Controls.Add(_target);
 
-            top.Controls.Add(new Label { Text = "最大 Offset", Left = 226, Top = 15, Width = 72 });
-            _maxOffset = new TextBox { Left = 302, Top = 11, Width = 82, Text = "0x400" };
+            top.Controls.Add(new Label { Text = "最大 Offset", Left = 396, Top = 15, Width = 72 });
+            _maxOffset = new TextBox { Left = 472, Top = 11, Width = 82, Text = "0x400" };
             top.Controls.Add(_maxOffset);
 
-            _depth2 = new CheckBox { Left = 400, Top = 13, Width = 110, Text = "包含 2 層", Checked = true };
+            _depth2 = new CheckBox { Left = 566, Top = 13, Width = 100, Text = "包含 2 層", Checked = true };
             top.Controls.Add(_depth2);
 
-            _scan = new Button { Text = "搜尋指標鏈", Left = 520, Top = 9, Width = 105 };
-            _copy = new Button { Text = "複製設定", Left = 633, Top = 9, Width = 90, Enabled = false };
+            _scan = new Button { Text = "搜尋", Left = 670, Top = 9, Width = 58 };
+            _copy = new Button { Text = "複製", Left = 670, Top = 42, Width = 58, Enabled = false };
             top.Controls.Add(_scan);
             top.Controls.Add(_copy);
 
             _status = new Label
             {
-                Left = 12, Top = 50, Width = 710,
-                Text = "將已驗證的 HP/MP 候選絕對位址貼入後搜尋。"
+                Left = 12, Top = 50, Width = 640,
+                Text = "選欄位後貼入已驗證候選絕對位址；欄位會寫入 evidence 供跨重啟比對。"
             };
             top.Controls.Add(_status);
 
@@ -105,6 +126,7 @@ namespace L1JTW850Launcher
             }
 
             var includeDepth2 = _depth2.Checked;
+            var fieldName = Convert.ToString(_field.SelectedItem);
 
             _scan.Enabled = false;
             _copy.Enabled = false;
@@ -127,7 +149,7 @@ namespace L1JTW850Launcher
                     includeDepth2,
                     out status);
 
-                e.Result = new object[] { list, status, runtime, target, maxOffset };
+                e.Result = new object[] { list, status, runtime, target, maxOffset, fieldName };
             };
             worker.RunWorkerCompleted += delegate(object sender, RunWorkerCompletedEventArgs e)
             {
@@ -145,10 +167,16 @@ namespace L1JTW850Launcher
                 var rt = (RuntimeSnapshot)data[2];
                 var targetValue = (long)data[3];
                 var offsetValue = (int)data[4];
+                var savedFieldName = Convert.ToString(data[5]);
 
                 ShowResults(list);
                 _status.Text = status;
-                SaveEvidence(list, rt, targetValue, offsetValue);
+                SaveEvidence(
+                    list,
+                    rt,
+                    targetValue,
+                    offsetValue,
+                    savedFieldName);
             };
             worker.RunWorkerAsync();
         }
@@ -191,7 +219,8 @@ namespace L1JTW850Launcher
             List<PointerChainCandidate> list,
             RuntimeSnapshot runtime,
             long target,
-            int maxOffset)
+            int maxOffset,
+            string fieldName)
         {
             try
             {
@@ -200,7 +229,8 @@ namespace L1JTW850Launcher
 
                 sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 sb.AppendLine("PID=" + runtime.ProcessId);
-                sb.AppendLine("MODULE_BASE=0x" + runtime.ModuleBase.ToInt64().ToString("X8"));
+                sb.AppendLine("PROCESS_START_UTC=" + (runtime.ProcessStartTimeUtc.HasValue ? runtime.ProcessStartTimeUtc.Value.ToString("o") : ""));
+                sb.AppendLine("FIELD=" + (fieldName ?? ""));                sb.AppendLine("MODULE_BASE=0x" + runtime.ModuleBase.ToInt64().ToString("X8"));
                 sb.AppendLine("MODULE_SIZE=" + runtime.ModuleSize);
                 sb.AppendLine("TARGET=0x" + target.ToString("X8"));
                 sb.AppendLine("MAX_OFFSET=0x" + maxOffset.ToString("X"));
