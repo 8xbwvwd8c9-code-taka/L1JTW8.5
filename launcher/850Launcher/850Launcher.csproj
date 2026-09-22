@@ -42,6 +42,8 @@
     <Compile Include="AutoPotionPolicy.cs" />
     <Compile Include="AutoPotionController.cs" />
     <Compile Include="ItemUseBridge.cs" />
+    <Compile Include="ItemUseProtocol.cs" />
+    <Compile Include="ItemUseProtocolControl.cs" />
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
