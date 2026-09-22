@@ -227,6 +227,97 @@ namespace L1JTW850Launcher
             }
         }
 
+        public bool TryReadInt32(IntPtr address, out int value, out string error)
+        {
+            value = 0;
+            error = "";
+
+            if (_handle == IntPtr.Zero)
+            {
+                error = "尚未連接程序。";
+                return false;
+            }
+
+            var buffer = new byte[4];
+            IntPtr bytesRead;
+            if (!ReadProcessMemory(_handle, address, buffer, 4, out bytesRead) ||
+                bytesRead.ToInt64() != 4)
+            {
+                error = "ReadProcessMemory 失敗 @0x" +
+                        address.ToInt64().ToString("X8") +
+                        " Win32=" + Marshal.GetLastWin32Error();
+                return false;
+            }
+
+            value = BitConverter.ToInt32(buffer, 0);
+            return true;
+        }
+
+        public bool TryReadUInt32(IntPtr address, out uint value, out string error)
+        {
+            value = 0;
+            error = "";
+
+            int signed;
+            if (!TryReadInt32(address, out signed, out error))
+                return false;
+
+            value = unchecked((uint)signed);
+            return true;
+        }
+
+        public bool TryReadInt16(IntPtr address, out short value, out string error)
+        {
+            value = 0;
+            error = "";
+
+            if (_handle == IntPtr.Zero)
+            {
+                error = "尚未連接程序。";
+                return false;
+            }
+
+            var buffer = new byte[2];
+            IntPtr bytesRead;
+            if (!ReadProcessMemory(_handle, address, buffer, 2, out bytesRead) ||
+                bytesRead.ToInt64() != 2)
+            {
+                error = "ReadProcessMemory 失敗 @0x" +
+                        address.ToInt64().ToString("X8") +
+                        " Win32=" + Marshal.GetLastWin32Error();
+                return false;
+            }
+
+            value = BitConverter.ToInt16(buffer, 0);
+            return true;
+        }
+
+        public bool TryReadByte(IntPtr address, out byte value, out string error)
+        {
+            value = 0;
+            error = "";
+
+            if (_handle == IntPtr.Zero)
+            {
+                error = "尚未連接程序。";
+                return false;
+            }
+
+            var buffer = new byte[1];
+            IntPtr bytesRead;
+            if (!ReadProcessMemory(_handle, address, buffer, 1, out bytesRead) ||
+                bytesRead.ToInt64() != 1)
+            {
+                error = "ReadProcessMemory 失敗 @0x" +
+                        address.ToInt64().ToString("X8") +
+                        " Win32=" + Marshal.GetLastWin32Error();
+                return false;
+            }
+
+            value = buffer[0];
+            return true;
+        }
+
         public List<ProbeDword> ReadDwords(IntPtr center, int bytesBefore, int bytesAfter)
         {
             var result = new List<ProbeDword>();
