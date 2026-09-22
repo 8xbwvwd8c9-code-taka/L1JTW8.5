@@ -639,10 +639,12 @@ BUG-850-179=DONE
 BUG-850-179_CI=35757742927 PASS
 BUG-850-214=DONE
 BUG-850-214_CI=35757749690 PASS
-REMAINING_CORE_BLOCKERS=0
+REMAINING_AUTHORITY_BLOCKERS=0
+OPEN_REPAIR_LEDGER=12
+OPEN_BREAKDOWN=11 PATCHED_PENDING_VALIDATION + BUG-850-208 ROUTE_AUTHORITY
 ```
 
-最後兩個 authority blocker 已清除。技能金幣購買只接受伺服器證明的 70003 / 70009 / 190139 / 190143，材料學技維持 70080；一般武器修理只接受 10 個經 Text 服務鏈與 850 NPC DB 交集證明的 repair NPC，`fixFree` 專用的 70517 不混入一般修理。兩條路徑都在 mutation 前重新驗證 NPC authority、同 NPC context、map/range 與單次 TTL。
+最後兩個 trainer/repair authority blocker 已清除；repair ledger 另有 11 筆舊 patch 待驗證與 BUG-850-208 route authority，繼續收尾。技能金幣購買只接受伺服器證明的 70003 / 70009 / 190139 / 190143，材料學技維持 70080；一般武器修理只接受 10 個經 Text 服務鏈與 850 NPC DB 交集證明的 repair NPC，`fixFree` 專用的 70517 不混入一般修理。兩條路徑都在 mutation 前重新驗證 NPC authority、同 NPC context、map/range 與單次 TTL。
 
 ### 核心修復進度更新（2026-09-23 / BUG-850-130）
 
