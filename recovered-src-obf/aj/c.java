@@ -18,6 +18,10 @@ import be.be;
 import be.ds;
 import bh.i;
 import bj.d;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
@@ -90,54 +94,12 @@ extends cv {
                     return;
                 }
             }
-            if (!pc.j().b(40308, amount)) {
+            if (!pc.j().g(40308, amount)) {
                 pc.a(new ds(189));
                 return;
             }
-
-            int oldPrice = house.k();
-            String oldBidder = house.n();
-            int oldBidderId = house.o();
-            house.d(amount);
-            house.d(pc.et());
-            house.f(pc.fr());
-            if (!ab.a().a(house)) {
-                house.d(oldPrice);
-                house.d(oldBidder);
-                house.f(oldBidderId);
-                ao.ah.a(pc, 40308, amount, 0, false);
+            if (!this.commitAuctionBidAtomic(pc, house, amount)) {
                 return;
-            }
-
-            if (oldBidderId != 0 && oldPrice > 0) {
-                boolean refundOk = true;
-                try {
-                    u bidPc = (u)aq.a().a(oldBidderId);
-                    if (bidPc != null) {
-                        refundOk = ah.a(bidPc, 40308, oldPrice, 0, false) != null;
-                        if (refundOk) {
-                            bidPc.a(new ds(525, String.valueOf(oldPrice)));
-                        }
-                    } else {
-                        q item = ah.a().b(40308);
-                        if (item == null) {
-                            refundOk = false;
-                        } else {
-                            item.e(oldPrice);
-                            l.a().a(oldBidderId, item);
-                        }
-                    }
-                }
-                catch (Exception refundFailure) {
-                    refundOk = false;
-                }
-                if (!refundOk) {
-                    house.d(oldPrice);
-                    house.d(oldBidder);
-                    house.f(oldBidderId);
-                    ab.a().a(house);
-                    ao.ah.a(pc, 40308, amount, 0, false);
-                }
             }
             return;
         }
@@ -231,6 +193,180 @@ extends cv {
             }
             pc.a(new ds(143, npc.et(), item.s()));
             pc.a(new be(npcId, "inn4", npc.et()));
+        }
+    }
+
+    private boolean commitAuctionBidAtomic(u pc, bh.i house, int amount) {
+        synchronized (house) {
+            ap.q bidderAdena = pc.j().b(40308);
+            if (bidderAdena == null || bidderAdena.E() < amount) {
+                return false;
+            }
+
+            int bidderOldCount = bidderAdena.E();
+            int bidderNewCount = bidderOldCount - amount;
+            int oldPrice = house.k();
+            int oldBidderId = house.o();
+            Timestamp oldDeadline = house.j();
+            u oldPc = oldBidderId == 0 ? null : (u)aq.a().a(oldBidderId);
+            ap.q oldAdena = null;
+            ap.q refundInsert = null;
+            int oldAdenaOldCount = 0;
+            int oldAdenaNewCount = 0;
+
+            Connection con = null;
+            boolean oldAutoCommit = true;
+            boolean committed = false;
+
+            try {
+                con = l1j.server.b.a().b();
+                this.requireAuctionBidInnoDb(con);
+                oldAutoCommit = con.getAutoCommit();
+                con.setAutoCommit(false);
+
+                try (PreparedStatement pstm = con.prepareStatement(
+                        "UPDATE house SET price=?, bidder=?, bidder_id=? WHERE house_id=? AND is_on_sale=1 AND price=? AND bidder_id=? AND deadline=?")) {
+                    pstm.setInt(1, amount);
+                    pstm.setString(2, pc.et());
+                    pstm.setInt(3, pc.fr());
+                    pstm.setInt(4, house.b());
+                    pstm.setInt(5, oldPrice);
+                    pstm.setInt(6, oldBidderId);
+                    pstm.setTimestamp(7, oldDeadline);
+                    if (pstm.executeUpdate() != 1) {
+                        throw new SQLException("BUG-850-142 house bid CAS failed");
+                    }
+                }
+
+                l items = l.a();
+                if (bidderNewCount == 0) {
+                    items.deleteQuestRewardItem(con, pc.fr(), bidderAdena, bidderOldCount);
+                } else {
+                    items.updateQuestRewardCount(con, pc.fr(), bidderAdena, bidderOldCount, bidderNewCount);
+                }
+
+                if (oldBidderId != 0 && oldPrice > 0) {
+                    if (oldPc != null) {
+                        oldAdena = oldPc.j().b(40308);
+                        if (oldAdena != null) {
+                            oldAdenaOldCount = oldAdena.E();
+                            long newCountLong = (long)oldAdenaOldCount + (long)oldPrice;
+                            if (newCountLong > Integer.MAX_VALUE) {
+                                throw new SQLException("BUG-850-142 old bidder Adena overflow");
+                            }
+                            oldAdenaNewCount = (int)newCountLong;
+                            items.updateQuestRewardCount(con, oldBidderId, oldAdena, oldAdenaOldCount, oldAdenaNewCount);
+                        } else {
+                            refundInsert = ah.a().b(40308);
+                            if (refundInsert == null) {
+                                throw new SQLException("BUG-850-142 refund item template unavailable");
+                            }
+                            refundInsert.e(oldPrice);
+                            items.insertQuestReward(con, oldBidderId, refundInsert);
+                        }
+                    } else {
+                        try (PreparedStatement pstm = con.prepareStatement(
+                                "SELECT id,count FROM character_items WHERE char_id=? AND item_id=40308 ORDER BY id LIMIT 1 FOR UPDATE")) {
+                            pstm.setInt(1, oldBidderId);
+                            try (ResultSet rs = pstm.executeQuery()) {
+                                if (rs.next()) {
+                                    int itemId = rs.getInt("id");
+                                    int count = rs.getInt("count");
+                                    long newCountLong = (long)count + (long)oldPrice;
+                                    if (newCountLong > Integer.MAX_VALUE) {
+                                        throw new SQLException("BUG-850-142 offline old bidder Adena overflow");
+                                    }
+                                    try (PreparedStatement update = con.prepareStatement(
+                                            "UPDATE character_items SET count=? WHERE id=? AND char_id=? AND count=?")) {
+                                        update.setInt(1, (int)newCountLong);
+                                        update.setInt(2, itemId);
+                                        update.setInt(3, oldBidderId);
+                                        update.setInt(4, count);
+                                        if (update.executeUpdate() != 1) {
+                                            throw new SQLException("BUG-850-142 offline refund CAS failed");
+                                        }
+                                    }
+                                } else {
+                                    refundInsert = ah.a().b(40308);
+                                    if (refundInsert == null) {
+                                        throw new SQLException("BUG-850-142 offline refund item template unavailable");
+                                    }
+                                    refundInsert.e(oldPrice);
+                                    items.insertQuestReward(con, oldBidderId, refundInsert);
+                                }
+                            }
+                        }
+                    }
+                }
+
+                con.commit();
+                committed = true;
+            }
+            catch (Exception e2) {
+                if (con != null) {
+                    try {
+                        con.rollback();
+                    }
+                    catch (SQLException ignored) {
+                    }
+                }
+            }
+            finally {
+                if (con != null) {
+                    try {
+                        con.setAutoCommit(oldAutoCommit);
+                    }
+                    catch (SQLException ignored) {
+                    }
+                    try {
+                        con.close();
+                    }
+                    catch (SQLException ignored) {
+                    }
+                }
+            }
+
+            if (!committed) {
+                return false;
+            }
+
+            house.d(amount);
+            house.d(pc.et());
+            house.f(pc.fr());
+
+            if (bidderNewCount == 0) {
+                pc.j().publishCommittedQuestDelete(bidderAdena);
+            } else {
+                pc.j().publishCommittedQuestUpdate(bidderAdena, bidderNewCount);
+            }
+
+            if (oldPc != null && oldBidderId != 0 && oldPrice > 0) {
+                if (oldAdena != null) {
+                    oldPc.j().publishCommittedQuestUpdate(oldAdena, oldAdenaNewCount);
+                } else if (refundInsert != null) {
+                    oldPc.j().publishCommittedQuestInsert(refundInsert);
+                }
+                oldPc.a(new ds(525, String.valueOf(oldPrice)));
+            }
+
+            return true;
+        }
+    }
+
+    private void requireAuctionBidInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "SELECT TABLE_NAME,ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('house','character_items')");
+             ResultSet rs = pstm.executeQuery()) {
+            int count = 0;
+            while (rs.next()) {
+                if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-142 requires InnoDB auction tables");
+                }
+                ++count;
+            }
+            if (count != 2) {
+                throw new SQLException("BUG-850-142 missing auction transaction table");
+            }
         }
     }
 
