@@ -53,6 +53,11 @@ public class HouseTimer {
       int var4 = var1.m();
       String var5 = var1.n();
       int var6 = var1.o();
+      if (var3 < 100000 || var3 > 2000000000) {
+         a.log(Level.WARNING, "Invalid house auction price; settlement blocked. houseId={0}, price={1}", new Object[]{var2, var3});
+         return;
+      }
+
       L1Clan var17 = this.findOwnerClan(var2);
       L1Clan var18 = var6 == 0 ? null : this.findEligibleBidderClan(var6);
 
