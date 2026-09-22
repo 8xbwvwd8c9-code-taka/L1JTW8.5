@@ -289,6 +289,14 @@ public class an {
         return result;
     }
 
+    public void removeInboxCache(int inboxId) {
+        for (k mail : c) {
+            if (mail.i() == inboxId) {
+                c.remove(mail);
+            }
+        }
+    }
+
     public k c(int mailId) {
         for (k mail : c) {
             if (mail.a() != mailId) continue;

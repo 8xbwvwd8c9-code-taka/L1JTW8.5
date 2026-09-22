@@ -113,6 +113,15 @@ public class BuddyTable {
       }
    }
 
+   public void removeDeletedCharacter(int var1, String var2) {
+      this.c.remove(var1);
+      for (L1Buddy var3 : this.c.values()) {
+         if (var3.b(var2)) {
+            var3.a(var2);
+         }
+      }
+   }
+
    public void a(int var1, String var2) {
       Connection var3 = null;
       PreparedStatement var4 = null;

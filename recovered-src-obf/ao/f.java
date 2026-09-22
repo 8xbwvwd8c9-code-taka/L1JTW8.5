@@ -142,6 +142,15 @@ public class f {
         }
     }
 
+    public void removeDeletedCharacter(int objId, String name) {
+        this.c.remove(objId);
+        for (d buddy : this.c.values()) {
+            if (buddy.b(name)) {
+                buddy.a(name);
+            }
+        }
+    }
+
     public void a(int charId, String buddyName) {
         block6: {
             Connection con = null;

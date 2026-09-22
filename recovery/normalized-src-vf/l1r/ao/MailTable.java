@@ -235,6 +235,14 @@ public class MailTable {
       return var3;
    }
 
+   public void removeInboxCache(int var1) {
+      for (L1Mail var2 : c) {
+         if (var2.i() == var1) {
+            c.remove(var2);
+         }
+      }
+   }
+
    public L1Mail c(int var1) {
       for (L1Mail var2 : c) {
          if (var2.a() == var1) {
