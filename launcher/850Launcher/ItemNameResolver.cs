@@ -43,9 +43,9 @@ namespace L1JTW850Launcher
                     continue;
 
                 var name = line.Substring(comma + 1).Trim();
-                if (name.StartsWith(""") && name.EndsWith(""") && name.Length >= 2)
+                if (name.StartsWith("\"") && name.EndsWith("\"") && name.Length >= 2)
                 {
-                    name = name.Substring(1, name.Length - 2).Replace("""", """);
+                    name = name.Substring(1, name.Length - 2).Replace("\"\"", "\"");
                 }
 
                 if (!_names.ContainsKey(itemId))
