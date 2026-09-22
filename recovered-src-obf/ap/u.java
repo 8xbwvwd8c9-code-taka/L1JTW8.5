@@ -186,6 +186,9 @@ extends aq.f {
     private static final long bg = 3000L;
     private ScheduledFuture<?> bh;
     private boolean bi = false;
+    private int l1rAmountNpcObjId = 0;
+    private int l1rAmountMode = 0;
+    private long l1rAmountContextExpiry = 0L;
     private final aq.t bj = new aq.t();
     private Timestamp bk;
     private Timestamp bl;
@@ -537,6 +540,27 @@ extends aq.f {
 
     public g j() {
         return this.L;
+    }
+
+    public synchronized void setL1rAmountContext(int npcObjId, int mode) {
+        this.l1rAmountNpcObjId = npcObjId;
+        this.l1rAmountMode = mode;
+        this.l1rAmountContextExpiry = System.currentTimeMillis() + 15000L;
+    }
+
+    public synchronized boolean consumeL1rAmountContext(int npcObjId, int mode) {
+        if (this.l1rAmountNpcObjId == 0 || this.l1rAmountNpcObjId != npcObjId || this.l1rAmountMode != mode || System.currentTimeMillis() > this.l1rAmountContextExpiry) {
+            this.clearL1rAmountContext();
+            return false;
+        }
+        this.clearL1rAmountContext();
+        return true;
+    }
+
+    public synchronized void clearL1rAmountContext() {
+        this.l1rAmountNpcObjId = 0;
+        this.l1rAmountMode = 0;
+        this.l1rAmountContextExpiry = 0L;
     }
 
     public int k() {
