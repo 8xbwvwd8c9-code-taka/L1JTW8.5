@@ -13,6 +13,7 @@ namespace L1JTW850Launcher
         public bool UseLegacyLogin = true;
         public bool RequestElevation = true;
         public bool HelperEnabled = true;
+        public bool DeveloperMode = false;
 
         public static LauncherConfig Load(string path)
         {
@@ -26,6 +27,7 @@ namespace L1JTW850Launcher
             c.UseLegacyLogin = ini.GetBool("Client", "UseLegacyLogin", c.UseLegacyLogin);
             c.RequestElevation = ini.GetBool("Client", "RequestElevation", c.RequestElevation);
             c.HelperEnabled = ini.GetBool("Helper", "Enabled", c.HelperEnabled);
+            c.DeveloperMode = ini.GetBool("Developer", "Enabled", c.DeveloperMode);
             return c;
         }
 
@@ -40,6 +42,7 @@ namespace L1JTW850Launcher
             ini.Set("Client", "UseLegacyLogin", UseLegacyLogin ? 1 : 0);
             ini.Set("Client", "RequestElevation", RequestElevation ? 1 : 0);
             ini.Set("Helper", "Enabled", HelperEnabled ? 1 : 0);
+            ini.Set("Developer", "Enabled", DeveloperMode ? 1 : 0);
             ini.Save(path);
         }
 
