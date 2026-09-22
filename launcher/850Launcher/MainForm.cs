@@ -76,6 +76,7 @@ namespace L1JTW850Launcher
             tabs.TabPages.Add(BuildProbeTab());
             tabs.TabPages.Add(BuildInventoryProbeTab());
             tabs.TabPages.Add(BuildInventoryRecordProbeTab());
+            tabs.TabPages.Add(BuildInventoryFieldValidatorTab());
             tabs.TabPages.Add(BuildPointerProbeTab());
             tabs.TabPages.Add(BuildRuntimeMapTab());
             tabs.TabPages.Add(BuildItemTab());
@@ -176,6 +177,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("物品結構");
             p.Controls.Add(new InventoryRecordProbeControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildInventoryFieldValidatorTab()
+        {
+            var p = NewPage("物品欄位");
+            p.Controls.Add(new InventoryFieldValidatorControl(_appDir));
             return p;
         }
 
