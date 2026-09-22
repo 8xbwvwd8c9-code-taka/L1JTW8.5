@@ -235,6 +235,8 @@ completed/l1jtw85-core-fixes
 
 ### 核心修復
 
+- [最新核心修復對話交接（2026-09-22）](recovery/L1JTW85_CORE_REPAIR_HANDOFF_20260922.md) — 短版 checkpoint；先看此檔再接續 `work/l1jtw85-core-fixes`。
+
 核心修復固定規則：
 
 ```text
