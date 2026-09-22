@@ -126,3 +126,5 @@ Do not port its entire 381 UI/core blindly.
 - `w_變身卡片能力組合套卡`: STATUS=BLOCKED, LEVEL=L3/L4, audit=`modules/TRANSFORM_CARD_COLLECTION_SET_AUDIT.md`, commit=`3a2701266546e57f989c0de756295311dff67734`. Quest-owned card/set collection; full max vector proven and 850 requires idempotent collection recompute.
 
 - `w_自訂變形卷軸`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/CUSTOM_POLYMORPH_SCROLL_AUDIT.md`, commit=`e8d7db6274990589c8d8cfc9f5a6f9c0d6cbb898`. Donor callsite and server-side native poly mapping are proven; remaining blockers are action ownership, item 40308 semantics, and client resources.
+
+- `w_城堡狀態_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_STATUS_FAMILY_AUDIT.md`, commit=`e54c0e0c2ca219f3d7b9801dc5e63c5ef17bfd3b`. Login-time castle reward add and NPC access/buff path are proven; 850 needs authoritative castle-state recompute and safer cost/action ordering.
