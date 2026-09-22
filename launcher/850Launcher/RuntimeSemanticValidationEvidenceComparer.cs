@@ -10,6 +10,8 @@ namespace L1JTW850Launcher
         public DateTime Time;
         public int Pid;
         public DateTime? ProcessStartUtc;
+        public string ClientSha256 = "";
+        public bool ClientAuthority;
 
         public bool CheckHpMp;
         public bool CheckPlayer;
@@ -104,6 +106,28 @@ namespace L1JTW850Launcher
                         current.ProcessStartUtc =
                             start.ToUniversalTime();
                     }
+
+                    continue;
+                }
+
+                if (line.StartsWith(
+                    "CLIENT_SHA256=",
+                    StringComparison.Ordinal))
+                {
+                    current.ClientSha256 =
+                        line.Substring(
+                            "CLIENT_SHA256=".Length)
+                        .Trim();
+
+                    continue;
+                }
+
+                if (line.StartsWith(
+                    "CLIENT_AUTHORITY=",
+                    StringComparison.Ordinal))
+                {
+                    current.ClientAuthority =
+                        line.EndsWith("=1");
 
                     continue;
                 }
@@ -282,6 +306,10 @@ namespace L1JTW850Launcher
                 var session =
                     all[i];
 
+                if (!IsAuthoritativeSession(
+                    session))
+                    continue;
+
                 var selected =
                     hpMp
                         ? session.CheckHpMp
@@ -295,6 +323,17 @@ namespace L1JTW850Launcher
 
             output.Reverse();
             return output;
+        }
+
+        private static bool IsAuthoritativeSession(
+            RuntimeSemanticValidationSession session)
+        {
+            return session != null &&
+                   session.ClientAuthority &&
+                   string.Equals(
+                       session.ClientSha256,
+                       ClientVerifier.LinBin2Sha256,
+                       StringComparison.OrdinalIgnoreCase);
         }
 
         private static string BuildProcessKey(
