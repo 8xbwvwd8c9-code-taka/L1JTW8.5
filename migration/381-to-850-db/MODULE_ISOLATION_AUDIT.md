@@ -359,3 +359,73 @@ Shared dependency: both may need additive `clan_data` state fields.
 
 Status: call-path still under audit.
 
+
+
+## Fourth-pass findings
+
+### Clan Level -> L3 confirmed
+381:
+- event: `ClanContribution.execute()`
+- startup under event activation:
+  - `NpcClanContribution.get().load()`
+  - `ClanOriginal.getInstance()`
+- monster-energy DB:
+  - `w_血盟能量怪物`
+- passive level DB:
+  - `w_血盟等級`
+- runtime engine:
+  - `ClanOriginal`
+  - reads clan level from `L1Clan.getClanLevel()`
+  - applies HP/MP, melee/range dmg/hit, MR/SP/AC, elemental resist,
+    STR/DEX/CON/WIS/INT/CHA, physical/magic reduction, EXP rate,
+    HPR/MPR and weight reduction.
+- persistence dependency:
+  - `clan_data.clan_level`
+  - `clan_data.clan_contribution`
+
+Isolation package:
+- `w_血盟等級`
+- `w_血盟能量怪物`
+- additive `clan_data` columns
+- ClanOriginal runtime/stat application
+- monster contribution hook
+- event registration
+
+Difficulty: **L3**
+
+This remains separate from `w_血盟技能`.
+They may share clan persistence columns, but installation must not silently require the optional clan-skill module.
+
+### Item Enchant Card system -> L3 provisional
+381 active loader:
+- `PowerItemTable`
+- SQL: `SELECT * FROM w_道具附魔系統`
+
+DB:
+- `w_道具附魔系統`
+
+Semantics include:
+- target type: Weapon / armor / All
+- enchant/card item ID
+- power count/name
+- unequip probability/action
+- polymorph probability/id/time
+- skill proc probability / skill_id / target
+- HP/MP/stat/HPR/MPR/SP bonuses
+- melee/ranged hit/dmg
+- double-damage chance
+- AC/MR/damage reduction
+- gfx
+
+Important separation:
+`w_道具附魔系統` is NOT the same feature as:
+- `w_炫色_素質設定`
+- `character_炫色_記錄資料`
+which are loaded by `ItemSpecialAttributeTable` / `ItemSpecialAttributeCharTable`.
+
+Therefore create separate optional packages:
+1. item-enchant-card module
+2. color/special-attribute module
+
+Difficulty for `w_道具附魔系統`: provisional **L3** until its item-use/equip hooks and 850 equivalent item-instance persistence are mapped.
+
