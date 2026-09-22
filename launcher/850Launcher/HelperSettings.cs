@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+
 namespace L1JTW850Launcher
 {
     internal sealed class HelperSettings
@@ -6,6 +9,8 @@ namespace L1JTW850Launcher
         public bool PotionUsePercent = true;
         public int PotionHpPercent = 70;
         public int PotionHpExact = 1000;
+        public string PotionItemIds = "";
+        public int PotionCooldownMs = 350;
         public bool AutoBuff;
         public bool AutoTransform;
         public bool AutoAntidote;
@@ -14,6 +19,27 @@ namespace L1JTW850Launcher
         public bool ShowClock = true;
         public bool ShowDamage;
         public int TimerSeconds = 60;
+
+        public List<int> GetPotionItemIds()
+        {
+            var result = new List<int>();
+
+            if (string.IsNullOrWhiteSpace(PotionItemIds))
+                return result;
+
+            var parts = PotionItemIds.Split(new[] { ',', ';', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+            foreach (var raw in parts)
+            {
+                int itemId;
+                if (!int.TryParse(raw.Trim(), out itemId) || itemId <= 0)
+                    continue;
+
+                if (!result.Contains(itemId))
+                    result.Add(itemId);
+            }
+
+            return result;
+        }
 
         public static HelperSettings Load(string path)
         {
@@ -24,6 +50,8 @@ namespace L1JTW850Launcher
                 PotionUsePercent = ini.GetBool("Potion", "UsePercent", true),
                 PotionHpPercent = ini.GetInt("Potion", "HPPercent", 70),
                 PotionHpExact = ini.GetInt("Potion", "HPExact", 1000),
+                PotionItemIds = ini.Get("Potion", "ItemIds", ""),
+                PotionCooldownMs = ini.GetInt("Potion", "CooldownMs", 350),
                 AutoBuff = ini.GetBool("State", "AutoBuff", false),
                 AutoTransform = ini.GetBool("Special", "AutoTransform", false),
                 AutoAntidote = ini.GetBool("Special", "AutoAntidote", false),
@@ -42,6 +70,8 @@ namespace L1JTW850Launcher
             ini.Set("Potion", "UsePercent", PotionUsePercent ? 1 : 0);
             ini.Set("Potion", "HPPercent", PotionHpPercent);
             ini.Set("Potion", "HPExact", PotionHpExact);
+            ini.Set("Potion", "ItemIds", PotionItemIds ?? "");
+            ini.Set("Potion", "CooldownMs", PotionCooldownMs);
             ini.Set("State", "AutoBuff", AutoBuff ? 1 : 0);
             ini.Set("Special", "AutoTransform", AutoTransform ? 1 : 0);
             ini.Set("Special", "AutoAntidote", AutoAntidote ? 1 : 0);
