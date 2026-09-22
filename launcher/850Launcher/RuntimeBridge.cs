@@ -38,12 +38,85 @@ namespace L1JTW850Launcher
     internal sealed class ProcessRuntimeBridge : IRuntimeBridge
     {
         private readonly string _expectedClientPath;
+        private readonly string _runtimeMapPath;
         private string _lastHash = "";
         private bool? _lastHashMatch;
 
         public ProcessRuntimeBridge(string appDir)
         {
             _expectedClientPath = Path.GetFullPath(Path.Combine(appDir, "Lin.bin2"));
+            _runtimeMapPath = Path.Combine(appDir, "runtime-map.ini");
+        }
+
+        private void ApplyHpMpMap(RuntimeSnapshot snapshot)
+        {
+            if (!File.Exists(_runtimeMapPath))
+            {
+                snapshot.Status += "；等待 runtime-map.ini";
+                return;
+            }
+
+            RuntimeMap map;
+            try
+            {
+                map = RuntimeMap.Load(_runtimeMapPath);
+            }
+            catch (Exception ex)
+            {
+                snapshot.Status += "；runtime-map.ini 格式錯誤：" + ex.Message;
+                return;
+            }
+
+            if (!map.HasHpMp)
+            {
+                snapshot.Status += "；HP/MP 映射尚未設定";
+                return;
+            }
+
+            using (var reader = new RuntimeMapReader())
+            {
+                string error;
+                if (!reader.Attach(snapshot.ProcessId, snapshot.ModuleBase, out error))
+                {
+                    snapshot.Status += "；映射讀取失敗：" + error;
+                    return;
+                }
+
+                int currentHp;
+                int maxHp;
+                int currentMp;
+                int maxMp;
+
+                if (!reader.TryReadInt32(map.CurrentHp, out currentHp, out error))
+                {
+                    snapshot.Status += "；CurrentHP 讀取失敗：" + error;
+                    return;
+                }
+
+                if (!reader.TryReadInt32(map.MaxHp, out maxHp, out error))
+                {
+                    snapshot.Status += "；MaxHP 讀取失敗：" + error;
+                    return;
+                }
+
+                if (!reader.TryReadInt32(map.CurrentMp, out currentMp, out error))
+                {
+                    snapshot.Status += "；CurrentMP 讀取失敗：" + error;
+                    return;
+                }
+
+                if (!reader.TryReadInt32(map.MaxMp, out maxMp, out error))
+                {
+                    snapshot.Status += "；MaxMP 讀取失敗：" + error;
+                    return;
+                }
+
+                snapshot.CurrentHp = currentHp;
+                snapshot.MaxHp = maxHp;
+                snapshot.CurrentMp = currentMp;
+                snapshot.MaxMp = maxMp;
+                snapshot.Status += "；HP/MP 映射已載入";
+            }
         }
 
         public RuntimeSnapshot Read()
@@ -77,11 +150,18 @@ namespace L1JTW850Launcher
                             _lastHash = actual;
                         }
 
-                        snapshot.Status = _lastHashMatch == true
-                            ? "已連接 Lin.bin2，PID=" + process.Id +
-                              "，基址=0x" + module.BaseAddress.ToInt64().ToString("X8") +
-                              "；等待 WP3/WP4 runtime mapping"
-                            : "已找到 Lin.bin2，但 SHA256 與目前 850 authority 不符：" + _lastHash;
+                        if (_lastHashMatch != true)
+                        {
+                            snapshot.Status =
+                                "已找到 Lin.bin2，但 SHA256 與目前 850 authority 不符：" + _lastHash;
+                            return snapshot;
+                        }
+
+                        snapshot.Status =
+                            "已連接 Lin.bin2，PID=" + process.Id +
+                            "，基址=0x" + module.BaseAddress.ToInt64().ToString("X8");
+
+                        ApplyHpMpMap(snapshot);
 
                         return snapshot;
                     }
