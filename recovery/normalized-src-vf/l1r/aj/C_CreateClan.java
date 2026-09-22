@@ -1,6 +1,5 @@
 package l1r.aj;
 
-import l1r.ao.ClanMembersTable;
 import l1r.ao.ClanTable;
 import l1r.ap.L1PcInstance;
 import l1r.aq.L1Clan;
@@ -28,10 +27,8 @@ public class C_CreateClan extends ClientBasePacket {
                }
 
                if (var3.j().g(40308, 30000)) {
-                  L1Clan var7 = ClanTable.a().a(var3, var4);
-                  ClanMembersTable.a().a(var3);
+                  L1Clan var7 = ClanTable.a().createClanAtomic(var3, var4);
                   if (var7 != null) {
-                     var3.j().b(40308, 30000);
                      var3.a(new S_ServerMessage(84, var4));
                      var3.a(new S_ClanName(var3, true));
                      var3.a(new S_PacketBox(173, var7.j()));
