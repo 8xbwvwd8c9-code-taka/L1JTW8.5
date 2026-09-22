@@ -4,7 +4,6 @@
 package aj;
 
 import aj.cv;
-import ao.p;
 import ao.q;
 import ap.u;
 import aq.i;
@@ -33,11 +32,8 @@ extends cv {
                     return;
                 }
                 if (pc.j().g(40308, 30000)) {
-                    i clan;
-                    clan = q.a().a(pc, s2);
-                    p.a().a(pc);
+                    i clan = q.a().createClanAtomic(pc, s2);
                     if (clan != null) {
-                        pc.j().b(40308, 30000);
                         pc.a(new ds(84, s2));
                         pc.a(new ac(pc, true));
                         pc.a(new cm(173, clan.j()));
