@@ -34,6 +34,7 @@ BUG
 | BUG-850-284 | L2 | ShopWorld clan-announcement governance authorization | PASS / PROMOTED |
 | BUG-850-283 | L2 | ShopWorld account debit / pending-item durable atomicity | PASS / PROMOTED |
 | BUG-850-282 | L2 | ShopWorld claim capacity/count authority | PASS / PROMOTED |
+| BUG-850-281 | L2 | ShopWorld resolvent local-NPC interaction authorization | PASS / PROMOTED |
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
@@ -786,6 +787,96 @@ This is a targeted authority/capacity regression gate, not a live inventory load
 
 ```text
 BUG-850-282=L2
+STATUS=PASS
+PROMOTED=YES
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
+
+## BUG-850-281 — ShopWorld resolvent action was authorized by global NPC id without local interaction proof
+
+### Problem
+
+ShopWorld action 13 resolves an NPC from the global world registry and then performs item-conversion inventory mutations.
+
+Before this repair, a valid NPC object id was sufficient to reach the conversion path; the handler did not enforce the same local interaction boundary used by the normal NPC-talk path.
+
+### Runtime source map
+
+- CORE: `C_ShopWorld`, action 13
+- NPC lookup: `L1World`
+- Conversion authority: resolved `L1NpcInstance`
+- Item conversion: `ResolventTable` + player inventory mutation
+- Existing local interaction reference: `C_NpcTalk`
+- Protocol change: **none**
+- DB schema change: **none**
+
+### Existing 8.5 interaction boundary
+
+`C_NpcTalk` already defines normal NPC interaction locality as:
+
+```text
+same map
+AND
+tile-line distance <= 11
+```
+
+This repair reuses that exact server-side boundary rather than introducing a new distance constant.
+
+### Fix
+
+After the NPC object has resolved, action 13 now rejects the request before any item lookup or mutation when:
+
+```text
+npc.map != player.map
+OR
+npc tile-line distance from player > 11
+```
+
+The packet shape, conversion table and item formulas remain unchanged.
+
+### Scope note
+
+The completed baseline still carried the separate action-13 direct-cast robustness behavior covered by lower-tier BUG-850-279.
+
+This L2 promotion does not attempt to fold that unrelated L3 repair into BUG-850-281; the promotion changes only the local-interaction authorization boundary.
+
+### Modified core source
+
+- `recovery/normalized-src-vf/l1r/aj/C_ShopWorld.java`
+- `recovered-src-obf/aj/cd.java`
+
+Promotion commits:
+
+- normalized source: `56ba35e9f8e5343be1010fbbdbcdeac49a1bcedc`
+- obfuscated source: `71a5d2970b6b8fa5a773d4f3b0a72cdd8d86d31a`
+
+### Validation
+
+Isolated validation run:
+
+```text
+GitHub Actions run = 35678757701
+STATUS = PASS
+
+BUG_850_281_CONTRACT=PASS
+LOCALITY_AUTHORITY=same_map+tile_line_distance<=11
+DISTANCE_SOURCE=C_NpcTalk
+BUG_850_281_TARGETED_BEHAVIOR_RUNTIME=PASS
+NPC_LOCALITY_BOUNDARY=PASS
+BUG_850_281_EXACT_BASE_TRANSFORM=PASS
+BUG_850_281_TARGETED_JAVAC_REGRESSION=PASS
+PROMOTION_EXACT_BLOB_MATCH=PASS
+```
+
+The exact-transform gate used the then-current completed `C_ShopWorld` as the base, preserving the previously completed BUG-850-284 / BUG-850-283 / BUG-850-282 changes.
+
+This is a targeted interaction-authorization regression gate, not a live multi-client game-server session.
+
+### Result
+
+```text
+BUG-850-281=L2
 STATUS=PASS
 PROMOTED=YES
 RESTART_REQUIRED=YES after building/deploying the repaired core
