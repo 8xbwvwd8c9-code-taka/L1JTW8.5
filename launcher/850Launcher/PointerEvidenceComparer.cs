@@ -18,6 +18,8 @@ namespace L1JTW850Launcher
         public DateTime Time;
         public int Pid;
         public DateTime? ProcessStartUtc;
+        public string ClientSha256 = "";
+        public bool ClientAuthority;
         public string Field = "";
         public readonly List<PointerEvidenceEntry> Entries =
             new List<PointerEvidenceEntry>();
@@ -116,6 +118,28 @@ namespace L1JTW850Launcher
                 }
 
                 if (line.StartsWith(
+                    "CLIENT_SHA256=",
+                    StringComparison.Ordinal))
+                {
+                    current.ClientSha256 =
+                        line.Substring(
+                            "CLIENT_SHA256=".Length)
+                        .Trim();
+
+                    continue;
+                }
+
+                if (line.StartsWith(
+                    "CLIENT_AUTHORITY=",
+                    StringComparison.Ordinal))
+                {
+                    current.ClientAuthority =
+                        line.EndsWith("=1");
+
+                    continue;
+                }
+
+                if (line.StartsWith(
                     "FIELD=",
                     StringComparison.Ordinal))
                 {
@@ -183,6 +207,10 @@ namespace L1JTW850Launcher
 
             foreach (var session in sessions)
             {
+                if (!IsAuthoritativeSession(
+                    session))
+                    continue;
+
                 if (string.IsNullOrWhiteSpace(
                     session.Field))
                     continue;
@@ -332,6 +360,17 @@ namespace L1JTW850Launcher
             return output;
         }
 
+        private static bool IsAuthoritativeSession(
+            PointerEvidenceSession session)
+        {
+            return session != null &&
+                   session.ClientAuthority &&
+                   string.Equals(
+                       session.ClientSha256,
+                       ClientVerifier.LinBin2Sha256,
+                       StringComparison.OrdinalIgnoreCase);
+        }
+
         private static string BuildSessionKey(
             PointerEvidenceSession session)
         {
@@ -340,6 +379,8 @@ namespace L1JTW850Launcher
                        CultureInfo.InvariantCulture) +
                    "|" +
                    session.Pid +
+                   "|" +
+                   session.ClientSha256 +
                    "|" +
                    session.Field;
         }
