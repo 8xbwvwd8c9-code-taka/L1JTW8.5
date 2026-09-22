@@ -97,6 +97,10 @@ public class C_Result extends ClientBasePacket {
                               for (int var55 = 0; var55 < var6; var55++) {
                                  int var60 = this.b();
                                  int var63 = this.b();
+                                 if (var60 < 0 || var60 >= var44.size()) {
+                                    var37.h(false);
+                                    return;
+                                 }
                                  L1PrivateShopSellList var65 = var44.get(var60);
                                  int var67 = var65.a();
                                  int var69 = var65.c();
@@ -217,6 +221,10 @@ public class C_Result extends ClientBasePacket {
                               int var54 = this.b();
                               int var59 = this.e();
                               int var62 = this.c();
+                              if (var62 < 0 || var62 >= var41.size()) {
+                                 var35.h(false);
+                                 return;
+                              }
                               L1ItemInstance var64 = var3.j().e(var54);
                               if (var64 != null) {
                                  L1PrivateShopBuyList var66 = var41.get(var62);

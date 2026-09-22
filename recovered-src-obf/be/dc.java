@@ -1028,7 +1028,7 @@ lbl239:
         }
         builder10.e(builder.t().f());
         builder2.b(1);
-        for (int i2 : equipList_1) {
+        for (int i2 : equipList_2) {
             builder2.c(i2);
         }
         builder10.e(builder2.t().f());

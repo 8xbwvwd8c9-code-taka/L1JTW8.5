@@ -35,6 +35,9 @@ extends cv {
         if (!pc.h(skillId)) {
             return;
         }
+        if (be.a().a(skillId) == null) {
+            return;
+        }
         int result = be.a().a(skillId).s() == 18 ? pc.ce().a(ak.a.c) : pc.ce().a(ak.a.d);
         if (result == 2) {
             return;

@@ -996,7 +996,7 @@ public class S_ProtoBuffers extends ServerBasePacket {
       var4.e(var5.t().f());
       var6.b(1);
 
-      for (int var9 : var1) {
+      for (int var9 : var2) {
          var6.c(var9);
       }
 
