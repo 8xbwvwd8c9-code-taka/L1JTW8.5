@@ -102,7 +102,7 @@ namespace L1JTW850Launcher
             }
         }
 
-        private static bool ReadPointerArray(
+        private bool ReadPointerArray(
             RuntimeMemoryProbe probe,
             IntPtr root,
             InventoryMap map,
@@ -175,7 +175,7 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        private static bool ReadContiguous(
+        private bool ReadContiguous(
             RuntimeMemoryProbe probe,
             IntPtr root,
             InventoryMap map,
@@ -234,7 +234,7 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        private static bool ReadLinkedList(
+        private bool ReadLinkedList(
             RuntimeMemoryProbe probe,
             IntPtr root,
             InventoryMap map,
