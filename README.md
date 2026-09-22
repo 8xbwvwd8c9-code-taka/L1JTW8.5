@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-154 | L2 | duel logout peer-id preservation | PASS / PROMOTED |
 | BUG-850-155 | L2 | doll cleanup timer/logout idempotency | PASS / PROMOTED |
 | BUG-850-162 | L2 | follower logout stale/destroyed guard | PASS / PROMOTED |
 | BUG-850-165 | L2 | summon logout lifecycle cleanup | PASS / PROMOTED |
@@ -44,6 +45,62 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-154 — logout cleared duel target id before using it to clear the peer
+
+### Problem
+
+The recovered logout path cleared its own duel target id and then performed the world lookup through the now-zero id.
+
+The disconnecting player left duel state, but the peer could keep a stale duel target and miss the duel-end packet.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains:
+
+- `8af1d2a985a4eacf007db495efee87861171f602` — preserve duel peer id during logout cleanup.
+
+### Fix
+
+The normalized `L1PcInstance.java` now mirrors that behavior:
+
+- save the current duel peer id;
+- clear the disconnecting player's duel state;
+- resolve the peer using the saved id;
+- clear the peer duel state and send the duel-end packet.
+
+### Validation
+
+```text
+GitHub Actions run = 35711861758
+STATUS = PASS
+
+BUG_850_154_CONTRACT=PASS
+BUG_850_154_CANDIDATE_BUILD=PASS
+BUG_850_154_SYNTHETIC_PROMOTION_JAVAC_REGRESSION=PASS
+BUG_850_154_TARGETED_BEHAVIOR_RUNTIME=PASS
+SELF_DUEL_CLEAR=PASS
+PEER_DUEL_CLEAR=PASS
+PEER_DUEL_END_PACKET=PASS
+```
+
+### Promotion
+
+```text
+normalized parity = 31a14a5a49d8acdd309d8491ec4a90d115c54377
+obfuscated existing repair = 8af1d2a985a4eacf007db495efee87861171f602
+```
+
+### Result
+
+```text
+BUG-850-154=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+```
+
 
 ## BUG-850-155 — doll cleanup side effects were not single-entry across timer/logout races
 
