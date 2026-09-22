@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-178 | L2 | board-write local interaction / persistence-fee consistency | PASS / PROMOTED |
 | BUG-850-294 | L2 | NPC sell-to-shop inventory / payout consistency | PASS / PROMOTED |
 | BUG-850-293 | L2 | NPC purchase war-tax treasury accounting | PASS / PROMOTED |
 | BUG-850-292 | L2 | c3p0 connection acquisition / checkout liveness | PASS / PROMOTED |
@@ -38,6 +39,97 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-178 — board writes were not bound to a nearby board instance
+
+### Problem
+
+The recovered board-write handler accepted any non-null world object id as sufficient interaction context, then persisted a board post and consumed 300 paper.
+
+A separate earlier repair on the completed obfuscated source had already fixed two related contracts:
+
+- title/content length validation plus fee/persistence rollback;
+- binding the write to a nearby `L1BoardInstance`.
+
+The normalized source had not received those completed fixes, so normalized/obfuscated parity was broken.
+
+### Root cause
+
+The original recovered path treated global object existence as authorization for a state-changing board write.
+
+The completed obfuscated repair chain established the stronger contract:
+
+```text
+player exists
+AND target is L1BoardInstance
+AND target location distance <= 11
+AND title/content limits pass
+AND 300 paper is successfully consumed
+AND DB insert succeeds
+```
+
+If the DB insert fails after paper consumption, the 300 paper is refunded.
+
+### Existing completed obfuscated authority
+
+The obfuscated repair was already present in:
+
+- `0cb0fa4b89755fc699bcf7545a1061bfa91f06b9` — bind board post limits and fee to persistence success
+- `b824c6b84d354751da32cf00adb64c03b4915615` — bind board writes to a nearby board instance
+
+This promotion does not replace or weaken those repairs.
+
+### Fix
+
+The normalized `C_BoardWrite.java` now mirrors the existing completed obfuscated behavior:
+
+- require non-null player;
+- require `L1BoardInstance`;
+- reject location distance greater than 11;
+- enforce title <= 16 and content <= 1000;
+- require successful removal of item `40308 x300`;
+- if `L1BoardTopic.a(...)` returns null, refund `40308 x300`.
+
+### Modified core source
+
+- normalized: `recovery/normalized-src-vf/l1r/aj/C_BoardWrite.java`
+- obfuscated: existing validated `recovered-src-obf/aj/o.java` preserved unchanged
+
+Promotion commit:
+
+- normalized parity: `8bae99e0f7aa18c86dd9166ce1b0a8ab9f94ff53`
+
+### Validation
+
+Isolated validation:
+
+```text
+GitHub Actions run = 35703276792
+STATUS = PASS
+
+BUG_850_178_CONTRACT=PASS
+BUG_850_178_TARGETED_JAVAC=PASS
+BUG_850_178_TARGETED_BEHAVIOR_RUNTIME=PASS
+BOARD_TYPE_AUTHORITY=PASS
+BOARD_NEARBY_BOUNDARY=PASS
+BOARD_INPUT_LIMITS=PASS
+BOARD_FEE_GATE=PASS
+BOARD_DB_FAILURE_REFUND=PASS
+```
+
+The promoted normalized blob matches the validated work-branch normalized blob.
+
+### Result
+
+```text
+BUG-850-178=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+RESTART_REQUIRED=YES after building/deploying the repaired core
+```
+
 
 ## BUG-850-294 — NPC sell validation set differed from inventory mutation set
 
