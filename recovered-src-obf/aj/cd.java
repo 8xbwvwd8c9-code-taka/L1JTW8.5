@@ -135,6 +135,13 @@ extends cv {
             case 15: {
                 String announce = this.g();
                 i clan = ao.q.a().a(pc.aF());
+                if (clan == null) {
+                    return;
+                }
+                if (!pc.x() || pc.fr() != clan.k()) {
+                    pc.a(new ds(518));
+                    return;
+                }
                 clan.f(announce);
                 ao.q.a().b(clan);
                 break;
