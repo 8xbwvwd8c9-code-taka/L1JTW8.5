@@ -73,15 +73,19 @@ namespace L1JTW850Launcher
             tabs.TabPages.Add(BuildPotionTab());
             tabs.TabPages.Add(BuildStateTab());
             tabs.TabPages.Add(BuildSpecialTab());
-            tabs.TabPages.Add(BuildProbeTab());
-            tabs.TabPages.Add(BuildInventoryProbeTab());
-            tabs.TabPages.Add(BuildInventoryRecordProbeTab());
-            tabs.TabPages.Add(BuildInventoryFieldValidatorTab());
-            tabs.TabPages.Add(BuildPointerProbeTab());
-            tabs.TabPages.Add(BuildRuntimeMapTab());
             tabs.TabPages.Add(BuildItemTab());
             tabs.TabPages.Add(BuildHotkeyTab());
             tabs.TabPages.Add(BuildTimerTab());
+
+            if (_config.DeveloperMode)
+            {
+                tabs.TabPages.Add(BuildProbeTab());
+                tabs.TabPages.Add(BuildInventoryProbeTab());
+                tabs.TabPages.Add(BuildInventoryRecordProbeTab());
+                tabs.TabPages.Add(BuildInventoryFieldValidatorTab());
+                tabs.TabPages.Add(BuildPointerProbeTab());
+                tabs.TabPages.Add(BuildRuntimeMapTab());
+            }
         }
 
         private TabPage BuildExtendTab()
