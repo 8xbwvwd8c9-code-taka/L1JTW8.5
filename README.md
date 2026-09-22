@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-155 | L2 | doll cleanup timer/logout idempotency | PASS / PROMOTED |
 | BUG-850-162 | L2 | follower logout stale/destroyed guard | PASS / PROMOTED |
 | BUG-850-165 | L2 | summon logout lifecycle cleanup | PASS / PROMOTED |
 | BUG-850-166 | L2 | clan creation / Adena / membership atomicity | PASS / PROMOTED |
@@ -43,6 +44,59 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-155 — doll cleanup side effects were not single-entry across timer/logout races
+
+### Problem
+
+The doll cleanup method removed player bonuses/effects before delegating to inherited NPC deletion.
+
+The method itself was not synchronized and did not check the destroyed state before those doll-specific side effects, so timer expiry and logout cleanup could both enter before inherited deletion marked the doll destroyed.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contains:
+
+- `5de0712bde13fed77ac71325bf6577696538ee1b` — make doll cleanup single-entry and idempotent.
+
+### Fix
+
+The normalized `L1DollInstance.e()` now mirrors that completed behavior:
+
+- method is `synchronized`;
+- return immediately if the doll is already destroyed;
+- doll-specific side effects execute only once before inherited deletion.
+
+### Validation
+
+```text
+GitHub Actions run = 35711211164
+STATUS = PASS
+
+BUG_850_155_CONTRACT=PASS
+BUG_850_155_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_155_TARGETED_BEHAVIOR_RUNTIME=PASS
+SINGLE_ENTRY_SIDE_EFFECT=PASS
+DESTROYED_REENTRY_SKIPPED=PASS
+```
+
+### Promotion
+
+```text
+normalized parity = 703e0034e83eedda15b9b3213ced3ff69c66321a
+obfuscated existing repair = 5de0712bde13fed77ac71325bf6577696538ee1b
+```
+
+### Result
+
+```text
+BUG-850-155=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+```
+
 
 ## BUG-850-162 — follower logout cleanup could reprocess stale/destroyed followers
 
