@@ -234,21 +234,44 @@ namespace L1JTW850Launcher
             var currentMp = Count("CurrentMP");
             var maxMp = Count("MaxMP");
 
+            var clusters = ProbeClusterer.Find(_candidates, 0x100, 50);
             _counts.Text =
                 "候選：HP " + currentHp +
                 " / MaxHP " + maxHp +
                 " / MP " + currentMp +
-                " / MaxMP " + maxMp;
+                " / MaxMP " + maxMp +
+                " / 0x100 鄰近組合 " + clusters.Count;
 
             _results.BeginUpdate();
             _results.Items.Clear();
 
+            AddClusters(ProbeClusterer.Find(_candidates, 0x100, 50));
             AddCandidates("CurrentHP", "目前 HP", 150);
             AddCandidates("MaxHP", "最大 HP", 150);
             AddCandidates("CurrentMP", "目前 MP", 150);
             AddCandidates("MaxMP", "最大 MP", 150);
 
             _results.EndUpdate();
+        }
+
+        private void AddClusters(List<ProbeCluster> clusters)
+        {
+            foreach (var cluster in clusters)
+            {
+                var note =
+                    "MaxHP=0x" + cluster.MaxHp.ToString("X8") +
+                    " MP=0x" + cluster.CurrentMp.ToString("X8") +
+                    " MaxMP=0x" + cluster.MaxMp.ToString("X8") +
+                    " span=0x" + cluster.Span.ToString("X");
+
+                _results.Items.Add(new ListViewItem(new[]
+                {
+                    "鄰近組合",
+                    "0x" + cluster.CurrentHp.ToString("X8"),
+                    ToRva(cluster.CurrentHp),
+                    note
+                }));
+            }
         }
 
         private int Count(string key)
@@ -334,6 +357,20 @@ namespace L1JTW850Launcher
                 sb.AppendLine("MAX_MP_CANDIDATES=" + Count("MaxMP"));
                 sb.AppendLine("STATUS=" + result.Status);
                 sb.AppendLine("MEMORY_WRITE=NO");
+                sb.AppendLine();
+
+                var clusters = ProbeClusterer.Find(_candidates, 0x100, 20);
+                sb.AppendLine("[NEAR_CLUSTERS_0x100]");
+                foreach (var cluster in clusters)
+                {
+                    sb.AppendLine(
+                        "HP=0x" + cluster.CurrentHp.ToString("X8") +
+                        " MaxHP=0x" + cluster.MaxHp.ToString("X8") +
+                        " MP=0x" + cluster.CurrentMp.ToString("X8") +
+                        " MaxMP=0x" + cluster.MaxMp.ToString("X8") +
+                        " Span=0x" + cluster.Span.ToString("X") +
+                        " HP_RVA=" + ToRva(cluster.CurrentHp));
+                }
                 sb.AppendLine();
 
                 AppendTop(sb, "CurrentHP", 40);
