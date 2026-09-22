@@ -11,3 +11,6 @@ RequestElevation=1
 
 [Helper]
 Enabled=1
+
+[Developer]
+Enabled=0
