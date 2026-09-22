@@ -29,6 +29,7 @@ namespace L1JTW850Launcher
             new Dictionary<string, List<IntPtr>>(StringComparer.OrdinalIgnoreCase);
 
         private int _scanPid;
+        private DateTime? _processStartUtc;
         private IntPtr _moduleBase = IntPtr.Zero;
         private int _moduleSize;
 
@@ -141,6 +142,7 @@ namespace L1JTW850Launcher
 
             SetBusy(true, "正在唯讀掃描 Lin.bin2 程序記憶體...");
             _scanPid = runtime.ProcessId;
+            _processStartUtc = runtime.ProcessStartTimeUtc;
             _moduleBase = runtime.ModuleBase;
             _moduleSize = runtime.ModuleSize;
 
@@ -319,6 +321,7 @@ namespace L1JTW850Launcher
         {
             _probe.Detach();
             _scanPid = 0;
+            _processStartUtc = null;
             _moduleBase = IntPtr.Zero;
             _moduleSize = 0;
             _candidates.Clear();
@@ -345,6 +348,7 @@ namespace L1JTW850Launcher
                 sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
                 sb.AppendLine("STAGE=" + stage);
                 sb.AppendLine("PID=" + _scanPid);
+                sb.AppendLine("PROCESS_START_UTC=" + (_processStartUtc.HasValue ? _processStartUtc.Value.ToString("o") : ""));
                 sb.AppendLine("MODULE_BASE=0x" + _moduleBase.ToInt64().ToString("X8"));
                 sb.AppendLine("MODULE_SIZE=" + _moduleSize);
                 sb.AppendLine("CURRENT_HP=" + values["CurrentHP"]);
