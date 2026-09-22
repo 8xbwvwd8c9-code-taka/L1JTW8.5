@@ -170,6 +170,145 @@ public class q {
         return clan;
     }
 
+    public i createClanAtomic(u player, String clanName) {
+        if (player == null || clanName == null || clanName.length() == 0) {
+            return null;
+        }
+        synchronized (player) {
+            synchronized (player.j()) {
+                if (player.aF() != 0) {
+                    return null;
+                }
+                for (i existing : this.b.values()) {
+                    if (existing.f().equalsIgnoreCase(clanName)) {
+                        return null;
+                    }
+                }
+                ap.q adena = player.j().b(40308);
+                if (adena == null || adena.E() < 30000) {
+                    return null;
+                }
+                int oldCount = adena.E();
+                int newCount = oldCount - 30000;
+                i clan = new i();
+                clan.c(d.a().d());
+                clan.e(clanName);
+                clan.f(player.fr());
+                clan.g(player.et());
+                clan.g(0);
+                clan.h(0);
+                clan.a(new Timestamp(System.currentTimeMillis()));
+                clan.f("");
+                clan.d(0);
+                clan.e(0);
+                Connection con = null;
+                boolean oldAutoCommit = true;
+                boolean committed = false;
+                try {
+                    con = l1j.server.b.a().b();
+                    this.requireClanCreateInnoDb(con);
+                    oldAutoCommit = con.getAutoCommit();
+                    con.setAutoCommit(false);
+                    try (PreparedStatement pstm = con.prepareStatement("INSERT INTO clan_data SET clan_id=?, clan_name=?, leader_id=?, leader_name=?, hascastle=?, hashouse=?, found_date=?, announcement=?, emblem_id=?, emblem_status=?")) {
+                        pstm.setInt(1, clan.e());
+                        pstm.setString(2, clan.f());
+                        pstm.setInt(3, clan.k());
+                        pstm.setString(4, clan.l());
+                        pstm.setInt(5, clan.m());
+                        pstm.setInt(6, clan.n());
+                        pstm.setTimestamp(7, clan.g());
+                        pstm.setString(8, "");
+                        pstm.setInt(9, 0);
+                        pstm.setInt(10, 0);
+                        if (pstm.executeUpdate() != 1) {
+                            throw new SQLException("BUG-850-166 clan_data insert failed");
+                        }
+                    }
+                    try (PreparedStatement pstm = con.prepareStatement("INSERT INTO clan_members SET clan_id=?, char_id=?, char_name=?, date=?, notes=?")) {
+                        pstm.setInt(1, clan.e());
+                        pstm.setInt(2, player.fr());
+                        pstm.setString(3, player.et());
+                        pstm.setDate(4, new java.sql.Date(System.currentTimeMillis()));
+                        pstm.setString(5, "");
+                        if (pstm.executeUpdate() != 1) {
+                            throw new SQLException("BUG-850-166 clan_members insert failed");
+                        }
+                    }
+                    try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET ClanID=?, Clanname=?, ClanRank=? WHERE objid=? AND ClanID=0")) {
+                        pstm.setInt(1, clan.e());
+                        pstm.setString(2, clan.f());
+                        pstm.setInt(3, 10);
+                        pstm.setInt(4, player.fr());
+                        if (pstm.executeUpdate() != 1) {
+                            throw new SQLException("BUG-850-166 character clan CAS failed");
+                        }
+                    }
+                    ao.l items = ao.l.a();
+                    if (newCount == 0) {
+                        items.deleteQuestRewardItem(con, player.fr(), adena, oldCount);
+                    } else {
+                        items.updateQuestRewardCount(con, player.fr(), adena, oldCount, newCount);
+                    }
+                    con.commit();
+                    committed = true;
+                }
+                catch (Exception e2) {
+                    if (con != null) {
+                        try {
+                            con.rollback();
+                        }
+                        catch (SQLException rollbackError) {
+                            a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                        }
+                    }
+                    a.log(Level.SEVERE, "BUG-850-166 clan creation transaction failed", e2);
+                }
+                finally {
+                    if (con != null) {
+                        try {
+                            con.setAutoCommit(oldAutoCommit);
+                        }
+                        catch (SQLException e2) {
+                            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                        }
+                    }
+                    j.a(con);
+                }
+                if (!committed) {
+                    return null;
+                }
+                this.b.put(clan.e(), clan);
+                player.ah(clan.e());
+                player.c(clan.f());
+                player.ai(10);
+                player.a(new cm(27, 10, player.et()));
+                clan.a(player.et());
+                if (newCount == 0) {
+                    player.j().publishCommittedQuestDelete(adena);
+                } else {
+                    player.j().publishCommittedQuestUpdate(adena, newCount);
+                }
+                return clan;
+            }
+        }
+    }
+
+    private void requireClanCreateInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('clan_data','clan_members','characters','character_items')");
+             ResultSet rs = pstm.executeQuery()) {
+            int count = 0;
+            while (rs.next()) {
+                if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-166 requires InnoDB clan creation tables");
+                }
+                ++count;
+            }
+            if (count != 4) {
+                throw new SQLException("BUG-850-166 missing clan creation transaction table");
+            }
+        }
+    }
+
     public boolean b(i clan) {
         Connection con = null;
         PreparedStatement pstm = null;
