@@ -1,0 +1,399 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+
+namespace L1JTW850Launcher
+{
+    internal sealed class RuntimeGateRow
+    {
+        public string WorkPackage = "";
+        public string State = "NOT_YET";
+        public string Evidence = "";
+        public string Next = "";
+    }
+
+    internal sealed class RuntimeValidationDashboardState
+    {
+        public bool ClientConnected;
+        public string ClientStatus = "";
+        public readonly List<RuntimeGateRow> Rows =
+            new List<RuntimeGateRow>();
+        public string NextAction = "";
+    }
+
+    internal static class RuntimeValidationDashboard
+    {
+        public static RuntimeValidationDashboardState Evaluate(
+            string appDir)
+        {
+            var state =
+                new RuntimeValidationDashboardState();
+
+            var runtime =
+                new ProcessRuntimeBridge(appDir)
+                .Read();
+
+            state.ClientConnected =
+                runtime.Connected;
+
+            state.ClientStatus =
+                runtime.Status;
+
+            var pointerPath =
+                Path.Combine(
+                    appDir,
+                    "pointer_probe_evidence.txt");
+
+            var stablePointers =
+                PointerEvidenceComparer.Compare(
+                    pointerPath,
+                    3,
+                    2);
+
+            var stableFields =
+                new HashSet<string>(
+                    StringComparer.OrdinalIgnoreCase);
+
+            foreach (var candidate in stablePointers)
+            {
+                if (candidate.Status ==
+                    "RESTART_STABLE")
+                {
+                    stableFields.Add(
+                        candidate.Field);
+                }
+            }
+
+            RuntimeMap runtimeMap =
+                null;
+
+            var runtimeMapError =
+                "";
+
+            try
+            {
+                var path =
+                    Path.Combine(
+                        appDir,
+                        "runtime-map.ini");
+
+                if (File.Exists(path))
+                {
+                    runtimeMap =
+                        RuntimeMap.Load(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                runtimeMapError =
+                    ex.Message;
+            }
+
+            var hpStable =
+                HasAll(
+                    stableFields,
+                    "CurrentHP",
+                    "MaxHP",
+                    "CurrentMP",
+                    "MaxMP");
+
+            var hpMapped =
+                runtimeMap != null &&
+                runtimeMap.HasHpMp;
+
+            Add(
+                state,
+                "WP4 HP/MP",
+                hpStable && hpMapped
+                    ? "RESTART_STABLE"
+                    : "NOT_YET",
+                BuildPairEvidence(
+                    "stable=",
+                    hpStable,
+                    "map=",
+                    hpMapped,
+                    runtimeMapError),
+                hpStable
+                    ? (hpMapped
+                        ? "執行實際 HP/MP 讀值驗證"
+                        : "把穩定 expression 填入「映射」")
+                    : "偵測 → 指標鏈 → 映射比對");
+
+            var playerStable =
+                HasAll(
+                    stableFields,
+                    "PlayerObjectId",
+                    "PlayerX",
+                    "PlayerY");
+
+            var playerMapped =
+                runtimeMap != null &&
+                runtimeMap.HasPlayerIdentity;
+
+            Add(
+                state,
+                "WP3 Player",
+                playerStable && playerMapped
+                    ? "RESTART_STABLE"
+                    : "NOT_YET",
+                BuildPairEvidence(
+                    "stable=",
+                    playerStable,
+                    "map=",
+                    playerMapped,
+                    runtimeMapError),
+                playerStable
+                    ? (playerMapped
+                        ? "執行 objectId/X/Y 實際移動驗證"
+                        : "把穩定 expression 填入「映射」")
+                    : "玩家偵測 → 指標鏈 → 映射比對");
+
+            InventoryMap inventoryMap =
+                null;
+
+            var inventoryMapError =
+                "";
+
+            try
+            {
+                var path =
+                    Path.Combine(
+                        appDir,
+                        "inventory-map.ini");
+
+                if (File.Exists(path))
+                {
+                    inventoryMap =
+                        InventoryMap.Load(path);
+                }
+            }
+            catch (Exception ex)
+            {
+                inventoryMapError =
+                    ex.Message;
+            }
+
+            var inventoryMapEnabled =
+                inventoryMap != null &&
+                inventoryMap.Mode !=
+                    InventoryCollectionMode.Unmapped;
+
+            var validationPath =
+                Path.Combine(
+                    appDir,
+                    "inventory_validation_evidence.txt");
+
+            var validationSessions =
+                InventoryValidationEvidenceComparer
+                .Load(validationPath);
+
+            InventoryValidationSession latestInventory =
+                null;
+
+            if (validationSessions.Count > 0)
+            {
+                latestInventory =
+                    validationSessions[
+                        validationSessions.Count - 1];
+            }
+
+            var inventorySessionStructurallyValid =
+                latestInventory != null &&
+                latestInventory.InventoryMapped &&
+                latestInventory.RecordCount > 0 &&
+                latestInventory.UniqueObjectIds ==
+                    latestInventory.RecordCount;
+
+            var wp5State =
+                inventoryMapEnabled &&
+                inventorySessionStructurallyValid
+                    ? "PASS_SESSION"
+                    : "NOT_YET";
+
+            Add(
+                state,
+                "WP5 Inventory",
+                wp5State,
+                BuildInventoryEvidence(
+                    inventoryMap,
+                    inventoryMapEnabled,
+                    latestInventory,
+                    inventoryMapError),
+                !inventoryMapEnabled
+                    ? "物品偵測 → 物品結構 → 物品欄位 → 背包容器 → 背包映射"
+                    : (!inventorySessionStructurallyValid
+                        ? "在「背包驗證」執行一次正式列舉"
+                        : "進入 WP6 跨 session 驗證"));
+
+            var wp6 =
+                InventoryValidationEvidenceComparer
+                .CompareLatest(
+                    validationPath,
+                    3);
+
+            Add(
+                state,
+                "WP6 背包列舉",
+                wp6.RestartStablePass
+                    ? "PASS"
+                    : (inventorySessionStructurallyValid
+                        ? "NOT_YET"
+                        : "BLOCKED"),
+                wp6.Status,
+                wp6.RestartStablePass
+                    ? "進入 WP7 native UseItem 行為關聯"
+                    : (inventorySessionStructurallyValid
+                        ? "登入驗證 → 重登驗證 → 完整重啟驗證"
+                        : "先完成 WP5 正式列舉"));
+
+            Add(
+                state,
+                "WP7 UseItem",
+                wp6.RestartStablePass
+                    ? "READY"
+                    : "BLOCKED",
+                "server protocol=PASS；client native item-use function 尚未證明",
+                wp6.RestartStablePass
+                    ? "手動正常喝水 + Send追蹤/Send比對"
+                    : "等待 WP6 PASS");
+
+            state.NextAction =
+                ResolveNextAction(
+                    state);
+
+            return state;
+        }
+
+        private static string ResolveNextAction(
+            RuntimeValidationDashboardState state)
+        {
+            if (!state.ClientConnected)
+            {
+                return "啟動並登入 850 角色後刷新驗證總覽。";
+            }
+
+            foreach (var row in state.Rows)
+            {
+                if (row.WorkPackage.StartsWith("WP4") &&
+                    row.State != "RESTART_STABLE")
+                    return row.Next;
+
+                if (row.WorkPackage.StartsWith("WP3") &&
+                    row.State != "RESTART_STABLE")
+                    return row.Next;
+
+                if (row.WorkPackage.StartsWith("WP5") &&
+                    row.State != "PASS_SESSION")
+                    return row.Next;
+
+                if (row.WorkPackage.StartsWith("WP6") &&
+                    row.State != "PASS")
+                    return row.Next;
+
+                if (row.WorkPackage.StartsWith("WP7"))
+                    return row.Next;
+            }
+
+            return "目前 runtime gate 已完成。";
+        }
+
+        private static bool HasAll(
+            HashSet<string> fields,
+            params string[] required)
+        {
+            foreach (var field in required)
+            {
+                if (!fields.Contains(field))
+                    return false;
+            }
+
+            return true;
+        }
+
+        private static string BuildPairEvidence(
+            string labelA,
+            bool valueA,
+            string labelB,
+            bool valueB,
+            string error)
+        {
+            var text =
+                labelA +
+                (valueA ? "YES" : "NO") +
+                " / " +
+                labelB +
+                (valueB ? "YES" : "NO");
+
+            if (!string.IsNullOrEmpty(error))
+            {
+                text +=
+                    " / map error=" +
+                    error;
+            }
+
+            return text;
+        }
+
+        private static string BuildInventoryEvidence(
+            InventoryMap map,
+            bool enabled,
+            InventoryValidationSession latest,
+            string error)
+        {
+            if (!string.IsNullOrEmpty(error))
+            {
+                return "inventory-map error=" +
+                       error;
+            }
+
+            if (!enabled)
+            {
+                return "Mode=UNMAPPED";
+            }
+
+            var mode =
+                map == null
+                    ? "UNKNOWN"
+                    : map.Mode.ToString();
+
+            if (latest == null)
+            {
+                return "Mode=" +
+                       mode +
+                       " / no validation session";
+            }
+
+            return "Mode=" +
+                   mode +
+                   " / mapped=" +
+                   (latest.InventoryMapped
+                       ? "YES"
+                       : "NO") +
+                   " / records=" +
+                   latest.RecordCount +
+                   " / uniqueObjectIds=" +
+                   latest.UniqueObjectIds +
+                   " / sessionPass=" +
+                   (latest.Passed
+                       ? "YES"
+                       : "NO");
+        }
+
+        private static void Add(
+            RuntimeValidationDashboardState state,
+            string wp,
+            string gateState,
+            string evidence,
+            string next)
+        {
+            state.Rows.Add(
+                new RuntimeGateRow
+                {
+                    WorkPackage = wp,
+                    State = gateState,
+                    Evidence = evidence,
+                    Next = next
+                });
+        }
+    }
+}
