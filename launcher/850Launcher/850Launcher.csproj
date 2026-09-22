@@ -39,6 +39,8 @@
     <Compile Include="IniDocument.cs" />
     <Compile Include="LauncherConfig.cs" />
     <Compile Include="HelperSettings.cs" />
+    <Compile Include="AutoPotionPolicy.cs" />
+    <Compile Include="ItemUseBridge.cs" />
     <Compile Include="ClientLauncher.cs" />
     <Compile Include="ClientVerifier.cs" />
     <Compile Include="RuntimeBridge.cs" />
