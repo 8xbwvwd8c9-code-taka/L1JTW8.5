@@ -389,3 +389,113 @@ MODE_4=TERMINAL
 RNG_SCALE=0..999 / per-thousand
 ENTRY=Power_Up_01
 ```
+
+
+## 850 native replacement matrix
+
+### server_item_update
+
+Can be reduced to 850 native craft **only for simple semantic cases** where all of the following are acceptable:
+- source item is consumed as a material
+- a new target item object may be created
+- original inventory object identity does not need to be preserved
+- no shifting/history record is required
+- no custom NPC selection/list UX is required
+
+Native craft can express:
+- deterministic source + extra materials -> target
+
+Native craft cannot preserve the exact donor semantics:
+- mutate selected existing object in place
+- preserve object ID
+- NPC inventory-object picker via S_PowerItemList
+- CharShifting history side effect
+
+Therefore:
+- simple rows may be migrated as **L2 craft conversions**
+- the full donor framework remains **L3**
+
+### w_道具升級系統 / add.Item_up
+
+Native craft can replace only recipes that are functionally equivalent to:
+- fixed target item
+- fixed extra materials
+- fixed success chance
+- success creates target replacement
+- no requirement to preserve target object identity
+- failure policy can be represented by fail_itemid
+
+Native craft does NOT provide the exact use-item-on-target interaction or donor restrictions:
+- target selection by object ID
+- target seal/doll/equipped checks
+- target object mutation in place
+- save_type semantics as implemented
+- upgrade-stone consumption tied to targeted use
+
+Therefore:
+- isolated simple conversions may be redesigned as **L2 native craft**
+- semantic-equivalent Item_up behavior remains **L3**
+
+### w_道具升級 / ItemIntegration
+
+This framework is only safely reducible to native craft when the row does NOT depend on:
+- class restriction beyond craft-supported constraints
+- preserving target enchant / bless / instance identity
+- same-type in-place replacement
+- additional output arrays
+- gfx / world broadcast
+- failure destruction/preservation behavior beyond craft fail-item
+- target-use interaction
+
+Because the framework is explicitly designed around manipulating a selected existing target object, generic migration remains **L3**.
+
+### Important migration strategy
+
+Do NOT port all three legacy runtime frameworks merely because they exist.
+
+For each populated row:
+1. classify the row semantics
+2. if it can be represented exactly enough by 850 native craft, migrate that content as L2
+3. only port an L3 framework when remaining content actually needs its runtime semantics
+
+This avoids importing redundant legacy systems into 850.
+
+## Current donor data size signal
+
+The split DB currently shows:
+- `server_item_update`: only one sample row in the split export
+- `w_道具升級系統`: two rows
+- `w_道具升級`: one row
+
+This strongly suggests these three frameworks may have very little active content in the current donor dataset.
+
+By contrast:
+- `server_item_power_update` contains many production progression rows and is the strategically important upgrade subsystem.
+
+Migration priority:
+1. staged-item-power-upgrade (real production content)
+2. evaluate the 1-2-row legacy frameworks case-by-case
+3. prefer native craft replacement where exact behavior is not required
+4. avoid porting dormant/general-purpose framework code without active content justification
+
+## Recommended status
+
+```
+server_item_update:
+  FRAMEWORK=L3
+  CURRENT_CONTENT=L2 candidate
+
+w_道具升級系統:
+  FRAMEWORK=L3
+  CURRENT_CONTENT=L2 candidate / test-like rows
+
+w_道具升級:
+  FRAMEWORK=L3
+  CURRENT_CONTENT=L2 candidate / test-like row
+
+server_item_power_update:
+  FRAMEWORK=L3
+  CURRENT_CONTENT=L3-required
+```
+
+This distinction is important: framework complexity must not be confused with actual migration necessity.
