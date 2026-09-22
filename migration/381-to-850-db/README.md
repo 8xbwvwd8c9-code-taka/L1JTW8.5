@@ -116,3 +116,5 @@ Do not port its entire 381 UI/core blindly.
 
 ## Latest module audit
 - `w_道具狀態`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/ITEM_STATUS_TIMED_BUFF_AUDIT.md`, commit=`637693a336b45d50068a0efd06b277b8e6d568b2`. 850-native timed/stat primitives exist; persistence and apply-once ownership are not closed.
+
+- `w_指定道具賦予狀態`: STATUS=BLOCKED, LEVEL=L4, audit=`modules/DESIGNATED_ITEM_STATUS_AUDIT.md`, commit=`4ea2d90d9cb80433870080ad47393a731f1b12b3`. Shares stat-vector logic with timed item status but must keep equipped-item lifecycle separate.
