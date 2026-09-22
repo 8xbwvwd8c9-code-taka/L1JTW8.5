@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-152 | L2 | board post fee / DB success coupling | PASS / ALREADY COVERED |
 | BUG-850-154 | L2 | duel logout peer-id preservation | PASS / PROMOTED |
 | BUG-850-155 | L2 | doll cleanup timer/logout idempotency | PASS / PROMOTED |
 | BUG-850-162 | L2 | follower logout stale/destroyed guard | PASS / PROMOTED |
@@ -45,6 +46,52 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-152 — board post fee and DB creation were not one success contract
+
+### Existing repair coverage
+
+This finding is already covered by the completed board-write repair chain that was preserved during BUG-850-178 promotion.
+
+The completed handler now:
+
+1. requires successful removal of item `40308 x300` before persistence;
+2. aborts if the fee cannot be removed;
+3. calls `L1BoardTopic.a(...)`;
+4. if persistence returns `null`, refunds `40308 x300`.
+
+Therefore the original two split outcomes are closed:
+
+- DB success with unpaid fee;
+- DB failure with permanently consumed fee.
+
+### Existing authority
+
+```text
+0cb0fa4b89755fc699bcf7545a1061bfa91f06b9
+b824c6b84d354751da32cf00adb64c03b4915615
+8bae99e0f7aa18c86dd9166ce1b0a8ab9f94ff53
+```
+
+### Validation
+
+The isolated BUG-850-178 validation already exercised the same economic contract:
+
+```text
+GitHub Actions run = 35703276792
+BOARD_FEE_GATE=PASS
+BOARD_DB_FAILURE_REFUND=PASS
+```
+
+### Result
+
+```text
+BUG-850-152=L2
+STATUS=PASS
+PROMOTED=ALREADY_COVERED
+NEW_CORE_PATCH=NO
+```
+
 
 ## BUG-850-154 — logout cleared duel target id before using it to clear the peer
 
