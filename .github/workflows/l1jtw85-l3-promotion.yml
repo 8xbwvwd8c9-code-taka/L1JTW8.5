@@ -1,0 +1,22 @@
+name: L1JTW8.5 L3 Promotion Validation
+on:
+  push:
+    branches: [promote/l3-validated-20260922]
+permissions: {contents: read}
+jobs:
+  l3-promotion-contracts:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: "3.x"}
+      - name: Run Batch1-7 source contracts
+        shell: bash
+        run: |
+          set -euo pipefail
+          for N in 1 2 3 4 5 6 7; do
+            echo "=== BATCH$N ==="
+            python "tools/core-fix/validate_l3_batch$N.py"
+          done
+          echo "L3_PROMOTION_CONTRACTS=PASS"
