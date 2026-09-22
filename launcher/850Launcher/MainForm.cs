@@ -447,5 +447,31 @@ namespace L1JTW850Launcher
             _potionStatus.Text = "喝水狀態：" + potion.Status;
         }
 
+        private void AddSelectedInventoryItemToPotionList()
+        {
+            if (_inventory.SelectedItems.Count == 0)
+            {
+                MessageBox.Show("請先從背包清單選一個道具。");
+                return;
+            }
+
+            var item = _inventory.SelectedItems[0].Tag as InventoryItem;
+            if (item == null || item.ItemId <= 0)
+            {
+                MessageBox.Show("目前選取項目沒有可用的 ItemId。");
+                return;
+            }
+
+            var ids = _helper.GetPotionItemIds();
+            if (!ids.Contains(item.ItemId))
+                ids.Add(item.ItemId);
+
+            _helper.PotionItemIds = string.Join(",", ids.ToArray());
+            _potionItemIds.Text = _helper.PotionItemIds;
+            _potionStatus.Text =
+                "喝水狀態：已加入 ItemId=" + item.ItemId +
+                "；請按「儲存」保存設定。";
+        }
+
     }
 }
