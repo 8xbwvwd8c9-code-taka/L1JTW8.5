@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-167 | L2 | NPC AI exception / running-flag lifecycle | PASS / PROMOTED |
 | BUG-850-178 | L2 | board-write local interaction / persistence-fee consistency | PASS / PROMOTED |
 | BUG-850-294 | L2 | NPC sell-to-shop inventory / payout consistency | PASS / PROMOTED |
 | BUG-850-293 | L2 | NPC purchase war-tax treasury accounting | PASS / PROMOTED |
@@ -39,6 +40,49 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+
+## BUG-850-167 — NPC AI exception could leave the running flag stuck
+
+### Problem
+
+The NPC AI task sets the per-NPC AI-running flag before scheduling. Normal terminal cleanup clears it, but the exception path only logged and returned.
+
+### Existing completed obfuscated authority
+
+The completed obfuscated source already contained the validated repair:
+
+- `25e5bd1f168df36a4a1492784d45ad6eb2a1284a` — clear NPC AI running flag after task exceptions
+
+The normalized source had not received the same repair.
+
+### Fix
+
+The normalized `L1NpcInstance.java` now mirrors the completed obfuscated behavior by clearing the AI-running flag in the AI task's `catch (Exception)` path.
+
+### Validation
+
+```text
+GitHub Actions run = 35703525324
+STATUS = PASS
+BUG_850_167_CONTRACT=PASS
+BUG_850_167_TARGETED_JAVAC_REGRESSION=PASS
+BUG_850_167_TARGETED_BEHAVIOR_RUNTIME=PASS
+```
+
+Promotion commit:
+
+- normalized parity: `f067e0d0aa6000c58ce44f47a6985763b97fe6c2`
+
+### Result
+
+```text
+BUG-850-167=L2
+STATUS=PASS
+PROMOTED=YES
+OBF_EXISTING_REPAIR=PRESERVED
+NORMALIZED_PARITY=RESTORED
+```
+
 
 ## BUG-850-178 — board writes were not bound to a nearby board instance
 
