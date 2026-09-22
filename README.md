@@ -470,6 +470,25 @@ OVERFLOW_WITH_LONG=PASS
 
 權威公式：`total=(long)count*price`。先用 long 計算，再驗證 `0<=total<=2,000,000,000`；`count<=0` 或 `price<0` 直接拒絕。等於上限合法，超過即拒絕。此項僅完成 arithmetic proof，source contract / targeted runtime / CI 未全 PASS 前仍維持 `PATCHED_PENDING_VALIDATION`。
 
+### BUG-850-93 能力值預算驗證（2026-09-22）
+
+```text
+STAT_BUDGET_ARITHMETIC=PASS
+ALLOWED_L49=75
+ALLOWED_L50=75
+ALLOWED_L51=76
+ALLOWED_L52=77
+ALLOWED_L80=105
+ALLOWED_L81=106
+ALLOWED_L99=124
+LEVEL_BOUNDARY=PASS
+STAT_BUDGET=PASS
+FINAL_EQUALITY_GATE=PASS
+SINGLE_STAT_LT45=NOT_COVERED_BY_THIS_CASESET
+```
+
+權威公式：`allowedLevelStatTotal(level)=75+max(0,level-50)`。50級以前總量上限固定75；51級起每級增加1。升級加點必須同時滿足 `nextLevel<=targetLevel` 與 `baseStatTotal+1<=allowed(nextLevel)`；最終完成要求 `currentLevel==targetLevel` 且 `baseStatTotal==allowed(currentLevel)`。本組案例未提供單一能力值，因此 `stat<45` gate 尚未由此案例覆蓋。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
