@@ -190,28 +190,55 @@ public class HomeTownTimer {
       PreparedStatement var2 = null;
       PreparedStatement var3 = null;
       ResultSet var4 = null;
-      int var5 = 0;
 
       try {
          var1 = DatabaseFactory.a().b();
+         var1.setAutoCommit(false);
          var2 = var1.prepareStatement("SELECT Pay FROM characters WHERE objid = ? FOR UPDATE");
          var2.setInt(1, var0);
          var4 = var2.executeQuery();
-         if (var4.next()) {
-            var5 = var4.getInt("Pay");
+         if (!var4.next()) {
+            var1.rollback();
+            return 0;
          }
 
-         var3 = var1.prepareStatement("UPDATE characters SET Pay = 0 WHERE objid = ?");
+         int var5 = var4.getInt("Pay");
+         if (var5 <= 0) {
+            var1.rollback();
+            return 0;
+         }
+
+         var3 = var1.prepareStatement("UPDATE characters SET Pay = 0 WHERE objid = ? AND Pay = ?");
          var3.setInt(1, var0);
-         var3.execute();
-      } catch (SQLException var10) {
-         a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+         var3.setInt(2, var5);
+         if (var3.executeUpdate() != 1) {
+            var1.rollback();
+            return 0;
+         }
+
+         var1.commit();
+         return var5;
+      } catch (SQLException var9) {
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         if (var1 != null) {
+            try {
+               var1.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         return 0;
       } finally {
          SQLUtil.a(var3);
-         SQLUtil.a(var4, var2, var1);
+         SQLUtil.a(var4);
+         SQLUtil.a(var2);
+         if (var1 != null) {
+            try {
+               var1.setAutoCommit(true);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var1);
       }
-
-      return var5;
    }
 
    private class L1R_a extends L1GameTimeAdapter {
