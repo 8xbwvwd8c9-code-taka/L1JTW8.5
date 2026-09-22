@@ -449,6 +449,34 @@ NO_USEITEM_BEFORE_WP5_WP6
 The v0.1 executable shell can be built now. Helper actions that require runtime mappings remain disabled until WP3-WP6 evidence passes.
 
 
+## 2026-09-22 local build validation
+
+User-local build result:
+
+```text
+BUILD=PASS
+ERRORS=0
+WARNINGS=10
+OUTPUT=launcher/850Launcher/bin/Release/850Launcher.exe
+ELAPSED=00:00:00.50
+```
+
+Observed warnings:
+
+- MSB3644: .NET Framework 4.0 targeting/reference assemblies pack is not installed.
+- CS0649: unmapped runtime bridge fields remained at defaults.
+
+Interpretation:
+
+```text
+BUILD_GATE=PASS
+MSB3644=NON_FATAL_ON_THIS_HOST
+RUNTIME_MAPPING=STILL_UNMAPPED
+```
+
+The compiler resolved framework assemblies from the GAC and produced the executable successfully. Runtime bridge field warnings were subsequently eliminated by explicit initialization.
+
+
 ## 下一步
 
 ```text
