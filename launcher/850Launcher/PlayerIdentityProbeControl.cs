@@ -38,6 +38,9 @@ namespace L1JTW850Launcher
             new List<IntPtr>();
 
         private int _pid;
+        private uint _scanObjectId;
+        private int _scanXWidth;
+        private int _scanYWidth;
         private IntPtr _moduleBase =
             IntPtr.Zero;
 
@@ -317,6 +320,15 @@ namespace L1JTW850Launcher
             _pid =
                 runtime.ProcessId;
 
+            _scanObjectId =
+                objectId;
+
+            _scanXWidth =
+                xWidth;
+
+            _scanYWidth =
+                yWidth;
+
             _moduleBase =
                 runtime.ModuleBase;
 
@@ -532,6 +544,19 @@ namespace L1JTW850Launcher
 
             var yWidth =
                 SelectedWidth(_yWidth);
+
+            if (objectId != _scanObjectId ||
+                xWidth != _scanXWidth ||
+                yWidth != _scanYWidth)
+            {
+                MessageBox.Show(
+                    "ObjectId 或 X/Y 欄位寬度已改變。請清除後重新首次掃描。",
+                    "掃描條件已變更",
+                    MessageBoxButtons.OK,
+                    MessageBoxIcon.Information);
+
+                return;
+            }
 
             SetBusy(
                 true,
@@ -919,6 +944,10 @@ namespace L1JTW850Launcher
             _yCandidates.Clear();
 
             _pid = 0;
+            _scanObjectId = 0;
+            _scanXWidth = 0;
+            _scanYWidth = 0;
+
             _moduleBase =
                 IntPtr.Zero;
 
