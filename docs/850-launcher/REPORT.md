@@ -1160,6 +1160,62 @@ MISSING_SOURCE_FILES=0
 ```
 
 
+## 2026-09-23 WP5/WP6 authoritative inventory hardening
+
+```text
+STATUS=PASS_SOURCE
+MAPPED_INVENTORY_AUTHORITY_GATE=PASS_SOURCE
+PROCESS_INSTANCE_GUARD=PASS_SOURCE
+UNIQUE_OBJECT_ID_GATE=PASS_SOURCE
+WP5_DISCOVERY_PROVENANCE=PASS_SOURCE
+WP6_VARIABLE_COUNT_GATE=PASS_SOURCE
+```
+
+Fixes:
+
+- **驗證總覽** now uses the latest authoritative 850 inventory validation session only; old/no-hash evidence cannot produce `WP5 PASS_SESSION`.
+- `MappedInventoryBridge` now rejects non-authoritative runtime snapshots directly.
+- PID reuse is detected by comparing `ProcessStartTimeUtc` before inventory reads.
+- mapped inventory results are rejected when:
+  - any record is null;
+  - `ObjectId==0`;
+  - duplicate ObjectId exists;
+  - `ItemId<=0`;
+  - `Count<0`.
+- ObjectId width=8 is now implemented consistently with `InventoryMap`; values must still fit the authoritative `uint` semantic range before conversion.
+- WP5 discovery evidence now records client/process provenance in:
+  - `inventory_probe_evidence.txt`
+  - `inventory_record_evidence.txt`
+  - collection probe evidence
+  - `inventory_field_validation.txt`.
+
+WP6 gate correction:
+
+Previous logic required the complete `itemId=count` expectation set to be identical across sessions. That was unnecessarily strict because legitimate counts may change between relog/restart.
+
+New gate:
+
+```text
+AUTHORITATIVE_CLIENT_ONLY
+SESSIONS>=3
+ALL_SESSIONS_PASS
+DISTINCT_PROCESS_INSTANCES>=2
+SAME_ITEM_ID_SET=YES
+MIN_EXPECTED_ITEMS_PER_SESSION>=2
+COUNTS_MAY_DIFFER_BETWEEN_SESSIONS
+```
+
+Source checks after this checkpoint:
+
+```text
+CS_FILES=60
+CSPROJ_COMPILE_ENTRIES=60
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+CHANGED_FILE_LEXICAL_AUDIT=PASS
+```
+
+
 ## 下一步
 
 ```text
