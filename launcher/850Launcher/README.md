@@ -218,3 +218,26 @@ manual normal-potion action correlation
 ```
 
 Evidence is written to `native_call_graph_evidence.txt`.
+
+## Native evidence comparison
+
+The hidden **Send比對** page compares appended `native_call_graph_evidence.txt` sessions.
+
+Recommended sequence:
+
+```text
+session 1: normal login
+session 2: relog character
+session 3: fully close Lin.bin2 and launch again
+```
+
+Stable candidates require:
+
+```text
+same function RVA
+same SHA256(first 64 bytes)
+stable caller edge(s)
+at least 2 distinct PROCESS_START_UTC values for restart stability
+```
+
+A restart-stable candidate is still not WP7 PASS until it is correlated with a normal manual potion use.
