@@ -192,3 +192,17 @@ This is a correctness improvement required for faithful content migration.
    - class isolation
 7. Rollback removes configuration only and leaves player-earned skills intact.
 
+
+
+## 7. Skill-ID compatibility check
+
+Compared all distinct skill IDs referenced by current 381 `w_自動學習技能` data against 850 `skills`.
+
+Result:
+- checked: 63
+- found in 850: 63
+- missing: 0
+
+Status: **PASS**
+
+No skill-ID remapping blocker exists for the currently observed 381 rules.
