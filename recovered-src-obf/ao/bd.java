@@ -10,6 +10,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
@@ -116,6 +117,120 @@ public class bd {
                 throw throwable;
             }
             j.a(rs, pstm, con);
+        }
+    }
+
+    public synchronized boolean a(String accountName, int expectedBalance, int newBalance, int itemId, int count) {
+        if (accountName == null || count <= 0 || newBalance < 0 || newBalance > expectedBalance) {
+            return false;
+        }
+
+        a data = this.d.get(accountName);
+        ArrayList<Integer> indexes = new ArrayList<Integer>();
+        ArrayList<q> items = new ArrayList<q>();
+
+        for (int n = 0; n < count; ++n) {
+            q item = ah.a().b(itemId);
+            if (item == null) {
+                return false;
+            }
+            int index = 1;
+            while (index < Integer.MAX_VALUE) {
+                if ((data == null || !data.b.containsKey(index)) && !indexes.contains(index)) {
+                    break;
+                }
+                ++index;
+            }
+            if (index == Integer.MAX_VALUE) {
+                return false;
+            }
+            indexes.add(index);
+            items.add(item);
+        }
+
+        Connection con = null;
+        PreparedStatement engineCheck = null;
+        PreparedStatement balanceUpdate = null;
+        PreparedStatement insert = null;
+        ResultSet rs = null;
+        boolean previousAutoCommit = true;
+        try {
+            con = l1j.server.b.a().b();
+            previousAutoCommit = con.getAutoCommit();
+            engineCheck = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('accounts','character_shop')");
+            rs = engineCheck.executeQuery();
+            boolean accountsInnoDb = false;
+            boolean characterShopInnoDb = false;
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                String engine = rs.getString("ENGINE");
+                if ("accounts".equalsIgnoreCase(tableName)) {
+                    accountsInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                } else if ("character_shop".equalsIgnoreCase(tableName)) {
+                    characterShopInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                }
+            }
+            if (!accountsInnoDb || !characterShopInnoDb) {
+                a.log(Level.SEVERE, "ShopWorld purchase requires InnoDB accounts + character_shop; apply BUG-850-283 migration");
+                return false;
+            }
+
+            con.setAutoCommit(false);
+            balanceUpdate = con.prepareStatement("UPDATE accounts SET WorldShopAdena=? WHERE login=? AND WorldShopAdena=?");
+            balanceUpdate.setInt(1, newBalance);
+            balanceUpdate.setString(2, accountName);
+            balanceUpdate.setInt(3, expectedBalance);
+            if (balanceUpdate.executeUpdate() != 1) {
+                con.rollback();
+                return false;
+            }
+
+            insert = con.prepareStatement("INSERT INTO character_shop SET acc_name=?,itemid=?,indexid=?");
+            for (int n = 0; n < indexes.size(); ++n) {
+                insert.setString(1, accountName);
+                insert.setInt(2, itemId);
+                insert.setInt(3, indexes.get(n));
+                if (insert.executeUpdate() != 1) {
+                    throw new SQLException("character_shop insert affected unexpected row count");
+                }
+            }
+
+            con.commit();
+            if (data == null) {
+                data = new a();
+                this.d.put(accountName, data);
+            }
+            for (int n = 0; n < indexes.size(); ++n) {
+                data.b.put(indexes.get(n), items.get(n));
+            }
+            return true;
+        }
+        catch (Exception e2) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException rollbackError) {
+                    a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                }
+            }
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(rs);
+            j.a(engineCheck);
+            j.a(balanceUpdate);
+            j.a(insert);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(previousAutoCommit);
+                }
+                catch (SQLException e2) {
+                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                }
+            }
+            j.a(con);
         }
     }
 
