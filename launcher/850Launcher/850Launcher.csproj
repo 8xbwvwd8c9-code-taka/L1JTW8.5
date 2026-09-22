@@ -67,6 +67,10 @@
     <Compile Include="MappedInventoryBridge.cs" />
     <Compile Include="ItemNameResolver.cs" />
     <Compile Include="InventoryMapControl.cs" />
+    <Compile Include="InventoryRuntimeValidator.cs" />
+    <Compile Include="InventoryValidationControl.cs" />
+    <Compile Include="InventoryValidationEvidenceComparer.cs" />
+    <Compile Include="InventoryValidationCompareControl.cs" />
     <Compile Include="RuntimeMap.cs" />
     <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
