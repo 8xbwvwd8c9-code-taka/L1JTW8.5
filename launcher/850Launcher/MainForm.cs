@@ -13,6 +13,10 @@ namespace L1JTW850Launcher
         private readonly ProcessRuntimeBridge _runtime;
         private readonly IItemUseBridge _itemUse;
         private readonly AutoPotionController _autoPotionController;
+        private readonly SkillCatalog _skillCatalog;
+        private readonly ISkillUseBridge _skillUse;
+        private readonly IBuffStateBridge _buffState;
+        private readonly AutoBuffController _autoBuffController;
 
         private TextBox _serverName, _ip, _port;
         private Label _runtimeState;
@@ -20,6 +24,8 @@ namespace L1JTW850Launcher
         private NumericUpDown _hpPercent, _hpExact, _potionCooldown, _timerSeconds;
         private TextBox _potionItemIds;
         private Label _potionStatus;
+        private Label _buffStatus;
+        private CheckedListBox _buffSkills;
         private ListView _inventory;
         private RuntimeSnapshot _latestSnapshot = new RuntimeSnapshot();
         private readonly Timer _runtimePollTimer;
@@ -33,6 +39,14 @@ namespace L1JTW850Launcher
             _runtime = new ProcessRuntimeBridge(appDir);
             _itemUse = new UnmappedItemUseBridge();
             _autoPotionController = new AutoPotionController(_helper, _itemUse);
+            _skillCatalog = new SkillCatalog(appDir);
+            _skillUse = new UnmappedSkillUseBridge();
+            _buffState = new UnmappedBuffStateBridge();
+            _autoBuffController = new AutoBuffController(
+                _helper,
+                _skillCatalog,
+                _skillUse,
+                _buffState);
 
             Text = "L1JTW 8.50 登入器 + 輔助";
             Width = 760;
@@ -214,8 +228,68 @@ namespace L1JTW850Launcher
         private TabPage BuildStateTab()
         {
             var p = NewPage("狀態");
-            _autoBuff = AddCheck(p, "自動維持選定狀態", 24, 24);
-            p.Controls.Add(new Label { Text = "狀態清單：尚未接入（WP9）", Left = 24, Top = 70, Width = 400 });
+
+            _autoBuff = AddCheck(
+                p,
+                "自動維持選定狀態",
+                24,
+                16);
+
+            p.Controls.Add(new Label
+            {
+                Text = "850 可維持狀態技能",
+                Left = 24,
+                Top = 52,
+                Width = 180
+            });
+
+            _buffSkills = new CheckedListBox
+            {
+                Left = 24,
+                Top = 76,
+                Width = 430,
+                Height = 300,
+                CheckOnClick = true
+            };
+
+            foreach (var entry in _skillCatalog.All)
+            {
+                if (entry.BuffDuration <= 0)
+                    continue;
+
+                if (string.Equals(
+                    entry.Name,
+                    "none",
+                    StringComparison.OrdinalIgnoreCase))
+                    continue;
+
+                _buffSkills.Items.Add(entry);
+            }
+
+            p.Controls.Add(_buffSkills);
+
+            p.Controls.Add(new Label
+            {
+                Left = 472,
+                Top = 76,
+                Width = 220,
+                Height = 92,
+                Text =
+                    "清單由 850 skills.sql 產生。\r\n" +
+                    "顯示：技能名稱 [SkillId] / Buff秒數。\r\n" +
+                    "只保存勾選，不會在 WP9 native SkillUse 與 Buff 狀態未驗證前自動施放。"
+            });
+
+            _buffStatus = new Label
+            {
+                Left = 472,
+                Top = 184,
+                Width = 220,
+                Height = 120,
+                Text = "狀態：等待 WP9 runtime 驗證。"
+            };
+            p.Controls.Add(_buffStatus);
+
             return p;
         }
 
@@ -405,6 +479,27 @@ namespace L1JTW850Launcher
             _hpPercent.Enabled = _potionUsePercent.Checked;
             _hpExact.Enabled = !_potionUsePercent.Checked;
             _autoBuff.Checked = _helper.AutoBuff;
+
+            var selectedBuffIds =
+                _helper.GetBuffSkillIds();
+
+            for (var i = 0;
+                 i < _buffSkills.Items.Count;
+                 i++)
+            {
+                var entry =
+                    _buffSkills.Items[i]
+                    as SkillCatalogEntry;
+
+                if (entry != null &&
+                    selectedBuffIds.Contains(
+                        entry.SkillId))
+                {
+                    _buffSkills.SetItemChecked(
+                        i,
+                        true);
+                }
+            }
             _autoTransform.Checked = _helper.AutoTransform;
             _autoAntidote.Checked = _helper.AutoAntidote;
             _autoRepair.Checked = _helper.AutoRepair;
@@ -434,6 +529,24 @@ namespace L1JTW850Launcher
             _helper.PotionItemIds = _potionItemIds.Text.Trim();
             _helper.PotionCooldownMs = (int)_potionCooldown.Value;
             _helper.AutoBuff = _autoBuff.Checked;
+
+            var buffIds =
+                new System.Collections.Generic.List<int>();
+
+            foreach (var checkedItem in
+                     _buffSkills.CheckedItems)
+            {
+                var entry =
+                    checkedItem as SkillCatalogEntry;
+
+                if (entry != null)
+                    buffIds.Add(entry.SkillId);
+            }
+
+            _helper.BuffSkillIds =
+                string.Join(
+                    ",",
+                    buffIds.ToArray());
             _helper.AutoTransform = _autoTransform.Checked;
             _helper.AutoAntidote = _autoAntidote.Checked;
             _helper.AutoRepair = _autoRepair.Checked;
@@ -482,6 +595,12 @@ namespace L1JTW850Launcher
                 _inventory.Items.Add(row);
             }
             _inventory.EndUpdate();
+
+            var buff =
+                _autoBuffController.Tick(s);
+
+            _buffStatus.Text =
+                "狀態：" + buff.Status;
         }
 
         private void RefreshPotionFast()
