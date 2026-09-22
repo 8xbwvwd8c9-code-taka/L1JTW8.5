@@ -413,6 +413,7 @@ extends cv {
                     if (pc.x() && pc.fr() == clan.k()) {
                         if (pc.ev() >= 15) {
                             if (clan.n() == 0) {
+                                pc.setL1rAmountContext(objid, 1);
                                 pc.a(new be.e(objid, s24));
                             } else {
                                 pc.a(new ds(521));
@@ -3197,6 +3198,7 @@ extends cv {
         if (house.g()) {
             return "agonsale";
         }
+        pc.setL1rAmountContext(objectId, 2);
         pc.a(new dq(objectId, String.valueOf(houseId)));
         return null;
     }
