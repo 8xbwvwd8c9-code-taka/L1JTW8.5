@@ -19,9 +19,19 @@ namespace L1JTW850Launcher
         {
             var result = new InventoryReadResult();
 
-            if (runtime == null || !runtime.Connected)
+            if (runtime == null ||
+                !runtime.Connected ||
+                !runtime.ClientHashAuthoritative)
             {
-                result.Status = "遊戲程序尚未連接。";
+                result.Status =
+                    "遊戲程序尚未連接，或 Lin.bin2 非目前 850 authority。";
+                return result;
+            }
+
+            if (runtime.ModuleBase == IntPtr.Zero)
+            {
+                result.Status =
+                    "Lin.bin2 module base 無效。";
                 return result;
             }
 
@@ -87,6 +97,17 @@ namespace L1JTW850Launcher
                 if (!ok)
                 {
                     result.Status = "InventoryBridge 讀取失敗：" + error;
+                    return result;
+                }
+
+                if (!ValidateReadSet(
+                    temp,
+                    out error))
+                {
+                    result.Status =
+                        "InventoryBridge 結構驗證失敗：" +
+                        error;
+
                     return result;
                 }
 
@@ -320,6 +341,60 @@ namespace L1JTW850Launcher
                     return false;
 
                 node = next;
+            }
+
+            return true;
+        }
+
+        private static bool ValidateReadSet(
+            IList<InventoryItem> items,
+            out string error)
+        {
+            error = "";
+
+            var objectIds =
+                new HashSet<uint>();
+
+            foreach (var item in items)
+            {
+                if (item == null)
+                {
+                    error =
+                        "inventory record 為 null。";
+                    return false;
+                }
+
+                if (item.ObjectId == 0)
+                {
+                    error =
+                        "ObjectId=0。";
+                    return false;
+                }
+
+                if (!objectIds.Add(
+                    item.ObjectId))
+                {
+                    error =
+                        "ObjectId 重複：" +
+                        item.ObjectId;
+                    return false;
+                }
+
+                if (item.ItemId <= 0)
+                {
+                    error =
+                        "ItemId 不合理：" +
+                        item.ItemId;
+                    return false;
+                }
+
+                if (item.Count < 0)
+                {
+                    error =
+                        "Count 不合理：" +
+                        item.Count;
+                    return false;
+                }
             }
 
             return true;
