@@ -216,3 +216,161 @@ Priority:
 **NATIVE_850_CRAFT_REPLACEMENT = NO**
 **CLIENT_L4_DEPENDENCY = NOT_PROVEN**
 **IMPLEMENT_NOW = NO**
+
+
+## Runtime call path proven
+
+381 dispatch path:
+
+```
+C_NPCAction
+  -> if npc.ACTION handled: return
+  -> Npc_ins.forNpcQuest(...)
+  -> Npc_Combind.forNpcQuest(cmd, pc, npc, npcid, objid)
+```
+
+`Npc_Combind` lazily loads `w_天M合成系統` on first use.
+
+Rule key:
+- npcid
+- action
+
+Therefore actions `do00..do17` / `po00..po17` are not hard-coded in C_NPCAction.
+They are table-driven through `Npc_Combind`.
+
+## Doll synthesis runtime proven
+
+`Npc_Combind.forNpcQuest()`:
+1. finds matching npcid+action rule
+2. iterates configured input item-id pool
+3. collects qualifying inventory item IDs until requested count is reached
+4. deletes active dolls before consumption
+5. consumes the selected items
+6. randomly chooses one output ID from configured output pool
+7. performs success roll
+8. on success:
+   - create/store result item
+   - success message
+   - optional world broadcast
+   - reset pity quest counter to 0
+9. on failure:
+   - increment pity quest counter
+   - when threshold reached, grant result and reset counter
+   - optionally return one random consumed item when 失敗是否退還=1
+
+This confirms the same-tier arbitrary-input semantics and rules out native fixed-material `craft` as a full replacement.
+
+## Pity persistence proven
+
+`保底紀錄編號` is used directly as an L1PcQuest quest ID.
+
+Examples:
+- 20001..20036
+
+Runtime:
+- `pc.getQuest().get_step(rulePityId)`
+- `pc.getQuest().set_step(rulePityId, value)`
+
+`L1PcQuest.set_step()` persists through:
+- `CharacterQuestReading.storeQuest/updateQuest`
+
+Therefore pity is persisted in the existing character quest persistence mechanism.
+
+Migration options:
+1. preserve quest-ID based pity state, reserving an explicit quest-ID range, or
+2. preferably abstract pity persistence behind a module-owned table to avoid collision with unrelated quests.
+
+Do not silently reuse 20001..20036 in 850 until quest-ID collision audit passes.
+
+## Donor bug: probability is off by one
+
+381 success check:
+
+```
+_random.nextInt(100) + 1 < configuredChance
+```
+
+Because roll range is 1..100 and comparison is strict `<`:
+- configured 50 => actual 49%
+- configured 70 => actual 69%
+- configured 90 => actual 89%
+- configured 100 => actual 99%
+
+Migration rule:
+- do NOT preserve this accidental off-by-one behavior unless explicitly required.
+- target semantics should normally use `roll <= configuredChance` or an equivalent exact-percent implementation.
+
+## Donor bug: transformation-card rows break generic loader
+
+`Npc_Combind.getData()` always executes:
+
+```
+getArray(rset.getString("獲取合成編號"), ",", 1)
+```
+
+Transformation-card rows have:
+- `獲取合成編號 = NULL`
+
+`getArray()` constructs a `StringTokenizer` directly from the supplied value.
+A NULL value therefore raises an exception.
+
+The outer `getData()` catches Exception silently and stops loading further data.
+
+Practical consequence:
+- doll rows before the first NULL transformation-card row can load
+- transformation-card rows cannot be safely represented by the current generic loader
+- remaining rows after the first failing row may never load
+
+Therefore the current donor implementation itself is defective for the poly-card half.
+
+Migration rule:
+- do NOT port `Npc_Combind` verbatim
+- split doll and poly-card adapters explicitly
+- validate nullable input/output pools
+- fail individual bad rules, not the entire table load
+
+## Revised module architecture
+
+```
+tianm-synthesis-core/
+  rule model
+  exact-percent RNG
+  choose-N-from-pool
+  output selection
+  pity persistence abstraction
+  failure-return policy
+  message/broadcast hooks
+  validation/error isolation
+
+tianm-doll-synthesis/
+  item pool adapter
+  active-doll cleanup
+  reward item boxes
+  NPC 93064
+
+tianm-polycard-synthesis/
+  transformation-card ownership adapter
+  card tier pool
+  reward-card selection
+  NPC 93068
+```
+
+## Updated classification
+
+Doll synthesis:
+- **L3 confirmed**
+- server-side only based on current evidence
+
+Transformation-card synthesis:
+- **L3 confirmed**
+- depends on transformation-card subsystem
+- current donor implementation is broken/incomplete
+- L4 remains NOT PROVEN
+
+## Migration safety
+Do not preserve donor defects:
+- strict-`<` probability bug
+- NULL loader crash/silent abort
+- giant if/else pity increment chain
+
+Implement pity increment as bounded arithmetic with explicit threshold/reset.
