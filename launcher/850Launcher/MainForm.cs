@@ -114,6 +114,7 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildInventoryCollectionProbeTab());
                 tabs.TabPages.Add(BuildInventoryMapTab());
                 tabs.TabPages.Add(BuildPointerProbeTab());
+                tabs.TabPages.Add(BuildPointerEvidenceCompareTab());
                 tabs.TabPages.Add(BuildRuntimeMapTab());
                 tabs.TabPages.Add(BuildItemUseProtocolTab());
                 tabs.TabPages.Add(BuildNativeSendProbeTab());
@@ -359,6 +360,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("指標鏈");
             p.Controls.Add(new PointerProbeControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildPointerEvidenceCompareTab()
+        {
+            var p = NewPage("映射比對");
+            p.Controls.Add(new PointerEvidenceCompareControl(_appDir));
             return p;
         }
 
