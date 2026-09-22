@@ -91,7 +91,7 @@ public class C_Mail extends ClientBasePacket {
             this.d();
             String var15 = this.g();
             byte[] var20 = this.h();
-            L1Clan var25 = ClanTable.a().c(var15);
+            L1Clan var25 = ClanTable.a().a(var3.aF());
             if (var25 == null) {
                var3.a(new S_ServerMessage(3982));
                return;
