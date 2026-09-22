@@ -489,6 +489,19 @@ SINGLE_STAT_LT45=NOT_COVERED_BY_THIS_CASESET
 
 權威公式：`allowedLevelStatTotal(level)=75+max(0,level-50)`。50級以前總量上限固定75；51級起每級增加1。升級加點必須同時滿足 `nextLevel<=targetLevel` 與 `baseStatTotal+1<=allowed(nextLevel)`；最終完成要求 `currentLevel==targetLevel` 且 `baseStatTotal==allowed(currentLevel)`。本組案例未提供單一能力值，因此 `stat<45` gate 尚未由此案例覆蓋。
 
+### BUG-850-93 單一能力值上限驗證（2026-09-22）
+
+```text
+SINGLE_STAT_BOUNDARY=PASS
+TOTAL_BUDGET_GATE=PASS
+COMBINED_GATE=PASS
+STAT_44_PLUS_1=VALID
+STAT_45_PLUS_1=REJECT
+FINAL_STAT_MAX=45
+```
+
+單一能力值與總量預算必須同時成立：`currentStat<45`、`newStat<=45`、`baseStatTotal+1<=allowed(nextLevel)`。總量通過但單一能力值已為45仍必須拒絕；單一能力值可加但總量超預算亦必須拒絕。
+
 ### 最新核心修復停止點（2026-09-22）
 
 本輪依要求停止工作。以下為恢復時的 authoritative checkpoint：
