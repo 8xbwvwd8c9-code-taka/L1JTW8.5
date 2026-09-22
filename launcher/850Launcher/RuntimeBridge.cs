@@ -6,21 +6,21 @@ namespace L1JTW850Launcher
     {
         public bool Connected;
         public string Status = "UNMAPPED";
-        public int? CurrentHp;
-        public int? MaxHp;
-        public int? CurrentMp;
-        public int? MaxMp;
+        public int? CurrentHp = null;
+        public int? MaxHp = null;
+        public int? CurrentMp = null;
+        public int? MaxMp = null;
         public readonly List<InventoryItem> Items = new List<InventoryItem>();
     }
 
     internal sealed class InventoryItem
     {
-        public uint ObjectId;
-        public int ItemId;
-        public long Count;
+        public uint ObjectId = 0;
+        public int ItemId = 0;
+        public long Count = 0;
         public string Name = "";
-        public int? Enchant;
-        public bool? Equipped;
+        public int? Enchant = null;
+        public bool? Equipped = null;
     }
 
     internal interface IRuntimeBridge
