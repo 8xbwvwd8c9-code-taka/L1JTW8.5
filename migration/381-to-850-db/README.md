@@ -135,3 +135,6 @@ Do not port its entire 381 UI/core blindly.
 - `w_城戰獲勝獎勵`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/CASTLE_WAR_VICTORY_REWARD_AUDIT.md`, commit=`513ce8ab735e9a2258a85d0e30385701bf4d6eb2`. Castle-war end callsite is proven; donor double-distributes rewards and table load callsite remains unproven, so 850 needs idempotent native war-end settlement.
 
 - `w_負面魔法機率`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/NEGATIVE_MAGIC_PROBABILITY_AUDIT.md`, commit=`41138a459226aa8011e8b761b3fb3b20e839fd87`. Runtime arithmetic is proven, including type24-28 low-MR sign reversal and Elf 70→35 / 71→55 discontinuity; skill_id and 850 formula mapping remain blocked.
+
+- `w_物品掉落限制三`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/DROP_LIMIT_THREE_AUDIT.md`, commit=`77737d6b509556427cd027814f51d7ddec6f240a`. Timer support is 720..899, strict-after gate, reset can leave stale cache, and quota arithmetic is safe only under valid nonnegative state.
+- `MAP_HPR_MPR_FAMILY`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/MAP_HPR_MPR_FAMILY_AUDIT.md`, commit=`c89fd24232a1f0bfd9457f0eeed184265b6c284e`. Multiple range rows per map are destroyed by last-write-wins HashMap; map4 loses 5/6 rows and map800 candidate rectangle is invalid.
