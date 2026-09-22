@@ -11,6 +11,8 @@ namespace L1JTW850Launcher
         private TextBox _playerObjectId;
         private TextBox _playerX;
         private TextBox _playerY;
+        private ComboBox _playerXWidth;
+        private ComboBox _playerYWidth;
         private TextBox _currentHp;
         private TextBox _maxHp;
         private TextBox _currentMp;
@@ -38,7 +40,9 @@ namespace L1JTW850Launcher
 
             AddField("玩家 ObjectId", 72, out _playerObjectId);
             AddField("玩家 X", 112, out _playerX);
+            AddWidth("X 寬度", 112, 610, out _playerXWidth);
             AddField("玩家 Y", 152, out _playerY);
+            AddWidth("Y 寬度", 152, 610, out _playerYWidth);
 
             AddField("目前 HP", 208, out _currentHp);
             AddField("最大 HP", 248, out _maxHp);
@@ -66,6 +70,8 @@ namespace L1JTW850Launcher
                 _playerObjectId.Clear();
                 _playerX.Clear();
                 _playerY.Clear();
+                _playerXWidth.SelectedItem = "4";
+                _playerYWidth.SelectedItem = "4";
                 _currentHp.Clear();
                 _maxHp.Clear();
                 _currentMp.Clear();
@@ -81,6 +87,36 @@ namespace L1JTW850Launcher
             Controls.Add(box);
         }
 
+        private void AddWidth(
+            string label,
+            int top,
+            int left,
+            out ComboBox box)
+        {
+            Controls.Add(new Label
+            {
+                Text = label,
+                Left = left,
+                Top = top + 4,
+                Width = 52
+            });
+
+            box = new ComboBox
+            {
+                Left = left + 56,
+                Top = top,
+                Width = 48,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            box.Items.Add("2");
+            box.Items.Add("4");
+            box.SelectedItem = "4";
+
+            Controls.Add(box);
+        }
+
+
         private void LoadValues()
         {
             try
@@ -89,6 +125,8 @@ namespace L1JTW850Launcher
                 _playerObjectId.Text = ini.Get("Player", "ObjectId", "");
                 _playerX.Text = ini.Get("Player", "X", "");
                 _playerY.Text = ini.Get("Player", "Y", "");
+                SelectWidth(_playerXWidth, ini.GetInt("Player", "XWidth", 4));
+                SelectWidth(_playerYWidth, ini.GetInt("Player", "YWidth", 4));
                 _currentHp.Text = ini.Get("HPMP", "CurrentHP", "");
                 _maxHp.Text = ini.Get("HPMP", "MaxHP", "");
                 _currentMp.Text = ini.Get("HPMP", "CurrentMP", "");
@@ -101,6 +139,16 @@ namespace L1JTW850Launcher
             {
                 _status.Text = "載入失敗：" + ex.Message;
             }
+        }
+
+        private static void SelectWidth(
+            ComboBox box,
+            int width)
+        {
+            var value =
+                width == 2 ? "2" : "4";
+
+            box.SelectedItem = value;
         }
 
         private bool ValidateFields(out string error)
@@ -164,7 +212,9 @@ namespace L1JTW850Launcher
                 var ini = new IniDocument();
                 ini.Set("Player", "ObjectId", _playerObjectId.Text.Trim());
                 ini.Set("Player", "X", _playerX.Text.Trim());
+                ini.Set("Player", "XWidth", Convert.ToString(_playerXWidth.SelectedItem));
                 ini.Set("Player", "Y", _playerY.Text.Trim());
+                ini.Set("Player", "YWidth", Convert.ToString(_playerYWidth.SelectedItem));
                 ini.Set("HPMP", "CurrentHP", _currentHp.Text.Trim());
                 ini.Set("HPMP", "MaxHP", _maxHp.Text.Trim());
                 ini.Set("HPMP", "CurrentMP", _currentMp.Text.Trim());
