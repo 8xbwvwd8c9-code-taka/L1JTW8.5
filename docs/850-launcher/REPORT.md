@@ -769,6 +769,47 @@ MANUAL_NORMAL_POTION_ACTION_CORRELATION_REQUIRED
 ```
 
 
+## 2026-09-23 WP9 skill/buff scaffold
+
+```text
+STATUS=PASS_SOURCE
+C_USESKILL_CLASS=aj.cr
+C_USESKILL_OPCODE=128=0x80
+SKILL_ID_ENCODING=row*8+column+1
+ROW_WIDTH=C
+COLUMN_WIDTH=C
+GENERAL_ARGS=targetId(D)+targetX(H)+targetY(H)
+XY_ONLY_SKILLS=58,63
+BOOKMARK_SKILLS=5,69
+MESSAGE_SKILLS=116,118
+SKILL_CATALOG_ROWS=242
+AUTO_BUFF_UI=IMPLEMENTED
+BUFF_STATE_BRIDGE=UNMAPPED
+SKILL_USE_BRIDGE=UNMAPPED
+SEND=NO
+```
+
+Added:
+
+- `SkillUseProtocol` with recovered 850 row/column encoding and proven argument branches.
+- `SkillUseProtocolControl` hidden developer proof page; emits logical payload evidence only.
+- `skill-names.csv` generated from the current 850 `skills.sql`.
+- `SkillCatalog` offline Chinese lookup with buff duration / HP / MP / reuse metadata.
+- normal **狀態** page now lists skills with `buffDuration > 0` and persists checked SkillIds.
+- `IBuffStateBridge` and `ISkillUseBridge` gates.
+- `AutoBuffController` requires both gates before any cast request.
+
+WP9 boundary:
+
+```text
+SERVER_PROTOCOL_PROOF=PASS
+PLAYER_SKILL_SELECTION=PASS_SOURCE
+BUFF_RUNTIME_STATE=NOT_YET_PROVEN
+CLIENT_NATIVE_SKILLUSE_PATH=NOT_YET_PROVEN
+WP9=BLOCKED_RUNTIME_EVIDENCE
+```
+
+
 ## 下一步
 
 ```text
