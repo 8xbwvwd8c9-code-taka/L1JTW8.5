@@ -13,6 +13,7 @@ namespace L1JTW850Launcher
         private NumericUpDown _processes;
         private Button _compare;
         private Button _copy;
+        private Button _apply;
         private Label _status;
         private ListView _results;
 
@@ -94,8 +95,18 @@ namespace L1JTW850Launcher
                 Enabled = false
             };
 
+            _apply = new Button
+            {
+                Text = "套用映射",
+                Left = 592,
+                Top = 10,
+                Width = 100,
+                Enabled = false
+            };
+
             top.Controls.Add(_compare);
             top.Controls.Add(_copy);
+            top.Controls.Add(_apply);
 
             _status = new Label
             {
@@ -157,12 +168,16 @@ namespace L1JTW850Launcher
                     CopySelected();
                 };
 
+            _apply.Click +=
+                delegate
+                {
+                    ApplySelected();
+                };
+
             _results.SelectedIndexChanged +=
                 delegate
                 {
-                    _copy.Enabled =
-                        _results.SelectedItems.Count >
-                        0;
+                    UpdateSelectionState();
                 };
         }
 
@@ -200,7 +215,7 @@ namespace L1JTW850Launcher
                         });
 
                 row.Tag =
-                    candidate.Expression;
+                    candidate;
 
                 _results.Items.Add(row);
             }
@@ -225,26 +240,210 @@ namespace L1JTW850Launcher
                 "。穩定仍不等於 WP3/WP4 PASS，目標數值/移動驗證必須先成立。";
         }
 
+        private void UpdateSelectionState()
+        {
+            var hasSelection =
+                _results.SelectedItems.Count > 0;
+
+            _copy.Enabled =
+                hasSelection;
+
+            if (!hasSelection)
+            {
+                _apply.Enabled = false;
+                return;
+            }
+
+            var candidate =
+                _results.SelectedItems[0].Tag
+                as StablePointerCandidate;
+
+            _apply.Enabled =
+                candidate != null &&
+                candidate.Status ==
+                    "RESTART_STABLE" &&
+                IsRuntimeMapField(
+                    candidate.Field);
+        }
+
+        private void ApplySelected()
+        {
+            if (_results.SelectedItems.Count == 0)
+                return;
+
+            var candidate =
+                _results.SelectedItems[0].Tag
+                as StablePointerCandidate;
+
+            if (candidate == null ||
+                candidate.Status !=
+                    "RESTART_STABLE")
+            {
+                _status.Text =
+                    "只有 RESTART_STABLE 候選可以套用。";
+                return;
+            }
+
+            string section;
+            string key;
+
+            if (!TryGetRuntimeMapKey(
+                candidate.Field,
+                out section,
+                out key))
+            {
+                _status.Text =
+                    "此欄位不屬於 runtime-map.ini：" +
+                    candidate.Field;
+                return;
+            }
+
+            try
+            {
+                var path =
+                    Path.Combine(
+                        _appDir,
+                        "runtime-map.ini");
+
+                var ini =
+                    IniDocument.Load(path);
+
+                ini.Set(
+                    section,
+                    key,
+                    candidate.Expression);
+
+                ini.Save(path);
+
+                _status.Text =
+                    "已套用 " +
+                    candidate.Field +
+                    " = " +
+                    candidate.Expression +
+                    "；下一步執行「映射驗證」。";
+            }
+            catch (Exception ex)
+            {
+                _status.Text =
+                    "套用失敗：" +
+                    ex.Message;
+            }
+        }
+
+        private static bool IsRuntimeMapField(
+            string field)
+        {
+            string section;
+            string key;
+
+            return TryGetRuntimeMapKey(
+                field,
+                out section,
+                out key);
+        }
+
+        private static bool TryGetRuntimeMapKey(
+            string field,
+            out string section,
+            out string key)
+        {
+            section = "";
+            key = "";
+
+            if (string.Equals(
+                field,
+                "CurrentHP",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "HPMP";
+                key = "CurrentHP";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "MaxHP",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "HPMP";
+                key = "MaxHP";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "CurrentMP",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "HPMP";
+                key = "CurrentMP";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "MaxMP",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "HPMP";
+                key = "MaxMP";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "PlayerObjectId",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "Player";
+                key = "ObjectId";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "PlayerX",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "Player";
+                key = "X";
+                return true;
+            }
+
+            if (string.Equals(
+                field,
+                "PlayerY",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                section = "Player";
+                key = "Y";
+                return true;
+            }
+
+            return false;
+        }
+
         private void CopySelected()
         {
             if (_results.SelectedItems.Count ==
                 0)
                 return;
 
-            var expression =
-                Convert.ToString(
-                    _results.SelectedItems[0].Tag);
+            var candidate =
+                _results.SelectedItems[0].Tag
+                as StablePointerCandidate;
 
-            if (string.IsNullOrWhiteSpace(
-                expression))
+            if (candidate == null ||
+                string.IsNullOrWhiteSpace(
+                    candidate.Expression))
                 return;
 
             Clipboard.SetText(
-                expression);
+                candidate.Expression);
 
             _status.Text =
                 "已複製：" +
-                expression;
+                candidate.Expression;
         }
     }
 }
