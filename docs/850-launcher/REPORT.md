@@ -359,6 +359,59 @@ The first string scan produced many false positives because random packed/compre
 Next action is binary structural diff between `Lin.bin` and `Lin.bin2`, then runtime correlation.
 
 
+## 2026-09-22 Lin.bin vs Lin.bin2 structural diff
+
+Authoritative local comparison:
+
+```text
+A=Lin.bin
+B=Lin.bin2
+A_SIZE=8219320
+B_SIZE=7488696
+A_IMAGEBASE=0x400000
+B_IMAGEBASE=0x400000
+A_ENTRY_RVA=0x01C93000
+B_ENTRY_RVA=0x0198F000
+A_SECTIONS=6
+B_SECTIONS=6
+COMMON_BYTES=7488696
+DIFF_BYTES_COMMON=7454397
+TAIL_BYTES=730624
+TOTAL_DIFF_BYTES=8185021
+DIFF_RUN_COUNT=30647
+```
+
+Observed PE section layouts differ materially:
+
+```text
+Lin.bin
+first code/data span VSize=24469504
+.rsrc RVA=0x01757000
+.idata RVA=0x017C1000
+entry section RVA=0x01C93000
+
+Lin.bin2
+first code/data span VSize=21184512
+.rsrc RVA=0x01435000
+.idata RVA=0x0149F000
+entry section RVA=0x0198F000
+```
+
+Conclusion:
+
+```text
+LIN_BIN2_IS_SIMPLE_PATCH_OF_LIN_BIN=NO
+SAME_BUILD_LAYOUT=NO
+BINARY_NEAR_DIFF_STRATEGY=REJECTED
+850_LOGIN_RUNTIME_AUTHORITY=Lin.bin2
+LIN_BIN_ROLE=SEPARATE_BUILD_OR_UPDATE_VARIANT
+```
+
+Rationale: more than 99% of the shared byte range differs, entry RVA differs, and section RVAs/sizes are materially shifted. Therefore raw byte-diff translation from Lin.bin to Lin.bin2 is not a safe mapping method.
+
+Next: runtime correlation must target Lin.bin2 directly.
+
+
 ## 下一步
 
 ```text
