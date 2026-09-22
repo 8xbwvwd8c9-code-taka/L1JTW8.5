@@ -112,3 +112,7 @@ B. fields requiring small 850 framework extension
 C. fields requiring dedicated behavior
 
 Do not port its entire 381 UI/core blindly.
+
+
+## Latest module audit
+- `w_道具狀態`: STATUS=BLOCKED, LEVEL=L3, audit=`modules/ITEM_STATUS_TIMED_BUFF_AUDIT.md`, commit=`637693a336b45d50068a0efd06b277b8e6d568b2`. 850-native timed/stat primitives exist; persistence and apply-once ownership are not closed.
