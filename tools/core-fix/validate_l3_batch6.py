@@ -44,7 +44,9 @@ req(ranko,"else if (data.e == 7) {\n                            this.u.add(data)
 req(rank,"while (var1.size() > 50)","248N"); req(ranko,"while (list.size() > 50)","248O")
 req(inv,"Math.max(0, var2.B()[var4] - var1.E())","278N"); req(invo,"Math.max(0, qn.B()[i2] - item.E())","278O")
 req(sw,"if (!(var9Object instanceof L1NpcInstance))","279N"); req(swo,"if (!(npcObject instanceof t))","279O")
-req(book,"if (var2 < var0.cI())","288N"); req(booko,"if (size >= pc.cI())","288O")
+req(book,"if (var2 < var0.cI())","288N")
+if "if (size >= pc.cI())" not in booko and "if (pc.ba().size() >= pc.cI())" not in booko:
+    raise AssertionError("288O: bookmark limit is not enforced by pc.cI()")
 
 for s,l in [(spawn,"268_SN"),(spawno,"268_SO"),(nspawn,"268_NN"),(nspawno,"268_NO")]:
     req(s,"RETURN_GENERATED_KEYS",l+"_KEYS")
