@@ -1041,6 +1041,69 @@ MISSING_SOURCE_FILES=0
 ```
 
 
+## 2026-09-23 Runtime gate closure checkpoint
+
+```text
+STATUS=PASS_SOURCE
+RUNTIME_DASHBOARD=IMPLEMENTED
+WP3_WP4_STRUCTURAL_COMPARE=IMPLEMENTED
+WP3_WP4_SEMANTIC_VALIDATE=IMPLEMENTED
+WP3_WP4_SEMANTIC_COMPARE=IMPLEMENTED
+SAFE_MAPPING_PROMOTION=IMPLEMENTED
+WP5_SESSION_VALIDATION=IMPLEMENTED
+WP6_RESTART_COMPARE=IMPLEMENTED
+MEMORY_WRITE=NO
+BUILD_IN_ISOLATED_ENV=UNAVAILABLE_NETWORK_DNS
+```
+
+Final WP3/WP4 flow is now:
+
+```text
+controlled scan
+ -> pointer-chain evidence
+ -> 映射比對
+ -> RESTART_STABLE
+ -> 套用映射
+ -> 映射驗證
+ -> 語意比對
+ -> PASS
+```
+
+Semantic comparison is independent per gate:
+
+```text
+HP/MP: latest N HP/MP-checked sessions only
+Player: latest N Player-checked sessions only
+```
+
+Each gate requires its own:
+
+```text
+CHECKED_SESSIONS>=3
+ALL_CHECKED_SESSIONS_PASS
+DISTINCT_CLIENT_INSTANCES>=2
+```
+
+This prevents a Player-only restart session from satisfying the HP/MP restart requirement, or vice versa.
+
+Safe mapping promotion:
+
+- only `RESTART_STABLE` candidates are eligible;
+- only WP3/WP4 runtime-map fields are accepted;
+- promotion writes `runtime-map.ini` only;
+- no process memory writes occur;
+- promotion does not imply PASS.
+
+Source consistency at checkpoint:
+
+```text
+CS_FILES=60
+CSPROJ_COMPILE_ENTRIES=60
+MISSING_FROM_PROJECT=0
+MISSING_SOURCE_FILES=0
+```
+
+
 ## 下一步
 
 ```text
