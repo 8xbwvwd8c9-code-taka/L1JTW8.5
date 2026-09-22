@@ -120,6 +120,7 @@ namespace L1JTW850Launcher
                 tabs.TabPages.Add(BuildNativeCallGraphTab());
                 tabs.TabPages.Add(BuildNativeEvidenceCompareTab());
                 tabs.TabPages.Add(BuildSkillUseProtocolTab());
+                tabs.TabPages.Add(BuildNativeReceiveFlowTab());
             }
         }
 
@@ -400,6 +401,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("SkillUse協定");
             p.Controls.Add(new SkillUseProtocolControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildNativeReceiveFlowTab()
+        {
+            var p = NewPage("Recv追蹤");
+            p.Controls.Add(new NativeReceiveFlowControl(_appDir));
             return p;
         }
 
