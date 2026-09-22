@@ -77,6 +77,10 @@
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
+    <Compile Include="RuntimeSemanticValidator.cs" />
+    <Compile Include="RuntimeSemanticValidationControl.cs" />
+    <Compile Include="RuntimeSemanticValidationEvidenceComparer.cs" />
+    <Compile Include="RuntimeSemanticValidationCompareControl.cs" />
     <Compile Include="PlayerIdentityClusterer.cs" />
     <Compile Include="PlayerIdentityProbeControl.cs" />
     <Compile Include="ProbeClusterer.cs" />
