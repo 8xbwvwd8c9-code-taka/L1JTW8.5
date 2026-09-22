@@ -365,7 +365,7 @@ namespace L1JTW850Launcher
             long enchantRaw;
             long equippedRaw;
 
-            if (!TryReadWidth(
+            if (!TryReadUnsignedWidth(
                 probe,
                 Add(record, map.ObjectIdOffset),
                 map.ObjectIdWidth,
@@ -530,6 +530,46 @@ namespace L1JTW850Launcher
 
             address = new IntPtr(finalAddress);
             return true;
+        }
+
+        private static bool TryReadUnsignedWidth(
+            RuntimeMemoryProbe probe,
+            IntPtr address,
+            int width,
+            out long value,
+            out string error)
+        {
+            value = 0;
+
+            if (width == 1)
+            {
+                byte v;
+                if (!probe.TryReadByte(address, out v, out error))
+                    return false;
+                value = v;
+                return true;
+            }
+
+            if (width == 2)
+            {
+                short v;
+                if (!probe.TryReadInt16(address, out v, out error))
+                    return false;
+                value = unchecked((ushort)v);
+                return true;
+            }
+
+            if (width == 4)
+            {
+                uint v;
+                if (!probe.TryReadUInt32(address, out v, out error))
+                    return false;
+                value = v;
+                return true;
+            }
+
+            error = "ObjectId 不支援寬度：" + width;
+            return false;
         }
 
         private static bool TryReadWidth(
