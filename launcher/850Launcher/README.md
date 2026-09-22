@@ -437,3 +437,50 @@ PlayerY
 The button is enabled only when the selected candidate is `RESTART_STABLE`.
 
 It writes only to `runtime-map.ini`; it does not write to game memory. The next mandatory gate remains **映射驗證 → 語意比對**.
+
+## Source audit gate
+
+`build.ps1` now runs `source_audit.ps1` before MSBuild/csc.
+
+The audit blocks:
+
+```text
+.cs file missing from csproj
+csproj Compile entry with missing source
+ordinary C# string crossing a physical newline
+unterminated ordinary string / char literal
+C#4-incompatible triple quote sequence
+common lost-backslash Regex patterns
+```
+
+This gate was added after source review found and fixed:
+
+```text
+PointerEvidenceComparer.cs
+  lost Regex backslashes
+  accidental physical newline inside key string
+
+NativeCallGraphEvidenceComparer.cs
+  lost Regex backslashes
+
+ItemNameResolver.cs
+  broken CSV quote escaping
+```
+
+## Authoritative client evidence gate
+
+Runtime evidence now records:
+
+```text
+CLIENT_SHA256
+CLIENT_AUTHORITY
+PROCESS_START_UTC
+```
+
+Only evidence from the authoritative 850 `Lin.bin2` hash is accepted by restart comparers:
+
+```text
+FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4
+```
+
+Evidence created by older launcher builds without these fields is intentionally ignored by the new PASS gates.
