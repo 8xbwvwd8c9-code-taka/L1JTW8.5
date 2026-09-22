@@ -50,3 +50,27 @@ pwsh -File .\build.ps1
 ```
 
 The project targets .NET Framework 4.0 and x86. `build.ps1` falls back to the Windows Framework v4 MSBuild/csc toolchain when no standalone MSBuild is on PATH.
+
+## Runtime probe (v0.3)
+
+After the character is logged into the 850 game world:
+
+1. Open the **偵測** tab.
+2. Enter the exact on-screen values for 目前 HP / 最大 HP / 目前 MP / 最大 MP.
+3. Click **首次掃描**.
+4. Change HP and/or MP in normal gameplay.
+5. Enter the new exact values and click **再次篩選**.
+6. Repeat until candidate counts are small.
+7. Evidence is appended to `runtime_probe_evidence.txt` beside the launcher.
+
+The probe is read-only:
+
+```text
+OpenProcess=QUERY_INFORMATION|VM_READ
+ReadProcessMemory=YES
+WriteProcessMemory=NO
+DONOR_ADDRESS=NONE
+```
+
+Nearby HP/MP candidate fields within 0x100 bytes are ranked to help locate the player structure. A candidate is not accepted as WP3/WP4 PASS until it survives relog and full client restart.
+
