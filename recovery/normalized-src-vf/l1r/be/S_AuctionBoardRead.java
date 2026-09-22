@@ -13,6 +13,10 @@ public class S_AuctionBoardRead extends ServerBasePacket {
       this.a(var1);
       this.a("agsel");
       this.a(var2);
+      if (var4 == null || var4.j() == null) {
+         this.b(0);
+         return;
+      }
       this.b(9);
       this.a(var4.c());
       this.a(var4.e());

@@ -14,6 +14,9 @@ public class C_BoardWrite extends ClientBasePacket {
       int var3 = this.b();
       String var4 = this.g();
       String var5 = this.g();
+      if (var4 == null || var5 == null || var4.length() > 16 || var5.length() > 1000) {
+         return;
+      }
       L1Object var6 = L1World.a().a(var3);
       if (var6 == null) {
          System.out.println("不正確的 NPCID : " + var3);

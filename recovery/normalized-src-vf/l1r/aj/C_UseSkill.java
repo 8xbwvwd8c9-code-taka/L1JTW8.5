@@ -67,6 +67,9 @@ public class C_UseSkill extends ClientBasePacket {
                }
 
                L1SkillExecutor var17 = LineageUtil.a(var6);
+               if (var17 == null) {
+                  return;
+               }
                var17.a(var3, var8, var6, var9, var10, var7);
             }
          }

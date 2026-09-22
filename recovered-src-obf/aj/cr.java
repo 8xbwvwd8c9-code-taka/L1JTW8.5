@@ -72,6 +72,9 @@ extends cv {
             // empty catch block
         }
         a executor = g.a(skillId);
+        if (executor == null) {
+            return;
+        }
         executor.a(pc, targetId, skillId, targetX, targetY, message);
     }
 }
