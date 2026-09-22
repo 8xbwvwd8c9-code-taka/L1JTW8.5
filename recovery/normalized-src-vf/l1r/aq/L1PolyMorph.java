@@ -162,6 +162,7 @@ public class L1PolyMorph {
             var0.a(new S_ServerMessage(181));
             return false;
          } else {
+            var0.setActivePolyMorphRule(var3);
             return a(var0, var3.a(), var2, 1);
          }
       }
@@ -171,12 +172,17 @@ public class L1PolyMorph {
       if (var0 != null && !var0.eX()) {
          if (var0 instanceof L1PcInstance) {
             L1PcInstance var4 = (L1PcInstance)var0;
+            L1PolyMorph var8 = var4.getActivePolyMorphRule();
+            if (var8 == null || var8.a() != var1) {
+               var8 = PolyTable.a().a(var1);
+               var4.setActivePolyMorphRule(var8);
+            }
             if (!var4.fq().r()) {
                var4.a(new S_ServerMessage(1170));
                return false;
             }
 
-            if (var4.fe() == 6034 || var4.fe() == 6035 || !c(var1, var3)) {
+            if (var4.fe() == 6034 || var4.fe() == 6035 || !c(var8, var3)) {
                var4.a(new S_ServerMessage(181));
                return false;
             }
@@ -197,9 +203,9 @@ public class L1PolyMorph {
                   }
                }
 
-               var4.j().l(var1);
             }
 
+            var4.j().l(var1);
             if (var2 > 0) {
                var4.a(new S_PacketBox(35, var2));
             }
@@ -251,6 +257,7 @@ public class L1PolyMorph {
          if (var0 instanceof L1PcInstance) {
             L1PcInstance var2 = (L1PcInstance)var0;
             int[] var3 = new int[]{11479, 11427, 10047, 9688, 11322, 10069, 10034, 10032};
+            var2.setActivePolyMorphRule(PolyTable.a().a(var3[var1 - 1]));
             if (var2.fe() != var3[var1 - 1]) {
                var2.cw(var3[var1 - 1]);
                var2.a(new S_ChangeShape(var2.fr(), var3[var1 - 1], 70));
@@ -274,6 +281,7 @@ public class L1PolyMorph {
    public static void a(L1Character var0) {
       if (var0 instanceof L1PcInstance) {
          L1PcInstance var1 = (L1PcInstance)var0;
+         var1.setActivePolyMorphRule(null);
          int var2 = var1.aB();
          var1.cw(var2);
          if (!var1.eX()) {
@@ -288,6 +296,7 @@ public class L1PolyMorph {
    public static void b(L1Character var0) {
       if (var0 instanceof L1PcInstance) {
          L1PcInstance var1 = (L1PcInstance)var0;
+         var1.setActivePolyMorphRule(null);
          int var2 = var1.aB();
          int var3 = var1.fe();
          var1.cw(var2);
@@ -310,6 +319,15 @@ public class L1PolyMorph {
       }
    }
 
+   public static boolean a(L1PcInstance var0, int var1) {
+      L1PolyMorph var2 = var0.getActivePolyMorphRule();
+      if (var2 == null || var2.a() != var0.fe()) {
+         var2 = PolyTable.a().a(var0.fe());
+      }
+      Integer var3 = E.get(var1);
+      return var2 == null || var3 == null || (var2.c() & var3) != 0;
+   }
+
    public static boolean a(int var0, int var1) {
       L1PolyMorph var2 = PolyTable.a().a(var0);
       if (var2 == null) {
@@ -318,6 +336,15 @@ public class L1PolyMorph {
 
       Integer var3 = E.get(var1);
       return var3 != null ? (var2.c() & var3) != 0 : true;
+   }
+
+   public static boolean b(L1PcInstance var0, int var1) {
+      L1PolyMorph var2 = var0.getActivePolyMorphRule();
+      if (var2 == null || var2.a() != var0.fe()) {
+         var2 = PolyTable.a().a(var0.fe());
+      }
+      Integer var3 = F.get(var1);
+      return var2 == null || var3 == null || (var2.d() & var3) != 0;
    }
 
    public static boolean b(int var0, int var1) {
@@ -330,12 +357,10 @@ public class L1PolyMorph {
       return var3 != null ? (var2.d() & var3) != 0 : true;
    }
 
-   private static boolean c(int var0, int var1) {
-      L1PolyMorph var2 = PolyTable.a().a(var0);
-      if (var2 == null) {
+   private static boolean c(L1PolyMorph var0, int var1) {
+      if (var0 == null) {
          return true;
-      } else {
-         return var1 == 0 ? true : (var2.f() & var1) != 0;
       }
+      return var1 == 0 || (var0.f() & var1) != 0;
    }
 }
