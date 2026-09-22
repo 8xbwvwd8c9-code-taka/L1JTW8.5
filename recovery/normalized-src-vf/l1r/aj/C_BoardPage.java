@@ -15,10 +15,11 @@ public class C_BoardPage extends ClientBasePacket {
             int var4 = this.b();
             int var5 = this.b();
             L1Object var6 = L1World.a().a(var4);
-            if (var6 != null) {
-               L1BoardInstance var7 = (L1BoardInstance)var6;
-               var7.a(var3, var5);
+            if (!(var6 instanceof L1BoardInstance) || var3.fp() != var6.fp() || var3.f(var6) > 3) {
+               return;
             }
+            L1BoardInstance var7 = (L1BoardInstance)var6;
+            var7.a(var3, var5);
          }
       }
    }

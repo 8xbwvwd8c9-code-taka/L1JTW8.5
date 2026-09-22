@@ -4,6 +4,7 @@
 package be;
 
 import ap.u;
+import aq.aa;
 import aq.aq;
 import be.eu;
 import bh.q;
@@ -14,7 +15,11 @@ import java.util.concurrent.CopyOnWriteArrayList;
 public class db
 extends eu {
     public db(u pc, int objectId, int type) {
-        u shopPc = (u)aq.a().a(objectId);
+        aa shopObject = aq.a().a(objectId);
+        if (!(shopObject instanceof u)) {
+            return;
+        }
+        u shopPc = (u)shopObject;
         if (shopPc == null) {
             return;
         }

@@ -517,7 +517,7 @@ public class L1PcInventory extends L1Inventory {
       for (L1QuestNew var2 : this.i.dS().values()) {
          for (int var4 = 0; var4 < var2.r().length; var4++) {
             if (var2.r()[var4] == var1.N() && var2.t()[var4] <= var1.G()) {
-               var2.a(var4, var2.B()[var4] - var1.E());
+               var2.a(var4, Math.max(0, var2.B()[var4] - var1.E()));
             }
          }
       }

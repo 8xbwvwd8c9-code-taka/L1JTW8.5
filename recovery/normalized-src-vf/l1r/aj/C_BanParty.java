@@ -12,6 +12,10 @@ public class C_BanParty extends ClientBasePacket {
       L1PcInstance var3 = var2.f();
       if (var3 != null) {
          String var4 = this.g();
+         if (!var3.q() || var3.aL() == null) {
+            var3.a(new S_ServerMessage(427));
+            return;
+         }
          if (!var3.aL().e(var3)) {
             var3.a(new S_ServerMessage(427));
          } else {
