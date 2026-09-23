@@ -106,11 +106,11 @@ public class CurrentTimeReseter {
             System.out.println("[計時地圖重置了]");
             RankingTable.b();
             System.out.println("[排行榜排名更新了]");
-            long var4 = 86400000L;
-            System.out.println("計時地圖/排行榜重置:距離執行時間還有...1440分");
-            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_a(), 86400000L);
          } catch (Exception var3) {
             CurrentTimeReseter.a.log(Level.SEVERE, var3.getLocalizedMessage(), var3);
+         } finally {
+            System.out.println("計時地圖/排行榜重置:距離執行時間還有...1440分");
+            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_a(), 86400000L);
          }
       }
 
@@ -153,12 +153,11 @@ public class CurrentTimeReseter {
                CharacterMobsWeekTable.a().b(var1);
                var1.a(new S_ProtoBuffers(810, var1.dY()));
             }
-
-            long var4 = 604800000L;
-            System.out.println("每週任務重置:距離執行時間還有...10080分");
-            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);
          } catch (Exception var3) {
             CurrentTimeReseter.a.log(Level.SEVERE, var3.getLocalizedMessage(), var3);
+         } finally {
+            System.out.println("每週任務重置:距離執行時間還有...10080分");
+            GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);
          }
       }
 
