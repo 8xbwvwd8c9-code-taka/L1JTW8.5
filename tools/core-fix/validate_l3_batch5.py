@@ -64,7 +64,15 @@ before(amounto,"if (!(object instanceof t))","t npc = (t)object","BUG138_O")
 before(auction,"if (var4 == null || var4.j() == null)","this.a(var4.c())","BUG148_N")
 before(auctiono,"if (house == null || house.j() == null)","this.a(house.c())","BUG148_O")
 
-before(board,"var4.length() > 16 || var5.length() > 1000","L1BoardTopic.a","BUG153_N")
+board_write = req(board,"L1BoardTopic.a","BUG153_N_WRITE")
+combined_guard = board.find("var4.length() > 16 || var5.length() > 1000")
+title_guard = board.find("var4 == null || var4.length() > 16")
+content_guard = board.find("var5 == null || var5.length() > 1000")
+if combined_guard >= 0:
+    if combined_guard >= board_write:
+        raise AssertionError("BUG153_N: combined length guard is after board write")
+elif title_guard < 0 or content_guard < 0 or max(title_guard, content_guard) >= board_write:
+    raise AssertionError("BUG153_N: title/content length guards missing or after board write")
 before(boardo,"title.length() > 16 || content.length() > 1000","b.a(pc.et()","BUG153_O")
 print("L3_BATCH5_CONTRACT=PASS")
 print("BUGS=850-094,850-096,850-108,850-111,850-115,850-120,850-123,850-138,850-148,850-153")
