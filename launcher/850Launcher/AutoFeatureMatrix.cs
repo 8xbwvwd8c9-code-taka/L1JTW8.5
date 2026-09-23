@@ -16,7 +16,9 @@ namespace L1JTW850Launcher
 
             var hpRaw = Contains(appDir, "runtime_hpmp_guard_evidence.txt", "RAW_MAP_ALLOWED=1");
             var inventorySeed = Contains(appDir, "auto_inventory_seedless_evidence.txt", "STATUS=PASS_CANDIDATES");
-            var inventoryHistory = Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_CANDIDATES");
+            var inventoryHistory =
+                Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_DYNAMIC_CANDIDATES") ||
+                Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_CANDIDATES");
             var buffMarkers = ReadIntValue(appDir, "auto_buff_receive_evidence.txt", "BUFF_MARKERS=");
 
             sb.AppendLine("[FOUNDATION]");
