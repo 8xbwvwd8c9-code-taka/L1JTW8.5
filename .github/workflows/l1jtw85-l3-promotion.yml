@@ -17,51 +17,129 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Merge protected L3 result bounds hunks
+      - name: Merge protected L3 clan deletion transaction
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
 
-          patches = {
-              Path("recovery/normalized-src-vf/l1r/aj/C_Result.java"): [
-                  (
-                      "int var60 = this.b();\n                                 int var63 = this.b();\n                                 L1PrivateShopSellList var65 = var44.get(var60);",
-                      "int var60 = this.b();\n                                 int var63 = this.b();\n                                 if (var60 < 0 || var60 >= var44.size()) {\n                                    var37.h(false);\n                                    return;\n                                 }\n                                 L1PrivateShopSellList var65 = var44.get(var60);",
-                  ),
-                  (
-                      "int var62 = this.c();\n                              L1ItemInstance var64 = var3.j().e(var54);",
-                      "int var62 = this.c();\n                              if (var62 < 0 || var62 >= var41.size()) {\n                                 var35.h(false);\n                                 return;\n                              }\n                              L1ItemInstance var64 = var3.j().e(var54);",
-                  ),
-              ],
-              Path("recovered-src-obf/aj/bx.java"): [
-                  (
-                      "order = this.b();\n                        count = this.b();\n                        pssl = sellList.get(order);",
-                      "order = this.b();\n                        count = this.b();\n                        if (order < 0 || order >= sellList.size()) {\n                            targetPc.h(false);\n                            return;\n                        }\n                        pssl = sellList.get(order);",
-                  ),
-                  (
-                      "order = this.c();\n                    item = pc.j().e(itemObjectId);",
-                      "order = this.c();\n                    if (order < 0 || order >= buyList.size()) {\n                        targetPc.h(false);\n                        return;\n                    }\n                    item = pc.j().e(itemObjectId);",
-                  ),
-              ],
-          }
+          def replace_section(path, start_marker, end_marker, new_section):
+              p = Path(path)
+              text = p.read_text(encoding="utf-8")
+              if text.count(start_marker) != 1 or text.count(end_marker) != 1:
+                  raise SystemExit(f"PATCH_GATE_FAIL {path}: section markers not unique")
+              start = text.index(start_marker)
+              end = text.index(end_marker, start)
+              if end <= start:
+                  raise SystemExit(f"PATCH_GATE_FAIL {path}: bad section order")
+              text = text[:start] + new_section + text[end:]
+              p.write_text(text, encoding="utf-8")
 
-          for path, replacements in patches.items():
-              text = path.read_text(encoding="utf-8")
-              for old, new in replacements:
-                  hits = text.count(old)
-                  if hits != 1:
-                      raise SystemExit(f"PATCH_GATE_FAIL {path}: expected 1 hit, got {hits}: {old}")
-                  text = text.replace(old, new, 1)
-              path.write_text(text, encoding="utf-8")
+          replace_section(
+              "recovery/normalized-src-vf/l1r/ao/ClanTable.java",
+              "   public void b(String var1) {",
+              "\n\n   public L1Clan a(int var1)",
+              '''   public void b(String var1) {
+      L1Clan var2 = this.c(var1);
+      if (var2 == null) {
+         return;
+      }
+
+      Connection var3 = null;
+      try {
+         var3 = DatabaseFactory.a().b();
+         var3.setAutoCommit(false);
+         try (PreparedStatement var4 = var3.prepareStatement("DELETE FROM clan_warehouse_history WHERE clan_id=?")) {
+            var4.setInt(1, var2.e());
+            var4.executeUpdate();
+         }
+         try (PreparedStatement var5 = var3.prepareStatement("DELETE FROM clan_data WHERE clan_name=?")) {
+            var5.setString(1, var1);
+            var5.executeUpdate();
+         }
+         var3.commit();
+      } catch (SQLException var9) {
+         if (var3 != null) {
+            try {
+               var3.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         return;
+      } finally {
+         if (var3 != null) {
+            try {
+               var3.setAutoCommit(true);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var3);
+      }
+
+      var2.c().g();
+      var2.c().b();
+      this.b.remove(var2.e());
+   }'''
+          )
+
+          replace_section(
+              "recovered-src-obf/ao/q.java",
+              "    public void b(String clan_name) {",
+              "\n\n    public i a(int clan_id)",
+              '''    public void b(String clan_name) {
+        i clan = this.c(clan_name);
+        if (clan == null) {
+            return;
+        }
+        Connection con = null;
+        try {
+            con = l1j.server.b.a().b();
+            con.setAutoCommit(false);
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM clan_warehouse_history WHERE clan_id=?")) {
+                pstm.setInt(1, clan.e());
+                pstm.executeUpdate();
+            }
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM clan_data WHERE clan_name=?")) {
+                pstm.setString(1, clan_name);
+                pstm.executeUpdate();
+            }
+            con.commit();
+        }
+        catch (SQLException e2) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return;
+        }
+        finally {
+            if (con != null) {
+                try {
+                    con.setAutoCommit(true);
+                }
+                catch (SQLException ignored) {
+                }
+            }
+            j.a(con);
+        }
+        clan.c().g();
+        clan.c().b();
+        this.b.remove(clan.e());
+    }'''
+          )
           PY
           git diff --check
-          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/aj/C_Result.java recovered-src-obf/aj/bx.java; then
+          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/ao/ClanTable.java recovered-src-obf/ao/q.java; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add recovery/normalized-src-vf/l1r/aj/C_Result.java recovered-src-obf/aj/bx.java
-            git commit -m "fix(l3): merge result bounds contracts with completed hardening"
+            git add recovery/normalized-src-vf/l1r/ao/ClanTable.java recovered-src-obf/ao/q.java
+            git commit -m "fix(l3): merge clan deletion transaction with completed hardening"
             git push origin HEAD:completed/l1jtw85-core-fixes
           fi
       - name: Run Batch1-7 source contracts
