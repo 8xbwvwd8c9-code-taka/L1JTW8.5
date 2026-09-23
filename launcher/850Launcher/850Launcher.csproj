@@ -93,6 +93,7 @@
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="RuntimeDynamicProbeControl.cs" />
     <Compile Include="AutoRuntimeAuditControl.cs" />
+    <Compile Include="AutoFeatureMatrix.cs" />
     <Compile Include="AutoHpMpBroadProbe.cs" />
     <Compile Include="AutoHpMpSemanticRefiner.cs" />
     <Compile Include="AutoHpMpCrossCheckProbe.cs" />
