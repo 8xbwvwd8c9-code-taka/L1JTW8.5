@@ -1,10 +1,14 @@
 using System;
+using System.IO;
+using System.Text;
 using System.Windows.Forms;
 
 namespace L1JTW850Launcher
 {
     internal static class Program
     {
+        private const string BuildMarker = "AUTO-AUDIT-20260923-1121";
+
         [STAThread]
         private static void Main()
         {
@@ -14,49 +18,80 @@ namespace L1JTW850Launcher
             try
             {
                 var appDir = AppDomain.CurrentDomain.BaseDirectory;
-                var config = LauncherConfig.Load(System.IO.Path.Combine(appDir, "launcher.ini"));
-                var helper = HelperSettings.Load(System.IO.Path.Combine(appDir, "helper.ini"));
+                WriteStartupMarker(appDir, "START");
 
-                // Engineering-only runtime discovery must not depend on a visible developer UI.
-                // Hide all developer tabs and keep discovery/report generation headless.
+                var config = LauncherConfig.Load(Path.Combine(appDir, "launcher.ini"));
+                var helper = HelperSettings.Load(Path.Combine(appDir, "helper.ini"));
+
+                // Engineering controls are intentionally hidden from the human-facing launcher.
                 config.DeveloperMode = false;
                 var main = new MainForm(appDir, config, helper);
-
-                // Invisible host keeps AutoRuntimeAuditControl loaded on the WinForms message loop.
-                // The control performs read-only collection and writes auto_runtime_audit_report.txt.
-                var auditHost = new Form
-                {
-                    Text = "850 Runtime Audit Host",
-                    ShowInTaskbar = false,
-                    FormBorderStyle = FormBorderStyle.None,
-                    StartPosition = FormStartPosition.Manual,
-                    Left = -32000,
-                    Top = -32000,
-                    Width = 1,
-                    Height = 1,
-                    Opacity = 0
-                };
-                auditHost.Controls.Add(new AutoRuntimeAuditControl(appDir)
-                {
-                    Dock = DockStyle.Fill
-                });
+                main.Text = "L1JTW 8.50 登入器 + 輔助 [" + BuildMarker + "]";
 
                 main.Shown += delegate
                 {
-                    auditHost.Show(main);
-                };
-                main.FormClosed += delegate
-                {
-                    auditHost.Close();
+                    try
+                    {
+                        var tabs = FindTabControl(main);
+                        if (tabs == null)
+                        {
+                            WriteStartupMarker(appDir, "TABCONTROL_NOT_FOUND");
+                            return;
+                        }
+
+                        var audit = new TabPage("自動稽核") { Padding = new Padding(8) };
+                        audit.Controls.Add(new AutoRuntimeAuditControl(appDir) { Dock = DockStyle.Fill });
+                        tabs.TabPages.Add(audit);
+                        tabs.SelectedTab = audit;
+                        WriteStartupMarker(appDir, "AUTO_AUDIT_UI_READY");
+                    }
+                    catch (Exception ex)
+                    {
+                        WriteStartupMarker(appDir, "AUTO_AUDIT_UI_ERROR=" + ex.GetType().Name + ":" + ex.Message);
+                    }
                 };
 
                 Application.Run(main);
             }
             catch (Exception ex)
             {
+                try
+                {
+                    WriteStartupMarker(AppDomain.CurrentDomain.BaseDirectory,
+                        "FATAL=" + ex.GetType().Name + ":" + ex.Message);
+                }
+                catch { }
+
                 MessageBox.Show(ex.ToString(), "850 Launcher startup error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private static TabControl FindTabControl(Control root)
+        {
+            foreach (Control child in root.Controls)
+            {
+                var tabs = child as TabControl;
+                if (tabs != null) return tabs;
+
+                var nested = FindTabControl(child);
+                if (nested != null) return nested;
+            }
+            return null;
+        }
+
+        private static void WriteStartupMarker(string appDir, string state)
+        {
+            try
+            {
+                File.WriteAllText(
+                    Path.Combine(appDir, "launcher_startup_marker.txt"),
+                    "TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
+                    "BUILD=" + BuildMarker + Environment.NewLine +
+                    "STATE=" + state + Environment.NewLine,
+                    new UTF8Encoding(false));
+            }
+            catch { }
         }
     }
 }
