@@ -102,6 +102,7 @@
     <Compile Include="AutoAppDirNetworkDiscovery.cs" />
     <Compile Include="AutoStaticGameNetworkDiscovery.cs" />
     <Compile Include="AutoDamageReceiveDiscovery.cs" />
+    <Compile Include="AutoInventorySeedlessDiscovery.cs" />
     <Compile Include="AutoInventoryHistoryDiscovery.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
