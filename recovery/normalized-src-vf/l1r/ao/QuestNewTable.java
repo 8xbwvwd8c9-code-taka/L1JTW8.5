@@ -264,9 +264,9 @@ public class QuestNewTable {
 
       try {
          var2 = DatabaseFactory.a().b();
-         var3 = var2.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");
-         var3.setBytes(1, this.f(var1));
-         var3.setInt(2, var1.fr());
+         var3 = var2.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
+         var3.setBytes(2, this.f(var1));
+         var3.setInt(1, var1.fr());
          var3.execute();
       } catch (SQLException var8) {
          a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);

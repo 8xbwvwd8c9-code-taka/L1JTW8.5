@@ -69,7 +69,7 @@ public class m {
             try {
                 try {
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE character_mobs SET data=? WHERE login=?");
+                    pstm = con.prepareStatement("INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
                     f.e.a builder = f.e.aa();
                     int i2 = 0;
                     while (i2 < pc.dQ().length) {
@@ -83,8 +83,8 @@ public class m {
                         ++i3;
                     }
                     builder.e(g.a(array));
-                    pstm.setBytes(1, builder.M().g());
-                    pstm.setString(2, pc.bc());
+                    pstm.setString(1, pc.bc());
+                    pstm.setBytes(2, builder.M().g());
                     pstm.execute();
                 }
                 catch (SQLException e2) {

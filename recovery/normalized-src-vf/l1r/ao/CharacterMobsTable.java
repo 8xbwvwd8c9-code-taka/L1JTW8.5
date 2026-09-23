@@ -55,7 +55,7 @@ public class CharacterMobsTable {
 
       try {
          var2 = DatabaseFactory.a().b();
-         var3 = var2.prepareStatement("UPDATE character_mobs SET data=? WHERE login=?");
+         var3 = var2.prepareStatement("INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
          PBMessageALL6.L1R_e.L1R_a var4 = PBMessageALL6.L1R_e.aa();
 
          for (int var5 = 0; var5 < var1.dQ().length; var5++) {
@@ -69,8 +69,8 @@ public class CharacterMobsTable {
          }
 
          var4.e(g.a(var12));
-         var3.setBytes(1, var4.M().g());
-         var3.setString(2, var1.bc());
+         var3.setString(1, var1.bc());
+         var3.setBytes(2, var4.M().g());
          var3.execute();
       } catch (SQLException var10) {
          a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);

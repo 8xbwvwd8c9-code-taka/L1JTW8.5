@@ -101,7 +101,7 @@ public class CharacterMobsWeekTable {
 
          try {
             var2 = DatabaseFactory.a().b();
-            var3 = var2.prepareStatement("UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?");
+            var3 = var2.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");
             String var4 = "";
             String var5 = "";
             String var6 = "";
@@ -114,11 +114,11 @@ public class CharacterMobsWeekTable {
                var7 = var7 + var1.dY()[var8][3] + ",";
             }
 
-            var3.setString(1, var4);
-            var3.setString(2, var5);
-            var3.setString(3, var6);
-            var3.setString(4, var7);
-            var3.setString(5, var1.bc());
+            var3.setString(1, var1.bc());
+            var3.setString(2, var4);
+            var3.setString(3, var5);
+            var3.setString(4, var6);
+            var3.setString(5, var7);
             var3.execute();
          } catch (SQLException var12) {
             a.log(Level.SEVERE, var12.getLocalizedMessage(), var12);

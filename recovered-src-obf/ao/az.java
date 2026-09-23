@@ -226,9 +226,9 @@ public class az {
             try {
                 try {
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");
-                    pstm.setBytes(1, this.f(pc));
-                    pstm.setInt(2, pc.fr());
+                    pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
+                    pstm.setBytes(2, this.f(pc));
+                    pstm.setInt(1, pc.fr());
                     pstm.execute();
                 }
                 catch (SQLException e2) {

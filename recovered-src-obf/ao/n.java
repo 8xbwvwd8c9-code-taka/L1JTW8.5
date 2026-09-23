@@ -130,7 +130,7 @@ public class n {
             try {
                 try {
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?");
+                    pstm = con.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");
                     String numbers = "";
                     String count = "";
                     String kill = "";
@@ -143,11 +143,11 @@ public class n {
                         state = String.valueOf(state) + pc.dY()[i2][3] + ",";
                         ++i2;
                     }
-                    pstm.setString(1, numbers);
-                    pstm.setString(2, count);
-                    pstm.setString(3, kill);
-                    pstm.setString(4, state);
-                    pstm.setString(5, pc.bc());
+                    pstm.setString(1, pc.bc());
+                    pstm.setString(2, numbers);
+                    pstm.setString(3, count);
+                    pstm.setString(4, kill);
+                    pstm.setString(5, state);
                     pstm.execute();
                 }
                 catch (SQLException e2) {
