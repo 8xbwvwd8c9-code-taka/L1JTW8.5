@@ -575,19 +575,16 @@ extends cv {
             case 3348: {
                 aq.i clan;
                 aq.i targetClan = ao.q.a().a(pc.aQ());
-                if (targetClan != null && this.c() == 1 && (clan = ao.q.a().a(pc.aF())) != null) {
-                    clan.t().add(targetClan.e());
+                if (targetClan != null && this.c() == 1 && (clan = ao.q.a().a(pc.aF())) != null
+                    && ao.q.a().updateWatchRelationAtomic(clan, targetClan, true)) {
                     for (u member : clan.b()) {
                         member.a(new ds(3360, targetClan.f()));
                         member.a(new cy(clan));
                     }
-                    ao.q.a().b(clan);
-                    targetClan.t().add(clan.e());
                     for (u member : targetClan.b()) {
                         member.a(new ds(3360, clan.f()));
                         member.a(new cy(targetClan));
                     }
-                    ao.q.a().b(targetClan);
                 }
                 pc.am(0);
                 break;

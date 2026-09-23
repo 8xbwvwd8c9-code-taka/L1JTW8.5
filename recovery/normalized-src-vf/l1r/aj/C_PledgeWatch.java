@@ -52,22 +52,19 @@ public class C_PledgeWatch extends ClientBasePacket {
                   return;
                }
 
-               var4.t().remove(Integer.valueOf(var11.e()));
+               if (!ClanTable.a().updateWatchRelationAtomic(var4, var11, false)) {
+                  return;
+               }
 
                for (L1PcInstance var12 : var4.b()) {
                   var12.a(new S_ServerMessage(3359, var11.f()));
                   var12.a(new S_PledgeWatch(var4));
                }
 
-               ClanTable.a().b(var4);
-               var11.t().remove(Integer.valueOf(var4.e()));
-
                for (L1PcInstance var13 : var11.b()) {
                   var13.a(new S_ServerMessage(3359, var4.f()));
                   var13.a(new S_PledgeWatch(var11));
                }
-
-               ClanTable.a().b(var11);
             }
          }
       }

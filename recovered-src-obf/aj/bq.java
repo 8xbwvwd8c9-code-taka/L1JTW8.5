@@ -55,18 +55,17 @@ extends cv {
                 pc.a(new ds(3982));
                 return;
             }
-            clan.t().remove((Object)targetClan.e());
+            if (!q.a().updateWatchRelationAtomic(clan, targetClan, false)) {
+                return;
+            }
             for (u member : clan.b()) {
                 member.a(new ds(3359, targetClan.f()));
                 member.a(new cy(clan));
             }
-            q.a().b(clan);
-            targetClan.t().remove((Object)clan.e());
             for (u member : targetClan.b()) {
                 member.a(new ds(3359, clan.f()));
                 member.a(new cy(targetClan));
             }
-            q.a().b(targetClan);
         }
     }
 

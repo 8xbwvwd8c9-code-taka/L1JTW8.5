@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -308,6 +310,163 @@ public class ClanTable {
 
          if (var4 != 4) {
             throw new SQLException("BUG-850-166 missing clan creation transaction table");
+         }
+      }
+   }
+
+   public boolean updateWatchRelationAtomic(L1Clan var1, L1Clan var2, boolean var3) {
+      if (var1 == null || var2 == null || var1.e() == var2.e()) {
+         return false;
+      }
+
+      L1Clan var4 = var1.e() < var2.e() ? var1 : var2;
+      L1Clan var5 = var4 == var1 ? var2 : var1;
+      synchronized (var4) {
+         synchronized (var5) {
+            Connection var6 = null;
+            boolean var7 = true;
+            boolean var8 = false;
+            LinkedHashSet<Integer> var9 = null;
+            LinkedHashSet<Integer> var10 = null;
+            String var11 = null;
+            String var12 = null;
+
+            try {
+               var6 = DatabaseFactory.a().b();
+               this.requireClanWatchInnoDb(var6);
+               var7 = var6.getAutoCommit();
+               var6.setAutoCommit(false);
+
+               try (PreparedStatement var13 = var6.prepareStatement(
+                  "SELECT clan_id, watch_clanid FROM clan_data WHERE clan_id IN (?,?) ORDER BY clan_id FOR UPDATE"
+               )) {
+                  var13.setInt(1, var4.e());
+                  var13.setInt(2, var5.e());
+                  try (ResultSet var14 = var13.executeQuery()) {
+                     int var15 = 0;
+                     while (var14.next()) {
+                        int var16 = var14.getInt("clan_id");
+                        String var17 = var14.getString("watch_clanid");
+                        if (var16 == var1.e()) {
+                           var11 = var17;
+                           var9 = this.parseWatchClanIds(var17);
+                        } else if (var16 == var2.e()) {
+                           var12 = var17;
+                           var10 = this.parseWatchClanIds(var17);
+                        } else {
+                           throw new SQLException("BUG-850-290 unexpected clan row");
+                        }
+                        var15++;
+                     }
+                     if (var15 != 2 || var9 == null || var10 == null) {
+                        throw new SQLException("BUG-850-290 missing bilateral clan row");
+                     }
+                  }
+               }
+
+               if (var3) {
+                  if (!var9.contains(var2.e()) && var9.size() >= 10) {
+                     throw new SQLException("BUG-850-290 left watch capacity exceeded");
+                  }
+                  if (!var10.contains(var1.e()) && var10.size() >= 10) {
+                     throw new SQLException("BUG-850-290 right watch capacity exceeded");
+                  }
+                  var9.add(var2.e());
+                  var10.add(var1.e());
+               } else {
+                  var9.remove(var2.e());
+                  var10.remove(var1.e());
+               }
+
+               this.updateWatchRow(var6, var1.e(), var11, this.serializeWatchClanIds(var9));
+               this.updateWatchRow(var6, var2.e(), var12, this.serializeWatchClanIds(var10));
+               var6.commit();
+               var8 = true;
+            } catch (Exception var21) {
+               if (var6 != null) {
+                  try {
+                     var6.rollback();
+                  } catch (SQLException var20) {
+                     a.log(Level.SEVERE, var20.getLocalizedMessage(), var20);
+                  }
+               }
+               a.log(Level.SEVERE, "BUG-850-290 bilateral clan watch transaction failed", var21);
+            } finally {
+               if (var6 != null) {
+                  try {
+                     var6.setAutoCommit(var7);
+                  } catch (SQLException var19) {
+                     a.log(Level.SEVERE, var19.getLocalizedMessage(), var19);
+                  }
+               }
+               SQLUtil.a(var6);
+            }
+
+            if (!var8) {
+               return false;
+            }
+
+            var1.t().clear();
+            var1.t().addAll(var9);
+            var2.t().clear();
+            var2.t().addAll(var10);
+            return true;
+         }
+      }
+   }
+
+   private void requireClanWatchInnoDb(Connection var1) throws SQLException {
+      try (PreparedStatement var2 = var1.prepareStatement(
+         "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='clan_data'"
+      ); ResultSet var3 = var2.executeQuery()) {
+         if (!var3.next() || !"InnoDB".equalsIgnoreCase(var3.getString("ENGINE")) || var3.next()) {
+            throw new SQLException("BUG-850-290 requires clan_data InnoDB");
+         }
+      }
+   }
+
+   private LinkedHashSet<Integer> parseWatchClanIds(String var1) throws SQLException {
+      LinkedHashSet<Integer> var2 = new LinkedHashSet<>();
+      if (var1 == null || var1.trim().isEmpty()) {
+         return var2;
+      }
+      for (String var3 : var1.split(",")) {
+         if (var3 == null || var3.trim().isEmpty()) {
+            continue;
+         }
+         try {
+            int var4 = Integer.parseInt(var3.trim());
+            if (var4 > 0) {
+               var2.add(var4);
+            }
+         } catch (NumberFormatException var5) {
+            throw new SQLException("BUG-850-290 invalid watch_clanid", var5);
+         }
+      }
+      return var2;
+   }
+
+   private String serializeWatchClanIds(Set<Integer> var1) {
+      StringBuilder var2 = new StringBuilder();
+      for (int var3 : var1) {
+         if (var2.length() > 0) {
+            var2.append(',');
+         }
+         var2.append(var3);
+      }
+      return var2.toString();
+   }
+
+   private void updateWatchRow(Connection var1, int var2, String var3, String var4) throws SQLException {
+      String var5 = var3 == null ? "" : var3;
+      if (var5.equals(var4)) {
+         return;
+      }
+      try (PreparedStatement var6 = var1.prepareStatement("UPDATE clan_data SET watch_clanid=? WHERE clan_id=?")) {
+         var6.setString(1, var4);
+         var6.setInt(2, var2);
+         if (var6.executeUpdate() != 1) {
+            throw new SQLException("BUG-850-290 watch row update failed");
          }
       }
    }

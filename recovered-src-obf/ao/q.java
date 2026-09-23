@@ -13,6 +13,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Timestamp;
+import java.util.LinkedHashSet;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -305,6 +307,158 @@ public class q {
             }
             if (count != 4) {
                 throw new SQLException("BUG-850-166 missing clan creation transaction table");
+            }
+        }
+    }
+
+    public boolean updateWatchRelationAtomic(i left, i right, boolean add) {
+        if (left == null || right == null || left.e() == right.e()) {
+            return false;
+        }
+        i first = left.e() < right.e() ? left : right;
+        i second = first == left ? right : left;
+        synchronized (first) {
+            synchronized (second) {
+                Connection con = null;
+                boolean oldAutoCommit = true;
+                boolean committed = false;
+                LinkedHashSet<Integer> leftSet = null;
+                LinkedHashSet<Integer> rightSet = null;
+                String leftRaw = null;
+                String rightRaw = null;
+                try {
+                    con = l1j.server.b.a().b();
+                    this.requireClanWatchInnoDb(con);
+                    oldAutoCommit = con.getAutoCommit();
+                    con.setAutoCommit(false);
+                    try (PreparedStatement pstm = con.prepareStatement("SELECT clan_id, watch_clanid FROM clan_data WHERE clan_id IN (?,?) ORDER BY clan_id FOR UPDATE")) {
+                        pstm.setInt(1, first.e());
+                        pstm.setInt(2, second.e());
+                        try (ResultSet rs = pstm.executeQuery()) {
+                            int rows = 0;
+                            while (rs.next()) {
+                                int clanId = rs.getInt("clan_id");
+                                String raw = rs.getString("watch_clanid");
+                                if (clanId == left.e()) {
+                                    leftRaw = raw;
+                                    leftSet = this.parseWatchClanIds(raw);
+                                } else if (clanId == right.e()) {
+                                    rightRaw = raw;
+                                    rightSet = this.parseWatchClanIds(raw);
+                                } else {
+                                    throw new SQLException("BUG-850-290 unexpected clan row");
+                                }
+                                ++rows;
+                            }
+                            if (rows != 2 || leftSet == null || rightSet == null) {
+                                throw new SQLException("BUG-850-290 missing bilateral clan row");
+                            }
+                        }
+                    }
+                    if (add) {
+                        if (!leftSet.contains(right.e()) && leftSet.size() >= 10) {
+                            throw new SQLException("BUG-850-290 left watch capacity exceeded");
+                        }
+                        if (!rightSet.contains(left.e()) && rightSet.size() >= 10) {
+                            throw new SQLException("BUG-850-290 right watch capacity exceeded");
+                        }
+                        leftSet.add(right.e());
+                        rightSet.add(left.e());
+                    } else {
+                        leftSet.remove(right.e());
+                        rightSet.remove(left.e());
+                    }
+                    this.updateWatchRow(con, left.e(), leftRaw, this.serializeWatchClanIds(leftSet));
+                    this.updateWatchRow(con, right.e(), rightRaw, this.serializeWatchClanIds(rightSet));
+                    con.commit();
+                    committed = true;
+                }
+                catch (Exception e2) {
+                    if (con != null) {
+                        try {
+                            con.rollback();
+                        }
+                        catch (SQLException rollbackError) {
+                            a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                        }
+                    }
+                    a.log(Level.SEVERE, "BUG-850-290 bilateral clan watch transaction failed", e2);
+                }
+                finally {
+                    if (con != null) {
+                        try {
+                            con.setAutoCommit(oldAutoCommit);
+                        }
+                        catch (SQLException autoCommitError) {
+                            a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+                        }
+                    }
+                    j.a(con);
+                }
+                if (!committed) {
+                    return false;
+                }
+                left.t().clear();
+                left.t().addAll(leftSet);
+                right.t().clear();
+                right.t().addAll(rightSet);
+                return true;
+            }
+        }
+    }
+
+    private void requireClanWatchInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='clan_data'");
+             ResultSet rs = pstm.executeQuery()) {
+            if (!rs.next() || !"InnoDB".equalsIgnoreCase(rs.getString("ENGINE")) || rs.next()) {
+                throw new SQLException("BUG-850-290 requires clan_data InnoDB");
+            }
+        }
+    }
+
+    private LinkedHashSet<Integer> parseWatchClanIds(String value) throws SQLException {
+        LinkedHashSet<Integer> result = new LinkedHashSet<Integer>();
+        if (value == null || value.trim().isEmpty()) {
+            return result;
+        }
+        for (String part : value.split(",")) {
+            if (part == null || part.trim().isEmpty()) {
+                continue;
+            }
+            try {
+                int clanId = Integer.parseInt(part.trim());
+                if (clanId > 0) {
+                    result.add(clanId);
+                }
+            }
+            catch (NumberFormatException e2) {
+                throw new SQLException("BUG-850-290 invalid watch_clanid", e2);
+            }
+        }
+        return result;
+    }
+
+    private String serializeWatchClanIds(Set<Integer> ids) {
+        StringBuilder out = new StringBuilder();
+        for (int id : ids) {
+            if (out.length() > 0) {
+                out.append(',');
+            }
+            out.append(id);
+        }
+        return out.toString();
+    }
+
+    private void updateWatchRow(Connection con, int clanId, String oldValue, String newValue) throws SQLException {
+        String normalizedOld = oldValue == null ? "" : oldValue;
+        if (normalizedOld.equals(newValue)) {
+            return;
+        }
+        try (PreparedStatement pstm = con.prepareStatement("UPDATE clan_data SET watch_clanid=? WHERE clan_id=?")) {
+            pstm.setString(1, newValue);
+            pstm.setInt(2, clanId);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-290 watch row update failed");
             }
         }
     }

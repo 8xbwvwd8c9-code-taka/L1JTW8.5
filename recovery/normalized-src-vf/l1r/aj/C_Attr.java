@@ -562,23 +562,16 @@ public class C_Attr extends ClientBasePacket {
                L1Clan var23 = ClanTable.a().a(var3.aQ());
                if (var23 != null && this.c() == 1) {
                   L1Clan var24 = ClanTable.a().a(var3.aF());
-                  if (var24 != null) {
-                     var24.t().add(var23.e());
-
+                  if (var24 != null && ClanTable.a().updateWatchRelationAtomic(var24, var23, true)) {
                      for (L1PcInstance var25 : var24.b()) {
                         var25.a(new S_ServerMessage(3360, var23.f()));
                         var25.a(new S_PledgeWatch(var24));
                      }
 
-                     ClanTable.a().b(var24);
-                     var23.t().add(var24.e());
-
                      for (L1PcInstance var75 : var23.b()) {
                         var75.a(new S_ServerMessage(3360, var24.f()));
                         var75.a(new S_PledgeWatch(var23));
                      }
-
-                     ClanTable.a().b(var23);
                   }
                }
 
