@@ -97,7 +97,7 @@ extends ag {
                     if (now_minute >= set_minute) {
                         delay += (long)((1440 + ((set_hour - now_hour) * 60 + (set_minute - now_minute))) * 60 * 1000);
                     } else if (now_minute < set_minute) {
-                        delay += (long)(set_minute - now_minute);
+                        delay += (long)(set_minute - now_minute) * 60L * 1000L;
                     }
                 }
             }
