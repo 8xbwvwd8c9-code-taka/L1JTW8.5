@@ -26,6 +26,11 @@ namespace L1JTW850Launcher
             public int AdjacentEdges;
             public bool CatalogLike;
             public int Score;
+            public int DynamicWordChanges;
+            public int DynamicWordsCompared;
+            public bool DynamicReadable;
+            public long SampleStart;
+            public byte[] Baseline;
         }
 
         private readonly string _appDir;
@@ -81,7 +86,7 @@ namespace L1JTW850Launcher
                     lock (_sync)
                     {
                         _running = false;
-                        _retryAfterUtc = DateTime.UtcNow.AddMinutes(2);
+                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(45);
                     }
                 }
             });
@@ -93,123 +98,215 @@ namespace L1JTW850Launcher
             if (names.Count == 0)
                 throw new InvalidDataException("item catalog has no usable item IDs");
 
+            // Use higher item IDs only as discovery seeds. Low IDs are common integers in the
+            // client and were causing the global memory scanner to hit its safety limit before
+            // reaching useful heap regions. Once a dynamic cluster is found, history refinement
+            // still recognizes the complete catalog, including low IDs.
             var fields = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             var fieldToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             foreach (var kv in names)
             {
+                if (kv.Key < 1000) continue;
                 var key = "ITEM_" + kv.Key;
                 fields[key] = kv.Key;
                 fieldToId[key] = kv.Key;
             }
+            if (fields.Count == 0)
+                throw new InvalidDataException("item catalog has no seed item IDs >= 1000");
 
+            var moduleBase = runtime.ModuleBase.ToInt64();
+            var moduleEnd = moduleBase + runtime.ModuleSize;
             ProbeResult scan;
+            var hits = new List<Hit>();
+            var imageRejectedHits = 0;
+            var clusters = new List<Cluster>();
+
             using (var probe = new RuntimeMemoryProbe())
             {
                 string error;
                 if (!probe.Attach(runtime.ProcessId, out error))
                     throw new InvalidOperationException(error);
+
                 scan = probe.FirstScan(fields);
-            }
 
-            var hits = new List<Hit>();
-            const int maxPerItem = 8;
-            const int maxHits = 40000;
-            foreach (var kv in scan.Candidates)
-            {
-                int itemId;
-                if (!fieldToId.TryGetValue(kv.Key, out itemId)) continue;
-                string name;
-                names.TryGetValue(itemId, out name);
-                var list = kv.Value;
-                if (list == null || list.Count == 0) continue;
-
-                var take = Math.Min(maxPerItem, list.Count);
-                for (var sample = 0; sample < take; sample++)
+                const int maxPerItem = 32;
+                const int maxHits = 60000;
+                foreach (var kv in scan.Candidates)
                 {
-                    var index = take <= 1
-                        ? 0
-                        : (int)(((long)sample * (list.Count - 1)) / (take - 1));
-                    hits.Add(new Hit
+                    int itemId;
+                    if (!fieldToId.TryGetValue(kv.Key, out itemId)) continue;
+                    string name;
+                    names.TryGetValue(itemId, out name);
+                    var list = kv.Value;
+                    if (list == null || list.Count == 0) continue;
+
+                    var take = Math.Min(maxPerItem, list.Count);
+                    for (var sample = 0; sample < take; sample++)
                     {
-                        Address = list[index].ToInt64(),
-                        ItemId = itemId,
-                        Name = name ?? ""
-                    });
+                        var index = take <= 1
+                            ? 0
+                            : (int)(((long)sample * (list.Count - 1)) / (take - 1));
+                        var address = list[index].ToInt64();
+
+                        // The current evidence showed the strongest false positives inside the
+                        // Lin.bin2 image and below its image base. Runtime inventory objects are
+                        // expected in process heap/allocated regions, so static image hits are not
+                        // allowed to seed the structure refiner.
+                        if (address < moduleEnd)
+                        {
+                            imageRejectedHits++;
+                            continue;
+                        }
+
+                        hits.Add(new Hit
+                        {
+                            Address = address,
+                            ItemId = itemId,
+                            Name = name ?? ""
+                        });
+                        if (hits.Count >= maxHits) break;
+                    }
                     if (hits.Count >= maxHits) break;
                 }
-                if (hits.Count >= maxHits) break;
+
+                hits.Sort(delegate(Hit a, Hit b) { return a.Address.CompareTo(b.Address); });
+                clusters = BuildClusters(hits);
+
+                // Static item tables can exist outside the main image too. Sample candidate
+                // windows twice and only promote a cluster if something in that local record
+                // window actually changes while the player is playing. This is read-only.
+                var sampled = 0;
+                foreach (var c in clusters)
+                {
+                    if (c.CatalogLike) continue;
+                    if (sampled >= 80) break;
+
+                    var start = Math.Max(moduleEnd, c.Start - 0x80);
+                    var end = c.End + 0x80;
+                    var sizeLong = end - start + 4;
+                    if (sizeLong < 16) sizeLong = 16;
+                    if (sizeLong > 0x1000) sizeLong = 0x1000;
+
+                    byte[] baseline;
+                    if (probe.TryReadBytes(new IntPtr(start), (int)sizeLong, out baseline, out error) &&
+                        baseline != null && baseline.Length >= 4)
+                    {
+                        c.SampleStart = start;
+                        c.Baseline = baseline;
+                        c.DynamicReadable = true;
+                        sampled++;
+                    }
+                }
+
+                if (sampled > 0)
+                    Thread.Sleep(12000);
+
+                foreach (var c in clusters)
+                {
+                    if (!c.DynamicReadable || c.Baseline == null) continue;
+                    byte[] current;
+                    if (!probe.TryReadBytes(new IntPtr(c.SampleStart), c.Baseline.Length, out current, out error) ||
+                        current == null || current.Length < 4)
+                    {
+                        c.DynamicReadable = false;
+                        continue;
+                    }
+
+                    var size = Math.Min(c.Baseline.Length, current.Length);
+                    var words = size / 4;
+                    var changed = 0;
+                    for (var i = 0; i < words; i++)
+                    {
+                        var offset = i * 4;
+                        if (BitConverter.ToInt32(c.Baseline, offset) != BitConverter.ToInt32(current, offset))
+                            changed++;
+                    }
+                    c.DynamicWordsCompared = words;
+                    c.DynamicWordChanges = changed;
+                }
             }
 
-            hits.Sort(delegate(Hit a, Hit b) { return a.Address.CompareTo(b.Address); });
-            var clusters = BuildClusters(hits);
+            clusters.Sort(delegate(Cluster a, Cluster b)
+            {
+                var ad = a.DynamicReadable && !a.CatalogLike && a.DynamicWordChanges > 0;
+                var bd = b.DynamicReadable && !b.CatalogLike && b.DynamicWordChanges > 0;
+                var c = bd.CompareTo(ad);
+                if (c != 0) return c;
+                c = b.DynamicWordChanges.CompareTo(a.DynamicWordChanges);
+                if (c != 0) return c;
+                c = a.CatalogLike.CompareTo(b.CatalogLike);
+                if (c != 0) return c;
+                c = b.Score.CompareTo(a.Score);
+                if (c != 0) return c;
+                return a.Start.CompareTo(b.Start);
+            });
 
-            var usableClusters = 0;
+            var dynamicClusters = new List<Cluster>();
             foreach (var c in clusters)
             {
-                if (!c.CatalogLike) usableClusters++;
+                if (!c.CatalogLike && c.DynamicReadable && c.DynamicWordChanges > 0)
+                    dynamicClusters.Add(c);
             }
 
             var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY");
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("SCAN_ITEM_IDS=" + fields.Count);
+            sb.AppendLine("SEED_FILTER=ITEM_ID_GE_1000");
+            sb.AppendLine("HEAP_FILTER=ADDRESS_GE_MODULE_END");
+            sb.AppendLine("MODULE_END=0x" + moduleEnd.ToString("X8"));
+            sb.AppendLine("IMAGE_REJECTED_HITS=" + imageRejectedHits);
             sb.AppendLine("BYTES_SCANNED=" + scan.BytesScanned);
-            sb.AppendLine("RAW_HITS=" + hits.Count);
+            sb.AppendLine("RAW_HEAP_HITS=" + hits.Count);
             sb.AppendLine("CANDIDATE_LIMIT_REACHED=" + (scan.CandidateLimitReached ? 1 : 0));
             sb.AppendLine("SCAN_STATUS=" + (scan.Status ?? ""));
             sb.AppendLine("CLUSTERS=" + clusters.Count);
-            sb.AppendLine("USABLE_CLUSTERS=" + usableClusters);
-            sb.AppendLine("FILTER=REJECT_CONTIGUOUS_SEQUENTIAL_ITEM_CATALOG_MIRRORS");
+            sb.AppendLine("DYNAMIC_CLUSTERS=" + dynamicClusters.Count);
+            sb.AppendLine("DYNAMIC_SAMPLE_MS=12000");
+            sb.AppendLine("FILTER=HEAP_ONLY_PLUS_TEMPORAL_CHANGE_PLUS_CATALOG_REJECT");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
-            var shownClusters = Math.Min(80, clusters.Count);
-            for (var i = 0; i < shownClusters; i++)
-            {
-                var c = clusters[i];
-                sb.AppendLine("[CANDIDATE " + (i + 1) + "]");
-                sb.AppendLine("ADDR=0x" + c.Anchor.ToString("X8"));
-                sb.AppendLine("START=0x" + c.Start.ToString("X8"));
-                sb.AppendLine("END=0x" + c.End.ToString("X8"));
-                sb.AppendLine("HITS=" + c.Hits);
-                sb.AppendLine("DISTINCT_ITEMS=" + c.DistinctItems);
-                sb.AppendLine("ADJACENT_EDGES=" + c.AdjacentEdges);
-                sb.AppendLine("SEQUENTIAL_EDGES=" + c.SequentialEdges);
-                sb.AppendLine("CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0));
-                sb.AppendLine("SCORE=" + c.Score);
+            var shownDynamic = Math.Min(60, dynamicClusters.Count);
+            for (var i = 0; i < shownDynamic; i++)
+                AppendCluster(sb, "CANDIDATE", i + 1, dynamicClusters[i], hits);
 
-                var displayed = 0;
-                for (var h = 0; h < hits.Count && displayed < 16; h++)
-                {
-                    if (hits[h].Address < c.Start) continue;
-                    if (hits[h].Address > c.End) break;
-                    sb.AppendLine(
-                        "ITEM_HIT ADDR=0x" + hits[h].Address.ToString("X8") +
-                        " ITEM_ID=" + hits[h].ItemId +
-                        " NAME=" + Sanitize(hits[h].Name));
-                    displayed++;
-                }
-                sb.AppendLine();
-            }
-
-            Cluster bestUsable = null;
+            sb.AppendLine("[REJECTED_STABLE_OR_CATALOG_SAMPLE]");
+            var rejectedShown = 0;
             foreach (var c in clusters)
             {
-                if (!c.CatalogLike)
-                {
-                    bestUsable = c;
-                    break;
-                }
+                if (dynamicClusters.Contains(c)) continue;
+                sb.AppendLine(
+                    "ADDR=0x" + c.Anchor.ToString("X8") +
+                    " DISTINCT=" + c.DistinctItems +
+                    " CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0) +
+                    " DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0) +
+                    " CHANGED_WORDS=" + c.DynamicWordChanges +
+                    " COMPARED_WORDS=" + c.DynamicWordsCompared);
+                rejectedShown++;
+                if (rejectedShown >= 30) break;
             }
+            sb.AppendLine();
 
             string status;
-            if (bestUsable != null && bestUsable.DistinctItems >= 4)
-                status = "PASS_CANDIDATES usable=" + usableClusters + " bestDistinct=" + bestUsable.DistinctItems;
+            if (dynamicClusters.Count > 0)
+            {
+                var best = dynamicClusters[0];
+                status = "PASS_CANDIDATES dynamic=" + dynamicClusters.Count +
+                    " bestChanges=" + best.DynamicWordChanges +
+                    " bestDistinct=" + best.DistinctItems;
+            }
             else if (clusters.Count > 0)
-                status = "STATIC_CATALOG_ONLY clusters=" + clusters.Count;
+            {
+                status = "WAITING_INVENTORY_ACTIVITY staticCandidates=" + clusters.Count;
+            }
             else if (hits.Count > 0)
+            {
                 status = "ITEM_HITS_NO_DENSE_CLUSTER hits=" + hits.Count;
+            }
             else
+            {
                 status = "NO_SEEDLESS_ITEM_HITS";
+            }
 
             sb.AppendLine("STATUS=" + status);
             File.WriteAllText(
@@ -217,6 +314,36 @@ namespace L1JTW850Launcher
                 sb.ToString(),
                 new UTF8Encoding(false));
             return status;
+        }
+
+        private static void AppendCluster(StringBuilder sb, string kind, int index, Cluster c, List<Hit> hits)
+        {
+            sb.AppendLine("[" + kind + " " + index + "]");
+            sb.AppendLine("ADDR=0x" + c.Anchor.ToString("X8"));
+            sb.AppendLine("START=0x" + c.Start.ToString("X8"));
+            sb.AppendLine("END=0x" + c.End.ToString("X8"));
+            sb.AppendLine("HITS=" + c.Hits);
+            sb.AppendLine("DISTINCT_ITEMS=" + c.DistinctItems);
+            sb.AppendLine("ADJACENT_EDGES=" + c.AdjacentEdges);
+            sb.AppendLine("SEQUENTIAL_EDGES=" + c.SequentialEdges);
+            sb.AppendLine("CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0));
+            sb.AppendLine("DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0));
+            sb.AppendLine("DYNAMIC_WORD_CHANGES=" + c.DynamicWordChanges);
+            sb.AppendLine("DYNAMIC_WORDS_COMPARED=" + c.DynamicWordsCompared);
+            sb.AppendLine("SCORE=" + c.Score);
+
+            var displayed = 0;
+            for (var h = 0; h < hits.Count && displayed < 16; h++)
+            {
+                if (hits[h].Address < c.Start) continue;
+                if (hits[h].Address > c.End) break;
+                sb.AppendLine(
+                    "ITEM_HIT ADDR=0x" + hits[h].Address.ToString("X8") +
+                    " ITEM_ID=" + hits[h].ItemId +
+                    " NAME=" + Sanitize(hits[h].Name));
+                displayed++;
+            }
+            sb.AppendLine();
         }
 
         private static List<Cluster> BuildClusters(List<Hit> hits)
@@ -251,19 +378,19 @@ namespace L1JTW850Launcher
                         if (cur.Address - prev.Address == 4)
                         {
                             adjacentEdges++;
-                            if (cur.ItemId - prev.ItemId == 1)
+                            if (Math.Abs(cur.ItemId - prev.ItemId) <= 4)
                                 sequentialEdges++;
                         }
                     }
 
                     var edgeBase = Math.Max(1, total - 1);
                     var catalogLike =
-                        (total >= 12 && sequentialEdges * 100 >= edgeBase * 55) ||
-                        (distinct >= 32 && adjacentEdges * 100 >= edgeBase * 70);
+                        (total >= 10 && sequentialEdges * 100 >= edgeBase * 35) ||
+                        (distinct >= 24 && adjacentEdges * 100 >= edgeBase * 65);
 
                     var end = hits[right - 1].Address;
                     var score = distinct * 100 + Math.Min(99, total);
-                    score -= sequentialEdges * 60;
+                    score -= sequentialEdges * 80;
                     if (catalogLike) score -= 100000;
 
                     result.Add(new Cluster
