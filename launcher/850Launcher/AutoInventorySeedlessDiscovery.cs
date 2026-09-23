@@ -155,8 +155,8 @@ namespace L1JTW850Launcher
             });
 
             var hits = new List<Hit>();
-            const int maxPerItem = 24;
-            const int maxHits = 70000;
+            const int maxPerItem = 48;
+            const int maxHits = 120000;
             foreach (var group in seedGroups)
             {
                 var list = group.Addresses;
@@ -180,7 +180,7 @@ namespace L1JTW850Launcher
             hits.Sort(delegate(Hit a, Hit b) { return a.Address.CompareTo(b.Address); });
             var clusters = BuildClusters(hits);
 
-            const int maxWatchedClusters = 120;
+            const int maxWatchedClusters = 320;
             const int sampleRounds = 12;
             const int sampleIntervalMs = 5000;
             var watched = 0;
@@ -277,22 +277,26 @@ namespace L1JTW850Launcher
                     dynamicClusters.Add(c);
             }
 
-            var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V2");
+            var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V3");
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("SCAN_ITEM_IDS=" + fields.Count);
             sb.AppendLine("MEMORY_SCOPE=MEM_PRIVATE_WRITABLE_ONLY");
             sb.AppendLine("MIN_ADDRESS=0x" + moduleEnd.ToString("X8"));
             sb.AppendLine("BYTES_SCANNED=" + scan.BytesScanned);
             sb.AppendLine("RAW_PRIVATE_HITS=" + hits.Count);
+            sb.AppendLine("MAX_PER_ITEM=" + maxPerItem);
+            sb.AppendLine("MAX_HITS=" + maxHits);
             sb.AppendLine("CANDIDATE_FIELD_CAP_REACHED=" + (scan.CandidateLimitReached ? 1 : 0));
             sb.AppendLine("SCAN_STATUS=" + (scan.Status ?? ""));
             sb.AppendLine("CLUSTERS=" + clusters.Count);
+            sb.AppendLine("CLUSTER_RETAIN_CAP=640");
+            sb.AppendLine("WATCH_CAP=" + maxWatchedClusters);
             sb.AppendLine("WATCHED_CLUSTERS=" + watched);
             sb.AppendLine("DYNAMIC_CLUSTERS=" + dynamicClusters.Count);
             sb.AppendLine("DYNAMIC_SAMPLE_ROUNDS=" + sampleRounds);
             sb.AppendLine("DYNAMIC_SAMPLE_INTERVAL_MS=" + sampleIntervalMs);
             sb.AppendLine("DYNAMIC_WINDOW_MS=" + ((sampleRounds - 1) * sampleIntervalMs));
-            sb.AppendLine("FILTER=PRIVATE_WRITABLE+CATALOG_STRIDE_REJECT+ITEM_ADJACENT_TEMPORAL_CHANGE");
+            sb.AppendLine("FILTER=PRIVATE_WRITABLE+CATALOG_STRIDE_REJECT+EXPANDED_ITEM_ADJACENT_TEMPORAL_CHANGE");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
@@ -318,7 +322,7 @@ namespace L1JTW850Launcher
                     " CHANGED_WORDS=" + c.DynamicWordChanges +
                     " COMPARED_WORDS=" + c.DynamicWordsCompared);
                 rejectedShown++;
-                if (rejectedShown >= 40) break;
+                if (rejectedShown >= 60) break;
             }
             sb.AppendLine();
 
@@ -333,7 +337,7 @@ namespace L1JTW850Launcher
             }
             else if (clusters.Count > 0)
             {
-                status = "WAITING_INVENTORY_ACTIVITY watched=" + watched;
+                status = "WAITING_INVENTORY_ACTIVITY watched=" + watched + " retained=" + clusters.Count;
             }
             else if (hits.Count > 0)
             {
@@ -534,7 +538,7 @@ namespace L1JTW850Launcher
                 }
                 if (near) continue;
                 dedup.Add(c);
-                if (dedup.Count >= 240) break;
+                if (dedup.Count >= 640) break;
             }
             return dedup;
         }
@@ -576,7 +580,7 @@ namespace L1JTW850Launcher
         {
             try
             {
-                var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V2");
+                var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V3");
                 sb.AppendLine("STATUS=ERROR");
                 sb.AppendLine("ERROR=" + ex.GetType().Name + ": " + ex.Message);
                 sb.AppendLine("MEMORY_WRITE=NO");
