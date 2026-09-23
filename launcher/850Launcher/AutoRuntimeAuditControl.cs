@@ -23,14 +23,17 @@ namespace L1JTW850Launcher
         private readonly AutoAppDirNetworkDiscovery _appDirNetwork;
         private readonly AutoStaticGameNetworkDiscovery _staticGameNetwork;
         private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
+        private readonly DateTime _auditStartedUtc;
 
         private int _pinnedPid;
         private DateTime? _pinnedStartUtc;
         private string _pinStatus = "UNPINNED";
+        private string _hpmpPipeline = "WAIT_BROAD";
 
         public AutoRuntimeAuditControl(string appDir)
         {
             _appDir = appDir;
+            _auditStartedUtc = DateTime.UtcNow;
             _bridge = new ProcessRuntimeBridge(appDir);
             _broadProbe = new AutoHpMpBroadProbe(appDir);
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
@@ -49,7 +52,7 @@ namespace L1JTW850Launcher
                 Dock = DockStyle.Top,
                 Height = 48,
                 Padding = new Padding(8),
-                Text = "全自動稽核安全模式：只綁定單一 850 client；停用重複窄掃描。"
+                Text = "全自動稽核安全模式：只綁定單一 850 client；HP/MP 採序列證據鏈。"
             };
             Controls.Add(_status);
 
@@ -100,10 +103,9 @@ namespace L1JTW850Launcher
 
             if (probeAllowed)
             {
-                _broadProbe.EnsureRunning(runtime);
-                _semanticRefiner.EnsureRunning(runtime);
-                _crossCheck.EnsureRunning(runtime);
-                _pointerDiscovery.EnsureRunning(runtime);
+                RunHpMpPipeline(runtime);
+
+                // Independent read-only lanes may run in parallel.
                 _parallelDiscovery.EnsureRunning(runtime);
                 _networkSurface.EnsureRunning(runtime);
                 _loadedModuleNetwork.EnsureRunning(runtime);
@@ -126,6 +128,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUDIT_PINNED_PID=" + _pinnedPid);
             sb.AppendLine("AUDIT_PINNED_START_UTC=" + (_pinnedStartUtc.HasValue ? _pinnedStartUtc.Value.ToString("o") : ""));
             sb.AppendLine("AUDIT_PIN_STATUS=" + _pinStatus);
+            sb.AppendLine("HPMP_PIPELINE=" + _hpmpPipeline);
             sb.AppendLine("AUTO_DYNAMIC_PROBE=DISABLED_REDUNDANT_SAFE_MODE");
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
@@ -174,7 +177,7 @@ namespace L1JTW850Launcher
             var text = sb.ToString();
             _report.Text = text;
             _status.Text = probeAllowed
-                ? "全自動稽核安全模式：已固定 PID=" + _pinnedPid + "；只執行必要採集。"
+                ? "全自動稽核安全模式：PID=" + _pinnedPid + "；HP/MP=" + _hpmpPipeline
                 : runtime.Connected
                     ? "全自動稽核安全模式：偵測到其他 Lin.bin2 PID，暫停附加採集。"
                     : "全自動稽核安全模式：等待 850 client。";
@@ -188,6 +191,76 @@ namespace L1JTW850Launcher
             }
             catch
             {
+            }
+        }
+
+        private void RunHpMpPipeline(RuntimeSnapshot runtime)
+        {
+            _broadProbe.EnsureRunning(runtime);
+
+            var broadPath = Path.Combine(_appDir, "runtime_dynamic_broad_probe_evidence.txt");
+            var semanticPath = Path.Combine(_appDir, "runtime_hpmp_semantic_refine_evidence.txt");
+            var crossPath = Path.Combine(_appDir, "runtime_hpmp_crosscheck_evidence.txt");
+
+            if (!EvidenceReady(broadPath, runtime.ProcessId, _auditStartedUtc))
+            {
+                _hpmpPipeline = "WAIT_BROAD_CURRENT_RUN";
+                return;
+            }
+
+            _semanticRefiner.EnsureRunning(runtime);
+            var broadTime = SafeWriteTimeUtc(broadPath);
+            if (!EvidenceReady(semanticPath, runtime.ProcessId, broadTime))
+            {
+                _hpmpPipeline = "WAIT_SEMANTIC_AFTER_BROAD";
+                return;
+            }
+
+            _crossCheck.EnsureRunning(runtime);
+            var semanticTime = SafeWriteTimeUtc(semanticPath);
+            if (!EvidenceReady(crossPath, runtime.ProcessId, semanticTime))
+            {
+                _hpmpPipeline = "WAIT_CROSSCHECK_AFTER_SEMANTIC";
+                return;
+            }
+
+            _pointerDiscovery.EnsureRunning(runtime);
+            _hpmpPipeline = "POINTER_GATE_READY";
+        }
+
+        private static DateTime SafeWriteTimeUtc(string path)
+        {
+            try
+            {
+                return File.Exists(path) ? File.GetLastWriteTimeUtc(path) : DateTime.MaxValue;
+            }
+            catch
+            {
+                return DateTime.MaxValue;
+            }
+        }
+
+        private static bool EvidenceReady(string path, int expectedPid, DateTime notBeforeUtc)
+        {
+            try
+            {
+                if (!File.Exists(path)) return false;
+                var writeUtc = File.GetLastWriteTimeUtc(path);
+                if (writeUtc < notBeforeUtc) return false;
+
+                var lines = File.ReadAllLines(path);
+                for (var i = 0; i < Math.Min(16, lines.Length); i++)
+                {
+                    var line = lines[i].Trim();
+                    if (!line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase)) continue;
+                    int pid;
+                    return int.TryParse(line.Substring(4), out pid) && pid == expectedPid;
+                }
+                return false;
+            }
+            catch
+            {
+                return false;
             }
         }
 
