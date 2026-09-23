@@ -4,6 +4,7 @@ Branch: `completed/l1jtw85-core-fixes`
 
 This branch contains **validated core repairs only**.  
 Active/unvalidated repair work stays on `work/l1jtw85-core-fixes`.
+| BUG-850-263 | L2 | account register online-state authority binding | PASS / PROMOTED |
 
 ## Promotion rule
 
@@ -2701,3 +2702,38 @@ STATUS=PASS
 PROMOTED=YES
 NEW_CORE_BRANCH=NO
 ```
+
+## BUG-850-263 — account register persisted online state from an unbound client account
+
+### Problem
+
+The register path receives an already authenticated `L1Account` plus a `ClientThread`, but persisted online state by rereading the account from the client before the outer bind order guaranteed that client account reference existed. This could fail to persist the supplied authenticated account as online.
+
+### Fix
+
+Both normalized and obfuscated register paths now pass the authenticated account parameter directly to the existing online-state persistence method. No login policy, account schema, capacity rule, or duplicate-login rule changed.
+
+### Validation
+
+```text
+WORK_CI=35724086529
+COMPLETED_CI=35896878279
+SOURCE_COMMIT=c40635be088d40a9d75f08be265141a5ddfb9832
+BUG_850_263_CONTRACT=PASS
+REGISTER_ACCOUNT_AUTHORITY=PASS
+BUG_850_263_TARGETED_JAVAC=PASS
+BUG_850_263_TARGETED_BEHAVIOR_RUNTIME=PASS
+UNBOUND_CLIENT_ONLINE_STATE_FIXED=PASS
+BUG_850_263_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-263_VALIDATION_20260924.md`.
+
+### Result
+
+```text
+BUG-850-263=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
