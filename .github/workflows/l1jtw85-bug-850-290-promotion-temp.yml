@@ -1,0 +1,73 @@
+name: TEMP BUG-850-290 Promotion Validation
+
+on:
+  push:
+    branches:
+      - tmp/bug-850-290-promotion
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-290-promotion-temp.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  patch-validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: tmp/bug-850-290-promotion
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+      - name: Apply exact BUG-850-290 patch
+        run: python tools/core-fix/patch_bug_850_290.py
+      - name: Validate bilateral clan-watch source contract
+        run: python tools/core-fix/validate_bug_850_290.py
+      - name: Check exact patch javac regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASELINE_SHA=b421e3f7448ca642a2048107684180ec5ec28b38
+          mkdir -p "$RUNNER_TEMP/base/l1r/ao" "$RUNNER_TEMP/fix/l1r/ao" "$RUNNER_TEMP/bclasses" "$RUNNER_TEMP/fclasses"
+          git show "$BASELINE_SHA:recovery/normalized-src-vf/l1r/ao/ClanTable.java" > "$RUNNER_TEMP/base/l1r/ao/ClanTable.java"
+          cp recovery/normalized-src-vf/l1r/ao/ClanTable.java "$RUNNER_TEMP/fix/l1r/ao/ClanTable.java"
+          set +e
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bclasses" "$RUNNER_TEMP/base/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/base.err"
+          BASE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/fclasses" "$RUNNER_TEMP/fix/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/fix.err"
+          FIX_RC=$?
+          set -e
+          grep 'error:' "$RUNNER_TEMP/base.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/base.sig" || true
+          grep 'error:' "$RUNNER_TEMP/fix.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/fix.sig" || true
+          diff -u "$RUNNER_TEMP/base.sig" "$RUNNER_TEMP/fix.sig"
+          echo "BASELINE_JAVAC_RC=$BASE_RC"
+          echo "FIX_JAVAC_RC=$FIX_RC"
+          echo "BUG_850_290_EXACT_PATCH_NO_NEW_JAVAC_REGRESSION=PASS"
+      - name: Run bilateral atomicity runtime model
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/runtime"
+          javac -d "$RUNNER_TEMP/runtime" tools/core-fix/Bug850290RuntimeTest.java
+          java -cp "$RUNNER_TEMP/runtime" Bug850290RuntimeTest
+      - name: Commit validated core patch
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add \
+            recovery/normalized-src-vf/l1r/ao/ClanTable.java \
+            recovered-src-obf/ao/q.java \
+            recovery/normalized-src-vf/l1r/aj/C_Attr.java \
+            recovered-src-obf/aj/f.java \
+            recovery/normalized-src-vf/l1r/aj/C_PledgeWatch.java \
+            recovered-src-obf/aj/bq.java
+          git diff --cached --check
+          git commit -m "fix(l2): promote BUG-850-290 bilateral clan watch atomicity"
+          git push origin HEAD:tmp/bug-850-290-promotion
