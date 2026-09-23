@@ -51,17 +51,17 @@ namespace L1JTW850Launcher
                 Text = "產生邏輯封包",
                 Left = 274,
                 Top = 70,
-                Width = 120
+                Width = 108
             };
             build.Click += delegate { BuildPayload(); };
             Controls.Add(build);
 
             var behavior = new Button
             {
-                Text = "UseItem 行為驗證",
-                Left = 410,
+                Text = "行為驗證",
+                Left = 392,
                 Top = 70,
-                Width = 130
+                Width = 100
             };
             behavior.Click += delegate { OpenBehaviorVerifier(); };
             Controls.Add(behavior);
@@ -69,12 +69,22 @@ namespace L1JTW850Launcher
             var native = new Button
             {
                 Text = "Native 關聯",
-                Left = 552,
+                Left = 502,
                 Top = 70,
-                Width = 105
+                Width = 100
             };
             native.Click += delegate { OpenNativeCorrelation(); };
             Controls.Add(native);
+
+            var abi = new Button
+            {
+                Text = "ABI 分析",
+                Left = 612,
+                Top = 70,
+                Width = 82
+            };
+            abi.Click += delegate { OpenAbiAnalysis(); };
+            Controls.Add(abi);
 
             Controls.Add(new Label
             {
@@ -114,7 +124,7 @@ namespace L1JTW850Launcher
                 Width = 690,
                 Height = 150,
                 Text =
-                    "驗證邊界：protocol proof 只證明 server contract。『UseItem 行為驗證』只讀對照無操作基線與手動使用期間的 0x5E+ObjectId logical pattern；『Native 關聯』再唯讀反查 heap buffer → module pointer root → executable xref → function RVA。兩者都不送包、不寫遊戲記憶體；未完成 ABI/controlled-call proof 前 ItemUseBridge 仍保持 UNMAPPED。"
+                    "驗證邊界：protocol proof 只證明 server contract。『行為驗證』只讀對照 0x5E+ObjectId logical pattern；『Native 關聯』反查 heap buffer → module root → executable xref → function RVA；『ABI 分析』只讀觀察 prologue / ret cleanup / caller cleanup / ECX。三段都不送包、不寫遊戲記憶體；controlled-call proof 前 ItemUseBridge 保持 UNMAPPED。"
             };
             Controls.Add(_status);
         }
@@ -168,6 +178,23 @@ namespace L1JTW850Launcher
 
             form.Controls.Add(
                 new ItemUseNativeCorrelationControl(
+                    _appDir));
+
+            form.ShowDialog(this);
+        }
+
+        private void OpenAbiAnalysis()
+        {
+            var form = new Form
+            {
+                Text = "WP7 UseItem ABI 分析",
+                Width = 800,
+                Height = 590,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            form.Controls.Add(
+                new ItemUseAbiControl(
                     _appDir));
 
             form.ShowDialog(this);
