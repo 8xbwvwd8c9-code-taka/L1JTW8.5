@@ -95,7 +95,7 @@ public class L1SpawnBoss extends L1Spawn {
                if (var7 >= var25) {
                   var2 += (1440 + (var24 - var23) * 60 + (var25 - var7)) * 60 * 1000;
                } else if (var7 < var25) {
-                  var2 += var25 - var7;
+                  var2 += (long)(var25 - var7) * 60L * 1000L;
                }
             }
          }
