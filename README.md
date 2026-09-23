@@ -4,7 +4,6 @@ Branch: `completed/l1jtw85-core-fixes`
 
 This branch contains **validated core repairs only**.  
 Active/unvalidated repair work stays on `work/l1jtw85-core-fixes`.
-| BUG-850-263 | L2 | account register online-state authority binding | PASS / PROMOTED |
 
 ## Promotion rule
 
@@ -65,6 +64,8 @@ BUG
 | BUG-850-269 | L2 | boss fixed-time scheduler minute/ms unit conversion | PASS / PROMOTED |
 | BUG-850-266 | L2 | mob skill exact probability boundary | PASS / PROMOTED |
 | BUG-850-265 | L2 | monthly town salary pre-reset contribution calculation | PASS / PROMOTED |
+| BUG-850-263 | L2 | account register online-state authority binding | PASS / PROMOTED |
+| BUG-850-262 | L2 | weapon proc exact probability / overflow-safe threshold | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2737,3 +2738,40 @@ STATUS=PASS
 PROMOTED=YES
 ```
 
+## BUG-850-262 — weapon proc probability used an inclusive threshold and overflow-prone int arithmetic
+
+### Problem
+
+The weapon proc gate used a `0..99` random roll against `probability + prob_every_enchant * enchant` with an inclusive boundary and `int` multiplication/addition. That made 0% capable of passing at roll 0 and allowed extreme configured/enchant values to overflow before comparison.
+
+### Fix
+
+Both normalized and obfuscated paths now compute the threshold in `long`, clamp it to `[0,100]`, then accept only `roll < probability` (implemented as an early return on `roll >= probability`).
+
+### Validation
+
+```text
+WORK_CI=35723960434
+COMPLETED_CI=35897401239
+SOURCE_COMMIT=d6d0cb2948713cb7018c2f19c8640e99c909a718
+BUG_850_262_CONTRACT=PASS
+WEAPON_PROC_EXACT_THRESHOLD=PASS
+WEAPON_PROC_LONG_ARITHMETIC=PASS
+WEAPON_PROC_CLAMP_0_100=PASS
+BUG_850_262_TARGETED_JAVAC=PASS
+BUG_850_262_TARGETED_BEHAVIOR_RUNTIME=PASS
+ZERO_PERCENT_NO_PROC=PASS
+ENCHANT_THRESHOLD_EXACT=PASS
+OVERFLOW_SAFE_CLAMP=PASS
+BUG_850_262_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-262_VALIDATION_20260924.md`.
+
+### Result
+
+```text
+BUG-850-262=L2
+STATUS=PASS
+PROMOTED=YES
+```
