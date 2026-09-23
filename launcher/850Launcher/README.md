@@ -2,6 +2,113 @@
 
 Client-only launcher/helper shell for the 8.50 target.
 
+## 2026-09-24 verified status / repository snapshot
+
+Authoritative client:
+
+```text
+CLIENT=I:\8.50c客服端\Lin.bin2
+SHA256=FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4
+CLIENT_AUTHORITY=1
+```
+
+Repository ownership:
+
+```text
+PRIMARY_LAUNCHER_BRANCH=work/850-launcher-helper
+INVENTORY_AUDIT_BRANCH=work/850-inventory-helper
+INVENTORY_AUDIT_HEAD=bbadbe901dba555c78ad915468e586a61659a46b
+INVENTORY_AUDIT_TOOL=launcher/850Launcher/tools/run_850_inventory_static_model_xref.ps1
+```
+
+### HP/MP dynamic proof — PASS
+
+Headless x86 debugger evidence has now survived a full client restart. The proven module-relative path is:
+
+```text
+OLD_PID=34388
+NEW_PID=8368
+MODULE_BASE=0x00400000
+WRITER_RVA=0x00877D63
+SETTER_RVA=0x00877D50
+HP_CALLER_RVA=0x00C5BF80
+MP_CALLER_RVA=0x00C5BF80
+CALLSITE_RVA=0x00C5C06C
+HP_CURRENT_SOURCE=[EBP+0x10]
+HP_MAX_SOURCE=[EBP+0x14]
+MP_CURRENT_SOURCE=[EBP+0x10]
+MP_MAX_SOURCE=[EBP+0x14]
+RESTART_PASS=YES
+FORMAL_HPMP_MAP=YES
+TARGET_MEMORY_WRITE=NO
+```
+
+Interpretation: the shared Gauge setter/writer and its caller ABI are proven across process restart. The four raw HP/MP source arguments are proven at the caller boundary. Do **not** write these results into `runtime-map.ini` until a separate mapping-promotion task explicitly defines the stable runtime expression/pointer source to use.
+
+### Inventory WP5 — NOT YET
+
+Current live UI graph evidence has repeatedly proven one 850 inventory UI chain, but the backing model is not yet formally mapped:
+
+```text
+InventoryItemGrid -> +0xEC parent/root
+root +0x15C -> grid
+root +0x168 -> InvWin
+FORMAL_WP5=NOT_YET
+```
+
+One earlier runtime snapshot produced a strong-looking `InvWin`/64-byte-record candidate, but repeated runtime scans were unstable and several runs caused the client to exit/crash. A later restart-resilient local scan found a valid UI graph but no strong local vector candidate. Therefore no runtime vector offset, record stride, ObjectId, Count, Enchant, Equipped, or collection mapping is promoted from that evidence.
+
+Inventory runtime-scan safety rule from this point:
+
+```text
+NO_BROAD_RUNTIME_MEMORY_SCAN
+NO_REPEAT_CRASHING_VECTOR_SCAN
+PREFER_STATIC_XREF_FIRST
+LIVE_READ_ONLY_AFTER_STABLE_OWNER/MODEL_POINTER
+LIVE_READ_SCOPE=NARROW_TARGET_ONLY
+MEMORY_WRITE=NO
+```
+
+The static-only inventory report currently records:
+
+```text
+MODE=850_INVENTORY_STATIC_MODEL_XREF
+STATUS=PASS_STATIC_ONLY
+RUNTIME_ATTACH=NO
+MEMORY_WRITE=NO
+SOURCE_MODIFIED=NO
+GRID_VTABLE_RVA=0x00EDDE38
+ROOT_VTABLE_RVA=0x00EDE2F8
+INVWIN_VTABLE_RVA=0x00EDE180
+```
+
+The packed/virtual client layout means those vtable RVAs are not directly file-mapped by the first static pass, so the next inventory step is to correlate inventory vtable methods/model references statically and only then perform one narrowly targeted live read if needed.
+
+Latest evidence outputs:
+
+```text
+I:\L共通工具\LineageAIResourceToolkit\outputs\850_hpmp_dynamic_watch.txt
+I:\L共通工具\LineageAIResourceToolkit\outputs\850_hpmp_restart_provenance.txt
+I:\L共通工具\LineageAIResourceToolkit\outputs\850_inventory_backing_model_scan.txt
+I:\L共通工具\LineageAIResourceToolkit\outputs\850_inventory_vector64_profile_v2.txt
+I:\L共通工具\LineageAIResourceToolkit\outputs\850_inventory_static_model_xref.txt
+```
+
+Current gate summary:
+
+```text
+HPMP_DYNAMIC_WATCH=PASS
+HPMP_RESTART_PASS=YES
+FORMAL_HPMP_MAP=YES
+INVENTORY_UI_GRAPH=PROVEN_CURRENT_PROCESS
+FORMAL_WP5=NOT_YET
+FORMAL_WP6=NOT_YET
+ITEM_USE_BRIDGE=UNMAPPED
+SKILL_USE_BRIDGE=UNMAPPED
+BUFF_STATE_BRIDGE=UNMAPPED
+MEMORY_WRITE=NO
+```
+
 ## v0.1 scope
 
 PASS-ready now:
