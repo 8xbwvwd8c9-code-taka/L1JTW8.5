@@ -39,6 +39,10 @@ public class C_ShopWorld extends ClientBasePacket {
                int var20 = this.c();
                if (var20 == 0) {
                   ShopWorldTable.L1R_b var30 = ShopWorldTable.a().b().get(var15);
+                  if (var30 == null) {
+                     var3.a(new S_ServerMessage(156));
+                     return;
+                  }
                   L1ItemInstance var33 = var30.a;
                   L1Account var34 = var2.e();
                   if (var18 != var30.b * var17) {
@@ -126,8 +130,12 @@ public class C_ShopWorld extends ClientBasePacket {
                int var6 = this.b();
                int var7 = this.b();
                int var8 = this.b();
-               L1NpcInstance var9 = (L1NpcInstance)L1World.a().a(var6);
-               if (var9 != null && (var9.fu().b() != var3.fp() || var9.fu().c(var3.fu()) > 11)) {
+               l1r.aq.L1Object var9Object = L1World.a().a(var6);
+               if (!(var9Object instanceof L1NpcInstance)) {
+                  return;
+               }
+               L1NpcInstance var9 = (L1NpcInstance)var9Object;
+               if (var9.fu().b() != var3.fp() || var9.fu().c(var3.fu()) > 11) {
                   return;
                }
                L1ItemInstance var10 = var3.j().e(var7);
