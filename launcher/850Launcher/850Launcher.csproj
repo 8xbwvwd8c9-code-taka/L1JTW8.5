@@ -49,6 +49,7 @@
     <Compile Include="ItemUseNativeCorrelationScanner.cs" />
     <Compile Include="ItemUseNativeCorrelationEvidence.cs" />
     <Compile Include="ItemUseNativeCorrelationControl.cs" />
+    <Compile Include="Wp7ValidationGate.cs" />
     <Compile Include="RuntimeBytePatternScanner.cs" />
     <Compile Include="RuntimePointerBackrefScanner.cs" />
     <Compile Include="NativeAbsoluteReferenceScanner.cs" />
