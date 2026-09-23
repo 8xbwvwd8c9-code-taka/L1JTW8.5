@@ -18,6 +18,8 @@ import ap.z;
 import aq.aa;
 import aq.ac;
 import aq.ad;
+import aq.ae;
+import aq.am;
 import aq.af;
 import aq.ao;
 import aq.ap;
@@ -186,6 +188,13 @@ extends aq.f {
     private static final long bg = 3000L;
     private ScheduledFuture<?> bh;
     private boolean bi = false;
+    private ae l1rActivePolyMorphRule;
+    private int l1rGhostSaveLocX;
+    private int l1rGhostSaveLocY;
+    private int l1rGhostSaveMapId;
+    private int l1rGhostSaveHeading;
+    private boolean l1rGhostSaveValid = false;
+    private boolean l1rGhostReturnPending = false;
     private int l1rAmountNpcObjId = 0;
     private int l1rAmountMode = 0;
     private long l1rAmountContextExpiry = 0L;
@@ -2434,7 +2443,44 @@ extends aq.f {
     }
 
     public void j(boolean isGhost) {
+        if (isGhost && !this.bi) {
+            this.l1rGhostSaveLocX = this.fs();
+            this.l1rGhostSaveLocY = this.ft();
+            this.l1rGhostSaveMapId = this.fp();
+            this.l1rGhostSaveHeading = this.fb();
+            this.l1rGhostSaveValid = true;
+            this.l1rGhostReturnPending = false;
+        }
         this.bi = isGhost;
+        if (!isGhost) {
+            this.l1rGhostSaveValid = false;
+            this.l1rGhostReturnPending = false;
+        }
+    }
+
+    public ae getActivePolyMorphRule() {
+        return this.l1rActivePolyMorphRule;
+    }
+
+    public void setActivePolyMorphRule(ae rule) {
+        this.l1rActivePolyMorphRule = rule;
+    }
+
+    public void makeReadyEndGhost() {
+        if (!this.bi || !this.l1rGhostSaveValid || this.l1rGhostReturnPending) {
+            return;
+        }
+        this.l1rGhostReturnPending = true;
+        am.a(this, this.l1rGhostSaveLocX, this.l1rGhostSaveLocY, this.l1rGhostSaveMapId, this.l1rGhostSaveHeading, true);
+    }
+
+    public void finishGhostReturn() {
+        if (!this.l1rGhostReturnPending) {
+            return;
+        }
+        this.bi = false;
+        this.l1rGhostReturnPending = false;
+        this.l1rGhostSaveValid = false;
     }
 
     public Timestamp bO() {
