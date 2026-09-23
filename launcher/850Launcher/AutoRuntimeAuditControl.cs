@@ -21,6 +21,7 @@ namespace L1JTW850Launcher
         private readonly AutoNetworkSurfaceDiscovery _networkSurface;
         private readonly AutoLoadedModuleNetworkDiscovery _loadedModuleNetwork;
         private readonly AutoAppDirNetworkDiscovery _appDirNetwork;
+        private readonly AutoStaticGameNetworkDiscovery _staticGameNetwork;
         private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
 
         private int _pinnedPid;
@@ -39,6 +40,7 @@ namespace L1JTW850Launcher
             _networkSurface = new AutoNetworkSurfaceDiscovery(appDir);
             _loadedModuleNetwork = new AutoLoadedModuleNetworkDiscovery(appDir);
             _appDirNetwork = new AutoAppDirNetworkDiscovery(appDir);
+            _staticGameNetwork = new AutoStaticGameNetworkDiscovery(appDir);
             _inventoryHistory = new AutoInventoryHistoryDiscovery(appDir);
             Dock = DockStyle.Fill;
 
@@ -106,6 +108,7 @@ namespace L1JTW850Launcher
                 _networkSurface.EnsureRunning(runtime);
                 _loadedModuleNetwork.EnsureRunning(runtime);
                 _appDirNetwork.EnsureRunning(runtime);
+                _staticGameNetwork.EnsureRunning(runtime);
                 _inventoryHistory.EnsureRunning(runtime);
             }
 
@@ -135,6 +138,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_NETWORK_SURFACE=" + _networkSurface.Status);
             sb.AppendLine("AUTO_LOADED_MODULE_NETWORK=" + _loadedModuleNetwork.Status);
             sb.AppendLine("AUTO_APPDIR_NETWORK=" + _appDirNetwork.Status);
+            sb.AppendLine("AUTO_STATIC_GAME_NETWORK=" + _staticGameNetwork.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -155,6 +159,7 @@ namespace L1JTW850Launcher
             AppendFile(sb, "auto_network_surface_evidence.txt");
             AppendFile(sb, "auto_loaded_module_network_evidence.txt");
             AppendFile(sb, "auto_appdir_network_evidence.txt");
+            AppendFile(sb, "auto_static_game_network_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "inventory_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
