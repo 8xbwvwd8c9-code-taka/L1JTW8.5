@@ -71,7 +71,7 @@ namespace L1JTW850Launcher
                     lock (_sync)
                     {
                         _running = false;
-                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(45);
+                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(30);
                     }
                 }
             });
@@ -82,10 +82,10 @@ namespace L1JTW850Launcher
             string historyPath;
             string source;
             List<long> centers;
-            if (!TryChooseSource(out historyPath, out source, out centers))
+            if (!TryChooseSource(runtime, out historyPath, out source, out centers))
             {
-                SaveWaiting(runtime, "waiting for non-catalog manual or seedless inventory candidates");
-                lock (_sync) _status = "WAITING_CANDIDATES";
+                SaveWaiting(runtime, "waiting for fresh current-pid dynamic inventory candidates");
+                lock (_sync) _status = "WAITING_DYNAMIC_CANDIDATES";
                 return;
             }
 
@@ -93,8 +93,8 @@ namespace L1JTW850Launcher
             if (names.Count == 0)
                 throw new InvalidDataException("item catalog has no usable item IDs");
 
-            if (centers.Count > 120)
-                centers.RemoveRange(120, centers.Count - 120);
+            if (centers.Count > 80)
+                centers.RemoveRange(80, centers.Count - 80);
 
             var offsetHits = new Dictionary<int, int>();
             var distinctCentersByOffset = new Dictionary<int, HashSet<long>>();
@@ -102,9 +102,11 @@ namespace L1JTW850Launcher
             var sb = Header(runtime, "AUTO_INVENTORY_HISTORY_DISCOVERY");
             sb.AppendLine("SOURCE=" + source);
             sb.AppendLine("SOURCE_FILE=" + Path.GetFileName(historyPath));
+            sb.AppendLine("SOURCE_PID_VERIFIED=1");
             sb.AppendLine("HISTORY_CENTERS=" + centers.Count);
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("CATALOG_MIRROR_FILTER=ON");
+            sb.AppendLine("DYNAMIC_SOURCE_REQUIRED=1");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
@@ -218,11 +220,11 @@ namespace L1JTW850Launcher
 
             string status;
             if (bestCenters >= 3)
-                status = "PASS_CANDIDATES offset=" + bestOffset + " centers=" + bestCenters;
+                status = "PASS_DYNAMIC_CANDIDATES offset=" + bestOffset + " centers=" + bestCenters;
             else if (itemHits > 0)
-                status = "ITEM_HINTS hits=" + itemHits + " bestCenters=" + bestCenters;
+                status = "DYNAMIC_ITEM_HINTS hits=" + itemHits + " bestCenters=" + bestCenters;
             else
-                status = "NO_CATALOG_NEAR_CANDIDATES";
+                status = "NO_CATALOG_NEAR_DYNAMIC_CANDIDATES";
             sb.AppendLine("STATUS=" + status);
 
             File.WriteAllText(
@@ -233,17 +235,52 @@ namespace L1JTW850Launcher
             lock (_sync) _status = status;
         }
 
-        private bool TryChooseSource(out string path, out string source, out List<long> centers)
+        private bool TryChooseSource(RuntimeSnapshot runtime, out string path, out string source, out List<long> centers)
         {
+            path = Path.Combine(_appDir, "auto_inventory_seedless_evidence.txt");
+            source = "AUTO_SEEDLESS_DYNAMIC";
+            centers = new List<long>();
+            if (EvidenceFreshForRuntime(path, runtime))
+            {
+                centers = LoadLatestCandidateCenters(path);
+                if (centers.Count > 0) return true;
+            }
+
+            // Manual evidence remains a fallback, but it must belong to the same process instance.
             path = Path.Combine(_appDir, "inventory_probe_evidence.txt");
             source = "MANUAL_HISTORY";
-            centers = File.Exists(path) ? LoadLatestCandidateCenters(path) : new List<long>();
-            if (centers.Count > 0) return true;
+            if (EvidenceFreshForRuntime(path, runtime))
+            {
+                centers = LoadLatestCandidateCenters(path);
+                if (centers.Count > 0) return true;
+            }
 
-            path = Path.Combine(_appDir, "auto_inventory_seedless_evidence.txt");
-            source = "AUTO_SEEDLESS";
-            centers = File.Exists(path) ? LoadLatestCandidateCenters(path) : new List<long>();
-            return centers.Count > 0;
+            centers = new List<long>();
+            return false;
+        }
+
+        private static bool EvidenceFreshForRuntime(string path, RuntimeSnapshot runtime)
+        {
+            try
+            {
+                if (!File.Exists(path)) return false;
+                if (runtime.ProcessStartTimeUtc.HasValue &&
+                    File.GetLastWriteTimeUtc(path) < runtime.ProcessStartTimeUtc.Value)
+                    return false;
+
+                var pid = 0;
+                foreach (var raw in File.ReadAllLines(path))
+                {
+                    var line = raw.Trim();
+                    if (!line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (int.TryParse(line.Substring(4), out pid)) break;
+                }
+                return pid == runtime.ProcessId;
+            }
+            catch
+            {
+                return false;
+            }
         }
 
         private static List<long> LoadLatestCandidateCenters(string path)
@@ -261,26 +298,29 @@ namespace L1JTW850Launcher
             var inCandidate = false;
             var candidateAddress = 0L;
             var catalogLike = false;
+            var dynamicChanges = -1;
 
             for (var i = start; i < lines.Length; i++)
             {
                 var line = lines[i].Trim();
                 if (line.StartsWith("[CANDIDATE ", StringComparison.OrdinalIgnoreCase))
                 {
-                    AddCandidate(result, seen, candidateAddress, catalogLike);
+                    AddCandidate(result, seen, candidateAddress, catalogLike, dynamicChanges);
                     inCandidate = true;
                     candidateAddress = 0;
                     catalogLike = false;
+                    dynamicChanges = -1;
                     continue;
                 }
 
                 if (line.StartsWith("[", StringComparison.Ordinal) &&
                     !line.StartsWith("[CANDIDATE ", StringComparison.OrdinalIgnoreCase))
                 {
-                    AddCandidate(result, seen, candidateAddress, catalogLike);
+                    AddCandidate(result, seen, candidateAddress, catalogLike, dynamicChanges);
                     inCandidate = false;
                     candidateAddress = 0;
                     catalogLike = false;
+                    dynamicChanges = -1;
                     continue;
                 }
 
@@ -307,15 +347,27 @@ namespace L1JTW850Launcher
                     if (int.TryParse(line.Substring(13).Trim(), out flag))
                         catalogLike = flag == 1;
                 }
+                else if (line.StartsWith("DYNAMIC_WORD_CHANGES=", StringComparison.OrdinalIgnoreCase))
+                {
+                    int.TryParse(line.Substring(21).Trim(), out dynamicChanges);
+                }
             }
 
-            AddCandidate(result, seen, candidateAddress, catalogLike);
+            AddCandidate(result, seen, candidateAddress, catalogLike, dynamicChanges);
             return result;
         }
 
-        private static void AddCandidate(List<long> result, HashSet<long> seen, long address, bool catalogLike)
+        private static void AddCandidate(
+            List<long> result,
+            HashSet<long> seen,
+            long address,
+            bool catalogLike,
+            int dynamicChanges)
         {
             if (catalogLike || address <= 0) return;
+            // New automatic seedless evidence must prove temporal change. Older manual evidence
+            // may not carry this field and is allowed through by the caller's source choice.
+            if (dynamicChanges == 0) return;
             if (seen.Add(address)) result.Add(address);
         }
 
@@ -342,7 +394,7 @@ namespace L1JTW850Launcher
             try
             {
                 var sb = Header(runtime, "AUTO_INVENTORY_HISTORY_DISCOVERY");
-                sb.AppendLine("STATUS=WAITING_CANDIDATES");
+                sb.AppendLine("STATUS=WAITING_DYNAMIC_CANDIDATES");
                 sb.AppendLine("REASON=" + reason);
                 sb.AppendLine("SEEDLESS_STATUS=" + _seedless.Status);
                 sb.AppendLine("MEMORY_WRITE=NO");
