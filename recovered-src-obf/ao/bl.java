@@ -123,7 +123,9 @@ public class bl {
             return 0.0;
         }
         a data = this.c.get(weaponid);
-        if (i.a(100) > data.d + data.e * pc.v().G()) {
+        long rawProbability = (long)data.d + (long)data.e * (long)pc.v().G();
+        int probability = (int)Math.max(0L, Math.min(100L, rawProbability));
+        if (i.a(100) >= probability) {
             return 0.0;
         }
         f effect_cha = data.j ? target : pc;

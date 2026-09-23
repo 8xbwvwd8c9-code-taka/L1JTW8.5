@@ -121,7 +121,9 @@ public class WeaponSkillTable {
       }
 
       WeaponSkillTable.L1R_a var4 = this.c.get(var3);
-      if (Random.a(100) > var4.d + var4.e * var1.v().G()) {
+      long rawProbability = (long)var4.d + (long)var4.e * (long)var1.v().G();
+      int probability = (int)Math.max(0L, Math.min(100L, rawProbability));
+      if (Random.a(100) >= probability) {
          return 0.0;
       }
 
