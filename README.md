@@ -62,6 +62,7 @@ BUG
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
 | BUG-850-269 | L2 | boss fixed-time scheduler minute/ms unit conversion | PASS / PROMOTED |
+| BUG-850-266 | L2 | mob skill exact probability boundary | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2615,4 +2616,44 @@ BUG-850-269=L2
 STATUS=PASS
 PROMOTED=YES
 CALC_RULE_CHANGE=NO
+```
+
+## BUG-850-266 — mob skill probability boundary used an inclusive 0..99 threshold
+
+### Problem
+
+`Random.a(100)` delegates to `ThreadLocalRandom.nextInt(100)`, so the roll domain is exactly `0..99`. The old inclusive comparison accepted one extra roll value: normalized used `roll <= probability`, while the equivalent obfuscated continue gate used `roll > probability`.
+
+### Fix
+
+- normalized `MobSkillsTable`: `Random.a(100) < probability`
+- obfuscated `ao/ar`: reject when `i.a(100) >= probability`
+
+This makes P accept exactly P values out of 100 for P in `0..100`.
+
+### Validation
+
+```text
+WORK_CI=35724321782
+COMPLETED_CI=35894483612
+BUG_850_266_CONTRACT=PASS
+BUG_850_266_TARGETED_JAVAC=PASS
+BUG_850_266_TARGETED_BEHAVIOR_RUNTIME=PASS
+EXACT_PERCENT_BOUNDARY=PASS
+```
+
+### Promotion
+
+```text
+OBFUSCATED_COMMIT=3e320a862305c514bb80740ea0e1af530d140b31
+NORMALIZED_COMMIT=11f09424ace39b562e454a91b0978deacdd2faa1
+```
+
+### Result
+
+```text
+BUG-850-266=L2
+STATUS=PASS
+PROMOTED=YES
+NEW_CORE_BRANCH=NO
 ```
