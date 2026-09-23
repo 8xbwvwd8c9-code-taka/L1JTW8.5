@@ -15,6 +15,13 @@ namespace L1JTW850Launcher
             public string Name = "";
         }
 
+        private sealed class SeedGroup
+        {
+            public int ItemId;
+            public string Name = "";
+            public List<IntPtr> Addresses = new List<IntPtr>();
+        }
+
         private sealed class Cluster
         {
             public long Start;
@@ -26,11 +33,12 @@ namespace L1JTW850Launcher
             public int AdjacentEdges;
             public bool CatalogLike;
             public int Score;
+            public int DynamicEvents;
             public int DynamicWordChanges;
             public int DynamicWordsCompared;
             public bool DynamicReadable;
             public long SampleStart;
-            public byte[] Baseline;
+            public byte[] Previous;
         }
 
         private readonly string _appDir;
@@ -86,7 +94,7 @@ namespace L1JTW850Launcher
                     lock (_sync)
                     {
                         _running = false;
-                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(45);
+                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(20);
                     }
                 }
             });
@@ -98,28 +106,80 @@ namespace L1JTW850Launcher
             if (names.Count == 0)
                 throw new InvalidDataException("item catalog has no usable item IDs");
 
-            // Use higher item IDs only as discovery seeds. Low IDs are common integers in the
-            // client and were causing the global memory scanner to hit its safety limit before
-            // reaching useful heap regions. Once a dynamic cluster is found, history refinement
-            // still recognizes the complete catalog, including low IDs.
             var fields = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             var fieldToId = new Dictionary<string, int>(StringComparer.OrdinalIgnoreCase);
             foreach (var kv in names)
             {
-                if (kv.Key < 1000) continue;
                 var key = "ITEM_" + kv.Key;
                 fields[key] = kv.Key;
                 fieldToId[key] = kv.Key;
             }
-            if (fields.Count == 0)
-                throw new InvalidDataException("item catalog has no seed item IDs >= 1000");
 
-            var moduleBase = runtime.ModuleBase.ToInt64();
-            var moduleEnd = moduleBase + runtime.ModuleSize;
+            var moduleEnd = runtime.ModuleBase.ToInt64() + runtime.ModuleSize;
             ProbeResult scan;
+            using (var scanner = new PrivateWritableMemoryScanner())
+            {
+                string error;
+                if (!scanner.Attach(runtime.ProcessId, out error))
+                    throw new InvalidOperationException(error);
+                scan = scanner.Scan(fields, moduleEnd);
+            }
+
+            var seedGroups = new List<SeedGroup>();
+            foreach (var kv in scan.Candidates)
+            {
+                int itemId;
+                if (!fieldToId.TryGetValue(kv.Key, out itemId)) continue;
+                if (kv.Value == null || kv.Value.Count == 0) continue;
+                string name;
+                names.TryGetValue(itemId, out name);
+                seedGroups.Add(new SeedGroup
+                {
+                    ItemId = itemId,
+                    Name = name ?? "",
+                    Addresses = kv.Value
+                });
+            }
+
+            // Rare values are more useful than common integers. Process rare candidate lists first
+            // so common item IDs cannot crowd the real inventory occurrence out of the hit budget.
+            seedGroups.Sort(delegate(SeedGroup a, SeedGroup b)
+            {
+                var c = a.Addresses.Count.CompareTo(b.Addresses.Count);
+                if (c != 0) return c;
+                return b.ItemId.CompareTo(a.ItemId);
+            });
+
             var hits = new List<Hit>();
-            var imageRejectedHits = 0;
-            var clusters = new List<Cluster>();
+            const int maxPerItem = 24;
+            const int maxHits = 70000;
+            foreach (var group in seedGroups)
+            {
+                var list = group.Addresses;
+                var take = Math.Min(maxPerItem, list.Count);
+                for (var sample = 0; sample < take; sample++)
+                {
+                    var index = take <= 1
+                        ? 0
+                        : (int)(((long)sample * (list.Count - 1)) / (take - 1));
+                    hits.Add(new Hit
+                    {
+                        Address = list[index].ToInt64(),
+                        ItemId = group.ItemId,
+                        Name = group.Name
+                    });
+                    if (hits.Count >= maxHits) break;
+                }
+                if (hits.Count >= maxHits) break;
+            }
+
+            hits.Sort(delegate(Hit a, Hit b) { return a.Address.CompareTo(b.Address); });
+            var clusters = BuildClusters(hits);
+
+            const int maxWatchedClusters = 120;
+            const int sampleRounds = 12;
+            const int sampleIntervalMs = 5000;
+            var watched = 0;
 
             using (var probe = new RuntimeMemoryProbe())
             {
@@ -127,64 +187,15 @@ namespace L1JTW850Launcher
                 if (!probe.Attach(runtime.ProcessId, out error))
                     throw new InvalidOperationException(error);
 
-                scan = probe.FirstScan(fields);
-
-                const int maxPerItem = 32;
-                const int maxHits = 60000;
-                foreach (var kv in scan.Candidates)
-                {
-                    int itemId;
-                    if (!fieldToId.TryGetValue(kv.Key, out itemId)) continue;
-                    string name;
-                    names.TryGetValue(itemId, out name);
-                    var list = kv.Value;
-                    if (list == null || list.Count == 0) continue;
-
-                    var take = Math.Min(maxPerItem, list.Count);
-                    for (var sample = 0; sample < take; sample++)
-                    {
-                        var index = take <= 1
-                            ? 0
-                            : (int)(((long)sample * (list.Count - 1)) / (take - 1));
-                        var address = list[index].ToInt64();
-
-                        // The current evidence showed the strongest false positives inside the
-                        // Lin.bin2 image and below its image base. Runtime inventory objects are
-                        // expected in process heap/allocated regions, so static image hits are not
-                        // allowed to seed the structure refiner.
-                        if (address < moduleEnd)
-                        {
-                            imageRejectedHits++;
-                            continue;
-                        }
-
-                        hits.Add(new Hit
-                        {
-                            Address = address,
-                            ItemId = itemId,
-                            Name = name ?? ""
-                        });
-                        if (hits.Count >= maxHits) break;
-                    }
-                    if (hits.Count >= maxHits) break;
-                }
-
-                hits.Sort(delegate(Hit a, Hit b) { return a.Address.CompareTo(b.Address); });
-                clusters = BuildClusters(hits);
-
-                // Static item tables can exist outside the main image too. Sample candidate
-                // windows twice and only promote a cluster if something in that local record
-                // window actually changes while the player is playing. This is read-only.
-                var sampled = 0;
                 foreach (var c in clusters)
                 {
                     if (c.CatalogLike) continue;
-                    if (sampled >= 80) break;
+                    if (watched >= maxWatchedClusters) break;
 
-                    var start = Math.Max(moduleEnd, c.Start - 0x80);
-                    var end = c.End + 0x80;
+                    var start = Math.Max(moduleEnd, c.Start - 0x100);
+                    var end = c.End + 0x100;
                     var sizeLong = end - start + 4;
-                    if (sizeLong < 16) sizeLong = 16;
+                    if (sizeLong < 32) sizeLong = 32;
                     if (sizeLong > 0x1000) sizeLong = 0x1000;
 
                     byte[] baseline;
@@ -192,45 +203,55 @@ namespace L1JTW850Launcher
                         baseline != null && baseline.Length >= 4)
                     {
                         c.SampleStart = start;
-                        c.Baseline = baseline;
+                        c.Previous = baseline;
                         c.DynamicReadable = true;
-                        sampled++;
+                        watched++;
                     }
                 }
 
-                if (sampled > 0)
-                    Thread.Sleep(12000);
-
-                foreach (var c in clusters)
+                for (var round = 1; round < sampleRounds && watched > 0; round++)
                 {
-                    if (!c.DynamicReadable || c.Baseline == null) continue;
-                    byte[] current;
-                    if (!probe.TryReadBytes(new IntPtr(c.SampleStart), c.Baseline.Length, out current, out error) ||
-                        current == null || current.Length < 4)
+                    Thread.Sleep(sampleIntervalMs);
+                    foreach (var c in clusters)
                     {
-                        c.DynamicReadable = false;
-                        continue;
-                    }
+                        if (!c.DynamicReadable || c.Previous == null) continue;
 
-                    var size = Math.Min(c.Baseline.Length, current.Length);
-                    var words = size / 4;
-                    var changed = 0;
-                    for (var i = 0; i < words; i++)
-                    {
-                        var offset = i * 4;
-                        if (BitConverter.ToInt32(c.Baseline, offset) != BitConverter.ToInt32(current, offset))
-                            changed++;
+                        byte[] current;
+                        if (!probe.TryReadBytes(new IntPtr(c.SampleStart), c.Previous.Length, out current, out error) ||
+                            current == null || current.Length < 4)
+                        {
+                            c.DynamicReadable = false;
+                            continue;
+                        }
+
+                        var size = Math.Min(c.Previous.Length, current.Length);
+                        var words = size / 4;
+                        var changed = 0;
+                        for (var i = 0; i < words; i++)
+                        {
+                            var offset = i * 4;
+                            if (BitConverter.ToInt32(c.Previous, offset) != BitConverter.ToInt32(current, offset))
+                                changed++;
+                        }
+
+                        c.DynamicWordsCompared += words;
+                        if (changed > 0)
+                        {
+                            c.DynamicEvents++;
+                            c.DynamicWordChanges += changed;
+                        }
+                        c.Previous = current;
                     }
-                    c.DynamicWordsCompared = words;
-                    c.DynamicWordChanges = changed;
                 }
             }
 
             clusters.Sort(delegate(Cluster a, Cluster b)
             {
-                var ad = a.DynamicReadable && !a.CatalogLike && a.DynamicWordChanges > 0;
-                var bd = b.DynamicReadable && !b.CatalogLike && b.DynamicWordChanges > 0;
+                var ad = a.DynamicReadable && !a.CatalogLike && a.DynamicEvents > 0;
+                var bd = b.DynamicReadable && !b.CatalogLike && b.DynamicEvents > 0;
                 var c = bd.CompareTo(ad);
+                if (c != 0) return c;
+                c = b.DynamicEvents.CompareTo(a.DynamicEvents);
                 if (c != 0) return c;
                 c = b.DynamicWordChanges.CompareTo(a.DynamicWordChanges);
                 if (c != 0) return c;
@@ -244,25 +265,26 @@ namespace L1JTW850Launcher
             var dynamicClusters = new List<Cluster>();
             foreach (var c in clusters)
             {
-                if (!c.CatalogLike && c.DynamicReadable && c.DynamicWordChanges > 0)
+                if (!c.CatalogLike && c.DynamicReadable && c.DynamicEvents > 0)
                     dynamicClusters.Add(c);
             }
 
             var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY");
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("SCAN_ITEM_IDS=" + fields.Count);
-            sb.AppendLine("SEED_FILTER=ITEM_ID_GE_1000");
-            sb.AppendLine("HEAP_FILTER=ADDRESS_GE_MODULE_END");
-            sb.AppendLine("MODULE_END=0x" + moduleEnd.ToString("X8"));
-            sb.AppendLine("IMAGE_REJECTED_HITS=" + imageRejectedHits);
+            sb.AppendLine("MEMORY_SCOPE=MEM_PRIVATE_WRITABLE_ONLY");
+            sb.AppendLine("MIN_ADDRESS=0x" + moduleEnd.ToString("X8"));
             sb.AppendLine("BYTES_SCANNED=" + scan.BytesScanned);
-            sb.AppendLine("RAW_HEAP_HITS=" + hits.Count);
-            sb.AppendLine("CANDIDATE_LIMIT_REACHED=" + (scan.CandidateLimitReached ? 1 : 0));
+            sb.AppendLine("RAW_PRIVATE_HITS=" + hits.Count);
+            sb.AppendLine("CANDIDATE_FIELD_CAP_REACHED=" + (scan.CandidateLimitReached ? 1 : 0));
             sb.AppendLine("SCAN_STATUS=" + (scan.Status ?? ""));
             sb.AppendLine("CLUSTERS=" + clusters.Count);
+            sb.AppendLine("WATCHED_CLUSTERS=" + watched);
             sb.AppendLine("DYNAMIC_CLUSTERS=" + dynamicClusters.Count);
-            sb.AppendLine("DYNAMIC_SAMPLE_MS=12000");
-            sb.AppendLine("FILTER=HEAP_ONLY_PLUS_TEMPORAL_CHANGE_PLUS_CATALOG_REJECT");
+            sb.AppendLine("DYNAMIC_SAMPLE_ROUNDS=" + sampleRounds);
+            sb.AppendLine("DYNAMIC_SAMPLE_INTERVAL_MS=" + sampleIntervalMs);
+            sb.AppendLine("DYNAMIC_WINDOW_MS=" + ((sampleRounds - 1) * sampleIntervalMs));
+            sb.AppendLine("FILTER=PRIVATE_WRITABLE_PLUS_TEMPORAL_CHANGE_PLUS_CATALOG_REJECT");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
@@ -280,6 +302,7 @@ namespace L1JTW850Launcher
                     " DISTINCT=" + c.DistinctItems +
                     " CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0) +
                     " DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0) +
+                    " DYNAMIC_EVENTS=" + c.DynamicEvents +
                     " CHANGED_WORDS=" + c.DynamicWordChanges +
                     " COMPARED_WORDS=" + c.DynamicWordsCompared);
                 rejectedShown++;
@@ -292,12 +315,13 @@ namespace L1JTW850Launcher
             {
                 var best = dynamicClusters[0];
                 status = "PASS_CANDIDATES dynamic=" + dynamicClusters.Count +
+                    " bestEvents=" + best.DynamicEvents +
                     " bestChanges=" + best.DynamicWordChanges +
                     " bestDistinct=" + best.DistinctItems;
             }
             else if (clusters.Count > 0)
             {
-                status = "WAITING_INVENTORY_ACTIVITY staticCandidates=" + clusters.Count;
+                status = "WAITING_INVENTORY_ACTIVITY watched=" + watched;
             }
             else if (hits.Count > 0)
             {
@@ -305,7 +329,7 @@ namespace L1JTW850Launcher
             }
             else
             {
-                status = "NO_SEEDLESS_ITEM_HITS";
+                status = "NO_PRIVATE_WRITABLE_ITEM_HITS";
             }
 
             sb.AppendLine("STATUS=" + status);
@@ -328,6 +352,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("SEQUENTIAL_EDGES=" + c.SequentialEdges);
             sb.AppendLine("CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0));
             sb.AppendLine("DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0));
+            sb.AppendLine("DYNAMIC_EVENTS=" + c.DynamicEvents);
             sb.AppendLine("DYNAMIC_WORD_CHANGES=" + c.DynamicWordChanges);
             sb.AppendLine("DYNAMIC_WORDS_COMPARED=" + c.DynamicWordsCompared);
             sb.AppendLine("SCORE=" + c.Score);
@@ -440,7 +465,7 @@ namespace L1JTW850Launcher
                 }
                 if (near) continue;
                 dedup.Add(c);
-                if (dedup.Count >= 200) break;
+                if (dedup.Count >= 240) break;
             }
             return dedup;
         }
