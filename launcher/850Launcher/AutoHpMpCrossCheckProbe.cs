@@ -133,8 +133,10 @@ namespace L1JTW850Launcher
             var bestPairScore = int.MinValue;
             foreach (var h in hp)
             {
+                if (!DynamicEnough(h)) continue;
                 foreach (var m in mp)
                 {
+                    if (!DynamicEnough(m)) continue;
                     var distance = Math.Abs(h.Address - m.Address);
                     var pair = h.Score + m.Score + Proximity(distance);
                     if (pair > bestPairScore)
@@ -146,17 +148,27 @@ namespace L1JTW850Launcher
                 }
             }
 
+            var dynamicPair = bestHp != null && bestMp != null;
+            if (!dynamicPair)
+            {
+                bestHp = FirstDynamic(hp);
+                bestMp = FirstDynamic(mp);
+            }
+
             var confidence = "LOW";
-            if (bestHp != null && bestMp != null)
+            if (dynamicPair)
             {
                 var hpPct = Percent(bestHp.Valid, bestHp.Valid + bestHp.Invalid);
                 var mpPct = Percent(bestMp.Valid, bestMp.Valid + bestMp.Invalid);
                 var distance = Math.Abs(bestHp.Address - bestMp.Address);
-                var hpStrong = bestHp.Valid > 0 && bestHp.Changes > 0 && bestHp.Max >= (maxHp * 7) / 10;
-                var mpStrong = bestMp.Valid > 0 && bestMp.Changes > 0 && bestMp.Max >= (maxMp * 9) / 10;
+                var hpStrong = bestHp.Max >= (maxHp * 7) / 10;
+                var mpStrong = bestMp.Max >= (maxMp * 9) / 10;
+                var hpPlausible = bestHp.Max > maxMp;
+                var mpPlausible = bestMp.Max >= Math.Max(1, maxMp / 2);
+
                 if (hpPct >= 95 && mpPct >= 95 && hpStrong && mpStrong && distance <= 0x100)
                     confidence = "HIGH";
-                else if (hpPct >= 85 && mpPct >= 85 && distance <= 0x200)
+                else if (hpPct >= 95 && mpPct >= 95 && hpPlausible && mpPlausible && distance <= 0x200)
                     confidence = "MEDIUM";
             }
 
@@ -165,6 +177,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("MAX_MP=" + maxMp);
             sb.AppendLine("SAMPLES=90");
             sb.AppendLine("CONFIDENCE=" + confidence);
+            sb.AppendLine("DYNAMIC_PAIR=" + (dynamicPair ? 1 : 0));
             sb.AppendLine("MEMORY_WRITE=NO");
             if (bestHp != null) sb.AppendLine("BEST_HP=" + Format(bestHp));
             if (bestMp != null) sb.AppendLine("BEST_MP=" + Format(bestMp));
@@ -184,8 +197,13 @@ namespace L1JTW850Launcher
                 var history = new StringBuilder();
                 history.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") +
                     " PID=" + runtime.ProcessId + " CONFIDENCE=" + confidence +
+                    " DYNAMIC_PAIR=" + (dynamicPair ? 1 : 0) +
                     " BEST_HP=" + (bestHp == null ? "NONE" : "0x" + bestHp.Address.ToString("X8") + "/" + bestHp.Width) +
+                    " HP_CHANGES=" + (bestHp == null ? 0 : bestHp.Changes) +
+                    " HP_MAX=" + (bestHp == null || bestHp.Valid == 0 ? -1 : bestHp.Max) +
                     " BEST_MP=" + (bestMp == null ? "NONE" : "0x" + bestMp.Address.ToString("X8") + "/" + bestMp.Width) +
+                    " MP_CHANGES=" + (bestMp == null ? 0 : bestMp.Changes) +
+                    " MP_MAX=" + (bestMp == null || bestMp.Valid == 0 ? -1 : bestMp.Max) +
                     " PAIR=" + (bestHp == null || bestMp == null ? "NA" : "0x" + Math.Abs(bestHp.Address - bestMp.Address).ToString("X")));
                 File.AppendAllText(
                     Path.Combine(_appDir, "runtime_hpmp_crosscheck_history.txt"),
@@ -197,6 +215,19 @@ namespace L1JTW850Launcher
             }
 
             return confidence + "_CANDIDATE";
+        }
+
+        private static Candidate FirstDynamic(List<Candidate> list)
+        {
+            foreach (var c in list)
+                if (DynamicEnough(c)) return c;
+            return null;
+        }
+
+        private static bool DynamicEnough(Candidate c)
+        {
+            if (c == null || c.Valid <= 0 || c.Changes <= 0) return false;
+            return Percent(c.Valid, c.Valid + c.Invalid) >= 95;
         }
 
         private static void ObserveList(RuntimeMemoryProbe probe, List<Candidate> list, int ceiling)
@@ -236,15 +267,16 @@ namespace L1JTW850Launcher
             var total = c.Valid + c.Invalid;
             var pct = Percent(c.Valid, total);
             var score = pct * 4;
-            score += Math.Min(160, c.Changes * 4);
+            score += Math.Min(200, c.Changes * 6);
             if (c.Valid > 0)
             {
                 var range = Math.Max(0, c.Max - c.Min);
-                score += Math.Min(120, range / (hp ? 2 : 1));
+                score += Math.Min(140, range / (hp ? 2 : 1));
                 if (c.Max == ceiling) score += 260;
                 else if (c.Max >= (ceiling * 9) / 10) score += 140;
                 else if (c.Max >= (ceiling * 7) / 10) score += 70;
             }
+            if (c.Changes == 0) score -= 500;
             if (hp && c.Max <= maxMp) score -= 180;
             if (c.Invalid > 0) score -= Math.Min(400, c.Invalid * 8);
             if (pct < 80) score -= 250;
