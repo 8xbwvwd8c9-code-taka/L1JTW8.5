@@ -571,7 +571,7 @@ public class L1PcInventory extends L1Inventory {
       for (L1QuestNew var2 : this.i.dS().values()) {
          for (int var4 = 0; var4 < var2.r().length; var4++) {
             if (var2.r()[var4] == var1.N() && var2.t()[var4] <= var1.G()) {
-               var2.a(var4, var2.B()[var4] - var1.E());
+               var2.a(var4, Math.max(0, var2.B()[var4] - var1.E()));
             }
          }
       }
@@ -670,11 +670,11 @@ public class L1PcInventory extends L1Inventory {
    public void k(int var1) {
       for (L1ItemInstance var2 : this.a) {
          if (var2.fr() == var1) {
-            if (var2.g() && L1PolyMorph.a(this.i.fe(), var2.a().aP())) {
+            if (var2.g() && L1PolyMorph.a(this.i, var2.a().aP())) {
                this.a(var2, true);
             }
 
-            if (var2.h() && L1PolyMorph.b(this.i.fe(), var2.a().aP()) && (var2.N() != 21397 || this.i.fp() == 1700 || this.i.fp() == 1703)) {
+            if (var2.h() && L1PolyMorph.b(this.i, var2.a().aP()) && (var2.N() != 21397 || this.i.fp() == 1700 || this.i.fp() == 1703)) {
                this.a(var2, true);
             }
          }
@@ -684,11 +684,11 @@ public class L1PcInventory extends L1Inventory {
    public void l(int var1) {
       for (L1ItemInstance var2 : this.a) {
          if (var2.D()) {
-            if (var2.g() && !L1PolyMorph.a(var1, var2.a().aP())) {
+            if (var2.g() && !L1PolyMorph.a(this.i, var2.a().aP())) {
                this.a(var2, false);
             }
 
-            if (var2.h() && !L1PolyMorph.b(var1, var2.a().aP())) {
+            if (var2.h() && !L1PolyMorph.b(this.i, var2.a().aP())) {
                this.a(var2, false);
             }
          }
@@ -773,6 +773,10 @@ public class L1PcInventory extends L1Inventory {
    }
 
    public L1ItemInstance n() {
+      if (this.a.isEmpty()) {
+         return null;
+      }
+
       int var1 = Random.a(this.a.size());
       L1ItemInstance var2 = this.a.get(var1);
       if (var2.N() != 40308 && var2.a().s()) {

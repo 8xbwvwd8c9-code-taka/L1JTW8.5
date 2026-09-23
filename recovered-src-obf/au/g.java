@@ -534,7 +534,7 @@ extends f {
             int i2 = 0;
             while (i2 < qn.r().length) {
                 if (qn.r()[i2] == item.N() && qn.t()[i2] <= item.G()) {
-                    qn.a(i2, qn.B()[i2] - item.E());
+                    qn.a(i2, Math.max(0, qn.B()[i2] - item.E()));
                 }
                 ++i2;
             }
@@ -620,10 +620,10 @@ extends f {
     public void k(int itemobjid) {
         for (q item : this.a) {
             if (item.fr() != itemobjid) continue;
-            if (item.g() && ae.a(this.i.fe(), item.a().aP())) {
+            if (item.g() && ae.a(this.i, item.a().aP())) {
                 this.a(item, true);
             }
-            if (!item.h() || !ae.b(this.i.fe(), item.a().aP()) || item.N() == 21397 && this.i.fp() != 1700 && this.i.fp() != 1703) continue;
+            if (!item.h() || !ae.b(this.i, item.a().aP()) || item.N() == 21397 && this.i.fp() != 1700 && this.i.fp() != 1703) continue;
             this.a(item, true);
         }
     }
@@ -631,10 +631,10 @@ extends f {
     public void l(int polyid) {
         for (q item : this.a) {
             if (!item.D()) continue;
-            if (item.g() && !ae.a(polyid, item.a().aP())) {
+            if (item.g() && !ae.a(this.i, item.a().aP())) {
                 this.a(item, false);
             }
-            if (!item.h() || ae.b(polyid, item.a().aP())) continue;
+            if (!item.h() || ae.b(this.i, item.a().aP())) continue;
             this.a(item, false);
         }
     }
@@ -702,6 +702,9 @@ extends f {
     }
 
     public q n() {
+        if (this.a.isEmpty()) {
+            return null;
+        }
         int rnd = bi.i.a(this.a.size());
         q penaltyItem = (q)this.a.get(rnd);
         if (penaltyItem.N() == 40308 || !penaltyItem.a().s()) {
