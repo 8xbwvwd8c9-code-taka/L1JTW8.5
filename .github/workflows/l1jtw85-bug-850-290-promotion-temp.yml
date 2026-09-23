@@ -32,6 +32,17 @@ jobs:
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/patch_bug_850_290.py > "$RUNNER_TEMP/patch_bug_850_290.py"
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/validate_bug_850_290.py > "$RUNNER_TEMP/validate_bug_850_290.py"
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/Bug850290RuntimeTest.java > "$RUNNER_TEMP/Bug850290RuntimeTest.java"
+          PATCH_FILE="$RUNNER_TEMP/patch_bug_850_290.py" python - <<'PY'
+          import os
+          from pathlib import Path
+          p = Path(os.environ["PATCH_FILE"])
+          s = p.read_text(encoding="utf-8")
+          old = 'replace_once(path, "    public void b(i clan) {", helper_obf + "    public void b(i clan) {")'
+          new = 'replace_once(path, "    public boolean b(i clan) {", helper_obf + "    public boolean b(i clan) {")'
+          if s.count(old) != 1:
+              raise SystemExit(f"promotion adapter anchor count={s.count(old)}")
+          p.write_text(s.replace(old, new, 1), encoding="utf-8")
+          PY
       - name: Apply exact BUG-850-290 patch
         run: python "$RUNNER_TEMP/patch_bug_850_290.py"
       - name: Validate bilateral clan-watch source contract
