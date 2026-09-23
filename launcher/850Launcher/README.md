@@ -628,3 +628,134 @@ each session's entered count matches that session's actual inventory
 ```
 
 This allows legitimate inventory count changes after relog/restart while still proving the same item records are resolved correctly.
+
+## 2026-09-24 detailed handoff / operating record
+
+Use `HANDOFF_20260924.md` for the short handoff. This section is the authoritative long-form operational record for the next conversation/agent.
+
+### Repository/worktree ownership
+
+```text
+MAIN_REPO=8xbwvwd8c9-code-taka/L1JTW8.5
+MAIN_BRANCH=work/850-launcher-helper
+INVENTORY_BRANCH=work/850-inventory-helper
+LOCAL_MAIN=I:\L1JTW8.5-launcher
+LOCAL_INVENTORY=I:\L1JTW8.5-inventory-cda7
+CLIENT_DIR=I:\8.50c客服端
+TOOLKIT=I:\L共通工具\LineageAIResourceToolkit
+```
+
+Do not checkout/reset the main launcher worktree while another HP/MP/debugger agent owns it. Inventory analysis uses the separate inventory worktree/branch.
+
+### Evidence discipline
+
+```text
+PASS means the stated gate passed, not that all downstream mappings are proven.
+HPMP FORMAL=YES only for the proven caller-boundary current/max sources and restart-stable writer/caller path.
+WP5/WP6 remain NOT_YET.
+No 381/880 absolute runtime address may be promoted into 850.
+No raw packet send.
+No WriteProcessMemory.
+No action bridge enablement from UI/layout evidence alone.
+```
+
+### HP/MP final proven chain
+
+```text
+WRITER_RVA=0x00877D63
+SETTER_RVA=0x00877D50
+CALLER_RVA=0x00C5BF80
+CALLSITE_RVA=0x00C5C06C
+CURRENT_SOURCE=[EBP+0x10]
+MAX_SOURCE=[EBP+0x14]
+HP_CALLER=caller above
+MP_CALLER=caller above
+RESTART_PASS=YES
+FORMAL_HPMP_MAP=YES
+```
+
+The same generic Gauge setter also services non-HP/MP gauges, so future traces must identify HP/MP by the resolved Gauge object/watch address, not by setter RVA alone. Do not repeat broad writer discovery. A later task may promote a stable runtime expression into `runtime-map.ini`; the current evidence does not justify inventing one.
+
+### Inventory evidence and failed approaches
+
+Proven live UI relation from the authoritative client:
+
+```text
+InventoryItemGrid +0xEC -> Root
+Root +0x15C -> InventoryItemGrid
+Root +0x168 -> InvWin
+```
+
+An early snapshot suggested a 64-byte item-record region with strong catalog matches, but the result was not restart-stable. Repeated broad/local runtime vector scans caused several client exits/crashes; only one broad scan completed successfully. Therefore the candidate vector offset/stride is evidence only and must not be promoted.
+
+The restart-resilient V2 scan later resolved a valid Inventory UI graph but found `CANDIDATE_COUNT=0`, confirming that the earlier vector candidate is not a safe fixed mapping.
+
+Static-only scan is the current safe authority:
+
+```text
+MODE=850_INVENTORY_STATIC_MODEL_XREF
+STATUS=PASS_STATIC_ONLY
+RUNTIME_ATTACH=NO
+GRID_VTABLE_RVA=0x00EDDE38 FILE=UNMAPPED
+ROOT_VTABLE_RVA=0x00EDE2F8 FILE=UNMAPPED
+INVWIN_VTABLE_RVA=0x00EDE180 FILE=UNMAPPED
+```
+
+The first static pass also found no useful direct executable displacement references for the proven UI offsets; the few hits in the packed sections look data-like and are not accepted as code xrefs. Treat the client as packed/virtualized for this phase.
+
+### Inventory next route
+
+```text
+1. STATIC_XREF_FIRST
+2. Locate inventory vtable/method/model references from unpacked/runtime image evidence or a narrow code dump.
+3. Prove one stable owner/model pointer.
+4. Only then perform one narrowly targeted read around that pointer.
+5. Prove ObjectId / ItemId / Count first.
+6. Then Enchant / Equipped.
+7. Restart validation before WP5 promotion.
+8. WP6 requires >=3 PASS sessions and >=2 process instances.
+```
+
+Do not repeat the crash-prone whole-process/vector scans.
+
+### Current bridge gates
+
+```text
+InventoryBridge=UNMAPPED
+ItemUseBridge=UNMAPPED
+SkillUseBridge=UNMAPPED
+BuffStateBridge=UNMAPPED
+AutoPotion action=DISABLED by bridge gate
+AutoBuff action=DISABLED by bridge gate
+```
+
+Protocol knowledge alone does not unlock these bridges. Item use remains client-framing/encryption-owned; skill/buff bridges need native client mapping/correlation.
+
+### Evidence/report authority
+
+```text
+850_hpmp_dynamic_watch.txt                 -> dynamic Gauge writer evidence
+850_hpmp_restart_provenance.txt            -> restart/current/max provenance
+850_inventory_backing_model_scan.txt       -> exploratory inventory candidate evidence only
+850_inventory_vector64_profile_v2.txt      -> restart-session local candidate result; no candidate
+850_inventory_static_model_xref.txt        -> current safe inventory static authority
+```
+
+Reports are under:
+
+```text
+I:\L共通工具\LineageAIResourceToolkit\outputs\
+```
+
+### Current STOP rules
+
+```text
+NO_BROAD_RUNTIME_MEMORY_SCAN
+NO_REPEAT_CRASHING_VECTOR_SCAN
+NO_STALE_ABSOLUTE_ADDRESS
+NO_381_880_RUNTIME_ADDRESS_PROMOTION
+NO_WRITEPROCESSMEMORY
+NO_RAW_SOCKET_SEND
+NO_ACTION_BRIDGE_ENABLE_WITHOUT_PROOF
+NO_DESTRUCTIVE_GIT_RESET
+```
