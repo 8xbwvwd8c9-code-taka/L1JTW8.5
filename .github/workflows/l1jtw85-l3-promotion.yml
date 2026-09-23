@@ -17,7 +17,7 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Merge protected L3 inventory hunks
+      - name: Merge protected L3 result bounds hunks
         shell: bash
         run: |
           set -euo pipefail
@@ -25,21 +25,25 @@ jobs:
           from pathlib import Path
 
           patches = {
-              Path("recovery/normalized-src-vf/l1r/au/L1PcInventory.java"): [
-                  ("var2.a(var4, var2.B()[var4] - var1.E());", "var2.a(var4, Math.max(0, var2.B()[var4] - var1.E()));"),
-                  ("L1PolyMorph.a(this.i.fe(), var2.a().aP())", "L1PolyMorph.a(this.i, var2.a().aP())"),
-                  ("L1PolyMorph.b(this.i.fe(), var2.a().aP())", "L1PolyMorph.b(this.i, var2.a().aP())"),
-                  ("L1PolyMorph.a(var1, var2.a().aP())", "L1PolyMorph.a(this.i, var2.a().aP())"),
-                  ("L1PolyMorph.b(var1, var2.a().aP())", "L1PolyMorph.b(this.i, var2.a().aP())"),
-                  ("public L1ItemInstance n() {\n      int var1 = Random.a(this.a.size());", "public L1ItemInstance n() {\n      if (this.a.isEmpty()) {\n         return null;\n      }\n\n      int var1 = Random.a(this.a.size());"),
+              Path("recovery/normalized-src-vf/l1r/aj/C_Result.java"): [
+                  (
+                      "int var60 = this.b();\n                                 int var63 = this.b();\n                                 L1PrivateShopSellList var65 = var44.get(var60);",
+                      "int var60 = this.b();\n                                 int var63 = this.b();\n                                 if (var60 < 0 || var60 >= var44.size()) {\n                                    var37.h(false);\n                                    return;\n                                 }\n                                 L1PrivateShopSellList var65 = var44.get(var60);",
+                  ),
+                  (
+                      "int var62 = this.c();\n                              L1ItemInstance var64 = var3.j().e(var54);",
+                      "int var62 = this.c();\n                              if (var62 < 0 || var62 >= var41.size()) {\n                                 var35.h(false);\n                                 return;\n                              }\n                              L1ItemInstance var64 = var3.j().e(var54);",
+                  ),
               ],
-              Path("recovered-src-obf/au/g.java"): [
-                  ("qn.a(i2, qn.B()[i2] - item.E());", "qn.a(i2, Math.max(0, qn.B()[i2] - item.E()));"),
-                  ("ae.a(this.i.fe(), item.a().aP())", "ae.a(this.i, item.a().aP())"),
-                  ("ae.b(this.i.fe(), item.a().aP())", "ae.b(this.i, item.a().aP())"),
-                  ("ae.a(polyid, item.a().aP())", "ae.a(this.i, item.a().aP())"),
-                  ("ae.b(polyid, item.a().aP())", "ae.b(this.i, item.a().aP())"),
-                  ("public q n() {\n        int rnd = bi.i.a(this.a.size());", "public q n() {\n        if (this.a.isEmpty()) {\n            return null;\n        }\n        int rnd = bi.i.a(this.a.size());"),
+              Path("recovered-src-obf/aj/bx.java"): [
+                  (
+                      "order = this.b();\n                        count = this.b();\n                        pssl = sellList.get(order);",
+                      "order = this.b();\n                        count = this.b();\n                        if (order < 0 || order >= sellList.size()) {\n                            targetPc.h(false);\n                            return;\n                        }\n                        pssl = sellList.get(order);",
+                  ),
+                  (
+                      "order = this.c();\n                    item = pc.j().e(itemObjectId);",
+                      "order = this.c();\n                    if (order < 0 || order >= buyList.size()) {\n                        targetPc.h(false);\n                        return;\n                    }\n                    item = pc.j().e(itemObjectId);",
+                  ),
               ],
           }
 
@@ -53,11 +57,11 @@ jobs:
               path.write_text(text, encoding="utf-8")
           PY
           git diff --check
-          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/au/L1PcInventory.java recovered-src-obf/au/g.java; then
+          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/aj/C_Result.java recovered-src-obf/aj/bx.java; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add recovery/normalized-src-vf/l1r/au/L1PcInventory.java recovered-src-obf/au/g.java
-            git commit -m "fix(l3): merge inventory contracts with completed hardening"
+            git add recovery/normalized-src-vf/l1r/aj/C_Result.java recovered-src-obf/aj/bx.java
+            git commit -m "fix(l3): merge result bounds contracts with completed hardening"
             git push origin HEAD:completed/l1jtw85-core-fixes
           fi
       - name: Run Batch1-7 source contracts
