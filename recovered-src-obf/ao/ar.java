@@ -107,7 +107,7 @@ public class ar {
         a md = this.c.get(mob.z());
         b data = null;
         for (b sd : md.b) {
-            if (sd.k > 0 && mob.aq() >= sd.k || mob.ea() * 100 / mob.ew() > sd.l || i.a(100) > sd.a) continue;
+            if (sd.k > 0 && mob.aq() >= sd.k || mob.ea() * 100 / mob.ew() > sd.l || i.a(100) >= sd.a) continue;
             data = sd;
             break;
         }
@@ -167,4 +167,3 @@ public class ar {
         public int t;
     }
 }
-
