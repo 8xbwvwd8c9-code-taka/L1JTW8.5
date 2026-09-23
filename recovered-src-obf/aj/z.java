@@ -64,6 +64,10 @@ extends cv {
         pc.e(name);
         pc.ad(this.c());
         pc.aj(this.c());
+        if (pc.ay() < 0 || pc.ay() >= a.length) {
+            client.a(new u(21));
+            return;
+        }
         pc.i(pc.aJ() == 0 ? a[pc.ay()] : c[pc.ay()]);
         pc.o(this.c());
         pc.q(this.c());

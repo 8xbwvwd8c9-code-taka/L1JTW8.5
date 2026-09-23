@@ -22,6 +22,9 @@ extends cv {
         int id = this.b();
         String title = this.g();
         String content = this.g();
+        if (title == null || content == null || title.length() > 16 || content.length() > 1000) {
+            return;
+        }
         aa tg = aq.a().a(id);
         u pc = client.f();
         if (pc == null) {

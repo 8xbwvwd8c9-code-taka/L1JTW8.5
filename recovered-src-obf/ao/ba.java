@@ -173,7 +173,7 @@ public class ba {
                         } else if (data.e == 6) {
                             this.t.add(data);
                         } else if (data.e == 7) {
-                            this.q.add(data);
+                            this.u.add(data);
                         }
                         this.m.add(data.a());
                     }
@@ -245,8 +245,8 @@ public class ba {
             }
             ++i2;
         }
-        if (list.size() > 50) {
-            list = new ArrayList<a>(list.subList(0, 50));
+        while (list.size() > 50) {
+            list.remove(list.size() - 1);
         }
     }
 

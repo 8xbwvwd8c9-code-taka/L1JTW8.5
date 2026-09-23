@@ -45,18 +45,19 @@ extends cv {
                                 if (type != 16 && type != 17 && type != 18) break block22;
                                 int mailId = this.b();
                                 k mail = an.a().c(mailId);
+                                if (mail == null) {
+                                    return;
+                                }
                                 if (mail.f() == 0) {
+                                    if (!an.a().d(mailId)) {
+                                        return;
+                                    }
                                     mail.c(1);
-                                    an.a().a(mailId);
                                 }
                                 pc.a(new bw(mail, type));
                                 break block21;
                             }
                             if (type != 32) break block23;
-                            if (!pc.j().b(40308, 50)) {
-                                pc.a(new ds(189));
-                                return;
-                            }
                             this.d();
                             String receiverName = this.g();
                             byte[] text = this.h();
@@ -64,6 +65,10 @@ extends cv {
                             if (receiver != null) {
                                 if (this.a(receiver, bw.a) >= 40) {
                                     pc.a(new bw(type, false));
+                                    return;
+                                }
+                                if (!pc.j().b(40308, 50)) {
+                                    pc.a(new ds(189));
                                     return;
                                 }
                                 k mail = an.a().a(bw.a, receiver, pc, text, true);
@@ -83,6 +88,10 @@ extends cv {
                                         pc.a(new bw(type, false));
                                         return;
                                     }
+                                    if (!pc.j().b(40308, 50)) {
+                                        pc.a(new ds(189));
+                                        return;
+                                    }
                                     k mail = an.a().a(bw.a, restorePc, pc, text, true);
                                     pc.a(new bw(pc, mail, true));
                                     an.a().a(bw.a, restorePc, pc, text, false);
@@ -99,16 +108,16 @@ extends cv {
                             pc.a(new ds(1262));
                             return;
                         }
-                        if (!pc.j().b(40308, 1000)) {
-                            pc.a(new ds(189));
-                            return;
-                        }
                         this.d();
                         String clanName = this.g();
                         byte[] text = this.h();
                         i clan = q.a().a(pc.aF());
                         if (clan == null) {
                             pc.a(new ds(3982));
+                            return;
+                        }
+                        if (!pc.j().b(40308, 1000)) {
+                            pc.a(new ds(189));
                             return;
                         }
                         for (String name : clan.p()) {
@@ -135,9 +144,14 @@ extends cv {
                     if (type != 64) break block25;
                     int mailId = this.b();
                     k mail = an.a().c(mailId);
+                    if (mail == null) {
+                        return;
+                    }
+                    if (!an.a().b(mailId, bw.c)) {
+                        return;
+                    }
                     mail.b(bw.c);
                     pc.a(new bw(mail, type));
-                    an.a().a(mail);
                     break block21;
                 }
                 if (type != 48 && type != 49 && type != 50) break block26;
@@ -152,6 +166,9 @@ extends cv {
             }
             if (type != 96 && type != 97 && type != 98) break block21;
             int count = this.b();
+            if (count < 0 || abyte0.length < 6 || count > (abyte0.length - 6) / 4) {
+                return;
+            }
             int i2 = 0;
             while (i2 < count) {
                 int mailId = this.b();

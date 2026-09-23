@@ -53,6 +53,11 @@ public class C_MoveChar extends ClientBasePacket {
                var5 = var3.ft();
             }
 
+            if (var6 < 0 || var6 >= this.a.length) {
+               var3.a(new S_Blink());
+               return;
+            }
+
             var4 += this.a[var6][0];
             var5 += this.a[var6][1];
             if (!var3.fq().b(var3.fs(), var3.ft(), var6)) {

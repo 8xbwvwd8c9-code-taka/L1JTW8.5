@@ -10,8 +10,9 @@ public class C_ExitGhost extends ClientBasePacket {
       super(var1);
       L1PcInstance var3 = var2.f();
       if (var3 == null || !var3.bN()) {
-         ;
+         return;
       }
+      var3.makeReadyEndGhost();
    }
 
    @Override

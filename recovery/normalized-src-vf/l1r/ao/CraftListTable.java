@@ -98,6 +98,11 @@ public class CraftListTable {
             }
          }
 
+         SQLUtil.a(var3, var2, var1);
+         var3 = null;
+         var2 = null;
+         var1 = null;
+
          var1 = DatabaseFactory.a().b();
          var2 = var1.prepareStatement("SELECT * FROM craft_exchange");
          var3 = var2.executeQuery();

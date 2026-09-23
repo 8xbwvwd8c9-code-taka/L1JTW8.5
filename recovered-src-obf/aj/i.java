@@ -19,6 +19,10 @@ extends cv {
             return;
         }
         String s2 = this.g();
+        if (!player.q() || player.aL() == null) {
+            player.a(new ds(427));
+            return;
+        }
         if (!player.aL().e(player)) {
             player.a(new ds(427));
             return;

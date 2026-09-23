@@ -3,13 +3,18 @@ package l1r.be;
 import java.util.List;
 import l1r.ap.L1ItemInstance;
 import l1r.ap.L1PcInstance;
+import l1r.aq.L1Object;
 import l1r.aq.L1World;
 import l1r.bh.L1PrivateShopBuyList;
 import l1r.bh.L1PrivateShopSellList;
 
 public class S_PrivateShop extends ServerBasePacket {
    public S_PrivateShop(L1PcInstance var1, int var2, int var3) {
-      L1PcInstance var4 = (L1PcInstance)L1World.a().a(var2);
+      L1Object var4Object = L1World.a().a(var2);
+      if (!(var4Object instanceof L1PcInstance)) {
+         return;
+      }
+      L1PcInstance var4 = (L1PcInstance)var4Object;
       if (var4 != null) {
          this.c(39);
          this.c(var3);
@@ -57,6 +62,9 @@ public class S_PrivateShop extends ServerBasePacket {
                int var23 = var21.b();
                int var24 = var21.c();
                L1ItemInstance var25 = var4.j().e(var22);
+               if (var25 == null) {
+                  continue;
+               }
 
                for (L1ItemInstance var26 : var1.j().d()) {
                   if (var25.N() == var26.N() && var25.G() == var26.G()) {

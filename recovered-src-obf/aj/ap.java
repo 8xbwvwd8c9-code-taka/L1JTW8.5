@@ -17,6 +17,7 @@ extends cv {
         if (pc == null || !pc.bN()) {
             return;
         }
+        pc.makeReadyEndGhost();
     }
 
     @Override

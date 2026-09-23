@@ -25,6 +25,11 @@ public class L1AllBuff implements L1CommandExecutor {
    public void a(L1PcInstance var1, String var2, String var3) {
       try {
          StringTokenizer var4 = new StringTokenizer(var3);
+         if (!var4.hasMoreTokens()) {
+            var1.a(new S_SystemMessage("請輸入 .allBuff 玩家名稱。"));
+            return;
+         }
+
          String var5 = var4.nextToken();
          L1PcInstance var6 = L1World.a().a(var5);
          if (var6 == null) {

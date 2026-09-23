@@ -93,6 +93,35 @@ public class BuddyTable {
       }
    }
 
+   public boolean b(int var1, int var2, String var3) {
+      Connection var4 = null;
+      PreparedStatement var5 = null;
+
+      try {
+         var4 = DatabaseFactory.a().b();
+         var5 = var4.prepareStatement("INSERT INTO character_buddys SET char_id=?, buddy_id=?, buddy_name=?");
+         var5.setInt(1, var1);
+         var5.setInt(2, var2);
+         var5.setString(3, var3);
+         return var5.executeUpdate() > 0;
+      } catch (SQLException var10) {
+         a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+         return false;
+      } finally {
+         SQLUtil.a(var5);
+         SQLUtil.a(var4);
+      }
+   }
+
+   public void removeDeletedCharacter(int var1, String var2) {
+      this.c.remove(var1);
+      for (L1Buddy var3 : this.c.values()) {
+         if (var3.b(var2)) {
+            var3.a(var2);
+         }
+      }
+   }
+
    public void a(int var1, String var2) {
       Connection var3 = null;
       PreparedStatement var4 = null;

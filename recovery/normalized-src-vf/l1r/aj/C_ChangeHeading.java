@@ -12,6 +12,9 @@ public class C_ChangeHeading extends ClientBasePacket {
       L1PcInstance var3 = var2.f();
       if (var3 != null) {
          int var4 = this.c();
+         if (var4 < 0 || var4 >= 8) {
+            return;
+         }
          var3.ct(var4);
          if (!var3.aA() && !var3.bN()) {
             if (var3.ff()) {

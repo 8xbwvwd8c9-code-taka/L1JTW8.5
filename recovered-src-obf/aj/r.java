@@ -19,6 +19,9 @@ extends cv {
             return;
         }
         int heading = this.c();
+        if (heading < 0 || heading >= 8) {
+            return;
+        }
         pc.ct(heading);
         if (!pc.aA() && !pc.bN()) {
             if (pc.ff()) {

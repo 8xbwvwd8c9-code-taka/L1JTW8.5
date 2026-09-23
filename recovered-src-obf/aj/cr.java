@@ -35,6 +35,9 @@ extends cv {
         if (!pc.h(skillId)) {
             return;
         }
+        if (be.a().a(skillId) == null) {
+            return;
+        }
         int result = be.a().a(skillId).s() == 18 ? pc.ce().a(ak.a.c) : pc.ce().a(ak.a.d);
         if (result == 2) {
             return;
@@ -69,6 +72,9 @@ extends cv {
             // empty catch block
         }
         a executor = g.a(skillId);
+        if (executor == null) {
+            return;
+        }
         executor.a(pc, targetId, skillId, targetX, targetY, message);
     }
 }

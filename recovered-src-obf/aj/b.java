@@ -33,8 +33,9 @@ extends cv {
         while (n3 < n2) {
             o.a cn2 = aArray[n3];
             if (charName.equalsIgnoreCase(cn2.b)) {
-                buddyList.a(cn2.a, cn2.b);
-                f.a().a(pc.fr(), cn2.a, cn2.b);
+                if (f.a().b(pc.fr(), cn2.a, cn2.b)) {
+                    buddyList.a(cn2.a, cn2.b);
+                }
                 return;
             }
             ++n3;

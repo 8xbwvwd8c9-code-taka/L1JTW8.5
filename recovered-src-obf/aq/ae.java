@@ -136,6 +136,7 @@ public class ae {
             pc.a(new ds(181));
             return false;
         }
+        pc.setActivePolyMorphRule(poly);
         return ae.a(pc, poly.a(), timeSecs, 1);
     }
 
@@ -145,11 +146,16 @@ public class ae {
         }
         if (cha instanceof u) {
             u pc = (u)cha;
+            ae activeRule = pc.getActivePolyMorphRule();
+            if (activeRule == null || activeRule.a() != polyId) {
+                activeRule = ay.a().a(polyId);
+                pc.setActivePolyMorphRule(activeRule);
+            }
             if (!pc.fq().r()) {
                 pc.a(new ds(1170));
                 return false;
             }
-            if (pc.fe() == 6034 || pc.fe() == 6035 || !ae.c(polyId, cause)) {
+            if (pc.fe() == 6034 || pc.fe() == 6035 || !ae.c(activeRule, cause)) {
                 pc.a(new ds(181));
                 return false;
             }
@@ -168,8 +174,8 @@ public class ae {
                         pc.b(new s(pc.fr(), polyId, pc.k()));
                     }
                 }
-                pc.j().l(polyId);
             }
+            pc.j().l(polyId);
             if (timeSecs > 0) {
                 pc.a(new cm(35, timeSecs));
             }
@@ -217,6 +223,7 @@ public class ae {
         if (cha instanceof u) {
             u pc = (u)cha;
             int[] PolyList = new int[]{11479, 11427, 10047, 9688, 11322, 10069, 10034, 10032};
+            pc.setActivePolyMorphRule(ay.a().a(PolyList[polyIndex - 1]));
             if (pc.fe() != PolyList[polyIndex - 1]) {
                 pc.cw(PolyList[polyIndex - 1]);
                 pc.a(new s(pc.fr(), PolyList[polyIndex - 1], 70));
@@ -237,6 +244,7 @@ public class ae {
     public static void a(f cha) {
         if (cha instanceof u) {
             u pc = (u)cha;
+            pc.setActivePolyMorphRule(null);
             int classId = pc.aB();
             pc.cw(classId);
             if (!pc.eX()) {
@@ -251,6 +259,7 @@ public class ae {
     public static void b(f cha) {
         if (cha instanceof u) {
             u pc = (u)cha;
+            pc.setActivePolyMorphRule(null);
             int classId = pc.aB();
             int oldGfxid = pc.fe();
             pc.cw(classId);
@@ -273,6 +282,15 @@ public class ae {
         }
     }
 
+    public static boolean a(u pc, int weaponType) {
+        ae poly = pc.getActivePolyMorphRule();
+        if (poly == null || poly.a() != pc.fe()) {
+            poly = ay.a().a(pc.fe());
+        }
+        Integer flg = E.get(weaponType);
+        return poly == null || flg == null || (poly.c() & flg) != 0;
+    }
+
     public static boolean a(int polyId, int weaponType) {
         ae poly = ay.a().a(polyId);
         if (poly == null) {
@@ -283,6 +301,15 @@ public class ae {
             return (poly.c() & flg) != 0;
         }
         return true;
+    }
+
+    public static boolean b(u pc, int armorType) {
+        ae poly = pc.getActivePolyMorphRule();
+        if (poly == null || poly.a() != pc.fe()) {
+            poly = ay.a().a(pc.fe());
+        }
+        Integer flg = F.get(armorType);
+        return poly == null || flg == null || (poly.d() & flg) != 0;
     }
 
     public static boolean b(int polyId, int armorType) {
@@ -297,12 +324,8 @@ public class ae {
         return true;
     }
 
-    private static boolean c(int polyId, int cause) {
-        ae poly = ay.a().a(polyId);
-        if (poly == null) {
-            return true;
-        }
-        if (cause == 0) {
+    private static boolean c(ae poly, int cause) {
+        if (poly == null || cause == 0) {
             return true;
         }
         return (poly.f() & cause) != 0;

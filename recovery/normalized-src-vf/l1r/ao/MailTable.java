@@ -79,6 +79,43 @@ public class MailTable {
       }
    }
 
+   public boolean d(int var1) {
+      Connection var2 = null;
+      PreparedStatement var3 = null;
+
+      try {
+         var2 = DatabaseFactory.a().b();
+         var3 = var2.prepareStatement("UPDATE mail SET read_status=1 WHERE id=?");
+         var3.setInt(1, var1);
+         return var3.executeUpdate() > 0;
+      } catch (SQLException var8) {
+         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return false;
+      } finally {
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
+   public boolean b(int var1, int var2) {
+      Connection var3 = null;
+      PreparedStatement var4 = null;
+
+      try {
+         var3 = DatabaseFactory.a().b();
+         var4 = var3.prepareStatement("UPDATE mail SET type=? WHERE id=?");
+         var4.setInt(1, var2);
+         var4.setInt(2, var1);
+         return var4.executeUpdate() > 0;
+      } catch (SQLException var9) {
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         return false;
+      } finally {
+         SQLUtil.a(var4);
+         SQLUtil.a(var3);
+      }
+   }
+
    public void a(L1Mail var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;
@@ -125,7 +162,7 @@ public class MailTable {
       int var6 = 0;
       int var7 = 0;
 
-      for (int var8 = 0; var8 < var4.length; var8 += 2) {
+      for (int var8 = 0; var8 + 1 < var4.length; var8 += 2) {
          if (var4[var8] == 0 && var4[var8 + 1] == 0) {
             if (var6 == 0) {
                var6 = var8;
@@ -136,10 +173,13 @@ public class MailTable {
          }
       }
 
-      int var21 = var6 + 2;
+      int var21 = Math.min(var6 + 2, var4.length);
       int var9 = var7 - var6 + 1;
       if (var9 <= 0) {
-         var9 = 1;
+         var9 = Math.max(0, var4.length - var21);
+      }
+      if (var21 + var9 > var4.length) {
+         var9 = var4.length - var21;
       }
 
       byte[] var10 = new byte[var21];
@@ -193,6 +233,14 @@ public class MailTable {
       }
 
       return var3;
+   }
+
+   public void removeInboxCache(int var1) {
+      for (L1Mail var2 : c) {
+         if (var2.i() == var1) {
+            c.remove(var2);
+         }
+      }
    }
 
    public L1Mail c(int var1) {

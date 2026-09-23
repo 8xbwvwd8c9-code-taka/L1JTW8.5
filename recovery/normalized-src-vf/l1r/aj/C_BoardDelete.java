@@ -1,5 +1,7 @@
 package l1r.aj;
 
+import l1r.ap.L1BoardInstance;
+import l1r.ap.L1PcInstance;
 import l1r.aq.L1Object;
 import l1r.aq.L1World;
 import l1r.bh.L1BoardTopic;
@@ -13,21 +15,21 @@ public class C_BoardDelete extends ClientBasePacket {
       int var3 = this.b();
       int var4 = this.b();
       L1Object var5 = L1World.a().a(var3);
-      if (var5 == null) {
-         System.out.println("不正確的NPCID : " + var3);
-      } else {
-         L1BoardTopic var6 = L1BoardTopic.a(var4);
-         if (var6 == null) {
-            this.b(var4);
-         } else {
-            String var7 = var2.f().et();
-            if (!var7.equals(var6.b())) {
-               this.a(var6, var7);
-            } else {
-               var6.f();
-            }
-         }
+      L1PcInstance var6 = var2 == null ? null : var2.f();
+      if (!(var5 instanceof L1BoardInstance) || var6 == null || var6.fp() != var5.fp() || var6.f(var5) > 3) {
+         return;
       }
+      L1BoardTopic var7 = L1BoardTopic.a(var4);
+      if (var7 == null) {
+         this.b(var4);
+         return;
+      }
+      String var8 = var6.et();
+      if (!var8.equals(var7.b())) {
+         this.a(var7, var8);
+         return;
+      }
+      var7.f();
    }
 
    private void b(int var1) {

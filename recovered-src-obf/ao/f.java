@@ -121,6 +121,36 @@ public class f {
         }
     }
 
+    public boolean b(int charId, int objId, String name) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO character_buddys SET char_id=?, buddy_id=?, buddy_name=?");
+            pstm.setInt(1, charId);
+            pstm.setInt(2, objId);
+            pstm.setString(3, name);
+            return pstm.executeUpdate() > 0;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
+    public void removeDeletedCharacter(int objId, String name) {
+        this.c.remove(objId);
+        for (d buddy : this.c.values()) {
+            if (buddy.b(name)) {
+                buddy.a(name);
+            }
+        }
+    }
+
     public void a(int charId, String buddyName) {
         block6: {
             Connection con = null;

@@ -32,6 +32,10 @@ implements l {
     public void a(u pc, String cmdName, String arg) {
         try {
             StringTokenizer st = new StringTokenizer(arg);
+            if (!st.hasMoreTokens()) {
+                pc.a(new ei("\u8acb\u8f38\u5165 .allBuff \u73a9\u5bb6\u540d\u7a31\u3002"));
+                return;
+            }
             String name = st.nextToken();
             u target = aq.a().a(name);
             if (target == null) {

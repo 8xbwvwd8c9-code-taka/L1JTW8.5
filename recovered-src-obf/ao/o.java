@@ -223,68 +223,61 @@ public class o {
 
     public void a(String accountName, String charName) throws Exception {
         Connection con = null;
-        PreparedStatement pstm = null;
-        ResultSet rs = null;
         try {
             con = l1j.server.b.a().b();
-            pstm = con.prepareStatement("SELECT * FROM characters WHERE account_name=? AND char_name=?");
-            pstm.setString(1, accountName);
-            pstm.setString(2, charName);
-            rs = pstm.executeQuery();
-            if (!rs.next()) {
-                return;
+            int objid;
+            try (PreparedStatement check = con.prepareStatement("SELECT objid FROM characters WHERE account_name=? AND char_name=?")) {
+                check.setString(1, accountName);
+                check.setString(2, charName);
+                try (ResultSet rs = check.executeQuery()) {
+                    if (!rs.next()) {
+                        return;
+                    }
+                    objid = rs.getInt("objid");
+                }
             }
-            pstm = con.prepareStatement("DELETE FROM character_buddys WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_buff WHERE char_obj_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_config WHERE object_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_equip WHERE id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_gift WHERE objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_items WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_quests WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_quests_new WHERE objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_skills WHERE char_obj_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_teleport WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM character_warehouse_only WHERE char_objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM clan_members WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM soul_tower WHERE name=?");
-            pstm.setString(1, charName);
-            pstm.execute();
-            pstm = con.prepareStatement("DELETE FROM characters WHERE char_name=?");
-            pstm.setString(1, charName);
-            pstm.execute();
-            if (this.c.containsKey(charName)) {
-                this.c.remove(charName);
+            executeDeleteById(con, "DELETE FROM character_buddys WHERE char_id=?", objid);
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM character_buddys WHERE buddy_id=? OR buddy_name=?")) {
+                pstm.setInt(1, objid);
+                pstm.setString(2, charName);
+                pstm.executeUpdate();
             }
+            executeDeleteById(con, "DELETE FROM character_buff WHERE char_obj_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_config WHERE object_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_equip WHERE id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_gift WHERE objid=?", objid);
+            executeDeleteById(con, "DELETE FROM character_items WHERE char_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_quests WHERE char_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_quests_new WHERE objid=?", objid);
+            executeDeleteById(con, "DELETE FROM character_skills WHERE char_obj_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_teleport WHERE char_id=?", objid);
+            executeDeleteById(con, "DELETE FROM character_warehouse_only WHERE char_objid=?", objid);
+            executeDeleteById(con, "DELETE FROM clan_members WHERE char_id=?", objid);
+            executeDeleteById(con, "DELETE FROM mail WHERE inbox_id=?", objid);
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM soul_tower WHERE name=?")) {
+                pstm.setString(1, charName);
+                pstm.executeUpdate();
+            }
+            executeDeleteById(con, "DELETE FROM characters WHERE objid=?", objid);
+            this.c.remove(charName);
+            an.a().removeInboxCache(objid);
+            f.a().removeDeletedCharacter(objid, charName);
         }
         catch (SQLException e2) {
             a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
         }
-        j.a(rs, pstm, con);
+        finally {
+            j.a(con);
+        }
     }
+
+    private static void executeDeleteById(Connection con, String sql, int objid) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(sql)) {
+            pstm.setInt(1, objid);
+            pstm.executeUpdate();
+        }
+    }
+
 
     public u a(String charName) throws Exception {
         u pc;

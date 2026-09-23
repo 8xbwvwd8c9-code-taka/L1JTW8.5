@@ -155,7 +155,7 @@ public class RankingTable {
             } else if (var6.e == 6) {
                this.t.add(var6);
             } else if (var6.e == 7) {
-               this.q.add(var6);
+               this.u.add(var6);
             }
 
             this.m.add(var6.a());
@@ -221,8 +221,8 @@ public class RankingTable {
          }
       }
 
-      if (var1.size() > 50) {
-         new ArrayList<>(var1.subList(0, 50));
+      while (var1.size() > 50) {
+         var1.remove(var1.size() - 1);
       }
    }
 

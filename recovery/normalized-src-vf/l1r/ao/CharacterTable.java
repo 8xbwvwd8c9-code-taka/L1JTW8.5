@@ -197,70 +197,62 @@ public class CharacterTable {
 
    public void a(String var1, String var2) throws Exception {
       Connection var3 = null;
-      PreparedStatement var4 = null;
-      ResultSet var5 = null;
 
       try {
          var3 = DatabaseFactory.a().b();
-         var4 = var3.prepareStatement("SELECT * FROM characters WHERE account_name=? AND char_name=?");
-         var4.setString(1, var1);
-         var4.setString(2, var2);
-         var5 = var4.executeQuery();
-         if (!var5.next()) {
-            return;
+         int var4;
+         try (PreparedStatement var5 = var3.prepareStatement("SELECT objid FROM characters WHERE account_name=? AND char_name=?")) {
+            var5.setString(1, var1);
+            var5.setString(2, var2);
+            try (ResultSet var6 = var5.executeQuery()) {
+               if (!var6.next()) {
+                  return;
+               }
+               var4 = var6.getInt("objid");
+            }
          }
 
-         var4 = var3.prepareStatement("DELETE FROM character_buddys WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_buff WHERE char_obj_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_config WHERE object_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_equip WHERE id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_gift WHERE objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_items WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_quests WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_quests_new WHERE objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_skills WHERE char_obj_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_teleport WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM character_warehouse_only WHERE char_objid IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM clan_members WHERE char_id IN (SELECT objid FROM characters WHERE char_name = ?)");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM soul_tower WHERE name=?");
-         var4.setString(1, var2);
-         var4.execute();
-         var4 = var3.prepareStatement("DELETE FROM characters WHERE char_name=?");
-         var4.setString(1, var2);
-         var4.execute();
-         if (this.c.containsKey(var2)) {
-            this.c.remove(var2);
+         executeDeleteById(var3, "DELETE FROM character_buddys WHERE char_id=?", var4);
+         try (PreparedStatement var7 = var3.prepareStatement("DELETE FROM character_buddys WHERE buddy_id=? OR buddy_name=?")) {
+            var7.setInt(1, var4);
+            var7.setString(2, var2);
+            var7.executeUpdate();
          }
-      } catch (SQLException var7) {
-         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
+         executeDeleteById(var3, "DELETE FROM character_buff WHERE char_obj_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_config WHERE object_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_equip WHERE id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_gift WHERE objid=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_items WHERE char_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_quests WHERE char_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_quests_new WHERE objid=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_skills WHERE char_obj_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_teleport WHERE char_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM character_warehouse_only WHERE char_objid=?", var4);
+         executeDeleteById(var3, "DELETE FROM clan_members WHERE char_id=?", var4);
+         executeDeleteById(var3, "DELETE FROM mail WHERE inbox_id=?", var4);
+         try (PreparedStatement var8 = var3.prepareStatement("DELETE FROM soul_tower WHERE name=?")) {
+            var8.setString(1, var2);
+            var8.executeUpdate();
+         }
+         executeDeleteById(var3, "DELETE FROM characters WHERE objid=?", var4);
+
+         this.c.remove(var2);
+         MailTable.a().removeInboxCache(var4);
+         BuddyTable.a().removeDeletedCharacter(var4, var2);
+      } catch (SQLException var9) {
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+      } finally {
+         SQLUtil.a(var3);
       }
-
-      SQLUtil.a(var5, var4, var3);
    }
+
+   private static void executeDeleteById(Connection var0, String var1, int var2) throws SQLException {
+      try (PreparedStatement var3 = var0.prepareStatement(var1)) {
+         var3.setInt(1, var2);
+         var3.executeUpdate();
+      }
+   }
+
 
    public L1PcInstance a(String var1) throws Exception {
       L1PcInstance var2 = null;

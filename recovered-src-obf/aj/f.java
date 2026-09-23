@@ -234,8 +234,12 @@ extends cv {
             case 325: {
                 c2 = this.c();
                 String name = this.g();
-                ap.v pet = (ap.v)aq.a().a(pc.aQ());
+                aq.aa petObject = aq.a().a(pc.aQ());
                 pc.am(0);
+                if (!(petObject instanceof ap.v)) {
+                    return;
+                }
+                ap.v pet = (ap.v)petObject;
                 f.a(pet, name);
                 break;
             }
@@ -293,6 +297,9 @@ extends cv {
                 pc.am(0);
                 if (name.length() <= 16) {
                     i house = ab.a().a(houseId);
+                    if (house == null) {
+                        return;
+                    }
                     house.a(name);
                     ab.a().a(house);
                     break;
@@ -303,6 +310,10 @@ extends cv {
             case 630: {
                 c2 = this.d();
                 u fightPc = (u)aq.a().a(pc.cp());
+                if (fightPc == null) {
+                    pc.aN(0);
+                    return;
+                }
                 if (c2 == 0) {
                     pc.aN(0);
                     fightPc.aN(0);

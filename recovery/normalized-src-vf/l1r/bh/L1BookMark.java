@@ -155,42 +155,75 @@ public class L1BookMark {
 
    public static void a(L1PcInstance var0, String var1) {
       L1BookMark var2 = var0.a(var1);
-      if (var2 != null) {
-         Connection var3 = null;
-         PreparedStatement var4 = null;
+      if (var2 == null) {
+         return;
+      }
 
-         try {
-            var3 = DatabaseFactory.a().b();
-            var4 = var3.prepareStatement("DELETE FROM character_teleport WHERE id=?");
-            var4.setInt(1, var2.a());
-            var4.execute();
-            int var5 = var2.f();
-            var0.ba().remove(var2);
+      Connection var3 = null;
+      PreparedStatement var4 = null;
+      PreparedStatement var5 = null;
+      int var6 = var2.f();
 
-            for (L1BookMark var6 : var0.ba()) {
-               if (var6.f() > var5) {
-                  var6.e(var6.f() - 1);
-               }
+      try {
+         var3 = DatabaseFactory.a().b();
+         var3.setAutoCommit(false);
+         var4 = var3.prepareStatement("DELETE FROM character_teleport WHERE id=?");
+         var4.setInt(1, var2.a());
+         var4.executeUpdate();
+
+         var5 = var3.prepareStatement("UPDATE character_teleport SET order_id=?, order_id_fast=?, name=? WHERE id=?");
+         for (L1BookMark var7 : var0.ba()) {
+            if (var7 == var2) {
+               continue;
             }
+            int var8 = var7.f() > var6 ? var7.f() - 1 : var7.f();
+            var5.setInt(1, var8);
+            var5.setInt(2, var7.g());
+            var5.setString(3, var7.c());
+            var5.setInt(4, var7.a());
+            var5.addBatch();
+         }
+         var5.executeBatch();
+         var3.commit();
+      } catch (SQLException var12) {
+         if (var3 != null) {
+            try {
+               var3.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         c.log(Level.SEVERE, var12.getLocalizedMessage(), var12);
+         return;
+      } finally {
+         SQLUtil.a(var5);
+         SQLUtil.a(var4);
+         if (var3 != null) {
+            try {
+               var3.setAutoCommit(true);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var3);
+      }
 
-            a(var0.ba());
-         } catch (SQLException var11) {
-            c.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
-         } finally {
-            SQLUtil.a(var4);
-            SQLUtil.a(var3);
+      var0.ba().remove(var2);
+      for (L1BookMark var7 : var0.ba()) {
+         if (var7.f() > var6) {
+            var7.e(var7.f() - 1);
          }
       }
    }
+
 
    public static void b(L1PcInstance var0, String var1) {
       if (!var0.fq().h()) {
          var0.a(new S_ServerMessage(214));
       } else {
          int var2 = var0.ba().size();
-         if (var2 <= 60) {
+         if (var2 < var0.cI()) {
             if (var0.a(var1) != null) {
                var0.a(new S_ServerMessage(327));
+               return;
             }
 
             L1BookMark var3 = new L1BookMark();

@@ -104,6 +104,45 @@ public class an {
         }
     }
 
+    public boolean d(int mailId) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE mail SET read_status=1 WHERE id=?");
+            pstm.setInt(1, mailId);
+            return pstm.executeUpdate() > 0;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
+    public boolean b(int mailId, int type) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE mail SET type=? WHERE id=?");
+            pstm.setInt(1, type);
+            pstm.setInt(2, mailId);
+            return pstm.executeUpdate() > 0;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
     public void a(k mail) {
         block5: {
             Connection con = null;
@@ -172,7 +211,7 @@ public class an {
             int spacePosition1 = 0;
             int spacePosition2 = 0;
             int i2 = 0;
-            while (i2 < text.length) {
+            while (i2 + 1 < text.length) {
                 if (text[i2] == 0 && text[i2 + 1] == 0) {
                     if (spacePosition1 == 0) {
                         spacePosition1 = i2;
@@ -183,10 +222,13 @@ public class an {
                 }
                 i2 += 2;
             }
-            int subjectLength = spacePosition1 + 2;
+            int subjectLength = Math.min(spacePosition1 + 2, text.length);
             int contentLength = spacePosition2 - spacePosition1 + 1;
             if (contentLength <= 0) {
-                contentLength = 1;
+                contentLength = Math.max(0, text.length - subjectLength);
+            }
+            if (subjectLength + contentLength > text.length) {
+                contentLength = text.length - subjectLength;
             }
             byte[] subject = new byte[subjectLength];
             byte[] content = new byte[contentLength];
@@ -245,6 +287,14 @@ public class an {
             result.add(mail);
         }
         return result;
+    }
+
+    public void removeInboxCache(int inboxId) {
+        for (k mail : c) {
+            if (mail.i() == inboxId) {
+                c.remove(mail);
+            }
+        }
     }
 
     public k c(int mailId) {

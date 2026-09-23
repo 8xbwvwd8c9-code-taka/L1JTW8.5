@@ -24,6 +24,10 @@ public class C_UseSkill extends ClientBasePacket {
          if (!var3.fq().q()) {
             var3.a(new S_ServerMessage(563));
          } else if (var3.h(var6)) {
+            if (SkillsTable.a().a(var6) == null) {
+               return;
+            }
+
             int var11;
             if (SkillsTable.a().a(var6).s() == 18) {
                var11 = var3.ce().a(L1SpeedChecker.L1R_a.c);
@@ -63,6 +67,9 @@ public class C_UseSkill extends ClientBasePacket {
                }
 
                L1SkillExecutor var17 = LineageUtil.a(var6);
+               if (var17 == null) {
+                  return;
+               }
                var17.a(var3, var8, var6, var9, var10, var7);
             }
          }

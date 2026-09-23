@@ -11,6 +11,7 @@ import bi.j;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -100,7 +101,7 @@ public class at {
                     boolean count = true;
                     String note = npc.c();
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO spawnlist_npc SET location=?,count=?,npc_templateid=?,locx=?,locy=?,heading=?,mapid=?");
+                    pstm = con.prepareStatement("INSERT INTO spawnlist_npc SET location=?,count=?,npc_templateid=?,locx=?,locy=?,heading=?,mapid=?", Statement.RETURN_GENERATED_KEYS);
                     pstm.setString(1, note);
                     pstm.setInt(2, 1);
                     pstm.setInt(3, npc.b());
@@ -108,7 +109,37 @@ public class at {
                     pstm.setInt(5, pc.ft());
                     pstm.setInt(6, pc.fb());
                     pstm.setInt(7, pc.fp());
-                    pstm.execute();
+                    if (pstm.executeUpdate() <= 0) {
+                        return;
+                    }
+                    try (ResultSet keys = pstm.getGeneratedKeys()) {
+                        if (!keys.next()) {
+                            return;
+                        }
+                        int id = keys.getInt(1);
+                        ag spawn = new ag(npc);
+                        spawn.a(id);
+                        spawn.b(1);
+                        spawn.e(pc.fs());
+                        spawn.f(pc.ft());
+                        spawn.g(0);
+                        spawn.h(0);
+                        spawn.i(0);
+                        spawn.j(0);
+                        spawn.k(0);
+                        spawn.l(0);
+                        spawn.m(pc.fb());
+                        spawn.n(0);
+                        spawn.o(0);
+                        spawn.p(pc.fp());
+                        spawn.q(0);
+                        synchronized (this.c) {
+                            this.c.put(id, spawn);
+                            if (id > this.d) {
+                                this.d = id;
+                            }
+                        }
+                    }
                 }
                 catch (Exception e2) {
                     a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);

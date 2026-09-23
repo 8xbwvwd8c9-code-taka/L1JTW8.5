@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.HashMap;
 import java.util.TimerTask;
 import java.util.logging.Level;
@@ -139,7 +140,8 @@ public class SpawnTable {
          String var8 = var1.c();
          var2 = DatabaseFactory.a().b();
          var3 = var2.prepareStatement(
-            "INSERT INTO spawnlist SET location=?,count=?,npc_templateid=?,group_id=?,locx=?,locy=?,randomx=?,randomy=?,heading=?,min_respawn_delay=?,max_respawn_delay=?,mapid=?"
+            "INSERT INTO spawnlist SET location=?,count=?,npc_templateid=?,group_id=?,locx=?,locy=?,randomx=?,randomy=?,heading=?,min_respawn_delay=?,max_respawn_delay=?,mapid=?",
+            Statement.RETURN_GENERATED_KEYS
          );
          var3.setString(1, var8);
          var3.setInt(2, 1);
@@ -153,7 +155,38 @@ public class SpawnTable {
          var3.setInt(10, 60);
          var3.setInt(11, 120);
          var3.setInt(12, var0.fp());
-         var3.execute();
+         if (var3.executeUpdate() <= 0) {
+            return;
+         }
+         try (ResultSet var9 = var3.getGeneratedKeys()) {
+            if (!var9.next()) {
+               return;
+            }
+            int var10 = var9.getInt(1);
+            L1Spawn var11 = new L1Spawn(var1);
+            var11.a(var10);
+            var11.b(1);
+            var11.e(var0.fs());
+            var11.f(var0.ft());
+            var11.g(12);
+            var11.h(12);
+            var11.i(0);
+            var11.j(0);
+            var11.k(0);
+            var11.l(0);
+            var11.m(var0.fb());
+            var11.n(60);
+            var11.o(120);
+            var11.p(var0.fp());
+            var11.q(0);
+            SpawnTable var12 = a();
+            synchronized (var12.c) {
+               var12.c.put(var10, var11);
+               if (var10 > var12.d) {
+                  var12.d = var10;
+               }
+            }
+         }
       } catch (Exception var12) {
          a.log(Level.SEVERE, var12.getLocalizedMessage(), var12);
       } finally {
