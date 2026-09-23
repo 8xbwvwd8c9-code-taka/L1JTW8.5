@@ -12,9 +12,16 @@ $sha=(Get-FileHash -LiteralPath $ClientPath -Algorithm SHA256).Hash.ToUpperInvar
 if($sha-ne$ExpectedSha256){throw "Client authority mismatch: $sha"}
 
 $report=Get-Content -LiteralPath $OwnerReport -ErrorAction Stop
-function RV([string]$prefix){$l=$report|Where-Object{$_-like "$prefix*"}|Select-Object -First 1;if(-not$l){return $null};return ($l-split'=',2)[1].Trim()}
+function Get-ReportValue([string]$prefix){
+    $l=$report|Where-Object{$_-like "$prefix*"}|Select-Object -First 1
+    if(-not$l){return $null}
+    return ($l-split'=',2)[1].Trim()
+}
 function HexFrom([string]$line,[string]$pat){$m=[regex]::Match($line,$pat);if(-not$m.Success){return $null};return [long][Convert]::ToUInt64($m.Groups[1].Value,16)}
-$pid=[int](RV 'PID=');$start=RV 'PROCESS_START_UTC=';$rh=(RV 'CLIENT_SHA256=').ToUpperInvariant();$ra=RV 'CLIENT_AUTHORITY='
+$pid=[int](Get-ReportValue 'PID=')
+$start=Get-ReportValue 'PROCESS_START_UTC='
+$rh=(Get-ReportValue 'CLIENT_SHA256=').ToUpperInvariant()
+$ra=Get-ReportValue 'CLIENT_AUTHORITY='
 if($rh-ne$ExpectedSha256 -or $ra-ne'1'){throw 'Owner report authority mismatch.'}
 $hpLine=$report|Where-Object{$_-match'^OBJECT NAME=HpGauge_Image ADDR=0x'}|Select-Object -First 1
 $mpLine=$report|Where-Object{$_-match'^OBJECT NAME=MpGauge_Image ADDR=0x'}|Select-Object -First 1
