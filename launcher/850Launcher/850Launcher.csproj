@@ -99,6 +99,7 @@
     <Compile Include="AutoHpMpCrossCheckProbe.cs" />
     <Compile Include="AutoHpMpPointerDiscovery.cs" />
     <Compile Include="AutoHpMpEvidenceGuard.cs" />
+    <Compile Include="AutoHpMpStableRvaVerifier.cs" />
     <Compile Include="AutoParallelDiscovery.cs" />
     <Compile Include="AutoNetworkSurfaceDiscovery.cs" />
     <Compile Include="AutoLoadedModuleNetworkDiscovery.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="AutoDamageReceiveDiscovery.cs" />
     <Compile Include="AutoInventorySeedlessDiscovery.cs" />
     <Compile Include="AutoInventoryCandidateGuard.cs" />
+    <Compile Include="AutoInventoryExactChangeVerifier.cs" />
     <Compile Include="AutoInventoryHistoryDiscovery.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
