@@ -12,6 +12,7 @@ SERVER_DOCS=EXCLUDED
 
 - [850 登入器 / 內掛開發報告](docs/850-launcher/REPORT.md)
 - [公版登入器 / Encoder / 變身編碼 Donor 索引](docs/850-launcher/PUBLIC_LAUNCHER_DONOR_INDEX.md)
+- [WP7 UseItem 行為關聯 / Native Bridge 驗證邊界](docs/850-launcher/reverse/WP7_USEITEM_BEHAVIOR.md)
 
 ## 快速研究入口
 
@@ -54,6 +55,27 @@ DO_NOT_MARK_DONOR_BEHAVIOR_AS_850_PROOF
 ```
 
 變身 / Encoder 另走 WP10：先證明 850 自己的資源、編碼與登入器載入關係，再建立 850 專用 Transform pipeline。
+
+## Current runtime gate
+
+```text
+WP3 Player      = runtime evidence required
+WP4 HP/MP       = runtime evidence required
+WP5 Inventory   = authoritative map/session validation required
+WP6 Inventory   = restart gate required
+WP7 UseItem     = behavior correlation + native send path required
+WP8 AutoPotion  = blocked until WP7 native bridge PASS
+WP9 Skill/Buff  = runtime/native evidence required
+WP10 Transform  = separate Encoder/client-resource track
+```
+
+WP7 特別注意：
+
+```text
+BEHAVIOR_RESTART_GATE=PASS
+!=
+WP7_NATIVE_USEITEM_PASS
+```
 
 ## Scope
 
