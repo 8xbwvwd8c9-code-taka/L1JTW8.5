@@ -350,26 +350,45 @@ public class ClanTable {
 
    public void b(String var1) {
       L1Clan var2 = this.c(var1);
-      if (var2 != null) {
-         Connection var3 = null;
-         PreparedStatement var4 = null;
-
-         try {
-            var3 = DatabaseFactory.a().b();
-            var4 = var3.prepareStatement("DELETE FROM clan_data WHERE clan_name=?");
-            var4.setString(1, var1);
-            var4.execute();
-         } catch (SQLException var9) {
-            a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
-         } finally {
-            SQLUtil.a(var4);
-            SQLUtil.a(var3);
-         }
-
-         var2.c().g();
-         var2.c().b();
-         this.b.remove(var2.e());
+      if (var2 == null) {
+         return;
       }
+
+      Connection var3 = null;
+      try {
+         var3 = DatabaseFactory.a().b();
+         var3.setAutoCommit(false);
+         try (PreparedStatement var4 = var3.prepareStatement("DELETE FROM clan_warehouse_history WHERE clan_id=?")) {
+            var4.setInt(1, var2.e());
+            var4.executeUpdate();
+         }
+         try (PreparedStatement var5 = var3.prepareStatement("DELETE FROM clan_data WHERE clan_name=?")) {
+            var5.setString(1, var1);
+            var5.executeUpdate();
+         }
+         var3.commit();
+      } catch (SQLException var9) {
+         if (var3 != null) {
+            try {
+               var3.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         return;
+      } finally {
+         if (var3 != null) {
+            try {
+               var3.setAutoCommit(true);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var3);
+      }
+
+      var2.c().g();
+      var2.c().b();
+      this.b.remove(var2.e());
    }
 
    public L1Clan a(int var1) {
