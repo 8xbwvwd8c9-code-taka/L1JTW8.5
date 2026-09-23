@@ -56,6 +56,16 @@ namespace L1JTW850Launcher
             build.Click += delegate { BuildPayload(); };
             Controls.Add(build);
 
+            var behavior = new Button
+            {
+                Text = "UseItem 行為驗證",
+                Left = 410,
+                Top = 70,
+                Width = 130
+            };
+            behavior.Click += delegate { OpenBehaviorVerifier(); };
+            Controls.Add(behavior);
+
             Controls.Add(new Label
             {
                 Left = 20,
@@ -92,9 +102,9 @@ namespace L1JTW850Launcher
                 Left = 20,
                 Top = 162,
                 Width = 690,
-                Height = 120,
+                Height = 140,
                 Text =
-                    "驗證邊界：這只是 server-side recovered protocol proof。WP7 PASS 仍要求真正的 850 Lin.bin2 native send path 或實機 decrypted packet observation；不可直接把此 bytes 寫到 socket。"
+                    "驗證邊界：protocol proof 只證明 server contract。WP7 仍要 850 Lin.bin2 runtime behavior / native send 證據。『UseItem 行為驗證』只讀取遊戲程序記憶體，對照無操作基線與手動使用期間是否出現 0x5E+ObjectId logical pattern；不送包、不寫遊戲記憶體。"
             };
             Controls.Add(_status);
         }
@@ -117,6 +127,23 @@ namespace L1JTW850Launcher
                 "。未送出任何資料。";
 
             SaveEvidence(objectId, payload);
+        }
+
+        private void OpenBehaviorVerifier()
+        {
+            var form = new Form
+            {
+                Text = "WP7 UseItem 行為驗證",
+                Width = 780,
+                Height = 560,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            form.Controls.Add(
+                new ItemUseBehaviorCorrelationControl(
+                    _appDir));
+
+            form.ShowDialog(this);
         }
 
         private void SaveEvidence(uint objectId, byte[] payload)
