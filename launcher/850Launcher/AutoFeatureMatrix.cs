@@ -15,18 +15,29 @@ namespace L1JTW850Launcher
             sb.AppendLine();
 
             var hpRaw = Contains(appDir, "runtime_hpmp_guard_evidence.txt", "RAW_MAP_ALLOWED=1");
+            var hpStableRva = AutoHpMpStableRvaVerifier.Refresh(appDir);
             var inventorySeed = Contains(appDir, "auto_inventory_seedless_evidence.txt", "STATUS=PASS_CANDIDATES");
             var inventoryHistory =
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_DYNAMIC_CANDIDATES") ||
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_CANDIDATES");
             var inventoryMapPresent = File.Exists(Path.Combine(appDir, "inventory-map.ini"));
             var inventoryGuard = AutoInventoryCandidateGuard.Refresh(appDir);
+            var inventoryExact = AutoInventoryExactChangeVerifier.Refresh(appDir);
             var buffMarkers = ReadIntValue(appDir, "auto_buff_receive_evidence.txt", "BUFF_MARKERS=");
 
             string inventoryState;
             if (inventoryMapPresent)
             {
                 inventoryState = "MAP_PRESENT_NOT_YET_SEMANTICALLY_PROVEN";
+            }
+            else if (inventoryExact.StartsWith("EXACT_ITEM_WORD_CHANGES", StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "EXACT_ITEM_CHANGE_CANDIDATES";
+            }
+            else if (string.Equals(inventoryExact, "NO_EXACT_ITEM_WORD_CHANGE", StringComparison.OrdinalIgnoreCase) &&
+                     inventoryGuard.StartsWith("SURVIVORS=", StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "NEIGHBOR_ONLY_FALSE_POSITIVE_SUSPECT";
             }
             else if (string.Equals(
                 inventoryGuard,
@@ -37,7 +48,7 @@ namespace L1JTW850Launcher
             }
             else if (inventoryGuard.StartsWith("SURVIVORS=", StringComparison.OrdinalIgnoreCase))
             {
-                inventoryState = "FILTERED_DYNAMIC_CANDIDATES";
+                inventoryState = "FILTERED_DYNAMIC_CANDIDATES_WAIT_EXACT_CHANGE";
             }
             else if (inventorySeed && inventoryHistory)
             {
@@ -50,8 +61,10 @@ namespace L1JTW850Launcher
 
             sb.AppendLine("[FOUNDATION]");
             sb.AppendLine("HPMP_TRACKING=" + (hpRaw ? "READY_RAW_MAP" : "DISCOVERY_RUNNING"));
+            sb.AppendLine("HPMP_STABLE_RVA=" + hpStableRva);
             sb.AppendLine("INVENTORY_TRACKING=" + inventoryState);
             sb.AppendLine("INVENTORY_CANDIDATE_GUARD=" + inventoryGuard);
+            sb.AppendLine("INVENTORY_EXACT_CHANGE=" + inventoryExact);
             sb.AppendLine("BUFF_STATE_TRACKING=" + (buffMarkers > 0 ? "RECV_MARKER_CANDIDATE" : "DISCOVERY_RUNNING"));
             sb.AppendLine("PLAYER_IDENTITY=WAIT_WP3");
             sb.AppendLine("ITEM_USE_BRIDGE=UNMAPPED");
@@ -78,7 +91,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RESOLVENT_TABLE=SERVER_SIDE_PRESENT");
             sb.AppendLine();
 
-            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; CATALOG-LIKE DYNAMIC CLUSTERS ARE REJECTED; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL BRIDGES ARE PROVEN");
+            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; STABLE RVA AND EXACT ITEM-WORD CHANGE ARE CANDIDATE EVIDENCE ONLY; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL FORMAL BRIDGES ARE PROVEN");
 
             var text = sb.ToString();
             try
