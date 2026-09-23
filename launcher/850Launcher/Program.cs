@@ -7,7 +7,7 @@ namespace L1JTW850Launcher
 {
     internal static class Program
     {
-        private const string BuildMarker = "AUTO-AUDIT-20260923-1358";
+        private const string BuildMarker = "AUTO-AUDIT-20260923-DMGRT1";
 
         [STAThread]
         private static void Main()
@@ -29,16 +29,10 @@ namespace L1JTW850Launcher
                 var main = new MainForm(appDir, config, helper);
                 main.Text = "L1JTW 8.50 登入器 + 輔助 [" + BuildMarker + "]";
 
-                // Static receive-wrapper discovery is intentionally independent from runtime
-                // memory probing. It reads only local PE files and may run immediately.
-                var damageReceiveDiscovery = new AutoDamageReceiveDiscovery(appDir);
-
                 main.Shown += delegate
                 {
                     try
                     {
-                        damageReceiveDiscovery.EnsureRunning(null);
-
                         var tabs = FindTabControl(main);
                         if (tabs == null)
                         {
