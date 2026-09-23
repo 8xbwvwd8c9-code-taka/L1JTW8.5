@@ -28,7 +28,7 @@ namespace L1JTW850Launcher
         private readonly object _sync = new object();
         private int _pid;
         private bool _running;
-        private bool _done;
+        private DateTime _lastCrossWriteUtc = DateTime.MinValue;
         private string _status = "WAITING_CROSSCHECK";
 
         public AutoHpMpPointerDiscovery(string appDir)
@@ -46,20 +46,29 @@ namespace L1JTW850Launcher
             if (runtime == null || !runtime.Connected || !runtime.ClientHashAuthoritative || runtime.ProcessId <= 0)
                 return;
 
+            var path = Path.Combine(_appDir, "runtime_hpmp_crosscheck_evidence.txt");
+            if (!File.Exists(path))
+            {
+                lock (_sync) _status = "WAITING_CROSSCHECK";
+                return;
+            }
+
+            DateTime writeUtc;
+            try { writeUtc = File.GetLastWriteTimeUtc(path); }
+            catch { return; }
+
             lock (_sync)
             {
                 if (_pid != runtime.ProcessId)
                 {
                     _pid = runtime.ProcessId;
                     _running = false;
-                    _done = false;
+                    _lastCrossWriteUtc = DateTime.MinValue;
                     _status = "WAITING_CROSSCHECK";
                 }
-
-                if (_running || _done) return;
+                if (_running || writeUtc <= _lastCrossWriteUtc) return;
             }
 
-            var path = Path.Combine(_appDir, "runtime_hpmp_crosscheck_evidence.txt");
             Seed seed;
             if (!TryLoadSeed(path, out seed))
             {
@@ -73,23 +82,41 @@ namespace L1JTW850Launcher
                 return;
             }
 
-            if (!string.Equals(seed.Confidence, "MEDIUM", StringComparison.OrdinalIgnoreCase) &&
-                !string.Equals(seed.Confidence, "HIGH", StringComparison.OrdinalIgnoreCase))
-            {
-                lock (_sync) _status = "WAITING_MEDIUM_CONFIDENCE";
-                return;
-            }
-
             if (!seed.DynamicPair || seed.HpChanges <= 0 || seed.MpChanges <= 0 ||
                 seed.HpValidPct < 95 || seed.MpValidPct < 95)
             {
-                lock (_sync) _status = "WAITING_DYNAMIC_CROSSCHECK";
+                lock (_sync)
+                {
+                    _status = "WAITING_DYNAMIC_CROSSCHECK";
+                    _lastCrossWriteUtc = writeUtc;
+                }
+                return;
+            }
+
+            var confidenceAccepted =
+                string.Equals(seed.Confidence, "HIGH", StringComparison.OrdinalIgnoreCase) ||
+                string.Equals(seed.Confidence, "MEDIUM", StringComparison.OrdinalIgnoreCase);
+
+            // LOW may still be a real current-HP/current-MP pair if both values are highly readable,
+            // dynamic, and adjacent. Let pointer topology decide; the evidence guard still blocks maps.
+            var pairDistance = Math.Abs(seed.Hp - seed.Mp);
+            var lowAdjacentAccepted =
+                string.Equals(seed.Confidence, "LOW", StringComparison.OrdinalIgnoreCase) &&
+                pairDistance <= 0x20;
+
+            if (!confidenceAccepted && !lowAdjacentAccepted)
+            {
+                lock (_sync)
+                {
+                    _status = "WAITING_POINTER_WORTHY_PAIR";
+                    _lastCrossWriteUtc = writeUtc;
+                }
                 return;
             }
 
             lock (_sync)
             {
-                if (_running || _done) return;
+                if (_running || writeUtc <= _lastCrossWriteUtc) return;
                 _running = true;
             }
 
@@ -98,27 +125,28 @@ namespace L1JTW850Launcher
                 try
                 {
                     Run(runtime, seed);
+                    lock (_sync) _lastCrossWriteUtc = writeUtc;
                 }
                 catch (Exception ex)
                 {
                     SaveError(runtime, ex);
-                    lock (_sync) _status = "ERROR";
+                    lock (_sync)
+                    {
+                        _status = "ERROR_RETRY_NEW_CROSSCHECK";
+                        _lastCrossWriteUtc = writeUtc;
+                    }
                 }
                 finally
                 {
-                    lock (_sync)
-                    {
-                        _running = false;
-                        _done = true;
-                    }
+                    lock (_sync) _running = false;
                 }
             });
         }
 
         private void Run(RuntimeSnapshot runtime, Seed seed)
         {
-            var hpChains = new List<PointerChainCandidate>();
-            var mpChains = new List<PointerChainCandidate>();
+            List<PointerChainCandidate> hpChains;
+            List<PointerChainCandidate> mpChains;
             string hpStatus;
             string mpStatus;
 
@@ -175,7 +203,6 @@ namespace L1JTW850Launcher
                 mpRva,
                 seed.MpWidth,
                 runtime.ProcessId);
-
             if (hpRva >= 0 && mpRva >= 0) stableSessions++;
 
             var sb = Header(runtime, "AUTO_HPMP_POINTER_DISCOVERY");
@@ -204,18 +231,15 @@ namespace L1JTW850Launcher
             sb.AppendLine();
 
             sb.AppendLine("[SHARED_ROOTS]");
-            for (var i = 0; i < Math.Min(50, shared.Count); i++)
-                sb.AppendLine(shared[i]);
+            for (var i = 0; i < Math.Min(50, shared.Count); i++) sb.AppendLine(shared[i]);
             sb.AppendLine();
 
             sb.AppendLine("[HP_CHAINS]");
-            for (var i = 0; i < Math.Min(50, hpChains.Count); i++)
-                sb.AppendLine(hpChains[i].Expression);
+            for (var i = 0; i < Math.Min(50, hpChains.Count); i++) sb.AppendLine(hpChains[i].Expression);
             sb.AppendLine();
 
             sb.AppendLine("[MP_CHAINS]");
-            for (var i = 0; i < Math.Min(50, mpChains.Count); i++)
-                sb.AppendLine(mpChains[i].Expression);
+            for (var i = 0; i < Math.Min(50, mpChains.Count); i++) sb.AppendLine(mpChains[i].Expression);
             sb.AppendLine();
 
             string status;
@@ -229,7 +253,6 @@ namespace L1JTW850Launcher
                 status = "NO_STABLE_POINTER_YET";
 
             sb.AppendLine("STATUS=" + status);
-
             File.WriteAllText(
                 Path.Combine(_appDir, "runtime_hpmp_pointer_evidence.txt"),
                 sb.ToString(),
@@ -239,12 +262,7 @@ namespace L1JTW850Launcher
             lock (_sync) _status = status;
         }
 
-        private int CountPriorStableSessions(
-            long hpRva,
-            int hpWidth,
-            long mpRva,
-            int mpWidth,
-            int currentPid)
+        private int CountPriorStableSessions(long hpRva, int hpWidth, long mpRva, int mpWidth, int currentPid)
         {
             if (hpRva < 0 || mpRva < 0) return 0;
             var path = Path.Combine(_appDir, "runtime_hpmp_pointer_history.txt");
@@ -262,20 +280,13 @@ namespace L1JTW850Launcher
                 if (!TryInt(map, "PID", out pid) || pid <= 0 || pid == currentPid) continue;
                 if (!TryHex(map, "HP_RVA", out oldHpRva) || !TryHex(map, "MP_RVA", out oldMpRva)) continue;
                 if (!TryInt(map, "HP_WIDTH", out oldHpWidth) || !TryInt(map, "MP_WIDTH", out oldMpWidth)) continue;
-                if (oldHpRva == hpRva && oldMpRva == mpRva &&
-                    oldHpWidth == hpWidth && oldMpWidth == mpWidth)
+                if (oldHpRva == hpRva && oldMpRva == mpRva && oldHpWidth == hpWidth && oldMpWidth == mpWidth)
                     pids.Add(pid);
             }
             return pids.Count;
         }
 
-        private void AppendHistory(
-            RuntimeSnapshot runtime,
-            Seed seed,
-            long hpRva,
-            long mpRva,
-            int sharedRoots,
-            string status)
+        private void AppendHistory(RuntimeSnapshot runtime, Seed seed, long hpRva, long mpRva, int sharedRoots, string status)
         {
             try
             {
@@ -291,15 +302,12 @@ namespace L1JTW850Launcher
                     " SHARED_ROOTS=" + sharedRoots +
                     " STATUS=" + status.Replace(' ', '_') +
                     Environment.NewLine;
-
                 File.AppendAllText(
                     Path.Combine(_appDir, "runtime_hpmp_pointer_history.txt"),
                     line,
                     new UTF8Encoding(false));
             }
-            catch
-            {
-            }
+            catch { }
         }
 
         private static bool TryLoadSeed(string path, out Seed seed)
@@ -313,13 +321,11 @@ namespace L1JTW850Launcher
                 var line = raw.Trim();
                 int pid;
                 int flag;
-                if (line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase) &&
-                    int.TryParse(line.Substring(4), out pid))
+                if (line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase) && int.TryParse(line.Substring(4), out pid))
                     candidate.EvidencePid = pid;
                 else if (line.StartsWith("CONFIDENCE=", StringComparison.OrdinalIgnoreCase))
                     candidate.Confidence = line.Substring(11).Trim();
-                else if (line.StartsWith("DYNAMIC_PAIR=", StringComparison.OrdinalIgnoreCase) &&
-                    int.TryParse(line.Substring(13), out flag))
+                else if (line.StartsWith("DYNAMIC_PAIR=", StringComparison.OrdinalIgnoreCase) && int.TryParse(line.Substring(13), out flag))
                     candidate.DynamicPair = flag == 1;
                 else if (line.StartsWith("BEST_HP=", StringComparison.OrdinalIgnoreCase))
                 {
@@ -360,12 +366,7 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        private static bool TryParseBest(
-            string text,
-            out long address,
-            out int width,
-            out int changes,
-            out int validPct)
+        private static bool TryParseBest(string text, out long address, out int width, out int changes, out int validPct)
         {
             address = 0;
             width = 0;
@@ -441,9 +442,7 @@ namespace L1JTW850Launcher
                     sb.ToString(),
                     new UTF8Encoding(false));
             }
-            catch
-            {
-            }
+            catch { }
         }
     }
 }
