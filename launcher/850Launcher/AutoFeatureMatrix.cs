@@ -20,19 +20,38 @@ namespace L1JTW850Launcher
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_DYNAMIC_CANDIDATES") ||
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_CANDIDATES");
             var inventoryMapPresent = File.Exists(Path.Combine(appDir, "inventory-map.ini"));
+            var inventoryGuard = AutoInventoryCandidateGuard.Refresh(appDir);
             var buffMarkers = ReadIntValue(appDir, "auto_buff_receive_evidence.txt", "BUFF_MARKERS=");
 
             string inventoryState;
             if (inventoryMapPresent)
+            {
                 inventoryState = "MAP_PRESENT_NOT_YET_SEMANTICALLY_PROVEN";
+            }
+            else if (string.Equals(
+                inventoryGuard,
+                "ALL_DYNAMIC_CANDIDATES_REJECTED_CATALOG",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "CATALOG_FALSE_POSITIVES_REJECTED";
+            }
+            else if (inventoryGuard.StartsWith("SURVIVORS=", StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "FILTERED_DYNAMIC_CANDIDATES";
+            }
             else if (inventorySeed && inventoryHistory)
+            {
                 inventoryState = "DYNAMIC_CANDIDATES_ONLY";
+            }
             else
+            {
                 inventoryState = "DISCOVERY_RUNNING";
+            }
 
             sb.AppendLine("[FOUNDATION]");
             sb.AppendLine("HPMP_TRACKING=" + (hpRaw ? "READY_RAW_MAP" : "DISCOVERY_RUNNING"));
             sb.AppendLine("INVENTORY_TRACKING=" + inventoryState);
+            sb.AppendLine("INVENTORY_CANDIDATE_GUARD=" + inventoryGuard);
             sb.AppendLine("BUFF_STATE_TRACKING=" + (buffMarkers > 0 ? "RECV_MARKER_CANDIDATE" : "DISCOVERY_RUNNING"));
             sb.AppendLine("PLAYER_IDENTITY=WAIT_WP3");
             sb.AppendLine("ITEM_USE_BRIDGE=UNMAPPED");
@@ -59,7 +78,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RESOLVENT_TABLE=SERVER_SIDE_PRESENT");
             sb.AppendLine();
 
-            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; DYNAMIC_CANDIDATES_ARE_NOT_FORMAL_INVENTORY; DO_NOT_ENABLE_DESTRUCTIVE_OR_CAST_ACTIONS_UNTIL_BRIDGES_ARE_PROVEN");
+            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; CATALOG-LIKE DYNAMIC CLUSTERS ARE REJECTED; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL BRIDGES ARE PROVEN");
 
             var text = sb.ToString();
             try
