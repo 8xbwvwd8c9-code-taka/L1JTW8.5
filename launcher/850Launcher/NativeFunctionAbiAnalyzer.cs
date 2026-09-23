@@ -59,7 +59,7 @@ namespace L1JTW850Launcher
                     probe,
                     runtime,
                     functionRva,
-                    512);
+                    64);
 
             result.FunctionSha256 =
                 fingerprint.Sha256;
