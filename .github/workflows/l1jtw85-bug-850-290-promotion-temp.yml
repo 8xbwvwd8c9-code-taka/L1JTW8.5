@@ -1,4 +1,4 @@
-name: TEMP BUG-850-290 Promotion Validation
+name: TEMP BUG-850-211-290 Promotion Validation
 
 on:
   push:
@@ -24,7 +24,7 @@ jobs:
         with:
           distribution: temurin
           java-version: "8"
-      - name: Load BUG-850-290 repair tools from work branch
+      - name: Load repair tools from work branch
         shell: bash
         run: |
           set -euo pipefail
@@ -32,6 +32,8 @@ jobs:
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/patch_bug_850_290.py > "$RUNNER_TEMP/patch_bug_850_290.py"
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/validate_bug_850_290.py > "$RUNNER_TEMP/validate_bug_850_290.py"
           git show origin/work/l1jtw85-core-fixes:tools/core-fix/Bug850290RuntimeTest.java > "$RUNNER_TEMP/Bug850290RuntimeTest.java"
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/validate_bug_850_211.py > "$RUNNER_TEMP/validate_bug_850_211.py"
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/Bug850211RuntimeTest.java > "$RUNNER_TEMP/Bug850211RuntimeTest.java"
           PATCH_FILE="$RUNNER_TEMP/patch_bug_850_290.py" python - <<'PY'
           import os
           from pathlib import Path
@@ -43,43 +45,84 @@ jobs:
               raise SystemExit(f"promotion adapter anchor count={s.count(old)}")
           p.write_text(s.replace(old, new, 1), encoding="utf-8")
           PY
-      - name: Apply exact BUG-850-290 patch
-        run: python "$RUNNER_TEMP/patch_bug_850_290.py"
-      - name: Validate bilateral clan-watch source contract
-        run: python "$RUNNER_TEMP/validate_bug_850_290.py"
-      - name: Check exact patch javac regression
+      - name: Apply BUG-850-211 prerequisite
         shell: bash
         run: |
           set -euo pipefail
-          BASELINE_SHA=b421e3f7448ca642a2048107684180ec5ec28b38
-          mkdir -p "$RUNNER_TEMP/base/l1r/ao" "$RUNNER_TEMP/fix/l1r/ao" "$RUNNER_TEMP/bclasses" "$RUNNER_TEMP/fclasses"
-          git show "$BASELINE_SHA:recovery/normalized-src-vf/l1r/ao/ClanTable.java" > "$RUNNER_TEMP/base/l1r/ao/ClanTable.java"
-          cp recovery/normalized-src-vf/l1r/ao/ClanTable.java "$RUNNER_TEMP/fix/l1r/ao/ClanTable.java"
+          cp recovery/normalized-src-vf/l1r/aj/C_PledgeWatch.java "$RUNNER_TEMP/C_PledgeWatch.pre211.java"
+          python - <<'PY'
+          from pathlib import Path
+          p = Path("recovery/normalized-src-vf/l1r/aj/C_PledgeWatch.java")
+          s = p.read_text(encoding="utf-8")
+          old = "            L1Clan var4 = ClanTable.a().a(var3.aF());\n            int var5 = this.c();"
+          new = "            L1Clan var4 = ClanTable.a().a(var3.aF());\n            if (var4 == null || !var3.x() || var3.fr() != var4.k()) {\n               var3.a(new S_ServerMessage(518));\n               return;\n            }\n\n            int var5 = this.c();"
+          if s.count(old) != 1:
+              raise SystemExit(f"BUG-850-211 exact anchor count={s.count(old)}")
+          p.write_text(s.replace(old, new, 1), encoding="utf-8")
+          PY
+      - name: Validate BUG-850-211 prerequisite
+        shell: bash
+        run: |
+          set -euo pipefail
+          python "$RUNNER_TEMP/validate_bug_850_211.py"
+          mkdir -p "$RUNNER_TEMP/rt211"
+          javac -d "$RUNNER_TEMP/rt211" "$RUNNER_TEMP/Bug850211RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/rt211" Bug850211RuntimeTest
+          mkdir -p "$RUNNER_TEMP/pre211/l1r/aj" "$RUNNER_TEMP/post211/l1r/aj" "$RUNNER_TEMP/pre211-classes" "$RUNNER_TEMP/post211-classes"
+          cp "$RUNNER_TEMP/C_PledgeWatch.pre211.java" "$RUNNER_TEMP/pre211/l1r/aj/C_PledgeWatch.java"
+          cp recovery/normalized-src-vf/l1r/aj/C_PledgeWatch.java "$RUNNER_TEMP/post211/l1r/aj/C_PledgeWatch.java"
           set +e
-          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bclasses" "$RUNNER_TEMP/base/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/base.err"
-          BASE_RC=$?
-          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/fclasses" "$RUNNER_TEMP/fix/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/fix.err"
-          FIX_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/pre211-classes" "$RUNNER_TEMP/pre211/l1r/aj/C_PledgeWatch.java" 2> "$RUNNER_TEMP/pre211.err"
+          PRE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/post211-classes" "$RUNNER_TEMP/post211/l1r/aj/C_PledgeWatch.java" 2> "$RUNNER_TEMP/post211.err"
+          POST_RC=$?
           set -e
-          grep 'error:' "$RUNNER_TEMP/base.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/base.sig" || true
-          grep 'error:' "$RUNNER_TEMP/fix.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/fix.sig" || true
-          diff -u "$RUNNER_TEMP/base.sig" "$RUNNER_TEMP/fix.sig"
-          echo "BASELINE_JAVAC_RC=$BASE_RC"
-          echo "FIX_JAVAC_RC=$FIX_RC"
-          echo "BUG_850_290_EXACT_PATCH_NO_NEW_JAVAC_REGRESSION=PASS"
-      - name: Run bilateral atomicity runtime model
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p "$RUNNER_TEMP/runtime"
-          javac -d "$RUNNER_TEMP/runtime" "$RUNNER_TEMP/Bug850290RuntimeTest.java"
-          java -cp "$RUNNER_TEMP/runtime" Bug850290RuntimeTest
-      - name: Commit validated core patch
+          grep 'error:' "$RUNNER_TEMP/pre211.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/pre211.sig" || true
+          grep 'error:' "$RUNNER_TEMP/post211.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/post211.sig" || true
+          diff -u "$RUNNER_TEMP/pre211.sig" "$RUNNER_TEMP/post211.sig"
+          echo "BUG_850_211_NO_NEW_JAVAC_REGRESSION=PASS PRE_RC=$PRE_RC POST_RC=$POST_RC"
+      - name: Commit BUG-850-211 prerequisite
         shell: bash
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/normalized-src-vf/l1r/aj/C_PledgeWatch.java
+          git diff --cached --check
+          git commit -m "fix(l1): promote BUG-850-211 clan watch authorization"
+      - name: Apply exact BUG-850-290 patch
+        run: python "$RUNNER_TEMP/patch_bug_850_290.py"
+      - name: Validate BUG-850-290 contract
+        run: python "$RUNNER_TEMP/validate_bug_850_290.py"
+      - name: Check BUG-850-290 javac regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASELINE_SHA=b421e3f7448ca642a2048107684180ec5ec28b38
+          mkdir -p "$RUNNER_TEMP/base290/l1r/ao" "$RUNNER_TEMP/fix290/l1r/ao" "$RUNNER_TEMP/base290-classes" "$RUNNER_TEMP/fix290-classes"
+          git show "$BASELINE_SHA:recovery/normalized-src-vf/l1r/ao/ClanTable.java" > "$RUNNER_TEMP/base290/l1r/ao/ClanTable.java"
+          cp recovery/normalized-src-vf/l1r/ao/ClanTable.java "$RUNNER_TEMP/fix290/l1r/ao/ClanTable.java"
+          set +e
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/base290-classes" "$RUNNER_TEMP/base290/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/base290.err"
+          BASE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/fix290-classes" "$RUNNER_TEMP/fix290/l1r/ao/ClanTable.java" 2> "$RUNNER_TEMP/fix290.err"
+          FIX_RC=$?
+          set -e
+          grep 'error:' "$RUNNER_TEMP/base290.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/base290.sig" || true
+          grep 'error:' "$RUNNER_TEMP/fix290.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/fix290.sig" || true
+          diff -u "$RUNNER_TEMP/base290.sig" "$RUNNER_TEMP/fix290.sig"
+          echo "BUG_850_290_EXACT_PATCH_NO_NEW_JAVAC_REGRESSION=PASS BASE_RC=$BASE_RC FIX_RC=$FIX_RC"
+      - name: Run BUG-850-290 runtime model
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/rt290"
+          javac -d "$RUNNER_TEMP/rt290" "$RUNNER_TEMP/Bug850290RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/rt290" Bug850290RuntimeTest
+      - name: Commit and push BUG-850-290
+        shell: bash
+        run: |
+          set -euo pipefail
           git add \
             recovery/normalized-src-vf/l1r/ao/ClanTable.java \
             recovered-src-obf/ao/q.java \
