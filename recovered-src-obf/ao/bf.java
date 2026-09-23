@@ -14,6 +14,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import l1j.server.b;
@@ -64,22 +65,19 @@ public class bf {
         }
     }
 
-    public void a(u pc) {
+    public synchronized void a(u pc) {
         pc.a(new dc(this.c.toArray(new a[0])));
     }
 
     public synchronized void a(u pc, int time) {
-        ArrayList<a> next = new ArrayList<a>(this.c);
-        boolean qualifies = next.size() < 10;
-        if (!qualifies) {
-            for (a rank : next) {
-                if (time < rank.c) {
-                    qualifies = true;
-                    break;
-                }
+        boolean isBetter = this.c.size() < 10;
+        for (a rank : this.c) {
+            if (time < rank.c) {
+                isBetter = true;
+                break;
             }
         }
-        if (!qualifies) {
+        if (!isBetter) {
             return;
         }
 
@@ -88,67 +86,82 @@ public class bf {
         rank.b = pc.ay();
         rank.c = time;
         Date now = new Date();
-        rank.d = new java.sql.Date(now.getTime()).getTime();
-        next.add(rank);
-        Collections.sort(next, new Comparator<a>() {
-            public int a(a r1, a r2) {
+        java.sql.Date sqlDate = new java.sql.Date(now.getTime());
+        rank.d = sqlDate.getTime();
+
+        ArrayList<a> snapshot = new ArrayList<a>(this.c);
+        snapshot.add(rank);
+        Collections.sort(snapshot, new Comparator<a>() {
+            @Override
+            public int compare(a r1, a r2) {
                 return Integer.compare(r1.c, r2.c);
             }
-
-            @Override
-            public /* synthetic */ int compare(Object object, Object object2) {
-                return this.a((a)object, (a)object2);
-            }
         });
-        while (next.size() > 10) {
-            next.remove(next.size() - 1);
+        while (snapshot.size() > 10) {
+            snapshot.remove(snapshot.size() - 1);
         }
 
+        if (!this.a(snapshot)) {
+            return;
+        }
+
+        this.c.clear();
+        this.c.addAll(snapshot);
+    }
+
+    private boolean a(List<a> snapshot) {
         Connection con = null;
-        PreparedStatement delete = null;
-        PreparedStatement insert = null;
+        PreparedStatement pstm = null;
+        boolean oldAutoCommit = true;
         try {
             con = l1j.server.b.a().b();
+            oldAutoCommit = con.getAutoCommit();
             con.setAutoCommit(false);
-            delete = con.prepareStatement("DELETE FROM soul_tower WHERE rank >0");
-            delete.executeUpdate();
-            insert = con.prepareStatement("INSERT INTO soul_tower SET rank=?,name=?,class=?,time=?,date=?");
+
+            pstm = con.prepareStatement("DELETE FROM soul_tower WHERE rank >0");
+            pstm.executeUpdate();
+            j.a(pstm);
+            pstm = con.prepareStatement("INSERT INTO soul_tower SET rank=?,name=?,class=?,time=?,date=?");
+
             int i2 = 0;
-            while (i2 < next.size()) {
-                a entry = next.get(i2);
-                insert.setInt(1, i2 + 1);
-                insert.setString(2, entry.a);
-                insert.setInt(3, entry.b);
-                insert.setInt(4, entry.c);
+            while (i2 < snapshot.size()) {
+                a row = snapshot.get(i2);
+                pstm.setInt(1, i2 + 1);
+                pstm.setString(2, row.a);
+                pstm.setInt(3, row.b);
+                pstm.setInt(4, row.c);
                 Date utilDate = new Date();
-                utilDate.setTime(entry.d);
-                insert.setDate(5, new java.sql.Date(utilDate.getTime()));
-                insert.addBatch();
+                utilDate.setTime(row.d);
+                pstm.setDate(5, new java.sql.Date(utilDate.getTime()));
+                if (pstm.executeUpdate() != 1) {
+                    throw new SQLException("BUG-850-251 SoulTower insert affected unexpected row count");
+                }
                 ++i2;
             }
-            insert.executeBatch();
+
             con.commit();
-            this.c.clear();
-            this.c.addAll(next);
+            return true;
         }
         catch (SQLException e2) {
-            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
             if (con != null) {
                 try {
                     con.rollback();
                 }
-                catch (SQLException ignored) {
+                catch (SQLException rollbackError) {
+                    a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
                 }
             }
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
         }
         finally {
-            j.a(insert);
-            j.a(delete);
+            j.a(pstm);
             if (con != null) {
                 try {
-                    con.setAutoCommit(true);
+                    con.setAutoCommit(oldAutoCommit);
                 }
-                catch (SQLException ignored) {
+                catch (SQLException autoCommitError) {
+                    a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
                 }
             }
             j.a(con);
