@@ -96,6 +96,7 @@
     <Compile Include="AutoParallelDiscovery.cs" />
     <Compile Include="AutoNetworkSurfaceDiscovery.cs" />
     <Compile Include="AutoLoadedModuleNetworkDiscovery.cs" />
+    <Compile Include="AutoAppDirNetworkDiscovery.cs" />
     <Compile Include="AutoInventoryHistoryDiscovery.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
