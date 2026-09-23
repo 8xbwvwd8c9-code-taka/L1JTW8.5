@@ -15,7 +15,7 @@ namespace L1JTW850Launcher
             sb.AppendLine();
 
             var hpRaw = Contains(appDir, "runtime_hpmp_guard_evidence.txt", "RAW_MAP_ALLOWED=1");
-            var hpStableRva = AutoHpMpStableRvaVerifier.Refresh(appDir);
+            var hpStableRva = AutoHpMpStableRvaMultiVerifier.Refresh(appDir);
             var inventorySeed = Contains(appDir, "auto_inventory_seedless_evidence.txt", "STATUS=PASS_CANDIDATES");
             var inventoryHistory =
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_DYNAMIC_CANDIDATES") ||
@@ -23,6 +23,7 @@ namespace L1JTW850Launcher
             var inventoryMapPresent = File.Exists(Path.Combine(appDir, "inventory-map.ini"));
             var inventoryGuard = AutoInventoryCandidateGuard.Refresh(appDir);
             var inventoryExact = AutoInventoryExactChangeVerifier.Refresh(appDir);
+            var inventoryQualifiedGuard = AutoInventoryQualifiedDynamicsGuard.Refresh(appDir);
             var buffMarkers = ReadIntValue(appDir, "auto_buff_receive_evidence.txt", "BUFF_MARKERS=");
 
             string inventoryState;
@@ -30,9 +31,20 @@ namespace L1JTW850Launcher
             {
                 inventoryState = "MAP_PRESENT_NOT_YET_SEMANTICALLY_PROVEN";
             }
+            else if (inventoryQualifiedGuard.StartsWith("SURVIVORS=", StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "POST_GUARD_ITEM_ID_DYNAMICS_CANDIDATE";
+            }
+            else if (string.Equals(
+                inventoryQualifiedGuard,
+                "ALL_QUALIFIED_DYNAMICS_REJECTED_CACHE_PATTERNS",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "QUALIFIED_CACHE_FALSE_POSITIVES_REJECTED";
+            }
             else if (inventoryExact.StartsWith("QUALIFIED_ITEM_ID_DYNAMICS", StringComparison.OrdinalIgnoreCase))
             {
-                inventoryState = "QUALIFIED_ITEM_ID_DYNAMICS_CANDIDATE";
+                inventoryState = "WAIT_POST_QUALIFIED_GUARD";
             }
             else if (inventoryExact.StartsWith("EXACT_CHANGES_REJECTED_NONCATALOG", StringComparison.OrdinalIgnoreCase))
             {
@@ -65,10 +77,11 @@ namespace L1JTW850Launcher
 
             sb.AppendLine("[FOUNDATION]");
             sb.AppendLine("HPMP_TRACKING=" + (hpRaw ? "READY_RAW_MAP" : "DISCOVERY_RUNNING"));
-            sb.AppendLine("HPMP_STABLE_RVA=" + hpStableRva);
+            sb.AppendLine("HPMP_STABLE_RVA_MULTI=" + hpStableRva);
             sb.AppendLine("INVENTORY_TRACKING=" + inventoryState);
             sb.AppendLine("INVENTORY_CANDIDATE_GUARD=" + inventoryGuard);
             sb.AppendLine("INVENTORY_EXACT_CHANGE=" + inventoryExact);
+            sb.AppendLine("INVENTORY_QUALIFIED_GUARD=" + inventoryQualifiedGuard);
             sb.AppendLine("BUFF_STATE_TRACKING=" + (buffMarkers > 0 ? "RECV_MARKER_CANDIDATE" : "DISCOVERY_RUNNING"));
             sb.AppendLine("PLAYER_IDENTITY=WAIT_WP3");
             sb.AppendLine("ITEM_USE_BRIDGE=UNMAPPED");
@@ -95,7 +108,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RESOLVENT_TABLE=SERVER_SIDE_PRESENT");
             sb.AppendLine();
 
-            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; STABLE RVA AND QUALIFIED ITEM-ID DYNAMICS ARE CANDIDATE EVIDENCE ONLY; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL FORMAL BRIDGES ARE PROVEN");
+            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; MULTI-RVA AND POST-QUALIFIED ITEM-ID DYNAMICS ARE CANDIDATE EVIDENCE ONLY; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL FORMAL BRIDGES ARE PROVEN");
 
             var text = sb.ToString();
             try
