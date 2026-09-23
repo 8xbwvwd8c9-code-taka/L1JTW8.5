@@ -6,7 +6,7 @@ on:
       - completed/l1jtw85-core-fixes
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   l3-completed-contracts:
@@ -17,99 +17,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Merge protected Batch7 player state hunks
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          def exact_replace(text, old, new, label):
-              hits = text.count(old)
-              if hits != 1:
-                  raise SystemExit(f"PATCH_GATE_FAIL {label}: expected 1 hit, got {hits}")
-              return text.replace(old, new, 1)
-
-          def patch_normalized():
-              path = Path("recovery/normalized-src-vf/l1r/ap/L1PcInstance.java")
-              text = path.read_text(encoding="utf-8")
-              if "l1rActivePolyMorphRule" in text:
-                  required = [
-                      "public L1PolyMorph getActivePolyMorphRule()",
-                      "public void setActivePolyMorphRule(L1PolyMorph var1)",
-                      "public void makeReadyEndGhost()",
-                      "public void finishGhostReturn()",
-                      "l1rGhostReturnPending",
-                  ]
-                  if not all(x in text for x in required):
-                      raise SystemExit("PATCH_GATE_FAIL normalized: partial Batch7 state")
-                  return
-              text = exact_replace(
-                  text,
-                  "import l1r.aq.L1Object;\nimport l1r.aq.L1Party;",
-                  "import l1r.aq.L1Object;\nimport l1r.aq.L1PolyMorph;\nimport l1r.aq.L1Teleport;\nimport l1r.aq.L1Party;",
-                  "normalized imports",
-              )
-              text = exact_replace(
-                  text,
-                  "   private ScheduledFuture<?> bh;\n   private boolean bi = false;\n   private int l1rAmountNpcObjId = 0;",
-                  "   private ScheduledFuture<?> bh;\n   private boolean bi = false;\n   private L1PolyMorph l1rActivePolyMorphRule;\n   private int l1rGhostSaveLocX;\n   private int l1rGhostSaveLocY;\n   private int l1rGhostSaveMapId;\n   private int l1rGhostSaveHeading;\n   private boolean l1rGhostSaveValid = false;\n   private boolean l1rGhostReturnPending = false;\n   private int l1rAmountNpcObjId = 0;",
-                  "normalized fields",
-              )
-              text = exact_replace(
-                  text,
-                  "   public void j(boolean var1) {\n      this.bi = var1;\n   }",
-                  "   public void j(boolean var1) {\n      if (var1 && !this.bi) {\n         this.l1rGhostSaveLocX = this.fs();\n         this.l1rGhostSaveLocY = this.ft();\n         this.l1rGhostSaveMapId = this.fp();\n         this.l1rGhostSaveHeading = this.fb();\n         this.l1rGhostSaveValid = true;\n         this.l1rGhostReturnPending = false;\n      }\n      this.bi = var1;\n      if (!var1) {\n         this.l1rGhostSaveValid = false;\n         this.l1rGhostReturnPending = false;\n      }\n   }\n\n   public L1PolyMorph getActivePolyMorphRule() {\n      return this.l1rActivePolyMorphRule;\n   }\n\n   public void setActivePolyMorphRule(L1PolyMorph var1) {\n      this.l1rActivePolyMorphRule = var1;\n   }\n\n   public void makeReadyEndGhost() {\n      if (!this.bi || !this.l1rGhostSaveValid || this.l1rGhostReturnPending) {\n         return;\n      }\n      this.l1rGhostReturnPending = true;\n      L1Teleport.a(this, this.l1rGhostSaveLocX, this.l1rGhostSaveLocY, this.l1rGhostSaveMapId, this.l1rGhostSaveHeading, true);\n   }\n\n   public void finishGhostReturn() {\n      if (!this.l1rGhostReturnPending) {\n         return;\n      }\n      this.bi = false;\n      this.l1rGhostReturnPending = false;\n      this.l1rGhostSaveValid = false;\n   }",
-                  "normalized ghost/polymorph methods",
-              )
-              path.write_text(text, encoding="utf-8")
-
-          def patch_obfuscated():
-              path = Path("recovered-src-obf/ap/u.java")
-              text = path.read_text(encoding="utf-8")
-              if "l1rActivePolyMorphRule" in text:
-                  required = [
-                      "public ae getActivePolyMorphRule()",
-                      "public void setActivePolyMorphRule(ae rule)",
-                      "public void makeReadyEndGhost()",
-                      "public void finishGhostReturn()",
-                      "l1rGhostReturnPending",
-                  ]
-                  if not all(x in text for x in required):
-                      raise SystemExit("PATCH_GATE_FAIL obfuscated: partial Batch7 state")
-                  return
-              text = exact_replace(
-                  text,
-                  "import aq.ad;\nimport aq.af;",
-                  "import aq.ad;\nimport aq.ae;\nimport aq.am;\nimport aq.af;",
-                  "obfuscated imports",
-              )
-              text = exact_replace(
-                  text,
-                  "    private ScheduledFuture<?> bh;\n    private boolean bi = false;\n    private int l1rAmountNpcObjId = 0;",
-                  "    private ScheduledFuture<?> bh;\n    private boolean bi = false;\n    private ae l1rActivePolyMorphRule;\n    private int l1rGhostSaveLocX;\n    private int l1rGhostSaveLocY;\n    private int l1rGhostSaveMapId;\n    private int l1rGhostSaveHeading;\n    private boolean l1rGhostSaveValid = false;\n    private boolean l1rGhostReturnPending = false;\n    private int l1rAmountNpcObjId = 0;",
-                  "obfuscated fields",
-              )
-              text = exact_replace(
-                  text,
-                  "    public void j(boolean isGhost) {\n        this.bi = isGhost;\n    }",
-                  "    public void j(boolean isGhost) {\n        if (isGhost && !this.bi) {\n            this.l1rGhostSaveLocX = this.fs();\n            this.l1rGhostSaveLocY = this.ft();\n            this.l1rGhostSaveMapId = this.fp();\n            this.l1rGhostSaveHeading = this.fb();\n            this.l1rGhostSaveValid = true;\n            this.l1rGhostReturnPending = false;\n        }\n        this.bi = isGhost;\n        if (!isGhost) {\n            this.l1rGhostSaveValid = false;\n            this.l1rGhostReturnPending = false;\n        }\n    }\n\n    public ae getActivePolyMorphRule() {\n        return this.l1rActivePolyMorphRule;\n    }\n\n    public void setActivePolyMorphRule(ae rule) {\n        this.l1rActivePolyMorphRule = rule;\n    }\n\n    public void makeReadyEndGhost() {\n        if (!this.bi || !this.l1rGhostSaveValid || this.l1rGhostReturnPending) {\n            return;\n        }\n        this.l1rGhostReturnPending = true;\n        am.a(this, this.l1rGhostSaveLocX, this.l1rGhostSaveLocY, this.l1rGhostSaveMapId, this.l1rGhostSaveHeading, true);\n    }\n\n    public void finishGhostReturn() {\n        if (!this.l1rGhostReturnPending) {\n            return;\n        }\n        this.bi = false;\n        this.l1rGhostReturnPending = false;\n        this.l1rGhostSaveValid = false;\n    }",
-                  "obfuscated ghost/polymorph methods",
-              )
-              path.write_text(text, encoding="utf-8")
-
-          patch_normalized()
-          patch_obfuscated()
-          PY
-          git diff --check
-          python tools/core-fix/validate_l3_batch7.py
-          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/ap/L1PcInstance.java recovered-src-obf/ap/u.java; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add recovery/normalized-src-vf/l1r/ap/L1PcInstance.java recovered-src-obf/ap/u.java
-            git commit -m "fix(l3): restore player polymorph and ghost state"
-            git push origin HEAD:completed/l1jtw85-core-fixes
-          fi
       - name: Run Batch1-7 source contracts
         shell: bash
         run: |
