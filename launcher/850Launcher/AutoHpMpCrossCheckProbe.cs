@@ -133,10 +133,10 @@ namespace L1JTW850Launcher
             var bestPairScore = int.MinValue;
             foreach (var h in hp)
             {
-                if (!DynamicEnough(h)) continue;
+                if (!PairEligible(h)) continue;
                 foreach (var m in mp)
                 {
-                    if (!DynamicEnough(m)) continue;
+                    if (!PairEligible(m)) continue;
                     var distance = Math.Abs(h.Address - m.Address);
                     var pair = h.Score + m.Score + Proximity(distance);
                     if (pair > bestPairScore)
@@ -172,12 +172,14 @@ namespace L1JTW850Launcher
                     confidence = "MEDIUM";
             }
 
-            var sb = Header(runtime, "AUTO_HPMP_CROSSCHECK");
+            var sb = Header(runtime, "AUTO_HPMP_CROSSCHECK_V2");
             sb.AppendLine("MAX_HP=" + maxHp);
             sb.AppendLine("MAX_MP=" + maxMp);
             sb.AppendLine("SAMPLES=90");
+            sb.AppendLine("PAIR_DISCOVERY_VALID_PCT_FLOOR=80");
             sb.AppendLine("CONFIDENCE=" + confidence);
             sb.AppendLine("DYNAMIC_PAIR=" + (dynamicPair ? 1 : 0));
+            sb.AppendLine("PAIR_SCORE=" + (dynamicPair ? bestPairScore.ToString() : "NA"));
             sb.AppendLine("MEMORY_WRITE=NO");
             if (bestHp != null) sb.AppendLine("BEST_HP=" + Format(bestHp));
             if (bestMp != null) sb.AppendLine("BEST_MP=" + Format(bestMp));
@@ -228,6 +230,12 @@ namespace L1JTW850Launcher
         {
             if (c == null || c.Valid <= 0 || c.Changes <= 0) return false;
             return Percent(c.Valid, c.Valid + c.Invalid) >= 95;
+        }
+
+        private static bool PairEligible(Candidate c)
+        {
+            if (c == null || c.Valid <= 0 || c.Changes <= 0) return false;
+            return Percent(c.Valid, c.Valid + c.Invalid) >= 80;
         }
 
         private static void ObserveList(RuntimeMemoryProbe probe, List<Candidate> list, int ceiling)
@@ -285,12 +293,12 @@ namespace L1JTW850Launcher
 
         private static int Proximity(long distance)
         {
-            if (distance <= 0x10) return 200;
-            if (distance <= 0x20) return 160;
-            if (distance <= 0x40) return 120;
-            if (distance <= 0x80) return 80;
-            if (distance <= 0x100) return 50;
-            if (distance <= 0x200) return 20;
+            if (distance <= 0x10) return 360;
+            if (distance <= 0x20) return 300;
+            if (distance <= 0x40) return 220;
+            if (distance <= 0x80) return 140;
+            if (distance <= 0x100) return 90;
+            if (distance <= 0x200) return 40;
             return 0;
         }
 
@@ -401,7 +409,7 @@ namespace L1JTW850Launcher
         {
             try
             {
-                var sb = Header(runtime, "AUTO_HPMP_CROSSCHECK");
+                var sb = Header(runtime, "AUTO_HPMP_CROSSCHECK_V2");
                 sb.AppendLine("STATUS=ERROR");
                 sb.AppendLine("ERROR=" + ex.GetType().Name + ": " + ex.Message);
                 sb.AppendLine("MEMORY_WRITE=NO");
