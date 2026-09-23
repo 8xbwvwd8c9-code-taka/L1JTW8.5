@@ -39,6 +39,7 @@
     <Compile Include="IniDocument.cs" />
     <Compile Include="LauncherConfig.cs" />
     <Compile Include="HelperSettings.cs" />
+    <Compile Include="DamageAccountingPolicy.cs" />
     <Compile Include="AutoPotionPolicy.cs" />
     <Compile Include="AutoPotionController.cs" />
     <Compile Include="ItemUseBridge.cs" />
