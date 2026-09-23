@@ -1,6 +1,7 @@
 param(
     [string]$ClientPath = "I:\8.50c客服端\Lin.bin2",
-    [string]$OutputPath = "I:\L共通工具\LineageAIResourceToolkit\outputs\850_ui_anchor_runtime_heap_scan.txt"
+    [string]$OutputPath = "I:\L共通工具\LineageAIResourceToolkit\outputs\850_ui_anchor_runtime_heap_scan.txt",
+    [int]$TargetPid = 0
 )
 
 $ErrorActionPreference = "Stop"
@@ -16,16 +17,80 @@ if ($parent -and -not (Test-Path -LiteralPath $parent)) {
 }
 
 $clientFull = [IO.Path]::GetFullPath($ClientPath)
+$clientDir = Split-Path -Parent $clientFull
 $proc = $null
-foreach ($p in Get-Process -ErrorAction SilentlyContinue) {
+$processDetection = "NONE"
+
+# 1) Explicit PID, when supplied.
+if ($TargetPid -gt 0) {
     try {
-        if ($p.MainModule -and [string]::Equals([IO.Path]::GetFullPath($p.MainModule.FileName), $clientFull, [StringComparison]::OrdinalIgnoreCase)) {
-            $proc = $p
-            break
+        $candidate = Get-Process -Id $TargetPid -ErrorAction Stop
+        if (-not $candidate.HasExited) {
+            $proc = $candidate
+            $processDetection = "EXPLICIT_PID"
         }
     } catch { }
 }
-if (-not $proc) { throw "Running authoritative Lin.bin2 process not found. Start the game first." }
+
+# 2) Strong path match through Process.MainModule. This may fail when the client is elevated
+#    and this PowerShell session is not, so failure here is not treated as proof of absence.
+if (-not $proc) {
+    foreach ($p in Get-Process -ErrorAction SilentlyContinue) {
+        try {
+            if ($p.HasExited) { continue }
+            if ($p.MainModule -and [string]::Equals([IO.Path]::GetFullPath($p.MainModule.FileName), $clientFull, [StringComparison]::OrdinalIgnoreCase)) {
+                $proc = $p
+                $processDetection = "MAINMODULE_PATH"
+                break
+            }
+        } catch { }
+    }
+}
+
+# 3) Reuse the launcher's authoritative, pinned runtime evidence when MainModule is hidden by
+#    cross-elevation access rules. The report must state CLIENT_AUTHORITY=1 and the exact SHA.
+if (-not $proc) {
+    $auditPath = Join-Path $clientDir "auto_runtime_audit_report.txt"
+    if (Test-Path -LiteralPath $auditPath) {
+        try {
+            $audit = Get-Content -LiteralPath $auditPath -ErrorAction Stop
+            $pidLine = $audit | Where-Object { $_ -match '^PID=\d+$' } | Select-Object -First 1
+            $shaLine = $audit | Where-Object { $_ -match '^CLIENT_SHA256=' } | Select-Object -First 1
+            $authLine = $audit | Where-Object { $_ -eq 'CLIENT_AUTHORITY=1' } | Select-Object -First 1
+            if ($pidLine -and $shaLine -and $authLine) {
+                $auditPid = [int](($pidLine -split '=',2)[1])
+                $auditSha = (($shaLine -split '=',2)[1]).Trim().ToUpperInvariant()
+                if ($auditPid -gt 0 -and $auditSha -eq $ExpectedSha256) {
+                    $candidate = Get-Process -Id $auditPid -ErrorAction SilentlyContinue
+                    if ($candidate -and -not $candidate.HasExited) {
+                        $proc = $candidate
+                        $processDetection = "AUTHORITATIVE_AUDIT_REPORT"
+                    }
+                }
+            }
+        } catch { }
+    }
+}
+
+# 4) Last strong fallback: CIM exact ExecutablePath match. Do not accept a name-only match.
+if (-not $proc) {
+    try {
+        $candidates = Get-CimInstance Win32_Process -ErrorAction Stop |
+            Where-Object { $_.ExecutablePath -and [string]::Equals([IO.Path]::GetFullPath($_.ExecutablePath), $clientFull, [StringComparison]::OrdinalIgnoreCase) }
+        foreach ($c in $candidates) {
+            $candidate = Get-Process -Id ([int]$c.ProcessId) -ErrorAction SilentlyContinue
+            if ($candidate -and -not $candidate.HasExited) {
+                $proc = $candidate
+                $processDetection = "CIM_EXECUTABLE_PATH"
+                break
+            }
+        }
+    } catch { }
+}
+
+if (-not $proc) {
+    throw "Running authoritative Lin.bin2 process not found. The game may be elevated while this shell cannot inspect MainModule. Start the game through 850Launcher, keep auto_runtime_audit_report.txt current, or rerun this PowerShell as Administrator."
+}
 
 Add-Type -TypeDefinition @"
 using System;
@@ -172,7 +237,8 @@ $lines = New-Object System.Collections.Generic.List[string]
 $lines.Add("TIME=$((Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))")
 $lines.Add("MODE=850_RESOURCE_GUIDED_UI_ANCHOR_RUNTIME_HEAP_SCAN")
 $lines.Add("PID=$($proc.Id)")
-$lines.Add("PROCESS_START_UTC=$($proc.StartTime.ToUniversalTime().ToString('o'))")
+$lines.Add("PROCESS_DETECTION=$processDetection")
+try { $lines.Add("PROCESS_START_UTC=$($proc.StartTime.ToUniversalTime().ToString('o'))") } catch { $lines.Add("PROCESS_START_UTC=UNAVAILABLE") }
 $lines.Add("CLIENT=$clientFull")
 $lines.Add("CLIENT_SHA256=$sha")
 $lines.Add("CLIENT_AUTHORITY=1")
@@ -207,6 +273,10 @@ $lines | Out-File -LiteralPath $OutputPath -Encoding utf8
 
 Write-Host "STATUS=$($result.Status)"
 Write-Host "PID=$($proc.Id)"
+Write-Host "PROCESS_DETECTION=$processDetection"
 Write-Host "HITS=$($result.Hits.Count)"
 Write-Host "OUTPUT=$OutputPath"
 Write-Host "MEMORY_WRITE=NO"
+if ($result.Status -like 'OpenProcess failed Win32=5*') {
+    Write-Host "HINT=Access denied. Rerun this PowerShell as Administrator because the 850 client is elevated."
+}
