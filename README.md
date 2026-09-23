@@ -66,6 +66,7 @@ BUG
 | BUG-850-265 | L2 | monthly town salary pre-reset contribution calculation | PASS / PROMOTED |
 | BUG-850-263 | L2 | account register online-state authority binding | PASS / PROMOTED |
 | BUG-850-262 | L2 | weapon proc exact probability / overflow-safe threshold | PASS / PROMOTED |
+| BUG-850-258 | L2 | furniture DB/world persistence ordering | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2772,6 +2773,42 @@ Validation evidence: `recovery/BUG-850-262_VALIDATION_20260924.md`.
 
 ```text
 BUG-850-262=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+## BUG-850-258 — furniture world state could diverge from durable spawn state
+
+### Problem
+
+Furniture placement/removal mutated live world state independently from `spawnlist_furniture` persistence. SQL failure could leave furniture visible without a durable row, or remove live furniture/consume a removal charge while the durable row remained.
+
+### Fix
+
+Both normalized and obfuscated paths now expose affected-row checked `insertDurable`/`deleteDurable` operations. Placement publishes to the world only after a successful insert. Both removal paths remove live state, and consume the removal charge where applicable, only after a successful delete.
+
+### Validation
+
+```text
+WORK_CI=35723780763
+COMPLETED_CI=35898166735
+SOURCE_COMMIT=6f45f8012b19a106f3d7f7e09f483f04994044d6
+BUG_850_258_CONTRACT=PASS
+PLACEMENT_DB_BEFORE_WORLD=PASS
+REMOVAL_DB_BEFORE_WORLD=PASS
+AFFECTED_ROW_GATE=PASS
+BUG_850_258_TARGETED_JAVAC=PASS
+BUG_850_258_TARGETED_BEHAVIOR_RUNTIME=PASS
+FURNITURE_DB_WORLD_DIVERGENCE_BLOCKED=PASS
+BUG_850_258_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-258_VALIDATION_20260924.md`.
+
+### Result
+
+```text
+BUG-850-258=L2
 STATUS=PASS
 PROMOTED=YES
 ```
