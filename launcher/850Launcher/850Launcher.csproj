@@ -93,6 +93,7 @@
     <Compile Include="AutoHpMpSemanticRefiner.cs" />
     <Compile Include="AutoHpMpCrossCheckProbe.cs" />
     <Compile Include="AutoHpMpPointerDiscovery.cs" />
+    <Compile Include="AutoHpMpEvidenceGuard.cs" />
     <Compile Include="AutoParallelDiscovery.cs" />
     <Compile Include="AutoNetworkSurfaceDiscovery.cs" />
     <Compile Include="AutoLoadedModuleNetworkDiscovery.cs" />
