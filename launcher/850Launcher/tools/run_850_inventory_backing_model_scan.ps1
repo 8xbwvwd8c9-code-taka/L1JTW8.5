@@ -219,9 +219,11 @@ function Analyze-RecordBuffer([string]$source,[uint32]$address,[int]$bytes,[int[
             $samples=New-Object System.Collections.Generic.List[string]
             for($i=0;$i -lt $records;$i++){
                 $p=($i*$stride)+$fo;if($p+4 -gt $b.Length){break}
-                $v=[int](Read-U32 $b $p)
-                if($v -eq 0){$zeros++;continue}
+                $raw=[uint32](Read-U32 $b $p)
+                if($raw -eq 0){$zeros++;continue}
                 $nonzero++
+                if($raw -gt [uint32][int]::MaxValue){continue}
+                $v=[int]$raw
                 if($catalog.Contains($v)){
                     $matches++;$null=$unique.Add($v)
                     if($samples.Count -lt 8){
