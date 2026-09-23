@@ -63,6 +63,7 @@ BUG
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
 | BUG-850-269 | L2 | boss fixed-time scheduler minute/ms unit conversion | PASS / PROMOTED |
 | BUG-850-266 | L2 | mob skill exact probability boundary | PASS / PROMOTED |
+| BUG-850-265 | L2 | monthly town salary pre-reset contribution calculation | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2653,6 +2654,49 @@ NORMALIZED_COMMIT=11f09424ace39b562e454a91b0978deacdd2faa1
 
 ```text
 BUG-850-266=L2
+STATUS=PASS
+PROMOTED=YES
+NEW_CORE_BRANCH=NO
+```
+
+## BUG-850-265 — monthly town salary cleared Contribution before calculating Pay
+
+### Problem
+
+The monthly town settlement used one MySQL `UPDATE` whose assignment order cleared `Contribution` before evaluating `Pay = Contribution * ?`. That could calculate salary from the already-cleared contribution instead of the player's pre-reset contribution.
+
+### Fix
+
+Both normalized and obfuscated `HomeTownTimer` now assign:
+
+```text
+Pay = Contribution * ?, Contribution = 0
+```
+
+so `Pay` is computed first from the pre-reset contribution and the contribution is then cleared.
+
+### Validation
+
+```text
+WORK_CI=35724229720
+COMPLETED_CI=35894884374
+BUG_850_265_CONTRACT=PASS
+BUG_850_265_NO_NEW_JAVAC_REGRESSION=PASS
+BUG_850_265_TARGETED_BEHAVIOR_RUNTIME=PASS
+MONTHLY_SALARY_USES_PRE_RESET_CONTRIBUTION=PASS
+```
+
+### Promotion
+
+```text
+NORMALIZED_COMMIT=b4980d15f9f5160ef56517524c71e9cfa5b38969
+OBFUSCATED_COMMIT=0b9bb323df75c52599911073897f7b547d342c4f
+```
+
+### Result
+
+```text
+BUG-850-265=L2
 STATUS=PASS
 PROMOTED=YES
 NEW_CORE_BRANCH=NO
