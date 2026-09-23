@@ -46,7 +46,12 @@
     <Compile Include="ItemUseProtocolControl.cs" />
     <Compile Include="ItemUseBehaviorEvidence.cs" />
     <Compile Include="ItemUseBehaviorCorrelationControl.cs" />
+    <Compile Include="ItemUseNativeCorrelationScanner.cs" />
+    <Compile Include="ItemUseNativeCorrelationEvidence.cs" />
+    <Compile Include="ItemUseNativeCorrelationControl.cs" />
     <Compile Include="RuntimeBytePatternScanner.cs" />
+    <Compile Include="RuntimePointerBackrefScanner.cs" />
+    <Compile Include="NativeAbsoluteReferenceScanner.cs" />
     <Compile Include="SkillUseProtocol.cs" />
     <Compile Include="SkillUseProtocolControl.cs" />
     <Compile Include="SkillCatalog.cs" />
