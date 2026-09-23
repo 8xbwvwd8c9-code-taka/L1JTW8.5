@@ -51,7 +51,7 @@ namespace L1JTW850Launcher
             var top = new Panel
             {
                 Dock = DockStyle.Top,
-                Height = 142,
+                Height = 146,
                 Padding = new Padding(8)
             };
             Controls.Add(top);
@@ -84,38 +84,38 @@ namespace L1JTW850Launcher
 
             top.Controls.Add(new Label
             {
-                Text = "捕捉秒數",
+                Text = "秒數",
                 Left = 606,
                 Top = 16,
-                Width = 60
+                Width = 38
             });
 
             _seconds = new NumericUpDown
             {
-                Left = 670,
+                Left = 648,
                 Top = 12,
-                Width = 54,
+                Width = 60,
                 Minimum = 3,
                 Maximum = 15,
-                Value = 6
+                Value = 5
             };
             top.Controls.Add(_seconds);
 
             _baseline = new Button
             {
-                Text = "1. 建立無操作基線",
+                Text = "1. 無操作基線",
                 Left = 12,
                 Top = 48,
-                Width = 150
+                Width = 140
             };
             top.Controls.Add(_baseline);
 
             _action = new Button
             {
                 Text = "2. 捕捉手動 UseItem",
-                Left = 170,
+                Left = 160,
                 Top = 48,
-                Width = 150,
+                Width = 160,
                 Enabled = false
             };
             top.Controls.Add(_action);
@@ -133,8 +133,8 @@ namespace L1JTW850Launcher
             {
                 Left = 12,
                 Top = 82,
-                Width = 712,
-                Height = 36,
+                Width = 700,
+                Height = 38,
                 Text =
                     "先刷新背包並選道具。基線期間不要使用該道具；動作捕捉開始後切回遊戲手動使用一次。"
             };
@@ -143,9 +143,9 @@ namespace L1JTW850Launcher
             _summary = new Label
             {
                 Left = 12,
-                Top = 120,
-                Width = 712,
-                Height = 20,
+                Top = 122,
+                Width = 700,
+                Height = 22,
                 Text = "WP7 behavior evidence：尚未捕捉。"
             };
             top.Controls.Add(_summary);
@@ -161,7 +161,7 @@ namespace L1JTW850Launcher
             _hits.Columns.Add("基線", 70);
             _hits.Columns.Add("動作", 70);
             _hits.Columns.Add("新命中", 80);
-            _hits.Columns.Add("說明", 300);
+            _hits.Columns.Add("說明", 320);
             Controls.Add(_hits);
             _hits.BringToFront();
 
@@ -174,14 +174,16 @@ namespace L1JTW850Launcher
         private void RefreshInventory()
         {
             var runtime = _bridge.Read();
-
             _items.Items.Clear();
 
-            if (!runtime.Connected ||
+            if (runtime == null ||
+                !runtime.Connected ||
                 !runtime.ClientHashAuthoritative)
             {
                 _status.Text =
-                    "無法刷新：" + runtime.Status;
+                    runtime == null
+                        ? "無法刷新：runtime snapshot 為空。"
+                        : "無法刷新：" + runtime.Status;
                 return;
             }
 
@@ -214,7 +216,7 @@ namespace L1JTW850Launcher
             if (choice == null)
             {
                 MessageBox.Show(
-                    "請先按「刷新背包」並選擇道具。",
+                    "請先刷新背包並選擇道具。",
                     "尚未選擇道具",
                     MessageBoxButtons.OK,
                     MessageBoxIcon.Information);
@@ -222,11 +224,12 @@ namespace L1JTW850Launcher
             }
 
             var runtime = _bridge.Read();
+            string error;
 
             if (!ValidateRuntimeForChoice(
                 runtime,
                 choice,
-                out var error))
+                out error))
             {
                 MessageBox.Show(
                     error,
@@ -242,8 +245,7 @@ namespace L1JTW850Launcher
 
             SetBusy(
                 true,
-                "正在建立無操作基線；這段期間不要使用選定道具。",
-                false);
+                "正在建立無操作基線；這段期間不要使用選定道具。");
 
             var durationMs =
                 (int)_seconds.Value * 1000;
@@ -264,7 +266,7 @@ namespace L1JTW850Launcher
                 object sender,
                 RunWorkerCompletedEventArgs e)
             {
-                SetBusy(false, "", false);
+                SetBusy(false, "");
 
                 if (e.Error != null)
                 {
@@ -286,14 +288,10 @@ namespace L1JTW850Launcher
                     return;
                 }
 
-                _baselineHits =
-                    capture.Hits;
-                _baselinePasses =
-                    capture.Passes;
-                _baselineBytes =
-                    capture.BytesScanned;
-                _baselinePid =
-                    runtime.ProcessId;
+                _baselineHits = capture.Hits;
+                _baselinePasses = capture.Passes;
+                _baselineBytes = capture.BytesScanned;
+                _baselinePid = runtime.ProcessId;
                 _baselineProcessStartUtc =
                     runtime.ProcessStartTimeUtc;
                 _baselineClientSha256 =
@@ -304,8 +302,7 @@ namespace L1JTW850Launcher
                     choice.Item.ItemId;
                 _baselineItemName =
                     choice.Item.Name ?? "";
-                _baselinePattern =
-                    pattern;
+                _baselinePattern = pattern;
 
                 _action.Enabled = true;
 
@@ -314,7 +311,7 @@ namespace L1JTW850Launcher
                     capture.Passes +
                     "，unique hits=" +
                     capture.Hits.Count +
-                    "。現在按「捕捉手動 UseItem」，並在捕捉期間切回遊戲使用一次。";
+                    "。現在執行動作捕捉並手動使用一次。";
 
                 ShowHits(
                     _baselineHits,
@@ -335,10 +332,11 @@ namespace L1JTW850Launcher
             }
 
             var runtime = _bridge.Read();
+            string error;
 
             if (!ValidateSameBaselineRuntime(
                 runtime,
-                out var error))
+                out error))
             {
                 _status.Text = error;
                 return;
@@ -346,8 +344,7 @@ namespace L1JTW850Launcher
 
             SetBusy(
                 true,
-                "動作捕捉中：現在切回遊戲，手動使用選定道具一次。",
-                true);
+                "動作捕捉中：現在切回遊戲，手動使用選定道具一次。");
 
             var durationMs =
                 (int)_seconds.Value * 1000;
@@ -368,7 +365,7 @@ namespace L1JTW850Launcher
                 object sender,
                 RunWorkerCompletedEventArgs e)
             {
-                SetBusy(false, "", true);
+                SetBusy(false, "");
 
                 if (e.Error != null)
                 {
@@ -413,8 +410,7 @@ namespace L1JTW850Launcher
                     correlated);
 
                 var summary =
-                    ItemUseBehaviorEvidenceComparer
-                    .Compare(
+                    ItemUseBehaviorEvidenceComparer.Compare(
                         Path.Combine(
                             _appDir,
                             "itemuse_behavior_evidence.txt"));
@@ -427,8 +423,8 @@ namespace L1JTW850Launcher
                     correlated
                         ? "行為關聯命中：動作期間出現 " +
                           newHits.Count +
-                          " 個基線沒有的 5-byte UseItem pattern。"
-                        : "本次未抓到新的 UseItem pattern；不判 PASS，可重做基線後再測。";
+                          " 個基線沒有的 logical UseItem pattern。"
+                        : "本次未抓到新的 UseItem pattern；不判 PASS，可重新建立基線再測。";
             };
 
             worker.RunWorkerAsync();
@@ -455,15 +451,13 @@ namespace L1JTW850Launcher
                     return output;
                 }
 
-                var watch =
-                    Stopwatch.StartNew();
+                var watch = Stopwatch.StartNew();
 
                 while (watch.ElapsedMilliseconds <
                        durationMs)
                 {
                     var pass =
-                        scanner.ScanWritable(
-                            pattern);
+                        scanner.ScanWritable(pattern);
 
                     output.Passes++;
                     output.BytesScanned +=
@@ -485,7 +479,7 @@ namespace L1JTW850Launcher
                     if (watch.ElapsedMilliseconds <
                         durationMs)
                     {
-                        Thread.Sleep(25);
+                        Thread.Sleep(150);
                     }
                 }
             }
@@ -552,7 +546,7 @@ namespace L1JTW850Launcher
             }
 
             if (runtime.ProcessId !=
-                _baselinePid ||
+                    _baselinePid ||
                 runtime.ProcessStartTimeUtc !=
                     _baselineProcessStartUtc ||
                 !string.Equals(
@@ -572,8 +566,7 @@ namespace L1JTW850Launcher
             HashSet<long> baseline,
             HashSet<long> action)
         {
-            var all =
-                new SortedSet<long>();
+            var all = new SortedSet<long>();
 
             if (baseline != null)
                 all.UnionWith(baseline);
@@ -635,8 +628,7 @@ namespace L1JTW850Launcher
                     DateTime.Now.ToString(
                         "yyyy-MM-dd HH:mm:ss"));
                 sb.AppendLine(
-                    "PID=" +
-                    runtime.ProcessId);
+                    "PID=" + runtime.ProcessId);
                 sb.AppendLine(
                     "PROCESS_START_UTC=" +
                     (runtime.ProcessStartTimeUtc.HasValue
@@ -688,8 +680,7 @@ namespace L1JTW850Launcher
                 sb.AppendLine(
                     "CORRELATED=" +
                     (correlated ? 1 : 0));
-                sb.AppendLine(
-                    "MEMORY_WRITE=NO");
+                sb.AppendLine("MEMORY_WRITE=NO");
 
                 foreach (var address in newHits)
                 {
@@ -730,8 +721,7 @@ namespace L1JTW850Launcher
 
         private void SetBusy(
             bool busy,
-            string status,
-            bool actionPhase)
+            string status)
         {
             _refresh.Enabled = !busy;
             _baseline.Enabled = !busy;
