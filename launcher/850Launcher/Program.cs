@@ -7,7 +7,7 @@ namespace L1JTW850Launcher
 {
     internal static class Program
     {
-        private const string BuildMarker = "AUTO-AUDIT-20260923-MULTI9";
+        private const string BuildMarker = "AUTO-AUDIT-20260923-MULTI10";
 
         [STAThread]
         private static void Main()
