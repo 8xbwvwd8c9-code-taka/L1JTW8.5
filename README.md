@@ -67,6 +67,9 @@ BUG
 | BUG-850-263 | L2 | account register online-state authority binding | PASS / PROMOTED |
 | BUG-850-262 | L2 | weapon proc exact probability / overflow-safe threshold | PASS / PROMOTED |
 | BUG-850-258 | L2 | furniture DB/world persistence ordering | PASS / PROMOTED |
+| BUG-850-257 | L2 | SoulTower empty-board bootstrap admission | PASS / ALREADY COVERED |
+| BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
+| BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2811,4 +2814,95 @@ Validation evidence: `recovery/BUG-850-258_VALIDATION_20260924.md`.
 BUG-850-258=L2
 STATUS=PASS
 PROMOTED=YES
+```
+
+## BUG-850-250 — SoulTower ranking could grow beyond authoritative top ten
+
+### Problem
+
+The live SoulTower ranking could retain trailing history beyond the authoritative top ten, and the old comparator used raw subtraction that could overflow. Old trailing entries could distort admission/ranking decisions.
+
+### Fix
+
+Candidate snapshots are safely sorted with `Integer.compare`, trimmed to at most 10 entries, and only the bounded snapshot is published to live RAM.
+
+### Validation
+
+```text
+WORK_CI=35722373430
+COMPLETED_CI=35898694976
+SOURCE_COMMIT=ab2c37c6eab15109a17d33636029cbefcde651b0
+BUG_850_250_CONTRACT=PASS
+RAM_TOP10_TRIM=PASS
+SAFE_COMPARATOR=PASS
+BUG_850_250_251_TARGETED_JAVAC=PASS
+BUG_850_250_TARGETED_BEHAVIOR_RUNTIME=PASS
+RAM_SIZE_ALWAYS_LE_10=PASS
+TRAILING_HISTORY_CANNOT_AFFECT_ADMISSION=PASS
+```
+
+### Result
+
+```text
+BUG-850-250=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+## BUG-850-251 — SoulTower rewrite was not durable/live atomic
+
+### Problem
+
+Rewriting the ranking and publishing the live snapshot were not closed as one durable success path. Partial persistence failure could diverge durable rows from live rankings.
+
+### Fix
+
+The rewrite now runs in an explicit transaction, requires every insert to affect exactly one row, rolls back on failure, reports success only after commit, and publishes the live bounded snapshot only after durable success. Snapshot reads/writes are serialized.
+
+### Validation
+
+```text
+WORK_CI=35722373430
+COMPLETED_CI=35898694976
+SOURCE_COMMIT=ab2c37c6eab15109a17d33636029cbefcde651b0
+BUG_850_251_CONTRACT=PASS
+SOULTOWER_TRANSACTION=PASS
+ROLLBACK_PRESENT=PASS
+LIVE_PUBLISH_GATED_BY_COMMIT_SUCCESS=PASS
+SNAPSHOT_READ_WRITE_SERIALIZED=PASS
+BUG_850_251_TARGETED_BEHAVIOR_RUNTIME=PASS
+FAILED_REWRITE_LIVE_STATE_UNCHANGED=PASS
+COMMIT_THEN_PUBLISH=PASS
+```
+
+### Result
+
+```text
+BUG-850-251=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+## BUG-850-257 — empty SoulTower leaderboard bootstrap
+
+### Coverage
+
+No additional core patch is required. The bounded admission logic promoted for BUG-850-250 explicitly accepts a result whenever the current board has fewer than 10 entries, including an empty board. The dedicated follow-up runtime added the empty-board first-result case and passed.
+
+### Validation
+
+```text
+WORK_CI=35753171855
+COMPLETED_CI=35898694976
+COVERED_BY=BUG-850-250
+BUG_850_257_TARGETED_BEHAVIOR_RUNTIME=PASS
+EMPTY_BOARD_BOOTSTRAP_PASS=PASS
+```
+
+### Result
+
+```text
+BUG-850-257=L2
+STATUS=PASS_ALREADY_COVERED
+NEW_CORE_PATCH=NO
 ```
