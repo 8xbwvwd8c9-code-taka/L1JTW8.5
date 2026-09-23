@@ -13,6 +13,7 @@ namespace L1JTW850Launcher
         private readonly Timer _timer;
         private readonly TextBox _report;
         private readonly Label _status;
+        private readonly AutoHpMpBroadProbe _broadProbe;
         private RuntimeDynamicProbeControl _dynamicProbe;
         private int _probePid;
 
@@ -20,6 +21,7 @@ namespace L1JTW850Launcher
         {
             _appDir = appDir;
             _bridge = new ProcessRuntimeBridge(appDir);
+            _broadProbe = new AutoHpMpBroadProbe(appDir);
             Dock = DockStyle.Fill;
 
             _status = new Label
@@ -54,10 +56,15 @@ namespace L1JTW850Launcher
         private void TickAudit()
         {
             RuntimeSnapshot runtime = _bridge.Read();
-            if (runtime.Connected && runtime.ClientHashAuthoritative && runtime.ProcessId != _probePid)
+            if (runtime.Connected && runtime.ClientHashAuthoritative)
             {
-                _probePid = runtime.ProcessId;
-                StartDynamicProbe();
+                _broadProbe.EnsureRunning(runtime);
+
+                if (runtime.ProcessId != _probePid)
+                {
+                    _probePid = runtime.ProcessId;
+                    StartDynamicProbe();
+                }
             }
 
             var dashboard = RuntimeValidationDashboard.Evaluate(_appDir);
@@ -72,6 +79,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("MODULE_SIZE=" + runtime.ModuleSize);
             sb.AppendLine("RUNTIME_STATUS=" + (runtime.Status ?? ""));
             sb.AppendLine("AUTO_DYNAMIC_PROBE=" + (_probePid == runtime.ProcessId && _probePid != 0 ? "STARTED" : "WAITING"));
+            sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -79,6 +87,7 @@ namespace L1JTW850Launcher
                 sb.AppendLine(row.WorkPackage + "=" + row.State + " | " + row.Evidence + " | NEXT=" + row.Next);
             }
             sb.AppendLine();
+            AppendFile(sb, "runtime_dynamic_broad_probe_evidence.txt");
             AppendFile(sb, "runtime_dynamic_probe_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
@@ -93,7 +102,7 @@ namespace L1JTW850Launcher
             var text = sb.ToString();
             _report.Text = text;
             _status.Text = runtime.Connected
-                ? "全自動稽核執行中；報告會自動更新。你只需正常遊戲。"
+                ? "全自動稽核執行中；背景會自動重試採樣與更新報告。"
                 : "全自動稽核：等待 850 client。";
 
             try
