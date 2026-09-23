@@ -112,31 +112,116 @@ FORMAL_WP5=NOT_YET
 
 Possible explanations remain open: transient UI state, stale/alternate backing store, mode-dependent layout, or a false-positive monotonic pointer window. No explanation is promoted without new evidence.
 
-## GRID+0x0F4 high catalog score is not enough
+## Fixed-window scorer overread correction
 
-The backing scan found a real vector-like triple:
+The backing-model scorer tested fixed record windows beginning at pointer-valued fields, even when the corresponding vector-like triple had a much smaller logical `USED` range. Therefore high catalog scores can come from bytes **after** a vector's `END` and must not be promoted without a bounds check.
+
+### GRID +0x0F4 / +0x0F8 / +0x0FC
+
+Real triple:
 
 ```text
-GRID+0x0F4
-BEGIN=0x29680D28
-END  =0x29680D58
-CAP  =0x29680D5C
-USED =48 bytes
+GRID+0x0F4 = BEGIN=0x29680D28
+GRID+0x0F8 = END  =0x29680D58
+GRID+0x0FC = CAP  =0x29680D5C
+USED=48 bytes
 ```
 
-But pointer-record probing starting at the same address reported high catalog scores over many 64/96-byte records, far beyond the vector's logical `END`.
+Consequences:
 
-That means the high catalog score is not proof that `GRID+0x0F4` is the player's inventory vector. The probe was observing memory after the logical 48-byte used range and can therefore correlate with unrelated item/template-like data.
+```text
+PTR GRID+0xF8 starts exactly at END
+PTR GRID+0xFC starts exactly at CAP
+```
+
+Any 32/48/64/96-byte × 64-record score beginning at `+0xF8` or `+0xFC` is necessarily reading outside the vector's used range. Even the `+0xF4` scans that treat the target as 64 records exceed the logical 48-byte range by a large margin.
 
 Classification:
 
 ```text
 GRID+0x0F4=REAL_SMALL_VECTOR_OR_STATE
+GRID+0x0F8=VECTOR_END_POINTER_NOT_MODEL_START
+GRID+0x0FC=VECTOR_CAP_POINTER_NOT_MODEL_START
 PLAYER_ITEM_BACKING_MODEL=UNPROVEN
-CATALOG_SCORE_ALONE=REJECTED_AS_PROMOTION_CRITERION
 ```
 
-The same caution applies to ROOT pointer targets whose logical vector sizes are much smaller than the fixed record windows used by the backing-model scorer.
+### ROOT +0x0C0 / +0x0C4
+
+Real triple:
+
+```text
+ROOT+0x0C0 = BEGIN=0x2BC6C288
+ROOT+0x0C4 = END  =0x2BC6C2A4
+ROOT+0x0C8 = CAP  =0x2BC6C2AC
+USED=28 bytes
+```
+
+The scorer's 80-byte × 64-record candidates starting at `ROOT+0xC0` or `ROOT+0xC4` therefore overrun the logical range immediately.
+
+Classification:
+
+```text
+ROOT+0x0C0=REAL_SMALL_VECTOR_OR_STATE
+ROOT+0x0C4=VECTOR_END_POINTER_NOT_MODEL_START
+80_BYTE_RECORD_MODEL_FROM_THIS_TRIPLE=REJECTED
+```
+
+### INVWIN +0x0F4
+
+Real triple:
+
+```text
+INVWIN+0x0F4 BEGIN=0x2BC6CEB8
+END=0x2BC6CED4
+CAP=0x2BC6CEDC
+USED=28 bytes
+```
+
+The scorer's 80-byte × 64-record interpretation exceeds the real used range and is rejected as inventory-record proof.
+
+### ROOT +0x154 low-entropy high-score artifact
+
+One high-scoring view reported:
+
+```text
+STRIDE=64
+ITEM_OFF=+0x0C
+MATCHES=59/60 nonzero
+MATCH_PCT=98
+UNIQUE=2
+```
+
+The samples are dominated by repeated item IDs `257` and `1`. High match percentage with only two unique IDs is low-entropy evidence and is not consistent enough with a normal heterogeneous player inventory to promote.
+
+A second `ROOT+0x154` view at `ITEM_OFF=+0x10` had 26 unique IDs but only 58% match rate. It also remains unpromoted.
+
+Classification:
+
+```text
+ROOT+0x154=UNPROVEN_POINTER_DATA
+HIGH_SCORE_LOW_ENTROPY=REJECTED_AS_PROMOTION_CRITERION
+```
+
+## Structural survivor analysis
+
+After applying logical `BEGIN..END` bounds and restart stability, none of the old top-30 backing candidates currently satisfies all of:
+
+```text
+1. belongs to a proven GRID/ROOT/INVWIN field
+2. buffer interpretation respects logical used bounds
+3. record stride matches used/capacity arithmetic
+4. item-id field has meaningful catalog correlation
+5. survives a new process / recreated UI graph
+```
+
+`INVWIN+0x220` is the only old candidate that was structurally coherent in one run (`28*64` used, `29*64` capacity, 27/27 nonzero item IDs), but it failed gate 5.
+
+Result:
+
+```text
+OLD_BACKING_MODEL_WINNER=NONE
+DO_NOT_RESUME_BROAD_BACKING_SCAN=YES
+```
 
 ## Constructor-code evidence remains separate
 
