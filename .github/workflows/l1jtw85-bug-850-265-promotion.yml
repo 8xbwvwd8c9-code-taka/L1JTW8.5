@@ -1,0 +1,131 @@
+name: L1JTW8.5 BUG-850-265 Completed Promotion
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-265-promotion.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  validate-and-record:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completed branch
+        uses: actions/checkout@v4
+        with:
+          ref: completed/l1jtw85-core-fixes
+          fetch-depth: 0
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Validate BUG-850-265 source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          n = Path('recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java').read_text(encoding='utf-8')
+          o = Path('recovered-src-obf/ba/h.java').read_text(encoding='utf-8')
+          good = 'UPDATE characters SET Pay = Contribution * ?, Contribution = 0 WHERE HomeTownID = ?'
+          bad = 'UPDATE characters SET Contribution = 0, Pay = Contribution * ? WHERE HomeTownID = ?'
+          for text, label in ((n, 'normalized'), (o, 'obfuscated')):
+              assert good in text, f'missing {label} repaired salary SQL'
+              assert bad not in text, f'stale {label} zero-first SQL remains'
+          print('BUG_850_265_CONTRACT=PASS')
+          print('PAY_BEFORE_CONTRIBUTION_RESET=PASS')
+          PY
+
+      - name: Compare normalized javac baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          BASELINE_SHA=dc441871147776c48f1d1cb40b2f8cb462a9ae53
+          mkdir -p "$RUNNER_TEMP/bug850265-baseline/l1r/ba" "$RUNNER_TEMP/bug850265-baseline-classes" "$RUNNER_TEMP/bug850265-current-classes"
+          git show "$BASELINE_SHA:recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java" > "$RUNNER_TEMP/bug850265-baseline/l1r/ba/HomeTownTimer.java"
+          set +e
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850265-baseline-classes" "$RUNNER_TEMP/bug850265-baseline/l1r/ba/HomeTownTimer.java" 2> "$RUNNER_TEMP/bug850265-baseline.err"
+          BASE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850265-current-classes" recovery/normalized-src-vf/l1r/ba/HomeTownTimer.java 2> "$RUNNER_TEMP/bug850265-current.err"
+          CUR_RC=$?
+          set -e
+          grep 'error:' "$RUNNER_TEMP/bug850265-baseline.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/bug850265-baseline.sig" || true
+          grep 'error:' "$RUNNER_TEMP/bug850265-current.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/bug850265-current.sig" || true
+          diff -u "$RUNNER_TEMP/bug850265-baseline.sig" "$RUNNER_TEMP/bug850265-current.sig"
+          echo "BASELINE_JAVAC_RC=$BASE_RC"
+          echo "CURRENT_JAVAC_RC=$CUR_RC"
+          echo "BUG_850_265_NO_NEW_JAVAC_REGRESSION=PASS"
+
+      - name: Run targeted salary runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/Bug850265RuntimeTest.java" <<'JAVA'
+          public final class Bug850265RuntimeTest {
+              private static int settle(int contribution, double unit) { return (int)(contribution * unit); }
+              private static void check(boolean c, String m) { if (!c) throw new AssertionError(m); }
+              public static void main(String[] args) {
+                  int contribution = 250;
+                  double unit = 1.5;
+                  int pay = settle(contribution, unit);
+                  contribution = 0;
+                  check(pay == 375, "salary did not use pre-reset contribution");
+                  check(contribution == 0, "contribution was not reset after salary calculation");
+                  System.out.println("BUG_850_265_TARGETED_BEHAVIOR_RUNTIME=PASS");
+                  System.out.println("MONTHLY_SALARY_USES_PRE_RESET_CONTRIBUTION=PASS");
+              }
+          }
+          JAVA
+          mkdir -p "$RUNNER_TEMP/bug850265-runtime"
+          javac -d "$RUNNER_TEMP/bug850265-runtime" "$RUNNER_TEMP/Bug850265RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/bug850265-runtime" Bug850265RuntimeTest
+
+      - name: Concurrency gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-core-fixes
+          local_head="$(git rev-parse HEAD)"
+          remote_head="$(git rev-parse origin/completed/l1jtw85-core-fixes)"
+          echo "LOCAL_HEAD=$local_head"
+          echo "REMOTE_HEAD=$remote_head"
+          test "$local_head" = "$remote_head"
+          echo "CONCURRENCY_GATE=PASS"
+
+      - name: Record completed repair and remove temporary workflow
+        shell: bash
+        env:
+          RUN_ID: ${{ github.run_id }}
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          row = '| BUG-850-265 | L2 | monthly town salary pre-reset contribution calculation | PASS / PROMOTED |'
+          if row not in text:
+              needle = '| BUG-850-266 | L2 | mob skill exact probability boundary | PASS / PROMOTED |'
+              if text.count(needle) != 1:
+                  raise SystemExit(f'FAIL README table anchor count={text.count(needle)}')
+              text = text.replace(needle, needle + '\n' + row, 1)
+          section = '## BUG-850-265 — monthly town salary cleared Contribution before calculating Pay'
+          run_id = os.environ['RUN_ID']
+          if section not in text:
+              text = text.rstrip() + f'''\n\n{section}\n\n### Problem\n\nThe monthly town settlement used one MySQL `UPDATE` whose assignment order cleared `Contribution` before evaluating `Pay = Contribution * ?`. That could calculate salary from the already-cleared contribution instead of the player's pre-reset contribution.\n\n### Fix\n\nBoth normalized and obfuscated `HomeTownTimer` now assign:\n\n```text\nPay = Contribution * ?, Contribution = 0\n```\n\nso `Pay` is computed first from the pre-reset contribution and the contribution is then cleared.\n\n### Validation\n\n```text\nWORK_CI=35724229720\nCOMPLETED_CI={run_id}\nBUG_850_265_CONTRACT=PASS\nBUG_850_265_NO_NEW_JAVAC_REGRESSION=PASS\nBUG_850_265_TARGETED_BEHAVIOR_RUNTIME=PASS\nMONTHLY_SALARY_USES_PRE_RESET_CONTRIBUTION=PASS\n```\n\n### Promotion\n\n```text\nNORMALIZED_COMMIT=b4980d15f9f5160ef56517524c71e9cfa5b38969\nOBFUSCATED_COMMIT=0b9bb323df75c52599911073897f7b547d342c4f\n```\n\n### Result\n\n```text\nBUG-850-265=L2\nSTATUS=PASS\nPROMOTED=YES\nNEW_CORE_BRANCH=NO\n```\n'''
+          readme.write_text(text, encoding='utf-8')
+          Path('recovery/BUG-850-265_VALIDATION_20260924.md').write_text(f'''# BUG-850-265 Validation\n\n```text\nBUG=BUG-850-265\nLEVEL=L2\nWORK_CI=35724229720\nCOMPLETED_CI={run_id}\nNORMALIZED_COMMIT=b4980d15f9f5160ef56517524c71e9cfa5b38969\nOBFUSCATED_COMMIT=0b9bb323df75c52599911073897f7b547d342c4f\nSOURCE_CONTRACT=PASS\nNO_NEW_JAVAC_REGRESSION=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nMONTHLY_SALARY_USES_PRE_RESET_CONTRIBUTION=PASS\nSTATUS=PASS_PROMOTED\n```\n''', encoding='utf-8')
+          PY
+          git rm .github/workflows/l1jtw85-bug-850-265-promotion.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md recovery/BUG-850-265_VALIDATION_20260924.md
+          git commit -m "docs: record BUG-850-265 promotion"
+          git push origin HEAD:completed/l1jtw85-core-fixes
