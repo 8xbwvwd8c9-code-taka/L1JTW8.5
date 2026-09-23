@@ -16,24 +16,39 @@ namespace L1JTW850Launcher
                 var appDir = AppDomain.CurrentDomain.BaseDirectory;
                 var config = LauncherConfig.Load(System.IO.Path.Combine(appDir, "launcher.ini"));
                 var helper = HelperSettings.Load(System.IO.Path.Combine(appDir, "helper.ini"));
+
+                // Engineering-only runtime discovery must not depend on a visible developer UI.
+                // Hide all developer tabs and keep discovery/report generation headless.
+                config.DeveloperMode = false;
                 var main = new MainForm(appDir, config, helper);
 
-                if (config.DeveloperMode)
+                // Invisible host keeps AutoRuntimeAuditControl loaded on the WinForms message loop.
+                // The control performs read-only collection and writes auto_runtime_audit_report.txt.
+                var auditHost = new Form
                 {
-                    main.Shown += delegate
-                    {
-                        var tabs = FindTabControl(main);
-                        if (tabs == null) return;
+                    Text = "850 Runtime Audit Host",
+                    ShowInTaskbar = false,
+                    FormBorderStyle = FormBorderStyle.None,
+                    StartPosition = FormStartPosition.Manual,
+                    Left = -32000,
+                    Top = -32000,
+                    Width = 1,
+                    Height = 1,
+                    Opacity = 0
+                };
+                auditHost.Controls.Add(new AutoRuntimeAuditControl(appDir)
+                {
+                    Dock = DockStyle.Fill
+                });
 
-                        while (tabs.TabPages.Count > 7)
-                            tabs.TabPages.RemoveAt(7);
-
-                        var audit = new TabPage("自動稽核") { Padding = new Padding(8) };
-                        audit.Controls.Add(new AutoRuntimeAuditControl(appDir));
-                        tabs.TabPages.Add(audit);
-                        tabs.SelectedTab = audit;
-                    };
-                }
+                main.Shown += delegate
+                {
+                    auditHost.Show(main);
+                };
+                main.FormClosed += delegate
+                {
+                    auditHost.Close();
+                };
 
                 Application.Run(main);
             }
@@ -42,19 +57,6 @@ namespace L1JTW850Launcher
                 MessageBox.Show(ex.ToString(), "850 Launcher startup error",
                     MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
-        }
-
-        private static TabControl FindTabControl(Control root)
-        {
-            foreach (Control child in root.Controls)
-            {
-                var tabs = child as TabControl;
-                if (tabs != null) return tabs;
-
-                var nested = FindTabControl(child);
-                if (nested != null) return nested;
-            }
-            return null;
         }
     }
 }
