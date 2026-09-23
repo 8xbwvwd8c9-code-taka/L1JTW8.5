@@ -68,6 +68,7 @@ BUG
 | BUG-850-262 | L2 | weapon proc exact probability / overflow-safe threshold | PASS / PROMOTED |
 | BUG-850-258 | L2 | furniture DB/world persistence ordering | PASS / PROMOTED |
 | BUG-850-257 | L2 | SoulTower empty-board bootstrap admission | PASS / ALREADY COVERED |
+| BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 
@@ -2905,4 +2906,45 @@ EMPTY_BOARD_BOOTSTRAP_PASS=PASS
 BUG-850-257=L2
 STATUS=PASS_ALREADY_COVERED
 NEW_CORE_PATCH=NO
+```
+
+## BUG-850-255 — progression saves silently failed when initialization rows were missing
+
+### Problem
+
+Save paths for `character_mobs`, `character_mobs_week`, and `character_quests_new` used update-only SQL. Missing initialization rows therefore could never self-heal on later saves.
+
+### Fix
+
+Normalized and obfuscated save paths now use `INSERT ... ON DUPLICATE KEY UPDATE`. Promotion replays only the six historical BUG-850-255 SQL/parameter-order patches and excludes later BUG-850-252/254/275 logic.
+
+### Validation
+
+```text
+WORK_CI=35723688572
+COMPLETED_CI=35900095083
+SOURCE_COMMIT=15bf12eda62671cede855ff6931d49f8db1a4d05
+HISTORICAL_PATCH_CHAIN=7470ecbe,8e2d571a,1f2cb7b1,a01d93c3,d3c8078b,1693b07c
+BUG_850_255_EXACT_PATCH_APPLIED=PASS
+UNRELATED_SOURCE_REPLAY=NO
+BUG_850_255_CONTRACT=PASS
+CHARACTER_MOBS_SAVE_UPSERT=PASS
+CHARACTER_MOBS_WEEK_SAVE_UPSERT=PASS
+CHARACTER_QUESTS_NEW_SAVE_UPSERT=PASS
+BUG_850_255_MOBS_TABLES_JAVAC=PASS
+BUG_850_255_QUESTNEW_NO_NEW_JAVAC_REGRESSION=PASS
+BUG_850_255_TARGETED_BEHAVIOR_RUNTIME=PASS
+MISSING_FIRST_ROW_RECOVERED_ON_SAVE=PASS
+EXISTING_ROW_UPDATE_PRESERVED=PASS
+BUG_850_255_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-255_VALIDATION_20260924.md`.
+
+### Result
+
+```text
+BUG-850-255=L2
+STATUS=PASS
+PROMOTED=YES
 ```
