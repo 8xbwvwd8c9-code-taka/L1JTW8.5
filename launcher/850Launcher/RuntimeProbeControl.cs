@@ -297,7 +297,7 @@ namespace L1JTW850Launcher
                 var address = list[i].ToInt64();
                 var rva = ToRva(address);
                 var note = i == 0 && list.Count > limit
-                    ? "僅顯示前 " + limit + " 筆；完整候選保存在記憶體掃描狀態中。"
+                    ? "僅顯示前 " + limit + " 筆；完整候選已輸出到 runtime_probe_candidates.txt。"
                     : "";
 
                 _results.Items.Add(new ListViewItem(new[]
@@ -391,11 +391,58 @@ namespace L1JTW850Launcher
                 AppendTop(sb, "MaxMP", 40);
 
                 File.AppendAllText(path, sb.ToString(), new UTF8Encoding(false));
+                SaveFullCandidateSnapshot(stage, values, result);
             }
             catch
             {
                 // Evidence export is best-effort and must not break the probe UI.
             }
+        }
+
+        private void SaveFullCandidateSnapshot(string stage, IDictionary<string, int> values, ProbeResult result)
+        {
+            var path = Path.Combine(_appDir, "runtime_probe_candidates.txt");
+            var sb = new StringBuilder();
+            sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
+            sb.AppendLine("STAGE=" + stage);
+            sb.AppendLine("PID=" + _scanPid);
+            sb.AppendLine("PROCESS_START_UTC=" + (_processStartUtc.HasValue ? _processStartUtc.Value.ToString("o") : ""));
+            sb.AppendLine("CLIENT_SHA256=" + (_clientSha256 ?? ""));
+            sb.AppendLine("CLIENT_AUTHORITY=" + (_clientHashAuthoritative ? 1 : 0));
+            sb.AppendLine("MODULE_BASE=0x" + _moduleBase.ToInt64().ToString("X8"));
+            sb.AppendLine("MODULE_SIZE=" + _moduleSize);
+            sb.AppendLine("CURRENT_HP=" + values["CurrentHP"]);
+            sb.AppendLine("MAX_HP=" + values["MaxHP"]);
+            sb.AppendLine("CURRENT_MP=" + values["CurrentMP"]);
+            sb.AppendLine("MAX_MP=" + values["MaxMP"]);
+            sb.AppendLine("CURRENT_HP_CANDIDATES=" + Count("CurrentHP"));
+            sb.AppendLine("MAX_HP_CANDIDATES=" + Count("MaxHP"));
+            sb.AppendLine("CURRENT_MP_CANDIDATES=" + Count("CurrentMP"));
+            sb.AppendLine("MAX_MP_CANDIDATES=" + Count("MaxMP"));
+            sb.AppendLine("STATUS=" + result.Status);
+            sb.AppendLine("MEMORY_WRITE=NO");
+            sb.AppendLine();
+
+            var clusters = ProbeClusterer.Find(_candidates, 0x100, int.MaxValue);
+            sb.AppendLine("[NEAR_CLUSTERS_0x100_ALL]");
+            foreach (var cluster in clusters)
+            {
+                sb.AppendLine(
+                    "HP=0x" + cluster.CurrentHp.ToString("X8") +
+                    " MaxHP=0x" + cluster.MaxHp.ToString("X8") +
+                    " MP=0x" + cluster.CurrentMp.ToString("X8") +
+                    " MaxMP=0x" + cluster.MaxMp.ToString("X8") +
+                    " Span=0x" + cluster.Span.ToString("X") +
+                    " HP_RVA=" + ToRva(cluster.CurrentHp));
+            }
+            sb.AppendLine();
+
+            AppendAll(sb, "CurrentHP");
+            AppendAll(sb, "MaxHP");
+            AppendAll(sb, "CurrentMP");
+            AppendAll(sb, "MaxMP");
+
+            File.WriteAllText(path, sb.ToString(), new UTF8Encoding(false));
         }
 
         private void AppendTop(StringBuilder sb, string key, int limit)
@@ -410,6 +457,23 @@ namespace L1JTW850Launcher
                 var address = list[i].ToInt64();
                 sb.AppendLine(
                     "ADDR=0x" + address.ToString("X8") +
+                    " RVA=" + ToRva(address));
+            }
+            sb.AppendLine();
+        }
+
+        private void AppendAll(StringBuilder sb, string key)
+        {
+            List<IntPtr> list;
+            if (!_candidates.TryGetValue(key, out list)) return;
+
+            sb.AppendLine("[" + key + "_ALL]");
+            for (var i = 0; i < list.Count; i++)
+            {
+                var address = list[i].ToInt64();
+                sb.AppendLine(
+                    "INDEX=" + i +
+                    " ADDR=0x" + address.ToString("X8") +
                     " RVA=" + ToRva(address));
             }
             sb.AppendLine();
