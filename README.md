@@ -267,32 +267,29 @@ BUG / FEATURE
 
 - [Recovery / 核心修復首頁](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/analysis/l1jtw85-recovery/recovery/README.md)
 
-### 最新 L1 修復進度（2026-09-22 checkpoint）
+### 最新 L1 修復進度（2026-09-23 完成）
 
 ```text
 WORK_BRANCH=work/l1jtw85-core-fixes
 CONFIRMED_L1=45
-REPAIR_LANE_COVERAGE=43/45
-PATCHED_PENDING_VALIDATION=40
-VALIDATED_DONE_PASS=1
-PARTIAL_BLOCKER=BUG-850-208
-UNPATCHED_L1=BUG-850-105,BUG-850-106
-FINISHED_FAMILY_ACTIVE_CLAIMS=0
-GITHUB_WORKFLOW_RUNS_FOR_LATEST_PATCH=0
-STATE=PAUSED_CLEAN_CHECKPOINT
+REPAIR_LANE_COVERAGE=45/45
+VALIDATED_DONE_PASS=45/45
+PATCHED_PENDING_VALIDATION=0
+BLOCKED=0
+UNPATCHED_L1=0
+STATE=L1_REPAIR_COMPLETE
 ```
 
-本次工作已告一段落並停在乾淨 checkpoint。完整 L1 authority 以 `DUAL_LANE_CORE_WORK_LEDGER.md` 的 `CONFIRMED L1` 分類為準，共 45 顆；現行 audit 內直接標成 `Tier: L1` 的 27 段只是較晚加入的明示 tier，不代表完整 L1 universe。
+L1 authority 以 `recovery/DUAL_LANE_CORE_WORK_LEDGER.md` 為準。`BUG-850-001..294` 的 BUG-only audit 已完成，其中 45 顆 `CONFIRMED L1` 現在全部都有對應 `REPAIR_LANE DONE/PASS`；舊 checkpoint 的 `BUG-850-105/106` 未修、40 顆 pending、`BUG-850-208` route blocker 均已失效。
 
-目前 45 顆中已有 43 顆建立 repair lane：40 顆為 `PATCHED_PENDING_VALIDATION`、`BUG-850-114` 為既有 `DONE/PASS`、`BUG-850-208` 為 `PARTIAL_BLOCKED_ROUTE_AUTHORITY`。尚未進 repair lane 的 L1 只剩 `BUG-850-105` 與 `BUG-850-106`；本次依使用者要求不再開新修補。
+本輪最後完成的關鍵收斂：
 
-本輪最後收斂的 castle withdrawal 家族 `BUG-850-012 / 040 / 045` 已完成：要求 self objid、正數提款、crown + current clan leader + matching castle ownership，使用 shared castle synchronization，並以專用 `public_money` DB-first persistence 成功後才發 Adena。這同時關閉不足餘額發錢、負數灌大 treasury、缺少 leader authorization，以及 withdrawal read-modify-write concurrency 風險。
+- `BUG-850-012 / 040 / 045`：城堡提款要求 self objid、正數 count、crown + current clan leader + matching castle ownership；castle `public_money` CAS 與玩家 Adena `character_items` 變更位於同一 InnoDB transaction，rollback-safe、commit 後才 publish。CI `35761576746` PASS。
+- `BUG-850-014 / 015 / 020 / 044`：商店/交易價格與數量採 long 邊界驗證、server-side authority 與 2,000,000,000 上限；專用 CI 全 PASS。
+- `BUG-850-019 / 048 / 075 / 093`：achievement one-shot、LuckyDraw durable redemption、mail ownership、character reset stat budget 均完成專用 source contract/runtime/compile gate。
+- `BUG-850-208`：`C_Ship` client destination map/x/y 只為協定相容而解析，不再作 authority；`L1Dungeon` 從 `dungeon` DB live rows 依 ship pair `5<->6`、`83<->84`、`446<->447` 衍生 server route，missing/conflicting route fail closed，且票券 consume 成功後才傳送。CI `35764583423` PASS。
 
-`BUG-850-014 / 015` ShopWorld 亦已由並行工作完成，現為 `PATCHED_PENDING_VALIDATION`：正數 count、overflow-safe long total、client/server price exact match，再進 transactional account/item persistence。
-
-`BUG-850-208` 仍維持 partial：六個 ship map 的 ticket mapping 與 consume-success fail-closed 已修，但 380/381/880 與公開 L1J-TW 3.80c 都沒有 server-authoritative route table，destination map/x/y 仍由 client 提供；因此沒有虛構 route whitelist。
-
-目前 GitHub 最新 patch 沒有 workflow run，work branch 也沒有可直接使用的 `.github/workflows`，所以除既有 PASS 證據外，修補不得 promotion 到 `completed/l1jtw85-core-fixes`。下一次恢復工作時，優先順序：`BUG-850-105` → `BUG-850-106` → targeted compile/runtime validation → 再處理 `BUG-850-208` route-authority blocker。
+目前 L1 repair lane 無 `PATCHED_PENDING`、無 `BLOCKED`、無未修 L1。後續不要重新掃這 45 顆；若繼續修復，應依 ledger ownership 進入兞他 tier/lane，避免與既有 L2/L3 並行工作重複。
 
 ### 支線整理規則
 
