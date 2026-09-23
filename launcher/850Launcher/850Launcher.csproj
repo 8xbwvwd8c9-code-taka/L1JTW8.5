@@ -79,6 +79,7 @@
     <Compile Include="InventoryBridge.cs" />
     <Compile Include="InventoryMap.cs" />
     <Compile Include="MappedInventoryBridge.cs" />
+    <Compile Include="ItemCatalogLoader.cs" />
     <Compile Include="ItemNameResolver.cs" />
     <Compile Include="InventoryMapControl.cs" />
     <Compile Include="InventoryRuntimeValidator.cs" />
@@ -127,9 +128,7 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.manifest" />
-    <None Include="item-names.csv">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <EmbeddedResource Include="item-names.csv" />
     <None Include="skill-names.csv">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
