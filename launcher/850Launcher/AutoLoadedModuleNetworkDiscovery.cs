@@ -33,6 +33,7 @@ namespace L1JTW850Launcher
         private int _pid;
         private bool _running;
         private bool _done;
+        private DateTime _retryAfterUtc = DateTime.MinValue;
         private string _status = "WAITING";
 
         public AutoLoadedModuleNetworkDiscovery(string appDir)
@@ -57,10 +58,13 @@ namespace L1JTW850Launcher
                     _pid = runtime.ProcessId;
                     _running = false;
                     _done = false;
+                    _retryAfterUtc = DateTime.MinValue;
                     _status = "READY";
                 }
 
-                if (_running || _done) return;
+                if (_running) return;
+                if (_done) return;
+                if (DateTime.UtcNow < _retryAfterUtc) return;
                 _running = true;
             }
 
@@ -73,14 +77,29 @@ namespace L1JTW850Launcher
                 catch (Exception ex)
                 {
                     SaveError(runtime, ex);
-                    lock (_sync) _status = "ERROR";
+                    lock (_sync)
+                    {
+                        _status = "ERROR_RETRY";
+                        _retryAfterUtc = DateTime.UtcNow.AddSeconds(30);
+                    }
                 }
                 finally
                 {
                     lock (_sync)
                     {
                         _running = false;
-                        _done = true;
+                        if (_status == "NO_WINSOCK_MODULE_VISIBLE" ||
+                            _status == "WINSOCK_LOADED_OWNER_UNKNOWN" ||
+                            _status == "ERROR_RETRY")
+                        {
+                            _done = false;
+                            if (_retryAfterUtc < DateTime.UtcNow)
+                                _retryAfterUtc = DateTime.UtcNow.AddSeconds(15);
+                        }
+                        else
+                        {
+                            _done = true;
+                        }
                     }
                 }
             });
@@ -133,7 +152,6 @@ namespace L1JTW850Launcher
                     }
                     catch (Exception ex)
                     {
-                        // Managed/system/non-PE32 modules or access-restricted files are not fatal.
                         if (failures.Count < 40)
                             failures.Add(
                                 "PARSE_SKIP MODULE=" + Sanitize(hit.ModuleName) +
@@ -238,7 +256,12 @@ namespace L1JTW850Launcher
                 sb.ToString(),
                 new UTF8Encoding(false));
 
-            lock (_sync) _status = status;
+            lock (_sync)
+            {
+                _status = status;
+                if (status == "NO_WINSOCK_MODULE_VISIBLE" || status == "WINSOCK_LOADED_OWNER_UNKNOWN")
+                    _retryAfterUtc = DateTime.UtcNow.AddSeconds(15);
+            }
         }
 
         private static void ScanOwnerXrefs(
