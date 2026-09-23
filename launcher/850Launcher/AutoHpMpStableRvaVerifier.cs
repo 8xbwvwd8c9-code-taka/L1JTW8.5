@@ -66,13 +66,28 @@ namespace L1JTW850Launcher
                 return SaveWaiting(appDir, "missing pointer history or semantic evidence");
 
             int pid;
-            long moduleBase;
             int maxHp;
             int maxMp;
             bool authority;
-            ParseSemanticHeader(semanticPath, out pid, out moduleBase, out maxHp, out maxMp, out authority);
-            if (!authority || pid <= 0 || moduleBase <= 0)
+            ParseSemanticHeader(semanticPath, out pid, out maxHp, out maxMp, out authority);
+            if (!authority || pid <= 0)
                 return SaveWaiting(appDir, "current runtime semantic evidence is not authoritative");
+
+            var process = Process.GetProcessById(pid);
+            if (process.HasExited)
+                throw new InvalidOperationException("Lin.bin2 process exited");
+
+            long moduleBase;
+            try
+            {
+                moduleBase = process.MainModule.BaseAddress.ToInt64();
+            }
+            catch (Exception ex)
+            {
+                return SaveWaiting(appDir, "cannot resolve current Lin.bin2 module base: " + ex.GetType().Name);
+            }
+            if (moduleBase <= 0)
+                return SaveWaiting(appDir, "current Lin.bin2 module base is unavailable");
 
             var pairs = ParsePointerHistory(pointerHistory);
             RejectKnownGaugePairs(pairs, crossHistory, moduleBase);
@@ -86,10 +101,6 @@ namespace L1JTW850Launcher
 
             if (best == null)
                 return SaveWaiting(appDir, "no non-gauge direct-rva pair across at least two pids");
-
-            var process = Process.GetProcessById(pid);
-            if (process.HasExited)
-                throw new InvalidOperationException("Lin.bin2 process exited");
 
             var hpAddress = moduleBase + best.HpRva;
             var mpAddress = moduleBase + best.MpRva;
@@ -165,8 +176,9 @@ namespace L1JTW850Launcher
 
             var sb = new StringBuilder();
             sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            sb.AppendLine("MODE=AUTO_HPMP_STABLE_RVA_VERIFY");
+            sb.AppendLine("MODE=AUTO_HPMP_STABLE_RVA_VERIFY_V2");
             sb.AppendLine("PID=" + pid);
+            sb.AppendLine("MODULE_BASE_SOURCE=PROCESS_MAIN_MODULE");
             sb.AppendLine("MODULE_BASE=0x" + moduleBase.ToString("X8"));
             sb.AppendLine("MAX_HP=" + maxHp);
             sb.AppendLine("MAX_MP=" + maxMp);
@@ -200,10 +212,9 @@ namespace L1JTW850Launcher
             return status;
         }
 
-        private static void ParseSemanticHeader(string path, out int pid, out long moduleBase, out int maxHp, out int maxMp, out bool authority)
+        private static void ParseSemanticHeader(string path, out int pid, out int maxHp, out int maxMp, out bool authority)
         {
             pid = 0;
-            moduleBase = 0;
             maxHp = 675;
             maxMp = 142;
             authority = false;
@@ -212,7 +223,6 @@ namespace L1JTW850Launcher
                 var line = raw.Trim();
                 int n;
                 if (line.StartsWith("PID=") && int.TryParse(line.Substring(4), out n)) pid = n;
-                else if (line.StartsWith("MODULE_BASE=0x")) TryHex(line.Substring(14), out moduleBase);
                 else if (line.StartsWith("MAX_HP=") && int.TryParse(line.Substring(7), out n) && n > 0) maxHp = n;
                 else if (line.StartsWith("MAX_MP=") && int.TryParse(line.Substring(7), out n) && n > 0) maxMp = n;
                 else if (line.StartsWith("CLIENT_AUTHORITY=") && int.TryParse(line.Substring(17), out n)) authority = n == 1;
@@ -352,7 +362,7 @@ namespace L1JTW850Launcher
         {
             var sb = new StringBuilder();
             sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            sb.AppendLine("MODE=AUTO_HPMP_STABLE_RVA_VERIFY");
+            sb.AppendLine("MODE=AUTO_HPMP_STABLE_RVA_VERIFY_V2");
             sb.AppendLine("STATUS=WAITING_STABLE_RVA_HISTORY");
             sb.AppendLine("REASON=" + reason);
             sb.AppendLine("RAW_MAP_ALLOWED=0");
@@ -368,7 +378,7 @@ namespace L1JTW850Launcher
                 File.WriteAllText(
                     Path.Combine(appDir, "runtime_hpmp_stable_rva_evidence.txt"),
                     "TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + Environment.NewLine +
-                    "MODE=AUTO_HPMP_STABLE_RVA_VERIFY" + Environment.NewLine +
+                    "MODE=AUTO_HPMP_STABLE_RVA_VERIFY_V2" + Environment.NewLine +
                     "RAW_MAP_ALLOWED=0" + Environment.NewLine +
                     "MEMORY_WRITE=NO" + Environment.NewLine +
                     "STATUS=ERROR" + Environment.NewLine +
