@@ -116,9 +116,17 @@ namespace L1JTW850Launcher
                 _loadedModuleNetwork.EnsureRunning(runtime);
                 _appDirNetwork.EnsureRunning(runtime);
                 _staticGameNetwork.EnsureRunning(runtime);
-                _damageReceive.EnsureRunning(runtime);
+
+                // GM_AttackMessage was proven as the source of the observed damage text,
+                // so the old generic damage-receive hunt is intentionally no longer started.
+                // Keep the class/evidence available for historical comparison only.
+
+                // This lane owns the seedless private-writable inventory scanner internally,
+                // then refines fresh dynamic candidates. Do not start a duplicate scanner here.
                 _inventoryHistory.EnsureRunning(runtime);
             }
+
+            AutoFeatureMatrix.Refresh(_appDir);
 
             var dashboard = RuntimeValidationDashboard.Evaluate(_appDir);
             var sb = new StringBuilder();
@@ -149,7 +157,8 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_LOADED_MODULE_NETWORK=" + _loadedModuleNetwork.Status);
             sb.AppendLine("AUTO_APPDIR_NETWORK=" + _appDirNetwork.Status);
             sb.AppendLine("AUTO_STATIC_GAME_NETWORK=" + _staticGameNetwork.Status);
-            sb.AppendLine("AUTO_DAMAGE_RECV=" + _damageReceive.Status);
+            sb.AppendLine("AUTO_DAMAGE_RECV=DISABLED_ROOT_CAUSE_GM_ATTACK_MESSAGE");
+            sb.AppendLine("AUTO_FEATURE_MATRIX=ACTIVE");
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -165,6 +174,7 @@ namespace L1JTW850Launcher
             AppendFile(sb, "runtime_hpmp_pointer_history.txt");
             AppendFile(sb, "runtime_hpmp_guard_evidence.txt");
             AppendFile(sb, "auto_inventory_discovery_evidence.txt");
+            AppendFile(sb, "auto_inventory_seedless_evidence.txt");
             AppendFile(sb, "auto_inventory_history_evidence.txt");
             AppendFile(sb, "auto_buff_receive_evidence.txt");
             AppendFile(sb, "auto_send_discovery_evidence.txt");
@@ -174,6 +184,7 @@ namespace L1JTW850Launcher
             AppendFile(sb, "auto_static_game_network_evidence.txt");
             AppendFile(sb, "auto_damage_receive_evidence.txt");
             AppendFile(sb, "auto_damage_accounting_evidence.txt");
+            AppendFile(sb, "auto_feature_matrix_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "inventory_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
