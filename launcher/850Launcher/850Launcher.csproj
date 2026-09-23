@@ -88,6 +88,7 @@
     <Compile Include="RuntimeMemoryProbe.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="RuntimeDynamicProbeControl.cs" />
+    <Compile Include="AutoRuntimeAuditControl.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
     <Compile Include="RuntimeSemanticValidator.cs" />
