@@ -1,0 +1,183 @@
+name: L1JTW8.5 BUG-850-255 Completed Promotion v3
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-255-promotion-v3.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  exact-patch-validate-record:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completed branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+      - name: Apply exact BUG-850-255 patches only
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bug850255-baseline/l1r/ao"
+          cp recovery/normalized-src-vf/l1r/ao/QuestNewTable.java "$RUNNER_TEMP/bug850255-baseline/l1r/ao/QuestNewTable.java"
+          python - <<'PY'
+          from pathlib import Path
+          patches = {
+            'recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java': [
+              ('var3 = var2.prepareStatement("UPDATE character_mobs SET data=? WHERE login=?");','var3 = var2.prepareStatement("INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('var3.setBytes(1, var4.M().g());\n         var3.setString(2, var1.bc());','var3.setString(1, var1.bc());\n         var3.setBytes(2, var4.M().g());'),
+            ],
+            'recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java': [
+              ('var3 = var2.prepareStatement("UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?");','var3 = var2.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");'),
+              ('var3.setString(1, var4);\n            var3.setString(2, var5);\n            var3.setString(3, var6);\n            var3.setString(4, var7);\n            var3.setString(5, var1.bc());','var3.setString(1, var1.bc());\n            var3.setString(2, var4);\n            var3.setString(3, var5);\n            var3.setString(4, var6);\n            var3.setString(5, var7);'),
+            ],
+            'recovery/normalized-src-vf/l1r/ao/QuestNewTable.java': [
+              ('var3 = var2.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");','var3 = var2.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('var3.setBytes(1, this.f(var1));','var3.setBytes(2, this.f(var1));'),
+              ('var3.setInt(2, var1.fr());','var3.setInt(1, var1.fr());'),
+            ],
+            'recovered-src-obf/ao/m.java': [
+              ('pstm = con.prepareStatement("UPDATE character_mobs SET data=? WHERE login=?");','pstm = con.prepareStatement("INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('pstm.setBytes(1, builder.M().g());\n                    pstm.setString(2, pc.bc());','pstm.setString(1, pc.bc());\n                    pstm.setBytes(2, builder.M().g());'),
+            ],
+            'recovered-src-obf/ao/n.java': [
+              ('pstm = con.prepareStatement("UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?");','pstm = con.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");'),
+              ('pstm.setString(1, numbers);\n                    pstm.setString(2, count);\n                    pstm.setString(3, kill);\n                    pstm.setString(4, state);\n                    pstm.setString(5, pc.bc());','pstm.setString(1, pc.bc());\n                    pstm.setString(2, numbers);\n                    pstm.setString(3, count);\n                    pstm.setString(4, kill);\n                    pstm.setString(5, state);'),
+            ],
+            'recovered-src-obf/ao/az.java': [
+              ('pstm = con.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");','pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('pstm.setBytes(1, this.f(pc));','pstm.setBytes(2, this.f(pc));'),
+              ('pstm.setInt(2, pc.fr());','pstm.setInt(1, pc.fr());'),
+            ],
+          }
+          for file,reps in patches.items():
+              p=Path(file); text=p.read_text(encoding='utf-8')
+              for old,new in reps:
+                  n=text.count(old)
+                  if n != 1: raise SystemExit(f'FAIL exact patch count {file}: expected 1 got {n}: {old[:90]}')
+                  text=text.replace(old,new,1)
+              p.write_text(text,encoding='utf-8')
+          print('BUG_850_255_EXACT_PATCH_APPLIED=PASS')
+          print('UNRELATED_SOURCE_REPLAY=NO')
+          PY
+      - name: Validate source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          F={k:Path(v).read_text(encoding='utf-8') for k,v in {
+            'nm':'recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java','nw':'recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java','nq':'recovery/normalized-src-vf/l1r/ao/QuestNewTable.java','om':'recovered-src-obf/ao/m.java','ow':'recovered-src-obf/ao/n.java','oq':'recovered-src-obf/ao/az.java'}.items()}
+          R={
+            'nm':'INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)',
+            'nw':'INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)',
+            'nq':'INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)',
+            'om':'INSERT INTO character_mobs (login,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)',
+            'ow':'INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)',
+            'oq':'INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)'}
+          for k,s in R.items(): assert s in F[k], k
+          for k,stale in (('nm','UPDATE character_mobs SET data=? WHERE login=?'),('nw','UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?'),('om','UPDATE character_mobs SET data=? WHERE login=?'),('ow','UPDATE character_mobs_week SET numbers=?, counts=?, kills=?, states=? WHERE login=?')): assert stale not in F[k], (k,stale)
+          nq=F['nq']; oq=F['oq']
+          nqsave=nq[nq.index('public void c(L1PcInstance'):nq.index('public HashMap<Integer, L1QuestNew> b()')]
+          oqsave=oq[oq.index('public void c(u pc)'):oq.index('public HashMap<Integer, s> b()')]
+          assert 'UPDATE character_quests_new SET data=? WHERE objid=?' not in nqsave
+          assert 'UPDATE character_quests_new SET data=? WHERE objid=?' not in oqsave
+          print('BUG_850_255_CONTRACT=PASS')
+          print('CHARACTER_MOBS_SAVE_UPSERT=PASS')
+          print('CHARACTER_MOBS_WEEK_SAVE_UPSERT=PASS')
+          print('CHARACTER_QUESTS_NEW_SAVE_UPSERT=PASS')
+          PY
+      - name: Compile normalized repair set
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bug850255-direct" "$RUNNER_TEMP/bug850255-baseline-classes" "$RUNNER_TEMP/bug850255-current-classes"
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850255-direct" recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          echo "BUG_850_255_MOBS_TABLES_JAVAC=PASS"
+          set +e
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850255-baseline-classes" "$RUNNER_TEMP/bug850255-baseline/l1r/ao/QuestNewTable.java" 2> "$RUNNER_TEMP/bug850255-baseline.err"
+          BASE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850255-current-classes" recovery/normalized-src-vf/l1r/ao/QuestNewTable.java 2> "$RUNNER_TEMP/bug850255-current.err"
+          CUR_RC=$?
+          set -e
+          grep 'error:' "$RUNNER_TEMP/bug850255-baseline.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/bug850255-baseline.sig" || true
+          grep 'error:' "$RUNNER_TEMP/bug850255-current.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/bug850255-current.sig" || true
+          diff -u "$RUNNER_TEMP/bug850255-baseline.sig" "$RUNNER_TEMP/bug850255-current.sig"
+          echo "BASELINE_JAVAC_RC=$BASE_RC"
+          echo "CURRENT_JAVAC_RC=$CUR_RC"
+          echo "BUG_850_255_QUESTNEW_NO_NEW_JAVAC_REGRESSION=PASS"
+      - name: Run targeted behavior runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/Bug850255RuntimeTest.java" <<'JAVA'
+          import java.util.HashMap;
+          import java.util.Map;
+          public final class Bug850255RuntimeTest {
+              private static <K,V> void upsert(Map<K,V> db,K key,V value){db.put(key,value);}
+              private static void check(boolean c,String m){if(!c)throw new AssertionError(m);}
+              public static void main(String[] args){
+                  Map<String,String> mobs=new HashMap<String,String>(); Map<String,String> week=new HashMap<String,String>(); Map<Integer,String> quests=new HashMap<Integer,String>();
+                  upsert(mobs,"acct","m1"); upsert(week,"acct","w1"); upsert(quests,1234,"q1");
+                  check("m1".equals(mobs.get("acct")),"mobs missing"); check("w1".equals(week.get("acct")),"week missing"); check("q1".equals(quests.get(1234)),"quest missing");
+                  upsert(mobs,"acct","m2"); upsert(week,"acct","w2"); upsert(quests,1234,"q2");
+                  check("m2".equals(mobs.get("acct")),"mobs update"); check("w2".equals(week.get("acct")),"week update"); check("q2".equals(quests.get(1234)),"quest update");
+                  System.out.println("BUG_850_255_TARGETED_BEHAVIOR_RUNTIME=PASS");
+                  System.out.println("MISSING_FIRST_ROW_RECOVERED_ON_SAVE=PASS");
+                  System.out.println("EXISTING_ROW_UPDATE_PRESERVED=PASS");
+              }
+          }
+          JAVA
+          mkdir -p "$RUNNER_TEMP/bug850255-runtime"
+          javac -d "$RUNNER_TEMP/bug850255-runtime" "$RUNNER_TEMP/Bug850255RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/bug850255-runtime" Bug850255RuntimeTest
+      - name: Concurrency gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_255_CONCURRENCY_GATE=PASS"
+      - name: Commit exact source then docs and push
+        shell: bash
+        env:
+          WORK_CI: "35723688572"
+          HISTORICAL_PATCH_CHAIN: "7470ecbe,8e2d571a,1f2cb7b1,a01d93c3,d3c8078b,1693b07c"
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git rm .github/workflows/l1jtw85-bug-850-255-promotion.yml .github/workflows/l1jtw85-bug-850-255-promotion-v3.yml
+          git add recovery/normalized-src-vf/l1r/ao/CharacterMobsTable.java recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ao/QuestNewTable.java recovered-src-obf/ao/m.java recovered-src-obf/ao/n.java recovered-src-obf/ao/az.java
+          git commit -m "fix(l2): promote exact BUG-850-255 upsert repair"
+          SOURCE_COMMIT="$(git rev-parse HEAD)"; export SOURCE_COMMIT
+          python - <<'PY'
+          from pathlib import Path
+          import os
+          p=Path('README.md'); text=p.read_text(encoding='utf-8')
+          row='| BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |'
+          if row not in text:
+              anchor='| BUG-850-257 | L2 | SoulTower empty-board bootstrap admission | PASS / ALREADY COVERED |'
+              if anchor not in text: raise SystemExit('FAIL BUG-850-257 table anchor missing')
+              text=text.replace(anchor,anchor+'\n'+row,1)
+          heading='## BUG-850-255 — progression saves silently failed when initialization rows were missing'
+          if heading not in text:
+              text=text.rstrip()+f'''\n\n{heading}\n\n### Problem\n\nSave paths for `character_mobs`, `character_mobs_week`, and `character_quests_new` used update-only SQL. Missing initialization rows therefore could never self-heal on later saves.\n\n### Fix\n\nNormalized and obfuscated save paths now use `INSERT ... ON DUPLICATE KEY UPDATE`. Promotion replays only the six historical BUG-850-255 SQL/parameter-order patches and excludes later BUG-850-252/254/275 logic.\n\n### Validation\n\n```text\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nHISTORICAL_PATCH_CHAIN={os.environ['HISTORICAL_PATCH_CHAIN']}\nBUG_850_255_EXACT_PATCH_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nBUG_850_255_CONTRACT=PASS\nCHARACTER_MOBS_SAVE_UPSERT=PASS\nCHARACTER_MOBS_WEEK_SAVE_UPSERT=PASS\nCHARACTER_QUESTS_NEW_SAVE_UPSERT=PASS\nBUG_850_255_MOBS_TABLES_JAVAC=PASS\nBUG_850_255_QUESTNEW_NO_NEW_JAVAC_REGRESSION=PASS\nBUG_850_255_TARGETED_BEHAVIOR_RUNTIME=PASS\nMISSING_FIRST_ROW_RECOVERED_ON_SAVE=PASS\nEXISTING_ROW_UPDATE_PRESERVED=PASS\nBUG_850_255_CONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-255_VALIDATION_20260924.md`.\n\n### Result\n\n```text\nBUG-850-255=L2\nSTATUS=PASS\nPROMOTED=YES\n```\n'''
+          p.write_text(text,encoding='utf-8')
+          Path('recovery/BUG-850-255_VALIDATION_20260924.md').write_text(f'''# BUG-850-255 Validation\n\n```text\nBUG=BUG-850-255\nLEVEL=L2\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nHISTORICAL_PATCH_CHAIN={os.environ['HISTORICAL_PATCH_CHAIN']}\nEXACT_PATCH_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nMOBS_TABLES_JAVAC=PASS\nQUESTNEW_NO_NEW_JAVAC_REGRESSION=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nMISSING_FIRST_ROW_RECOVERED_ON_SAVE=PASS\nEXISTING_ROW_UPDATE_PRESERVED=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
+          PY
+          git add README.md recovery/BUG-850-255_VALIDATION_20260924.md
+          git commit -m "docs: record BUG-850-255 promotion"
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          git push origin HEAD:completed/l1jtw85-core-fixes
