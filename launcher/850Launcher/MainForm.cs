@@ -107,6 +107,7 @@ namespace L1JTW850Launcher
             if (_config.DeveloperMode)
             {
                 tabs.TabPages.Add(BuildRuntimeValidationDashboardTab());
+                tabs.TabPages.Add(BuildDynamicProbeTab());
                 tabs.TabPages.Add(BuildProbeTab());
                 tabs.TabPages.Add(BuildPlayerIdentityProbeTab());
                 tabs.TabPages.Add(BuildInventoryProbeTab());
@@ -147,158 +148,43 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("藥水");
             _autoPotion = AddCheck(p, "啟用自動喝水", 24, 24);
-
             _potionUsePercent = AddCheck(p, "使用生命值百分比判斷", 24, 58);
-
             p.Controls.Add(new Label { Text = "百分比門檻", Left = 24, Top = 98, Width = 90 });
-            _hpPercent = new NumericUpDown
-            {
-                Left = 120,
-                Top = 94,
-                Minimum = 1,
-                Maximum = 100,
-                Width = 70
-            };
+            _hpPercent = new NumericUpDown { Left = 120, Top = 94, Minimum = 1, Maximum = 100, Width = 70 };
             p.Controls.Add(_hpPercent);
             p.Controls.Add(new Label { Text = "%", Left = 194, Top = 98, Width = 20 });
-
             p.Controls.Add(new Label { Text = "精準 HP 門檻", Left = 260, Top = 98, Width = 90 });
-            _hpExact = new NumericUpDown
-            {
-                Left = 356,
-                Top = 94,
-                Minimum = 1,
-                Maximum = 2000000000,
-                Width = 110
-            };
+            _hpExact = new NumericUpDown { Left = 356, Top = 94, Minimum = 1, Maximum = 2000000000, Width = 110 };
             p.Controls.Add(_hpExact);
-
-            p.Controls.Add(new Label
-            {
-                Text = "喝水道具 ID（優先順序）",
-                Left = 24,
-                Top = 140,
-                Width = 150
-            });
-            _potionItemIds = new TextBox
-            {
-                Left = 180,
-                Top = 136,
-                Width = 330
-            };
+            p.Controls.Add(new Label { Text = "喝水道具 ID（優先順序）", Left = 24, Top = 140, Width = 150 });
+            _potionItemIds = new TextBox { Left = 180, Top = 136, Width = 330 };
             p.Controls.Add(_potionItemIds);
-
-            p.Controls.Add(new Label
-            {
-                Text = "冷卻(ms)",
-                Left = 528,
-                Top = 140,
-                Width = 65
-            });
-            _potionCooldown = new NumericUpDown
-            {
-                Left = 596,
-                Top = 136,
-                Minimum = 50,
-                Maximum = 10000,
-                Increment = 50,
-                Width = 100
-            };
+            p.Controls.Add(new Label { Text = "冷卻(ms)", Left = 528, Top = 140, Width = 65 });
+            _potionCooldown = new NumericUpDown { Left = 596, Top = 136, Minimum = 50, Maximum = 10000, Increment = 50, Width = 100 };
             p.Controls.Add(_potionCooldown);
-
-            p.Controls.Add(new Label
-            {
-                Left = 24,
-                Top = 176,
-                Width = 675,
-                Height = 44,
-                Text = "可在「物品」頁選取背包道具後加入喝水清單。HP/MP 只供內部判斷，不在一般輔助頁面顯示。"
-            });
-
-            _potionStatus = new Label
-            {
-                Left = 24,
-                Top = 224,
-                Width = 675,
-                Height = 64,
-                Text = "喝水狀態：等待 HP / 背包 / UseItem 映射。"
-            };
+            p.Controls.Add(new Label { Left = 24, Top = 176, Width = 675, Height = 44, Text = "可在「物品」頁選取背包道具後加入喝水清單。HP/MP 只供內部判斷，不在一般輔助頁面顯示。" });
+            _potionStatus = new Label { Left = 24, Top = 224, Width = 675, Height = 64, Text = "喝水狀態：等待 HP / 背包 / UseItem 映射。" };
             p.Controls.Add(_potionStatus);
-
-            _potionUsePercent.CheckedChanged += delegate
-            {
-                _hpPercent.Enabled = _potionUsePercent.Checked;
-                _hpExact.Enabled = !_potionUsePercent.Checked;
-            };
-
+            _potionUsePercent.CheckedChanged += delegate { _hpPercent.Enabled = _potionUsePercent.Checked; _hpExact.Enabled = !_potionUsePercent.Checked; };
             return p;
         }
 
         private TabPage BuildStateTab()
         {
             var p = NewPage("狀態");
-
-            _autoBuff = AddCheck(
-                p,
-                "自動維持選定狀態",
-                24,
-                16);
-
-            p.Controls.Add(new Label
-            {
-                Text = "850 可維持狀態技能",
-                Left = 24,
-                Top = 52,
-                Width = 180
-            });
-
-            _buffSkills = new CheckedListBox
-            {
-                Left = 24,
-                Top = 76,
-                Width = 430,
-                Height = 300,
-                CheckOnClick = true
-            };
-
+            _autoBuff = AddCheck(p, "自動維持選定狀態", 24, 16);
+            p.Controls.Add(new Label { Text = "850 可維持狀態技能", Left = 24, Top = 52, Width = 180 });
+            _buffSkills = new CheckedListBox { Left = 24, Top = 76, Width = 430, Height = 300, CheckOnClick = true };
             foreach (var entry in _skillCatalog.All)
             {
-                if (entry.BuffDuration <= 0)
-                    continue;
-
-                if (string.Equals(
-                    entry.Name,
-                    "none",
-                    StringComparison.OrdinalIgnoreCase))
-                    continue;
-
+                if (entry.BuffDuration <= 0) continue;
+                if (string.Equals(entry.Name, "none", StringComparison.OrdinalIgnoreCase)) continue;
                 _buffSkills.Items.Add(entry);
             }
-
             p.Controls.Add(_buffSkills);
-
-            p.Controls.Add(new Label
-            {
-                Left = 472,
-                Top = 76,
-                Width = 220,
-                Height = 92,
-                Text =
-                    "清單由 850 skills.sql 產生。\r\n" +
-                    "顯示：技能名稱 [SkillId] / Buff秒數。\r\n" +
-                    "只保存勾選，不會在 WP9 native SkillUse 與 Buff 狀態未驗證前自動施放。"
-            });
-
-            _buffStatus = new Label
-            {
-                Left = 472,
-                Top = 184,
-                Width = 220,
-                Height = 120,
-                Text = "狀態：等待 WP9 runtime 驗證。"
-            };
+            p.Controls.Add(new Label { Left = 472, Top = 76, Width = 220, Height = 92, Text = "清單由 850 skills.sql 產生。\r\n顯示：技能名稱 [SkillId] / Buff秒數。\r\n只保存勾選，不會在 WP9 native SkillUse 與 Buff 狀態未驗證前自動施放。" });
+            _buffStatus = new Label { Left = 472, Top = 184, Width = 220, Height = 120, Text = "狀態：等待 WP9 runtime 驗證。" };
             p.Controls.Add(_buffStatus);
-
             return p;
         }
 
@@ -316,6 +202,13 @@ namespace L1JTW850Launcher
         {
             var p = NewPage("驗證總覽");
             p.Controls.Add(new RuntimeValidationDashboardControl(_appDir));
+            return p;
+        }
+
+        private TabPage BuildDynamicProbeTab()
+        {
+            var p = NewPage("動態偵測");
+            p.Controls.Add(new RuntimeDynamicProbeControl(_appDir));
             return p;
         }
 
@@ -462,41 +355,13 @@ namespace L1JTW850Launcher
         private TabPage BuildItemTab()
         {
             var p = NewPage("物品");
-
-            var actions = new Panel
-            {
-                Dock = DockStyle.Bottom,
-                Height = 44
-            };
-
-            var addPotion = new Button
-            {
-                Text = "加入喝水清單",
-                Left = 8,
-                Top = 8,
-                Width = 120
-            };
+            var actions = new Panel { Dock = DockStyle.Bottom, Height = 44 };
+            var addPotion = new Button { Text = "加入喝水清單", Left = 8, Top = 8, Width = 120 };
             addPotion.Click += delegate { AddSelectedInventoryItemToPotionList(); };
             actions.Controls.Add(addPotion);
-
-            actions.Controls.Add(new Label
-            {
-                Text = "刪除 / 溶解動作尚未接入，先完成 WP5-WP7。",
-                Left = 144,
-                Top = 13,
-                Width = 420
-            });
-
+            actions.Controls.Add(new Label { Text = "刪除 / 溶解動作尚未接入，先完成 WP5-WP7。", Left = 144, Top = 13, Width = 420 });
             p.Controls.Add(actions);
-
-            _inventory = new ListView
-            {
-                Dock = DockStyle.Fill,
-                View = View.Details,
-                FullRowSelect = true,
-                MultiSelect = false,
-                GridLines = true
-            };
+            _inventory = new ListView { Dock = DockStyle.Fill, View = View.Details, FullRowSelect = true, MultiSelect = false, GridLines = true };
             _inventory.Columns.Add("物件ID", 100);
             _inventory.Columns.Add("道具ID", 80);
             _inventory.Columns.Add("名稱", 220);
@@ -505,7 +370,6 @@ namespace L1JTW850Launcher
             _inventory.Columns.Add("裝備中", 80);
             p.Controls.Add(_inventory);
             _inventory.BringToFront();
-
             return p;
         }
 
@@ -545,32 +409,15 @@ namespace L1JTW850Launcher
             _hpPercent.Value = Math.Max(_hpPercent.Minimum, Math.Min(_hpPercent.Maximum, _helper.PotionHpPercent));
             _hpExact.Value = Math.Max(_hpExact.Minimum, Math.Min(_hpExact.Maximum, _helper.PotionHpExact));
             _potionItemIds.Text = _helper.PotionItemIds ?? "";
-            _potionCooldown.Value = Math.Max(
-                _potionCooldown.Minimum,
-                Math.Min(_potionCooldown.Maximum, _helper.PotionCooldownMs));
+            _potionCooldown.Value = Math.Max(_potionCooldown.Minimum, Math.Min(_potionCooldown.Maximum, _helper.PotionCooldownMs));
             _hpPercent.Enabled = _potionUsePercent.Checked;
             _hpExact.Enabled = !_potionUsePercent.Checked;
             _autoBuff.Checked = _helper.AutoBuff;
-
-            var selectedBuffIds =
-                _helper.GetBuffSkillIds();
-
-            for (var i = 0;
-                 i < _buffSkills.Items.Count;
-                 i++)
+            var selectedBuffIds = _helper.GetBuffSkillIds();
+            for (var i = 0; i < _buffSkills.Items.Count; i++)
             {
-                var entry =
-                    _buffSkills.Items[i]
-                    as SkillCatalogEntry;
-
-                if (entry != null &&
-                    selectedBuffIds.Contains(
-                        entry.SkillId))
-                {
-                    _buffSkills.SetItemChecked(
-                        i,
-                        true);
-                }
+                var entry = _buffSkills.Items[i] as SkillCatalogEntry;
+                if (entry != null && selectedBuffIds.Contains(entry.SkillId)) _buffSkills.SetItemChecked(i, true);
             }
             _autoTransform.Checked = _helper.AutoTransform;
             _autoAntidote.Checked = _helper.AutoAntidote;
@@ -589,11 +436,9 @@ namespace L1JTW850Launcher
                 MessageBox.Show("連接埠格式錯誤。");
                 return false;
             }
-
             _config.ServerName = _serverName.Text.Trim();
             _config.ServerIp = _ip.Text.Trim();
             _config.ServerPort = port;
-
             _helper.AutoPotion = _autoPotion.Checked;
             _helper.PotionUsePercent = _potionUsePercent.Checked;
             _helper.PotionHpPercent = (int)_hpPercent.Value;
@@ -601,24 +446,13 @@ namespace L1JTW850Launcher
             _helper.PotionItemIds = _potionItemIds.Text.Trim();
             _helper.PotionCooldownMs = (int)_potionCooldown.Value;
             _helper.AutoBuff = _autoBuff.Checked;
-
-            var buffIds =
-                new System.Collections.Generic.List<int>();
-
-            foreach (var checkedItem in
-                     _buffSkills.CheckedItems)
+            var buffIds = new System.Collections.Generic.List<int>();
+            foreach (var checkedItem in _buffSkills.CheckedItems)
             {
-                var entry =
-                    checkedItem as SkillCatalogEntry;
-
-                if (entry != null)
-                    buffIds.Add(entry.SkillId);
+                var entry = checkedItem as SkillCatalogEntry;
+                if (entry != null) buffIds.Add(entry.SkillId);
             }
-
-            _helper.BuffSkillIds =
-                string.Join(
-                    ",",
-                    buffIds.ToArray());
+            _helper.BuffSkillIds = string.Join(",", buffIds.ToArray());
             _helper.AutoTransform = _autoTransform.Checked;
             _helper.AutoAntidote = _autoAntidote.Checked;
             _helper.AutoRepair = _autoRepair.Checked;
@@ -626,7 +460,6 @@ namespace L1JTW850Launcher
             _helper.ShowClock = _showClock.Checked;
             _helper.ShowDamage = _showDamage.Checked;
             _helper.TimerSeconds = (int)_timerSeconds.Value;
-
             _config.Save(Path.Combine(_appDir, "launcher.ini"));
             _helper.Save(Path.Combine(_appDir, "helper.ini"));
             _runtimeState.Text = "設定已儲存。";
@@ -652,7 +485,6 @@ namespace L1JTW850Launcher
             var s = _runtime.Read();
             _latestSnapshot = s;
             _runtimeState.Text = "執行狀態：" + s.Status;
-
             _inventory.BeginUpdate();
             _inventory.Items.Clear();
             foreach (var item in s.Items)
@@ -667,40 +499,25 @@ namespace L1JTW850Launcher
                 _inventory.Items.Add(row);
             }
             _inventory.EndUpdate();
-
-            var buff =
-                _autoBuffController.Tick(s);
-
-            _buffStatus.Text =
-                "狀態：" + buff.Status;
+            var buff = _autoBuffController.Tick(s);
+            _buffStatus.Text = "狀態：" + buff.Status;
         }
 
         private void RefreshPotionFast()
         {
-            if (_latestSnapshot == null ||
-                !_latestSnapshot.Connected)
+            if (_latestSnapshot == null || !_latestSnapshot.Connected)
             {
-                _potionStatus.Text =
-                    "喝水狀態：尚未連接 850。";
+                _potionStatus.Text = "喝水狀態：尚未連接 850。";
                 return;
             }
-
             string error;
-            if (!_runtime.TryRefreshHpMp(
-                _latestSnapshot,
-                out error))
+            if (!_runtime.TryRefreshHpMp(_latestSnapshot, out error))
             {
-                _potionStatus.Text =
-                    "喝水狀態：" + error;
+                _potionStatus.Text = "喝水狀態：" + error;
                 return;
             }
-
-            var potion =
-                _autoPotionController.Tick(
-                    _latestSnapshot);
-
-            _potionStatus.Text =
-                "喝水狀態：" + potion.Status;
+            var potion = _autoPotionController.Tick(_latestSnapshot);
+            _potionStatus.Text = "喝水狀態：" + potion.Status;
         }
 
         private void AddSelectedInventoryItemToPotionList()
@@ -710,24 +527,17 @@ namespace L1JTW850Launcher
                 MessageBox.Show("請先從背包清單選一個道具。");
                 return;
             }
-
             var item = _inventory.SelectedItems[0].Tag as InventoryItem;
             if (item == null || item.ItemId <= 0)
             {
                 MessageBox.Show("目前選取項目沒有可用的 ItemId。");
                 return;
             }
-
             var ids = _helper.GetPotionItemIds();
-            if (!ids.Contains(item.ItemId))
-                ids.Add(item.ItemId);
-
+            if (!ids.Contains(item.ItemId)) ids.Add(item.ItemId);
             _helper.PotionItemIds = string.Join(",", ids.ToArray());
             _potionItemIds.Text = _helper.PotionItemIds;
-            _potionStatus.Text =
-                "喝水狀態：已加入 ItemId=" + item.ItemId +
-                "；請按「儲存」保存設定。";
+            _potionStatus.Text = "喝水狀態：已加入 ItemId=" + item.ItemId + "；請按「儲存」保存設定。";
         }
-
     }
 }
