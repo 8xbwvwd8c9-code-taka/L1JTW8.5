@@ -65,6 +65,46 @@ public class FurnitureSpawnTable {
       }
    }
 
+   public boolean insertDurable(L1FurnitureInstance var1) {
+      Connection var2 = null;
+      PreparedStatement var3 = null;
+
+      try {
+         var2 = DatabaseFactory.a().b();
+         var3 = var2.prepareStatement("INSERT INTO spawnlist_furniture SET item_obj_id=?, npcid=?, locx=?, locy=?, mapid=?");
+         var3.setInt(1, var1.f());
+         var3.setInt(2, var1.U_().b());
+         var3.setInt(3, var1.fs());
+         var3.setInt(4, var1.ft());
+         var3.setInt(5, var1.fp());
+         return var3.executeUpdate() == 1;
+      } catch (SQLException var8) {
+         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return false;
+      } finally {
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
+   public boolean deleteDurable(L1FurnitureInstance var1) {
+      Connection var2 = null;
+      PreparedStatement var3 = null;
+
+      try {
+         var2 = DatabaseFactory.a().b();
+         var3 = var2.prepareStatement("DELETE FROM spawnlist_furniture WHERE item_obj_id=?");
+         var3.setInt(1, var1.f());
+         return var3.executeUpdate() == 1;
+      } catch (SQLException var8) {
+         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return false;
+      } finally {
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
    public void a(L1FurnitureInstance var1) {
       Connection var2 = null;
       PreparedStatement var3 = null;

@@ -28,8 +28,9 @@ public class FurnitureItem {
             if (var2 instanceof L1FurnitureInstance) {
                L1FurnitureInstance var4 = (L1FurnitureInstance)var2;
                if (var4.f() == var1.fr()) {
-                  var4.aa_();
-                  FurnitureSpawnTable.a().b(var4);
+                  if (FurnitureSpawnTable.a().deleteDurable(var4)) {
+                     var4.aa_();
+                  }
                   return;
                }
             }
@@ -55,9 +56,11 @@ public class FurnitureItem {
                var8.r(var8.ft());
                var8.ct(0);
                var8.b(var1.fr());
+               if (!FurnitureSpawnTable.a().insertDurable(var8)) {
+                  return;
+               }
                L1World.a().a(var8);
                L1World.a().c(var8);
-               FurnitureSpawnTable.a().a(var8);
             } catch (Exception var5) {
                a.log(Level.SEVERE, var5.getLocalizedMessage(), var5);
             }
@@ -73,8 +76,10 @@ public class FurnitureItem {
          L1Object var4 = L1World.a().a(var1);
          if (var4 != null && var4 instanceof L1FurnitureInstance) {
             L1FurnitureInstance var5 = (L1FurnitureInstance)var4;
+            if (!FurnitureSpawnTable.a().deleteDurable(var5)) {
+               return;
+            }
             var5.aa_();
-            FurnitureSpawnTable.a().b(var5);
             var2.g(var2.I() - 1);
             var0.j().b(var2);
          }

@@ -32,8 +32,9 @@ public class b {
         }
         for (aa l1object : aq.a().b()) {
             if (!(l1object instanceof l) || (furniture = (l)l1object).f() != item.fr()) continue;
-            furniture.aa_();
-            y.a().b(furniture);
+            if (y.a().deleteDurable(furniture)) {
+                furniture.aa_();
+            }
             return;
         }
         if (pc.fb() != 0 && pc.fb() != 2) {
@@ -56,9 +57,11 @@ public class b {
             furniture.r(furniture.ft());
             furniture.ct(0);
             furniture.b(item.fr());
+            if (!y.a().insertDurable(furniture)) {
+                return;
+            }
             aq.a().a(furniture);
             aq.a().c(furniture);
-            y.a().a(furniture);
         }
         catch (Exception e2) {
             a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
@@ -75,8 +78,10 @@ public class b {
         aa target = aq.a().a(targetId);
         if (target != null && target instanceof l) {
             l furniture = (l)target;
+            if (!y.a().deleteDurable(furniture)) {
+                return;
+            }
             furniture.aa_();
-            y.a().b(furniture);
             item.g(item.I() - 1);
             pc.j().b(item);
         }

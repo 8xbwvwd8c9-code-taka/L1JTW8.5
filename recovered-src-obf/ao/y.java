@@ -75,6 +75,48 @@ public class y {
         }
     }
 
+    public boolean insertDurable(l furniture) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO spawnlist_furniture SET item_obj_id=?, npcid=?, locx=?, locy=?, mapid=?");
+            pstm.setInt(1, furniture.f());
+            pstm.setInt(2, furniture.U_().b());
+            pstm.setInt(3, furniture.fs());
+            pstm.setInt(4, furniture.ft());
+            pstm.setInt(5, furniture.fp());
+            return pstm.executeUpdate() == 1;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
+    public boolean deleteDurable(l furniture) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("DELETE FROM spawnlist_furniture WHERE item_obj_id=?");
+            pstm.setInt(1, furniture.f());
+            return pstm.executeUpdate() == 1;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
     public void a(l furniture) {
         block5: {
             Connection con = null;
