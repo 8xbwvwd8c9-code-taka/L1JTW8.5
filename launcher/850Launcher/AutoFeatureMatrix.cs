@@ -30,9 +30,13 @@ namespace L1JTW850Launcher
             {
                 inventoryState = "MAP_PRESENT_NOT_YET_SEMANTICALLY_PROVEN";
             }
-            else if (inventoryExact.StartsWith("EXACT_ITEM_WORD_CHANGES", StringComparison.OrdinalIgnoreCase))
+            else if (inventoryExact.StartsWith("QUALIFIED_ITEM_ID_DYNAMICS", StringComparison.OrdinalIgnoreCase))
             {
-                inventoryState = "EXACT_ITEM_CHANGE_CANDIDATES";
+                inventoryState = "QUALIFIED_ITEM_ID_DYNAMICS_CANDIDATE";
+            }
+            else if (inventoryExact.StartsWith("EXACT_CHANGES_REJECTED_NONCATALOG", StringComparison.OrdinalIgnoreCase))
+            {
+                inventoryState = "EXACT_CHANGE_FALSE_POSITIVES_REJECTED";
             }
             else if (string.Equals(inventoryExact, "NO_EXACT_ITEM_WORD_CHANGE", StringComparison.OrdinalIgnoreCase) &&
                      inventoryGuard.StartsWith("SURVIVORS=", StringComparison.OrdinalIgnoreCase))
@@ -91,7 +95,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RESOLVENT_TABLE=SERVER_SIDE_PRESENT");
             sb.AppendLine();
 
-            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; STABLE RVA AND EXACT ITEM-WORD CHANGE ARE CANDIDATE EVIDENCE ONLY; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL FORMAL BRIDGES ARE PROVEN");
+            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; STABLE RVA AND QUALIFIED ITEM-ID DYNAMICS ARE CANDIDATE EVIDENCE ONLY; DO NOT ENABLE DESTRUCTIVE OR CAST ACTIONS UNTIL FORMAL BRIDGES ARE PROVEN");
 
             var text = sb.ToString();
             try
