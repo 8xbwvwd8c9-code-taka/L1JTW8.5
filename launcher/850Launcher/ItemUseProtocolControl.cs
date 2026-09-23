@@ -66,6 +66,16 @@ namespace L1JTW850Launcher
             behavior.Click += delegate { OpenBehaviorVerifier(); };
             Controls.Add(behavior);
 
+            var native = new Button
+            {
+                Text = "Native 關聯",
+                Left = 552,
+                Top = 70,
+                Width = 105
+            };
+            native.Click += delegate { OpenNativeCorrelation(); };
+            Controls.Add(native);
+
             Controls.Add(new Label
             {
                 Left = 20,
@@ -102,9 +112,9 @@ namespace L1JTW850Launcher
                 Left = 20,
                 Top = 162,
                 Width = 690,
-                Height = 140,
+                Height = 150,
                 Text =
-                    "驗證邊界：protocol proof 只證明 server contract。WP7 仍要 850 Lin.bin2 runtime behavior / native send 證據。『UseItem 行為驗證』只讀取遊戲程序記憶體，對照無操作基線與手動使用期間是否出現 0x5E+ObjectId logical pattern；不送包、不寫遊戲記憶體。"
+                    "驗證邊界：protocol proof 只證明 server contract。『UseItem 行為驗證』只讀對照無操作基線與手動使用期間的 0x5E+ObjectId logical pattern；『Native 關聯』再唯讀反查 heap buffer → module pointer root → executable xref → function RVA。兩者都不送包、不寫遊戲記憶體；未完成 ABI/controlled-call proof 前 ItemUseBridge 仍保持 UNMAPPED。"
             };
             Controls.Add(_status);
         }
@@ -141,6 +151,23 @@ namespace L1JTW850Launcher
 
             form.Controls.Add(
                 new ItemUseBehaviorCorrelationControl(
+                    _appDir));
+
+            form.ShowDialog(this);
+        }
+
+        private void OpenNativeCorrelation()
+        {
+            var form = new Form
+            {
+                Text = "WP7 UseItem Native 關聯",
+                Width = 800,
+                Height = 590,
+                StartPosition = FormStartPosition.CenterParent
+            };
+
+            form.Controls.Add(
+                new ItemUseNativeCorrelationControl(
                     _appDir));
 
             form.ShowDialog(this);
