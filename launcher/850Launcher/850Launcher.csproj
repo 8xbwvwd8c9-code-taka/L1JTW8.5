@@ -51,6 +51,7 @@
     <Compile Include="ItemUseNativeCorrelationControl.cs" />
     <Compile Include="NativeFunctionAbiAnalyzer.cs" />
     <Compile Include="ItemUseAbiControl.cs" />
+    <Compile Include="ItemUseAbiEvidence.cs" />
     <Compile Include="Wp7ValidationGate.cs" />
     <Compile Include="RuntimeBytePatternScanner.cs" />
     <Compile Include="RuntimePointerBackrefScanner.cs" />
