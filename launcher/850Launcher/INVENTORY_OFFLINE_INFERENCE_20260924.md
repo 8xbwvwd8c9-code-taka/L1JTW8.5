@@ -113,21 +113,80 @@ GRID
   VECTOR_C candidate          [1F0,1F4,1F8]
 ```
 
-## Next code-only task
+## V3 same-this transition clue
 
-Do not return to heap/vector scans. The next reverse-engineering task is:
+The runtime bytes around the first two vtable xrefs both use the same local `this` slot pattern:
 
 ```text
-1. infer exact function boundaries around the six vtable xrefs;
-2. find inbound direct callers of the ctor-like functions;
-3. inspect those callers for module-global pointer stores/loads;
-4. derive a stable ROOT/GRID owner acquisition path from module code;
-5. only after that, perform one narrow read of GRID+0x1D8..0x204.
+INVWIN_A 0x0070135A: 8B 45 F0 ; C7 00 <INVWIN vtable>
+GRID_A   0x007013DA: 8B 45 F0 ; C7 00 <GRID vtable>
 ```
+
+They are only `0x80` bytes apart. The second pair is similarly close (`INVWIN_B 0x00701C2B`, `GRID_B 0x00701C8B`, delta `0x60`) and also uses the local `F0` this slot pattern.
+
+This is a strong candidate for one function context performing a vtable transition, but it is **not yet proof of inheritance or execution order** because V3 did not identify exact function boundaries. Do not label either xref as an independent constructor/destructor until V4 groups them.
+
+```text
+SAME_FUNCTION_CONTEXT=HIGH_CONFIDENCE_CANDIDATE
+INHERITANCE_DIRECTION=UNPROVEN
+EXECUTION_ORDER=UNPROVEN
+```
+
+## V4 prepared gate
+
+Tool:
+
+```text
+launcher/850Launcher/tools/run_850_inventory_ctor_owner_trace_v4.ps1
+```
+
+V4 is deliberately narrower than V3:
+
+```text
+1. recover nearest standard x86 prologue/epilogue around each of the six exact vtable xrefs;
+2. group xrefs that resolve to the same candidate function start;
+3. enumerate only member refs inside that candidate function;
+4. enumerate direct E8 callers of the candidate function start;
+5. inspect those direct callers for stores into module-global addresses;
+6. report global owner-store candidates without reading heap/MEM_PRIVATE data.
+```
+
+Promotion rules:
+
+```text
+GATE_A: INVWIN_A + GRID_A same START_RVA -> same function context; stop treating them as independent constructors.
+GATE_B: multiple vtable writes in one function -> transition/inheritance hypothesis only; no semantic promotion without control-flow proof.
+GATE_C: stable module-global store in a direct caller of ROOT/GRID path outranks any broad heap/vector candidate.
+GATE_D: GRID+1D8..1F8 remains collection-state candidate only until one fixed-offset live read proves begin<=end<=capacity behavior.
+```
+
+V4 still obeys:
+
+```text
+RUNTIME_ATTACH=READ_ONLY_MODULE_IMAGE
+HEAP_SCAN=NO
+MEM_PRIVATE_SCAN=NO
+VECTOR_SCAN=NO
+MEMORY_WRITE=NO
+```
+
+## Next code-only task
+
+The prepared V4 performs the next runtime trace. Until runtime is available, retain the following code-only inference target:
+
+```text
+six exact vtable xrefs
+  -> candidate function groups
+  -> direct inbound E8 callers
+  -> module-global stores in those callers
+  -> one stable ROOT/GRID owner acquisition candidate
+```
+
+Do not return to broad heap/vector scans.
 
 ## Next live validation — narrow only
 
-When runtime is available again, do not scan for vectors. After a stable GRID owner pointer is obtained, read only the fixed field window:
+When runtime is available again, first run V4. Only if it yields a stable owner/global path should a second-stage reader inspect:
 
 ```text
 GRID+0x1D8 .. GRID+0x204
