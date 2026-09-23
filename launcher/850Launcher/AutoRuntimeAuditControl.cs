@@ -16,8 +16,10 @@ namespace L1JTW850Launcher
         private readonly AutoHpMpBroadProbe _broadProbe;
         private readonly AutoHpMpSemanticRefiner _semanticRefiner;
         private readonly AutoHpMpCrossCheckProbe _crossCheck;
+        private readonly AutoHpMpPointerDiscovery _pointerDiscovery;
         private readonly AutoParallelDiscovery _parallelDiscovery;
         private readonly AutoNetworkSurfaceDiscovery _networkSurface;
+        private readonly AutoLoadedModuleNetworkDiscovery _loadedModuleNetwork;
         private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
 
         private int _pinnedPid;
@@ -31,8 +33,10 @@ namespace L1JTW850Launcher
             _broadProbe = new AutoHpMpBroadProbe(appDir);
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
             _crossCheck = new AutoHpMpCrossCheckProbe(appDir);
+            _pointerDiscovery = new AutoHpMpPointerDiscovery(appDir);
             _parallelDiscovery = new AutoParallelDiscovery(appDir);
             _networkSurface = new AutoNetworkSurfaceDiscovery(appDir);
+            _loadedModuleNetwork = new AutoLoadedModuleNetworkDiscovery(appDir);
             _inventoryHistory = new AutoInventoryHistoryDiscovery(appDir);
             Dock = DockStyle.Fill;
 
@@ -95,8 +99,10 @@ namespace L1JTW850Launcher
                 _broadProbe.EnsureRunning(runtime);
                 _semanticRefiner.EnsureRunning(runtime);
                 _crossCheck.EnsureRunning(runtime);
+                _pointerDiscovery.EnsureRunning(runtime);
                 _parallelDiscovery.EnsureRunning(runtime);
                 _networkSurface.EnsureRunning(runtime);
+                _loadedModuleNetwork.EnsureRunning(runtime);
                 _inventoryHistory.EnsureRunning(runtime);
             }
 
@@ -118,11 +124,13 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
             sb.AppendLine("AUTO_HPMP_CROSSCHECK=" + _crossCheck.Status);
+            sb.AppendLine("AUTO_HPMP_POINTER=" + _pointerDiscovery.Status);
             sb.AppendLine("AUTO_INVENTORY=" + _parallelDiscovery.InventoryStatus);
             sb.AppendLine("AUTO_INVENTORY_HISTORY=" + _inventoryHistory.Status);
             sb.AppendLine("AUTO_BUFF_RECV=" + _parallelDiscovery.BuffStatus);
             sb.AppendLine("AUTO_SEND=" + _parallelDiscovery.SendStatus);
             sb.AppendLine("AUTO_NETWORK_SURFACE=" + _networkSurface.Status);
+            sb.AppendLine("AUTO_LOADED_MODULE_NETWORK=" + _loadedModuleNetwork.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -134,11 +142,14 @@ namespace L1JTW850Launcher
             AppendFile(sb, "runtime_hpmp_semantic_refine_evidence.txt");
             AppendFile(sb, "runtime_hpmp_crosscheck_evidence.txt");
             AppendFile(sb, "runtime_hpmp_crosscheck_history.txt");
+            AppendFile(sb, "runtime_hpmp_pointer_evidence.txt");
+            AppendFile(sb, "runtime_hpmp_pointer_history.txt");
             AppendFile(sb, "auto_inventory_discovery_evidence.txt");
             AppendFile(sb, "auto_inventory_history_evidence.txt");
             AppendFile(sb, "auto_buff_receive_evidence.txt");
             AppendFile(sb, "auto_send_discovery_evidence.txt");
             AppendFile(sb, "auto_network_surface_evidence.txt");
+            AppendFile(sb, "auto_loaded_module_network_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "inventory_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
