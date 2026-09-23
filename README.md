@@ -61,6 +61,7 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+| BUG-850-269 | L2 | boss fixed-time scheduler minute/ms unit conversion | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -2567,3 +2568,51 @@ NEW_WORK_BRANCH=NO
 ```
 
 Result: the completed branch now contains the validated Batch1–7 L3 repairs plus the newer completed L2/transaction fixes, with the validation workflow returned to read-only mode.
+
+## BUG-850-269 — fixed-time boss scheduler mixed minutes with milliseconds
+
+### Problem
+
+`L1SpawnBoss.c(schedule)` accumulates fixed-time delays in milliseconds, but the same-hour future branch added the raw minute delta directly. For example, `21:00 -> 21:05` produced `5` instead of `300000` milliseconds.
+
+### Fix
+
+The normalized and obfuscated runtime paths now convert the same-hour minute delta with widened millisecond arithmetic:
+
+```text
+minute_delta * 60L * 1000L
+```
+
+No config, DB schema, spawn probability, weekly scheduling, or other boss logic changed.
+
+### Modified core
+
+- `recovery/normalized-src-vf/l1r/aq/L1SpawnBoss.java`
+- `recovered-src-obf/aq/ah.java`
+
+### Validation
+
+```text
+GitHub Actions run = 35888235267
+STATUS = PASS
+BUG_850_269_CONTRACT=PASS
+SAME_HOUR_MINUTE_TO_MS=PASS
+BUG_850_269_NO_NEW_JAVAC_REGRESSION=PASS
+MINUTE_TO_MS_GATE=PASS
+SAME_HOUR_GATE=PASS
+MIDNIGHT_WRAP_GATE=PASS
+EQUALITY_NEXT_DAY_GATE=PASS
+BUG_850_269_TARGETED_BEHAVIOR_RUNTIME=PASS
+FIXED_TIME_DELAY_UNITS=PASS
+```
+
+Validation evidence: `recovery/BUG-850-269_VALIDATION_20260923.md`.
+
+### Result
+
+```text
+BUG-850-269=L2
+STATUS=PASS
+PROMOTED=YES
+CALC_RULE_CHANGE=NO
+```
