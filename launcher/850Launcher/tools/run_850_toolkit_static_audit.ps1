@@ -114,17 +114,21 @@ foreach ($name in @('Sprite.idx','Sprite00.idx','Tile.idx')) {
     Invoke-ToolkitReadOnly -ToolArgs @('pak','info',$match.FullName) -OutputFile ("30_info_" + $safe + '.txt') | Out-Null
 }
 
-# Hash only the generated reports so later runs can be compared without touching sources.
+# Finalize the summary before hashing reports so its recorded digest reflects the
+# finished report. The manifest itself is intentionally excluded to avoid hashing
+# a file while Export-Csv has it open for writing.
+Add-Content -LiteralPath $summary -Encoding utf8 -Value "FINISHED=$((Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))"
+Add-Content -LiteralPath $summary -Encoding utf8 -Value 'STATUS=PASS_REPORTS_GENERATED'
+
+$manifestPath = Join-Path $OutputRoot '_REPORT_MANIFEST.csv'
 Get-ChildItem -LiteralPath $OutputRoot -File |
+    Where-Object { $_.FullName -ne $manifestPath } |
     Sort-Object Name |
     ForEach-Object {
         $h = Get-FileHash -LiteralPath $_.FullName -Algorithm SHA256
         [PSCustomObject]@{ Name=$_.Name; Length=$_.Length; SHA256=$h.Hash }
     } |
-    Export-Csv -LiteralPath (Join-Path $OutputRoot '_REPORT_MANIFEST.csv') -NoTypeInformation -Encoding UTF8
-
-Add-Content -LiteralPath $summary -Encoding utf8 -Value "FINISHED=$((Get-Date).ToString('yyyy-MM-dd HH:mm:ss'))"
-Add-Content -LiteralPath $summary -Encoding utf8 -Value 'STATUS=PASS_REPORTS_GENERATED'
+    Export-Csv -LiteralPath $manifestPath -NoTypeInformation -Encoding UTF8
 
 Write-Host "STATUS=PASS_REPORTS_GENERATED"
 Write-Host "OUTPUT=$OutputRoot"
