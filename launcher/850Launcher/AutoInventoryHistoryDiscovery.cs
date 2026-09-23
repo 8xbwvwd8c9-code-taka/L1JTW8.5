@@ -39,7 +39,6 @@ namespace L1JTW850Launcher
             if (runtime == null || !runtime.Connected || !runtime.ClientHashAuthoritative || runtime.ProcessId <= 0)
                 return;
 
-            // Seedless scan is independent and intentionally starts in parallel.
             _seedless.EnsureRunning(runtime);
 
             lock (_sync)
@@ -85,14 +84,14 @@ namespace L1JTW850Launcher
             List<long> centers;
             if (!TryChooseSource(out historyPath, out source, out centers))
             {
-                SaveWaiting(runtime, "waiting for manual or seedless inventory candidates");
+                SaveWaiting(runtime, "waiting for non-catalog manual or seedless inventory candidates");
                 lock (_sync) _status = "WAITING_CANDIDATES";
                 return;
             }
 
-            var names = LoadItemCatalog();
+            var names = ItemCatalogLoader.Load(_appDir);
             if (names.Count == 0)
-                throw new InvalidDataException("item-names.csv has no usable item IDs");
+                throw new InvalidDataException("item catalog has no usable item IDs");
 
             if (centers.Count > 120)
                 centers.RemoveRange(120, centers.Count - 120);
@@ -105,6 +104,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("SOURCE_FILE=" + Path.GetFileName(historyPath));
             sb.AppendLine("HISTORY_CENTERS=" + centers.Count);
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
+            sb.AppendLine("CATALOG_MIRROR_FILTER=ON");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
@@ -259,62 +259,64 @@ namespace L1JTW850Launcher
             var result = new List<long>();
             var seen = new HashSet<long>();
             var inCandidate = false;
+            var candidateAddress = 0L;
+            var catalogLike = false;
+
             for (var i = start; i < lines.Length; i++)
             {
                 var line = lines[i].Trim();
                 if (line.StartsWith("[CANDIDATE ", StringComparison.OrdinalIgnoreCase))
                 {
+                    AddCandidate(result, seen, candidateAddress, catalogLike);
                     inCandidate = true;
+                    candidateAddress = 0;
+                    catalogLike = false;
                     continue;
                 }
+
                 if (line.StartsWith("[", StringComparison.Ordinal) &&
                     !line.StartsWith("[CANDIDATE ", StringComparison.OrdinalIgnoreCase))
                 {
+                    AddCandidate(result, seen, candidateAddress, catalogLike);
                     inCandidate = false;
+                    candidateAddress = 0;
+                    catalogLike = false;
                     continue;
                 }
-                if (!inCandidate || !line.StartsWith("ADDR=0x", StringComparison.OrdinalIgnoreCase))
-                    continue;
 
-                var text = line.Substring(7).Trim();
-                var space = text.IndexOf(' ');
-                if (space >= 0) text = text.Substring(0, space);
-                long value;
-                if (long.TryParse(
-                    text,
-                    System.Globalization.NumberStyles.HexNumber,
-                    System.Globalization.CultureInfo.InvariantCulture,
-                    out value) && value > 0)
+                if (!inCandidate) continue;
+
+                if (line.StartsWith("ADDR=0x", StringComparison.OrdinalIgnoreCase))
                 {
-                    if (seen.Add(value)) result.Add(value);
+                    var text = line.Substring(7).Trim();
+                    var space = text.IndexOf(' ');
+                    if (space >= 0) text = text.Substring(0, space);
+                    long value;
+                    if (long.TryParse(
+                        text,
+                        System.Globalization.NumberStyles.HexNumber,
+                        System.Globalization.CultureInfo.InvariantCulture,
+                        out value) && value > 0)
+                    {
+                        candidateAddress = value;
+                    }
+                }
+                else if (line.StartsWith("CATALOG_LIKE=", StringComparison.OrdinalIgnoreCase))
+                {
+                    int flag;
+                    if (int.TryParse(line.Substring(13).Trim(), out flag))
+                        catalogLike = flag == 1;
                 }
             }
+
+            AddCandidate(result, seen, candidateAddress, catalogLike);
             return result;
         }
 
-        private Dictionary<int, string> LoadItemCatalog()
+        private static void AddCandidate(List<long> result, HashSet<long> seen, long address, bool catalogLike)
         {
-            var path = Path.Combine(_appDir, "item-names.csv");
-            var result = new Dictionary<int, string>();
-            if (!File.Exists(path)) return result;
-
-            foreach (var raw in File.ReadAllLines(path))
-            {
-                var line = raw.Trim();
-                if (line.Length == 0 || line.StartsWith("item_id", StringComparison.OrdinalIgnoreCase))
-                    continue;
-                var comma = line.IndexOf(',');
-                if (comma <= 0) continue;
-                int id;
-                if (!int.TryParse(line.Substring(0, comma).Trim(), out id) || id <= 0)
-                    continue;
-
-                var name = line.Substring(comma + 1).Trim();
-                if (name.Length >= 2 && name[0] == '"' && name[name.Length - 1] == '"')
-                    name = name.Substring(1, name.Length - 2).Replace("\"\"", "\"");
-                if (!result.ContainsKey(id)) result.Add(id, name);
-            }
-            return result;
+            if (catalogLike || address <= 0) return;
+            if (seen.Add(address)) result.Add(address);
         }
 
         private static string Sanitize(string value)
