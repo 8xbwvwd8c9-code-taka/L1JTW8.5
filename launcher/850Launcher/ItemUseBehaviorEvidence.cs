@@ -22,6 +22,9 @@ namespace L1JTW850Launcher
         public int NewHits;
         public bool CandidateLimitReached;
         public bool Correlated;
+
+        public readonly List<long> NewHitAddresses =
+            new List<long>();
     }
 
     internal sealed class ItemUseBehaviorEvidenceSummary
@@ -199,10 +202,53 @@ namespace L1JTW850Launcher
                 {
                     current.Correlated =
                         line.EndsWith("=1");
+                    continue;
+                }
+
+                if (line.StartsWith("NEW_HIT="))
+                {
+                    long address;
+                    if (TryParseHexLong(
+                        line.Substring(
+                            "NEW_HIT=".Length),
+                        out address) &&
+                        address > 0)
+                    {
+                        current.NewHitAddresses.Add(
+                            address);
+                    }
                 }
             }
 
             return output;
+        }
+
+        public static ItemUseBehaviorEvidenceSession LatestAuthoritativeCorrelated(
+            string path)
+        {
+            var all = Load(path);
+
+            for (var i = all.Count - 1;
+                 i >= 0;
+                 i--)
+            {
+                var session = all[i];
+
+                if (!IsAuthoritative(session))
+                    continue;
+
+                if (!session.Correlated ||
+                    session.CandidateLimitReached ||
+                    session.NewHits <= 0 ||
+                    session.NewHitAddresses.Count == 0 ||
+                    session.BaselinePasses <= 0 ||
+                    session.ActionPasses <= 0)
+                    continue;
+
+                return session;
+            }
+
+            return null;
         }
 
         public static ItemUseBehaviorEvidenceSummary Compare(
@@ -232,6 +278,7 @@ namespace L1JTW850Launcher
 
                 if (!session.Correlated ||
                     session.NewHits <= 0 ||
+                    session.NewHitAddresses.Count == 0 ||
                     session.CandidateLimitReached ||
                     session.BaselinePasses <= 0 ||
                     session.ActionPasses <= 0)
@@ -282,7 +329,7 @@ namespace L1JTW850Launcher
             return result;
         }
 
-        private static bool IsAuthoritative(
+        public static bool IsAuthoritative(
             ItemUseBehaviorEvidenceSession session)
         {
             return session != null &&
@@ -307,6 +354,32 @@ namespace L1JTW850Launcher
 
             return "PID:" +
                    session.Pid;
+        }
+
+        private static bool TryParseHexLong(
+            string text,
+            out long value)
+        {
+            value = 0;
+            text = (text ?? "").Trim();
+
+            if (text.StartsWith(
+                "0x",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                text = text.Substring(2);
+            }
+
+            ulong unsigned;
+            if (!ulong.TryParse(
+                text,
+                NumberStyles.HexNumber,
+                CultureInfo.InvariantCulture,
+                out unsigned))
+                return false;
+
+            value = unchecked((long)unsigned);
+            return value > 0;
         }
 
         private static int ParseInt(
