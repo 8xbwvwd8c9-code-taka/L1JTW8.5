@@ -104,7 +104,7 @@ public class MobSkillsTable {
       MobSkillsTable.L1R_b var4 = null;
 
       for (MobSkillsTable.L1R_b var5 : var3.b) {
-         if ((var5.k <= 0 || var1.aq() < var5.k) && var1.ea() * 100 / var1.ew() <= var5.l && Random.a(100) <= var5.a) {
+         if ((var5.k <= 0 || var1.aq() < var5.k) && var1.ea() * 100 / var1.ew() <= var5.l && Random.a(100) < var5.a) {
             var4 = var5;
             break;
          }
