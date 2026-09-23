@@ -133,7 +133,7 @@ public class h {
                     if (totalContribution != 0.0) {
                         contributionUnit = Math.floor(townFixTax / totalContribution * 100.0) / 100.0;
                     }
-                    pstm4 = con.prepareStatement("UPDATE characters SET Contribution = 0, Pay = Contribution * ? WHERE HomeTownID = ?");
+                    pstm4 = con.prepareStatement("UPDATE characters SET Pay = Contribution * ?, Contribution = 0 WHERE HomeTownID = ?");
                     pstm4.setDouble(1, contributionUnit);
                     pstm4.setInt(2, townId);
                     pstm4.execute();
@@ -276,4 +276,3 @@ public class h {
         }
     }
 }
-
