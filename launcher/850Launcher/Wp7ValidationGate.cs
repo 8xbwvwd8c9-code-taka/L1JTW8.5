@@ -11,6 +11,7 @@ namespace L1JTW850Launcher
         public bool BehaviorRestartStable;
         public bool NativeBehaviorRestartStable;
         public int StableNativeBehaviorCandidates;
+        public bool AbiObserved;
     }
 
     internal static class Wp7ValidationGate
@@ -37,6 +38,14 @@ namespace L1JTW850Launcher
                         "itemuse_native_correlation_evidence.txt"),
                     2);
 
+            var abi =
+                ItemUseAbiEvidenceComparer
+                .CompareAgainstStable(
+                    Path.Combine(
+                        appDir,
+                        "itemuse_abi_evidence.txt"),
+                    nativeBehavior.StableCandidates);
+
             var genericNative =
                 NativeCallGraphEvidenceComparer
                 .CompareLatest(
@@ -53,6 +62,9 @@ namespace L1JTW850Launcher
 
             result.StableNativeBehaviorCandidates =
                 nativeBehavior.StableCandidates.Count;
+
+            result.AbiObserved =
+                abi.AbiObserved;
 
             result.Evidence =
                 "protocol=PASS" +
@@ -74,6 +86,13 @@ namespace L1JTW850Launcher
                 " candidates/" +
                 nativeBehavior.DistinctProcessInstances +
                 " proc)" +
+                " / ABI=" +
+                (abi.AbiObserved
+                    ? "OBSERVED"
+                    : "NOT_YET") +
+                "(" +
+                abi.StableCandidateMatches +
+                " matches)" +
                 " / genericSend=" +
                 genericNative.StableFunctions.Count +
                 " funcs/" +
@@ -93,7 +112,7 @@ namespace L1JTW850Launcher
             {
                 result.State = "READY";
                 result.Next =
-                    "UseItem協定 → UseItem 行為驗證：基線後手動使用道具，至少跨 2 個完整 client instance。";
+                    "UseItem協定 → 行為驗證：基線後手動使用道具，至少跨 2 個完整 client instance。";
                 return result;
             }
 
@@ -107,11 +126,31 @@ namespace L1JTW850Launcher
                 return result;
             }
 
+            if (nativeBehavior.StableCandidates.Count != 1)
+            {
+                result.State =
+                    "NATIVE_BEHAVIOR_AMBIGUOUS";
+
+                result.Next =
+                    "用不同 ItemId/ObjectId 再做行為驗證 + Native 關聯，讓跨 session 交集縮到單一 stable candidate；不可任選一顆直接呼叫。";
+                return result;
+            }
+
+            if (!abi.AbiObserved)
+            {
+                result.State =
+                    "NATIVE_BEHAVIOR_STABLE";
+
+                result.Next =
+                    "UseItem協定 → ABI 分析：核對 first64 fingerprint，觀察 prologue / ret cleanup / caller cleanup / ECX。";
+                return result;
+            }
+
             result.State =
-                "NATIVE_BEHAVIOR_STABLE";
+                "ABI_OBSERVED";
 
             result.Next =
-                "對 stable function candidate 做 ABI / calling-convention / arguments proof；完成 controlled normal UseItem call 前不可啟用 ItemUseBridge。";
+                "從 direct callsites 繼續證明參數語意與 objectId 傳遞位置；完成 controlled normal UseItem call 前不可啟用 ItemUseBridge。";
 
             return result;
         }
