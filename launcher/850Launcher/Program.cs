@@ -7,7 +7,7 @@ namespace L1JTW850Launcher
 {
     internal static class Program
     {
-        private const string BuildMarker = "AUTO-AUDIT-20260923-MULTI1";
+        private const string BuildMarker = "AUTO-AUDIT-20260923-MULTI2";
 
         [STAThread]
         private static void Main()
@@ -19,6 +19,7 @@ namespace L1JTW850Launcher
             {
                 var appDir = AppDomain.CurrentDomain.BaseDirectory;
                 WriteStartupMarker(appDir, "START");
+                ItemCatalogLoader.EnsureExternalCatalog(appDir);
                 DamageAccountingPolicyValidation.Run(appDir);
 
                 var config = LauncherConfig.Load(Path.Combine(appDir, "launcher.ini"));
