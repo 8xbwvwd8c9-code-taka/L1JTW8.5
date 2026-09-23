@@ -274,80 +274,17 @@ namespace L1JTW850Launcher
                         ? "登入驗證 → 重登驗證 → 完整重啟驗證"
                         : "先完成 WP5 正式列舉"));
 
-            var behaviorPath =
-                Path.Combine(
+            var wp7 =
+                Wp7ValidationGate.Evaluate(
                     appDir,
-                    "itemuse_behavior_evidence.txt");
-
-            var behavior =
-                ItemUseBehaviorEvidenceComparer
-                .Compare(
-                    behaviorPath);
-
-            var nativePath =
-                Path.Combine(
-                    appDir,
-                    "native_call_graph_evidence.txt");
-
-            var native =
-                NativeCallGraphEvidenceComparer
-                .CompareLatest(
-                    nativePath,
-                    2);
-
-            var nativeCandidatesStable =
-                native.SessionsCompared >= 2 &&
-                native.DistinctProcessInstances >= 2 &&
-                native.StableFunctions.Count > 0 &&
-                native.StableEdges > 0;
-
-            string wp7State;
-            string wp7Next;
-
-            if (!wp6.RestartStablePass)
-            {
-                wp7State = "BLOCKED";
-                wp7Next = "等待 WP6 PASS";
-            }
-            else if (!behavior.RestartStable)
-            {
-                wp7State = "READY";
-                wp7Next =
-                    "UseItem協定 → UseItem行為：基線後手動使用道具，跨完整 client restart 重複";
-            }
-            else if (!nativeCandidatesStable)
-            {
-                wp7State = "BEHAVIOR_STABLE";
-                wp7Next =
-                    "Send掃描 → Send追蹤 → Send比對，建立跨 restart native 候選圖";
-            }
-            else
-            {
-                wp7State = "NATIVE_CANDIDATES";
-                wp7Next =
-                    "將手動 UseItem 行為與 stable native send 候選做直接同-session 關聯；未完成前不可啟用 ItemUseBridge";
-            }
+                    wp6.RestartStablePass);
 
             Add(
                 state,
                 "WP7 UseItem",
-                wp7State,
-                "protocol=PASS / behavior=" +
-                (behavior.RestartStable
-                    ? "RESTART_STABLE"
-                    : "NOT_YET") +
-                " / behaviorSessions=" +
-                behavior.CorrelatedSessions +
-                " / behaviorProcesses=" +
-                behavior.DistinctProcessInstances +
-                " / nativeFunctions=" +
-                native.StableFunctions.Count +
-                " / nativeEdges=" +
-                native.StableEdges +
-                " / nativeProcesses=" +
-                native.DistinctProcessInstances +
-                " / ItemUseBridge=UNMAPPED",
-                wp7Next);
+                wp7.State,
+                wp7.Evidence,
+                wp7.Next);
 
             state.NextAction =
                 ResolveNextAction(
