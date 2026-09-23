@@ -24,6 +24,17 @@ namespace L1JTW850Launcher
             public string Confidence = "";
         }
 
+        private sealed class PointerRecord
+        {
+            public int Pid;
+            public long Hp;
+            public int HpWidth;
+            public long Mp;
+            public int MpWidth;
+            public int StableSessions;
+            public string Status = "";
+        }
+
         private readonly string _appDir;
         private readonly object _sync = new object();
         private bool _running;
@@ -91,38 +102,39 @@ namespace L1JTW850Launcher
             if (current == null)
                 throw new InvalidDataException("crosscheck evidence missing BEST pair metadata");
 
-            var historyPath = Path.Combine(_appDir, "runtime_hpmp_crosscheck_history.txt");
-            var history = ParseHistory(historyPath);
+            var history = ParseHistory(Path.Combine(_appDir, "runtime_hpmp_crosscheck_history.txt"));
+            var pointer = ParsePointer(Path.Combine(_appDir, "runtime_hpmp_pointer_evidence.txt"));
 
-            var pairPids = new HashSet<int>();
-            var gaugePids = new HashSet<int>();
-            foreach (var r in history)
+            var currentPairPids = DistinctPairPids(history, current, false);
+            var currentGaugePids = DistinctPairPids(history, current, true);
+            if (current.Pid > 0 && current.DynamicPair) currentPairPids.Add(current.Pid);
+            if (current.Pid > 0 && current.DynamicPair && IsGaugeLike(current)) currentGaugePids.Add(current.Pid);
+
+            var pointerGaugePids = new HashSet<int>();
+            if (pointer != null)
             {
-                if (r.Hp != current.Hp || r.Mp != current.Mp ||
-                    r.HpWidth != current.HpWidth || r.MpWidth != current.MpWidth)
-                    continue;
-
-                if (r.Pid > 0 && r.DynamicPair)
-                    pairPids.Add(r.Pid);
-                if (r.Pid > 0 && r.DynamicPair && IsGaugeLike(r))
-                    gaugePids.Add(r.Pid);
+                var probe = new PairRecord
+                {
+                    Hp = pointer.Hp,
+                    HpWidth = pointer.HpWidth,
+                    Mp = pointer.Mp,
+                    MpWidth = pointer.MpWidth
+                };
+                pointerGaugePids = DistinctPairPids(history, probe, true);
             }
-
-            if (current.Pid > 0 && current.DynamicPair) pairPids.Add(current.Pid);
-            if (current.Pid > 0 && current.DynamicPair && IsGaugeLike(current)) gaugePids.Add(current.Pid);
 
             var moduleBase = runtime.ModuleBase.ToInt64();
             var moduleEnd = moduleBase + runtime.ModuleSize;
             var hpRva = current.Hp >= moduleBase && current.Hp < moduleEnd ? current.Hp - moduleBase : -1;
             var mpRva = current.Mp >= moduleBase && current.Mp < moduleEnd ? current.Mp - moduleBase : -1;
 
-            var gaugeLike = IsGaugeLike(current) || gaugePids.Count >= 2;
+            var currentGaugeLike = IsGaugeLike(current) || currentGaugePids.Count >= 2;
             string classification;
             if (current.Pid != runtime.ProcessId)
                 classification = "STALE_CROSSCHECK";
             else if (!current.DynamicPair)
                 classification = "NO_DYNAMIC_PAIR";
-            else if (gaugeLike)
+            else if (currentGaugeLike)
                 classification = "UI_GAUGE_MIRROR_CANDIDATE";
             else if (string.Equals(current.Confidence, "HIGH", StringComparison.OrdinalIgnoreCase))
                 classification = "RAW_HPMP_HIGH_CANDIDATE";
@@ -130,6 +142,26 @@ namespace L1JTW850Launcher
                 classification = "RAW_HPMP_MEDIUM_CANDIDATE";
             else
                 classification = "RAW_HPMP_LOW_CANDIDATE";
+
+            var pointerClassification = "NONE";
+            var pointerMatchesCurrent = false;
+            if (pointer != null)
+            {
+                pointerMatchesCurrent = pointer.Hp == current.Hp && pointer.Mp == current.Mp &&
+                    pointer.HpWidth == current.HpWidth && pointer.MpWidth == current.MpWidth;
+                if (pointerGaugePids.Count >= 2)
+                    pointerClassification = "STABLE_UI_GAUGE_MIRROR";
+                else if (pointer.StableSessions >= 2 && pointerMatchesCurrent)
+                    pointerClassification = "STABLE_CURRENT_PAIR";
+                else if (pointer.StableSessions >= 2)
+                    pointerClassification = "STALE_STABLE_PAIR";
+                else
+                    pointerClassification = "UNSTABLE_POINTER_PAIR";
+            }
+
+            var rawMapAllowed = classification == "RAW_HPMP_HIGH_CANDIDATE" &&
+                pointer != null && pointer.StableSessions >= 2 && pointerMatchesCurrent &&
+                pointerGaugePids.Count == 0;
 
             var sb = Header(runtime, "AUTO_HPMP_EVIDENCE_GUARD");
             sb.AppendLine("CROSSCHECK_PID=" + current.Pid);
@@ -146,19 +178,58 @@ namespace L1JTW850Launcher
             sb.AppendLine("MP_CHANGES=" + current.MpChanges);
             sb.AppendLine("MP_OBS_MAX=" + current.MpMax);
             sb.AppendLine("PAIR_DISTANCE=0x" + Math.Abs(current.Hp - current.Mp).ToString("X"));
-            sb.AppendLine("PAIR_DISTINCT_PIDS=" + pairPids.Count);
-            sb.AppendLine("GAUGE_LIKE_PIDS=" + gaugePids.Count);
+            sb.AppendLine("PAIR_DISTINCT_PIDS=" + currentPairPids.Count);
+            sb.AppendLine("GAUGE_LIKE_PIDS=" + currentGaugePids.Count);
             sb.AppendLine("GAUGE_SIGNATURE=HP_255_256_AND_MP_127_128");
             sb.AppendLine("CLASSIFICATION=" + classification);
-            sb.AppendLine("RAW_MAP_ALLOWED=" + ((classification == "RAW_HPMP_HIGH_CANDIDATE") ? 1 : 0));
+
+            if (pointer != null)
+            {
+                sb.AppendLine("POINTER_PID=" + pointer.Pid);
+                sb.AppendLine("POINTER_HP=0x" + pointer.Hp.ToString("X8") + "/" + pointer.HpWidth);
+                sb.AppendLine("POINTER_MP=0x" + pointer.Mp.ToString("X8") + "/" + pointer.MpWidth);
+                sb.AppendLine("POINTER_STABLE_SESSIONS=" + pointer.StableSessions);
+                sb.AppendLine("POINTER_GAUGE_LIKE_PIDS=" + pointerGaugePids.Count);
+                sb.AppendLine("POINTER_MATCHES_CURRENT=" + (pointerMatchesCurrent ? 1 : 0));
+                sb.AppendLine("POINTER_CLASSIFICATION=" + pointerClassification);
+                sb.AppendLine("POINTER_SOURCE_STATUS=" + pointer.Status);
+            }
+            else
+            {
+                sb.AppendLine("POINTER_CLASSIFICATION=MISSING");
+            }
+
+            sb.AppendLine("RAW_MAP_ALLOWED=" + (rawMapAllowed ? 1 : 0));
             sb.AppendLine("MEMORY_WRITE=NO");
 
-            var status = classification;
+            var status = rawMapAllowed
+                ? "RAW_MAP_READY"
+                : pointerClassification == "STABLE_UI_GAUGE_MIRROR"
+                    ? "GAUGE_MIRROR_REJECT_RAW_MAP"
+                    : classification;
+
+            sb.AppendLine("STATUS=" + status);
             File.WriteAllText(
                 Path.Combine(_appDir, "runtime_hpmp_guard_evidence.txt"),
                 sb.ToString(),
                 new UTF8Encoding(false));
             return status;
+        }
+
+        private static HashSet<int> DistinctPairPids(List<PairRecord> history, PairRecord pair, bool gaugeOnly)
+        {
+            var pids = new HashSet<int>();
+            if (pair == null) return pids;
+            foreach (var r in history)
+            {
+                if (r.Hp != pair.Hp || r.Mp != pair.Mp ||
+                    r.HpWidth != pair.HpWidth || r.MpWidth != pair.MpWidth)
+                    continue;
+                if (r.Pid <= 0 || !r.DynamicPair) continue;
+                if (gaugeOnly && !IsGaugeLike(r)) continue;
+                pids.Add(r.Pid);
+            }
+            return pids;
         }
 
         private static bool IsGaugeLike(PairRecord r)
@@ -209,18 +280,37 @@ namespace L1JTW850Launcher
             return list;
         }
 
+        private static PointerRecord ParsePointer(string path)
+        {
+            if (!File.Exists(path)) return null;
+            var r = new PointerRecord();
+            foreach (var raw in File.ReadAllLines(path))
+            {
+                var line = raw.Trim();
+                int n;
+                if (line.StartsWith("PID=") && int.TryParse(line.Substring(4), out n)) r.Pid = n;
+                else if (line.StartsWith("HP_ADDR=0x")) TryHex(line.Substring(8), out r.Hp);
+                else if (line.StartsWith("HP_WIDTH=") && int.TryParse(line.Substring(9), out n)) r.HpWidth = n;
+                else if (line.StartsWith("MP_ADDR=0x")) TryHex(line.Substring(8), out r.Mp);
+                else if (line.StartsWith("MP_WIDTH=") && int.TryParse(line.Substring(9), out n)) r.MpWidth = n;
+                else if (line.StartsWith("DIRECT_RVA_STABLE_SESSIONS=") && int.TryParse(line.Substring(27), out n)) r.StableSessions = n;
+                else if (line.StartsWith("STATUS=")) r.Status = line.Substring(7).Trim();
+            }
+            return r.Hp > 0 && r.Mp > 0 ? r : null;
+        }
+
         private static void ParseBest(string text, bool hp, PairRecord r)
         {
             var map = ParseTokens(text);
             string s;
             long addr;
-            int width;
-            int changes;
-            int max;
+            int width = 0;
+            int changes = 0;
+            int max = -1;
             if (!map.TryGetValue("ADDR", out s) || !TryHex(s, out addr)) return;
-            width = map.TryGetValue("WIDTH", out s) && int.TryParse(s, out width) ? width : 0;
-            changes = map.TryGetValue("CHANGES", out s) && int.TryParse(s, out changes) ? changes : 0;
-            max = map.TryGetValue("MAX", out s) && int.TryParse(s, out max) ? max : -1;
+            if (map.TryGetValue("WIDTH", out s)) int.TryParse(s, out width);
+            if (map.TryGetValue("CHANGES", out s)) int.TryParse(s, out changes);
+            if (map.TryGetValue("MAX", out s)) int.TryParse(s, out max);
             if (hp)
             {
                 r.Hp = addr; r.HpWidth = width; r.HpChanges = changes; r.HpMax = max;
