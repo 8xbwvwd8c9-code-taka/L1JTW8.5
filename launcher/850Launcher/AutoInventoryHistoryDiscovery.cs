@@ -9,6 +9,7 @@ namespace L1JTW850Launcher
     internal sealed class AutoInventoryHistoryDiscovery
     {
         private readonly string _appDir;
+        private readonly AutoInventorySeedlessDiscovery _seedless;
         private readonly object _sync = new object();
         private int _pid;
         private bool _running;
@@ -18,17 +19,28 @@ namespace L1JTW850Launcher
         public AutoInventoryHistoryDiscovery(string appDir)
         {
             _appDir = appDir;
+            _seedless = new AutoInventorySeedlessDiscovery(appDir);
         }
 
         public string Status
         {
-            get { lock (_sync) return _running ? "RUNNING" : _status; }
+            get
+            {
+                lock (_sync)
+                {
+                    if (_running) return "RUNNING";
+                    return _status + " | SEEDLESS=" + _seedless.Status;
+                }
+            }
         }
 
         public void EnsureRunning(RuntimeSnapshot runtime)
         {
             if (runtime == null || !runtime.Connected || !runtime.ClientHashAuthoritative || runtime.ProcessId <= 0)
                 return;
+
+            // Seedless scan is independent and intentionally starts in parallel.
+            _seedless.EnsureRunning(runtime);
 
             lock (_sync)
             {
@@ -68,19 +80,13 @@ namespace L1JTW850Launcher
 
         private void Run(RuntimeSnapshot runtime)
         {
-            var historyPath = Path.Combine(_appDir, "inventory_probe_evidence.txt");
-            if (!File.Exists(historyPath))
+            string historyPath;
+            string source;
+            List<long> centers;
+            if (!TryChooseSource(out historyPath, out source, out centers))
             {
-                SaveWaiting(runtime, "inventory_probe_evidence.txt missing");
-                lock (_sync) _status = "WAITING_HISTORY";
-                return;
-            }
-
-            var centers = LoadLatestCandidateCenters(historyPath);
-            if (centers.Count == 0)
-            {
-                SaveWaiting(runtime, "latest inventory probe block has no candidate addresses");
-                lock (_sync) _status = "WAITING_HISTORY";
+                SaveWaiting(runtime, "waiting for manual or seedless inventory candidates");
+                lock (_sync) _status = "WAITING_CANDIDATES";
                 return;
             }
 
@@ -95,6 +101,8 @@ namespace L1JTW850Launcher
             var distinctCentersByOffset = new Dictionary<int, HashSet<long>>();
             var itemHits = 0;
             var sb = Header(runtime, "AUTO_INVENTORY_HISTORY_DISCOVERY");
+            sb.AppendLine("SOURCE=" + source);
+            sb.AppendLine("SOURCE_FILE=" + Path.GetFileName(historyPath));
             sb.AppendLine("HISTORY_CENTERS=" + centers.Count);
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("MEMORY_WRITE=NO");
@@ -133,7 +141,6 @@ namespace L1JTW850Launcher
                         if (row.Address.ToInt64() == center.ToInt64()) continue;
                         string name;
                         if (!names.TryGetValue(row.Value, out name)) continue;
-                        if (row.Value < 1000) continue;
 
                         var offsetLong = row.Address.ToInt64() - center.ToInt64();
                         if (offsetLong < int.MinValue || offsetLong > int.MaxValue) continue;
@@ -215,7 +222,7 @@ namespace L1JTW850Launcher
             else if (itemHits > 0)
                 status = "ITEM_HINTS hits=" + itemHits + " bestCenters=" + bestCenters;
             else
-                status = "NO_CATALOG_NEAR_HISTORY";
+                status = "NO_CATALOG_NEAR_CANDIDATES";
             sb.AppendLine("STATUS=" + status);
 
             File.WriteAllText(
@@ -226,7 +233,20 @@ namespace L1JTW850Launcher
             lock (_sync) _status = status;
         }
 
-        private List<long> LoadLatestCandidateCenters(string path)
+        private bool TryChooseSource(out string path, out string source, out List<long> centers)
+        {
+            path = Path.Combine(_appDir, "inventory_probe_evidence.txt");
+            source = "MANUAL_HISTORY";
+            centers = File.Exists(path) ? LoadLatestCandidateCenters(path) : new List<long>();
+            if (centers.Count > 0) return true;
+
+            path = Path.Combine(_appDir, "auto_inventory_seedless_evidence.txt");
+            source = "AUTO_SEEDLESS";
+            centers = File.Exists(path) ? LoadLatestCandidateCenters(path) : new List<long>();
+            return centers.Count > 0;
+        }
+
+        private static List<long> LoadLatestCandidateCenters(string path)
         {
             var lines = File.ReadAllLines(path);
             var start = 0;
@@ -260,8 +280,11 @@ namespace L1JTW850Launcher
                 var space = text.IndexOf(' ');
                 if (space >= 0) text = text.Substring(0, space);
                 long value;
-                if (long.TryParse(text, System.Globalization.NumberStyles.HexNumber,
-                    System.Globalization.CultureInfo.InvariantCulture, out value) && value > 0)
+                if (long.TryParse(
+                    text,
+                    System.Globalization.NumberStyles.HexNumber,
+                    System.Globalization.CultureInfo.InvariantCulture,
+                    out value) && value > 0)
                 {
                     if (seen.Add(value)) result.Add(value);
                 }
@@ -296,8 +319,7 @@ namespace L1JTW850Launcher
 
         private static string Sanitize(string value)
         {
-            if (value == null) return "";
-            return value.Replace("\r", " ").Replace("\n", " ");
+            return (value ?? "").Replace("\r", " ").Replace("\n", " ");
         }
 
         private static StringBuilder Header(RuntimeSnapshot runtime, string mode)
@@ -318,8 +340,9 @@ namespace L1JTW850Launcher
             try
             {
                 var sb = Header(runtime, "AUTO_INVENTORY_HISTORY_DISCOVERY");
-                sb.AppendLine("STATUS=WAITING_HISTORY");
+                sb.AppendLine("STATUS=WAITING_CANDIDATES");
                 sb.AppendLine("REASON=" + reason);
+                sb.AppendLine("SEEDLESS_STATUS=" + _seedless.Status);
                 sb.AppendLine("MEMORY_WRITE=NO");
                 File.WriteAllText(
                     Path.Combine(_appDir, "auto_inventory_history_evidence.txt"),
