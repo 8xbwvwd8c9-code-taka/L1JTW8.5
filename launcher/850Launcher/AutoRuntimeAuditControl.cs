@@ -23,6 +23,7 @@ namespace L1JTW850Launcher
         private readonly AutoLoadedModuleNetworkDiscovery _loadedModuleNetwork;
         private readonly AutoAppDirNetworkDiscovery _appDirNetwork;
         private readonly AutoStaticGameNetworkDiscovery _staticGameNetwork;
+        private readonly AutoDamageReceiveDiscovery _damageReceive;
         private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
         private readonly DateTime _auditStartedUtc;
 
@@ -46,6 +47,7 @@ namespace L1JTW850Launcher
             _loadedModuleNetwork = new AutoLoadedModuleNetworkDiscovery(appDir);
             _appDirNetwork = new AutoAppDirNetworkDiscovery(appDir);
             _staticGameNetwork = new AutoStaticGameNetworkDiscovery(appDir);
+            _damageReceive = new AutoDamageReceiveDiscovery(appDir);
             _inventoryHistory = new AutoInventoryHistoryDiscovery(appDir);
             Dock = DockStyle.Fill;
 
@@ -114,6 +116,7 @@ namespace L1JTW850Launcher
                 _loadedModuleNetwork.EnsureRunning(runtime);
                 _appDirNetwork.EnsureRunning(runtime);
                 _staticGameNetwork.EnsureRunning(runtime);
+                _damageReceive.EnsureRunning(runtime);
                 _inventoryHistory.EnsureRunning(runtime);
             }
 
@@ -146,6 +149,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_LOADED_MODULE_NETWORK=" + _loadedModuleNetwork.Status);
             sb.AppendLine("AUTO_APPDIR_NETWORK=" + _appDirNetwork.Status);
             sb.AppendLine("AUTO_STATIC_GAME_NETWORK=" + _staticGameNetwork.Status);
+            sb.AppendLine("AUTO_DAMAGE_RECV=" + _damageReceive.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -168,6 +172,8 @@ namespace L1JTW850Launcher
             AppendFile(sb, "auto_loaded_module_network_evidence.txt");
             AppendFile(sb, "auto_appdir_network_evidence.txt");
             AppendFile(sb, "auto_static_game_network_evidence.txt");
+            AppendFile(sb, "auto_damage_receive_evidence.txt");
+            AppendFile(sb, "auto_damage_accounting_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "inventory_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
@@ -222,6 +228,15 @@ namespace L1JTW850Launcher
             }
 
             _crossCheck.EnsureRunning(runtime);
+            if (string.Equals(
+                _crossCheck.Status,
+                "RUNNING",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                _hpmpPipeline = "WAIT_CROSSCHECK_RUNNING";
+                return;
+            }
+
             var semanticTime = SafeWriteTimeUtc(semanticPath);
             if (!EvidenceReady(crossPath, runtime.ProcessId, semanticTime))
             {
