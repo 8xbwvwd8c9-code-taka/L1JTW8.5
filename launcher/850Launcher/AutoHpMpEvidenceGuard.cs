@@ -100,7 +100,7 @@ namespace L1JTW850Launcher
         {
             var current = ParseEvidence(crossPath);
             if (current == null)
-                throw new InvalidDataException("crosscheck evidence missing BEST pair metadata");
+                return SaveNoPair(runtime, crossPath);
 
             var history = ParseHistory(Path.Combine(_appDir, "runtime_hpmp_crosscheck_history.txt"));
             var pointer = ParsePointer(Path.Combine(_appDir, "runtime_hpmp_pointer_evidence.txt"));
@@ -214,6 +214,54 @@ namespace L1JTW850Launcher
                 sb.ToString(),
                 new UTF8Encoding(false));
             return status;
+        }
+
+        private string SaveNoPair(RuntimeSnapshot runtime, string crossPath)
+        {
+            var pid = 0;
+            var confidence = "";
+            var dynamicPair = 0;
+            try
+            {
+                foreach (var raw in File.ReadAllLines(crossPath))
+                {
+                    var line = raw.Trim();
+                    int n;
+                    if (line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase) &&
+                        int.TryParse(line.Substring(4), out n))
+                        pid = n;
+                    else if (line.StartsWith("CONFIDENCE=", StringComparison.OrdinalIgnoreCase))
+                        confidence = line.Substring(11).Trim();
+                    else if (line.StartsWith("DYNAMIC_PAIR=", StringComparison.OrdinalIgnoreCase) &&
+                        int.TryParse(line.Substring(13), out n))
+                        dynamicPair = n;
+                }
+            }
+            catch
+            {
+            }
+
+            var pointer = ParsePointer(Path.Combine(_appDir, "runtime_hpmp_pointer_evidence.txt"));
+            var sb = Header(runtime, "AUTO_HPMP_EVIDENCE_GUARD");
+            sb.AppendLine("CROSSCHECK_PID=" + pid);
+            sb.AppendLine("CROSSCHECK_CONFIDENCE=" + confidence);
+            sb.AppendLine("DYNAMIC_PAIR=" + dynamicPair);
+            sb.AppendLine("CROSSCHECK_HAS_BEST_PAIR=0");
+            if (pointer != null)
+            {
+                sb.AppendLine("LAST_POINTER_PID=" + pointer.Pid);
+                sb.AppendLine("LAST_POINTER_HP=0x" + pointer.Hp.ToString("X8") + "/" + pointer.HpWidth);
+                sb.AppendLine("LAST_POINTER_MP=0x" + pointer.Mp.ToString("X8") + "/" + pointer.MpWidth);
+                sb.AppendLine("LAST_POINTER_SOURCE_STATUS=" + pointer.Status);
+            }
+            sb.AppendLine("RAW_MAP_ALLOWED=0");
+            sb.AppendLine("MEMORY_WRITE=NO");
+            sb.AppendLine("STATUS=WAITING_DYNAMIC_PAIR");
+            File.WriteAllText(
+                Path.Combine(_appDir, "runtime_hpmp_guard_evidence.txt"),
+                sb.ToString(),
+                new UTF8Encoding(false));
+            return "WAITING_DYNAMIC_PAIR";
         }
 
         private static HashSet<int> DistinctPairPids(List<PairRecord> history, PairRecord pair, bool gaugeOnly)
