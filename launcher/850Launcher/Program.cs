@@ -1,5 +1,4 @@
 using System;
-using System.Drawing;
 using System.Windows.Forms;
 
 namespace L1JTW850Launcher
@@ -17,26 +16,7 @@ namespace L1JTW850Launcher
                 var appDir = AppDomain.CurrentDomain.BaseDirectory;
                 var config = LauncherConfig.Load(System.IO.Path.Combine(appDir, "launcher.ini"));
                 var helper = HelperSettings.Load(System.IO.Path.Combine(appDir, "helper.ini"));
-                var main = new MainForm(appDir, config, helper);
-
-                if (config.DeveloperMode)
-                {
-                    main.Shown += delegate
-                    {
-                        var dynamicProbe = new Form
-                        {
-                            Text = "850 自動動態 HP/MP 偵測",
-                            Width = 820,
-                            Height = 520,
-                            MinimumSize = new Size(760, 460),
-                            StartPosition = FormStartPosition.CenterParent
-                        };
-                        dynamicProbe.Controls.Add(new RuntimeDynamicProbeControl(appDir));
-                        dynamicProbe.Show(main);
-                    };
-                }
-
-                Application.Run(main);
+                Application.Run(new MainForm(appDir, config, helper));
             }
             catch (Exception ex)
             {
