@@ -1,4 +1,4 @@
-name: Update L1 homepage completion once
+name: Fix L1 homepage typo once
 
 on:
   push:
@@ -18,39 +18,27 @@ jobs:
         with:
           ref: main
           fetch-depth: 0
-
-      - name: Replace stale L1 checkpoint only
+      - name: Fix exact homepage typo
         shell: bash
-        env:
-          L1_STATUS_B64: "IyMjIOacgOaWsCBMMSDkv67lvqnpgLLluqbvvIgyMDI2LTA5LTIzIOWujOaIkO+8iQoKYGBgdGV4dApXT1JLX0JSQU5DSD13b3JrL2wxanR3ODUtY29yZS1maXhlcwpDT05GSVJNRURfTDE9NDUKUkVQQUlSX0xBTkVfQ09WRVJBR0U9NDUvNDUKVkFMSURBVEVEX0RPTkVfUEFTUz00NS80NQpQQVRDSEVEX1BFTkRJTkdfVkFMSURBVElPTj0wCkJMT0NLRUQ9MApVTlBBVENIRURfTDE9MApTVEFURT1MMV9SRVBBSVJfQ09NUExFVEUKYGBgCgpMMSBhdXRob3JpdHkg5LulIGByZWNvdmVyeS9EVUFMX0xBTkVfQ09SRV9XT1JLX0xFREdFUi5tZGAg54K65rqW44CCYEJVRy04NTAtMDAxLi4yOTRgIOeahCBCVUctb25seSBhdWRpdCDlt7LlrozmiJDvvIzlhbbkuK0gNDUg6aGGIGBDT05GSVJNRUQgTDFgIOePvuWcqOWFqOmDqOmDveacieWwjeaHiSBgUkVQQUlSX0xBTkUgRE9ORS9QQVNTYO+8m+iIiiBjaGVja3BvaW50IOeahCBgQlVHLTg1MC0xMDUvMTA2YCDmnKrkv67jgIE0MCDpoYYgcGVuZGluZ+OAgWBCVUctODUwLTIwOGAgcm91dGUgYmxvY2tlciDlnYflt7LlpLHmlYjjgIIKCuacrOi8quacgOW+jOWujOaIkOeahOmXnOmNteaUtuaWgu+8mgoKLSBgQlVHLTg1MC0wMTIgLyAwNDAgLyAwNDVg77ya5Z+O5aCh5o+Q5qy+6KaB5rGCIHNlbGYgb2JqaWTjgIHmraPmlbggY291bnTjgIFjcm93biArIGN1cnJlbnQgY2xhbiBsZWFkZXIgKyBtYXRjaGluZyBjYXN0bGUgb3duZXJzaGlw77ybY2FzdGxlIGBwdWJsaWNfbW9uZXlgIENBUyDoiIfnjqnlrrYgQWRlbmEgYGNoYXJhY3Rlcl9pdGVtc2Ag6K6K5pu05L2N5pa85ZCM5LiAIElubm9EQiB0cmFuc2FjdGlvbu+8jHJvbGxiYWNrLXNhZmXjgIFjb21taXQg5b6M5omNIHB1Ymxpc2jjgIJDSSBgMzU3NjE1NzY3NDZgIFBBU1PjgIIKLSBgQlVHLTg1MC0wMTQgLyAwMTUgLyAwMjAgLyAwNDRg77ya5ZWG5bqXL+S6pOaYk+WDueagvOiIh+aVuOmHj+aOoSBsb25nIOmCiueVjOmpl+itieOAgXNlcnZlci1zaWRlIGF1dGhvcml0eSDoiIcgMiwwMDAsMDAwLDAwMCDkuIrpmZDvvJvlsIjnlKggQ0kg5YWoIFBBU1PjgIIKLSBgQlVHLTg1MC0wMTkgLyAwNDggLyAwNzUgLyAwOTNg77yaYWNoaWV2ZW1lbnQgb25lLXNob3TjgIFMdWNreURyYXcgZHVyYWJsZSByZWRlbXB0aW9u44CBbWFpbCBvd25lcnNoaXDjgIFjaGFyYWN0ZXIgcmVzZXQgc3RhdCBidWRnZXQg5Z2H5a6M5oiQ5bCI55SoIHNvdXJjZSBjb250cmFjdC9ydW50aW1lL2NvbXBpbGUgZ2F0ZeOAggotIGBCVUctODUwLTIwOGDvvJpgQ19TaGlwYCBjbGllbnQgZGVzdGluYXRpb24gbWFwL3gveSDlj6rngrrljZTlrprnm7jlrrnogIzop6PmnpDvvIzkuI3lho3kvZwgYXV0aG9yaXR577ybYEwxRHVuZ2VvbmAg5b6eIGBkdW5nZW9uYCBEQiBsaXZlIHJvd3Mg5L6dIHNoaXAgcGFpciBgNTwtPjZg44CBYDgzPC0+ODRg44CBYDQ0NjwtPjQ0N2Ag6KGN55SfIHNlcnZlciByb3V0Ze+8jG1pc3NpbmcvY29uZmxpY3Rpbmcgcm91dGUgZmFpbCBjbG9zZWTvvIzkuJTnpajliLggY29uc3VtZSDmiJDlip/lvozmiY3lgrPpgIHjgIJDSSBgMzU3NjQ1ODM0MjNgIFBBU1PjgIIKCuebruWJjSBMMSByZXBhaXIgbGFuZSDnhKEgYFBBVENIRURfUEVORElOR2DjgIHnhKEgYEJMT0NLRURg44CB54Sh5pyq5L+uIEwx44CC5b6M57qM5LiN6KaB6YeN5paw5o6D6YCZIDQ1IOmhhu+8m+iLpee5vOe6jOS/ruW+qe+8jOaHieS+nSBsZWRnZXIgb3duZXJzaGlwIOmAsuWFpeWFnuS7liB0aWVyL2xhbmXvvIzpgb/lhY3oiIfml6LmnIkgTDIvTDMg5Lim6KGM5bel5L2c6YeN6KSH44CCCgo="
         run: |
           python - <<'PY'
-          import base64, os
           from pathlib import Path
-          p = Path("README.md")
-          s = p.read_text(encoding="utf-8")
-          start = "### 最新 L1 修復進度（2026-09-22 checkpoint）"
-          end = "### 支線整理規則"
-          if start not in s:
-              raise SystemExit("L1 homepage start anchor missing")
-          if end not in s:
-              raise SystemExit("L1 homepage end anchor missing")
-          a = s.index(start)
-          b = s.index(end, a)
-          replacement = base64.b64decode(os.environ["L1_STATUS_B64"]).decode("utf-8")
-          p.write_text(s[:a] + replacement + s[b:], encoding="utf-8")
+          p=Path('README.md')
+          s=p.read_text(encoding='utf-8')
+          old='進入兞他 tier/lane'
+          new='進入其他 tier/lane'
+          if old not in s:
+              raise SystemExit('exact typo anchor missing')
+          if s.count(old) != 1:
+              raise SystemExit('unexpected typo count')
+          p.write_text(s.replace(old,new,1),encoding='utf-8')
           PY
-
-      - name: Commit homepage update
+      - name: Commit typo fix
         shell: bash
         run: |
           set -euo pipefail
-          if git diff --quiet -- README.md; then
-            echo "README_NO_CHANGE=PASS"
-            exit 0
-          fi
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add README.md
-          git commit -m "docs: mark L1 repair lane complete"
+          git commit -m "docs: fix L1 completion wording"
           git push origin HEAD:main
