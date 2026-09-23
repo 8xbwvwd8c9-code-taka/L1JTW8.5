@@ -92,6 +92,8 @@
     <Compile Include="AutoHpMpBroadProbe.cs" />
     <Compile Include="AutoHpMpSemanticRefiner.cs" />
     <Compile Include="AutoParallelDiscovery.cs" />
+    <Compile Include="AutoNetworkSurfaceDiscovery.cs" />
+    <Compile Include="AutoInventoryHistoryDiscovery.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
     <Compile Include="RuntimeSemanticValidator.cs" />
