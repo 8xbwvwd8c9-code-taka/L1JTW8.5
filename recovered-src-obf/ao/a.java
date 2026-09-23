@@ -499,7 +499,7 @@ public class a {
             throw new IllegalArgumentException("\u540c\u500b\u5e33\u865f\u5df2\u7d93\u767b\u5165\uff0c\u5207\u65b7 (" + client.g() + ") \u7684\u9023\u7dda\u3002");
         }
         this.a.put(account.d(), client);
-        this.a(client.e(), true);
+        this.a(account, true);
     }
 
     public synchronized void e(String accName) {

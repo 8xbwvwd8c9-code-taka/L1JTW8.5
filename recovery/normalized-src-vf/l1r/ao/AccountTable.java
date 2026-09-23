@@ -357,7 +357,7 @@ public class AccountTable {
       }
 
       this.a.put(var1.d(), var2);
-      this.a(var2.e(), true);
+      this.a(var1, true);
    }
 
    public synchronized void e(String var1) {
