@@ -11,8 +11,8 @@ namespace L1JTW850Launcher
         public static Dictionary<int, string> Load(string appDir)
         {
             var result = new Dictionary<int, string>();
-
             var externalPath = Path.Combine(appDir ?? "", "item-names.csv");
+
             if (File.Exists(externalPath))
             {
                 try
@@ -27,6 +27,39 @@ namespace L1JTW850Launcher
             if (result.Count > 0)
                 return result;
 
+            ParseEmbedded(result);
+            return result;
+        }
+
+        public static bool EnsureExternalCatalog(string appDir)
+        {
+            try
+            {
+                var path = Path.Combine(appDir ?? "", "item-names.csv");
+                if (File.Exists(path) && new FileInfo(path).Length > 16)
+                    return true;
+
+                var lines = ReadEmbeddedLines();
+                if (lines.Count == 0)
+                    return false;
+
+                File.WriteAllLines(path, lines.ToArray(), new UTF8Encoding(false));
+                return File.Exists(path) && new FileInfo(path).Length > 16;
+            }
+            catch
+            {
+                return false;
+            }
+        }
+
+        private static void ParseEmbedded(Dictionary<int, string> result)
+        {
+            ParseLines(ReadEmbeddedLines(), result);
+        }
+
+        private static List<string> ReadEmbeddedLines()
+        {
+            var lines = new List<string>();
             try
             {
                 var assembly = Assembly.GetExecutingAssembly();
@@ -41,27 +74,24 @@ namespace L1JTW850Launcher
                     }
                 }
 
-                if (!string.IsNullOrEmpty(resourceName))
+                if (string.IsNullOrEmpty(resourceName))
+                    return lines;
+
+                using (var stream = assembly.GetManifestResourceStream(resourceName))
+                using (var reader = stream == null ? null : new StreamReader(stream, Encoding.UTF8, true))
                 {
-                    using (var stream = assembly.GetManifestResourceStream(resourceName))
-                    using (var reader = stream == null ? null : new StreamReader(stream, Encoding.UTF8, true))
-                    {
-                        if (reader != null)
-                        {
-                            var lines = new List<string>();
-                            string line;
-                            while ((line = reader.ReadLine()) != null)
-                                lines.Add(line);
-                            ParseLines(lines, result);
-                        }
-                    }
+                    if (reader == null)
+                        return lines;
+
+                    string line;
+                    while ((line = reader.ReadLine()) != null)
+                        lines.Add(line);
                 }
             }
             catch
             {
             }
-
-            return result;
+            return lines;
         }
 
         private static void ParseLines(IEnumerable<string> lines, Dictionary<int, string> result)
