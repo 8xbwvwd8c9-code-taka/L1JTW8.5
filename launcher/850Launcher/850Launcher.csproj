@@ -89,6 +89,7 @@
     <Compile Include="RuntimeMap.cs" />
     <Compile Include="RuntimeMapControl.cs" />
     <Compile Include="RuntimeMemoryProbe.cs" />
+    <Compile Include="PrivateWritableMemoryScanner.cs" />
     <Compile Include="RuntimeProbeControl.cs" />
     <Compile Include="RuntimeDynamicProbeControl.cs" />
     <Compile Include="AutoRuntimeAuditControl.cs" />
