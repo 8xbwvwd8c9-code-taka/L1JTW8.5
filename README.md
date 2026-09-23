@@ -2524,3 +2524,46 @@ PR：
 `recovery/L3_CORE_REPAIR_COMPLETION_20260922.md`
 
 下一次接手應從 **最新 completed HEAD** 解 PR #29 衝突；不得用 force update 或整檔覆蓋已完成修補。
+
+
+## 2026-09-23 — validated L3 promotion integrated into completed
+
+### Scope
+
+```text
+SOURCE=promote/l3-validated-20260922
+TARGET=completed/l1jtw85-core-fixes
+PROMOTION_BASE=6824ebc9
+FINAL_CORE=74dcec10dfbf79fd0d3033d977cc3bc456522f7d
+CI_READ_ONLY_HEAD=63be6861078565807fbcf08368d2808cd0feaa9d
+STATUS=PASS
+```
+
+The historical validated L3 repair set was merged into the completed branch without replacing later L2/transaction hardening. The promotion contained 85 changed files; 35 completed-side files had newer changes and 14 paths required overlap reconciliation.
+
+### Reconciled overlap repairs
+
+- `C_ShopWorld`: preserved L3 null/type guards together with the newer local-distance authority.
+- `L1PcInventory`: restored BUG-850-017 empty-list guard, BUG-850-278 quest-count clamp, and BUG-850-271 polymorph identity checks while preserving fail-closed persistence/publication hardening.
+- `C_Result`: restored BUG-850-038 private-shop sell/buy index bounds guards.
+- `ClanTable`: restored BUG-850-096 transactional clan deletion including `clan_warehouse_history` cleanup and rollback.
+- `C_Amount`: restored BUG-850-138 NPC type guard without disturbing later auction/context transaction fixes.
+- `C_BoardWrite`: core was already stronger than the old literal contract; Batch5 validator was corrected to accept equivalent split title/content guards.
+- `L1PcInstance`: restored BUG-850-271 active polymorph-rule identity state and BUG-850-285 ghost return state/API in normalized and obfuscated sources.
+
+### Validation
+
+```text
+FINAL_WORKFLOW_RUN=35877469923
+L3_BATCH1_CONTRACT=PASS
+L3_BATCH2_CONTRACT=PASS
+L3_BATCH3_CONTRACT=PASS
+L3_BATCH4_CONTRACT=PASS
+L3_BATCH5_CONTRACT=PASS
+L3_BATCH6_CONTRACT=PASS
+L3_BATCH7_CONTRACT=PASS
+CI_PERMISSION=contents:read
+NEW_WORK_BRANCH=NO
+```
+
+Result: the completed branch now contains the validated Batch1–7 L3 repairs plus the newer completed L2/transaction fixes, with the validation workflow returned to read-only mode.
