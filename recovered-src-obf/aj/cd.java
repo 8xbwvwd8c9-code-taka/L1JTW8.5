@@ -65,8 +65,12 @@ extends cv {
                 int npcobjid = this.b();
                 int itemobjid = this.b();
                 int itemobjid2 = this.b();
-                t npc = (t)aq.a().a(npcobjid);
-                if (npc != null && (npc.fu().b() != pc.fp() || npc.fu().c(pc.fu()) > 11)) {
+                aq.aa npcObject = aq.a().a(npcobjid);
+                if (!(npcObject instanceof t)) {
+                    return;
+                }
+                t npc = (t)npcObject;
+                if (npc.fu().b() != pc.fp() || npc.fu().c(pc.fu()) > 11) {
                     return;
                 }
                 q resolvent = pc.j().e(itemobjid);
@@ -102,6 +106,10 @@ extends cv {
                 int type = this.c();
                 if (type == 0) {
                     bd.b shopData = bd.a().b().get(itemid);
+                    if (shopData == null) {
+                        pc.a(new ds(156));
+                        return;
+                    }
                     q item = shopData.a;
                     bh.a account = client.e();
                     if (price != shopData.b * count) {
