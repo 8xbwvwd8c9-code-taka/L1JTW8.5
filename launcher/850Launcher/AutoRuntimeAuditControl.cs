@@ -16,6 +16,8 @@ namespace L1JTW850Launcher
         private readonly AutoHpMpBroadProbe _broadProbe;
         private readonly AutoHpMpSemanticRefiner _semanticRefiner;
         private readonly AutoParallelDiscovery _parallelDiscovery;
+        private readonly AutoNetworkSurfaceDiscovery _networkSurface;
+        private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
         private RuntimeDynamicProbeControl _dynamicProbe;
         private int _probePid;
 
@@ -26,6 +28,8 @@ namespace L1JTW850Launcher
             _broadProbe = new AutoHpMpBroadProbe(appDir);
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
             _parallelDiscovery = new AutoParallelDiscovery(appDir);
+            _networkSurface = new AutoNetworkSurfaceDiscovery(appDir);
+            _inventoryHistory = new AutoInventoryHistoryDiscovery(appDir);
             Dock = DockStyle.Fill;
 
             _status = new Label
@@ -65,6 +69,8 @@ namespace L1JTW850Launcher
                 _broadProbe.EnsureRunning(runtime);
                 _semanticRefiner.EnsureRunning(runtime);
                 _parallelDiscovery.EnsureRunning(runtime);
+                _networkSurface.EnsureRunning(runtime);
+                _inventoryHistory.EnsureRunning(runtime);
 
                 if (runtime.ProcessId != _probePid)
                 {
@@ -88,8 +94,10 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
             sb.AppendLine("AUTO_INVENTORY=" + _parallelDiscovery.InventoryStatus);
+            sb.AppendLine("AUTO_INVENTORY_HISTORY=" + _inventoryHistory.Status);
             sb.AppendLine("AUTO_BUFF_RECV=" + _parallelDiscovery.BuffStatus);
             sb.AppendLine("AUTO_SEND=" + _parallelDiscovery.SendStatus);
+            sb.AppendLine("AUTO_NETWORK_SURFACE=" + _networkSurface.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -100,10 +108,13 @@ namespace L1JTW850Launcher
             AppendFile(sb, "runtime_dynamic_broad_probe_evidence.txt");
             AppendFile(sb, "runtime_hpmp_semantic_refine_evidence.txt");
             AppendFile(sb, "auto_inventory_discovery_evidence.txt");
+            AppendFile(sb, "auto_inventory_history_evidence.txt");
             AppendFile(sb, "auto_buff_receive_evidence.txt");
             AppendFile(sb, "auto_send_discovery_evidence.txt");
+            AppendFile(sb, "auto_network_surface_evidence.txt");
             AppendFile(sb, "runtime_dynamic_probe_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
+            AppendFile(sb, "inventory_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
             AppendFile(sb, "runtime_semantic_validation_evidence.txt");
             AppendFile(sb, "inventory_validation_evidence.txt");
@@ -116,7 +127,7 @@ namespace L1JTW850Launcher
             var text = sb.ToString();
             _report.Text = text;
             _status.Text = runtime.Connected
-                ? "全自動稽核執行中；HP/MP、背包、增益接收路徑與 Send 路徑會並行採集。"
+                ? "全自動稽核執行中；HP/MP、背包、增益、Send、network surface 會並行採集。"
                 : "全自動稽核：等待 850 client。";
 
             try
