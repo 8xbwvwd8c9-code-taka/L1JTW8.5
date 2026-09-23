@@ -15,6 +15,7 @@ namespace L1JTW850Launcher
         private readonly Label _status;
         private readonly AutoHpMpBroadProbe _broadProbe;
         private readonly AutoHpMpSemanticRefiner _semanticRefiner;
+        private readonly AutoHpMpCrossCheckProbe _crossCheck;
         private readonly AutoParallelDiscovery _parallelDiscovery;
         private readonly AutoNetworkSurfaceDiscovery _networkSurface;
         private readonly AutoInventoryHistoryDiscovery _inventoryHistory;
@@ -27,6 +28,7 @@ namespace L1JTW850Launcher
             _bridge = new ProcessRuntimeBridge(appDir);
             _broadProbe = new AutoHpMpBroadProbe(appDir);
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
+            _crossCheck = new AutoHpMpCrossCheckProbe(appDir);
             _parallelDiscovery = new AutoParallelDiscovery(appDir);
             _networkSurface = new AutoNetworkSurfaceDiscovery(appDir);
             _inventoryHistory = new AutoInventoryHistoryDiscovery(appDir);
@@ -68,6 +70,7 @@ namespace L1JTW850Launcher
             {
                 _broadProbe.EnsureRunning(runtime);
                 _semanticRefiner.EnsureRunning(runtime);
+                _crossCheck.EnsureRunning(runtime);
                 _parallelDiscovery.EnsureRunning(runtime);
                 _networkSurface.EnsureRunning(runtime);
                 _inventoryHistory.EnsureRunning(runtime);
@@ -93,6 +96,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_DYNAMIC_PROBE=" + (_probePid == runtime.ProcessId && _probePid != 0 ? "STARTED" : "WAITING"));
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
+            sb.AppendLine("AUTO_HPMP_CROSSCHECK=" + _crossCheck.Status);
             sb.AppendLine("AUTO_INVENTORY=" + _parallelDiscovery.InventoryStatus);
             sb.AppendLine("AUTO_INVENTORY_HISTORY=" + _inventoryHistory.Status);
             sb.AppendLine("AUTO_BUFF_RECV=" + _parallelDiscovery.BuffStatus);
@@ -107,6 +111,8 @@ namespace L1JTW850Launcher
             sb.AppendLine();
             AppendFile(sb, "runtime_dynamic_broad_probe_evidence.txt");
             AppendFile(sb, "runtime_hpmp_semantic_refine_evidence.txt");
+            AppendFile(sb, "runtime_hpmp_crosscheck_evidence.txt");
+            AppendFile(sb, "runtime_hpmp_crosscheck_history.txt");
             AppendFile(sb, "auto_inventory_discovery_evidence.txt");
             AppendFile(sb, "auto_inventory_history_evidence.txt");
             AppendFile(sb, "auto_buff_receive_evidence.txt");
