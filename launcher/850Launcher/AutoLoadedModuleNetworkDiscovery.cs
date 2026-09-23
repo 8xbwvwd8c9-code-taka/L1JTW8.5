@@ -15,7 +15,17 @@ namespace L1JTW850Launcher
             public string Path = "";
             public long Base;
             public int Size;
+            public PeImageInfo Image;
             public readonly List<PeImportEntry> Imports = new List<PeImportEntry>();
+        }
+
+        private sealed class ModuleXref
+        {
+            public ModuleHit Owner;
+            public PeImportEntry Import;
+            public uint InstructionRva;
+            public long InstructionAddress;
+            public string Kind = "";
         }
 
         private readonly string _appDir;
@@ -81,6 +91,7 @@ namespace L1JTW850Launcher
             var loaded = new List<ModuleHit>();
             var owners = new List<ModuleHit>();
             var failures = new List<string>();
+            var xrefs = new List<ModuleXref>();
             var winsockLoaded = false;
 
             using (var process = Process.GetProcessById(runtime.ProcessId))
@@ -111,8 +122,8 @@ namespace L1JTW850Launcher
 
                     try
                     {
-                        var image = PeImportParser.Parse(hit.Path);
-                        foreach (var entry in image.Imports)
+                        hit.Image = PeImportParser.Parse(hit.Path);
+                        foreach (var entry in hit.Image.Imports)
                         {
                             if (IsNetworkImport(entry))
                                 hit.Imports.Add(entry);
@@ -131,10 +142,28 @@ namespace L1JTW850Launcher
                 }
             }
 
+            if (owners.Count > 0)
+            {
+                using (var probe = new RuntimeMemoryProbe())
+                {
+                    string error;
+                    if (probe.Attach(runtime.ProcessId, out error))
+                    {
+                        foreach (var owner in owners)
+                            ScanOwnerXrefs(probe, owner, xrefs);
+                    }
+                    else
+                    {
+                        failures.Add("XREF_ATTACH_ERROR=" + Sanitize(error));
+                    }
+                }
+            }
+
             var sb = Header(runtime, "AUTO_LOADED_MODULE_NETWORK_DISCOVERY");
             sb.AppendLine("LOADED_MODULES=" + loaded.Count);
             sb.AppendLine("WINSOCK_MODULE_LOADED=" + (winsockLoaded ? 1 : 0));
             sb.AppendLine("NETWORK_IMPORT_OWNER_MODULES=" + owners.Count);
+            sb.AppendLine("NETWORK_MODULE_IAT_XREFS=" + xrefs.Count);
             sb.AppendLine("PARSE_SKIPS=" + failures.Count);
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
@@ -170,6 +199,20 @@ namespace L1JTW850Launcher
             }
             sb.AppendLine();
 
+            sb.AppendLine("[NETWORK_MODULE_IAT_XREFS]");
+            foreach (var xref in xrefs)
+            {
+                sb.AppendLine(
+                    "OWNER=" + Sanitize(xref.Owner.ModuleName) +
+                    " DLL=" + Sanitize(xref.Import.Dll) +
+                    " NAME=" + Sanitize(xref.Import.Name) +
+                    " IAT_RVA=0x" + xref.Import.IatRva.ToString("X8") +
+                    " CALL_RVA=0x" + xref.InstructionRva.ToString("X8") +
+                    " CALL_VA=0x" + xref.InstructionAddress.ToString("X8") +
+                    " KIND=" + xref.Kind);
+            }
+            sb.AppendLine();
+
             if (failures.Count > 0)
             {
                 sb.AppendLine("[PARSE_SKIPS]");
@@ -179,7 +222,9 @@ namespace L1JTW850Launcher
             }
 
             string status;
-            if (owners.Count > 0)
+            if (xrefs.Count > 0)
+                status = "PASS_MODULE_NETWORK_XREFS owners=" + owners.Count + " xrefs=" + xrefs.Count;
+            else if (owners.Count > 0)
                 status = "PASS_MODULE_NETWORK_OWNERS count=" + owners.Count;
             else if (winsockLoaded)
                 status = "WINSOCK_LOADED_OWNER_UNKNOWN";
@@ -194,6 +239,60 @@ namespace L1JTW850Launcher
                 new UTF8Encoding(false));
 
             lock (_sync) _status = status;
+        }
+
+        private static void ScanOwnerXrefs(
+            RuntimeMemoryProbe probe,
+            ModuleHit owner,
+            List<ModuleXref> output)
+        {
+            if (owner == null || owner.Image == null || owner.Imports.Count == 0)
+                return;
+
+            var iatMap = new Dictionary<uint, PeImportEntry>();
+            foreach (var entry in owner.Imports)
+            {
+                var absolute = owner.Base + entry.IatRva;
+                if (absolute <= 0 || absolute > uint.MaxValue) continue;
+                var key = (uint)absolute;
+                if (!iatMap.ContainsKey(key)) iatMap.Add(key, entry);
+            }
+
+            foreach (var section in owner.Image.Sections)
+            {
+                if (!section.IsExecutable) continue;
+                var size = (int)Math.Min(
+                    (long)Math.Max(section.VirtualSize, section.RawSize),
+                    16L * 1024L * 1024L);
+                if (size <= 0) continue;
+
+                byte[] bytes;
+                string error;
+                var sectionAddress = new IntPtr(owner.Base + section.VirtualAddress);
+                if (!probe.TryReadBytes(sectionAddress, size, out bytes, out error) || bytes == null)
+                    continue;
+
+                for (var i = 0; i <= bytes.Length - 6; i++)
+                {
+                    if (bytes[i] != 0xFF) continue;
+                    if (bytes[i + 1] != 0x15 && bytes[i + 1] != 0x25) continue;
+
+                    var operand = BitConverter.ToUInt32(bytes, i + 2);
+                    PeImportEntry entry;
+                    if (!iatMap.TryGetValue(operand, out entry)) continue;
+
+                    output.Add(new ModuleXref
+                    {
+                        Owner = owner,
+                        Import = entry,
+                        InstructionRva = section.VirtualAddress + (uint)i,
+                        InstructionAddress = sectionAddress.ToInt64() + i,
+                        Kind = bytes[i + 1] == 0x15 ? "CALL [IAT]" : "JMP [IAT]"
+                    });
+
+                    if (output.Count >= 2000) return;
+                }
+            }
         }
 
         private static bool IsNetworkImport(PeImportEntry entry)
