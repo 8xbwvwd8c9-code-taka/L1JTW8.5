@@ -19,11 +19,20 @@ namespace L1JTW850Launcher
             var inventoryHistory =
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_DYNAMIC_CANDIDATES") ||
                 Contains(appDir, "auto_inventory_history_evidence.txt", "STATUS=PASS_CANDIDATES");
+            var inventoryMapPresent = File.Exists(Path.Combine(appDir, "inventory-map.ini"));
             var buffMarkers = ReadIntValue(appDir, "auto_buff_receive_evidence.txt", "BUFF_MARKERS=");
+
+            string inventoryState;
+            if (inventoryMapPresent)
+                inventoryState = "MAP_PRESENT_NOT_YET_SEMANTICALLY_PROVEN";
+            else if (inventorySeed && inventoryHistory)
+                inventoryState = "DYNAMIC_CANDIDATES_ONLY";
+            else
+                inventoryState = "DISCOVERY_RUNNING";
 
             sb.AppendLine("[FOUNDATION]");
             sb.AppendLine("HPMP_TRACKING=" + (hpRaw ? "READY_RAW_MAP" : "DISCOVERY_RUNNING"));
-            sb.AppendLine("INVENTORY_TRACKING=" + (inventorySeed && inventoryHistory ? "CANDIDATE_CHAIN_READY" : "DISCOVERY_RUNNING"));
+            sb.AppendLine("INVENTORY_TRACKING=" + inventoryState);
             sb.AppendLine("BUFF_STATE_TRACKING=" + (buffMarkers > 0 ? "RECV_MARKER_CANDIDATE" : "DISCOVERY_RUNNING"));
             sb.AppendLine("PLAYER_IDENTITY=WAIT_WP3");
             sb.AppendLine("ITEM_USE_BRIDGE=UNMAPPED");
@@ -32,9 +41,9 @@ namespace L1JTW850Launcher
 
             sb.AppendLine("[FEATURES]");
             sb.AppendLine("AUTO_CAST=WAIT_BUFF_STATE+SKILL_USE+PLAYER_IDENTITY");
-            sb.AppendLine("AUTO_DELETE=WAIT_INVENTORY+DELETE_SEND_BRIDGE");
-            sb.AppendLine("AUTO_DISSOLVE=WAIT_INVENTORY+ITEM_USE_BRIDGE+RESOLVENT_POLICY");
-            sb.AppendLine("MAGIC_DOLL_MAINTAIN=WAIT_DOLL_ACTIVE_STATE+INVENTORY+ITEM_USE_BRIDGE");
+            sb.AppendLine("AUTO_DELETE=WAIT_FORMAL_INVENTORY+DELETE_SEND_BRIDGE");
+            sb.AppendLine("AUTO_DISSOLVE=WAIT_FORMAL_INVENTORY+ITEM_USE_BRIDGE+RESOLVENT_POLICY");
+            sb.AppendLine("MAGIC_DOLL_MAINTAIN=WAIT_DOLL_ACTIVE_STATE+FORMAL_INVENTORY+ITEM_USE_BRIDGE");
             sb.AppendLine("PET_HP_MAINTAIN=WAIT_PET_ENTITY_STATE+PET_HP_PERCENT+ACTION_BRIDGE");
             sb.AppendLine("SUMMON_MAINTAIN=WAIT_SUMMON_ENTITY_STATE+SKILL_USE_BRIDGE");
             sb.AppendLine("ELF_SPIRIT_MAINTAIN=WAIT_SUMMON_ENTITY_STATE+SKILL_USE_BRIDGE");
@@ -50,7 +59,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RESOLVENT_TABLE=SERVER_SIDE_PRESENT");
             sb.AppendLine();
 
-            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; DO_NOT_ENABLE_DESTRUCTIVE_OR_CAST_ACTIONS_UNTIL_BRIDGES_ARE_PROVEN");
+            sb.AppendLine("ACTION_POLICY=DISCOVER_AND_VALIDATE_IN_PARALLEL; DYNAMIC_CANDIDATES_ARE_NOT_FORMAL_INVENTORY; DO_NOT_ENABLE_DESTRUCTIVE_OR_CAST_ACTIONS_UNTIL_BRIDGES_ARE_PROVEN");
 
             var text = sb.ToString();
             try
