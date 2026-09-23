@@ -21,8 +21,20 @@ jobs:
 
       - name: Replace stale L1 checkpoint only
         shell: bash
+        env:
+          L1_STATUS_B64: "IyMjIOacgOaWsCBMMSDkv67lvqnpgLLluqbvvIgyMDI2LTA5LTIzIOWujOaIkO+8iQoKYGBgdGV4dApXT1JLX0JSQU5DSD13b3JrL2wxand0dzg1LWNvcmUtZml4ZXMKQ09ORklSTUVEX0wxPTQ1ClJFUEFJUl9MQU5FX0NPVkVSQUdFPTQ1LzQ1ClZBTElEQVRFRF9ET05FX1BBU1M9NDUvNDUKUEFUQ0hFRF9QRU5ESU5HX1ZBTElEQVRJT049MApCTE9DS0VEPTAKVU5QQVRDSEVEX0wxPTAKU1RBVEU9TDFfUkVQQUlSX0NPTVBMRVRFCmBgYAoKTD ZhdXRob3JpdHkg5LulIGByZWNvdmVyeS9EVUFMX0xBTkVfQ09SRV9XT1JLX0xFREdFUi5tZGAg54K65rqW44CCYEJVRy04NTAtMDAxLi4yOTRgIOeahCBCVUctb25seSBhdWRpdCDlt7LlrpzmloTvvIzlhbbkuK0gNDUg6aKhIGBDT05GSVJNRUQgTDFgIOePvuWcqOWFqOmDqOato+aciOWwjeaHieBgUkVQQUlSX0xBTkUgRE9ORS9QQVNTYO+8m+iIiiBjaGVja3BvaW50IOeahCBgQlVHLTg1MC0xMDUvMTA2YCDmnKrkv67jgIE0MCDpoIsgcGVuZGluZ+OAgGBidWctODUwLTIwOGAgcm91dGUgYmxvY2tlciDlnYflt7LlpLHmlejjgIIKCuacrOiqquaWueWujOaIkOeahOmXnOmNteaUtu斂：
+
+- `BUG-850-012 / 040 / 045`：城堡提款要求 self objid、正數 count、crown + current clan leader + matching castle ownership；castle `public_money` CAS 與玩家 Adena `character_items` 變更位於同一 InnoDB transaction，rollback-safe、commit 後才 publish。CI `35761576746` PASS。
+- `BUG-850-014 / 015 / 020 / 044`：商店/交易價格與數量採 long 邊界驗證、server-side authority 與 2,000,000,000 上限；專用 CI 全 PASS。
+- `BUG-850-019 / 048 / 075 / 093`：achievement one-shot、LuckyDraw durable redemption、mail ownership、character reset stat budget 均完成專用 source contract/runtime/compile gate。
+- `BUG-850-208`：`C_Ship` client destination map/x/y 只為協定相容而解析，不再作 authority；`L1Dungeon` 從 `dungeon` DB live rows 依 ship pair `5<->6`、`83<->84`、`446<->447` 衍生 server route，missing/conflicting route fail closed，且票券 consume 成功後才傳送。CI `35764583423` PASS。
+
+目前 L1 repair lane 無 `PATCHED_PENDING`、無 `BLOCKED`、無未修 L1。後續不要重新掃這 45 顆；若繼續修復，應依 ledger ownership 進入其他 tier/lane，避免與既有 L2/L3 並行工作重複。
+
+"
         run: |
           python - <<'PY'
+          import base64, os
           from pathlib import Path
 
           p = Path("README.md")
@@ -35,31 +47,7 @@ jobs:
               raise SystemExit("L1 homepage end anchor missing")
           a = s.index(start)
           b = s.index(end, a)
-          replacement = '''### 最新 L1 修復進度（2026-09-23 完成）
-
-```text
-WORK_BRANCH=work/l1jtw85-core-fixes
-CONFIRMED_L1=45
-REPAIR_LANE_COVERAGE=45/45
-VALIDATED_DONE_PASS=45/45
-PATCHED_PENDING_VALIDATION=0
-BLOCKED=0
-UNPATCHED_L1=0
-STATE=L1_REPAIR_COMPLETE
-```
-
-L1 authority 以 `recovery/DUAL_LANE_CORE_WORK_LEDGER.md` 為準。`BUG-850-001..294` 的 BUG-only audit 已完成，其中 45 顆 `CONFIRMED L1` 現在全部都有對應 `REPAIR_LANE DONE/PASS`；舊 checkpoint 的 `BUG-850-105/106` 未修、40 顆 pending、`BUG-850-208` route blocker 均已失效。
-
-本輪最後完成的關鍵收斂：
-
-- `BUG-850-012 / 040 / 045`：城堡提款要求 self objid、正數 count、crown + current clan leader + matching castle ownership；castle `public_money` CAS 與玩家 Adena `character_items` 變更位於同一 InnoDB transaction，rollback-safe、commit 後才 publish。CI `35761576746` PASS。
-- `BUG-850-014 / 015 / 020 / 044`：商店/交易價格與數量採 long 邊界驗證、server-side authority 與 2,000,000,000 上限；專用 CI 全 PASS。
-- `BUG-850-019 / 048 / 075 / 093`：achievement one-shot、LuckyDraw durable redemption、mail ownership、character reset stat budget 均完成專用 source contract/runtime/compile gate。
-- `BUG-850-208`：`C_Ship` client destination map/x/y 只為協定相容而解析，不再作 authority；`L1Dungeon` 從 `dungeon` DB live rows 依 ship pair `5<->6`、`83<->84`、`446<->447` 衍生 server route，missing/conflicting route fail closed，且票券 consume 成功後才傳送。CI `35764583423` PASS。
-
-目前 L1 repair lane 無 `PATCHED_PENDING`、無 `BLOCKED`、無未修 L1。後續不要重新掃這 45 顆；若繼續修復，應依 ledger ownership 進入其他 tier/lane，避免與既有 L2/L3 並行工作重複。
-
-'''
+          replacement = base64.b64decode(os.environ["L1_STATUS_B64"]).decode("utf-8")
           p.write_text(s[:a] + replacement + s[b:], encoding="utf-8")
           PY
 
