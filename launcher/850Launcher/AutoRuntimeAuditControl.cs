@@ -14,6 +14,7 @@ namespace L1JTW850Launcher
         private readonly TextBox _report;
         private readonly Label _status;
         private readonly AutoHpMpBroadProbe _broadProbe;
+        private readonly AutoHpMpSemanticRefiner _semanticRefiner;
         private RuntimeDynamicProbeControl _dynamicProbe;
         private int _probePid;
 
@@ -22,6 +23,7 @@ namespace L1JTW850Launcher
             _appDir = appDir;
             _bridge = new ProcessRuntimeBridge(appDir);
             _broadProbe = new AutoHpMpBroadProbe(appDir);
+            _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
             Dock = DockStyle.Fill;
 
             _status = new Label
@@ -59,6 +61,7 @@ namespace L1JTW850Launcher
             if (runtime.Connected && runtime.ClientHashAuthoritative)
             {
                 _broadProbe.EnsureRunning(runtime);
+                _semanticRefiner.EnsureRunning(runtime);
 
                 if (runtime.ProcessId != _probePid)
                 {
@@ -80,6 +83,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("RUNTIME_STATUS=" + (runtime.Status ?? ""));
             sb.AppendLine("AUTO_DYNAMIC_PROBE=" + (_probePid == runtime.ProcessId && _probePid != 0 ? "STARTED" : "WAITING"));
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
+            sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -88,6 +92,7 @@ namespace L1JTW850Launcher
             }
             sb.AppendLine();
             AppendFile(sb, "runtime_dynamic_broad_probe_evidence.txt");
+            AppendFile(sb, "runtime_hpmp_semantic_refine_evidence.txt");
             AppendFile(sb, "runtime_dynamic_probe_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
@@ -102,7 +107,7 @@ namespace L1JTW850Launcher
             var text = sb.ToString();
             _report.Text = text;
             _status.Text = runtime.Connected
-                ? "全自動稽核執行中；背景會自動重試採樣與更新報告。"
+                ? "全自動稽核執行中；背景會自動縮小 HP/MP 候選並更新報告。"
                 : "全自動稽核：等待 850 client。";
 
             try
