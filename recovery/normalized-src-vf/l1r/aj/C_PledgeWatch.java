@@ -18,6 +18,11 @@ public class C_PledgeWatch extends ClientBasePacket {
             var3.a(new S_ServerMessage(518));
          } else {
             L1Clan var4 = ClanTable.a().a(var3.aF());
+            if (var4 == null || !var3.x() || var3.fr() != var4.k()) {
+               var3.a(new S_ServerMessage(518));
+               return;
+            }
+
             int var5 = this.c();
             if (var5 == 0) {
                String var6 = this.g();
