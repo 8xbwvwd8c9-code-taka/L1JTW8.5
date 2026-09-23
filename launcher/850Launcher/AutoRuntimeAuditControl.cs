@@ -15,6 +15,7 @@ namespace L1JTW850Launcher
         private readonly Label _status;
         private readonly AutoHpMpBroadProbe _broadProbe;
         private readonly AutoHpMpSemanticRefiner _semanticRefiner;
+        private readonly AutoParallelDiscovery _parallelDiscovery;
         private RuntimeDynamicProbeControl _dynamicProbe;
         private int _probePid;
 
@@ -24,6 +25,7 @@ namespace L1JTW850Launcher
             _bridge = new ProcessRuntimeBridge(appDir);
             _broadProbe = new AutoHpMpBroadProbe(appDir);
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
+            _parallelDiscovery = new AutoParallelDiscovery(appDir);
             Dock = DockStyle.Fill;
 
             _status = new Label
@@ -62,6 +64,7 @@ namespace L1JTW850Launcher
             {
                 _broadProbe.EnsureRunning(runtime);
                 _semanticRefiner.EnsureRunning(runtime);
+                _parallelDiscovery.EnsureRunning(runtime);
 
                 if (runtime.ProcessId != _probePid)
                 {
@@ -73,7 +76,7 @@ namespace L1JTW850Launcher
             var dashboard = RuntimeValidationDashboard.Evaluate(_appDir);
             var sb = new StringBuilder();
             sb.AppendLine("TIME=" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"));
-            sb.AppendLine("MODE=FULL_AUTO");
+            sb.AppendLine("MODE=FULL_AUTO_PARALLEL");
             sb.AppendLine("CLIENT_CONNECTED=" + (runtime.Connected ? 1 : 0));
             sb.AppendLine("PID=" + runtime.ProcessId);
             sb.AppendLine("CLIENT_SHA256=" + (runtime.ClientSha256 ?? ""));
@@ -84,6 +87,9 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_DYNAMIC_PROBE=" + (_probePid == runtime.ProcessId && _probePid != 0 ? "STARTED" : "WAITING"));
             sb.AppendLine("AUTO_BROAD_HPMP=" + _broadProbe.Status);
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
+            sb.AppendLine("AUTO_INVENTORY=" + _parallelDiscovery.InventoryStatus);
+            sb.AppendLine("AUTO_BUFF_RECV=" + _parallelDiscovery.BuffStatus);
+            sb.AppendLine("AUTO_SEND=" + _parallelDiscovery.SendStatus);
             sb.AppendLine();
             sb.AppendLine("[GATES]");
             foreach (var row in dashboard.Rows)
@@ -93,6 +99,9 @@ namespace L1JTW850Launcher
             sb.AppendLine();
             AppendFile(sb, "runtime_dynamic_broad_probe_evidence.txt");
             AppendFile(sb, "runtime_hpmp_semantic_refine_evidence.txt");
+            AppendFile(sb, "auto_inventory_discovery_evidence.txt");
+            AppendFile(sb, "auto_buff_receive_evidence.txt");
+            AppendFile(sb, "auto_send_discovery_evidence.txt");
             AppendFile(sb, "runtime_dynamic_probe_evidence.txt");
             AppendFile(sb, "runtime_probe_evidence.txt");
             AppendFile(sb, "pointer_probe_evidence.txt");
@@ -107,7 +116,7 @@ namespace L1JTW850Launcher
             var text = sb.ToString();
             _report.Text = text;
             _status.Text = runtime.Connected
-                ? "全自動稽核執行中；背景會自動縮小 HP/MP 候選並更新報告。"
+                ? "全自動稽核執行中；HP/MP、背包、增益接收路徑與 Send 路徑會並行採集。"
                 : "全自動稽核：等待 850 client。";
 
             try
