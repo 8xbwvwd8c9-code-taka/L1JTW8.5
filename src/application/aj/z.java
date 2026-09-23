@@ -22,7 +22,7 @@ extends cv {
     private static final Logger b = Logger.getLogger(z.class.getName());
     public static final int[] a;
     private static final int[] c;
-    private static final int d = 32681;
+    private static final int d = 32866;
     private static final int e = 32866;
     private static final short f = 69;
 
@@ -94,7 +94,7 @@ extends cv {
     private static void a(bj.d client, ap.u pc) throws IOException, Exception {
         pc.cF(ai.d.a().d());
         pc.n();
-        pc.cG(32681);
+        pc.cG(32866);
         pc.cH(32866);
         pc.cE(69);
         int initHp = bi.c.a(pc);
