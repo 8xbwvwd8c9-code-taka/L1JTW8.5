@@ -90,6 +90,7 @@
     <Compile Include="RuntimeDynamicProbeControl.cs" />
     <Compile Include="AutoRuntimeAuditControl.cs" />
     <Compile Include="AutoHpMpBroadProbe.cs" />
+    <Compile Include="AutoHpMpSemanticRefiner.cs" />
     <Compile Include="RuntimeValidationDashboard.cs" />
     <Compile Include="RuntimeValidationDashboardControl.cs" />
     <Compile Include="RuntimeSemanticValidator.cs" />
