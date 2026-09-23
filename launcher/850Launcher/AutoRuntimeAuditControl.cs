@@ -17,6 +17,7 @@ namespace L1JTW850Launcher
         private readonly AutoHpMpSemanticRefiner _semanticRefiner;
         private readonly AutoHpMpCrossCheckProbe _crossCheck;
         private readonly AutoHpMpPointerDiscovery _pointerDiscovery;
+        private readonly AutoHpMpEvidenceGuard _hpmpGuard;
         private readonly AutoParallelDiscovery _parallelDiscovery;
         private readonly AutoNetworkSurfaceDiscovery _networkSurface;
         private readonly AutoLoadedModuleNetworkDiscovery _loadedModuleNetwork;
@@ -39,6 +40,7 @@ namespace L1JTW850Launcher
             _semanticRefiner = new AutoHpMpSemanticRefiner(appDir);
             _crossCheck = new AutoHpMpCrossCheckProbe(appDir);
             _pointerDiscovery = new AutoHpMpPointerDiscovery(appDir);
+            _hpmpGuard = new AutoHpMpEvidenceGuard(appDir);
             _parallelDiscovery = new AutoParallelDiscovery(appDir);
             _networkSurface = new AutoNetworkSurfaceDiscovery(appDir);
             _loadedModuleNetwork = new AutoLoadedModuleNetworkDiscovery(appDir);
@@ -104,6 +106,7 @@ namespace L1JTW850Launcher
             if (probeAllowed)
             {
                 RunHpMpPipeline(runtime);
+                _hpmpGuard.EnsureRunning(runtime);
 
                 // Independent read-only lanes may run in parallel.
                 _parallelDiscovery.EnsureRunning(runtime);
@@ -134,6 +137,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("AUTO_SEMANTIC_HPMP=" + _semanticRefiner.Status);
             sb.AppendLine("AUTO_HPMP_CROSSCHECK=" + _crossCheck.Status);
             sb.AppendLine("AUTO_HPMP_POINTER=" + _pointerDiscovery.Status);
+            sb.AppendLine("AUTO_HPMP_GUARD=" + _hpmpGuard.Status);
             sb.AppendLine("AUTO_INVENTORY=" + _parallelDiscovery.InventoryStatus);
             sb.AppendLine("AUTO_INVENTORY_HISTORY=" + _inventoryHistory.Status);
             sb.AppendLine("AUTO_BUFF_RECV=" + _parallelDiscovery.BuffStatus);
@@ -155,6 +159,7 @@ namespace L1JTW850Launcher
             AppendFile(sb, "runtime_hpmp_crosscheck_history.txt");
             AppendFile(sb, "runtime_hpmp_pointer_evidence.txt");
             AppendFile(sb, "runtime_hpmp_pointer_history.txt");
+            AppendFile(sb, "runtime_hpmp_guard_evidence.txt");
             AppendFile(sb, "auto_inventory_discovery_evidence.txt");
             AppendFile(sb, "auto_inventory_history_evidence.txt");
             AppendFile(sb, "auto_buff_receive_evidence.txt");
