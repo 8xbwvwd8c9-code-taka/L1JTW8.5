@@ -289,7 +289,7 @@ L1 authority 以 `recovery/DUAL_LANE_CORE_WORK_LEDGER.md` 為準。`BUG-850-001.
 - `BUG-850-019 / 048 / 075 / 093`：achievement one-shot、LuckyDraw durable redemption、mail ownership、character reset stat budget 均完成專用 source contract/runtime/compile gate。
 - `BUG-850-208`：`C_Ship` client destination map/x/y 只為協定相容而解析，不再作 authority；`L1Dungeon` 從 `dungeon` DB live rows 依 ship pair `5<->6`、`83<->84`、`446<->447` 衍生 server route，missing/conflicting route fail closed，且票券 consume 成功後才傳送。CI `35764583423` PASS。
 
-目前 L1 repair lane 無 `PATCHED_PENDING`、無 `BLOCKED`、無未修 L1。後續不要重新掃這 45 顆；若繼續修復，應依 ledger ownership 進入兞他 tier/lane，避免與既有 L2/L3 並行工作重複。
+目前 L1 repair lane 無 `PATCHED_PENDING`、無 `BLOCKED`、無未修 L1。後續不要重新掃這 45 顆；若繼續修復，應依 ledger ownership 進入其他 tier/lane，避免與既有 L2/L3 並行工作重複。
 
 ### 支線整理規則
 
