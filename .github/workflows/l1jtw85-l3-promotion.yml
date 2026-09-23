@@ -6,7 +6,7 @@ on:
       - completed/l1jtw85-core-fixes
 
 permissions:
-  contents: write
+  contents: read
 
 jobs:
   l3-completed-contracts:
@@ -17,30 +17,6 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Merge protected L3 amount NPC type guard
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path("recovery/normalized-src-vf/l1r/aj/C_Amount.java")
-          text = path.read_text(encoding="utf-8")
-          old = "L1NpcInstance var8 = (L1NpcInstance)L1World.a().a(var4);\n         if (var8 != null) {"
-          new = "l1r.aq.L1Object var8Object = L1World.a().a(var4);\n         if (var8Object instanceof L1NpcInstance) {\n            L1NpcInstance var8 = (L1NpcInstance)var8Object;"
-          hits = text.count(old)
-          if hits != 1:
-              raise SystemExit(f"PATCH_GATE_FAIL C_Amount: expected 1 hit, got {hits}")
-          path.write_text(text.replace(old, new, 1), encoding="utf-8")
-          PY
-          git diff --check
-          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/aj/C_Amount.java; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add recovery/normalized-src-vf/l1r/aj/C_Amount.java
-            git commit -m "fix(l3): guard normalized amount NPC cast"
-            git push origin HEAD:completed/l1jtw85-core-fixes
-          fi
       - name: Run Batch1-7 source contracts
         shell: bash
         run: |
