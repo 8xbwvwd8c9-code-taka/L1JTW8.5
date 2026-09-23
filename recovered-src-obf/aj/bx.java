@@ -130,6 +130,10 @@ extends cv {
                     while (i < size) {
                         order = this.b();
                         count = this.b();
+                        if (order < 0 || order >= sellList.size()) {
+                            targetPc.h(false);
+                            return;
+                        }
                         pssl = sellList.get(order);
                         itemObjectId = pssl.a();
                         sellPrice = pssl.c();
@@ -222,6 +226,10 @@ lbl128:
                     itemObjectId = this.b();
                     count = this.e();
                     order = this.c();
+                    if (order < 0 || order >= buyList.size()) {
+                        targetPc.h(false);
+                        return;
+                    }
                     item = pc.j().e(itemObjectId);
                     if (item == null) ** GOTO lbl204
                     psbl = (q)buyList.get(order);
