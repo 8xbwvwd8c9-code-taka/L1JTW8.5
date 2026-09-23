@@ -6,7 +6,7 @@ on:
       - completed/l1jtw85-core-fixes
 
 permissions:
-  contents: read
+  contents: write
 
 jobs:
   l3-completed-contracts:
@@ -17,6 +17,30 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
+      - name: Record validated L3 promotion in completed README
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          import base64
+
+          marker = "## 2026-09-23 — validated L3 promotion integrated into completed"
+          payload = "CgojIyAyMDI2LTA5LTIzIOKAlCB2YWxpZGF0ZWQgTDMgcHJvbW90aW9uIGludGVncmF0ZWQgaW50byBjb21wbGV0ZWQKCiMjIyBTY29wZQoKYGBgdGV4dApTT1VSQ0U9cHJvbW90ZS9sMy12YWxpZGF0ZWQtMjAyNjA5MjIKVEFSR0VUPWNvbXBsZXRlZC9sMWp0dzg1LWNvcmUtZml4ZXMKUFJPTU9USU9OX0JBU0U9NjgyNGViYzkKRklOQUxfQ09SRT03NGRjZWMxMGRmYmY3OWZkMGQzMDMzZDk3N2NjM2JjNDU2NTIyZjdkCkNJX1JFQURfT05MWV9IRUFEPTYzYmU2ODYxMDc4NTY1ODA3ZmJjZjA4MzY4ZDI4MDhjZDBmZWFhOWQKU1RBVFVTPVBBU1MKYGBgCgpUaGUgaGlzdG9yaWNhbCB2YWxpZGF0ZWQgTDMgcmVwYWlyIHNldCB3YXMgbWVyZ2VkIGludG8gdGhlIGNvbXBsZXRlZCBicmFuY2ggd2l0aG91dCByZXBsYWNpbmcgbGF0ZXIgTDIvdHJhbnNhY3Rpb24gaGFyZGVuaW5nLiBUaGUgcHJvbW90aW9uIGNvbnRhaW5lZCA4NSBjaGFuZ2VkIGZpbGVzOyAzNSBjb21wbGV0ZWQtc2lkZSBmaWxlcyBoYWQgbmV3ZXIgY2hhbmdlcyBhbmQgMTQgcGF0aHMgcmVxdWlyZWQgb3ZlcmxhcCByZWNvbmNpbGlhdGlvbi4KCiMjIyBSZWNvbmNpbGVkIG92ZXJsYXAgcmVwYWlycwoKLSBgQ19TaG9wV29ybGRgOiBwcmVzZXJ2ZWQgTDMgbnVsbC90eXBlIGd1YXJkcyB0b2dldGhlciB3aXRoIHRoZSBuZXdlciBsb2NhbC1kaXN0YW5jZSBhdXRob3JpdHkuCi0gYEwxUGNJbnZlbnRvcnlgOiByZXN0b3JlZCBCVUctODUwLTAxNyBlbXB0eS1saXN0IGd1YXJkLCBCVUctODUwLTI3OCBxdWVzdC1jb3VudCBjbGFtcCwgYW5kIEJVRy04NTAtMjcxIHBvbHltb3JwaCBpZGVudGl0eSBjaGVja3Mgd2hpbGUgcHJlc2VydmluZyBmYWlsLWNsb3NlZCBwZXJzaXN0ZW5jZS9wdWJsaWNhdGlvbiBoYXJkZW5pbmcuCi0gYENfUmVzdWx0YDogcmVzdG9yZWQgQlVHLTg1MC0wMzggcHJpdmF0ZS1zaG9wIHNlbGwvYnV5IGluZGV4IGJvdW5kcyBndWFyZHMuCi0gYENsYW5UYWJsZWA6IHJlc3RvcmVkIEJVRy04NTAtMDk2IHRyYW5zYWN0aW9uYWwgY2xhbiBkZWxldGlvbiBpbmNsdWRpbmcgYGNsYW5fd2FyZWhvdXNlX2hpc3RvcnlgIGNsZWFudXAgYW5kIHJvbGxiYWNrLgotIGBDX0Ftb3VudGA6IHJlc3RvcmVkIEJVRy04NTAtMTM4IE5QQyB0eXBlIGd1YXJkIHdpdGhvdXQgZGlzdHVyYmluZyBsYXRlciBhdWN0aW9uL2NvbnRleHQgdHJhbnNhY3Rpb24gZml4ZXMuCi0gYENfQm9hcmRXcml0ZWA6IGNvcmUgd2FzIGFscmVhZHkgc3Ryb25nZXIgdGhhbiB0aGUgb2xkIGxpdGVyYWwgY29udHJhY3Q7IEJhdGNoNSB2YWxpZGF0b3Igd2FzIGNvcnJlY3RlZCB0byBhY2NlcHQgZXF1aXZhbGVudCBzcGxpdCB0aXRsZS9jb250ZW50IGd1YXJkcy4KLSBgTDFQY0luc3RhbmNlYDogcmVzdG9yZWQgQlVHLTg1MC0yNzEgYWN0aXZlIHBvbHltb3JwaC1ydWxlIGlkZW50aXR5IHN0YXRlIGFuZCBCVUctODUwLTI4NSBnaG9zdCByZXR1cm4gc3RhdGUvQVBJIGluIG5vcm1hbGl6ZWQgYW5kIG9iZnVzY2F0ZWQgc291cmNlcy4KCiMjIyBWYWxpZGF0aW9uCgpgYGB0ZXh0CkZJTkFMX1dPUktGTE9XX1JVTj0zNTg3NzQ2OTkyMwpMM19CQVRDSDFfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDJfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDNfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDRfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDVfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDZfQ09OVFJBQ1Q9UEFTUwpMM19CQVRDSDdfQ09OVFJBQ1Q9UEFTUwpDSV9QRVJNSVNTSU9OPWNvbnRlbnRzOnJlYWQKTkVXX1dPUktfQlJBTkNIPU5PCmBgYAoKUmVzdWx0OiB0aGUgY29tcGxldGVkIGJyYW5jaCBub3cgY29udGFpbnMgdGhlIHZhbGlkYXRlZCBCYXRjaDHigJM3IEwzIHJlcGFpcnMgcGx1cyB0aGUgbmV3ZXIgY29tcGxldGVkIEwyL3RyYW5zYWN0aW9uIGZpeGVzLCB3aXRoIHRoZSB2YWxpZGF0aW9uIHdvcmtmbG93IHJldHVybmVkIHRvIHJlYWQtb25seSBtb2RlLgo="
+          path = Path("README.md")
+          text = path.read_text(encoding="utf-8")
+          if marker not in text:
+              text += base64.b64decode(payload).decode("utf-8")
+              path.write_text(text, encoding="utf-8")
+          PY
+          git diff --check
+          if ! git diff --quiet -- README.md; then
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            git commit -m "docs: record validated L3 promotion integration"
+            git push origin HEAD:completed/l1jtw85-core-fixes
+          fi
       - name: Run Batch1-7 source contracts
         shell: bash
         run: |
