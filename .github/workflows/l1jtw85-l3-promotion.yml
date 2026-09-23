@@ -17,46 +17,28 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.x"
-      - name: Merge protected L3 clan deletion transaction
+      - name: Merge protected L3 amount NPC type guard
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-          import base64
 
-          def replace_section(path, start_marker, end_marker, section_b64):
-              p = Path(path)
-              text = p.read_text(encoding="utf-8")
-              if text.count(start_marker) != 1 or text.count(end_marker) != 1:
-                  raise SystemExit(f"PATCH_GATE_FAIL {path}: section markers not unique")
-              start = text.index(start_marker)
-              end = text.index(end_marker, start)
-              if end <= start:
-                  raise SystemExit(f"PATCH_GATE_FAIL {path}: bad section order")
-              new_section = base64.b64decode(section_b64).decode("utf-8")
-              p.write_text(text[:start] + new_section + text[end:], encoding="utf-8")
-
-          replace_section(
-              "recovery/normalized-src-vf/l1r/ao/ClanTable.java",
-              "   public void b(String var1) {",
-              "\n\n   public L1Clan a(int var1)",
-              "ICAgcHVibGljIHZvaWQgYihTdHJpbmcgdmFyMSkgewogICAgICBMMUNsYW4gdmFyMiA9IHRoaXMuYyh2YXIxKTsKICAgICAgaWYgKHZhcjIgPT0gbnVsbCkgewogICAgICAgICByZXR1cm47CiAgICAgIH0KCiAgICAgIENvbm5lY3Rpb24gdmFyMyA9IG51bGw7CiAgICAgIHRyeSB7CiAgICAgICAgIHZhcjMgPSBEYXRhYmFzZUZhY3RvcnkuYSgpLmIoKTsKICAgICAgICAgdmFyMy5zZXRBdXRvQ29tbWl0KGZhbHNlKTsKICAgICAgICAgdHJ5IChQcmVwYXJlZFN0YXRlbWVudCB2YXI0ID0gdmFyMy5wcmVwYXJlU3RhdGVtZW50KCJERUxFVEUgRlJPTSBjbGFuX3dhcmVob3VzZV9oaXN0b3J5IFdIRVJFIGNsYW5faWQ9PyIpKSB7CiAgICAgICAgICAgIHZhcjQuc2V0SW50KDEsIHZhcjIuZSgpKTsKICAgICAgICAgICAgdmFyNC5leGVjdXRlVXBkYXRlKCk7CiAgICAgICAgIH0KICAgICAgICAgdHJ5IChQcmVwYXJlZFN0YXRlbWVudCB2YXI1ID0gdmFyMy5wcmVwYXJlU3RhdGVtZW50KCJERUxFVEUgRlJPTSBjbGFuX2RhdGEgV0hFUkUgY2xhbl9uYW1lPT8iKSkgewogICAgICAgICAgICB2YXI1LnNldFN0cmluZygxLCB2YXIxKTsKICAgICAgICAgICAgdmFyNS5leGVjdXRlVXBkYXRlKCk7CiAgICAgICAgIH0KICAgICAgICAgdmFyMy5jb21taXQoKTsKICAgICAgfSBjYXRjaCAoU1FMRXhjZXB0aW9uIHZhcjkpIHsKICAgICAgICAgaWYgKHZhcjMgIT0gbnVsbCkgewogICAgICAgICAgICB0cnkgewogICAgICAgICAgICAgICB2YXIzLnJvbGxiYWNrKCk7CiAgICAgICAgICAgIH0gY2F0Y2ggKFNRTEV4Y2VwdGlvbiBpZ25vcmVkKSB7CiAgICAgICAgICAgIH0KICAgICAgICAgfQogICAgICAgICBhLmxvZyhMZXZlbC5TRVZFUkUsIHZhcjkuZ2V0TG9jYWxpemVkTWVzc2FnZSgpLCB2YXI5KTsKICAgICAgICAgcmV0dXJuOwogICAgICB9IGZpbmFsbHkgewogICAgICAgICBpZiAodmFyMyAhPSBudWxsKSB7CiAgICAgICAgICAgIHRyeSB7CiAgICAgICAgICAgICAgIHZhcjMuc2V0QXV0b0NvbW1pdCh0cnVlKTsKICAgICAgICAgICAgfSBjYXRjaCAoU1FMRXhjZXB0aW9uIGlnbm9yZWQpIHsKICAgICAgICAgICAgfQogICAgICAgICB9CiAgICAgICAgIFNRTFV0aWwuYSh2YXIzKTsKICAgICAgfQoKICAgICAgdmFyMi5jKCkuZygpOwogICAgICB2YXIyLmMoKS5iKCk7CiAgICAgIHRoaXMuYi5yZW1vdmUodmFyMi5lKCkpOwogICB9"
-          )
-
-          replace_section(
-              "recovered-src-obf/ao/q.java",
-              "    public void b(String clan_name) {",
-              "\n\n    public i a(int clan_id)",
-              "ICAgIHB1YmxpYyB2b2lkIGIoU3RyaW5nIGNsYW5fbmFtZSkgewogICAgICAgIGkgY2xhbiA9IHRoaXMuYyhjbGFuX25hbWUpOwogICAgICAgIGlmIChjbGFuID09IG51bGwpIHsKICAgICAgICAgICAgcmV0dXJuOwogICAgICAgIH0KICAgICAgICBDb25uZWN0aW9uIGNvbiA9IG51bGw7CiAgICAgICAgdHJ5IHsKICAgICAgICAgICAgY29uID0gbDFqLnNlcnZlci5iLmEoKS5iKCk7CiAgICAgICAgICAgIGNvbi5zZXRBdXRvQ29tbWl0KGZhbHNlKTsKICAgICAgICAgICAgdHJ5IChQcmVwYXJlZFN0YXRlbWVudCBwc3RtID0gY29uLnByZXBhcmVTdGF0ZW1lbnQoIkRFTEVURSBGUk9NIGNsYW5fd2FyZWhvdXNlX2hpc3RvcnkgV0hFUkUgY2xhbl9pZD0/IikpIHsKICAgICAgICAgICAgICAgIHBzdG0uc2V0SW50KDEsIGNsYW4uZSgpKTsKICAgICAgICAgICAgICAgIHBzdG0uZXhlY3V0ZVVwZGF0ZSgpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIHRyeSAoUHJlcGFyZWRTdGF0ZW1lbnQgcHN0bSA9IGNvbi5wcmVwYXJlU3RhdGVtZW50KCJERUxFVEUgRlJPTSBjbGFuX2RhdGEgV0hFUkUgY2xhbl9uYW1lPT8iKSkgewogICAgICAgICAgICAgICAgcHN0bS5zZXRTdHJpbmcoMSwgY2xhbl9uYW1lKTsKICAgICAgICAgICAgICAgIHBzdG0uZXhlY3V0ZVVwZGF0ZSgpOwogICAgICAgICAgICB9CiAgICAgICAgICAgIGNvbi5jb21taXQoKTsKICAgICAgICB9CiAgICAgICAgY2F0Y2ggKFNRTEV4Y2VwdGlvbiBlMikgewogICAgICAgICAgICBpZiAoY29uICE9IG51bGwpIHsKICAgICAgICAgICAgICAgIHRyeSB7CiAgICAgICAgICAgICAgICAgICAgY29uLnJvbGxiYWNrKCk7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBjYXRjaCAoU1FMRXhjZXB0aW9uIGlnbm9yZWQpIHsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICBhLmxvZyhMZXZlbC5TRVZFUkUsIGUyLmdldExvY2FsaXplZE1lc3NhZ2UoKSwgZTIpOwogICAgICAgICAgICByZXR1cm47CiAgICAgICAgfQogICAgICAgIGZpbmFsbHkgewogICAgICAgICAgICBpZiAoY29uICE9IG51bGwpIHsKICAgICAgICAgICAgICAgIHRyeSB7CiAgICAgICAgICAgICAgICAgICAgY29uLnNldEF1dG9Db21taXQodHJ1ZSk7CiAgICAgICAgICAgICAgICB9CiAgICAgICAgICAgICAgICBjYXRjaCAoU1FMRXhjZXB0aW9uIGlnbm9yZWQpIHsKICAgICAgICAgICAgICAgIH0KICAgICAgICAgICAgfQogICAgICAgICAgICBqLmEoY29uKTsKICAgICAgICB9CiAgICAgICAgY2xhbi5jKCkuZygpOwogICAgICAgIGNsYW4uYygpLmIoKTsKICAgICAgICB0aGlzLmIucmVtb3ZlKGNsYW4uZSgpKTsKICAgIH0="
-          )
+          path = Path("recovery/normalized-src-vf/l1r/aj/C_Amount.java")
+          text = path.read_text(encoding="utf-8")
+          old = "L1NpcInstance var8 = (L1NpcInstance)L1World.a().a(var4);\n         if (var8 != null) {"
+          new = "l1r.aq.L1Object var8Object = L1World.a().a(var4);\n         if (var8Object instanceof L1NpcInstance) {\n            L1NpcInstance var8 = (L1NpcInstance)var8Object;"
+          hits = text.count(old)
+          if hits != 1:
+              raise SystemExit(f"PATCH_GATE_FAIL C_Amount: expected 1 hit, got {hits}")
+          path.write_text(text.replace(old, new, 1), encoding="utf-8")
           PY
           git diff --check
-          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/ao/ClanTable.java recovered-src-obf/ao/q.java; then
+          if ! git diff --quiet -- recovery/normalized-src-vf/l1r/aj/C_Amount.java; then
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git add recovery/normalized-src-vf/l1r/ao/ClanTable.java recovered-src-obf/ao/q.java
-            git commit -m "fix(l3): merge clan deletion transaction with completed hardening"
+            git add recovery/normalized-src-vf/l1r/aj/C_Amount.java
+            git commit -m "fix(l3): guard normalized amount NPC cast"
             git push origin HEAD:completed/l1jtw85-core-fixes
           fi
       - name: Run Batch1-7 source contracts
