@@ -13,10 +13,15 @@ namespace L1JTW850Launcher
         {
             public long Hp;
             public int HpWidth;
+            public int HpChanges;
+            public int HpValidPct;
             public long Mp;
             public int MpWidth;
+            public int MpChanges;
+            public int MpValidPct;
             public string Confidence = "";
             public int EvidencePid;
+            public bool DynamicPair;
         }
 
         private readonly string _appDir;
@@ -72,6 +77,13 @@ namespace L1JTW850Launcher
                 !string.Equals(seed.Confidence, "HIGH", StringComparison.OrdinalIgnoreCase))
             {
                 lock (_sync) _status = "WAITING_MEDIUM_CONFIDENCE";
+                return;
+            }
+
+            if (!seed.DynamicPair || seed.HpChanges <= 0 || seed.MpChanges <= 0 ||
+                seed.HpValidPct < 95 || seed.MpValidPct < 95)
+            {
+                lock (_sync) _status = "WAITING_DYNAMIC_CROSSCHECK";
                 return;
             }
 
@@ -164,15 +176,19 @@ namespace L1JTW850Launcher
                 seed.MpWidth,
                 runtime.ProcessId);
 
-            // Count this session too. History is appended after the evidence is written.
             if (hpRva >= 0 && mpRva >= 0) stableSessions++;
 
             var sb = Header(runtime, "AUTO_HPMP_POINTER_DISCOVERY");
             sb.AppendLine("SEED_CONFIDENCE=" + seed.Confidence);
+            sb.AppendLine("SEED_DYNAMIC_PAIR=" + (seed.DynamicPair ? 1 : 0));
             sb.AppendLine("HP_ADDR=0x" + seed.Hp.ToString("X8"));
             sb.AppendLine("HP_WIDTH=" + seed.HpWidth);
+            sb.AppendLine("HP_CHANGES=" + seed.HpChanges);
+            sb.AppendLine("HP_VALID_PCT=" + seed.HpValidPct);
             sb.AppendLine("MP_ADDR=0x" + seed.Mp.ToString("X8"));
             sb.AppendLine("MP_WIDTH=" + seed.MpWidth);
+            sb.AppendLine("MP_CHANGES=" + seed.MpChanges);
+            sb.AppendLine("MP_VALID_PCT=" + seed.MpValidPct);
             sb.AppendLine("PAIR_DISTANCE=0x" + Math.Abs(seed.Hp - seed.Mp).ToString("X"));
             sb.AppendLine("HP_IN_MAIN_MODULE=" + (hpInMain ? 1 : 0));
             sb.AppendLine("MP_IN_MAIN_MODULE=" + (mpInMain ? 1 : 0));
@@ -296,29 +312,41 @@ namespace L1JTW850Launcher
             {
                 var line = raw.Trim();
                 int pid;
+                int flag;
                 if (line.StartsWith("PID=", StringComparison.OrdinalIgnoreCase) &&
                     int.TryParse(line.Substring(4), out pid))
                     candidate.EvidencePid = pid;
                 else if (line.StartsWith("CONFIDENCE=", StringComparison.OrdinalIgnoreCase))
                     candidate.Confidence = line.Substring(11).Trim();
+                else if (line.StartsWith("DYNAMIC_PAIR=", StringComparison.OrdinalIgnoreCase) &&
+                    int.TryParse(line.Substring(13), out flag))
+                    candidate.DynamicPair = flag == 1;
                 else if (line.StartsWith("BEST_HP=", StringComparison.OrdinalIgnoreCase))
                 {
                     long address;
                     int width;
-                    if (TryParseBest(line.Substring(8), out address, out width))
+                    int changes;
+                    int validPct;
+                    if (TryParseBest(line.Substring(8), out address, out width, out changes, out validPct))
                     {
                         candidate.Hp = address;
                         candidate.HpWidth = width;
+                        candidate.HpChanges = changes;
+                        candidate.HpValidPct = validPct;
                     }
                 }
                 else if (line.StartsWith("BEST_MP=", StringComparison.OrdinalIgnoreCase))
                 {
                     long address;
                     int width;
-                    if (TryParseBest(line.Substring(8), out address, out width))
+                    int changes;
+                    int validPct;
+                    if (TryParseBest(line.Substring(8), out address, out width, out changes, out validPct))
                     {
                         candidate.Mp = address;
                         candidate.MpWidth = width;
+                        candidate.MpChanges = changes;
+                        candidate.MpValidPct = validPct;
                     }
                 }
             }
@@ -332,17 +360,31 @@ namespace L1JTW850Launcher
             return true;
         }
 
-        private static bool TryParseBest(string text, out long address, out int width)
+        private static bool TryParseBest(
+            string text,
+            out long address,
+            out int width,
+            out int changes,
+            out int validPct)
         {
             address = 0;
             width = 0;
+            changes = 0;
+            validPct = 0;
             var map = ParseTokens(text);
             string addr;
             string widthText;
+            string changesText;
+            string validPctText;
             if (!map.TryGetValue("ADDR", out addr) || !map.TryGetValue("WIDTH", out widthText)) return false;
+            map.TryGetValue("CHANGES", out changesText);
+            map.TryGetValue("VALID_PCT", out validPctText);
             if (addr.StartsWith("0x", StringComparison.OrdinalIgnoreCase)) addr = addr.Substring(2);
-            return long.TryParse(addr, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out address) &&
-                   int.TryParse(widthText, out width);
+            if (!long.TryParse(addr, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out address)) return false;
+            if (!int.TryParse(widthText, out width)) return false;
+            if (!string.IsNullOrEmpty(changesText)) int.TryParse(changesText, out changes);
+            if (!string.IsNullOrEmpty(validPctText)) int.TryParse(validPctText, out validPct);
+            return true;
         }
 
         private static Dictionary<string, string> ParseTokens(string line)
