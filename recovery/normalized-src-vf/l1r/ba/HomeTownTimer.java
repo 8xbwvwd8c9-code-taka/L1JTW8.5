@@ -141,7 +141,7 @@ public class HomeTownTimer {
             var16 = Math.floor(var14 / var12 * 100.0) / 100.0;
          }
 
-         var8 = var1.prepareStatement("UPDATE characters SET Contribution = 0, Pay = Contribution * ? WHERE HomeTownID = ?");
+         var8 = var1.prepareStatement("UPDATE characters SET Pay = Contribution * ?, Contribution = 0 WHERE HomeTownID = ?");
          var8.setDouble(1, var16);
          var8.setInt(2, var0);
          var8.execute();
