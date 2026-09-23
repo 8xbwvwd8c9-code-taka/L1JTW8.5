@@ -20,6 +20,7 @@ namespace L1JTW850Launcher
         public int BaselineUniqueHits;
         public int ActionUniqueHits;
         public int NewHits;
+        public bool CandidateLimitReached;
         public bool Correlated;
     }
 
@@ -28,6 +29,8 @@ namespace L1JTW850Launcher
         public int AuthoritativeSessions;
         public int CorrelatedSessions;
         public int DistinctProcessInstances;
+        public int DistinctItemIds;
+        public int DistinctObjectIds;
         public bool RestartStable;
         public string Status = "";
     }
@@ -74,14 +77,9 @@ namespace L1JTW850Launcher
 
                 if (line.StartsWith("PID="))
                 {
-                    int value;
-                    if (int.TryParse(
-                        line.Substring(4),
-                        out value))
-                    {
-                        current.Pid = value;
-                    }
-
+                    current.Pid = ParseInt(
+                        line,
+                        "PID=");
                     continue;
                 }
 
@@ -99,7 +97,6 @@ namespace L1JTW850Launcher
                         current.ProcessStartUtc =
                             value.ToUniversalTime();
                     }
-
                     continue;
                 }
 
@@ -110,7 +107,6 @@ namespace L1JTW850Launcher
                         line.Substring(
                             "CLIENT_SHA256=".Length)
                         .Trim();
-
                     continue;
                 }
 
@@ -132,21 +128,14 @@ namespace L1JTW850Launcher
                     {
                         current.ObjectId = value;
                     }
-
                     continue;
                 }
 
                 if (line.StartsWith("ITEM_ID="))
                 {
-                    int value;
-                    if (int.TryParse(
-                        line.Substring(
-                            "ITEM_ID=".Length),
-                        out value))
-                    {
-                        current.ItemId = value;
-                    }
-
+                    current.ItemId = ParseInt(
+                        line,
+                        "ITEM_ID=");
                     continue;
                 }
 
@@ -161,46 +150,48 @@ namespace L1JTW850Launcher
 
                 if (line.StartsWith("BASELINE_PASSES="))
                 {
-                    current.BaselinePasses =
-                        ParseInt(
-                            line,
-                            "BASELINE_PASSES=");
+                    current.BaselinePasses = ParseInt(
+                        line,
+                        "BASELINE_PASSES=");
                     continue;
                 }
 
                 if (line.StartsWith("ACTION_PASSES="))
                 {
-                    current.ActionPasses =
-                        ParseInt(
-                            line,
-                            "ACTION_PASSES=");
+                    current.ActionPasses = ParseInt(
+                        line,
+                        "ACTION_PASSES=");
                     continue;
                 }
 
                 if (line.StartsWith("BASELINE_UNIQUE_HITS="))
                 {
-                    current.BaselineUniqueHits =
-                        ParseInt(
-                            line,
-                            "BASELINE_UNIQUE_HITS=");
+                    current.BaselineUniqueHits = ParseInt(
+                        line,
+                        "BASELINE_UNIQUE_HITS=");
                     continue;
                 }
 
                 if (line.StartsWith("ACTION_UNIQUE_HITS="))
                 {
-                    current.ActionUniqueHits =
-                        ParseInt(
-                            line,
-                            "ACTION_UNIQUE_HITS=");
+                    current.ActionUniqueHits = ParseInt(
+                        line,
+                        "ACTION_UNIQUE_HITS=");
                     continue;
                 }
 
                 if (line.StartsWith("NEW_HITS="))
                 {
-                    current.NewHits =
-                        ParseInt(
-                            line,
-                            "NEW_HITS=");
+                    current.NewHits = ParseInt(
+                        line,
+                        "NEW_HITS=");
+                    continue;
+                }
+
+                if (line.StartsWith("CANDIDATE_LIMIT="))
+                {
+                    current.CandidateLimitReached =
+                        line.EndsWith("=1");
                     continue;
                 }
 
@@ -226,40 +217,63 @@ namespace L1JTW850Launcher
                 new HashSet<string>(
                     StringComparer.OrdinalIgnoreCase);
 
+            var itemIds =
+                new HashSet<int>();
+
+            var objectIds =
+                new HashSet<uint>();
+
             foreach (var session in all)
             {
-                if (!IsAuthoritative(
-                    session))
+                if (!IsAuthoritative(session))
                     continue;
 
                 result.AuthoritativeSessions++;
 
                 if (!session.Correlated ||
-                    session.NewHits <= 0)
+                    session.NewHits <= 0 ||
+                    session.CandidateLimitReached ||
+                    session.BaselinePasses <= 0 ||
+                    session.ActionPasses <= 0)
                     continue;
 
                 result.CorrelatedSessions++;
 
                 processes.Add(
-                    BuildProcessKey(
-                        session));
+                    BuildProcessKey(session));
+
+                if (session.ItemId > 0)
+                    itemIds.Add(session.ItemId);
+
+                if (session.ObjectId != 0)
+                    objectIds.Add(session.ObjectId);
             }
 
             result.DistinctProcessInstances =
                 processes.Count;
+
+            result.DistinctItemIds =
+                itemIds.Count;
+
+            result.DistinctObjectIds =
+                objectIds.Count;
 
             result.RestartStable =
                 result.CorrelatedSessions >= 2 &&
                 result.DistinctProcessInstances >= 2;
 
             result.Status =
-                "authoritative sessions=" +
+                "authoritative=" +
                 result.AuthoritativeSessions +
                 "，correlated=" +
                 result.CorrelatedSessions +
-                "，process instances=" +
+                "，processes=" +
                 result.DistinctProcessInstances +
-                "，restart gate=" +
+                "，itemIds=" +
+                result.DistinctItemIds +
+                "，objectIds=" +
+                result.DistinctObjectIds +
+                "，behavior restart gate=" +
                 (result.RestartStable
                     ? "PASS"
                     : "NOT_YET") +
