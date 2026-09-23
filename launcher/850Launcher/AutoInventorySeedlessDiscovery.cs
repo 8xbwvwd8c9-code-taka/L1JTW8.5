@@ -29,9 +29,14 @@ namespace L1JTW850Launcher
             public long Anchor;
             public int Hits;
             public int DistinctItems;
+            public int ItemIdMin;
+            public int ItemIdMax;
+            public int ItemIdSpan;
+            public int AddressGapGcd;
             public int SequentialEdges;
             public int AdjacentEdges;
             public bool CatalogLike;
+            public string CatalogReason = "";
             public int Score;
             public int DynamicEvents;
             public int DynamicWordChanges;
@@ -39,6 +44,7 @@ namespace L1JTW850Launcher
             public bool DynamicReadable;
             public long SampleStart;
             public byte[] Previous;
+            public readonly List<int> SensitiveOffsets = new List<int>();
         }
 
         private readonly string _appDir;
@@ -141,8 +147,6 @@ namespace L1JTW850Launcher
                 });
             }
 
-            // Rare values are more useful than common integers. Process rare candidate lists first
-            // so common item IDs cannot crowd the real inventory occurrence out of the hit budget.
             seedGroups.Sort(delegate(SeedGroup a, SeedGroup b)
             {
                 var c = a.Addresses.Count.CompareTo(b.Addresses.Count);
@@ -192,21 +196,25 @@ namespace L1JTW850Launcher
                     if (c.CatalogLike) continue;
                     if (watched >= maxWatchedClusters) break;
 
-                    var start = Math.Max(moduleEnd, c.Start - 0x100);
-                    var end = c.End + 0x100;
+                    var start = Math.Max(moduleEnd, c.Start - 0x40);
+                    var end = c.End + 0x40;
                     var sizeLong = end - start + 4;
-                    if (sizeLong < 32) sizeLong = 32;
+                    if (sizeLong < 64) sizeLong = 64;
                     if (sizeLong > 0x1000) sizeLong = 0x1000;
 
                     byte[] baseline;
-                    if (probe.TryReadBytes(new IntPtr(start), (int)sizeLong, out baseline, out error) &&
-                        baseline != null && baseline.Length >= 4)
-                    {
-                        c.SampleStart = start;
-                        c.Previous = baseline;
-                        c.DynamicReadable = true;
-                        watched++;
-                    }
+                    if (!probe.TryReadBytes(new IntPtr(start), (int)sizeLong, out baseline, out error) ||
+                        baseline == null || baseline.Length < 4)
+                        continue;
+
+                    c.SampleStart = start;
+                    c.Previous = baseline;
+                    BuildSensitiveOffsets(c, hits, baseline.Length);
+                    if (c.SensitiveOffsets.Count == 0)
+                        continue;
+
+                    c.DynamicReadable = true;
+                    watched++;
                 }
 
                 for (var round = 1; round < sampleRounds && watched > 0; round++)
@@ -214,7 +222,8 @@ namespace L1JTW850Launcher
                     Thread.Sleep(sampleIntervalMs);
                     foreach (var c in clusters)
                     {
-                        if (!c.DynamicReadable || c.Previous == null) continue;
+                        if (!c.DynamicReadable || c.Previous == null || c.SensitiveOffsets.Count == 0)
+                            continue;
 
                         byte[] current;
                         if (!probe.TryReadBytes(new IntPtr(c.SampleStart), c.Previous.Length, out current, out error) ||
@@ -224,17 +233,16 @@ namespace L1JTW850Launcher
                             continue;
                         }
 
-                        var size = Math.Min(c.Previous.Length, current.Length);
-                        var words = size / 4;
                         var changed = 0;
-                        for (var i = 0; i < words; i++)
+                        foreach (var offset in c.SensitiveOffsets)
                         {
-                            var offset = i * 4;
+                            if (offset < 0 || offset + 4 > c.Previous.Length || offset + 4 > current.Length)
+                                continue;
                             if (BitConverter.ToInt32(c.Previous, offset) != BitConverter.ToInt32(current, offset))
                                 changed++;
                         }
 
-                        c.DynamicWordsCompared += words;
+                        c.DynamicWordsCompared += c.SensitiveOffsets.Count;
                         if (changed > 0)
                         {
                             c.DynamicEvents++;
@@ -269,7 +277,7 @@ namespace L1JTW850Launcher
                     dynamicClusters.Add(c);
             }
 
-            var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY");
+            var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V2");
             sb.AppendLine("CATALOG_ITEMS=" + names.Count);
             sb.AppendLine("SCAN_ITEM_IDS=" + fields.Count);
             sb.AppendLine("MEMORY_SCOPE=MEM_PRIVATE_WRITABLE_ONLY");
@@ -284,7 +292,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("DYNAMIC_SAMPLE_ROUNDS=" + sampleRounds);
             sb.AppendLine("DYNAMIC_SAMPLE_INTERVAL_MS=" + sampleIntervalMs);
             sb.AppendLine("DYNAMIC_WINDOW_MS=" + ((sampleRounds - 1) * sampleIntervalMs));
-            sb.AppendLine("FILTER=PRIVATE_WRITABLE_PLUS_TEMPORAL_CHANGE_PLUS_CATALOG_REJECT");
+            sb.AppendLine("FILTER=PRIVATE_WRITABLE+CATALOG_STRIDE_REJECT+ITEM_ADJACENT_TEMPORAL_CHANGE");
             sb.AppendLine("MEMORY_WRITE=NO");
             sb.AppendLine();
 
@@ -300,13 +308,17 @@ namespace L1JTW850Launcher
                 sb.AppendLine(
                     "ADDR=0x" + c.Anchor.ToString("X8") +
                     " DISTINCT=" + c.DistinctItems +
+                    " ID_SPAN=" + c.ItemIdSpan +
+                    " GAP_GCD=0x" + c.AddressGapGcd.ToString("X") +
                     " CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0) +
+                    " CATALOG_REASON=" + c.CatalogReason +
+                    " SENSITIVE_WORDS=" + c.SensitiveOffsets.Count +
                     " DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0) +
                     " DYNAMIC_EVENTS=" + c.DynamicEvents +
                     " CHANGED_WORDS=" + c.DynamicWordChanges +
                     " COMPARED_WORDS=" + c.DynamicWordsCompared);
                 rejectedShown++;
-                if (rejectedShown >= 30) break;
+                if (rejectedShown >= 40) break;
             }
             sb.AppendLine();
 
@@ -340,6 +352,27 @@ namespace L1JTW850Launcher
             return status;
         }
 
+        private static void BuildSensitiveOffsets(Cluster c, List<Hit> hits, int bufferLength)
+        {
+            var seen = new HashSet<int>();
+            foreach (var hit in hits)
+            {
+                if (hit.Address < c.Start) continue;
+                if (hit.Address > c.End) break;
+
+                for (var delta = -16; delta <= 16; delta += 4)
+                {
+                    var absolute = hit.Address + delta;
+                    var offsetLong = absolute - c.SampleStart;
+                    if (offsetLong < 0 || offsetLong > int.MaxValue) continue;
+                    var offset = (int)offsetLong;
+                    if (offset + 4 > bufferLength) continue;
+                    if (seen.Add(offset)) c.SensitiveOffsets.Add(offset);
+                }
+            }
+            c.SensitiveOffsets.Sort();
+        }
+
         private static void AppendCluster(StringBuilder sb, string kind, int index, Cluster c, List<Hit> hits)
         {
             sb.AppendLine("[" + kind + " " + index + "]");
@@ -348,9 +381,15 @@ namespace L1JTW850Launcher
             sb.AppendLine("END=0x" + c.End.ToString("X8"));
             sb.AppendLine("HITS=" + c.Hits);
             sb.AppendLine("DISTINCT_ITEMS=" + c.DistinctItems);
+            sb.AppendLine("ITEM_ID_MIN=" + c.ItemIdMin);
+            sb.AppendLine("ITEM_ID_MAX=" + c.ItemIdMax);
+            sb.AppendLine("ITEM_ID_SPAN=" + c.ItemIdSpan);
+            sb.AppendLine("ADDRESS_GAP_GCD=0x" + c.AddressGapGcd.ToString("X"));
             sb.AppendLine("ADJACENT_EDGES=" + c.AdjacentEdges);
             sb.AppendLine("SEQUENTIAL_EDGES=" + c.SequentialEdges);
             sb.AppendLine("CATALOG_LIKE=" + (c.CatalogLike ? 1 : 0));
+            sb.AppendLine("CATALOG_REASON=" + c.CatalogReason);
+            sb.AppendLine("SENSITIVE_WORDS=" + c.SensitiveOffsets.Count);
             sb.AppendLine("DYNAMIC_READABLE=" + (c.DynamicReadable ? 1 : 0));
             sb.AppendLine("DYNAMIC_EVENTS=" + c.DynamicEvents);
             sb.AppendLine("DYNAMIC_WORD_CHANGES=" + c.DynamicWordChanges);
@@ -358,7 +397,7 @@ namespace L1JTW850Launcher
             sb.AppendLine("SCORE=" + c.Score);
 
             var displayed = 0;
-            for (var h = 0; h < hits.Count && displayed < 16; h++)
+            for (var h = 0; h < hits.Count && displayed < 20; h++)
             {
                 if (hits[h].Address < c.Start) continue;
                 if (hits[h].Address > c.End) break;
@@ -396,11 +435,23 @@ namespace L1JTW850Launcher
                 {
                     var sequentialEdges = 0;
                     var adjacentEdges = 0;
-                    for (var i = left + 1; i < right; i++)
+                    var gapGcd = 0;
+                    var minItem = int.MaxValue;
+                    var maxItem = int.MinValue;
+
+                    for (var i = left; i < right; i++)
                     {
+                        if (hits[i].ItemId < minItem) minItem = hits[i].ItemId;
+                        if (hits[i].ItemId > maxItem) maxItem = hits[i].ItemId;
+
+                        if (i == left) continue;
                         var prev = hits[i - 1];
                         var cur = hits[i];
-                        if (cur.Address - prev.Address == 4)
+                        var gapLong = cur.Address - prev.Address;
+                        if (gapLong > 0 && gapLong <= int.MaxValue)
+                            gapGcd = Gcd(gapGcd, (int)gapLong);
+
+                        if (gapLong == 4)
                         {
                             adjacentEdges++;
                             if (Math.Abs(cur.ItemId - prev.ItemId) <= 4)
@@ -409,9 +460,22 @@ namespace L1JTW850Launcher
                     }
 
                     var edgeBase = Math.Max(1, total - 1);
-                    var catalogLike =
+                    var itemSpan = maxItem >= minItem ? maxItem - minItem : int.MaxValue;
+                    var oldCatalogPattern =
                         (total >= 10 && sequentialEdges * 100 >= edgeBase * 35) ||
                         (distinct >= 24 && adjacentEdges * 100 >= edgeBase * 65);
+                    var stridedCatalogPattern =
+                        distinct >= 16 &&
+                        itemSpan >= 0 && itemSpan <= 1024 &&
+                        gapGcd >= 0x20 && gapGcd <= 0x100 &&
+                        (gapGcd % 0x10) == 0;
+
+                    var catalogLike = oldCatalogPattern || stridedCatalogPattern;
+                    var catalogReason = oldCatalogPattern
+                        ? "ADJACENT_OR_SEQUENTIAL_TABLE"
+                        : stridedCatalogPattern
+                            ? "FIXED_STRIDE_NARROW_ITEM_FAMILY"
+                            : "";
 
                     var end = hits[right - 1].Address;
                     var score = distinct * 100 + Math.Min(99, total);
@@ -425,9 +489,14 @@ namespace L1JTW850Launcher
                         Anchor = hits[left].Address,
                         Hits = total,
                         DistinctItems = distinct,
+                        ItemIdMin = minItem,
+                        ItemIdMax = maxItem,
+                        ItemIdSpan = itemSpan,
+                        AddressGapGcd = gapGcd,
                         SequentialEdges = sequentialEdges,
                         AdjacentEdges = adjacentEdges,
                         CatalogLike = catalogLike,
+                        CatalogReason = catalogReason,
                         Score = score
                     });
                 }
@@ -470,6 +539,21 @@ namespace L1JTW850Launcher
             return dedup;
         }
 
+        private static int Gcd(int a, int b)
+        {
+            if (a < 0) a = -a;
+            if (b < 0) b = -b;
+            if (a == 0) return b;
+            if (b == 0) return a;
+            while (b != 0)
+            {
+                var t = a % b;
+                a = b;
+                b = t;
+            }
+            return a;
+        }
+
         private static string Sanitize(string value)
         {
             return (value ?? "").Replace("\r", " ").Replace("\n", " ");
@@ -492,7 +576,7 @@ namespace L1JTW850Launcher
         {
             try
             {
-                var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY");
+                var sb = Header(runtime, "AUTO_INVENTORY_SEEDLESS_DISCOVERY_V2");
                 sb.AppendLine("STATUS=ERROR");
                 sb.AppendLine("ERROR=" + ex.GetType().Name + ": " + ex.Message);
                 sb.AppendLine("MEMORY_WRITE=NO");
