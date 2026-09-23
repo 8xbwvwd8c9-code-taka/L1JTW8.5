@@ -108,7 +108,6 @@ namespace L1JTW850Launcher
             if (probeAllowed)
             {
                 RunHpMpPipeline(runtime);
-                _hpmpGuard.EnsureRunning(runtime);
 
                 // Independent read-only lanes may run in parallel.
                 _parallelDiscovery.EnsureRunning(runtime);
@@ -223,6 +222,7 @@ namespace L1JTW850Launcher
             var broadPath = Path.Combine(_appDir, "runtime_dynamic_broad_probe_evidence.txt");
             var semanticPath = Path.Combine(_appDir, "runtime_hpmp_semantic_refine_evidence.txt");
             var crossPath = Path.Combine(_appDir, "runtime_hpmp_crosscheck_evidence.txt");
+            var pointerPath = Path.Combine(_appDir, "runtime_hpmp_pointer_evidence.txt");
 
             if (!EvidenceReady(broadPath, runtime.ProcessId, _auditStartedUtc))
             {
@@ -256,6 +256,25 @@ namespace L1JTW850Launcher
             }
 
             _pointerDiscovery.EnsureRunning(runtime);
+            if (string.Equals(
+                _pointerDiscovery.Status,
+                "RUNNING",
+                StringComparison.OrdinalIgnoreCase))
+            {
+                _hpmpPipeline = "WAIT_POINTER_RUNNING";
+                return;
+            }
+
+            var crossTime = SafeWriteTimeUtc(crossPath);
+            if (!EvidenceReady(pointerPath, runtime.ProcessId, crossTime))
+            {
+                _hpmpPipeline = "WAIT_POINTER_AFTER_CROSSCHECK";
+                return;
+            }
+
+            // Only classify when the pointer evidence belongs to this exact cross-check run.
+            // This prevents a fast guard tick from consuming the prior pointer file.
+            _hpmpGuard.EnsureRunning(runtime);
             _hpmpPipeline = "POINTER_GATE_READY";
         }
 
