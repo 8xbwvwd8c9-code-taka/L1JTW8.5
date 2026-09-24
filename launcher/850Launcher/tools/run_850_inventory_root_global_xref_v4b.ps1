@@ -196,10 +196,17 @@ foreach ($r in $execImage) {
     for ($i = 0; $i -le $b.Length - 4; $i++) {
         if ($b[$i] -eq $needle[0] -and $b[$i + 1] -eq $needle[1] -and $b[$i + 2] -eq $needle[2] -and $b[$i + 3] -eq $needle[3]) {
             $literal = [long]$r.Address + $i
+            $kind = Classify-AbsoluteRef $literal
+            $immediate = $null
+            if ($kind -eq 'STORE_IMM_C705') {
+                $immediate = U32-At ($literal + 4)
+            }
+
             $refs.Add([pscustomobject]@{
                 Literal = $literal
                 Rva = $literal - $base
-                Kind = Classify-AbsoluteRef $literal
+                Kind = $kind
+                Immediate = $immediate
                 Start = Find-Prologue $literal
             })
         }
@@ -243,35 +250,48 @@ $lines.Add('[GLOBAL_ABSOLUTE_XREFS]')
 $lines.Add("COUNT=$($refs.Count)")
 foreach ($x in $refs) {
     $startRva = if ($x.Start -gt 0) { '0x' + ($x.Start - $base).ToString('X8') } else { 'NONE' }
+    $immText = if ($null -ne $x.Immediate) { '0x' + ([uint32]$x.Immediate).ToString('X8') } else { 'NONE' }
     $ctx = [Math]::Max($base, $x.Literal - 16)
-    $lines.Add(("REF RVA=0x{0:X8} KIND={1} FUNC_START_RVA={2} BYTES={3}" -f $x.Rva, $x.Kind, $startRva, (Hex-At $ctx 48)))
+    $lines.Add(("REF RVA=0x{0:X8} KIND={1} IMM32={2} FUNC_START_RVA={3} BYTES={4}" -f $x.Rva, $x.Kind, $immText, $startRva, (Hex-At $ctx 48)))
 }
 
 $lines.Add('')
 $lines.Add('[ROOT_CTOR_NEAR_REFS]')
 $lines.Add("COUNT=$($ctorNear.Count)")
-foreach ($x in $ctorNear) { $lines.Add(("REF RVA=0x{0:X8} KIND={1}" -f $x.Rva, $x.Kind)) }
+foreach ($x in $ctorNear) {
+    $immText = if ($null -ne $x.Immediate) { '0x' + ([uint32]$x.Immediate).ToString('X8') } else { 'NONE' }
+    $lines.Add(("REF RVA=0x{0:X8} KIND={1} IMM32={2}" -f $x.Rva, $x.Kind, $immText))
+}
 
 $lines.Add('')
 $lines.Add('[ROOT_TEARDOWN_NEAR_REFS]')
 $lines.Add("COUNT=$($teardownNear.Count)")
-foreach ($x in $teardownNear) { $lines.Add(("REF RVA=0x{0:X8} KIND={1}" -f $x.Rva, $x.Kind)) }
+foreach ($x in $teardownNear) {
+    $immText = if ($null -ne $x.Immediate) { '0x' + ([uint32]$x.Immediate).ToString('X8') } else { 'NONE' }
+    $lines.Add(("REF RVA=0x{0:X8} KIND={1} IMM32={2}" -f $x.Rva, $x.Kind, $immText))
+}
 
-$teardownZeroStore = @($teardownNear | Where-Object { $_.Kind -eq 'STORE_IMM_C705' })
+$teardownC705Store = @($teardownNear | Where-Object { $_.Kind -eq 'STORE_IMM_C705' })
+$teardownZeroStore = @($teardownNear | Where-Object {
+    $_.Kind -eq 'STORE_IMM_C705' -and
+    $null -ne $_.Immediate -and
+    [uint32]$_.Immediate -eq 0
+})
 $constructionStores = @($ctorNear | Where-Object { $_.Kind -like 'STORE_*' })
 
 $lines.Add('')
 $lines.Add('[PROMOTION_GATE]')
 $lines.Add("CTOR_STORE_NEAR_ROOT=$($constructionStores.Count)")
+$lines.Add("TEARDOWN_C705_STORE_NEAR_ROOT=$($teardownC705Store.Count)")
 $lines.Add("TEARDOWN_ZERO_STORE_NEAR_ROOT=$($teardownZeroStore.Count)")
-$lines.Add('RULE=Construction-side assignment to same global plus teardown clear is strong owner evidence; otherwise retain FLAG_OR_STATE_GLOBAL classification.')
+$lines.Add('RULE=Only C7 05 [same global] 00000000 counts as teardown clear. Construction-side assignment to the same global plus a proven zero clear is strong owner evidence; otherwise retain FLAG_OR_STATE_GLOBAL classification.')
 
 $lines.Add('')
 $lines.Add('[SUMMARY]')
 $lines.Add('STATUS=PASS_GLOBAL_XREF_TRACE_PREPARED')
 $lines.Add("GLOBAL_XREF_COUNT=$($refs.Count)")
 $lines.Add('OWNER_PROMOTION=NOT_YET')
-$lines.Add('NEXT=Use exact xref kinds and V4 function/caller boundaries; do not dereference heap or widen scan.')
+$lines.Add('NEXT=Use exact xref kinds/immediates and V4 function/caller boundaries; do not dereference heap or widen scan.')
 $lines.Add('MEM_PRIVATE_SCAN=NO')
 $lines.Add('HEAP_DEREFERENCE=NO')
 $lines.Add('MEMORY_WRITE=NO')
