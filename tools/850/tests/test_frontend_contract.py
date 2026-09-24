@@ -139,6 +139,59 @@ class FrontendContractTests(unittest.TestCase):
             compiler = mod._compiler(root)
             self.assertEqual(compiler.kwargs["state_path"], build / "state.json")
 
+    def test_sync_completed_forces_latest_completed_authority_refresh(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            calls = []
+
+            class FakeBootstrap:
+                @staticmethod
+                def ensure_fast_dev(repo_root, *, fetch_latest=True):
+                    calls.append((Path(repo_root), fetch_latest))
+                    return {
+                        "authority_commit": "b" * 40,
+                        "completed_source_count": 17,
+                        "rebuilt": True,
+                        "core_action": "preserved",
+                    }
+
+            original_loader = mod._load_module
+
+            def fake_loader(path, name):
+                if Path(path).name == "ensure_dev.py":
+                    return FakeBootstrap
+                return original_loader(path, name)
+
+            mod._load_module = fake_loader
+            result = mod.sync_completed(root)
+
+            self.assertEqual(calls, [(root, True)])
+            self.assertEqual(result["authority_commit"], "b" * 40)
+            self.assertTrue(result["rebuilt"])
+            self.assertEqual(result["core_action"], "preserved")
+
+    def test_sync_mode_calls_sync_helper_without_compiling(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            calls = []
+            mod.ROOT = root
+            mod.sync_completed = lambda repo_root: calls.append(Path(repo_root)) or {
+                "authority_commit": "c" * 40,
+                "completed_source_count": 9,
+                "rebuilt": False,
+                "core_action": "preserved",
+            }
+            mod._compiler = lambda *_args, **_kwargs: (_ for _ in ()).throw(
+                AssertionError("-Sync must not compile working sources")
+            )
+
+            rc = mod.main(["-Sync"])
+
+            self.assertEqual(rc, 0)
+            self.assertEqual(calls, [root])
+
     def test_wrappers_are_thin_and_do_not_replace_production_jar(self):
         self.assertTrue(PS1_PATH.is_file())
         self.assertTrue(CMD_PATH.is_file())
