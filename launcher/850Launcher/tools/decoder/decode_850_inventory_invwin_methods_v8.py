@@ -68,22 +68,22 @@ def access_text(insn, idx, op):
         return "W"
     if a & CS_AC_READ:
         return "R"
-    # Conservative fallback for common x86 forms when binding access metadata is absent.
-    if idx == 0 and insn.mnemonic in {"mov", "lea", "add", "sub", "and", "or", "xor", "inc", "dec", "pop"}:
+    if idx == 0 and insn.mnemonic in {"mov", "add", "sub", "and", "or", "xor", "inc", "dec", "pop"}:
         return "W"
     return "R"
 
 
-def mem_key(op):
-    if op.type != X86_OP_MEM:
-        return None
-    return op.mem.base, op.mem.index, op.mem.scale, int(op.mem.disp)
-
-
 def method_decode(md, method, module_base, module_end):
     insns = []
+    thunk_target_rva = None
     for insn in md.disasm(method["blob"], method["va"]):
         insns.append(insn)
+        if insn.mnemonic == "jmp":
+            if len(insn.operands) >= 1 and insn.operands[0].type == X86_OP_IMM:
+                target = int(insn.operands[0].imm) & 0xFFFFFFFF
+                if module_base <= target < module_end:
+                    thunk_target_rva = target - module_base
+            break
         if insn.mnemonic.startswith("ret") or insn.mnemonic in {"iret", "iretd"}:
             break
         if len(insns) >= 220:
@@ -95,24 +95,25 @@ def method_decode(md, method, module_base, module_end):
     calls = []
 
     for insn in insns:
-        # Record current owner-relative accesses before mutating alias state.
-        for idx, op in enumerate(insn.operands):
-            if op.type != X86_OP_MEM:
-                continue
-            base_reg = op.mem.base
-            if base_reg in reg_alias and op.mem.index == 0:
-                owner_off = int(reg_alias[base_reg]) + int(op.mem.disp)
-                if 0 <= owner_off <= 0x800:
-                    accesses.append({
-                        "slot": method["slot"],
-                        "method_rva": method["rva"],
-                        "insn_rva": int(insn.address - module_base),
-                        "offset": owner_off,
-                        "access": access_text(insn, idx, op),
-                        "asm": f"{insn.mnemonic} {insn.op_str}".strip(),
-                    })
+        # LEA derives an address; it is not a memory dereference and must not count as a field read.
+        if insn.mnemonic != "lea":
+            for idx, op in enumerate(insn.operands):
+                if op.type != X86_OP_MEM:
+                    continue
+                base_reg = op.mem.base
+                if base_reg in reg_alias and op.mem.index == 0:
+                    owner_off = int(reg_alias[base_reg]) + int(op.mem.disp)
+                    if 0 <= owner_off <= 0x800:
+                        accesses.append({
+                            "slot": method["slot"],
+                            "method_rva": method["rva"],
+                            "insn_rva": int(insn.address - module_base),
+                            "offset": owner_off,
+                            "access": access_text(insn, idx, op),
+                            "asm": f"{insn.mnemonic} {insn.op_str}".strip(),
+                        })
 
-        # Record thiscall-style helper calls when ECX still aliases owner/subobject.
+        # Record thiscall-style helper calls when ECX aliases owner/subobject.
         if insn.mnemonic == "call" and len(insn.operands) >= 1:
             this_off = reg_alias.get(X86_REG_ECX)
             target_rva = None
@@ -130,7 +131,6 @@ def method_decode(md, method, module_base, module_end):
                     "asm": f"{insn.mnemonic} {insn.op_str}".strip(),
                 })
 
-        # Alias propagation: mov reg,reg ; mov [ebp+local],reg ; mov reg,[ebp+local] ; lea reg,[alias+disp].
         ops = insn.operands
         handled_dst = False
         if insn.mnemonic == "mov" and len(ops) >= 2:
@@ -159,18 +159,16 @@ def method_decode(md, method, module_base, module_end):
             else:
                 reg_alias.pop(dst.reg, None)
 
-        # Generic register clobber for destination registers not handled above.
         if not handled_dst and len(ops) >= 1 and ops[0].type == X86_OP_REG:
             dst_reg = ops[0].reg
             if dst_reg in REGS and insn.mnemonic not in {"cmp", "test", "push"}:
                 reg_alias.pop(dst_reg, None)
 
-        # x86 calls clobber volatile registers. Preserve non-volatiles and stack aliases only.
         if insn.mnemonic == "call":
             for r in VOLATILE:
                 reg_alias.pop(r, None)
 
-    return accesses, calls, len(insns)
+    return accesses, calls, len(insns), thunk_target_rva
 
 
 def main():
@@ -211,15 +209,16 @@ def main():
 
     all_accesses = []
     all_calls = []
-    method_instruction_counts = {}
+    thunk_rows = []
     unique = {}
     for m in methods:
         unique.setdefault(m["rva"], m)
     for rva, m in sorted(unique.items()):
-        accesses, calls, icount = method_decode(md, m, module_base, module_end)
+        accesses, calls, _icount, thunk_target = method_decode(md, m, module_base, module_end)
         all_accesses.extend(accesses)
         all_calls.extend(calls)
-        method_instruction_counts[rva] = icount
+        if thunk_target is not None:
+            thunk_rows.append((m["slot"], m["rva"], thunk_target))
 
     by_offset = defaultdict(list)
     for a in all_accesses:
@@ -245,6 +244,7 @@ def main():
     out.append(f"IDENTITY_GATE={'PASS' if identity_ok else 'FAIL'}")
     out.append(f"VTABLE_SLOTS_CAPTURED={len(methods)}")
     out.append(f"UNIQUE_METHODS_DECODED={len(unique)}")
+    out.append(f"UNRESOLVED_THUNK_METHODS={len(thunk_rows)}")
     out.append("RUNTIME_ATTACH=READ_ONLY_MODULE_IMAGE")
     out.append("HEAP_SCAN=NO")
     out.append("MEM_PRIVATE_SCAN=NO")
@@ -259,8 +259,7 @@ def main():
         reads = sum(1 for x in acc if "R" in x["access"])
         writes = sum(1 for x in acc if "W" in x["access"])
         out.append(
-            f"OFFSET=0x{off:03X} METHODS={len(methods_touch)} READS={reads} WRITES={writes} "
-            f"THISCALLS={len(calls)}"
+            f"OFFSET=0x{off:03X} METHODS={len(methods_touch)} READS={reads} WRITES={writes} THISCALLS={len(calls)}"
         )
 
     out.append("")
@@ -281,6 +280,13 @@ def main():
             )
 
     out.append("")
+    out.append("[THUNKS] ")
+    if not thunk_rows:
+        out.append("NONE")
+    for slot, method_rva, target_rva in thunk_rows:
+        out.append(f"THUNK SLOT={slot:02d} METHOD_RVA=0x{method_rva:08X} TARGET_RVA=0x{target_rva:08X}")
+
+    out.append("")
     out.append("[DECISION]")
     access_220 = len(by_offset.get(0x220, []))
     call_220 = len(calls_by_offset.get(0x220, []))
@@ -299,6 +305,9 @@ def main():
     elif focus_offsets:
         status = "PASS_INVWIN_FOCUS_OFFSETS_FOUND"
         nxt = "Rank only code-relevant INVWIN offsets in 0x180..0x280; do not revive +0x220 without code evidence."
+    elif thunk_rows:
+        status = "INVWIN_VTABLE_THUNKS_REQUIRE_DEPTH1"
+        nxt = "Resolve only the listed vtable thunk targets at depth 1; do not broaden to heap scans."
     else:
         status = "INVWIN_VTABLE_STORAGE_NOT_EXPOSED"
         nxt = "Use bounded call-site/static owner flow from INVWIN/GRID methods; do not broaden to heap scans."
