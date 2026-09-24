@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-082 | L2 | atomic clan creation / fee durability | PASS / ALREADY COVERED BY BUG-850-166 |
 | BUG-850-059 | L2 | durable inventory state CAS before client publication | PASS / PROMOTED |
 | BUG-850-058 | L2 | durable CAS before inventory full-delete publication | PASS / PROMOTED |
 | BUG-850-057 | L2 | DB-first inventory insert / fail-closed live publication | PASS / PROMOTED |
@@ -3588,5 +3589,26 @@ DB_TABLE=character_items
 DB_CAS=id+char_id+expected_count affectedRows==1
 CONFIG_CONTROL=NONE
 JAVA8_NO_NEW_REGRESSION=PASS
+RUNTIME_FAILURE_MODEL=PASS
+```
+
+
+## BUG-850-082 — atomic clan creation durability
+
+The latest completed authority no longer uses the historical two-step clan-create flow. `C_CreateClan` performs only a read-only 30,000 Adena precheck and enters `createClanAtomic()`. The later BUG-850-166 repair already places `clan_data`, `clan_members`, `characters`, and the 30,000 Adena `character_items` CAS inside one InnoDB transaction, rolls back on any failed stage, and publishes RAM/client state only after commit. No additional production-core change is required for BUG-850-082.
+
+```text
+RUN=36039853327
+STATUS=PASS_ALREADY_COVERED
+COVERED_BY=BUG-850-166
+CLANTABLE_REPAIR_COMMIT=6549adbbbf853df61e07650480f058d7aed1e810
+HANDLER_REPAIR_COMMIT=d9c7de484f67ce56fa4ec2e6196ba288fdf9b106
+LATEST_COMPLETED_SOURCE_CONTRACT=PASS
+PRODUCTION_CORE_DELTA=NONE
+DB_TABLES=clan_data,clan_members,characters,character_items
+DB_TRANSACTION=InnoDB all-four-table gate
+ADENA_CAS=id+char_id+expected_count affectedRows==1
+PUBLICATION=post-commit only
+JAVA8_PRODUCTION_DELTA=NONE
 RUNTIME_FAILURE_MODEL=PASS
 ```
