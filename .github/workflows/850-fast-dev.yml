@@ -26,3 +26,5 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_package_map.py
       - name: Run core bootstrap contracts
         run: python -m unittest -v tools/850/tests/test_bootstrap_core.py
+      - name: Run repair registry contracts
+        run: python -m unittest -v tools/850/tests/test_repair_registry.py
