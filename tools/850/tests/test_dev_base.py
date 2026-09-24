@@ -64,6 +64,28 @@ class DevBaseTests(unittest.TestCase):
             zf.writestr("META-INF/MANIFEST.MF", "Manifest-Version: 1.0\nMain-Class: oldpkg.Root\n\n")
         return jar_path
 
+    def make_completed_overlay(self, root: Path) -> Path:
+        src = root / "overlay-src" / "dev" / "readable"
+        out = root / "overlay-classes"
+        src.mkdir(parents=True)
+        out.mkdir()
+        (src / "Helper.java").write_text(
+            textwrap.dedent(
+                """
+                package dev.readable;
+                public class Helper {
+                    public static final String MARKER = "completed-repair-v2";
+                }
+                """
+            ).strip() + "\n",
+            encoding="utf-8",
+        )
+        subprocess.run(
+            ["javac", "-source", "8", "-target", "8", "-d", str(out), str(src / "Helper.java")],
+            check=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True,
+        )
+        return out
+
     def mapping(self):
         return {
             "oldpkg/Helper": "dev/readable/Helper",
@@ -107,6 +129,28 @@ class DevBaseTests(unittest.TestCase):
             mod.build_dev_base(original, output, self.mapping())
             with zipfile.ZipFile(output) as zf:
                 self.assertEqual(zf.read("data/keep.txt"), b"resource-bytes")
+
+    def test_completed_overlay_replaces_only_matching_semantic_class(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            original = self.make_fixture_jar(root)
+            overlay = self.make_completed_overlay(root)
+            output = root / "dev.jar"
+
+            result = mod.build_dev_base(
+                original,
+                output,
+                self.mapping(),
+                completed_overlay=overlay,
+            )
+
+            with zipfile.ZipFile(output) as zf:
+                helper_values = mod.class_utf8_values(zf.read("dev/readable/Helper.class"))
+                root_values = mod.class_utf8_values(zf.read("dev/readable/Root.class"))
+            self.assertIn("completed-repair-v2", helper_values)
+            self.assertIn("literal oldpkg/Helper must stay literal", root_values)
+            self.assertEqual(result["overlaid_classes"], 1)
 
     def test_original_jar_is_immutable(self):
         mod = load_module()
