@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "module_id": "hunting-quest-family",
+  "module_name": "狩獵怪物任務全家族",
+  "enterprise_item": "L3,w_狩獵怪物任務,N/A (含地圖與系統)",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 744,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_202609221205.sql",
+        "name": "w_狩獵怪物任務_202609221205.sql"
+      },
+      {
+        "bytes": 733,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_地圖_202609221205.sql",
+        "name": "w_狩獵怪物任務_地圖_202609221205.sql"
+      },
+      {
+        "bytes": 1802,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_系統_202609221205.sql",
+        "name": "w_狩獵怪物任務_系統_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,w_狩獵怪物任務,N/A (含地圖與系統)",
+      "NPC接取、地圖指定擊殺、條件回報完整任務閉環"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/hunting-quest-family.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_hunting-quest-family.sql",
+      "850匯入/db/rollback_hunting-quest-family.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_hunting-quest-family.sql"
+  ],
+  "notes": "HOLD狀態。NPC接取、地圖指定擊殺、條件回報完整任務閉環"
+}

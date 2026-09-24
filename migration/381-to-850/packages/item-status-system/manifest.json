@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "module_id": "item-status-system",
+  "module_name": "道具狀態與時效Buff",
+  "enterprise_item": "L3,w_道具狀態,N/A",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 2384,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具狀態_202609221205.sql",
+        "name": "w_道具狀態_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,w_道具狀態,N/A",
+      "道具攜帶/啟用狀態下週期性套用 buff/debuff"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/item-status-system.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_item-status-system.sql",
+      "850匯入/db/rollback_item-status-system.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_item-status-system.sql"
+  ],
+  "notes": "HOLD狀態。道具攜帶/啟用狀態下週期性套用 buff/debuff"
+}

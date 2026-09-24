@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "module_id": "equipment-total-bonus",
+  "module_name": "裝備總加成能力",
+  "enterprise_item": "L2,w_裝備總加成能力,N/A",
+  "decision": "HOLD",
+  "server_level": "L2",
+  "client_gate": "NOT_APPLICABLE",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 0,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_裝備總加成能力_202609221205.sql",
+        "name": "w_裝備總加成能力_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L2,w_裝備總加成能力,N/A",
+      "全身裝備安定值/總強化數累積門檻給予額外套裝屬性"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/equipment-total-bonus.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_equipment-total-bonus.sql",
+      "850匯入/db/rollback_equipment-total-bonus.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_equipment-total-bonus.sql"
+  ],
+  "notes": "HOLD狀態。全身裝備安定值/總強化數累積門檻給予額外套裝屬性"
+}

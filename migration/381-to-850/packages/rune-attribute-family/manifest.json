@@ -1,0 +1,72 @@
+{
+  "schema_version": 1,
+  "module_id": "rune-attribute-family",
+  "module_name": "五大紋樣屬性設定 (伊娃/沙哈/帕格里奧/殷海薩/馬普勒)",
+  "enterprise_item": "L4,伊娃/沙哈/帕格里奧/殷海薩/馬普勒紋樣屬性設定",
+  "decision": "HOLD",
+  "server_level": "L4",
+  "client_gate": "L4_BLOCKED",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 4167,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_伊娃紋樣屬性設定__202609221205.sql",
+        "name": "_伊娃紋樣屬性設定__202609221205.sql"
+      },
+      {
+        "bytes": 4060,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_沙哈紋樣屬性設定__202609221205.sql",
+        "name": "_沙哈紋樣屬性設定__202609221205.sql"
+      },
+      {
+        "bytes": 4541,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_帕格里奧紋樣屬性設定__202609221205.sql",
+        "name": "_帕格里奧紋樣屬性設定__202609221205.sql"
+      },
+      {
+        "bytes": 4115,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_殷海薩紋樣屬性設定__202609221205.sql",
+        "name": "_殷海薩紋樣屬性設定__202609221205.sql"
+      },
+      {
+        "bytes": 4078,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_馬普勒紋樣屬性設定__202609221205.sql",
+        "name": "_馬普勒紋樣屬性設定__202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L4,伊娃/沙哈/帕格里奧/殷海薩/馬普勒紋樣屬性設定",
+      "紋樣刻印與階級屬性加成，依賴客戶端紋樣UI與封包"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/rune-attribute-family.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_rune-attribute-family.sql",
+      "850匯入/db/rollback_rune-attribute-family.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_rune-attribute-family.sql"
+  ],
+  "notes": "HOLD狀態。紋樣刻印與階級屬性加成，依賴客戶端紋樣UI與封包"
+}
