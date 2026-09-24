@@ -25,6 +25,7 @@ namespace L1JTW850Launcher
     {
         public int Sessions;
         public int PassSessions;
+        public int RecordIdentityPassSessions;
         public int DistinctProcessInstances;
         public int DistinctExpectationSets;
         public int DistinctItemIdSets;
@@ -308,6 +309,7 @@ namespace L1JTW850Launcher
                 int.MaxValue;
 
             var allPass = true;
+            var allRecordIdentityPass = true;
 
             foreach (var session in sessions)
             {
@@ -319,6 +321,17 @@ namespace L1JTW850Launcher
                 else
                 {
                     allPass = false;
+                }
+
+                if (session.RecordCount > 0 &&
+                    session.UniqueObjectIds ==
+                        session.RecordCount)
+                {
+                    result.RecordIdentityPassSessions++;
+                }
+                else
+                {
+                    allRecordIdentityPass = false;
                 }
 
                 processes.Add(
@@ -359,7 +372,9 @@ namespace L1JTW850Launcher
             result.RestartStablePass =
                 sessions.Count >= 3 &&
                 allPass &&
+                allRecordIdentityPass &&
                 processes.Count >= 2 &&
+                expectedSets.Count == 1 &&
                 itemIdSets.Count == 1 &&
                 result.MinimumExpectedItems >= 2;
 
@@ -368,8 +383,14 @@ namespace L1JTW850Launcher
                 result.Sessions +
                 "，pass=" +
                 result.PassSessions +
+                "，record identity=" +
+                result.RecordIdentityPassSessions +
+                "/" +
+                result.Sessions +
                 "，process instances=" +
                 result.DistinctProcessInstances +
+                "，expectation sets=" +
+                result.DistinctExpectationSets +
                 "，itemId sets=" +
                 result.DistinctItemIdSets +
                 "，min expected items=" +
