@@ -16,8 +16,6 @@ HIT_RE = re.compile(
 )
 CODE_RE = re.compile(r"^\s*CODE_FROM=(\S+)\s+BYTES=(.*)$")
 
-REG_FIELDS = ("eax", "ebx", "ecx", "edx", "esi", "edi", "ebp", "esp")
-
 
 def parse_hex(text: str):
     if not text or not HEX_RE.match(text):
@@ -89,23 +87,24 @@ def parse_report(lines):
     return hits
 
 
-def resolve_mem_address(md, insn, op, regs):
+def resolve_mem_address(md, op, regs):
     mem = op.mem
+    absolute = not mem.base and not mem.index
     total = int(mem.disp)
 
     if mem.base:
         name = md.reg_name(mem.base).lower()
         if name not in regs or regs[name] is None:
-            return None
+            return None, absolute
         total += regs[name]
 
     if mem.index:
         name = md.reg_name(mem.index).lower()
         if name not in regs or regs[name] is None:
-            return None
+            return None, absolute
         total += regs[name] * int(mem.scale)
 
-    return total & 0xFFFFFFFF
+    return total & 0xFFFFFFFF, absolute
 
 
 def decode_hit(md, hit: Hit):
@@ -145,8 +144,8 @@ def decode_hit(md, hit: Hit):
             access = getattr(op, "access", 0)
             if not (access & CS_AC_WRITE):
                 continue
-            addr = resolve_mem_address(md, insn, op, hit.regs)
-            writes.append((op_index, addr))
+            addr, absolute = resolve_mem_address(md, op, hit.regs)
+            writes.append((op_index, addr, absolute))
 
         candidate = {
             "start": insn.address,
@@ -158,7 +157,11 @@ def decode_hit(md, hit: Hit):
             "writes": writes,
         }
         result["candidates"].append(candidate)
-        if any(addr == hit.watch for _, addr in writes):
+
+        # Promotion-critical ROOT_GLOBAL stores must use an absolute memory
+        # operand. Register-based effective addresses are retained for diagnosis
+        # only because the captured register state is post-instruction state.
+        if any(absolute and addr == hit.watch for _, addr, absolute in writes):
             result["target_candidates"].append(candidate)
 
     tc = result["target_candidates"]
@@ -167,7 +170,7 @@ def decode_hit(md, hit: Hit):
     elif len(tc) > 1:
         result["status"] = "AMBIGUOUS_MULTIPLE_TARGET_WRITERS"
     elif result["candidates"]:
-        result["status"] = "ALIGNED_INSTRUCTION_BUT_TARGET_NOT_PROVEN"
+        result["status"] = "ALIGNED_INSTRUCTION_BUT_ABSOLUTE_TARGET_NOT_PROVEN"
     else:
         result["status"] = "NO_ALIGNED_PREDECESSOR"
     return result
@@ -195,10 +198,7 @@ def main():
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     md.detail = True
 
-    decoded = []
-    for hit in hits:
-        decoded.append((hit, decode_hit(md, hit)))
-
+    decoded = [(hit, decode_hit(md, hit)) for hit in hits]
     unique_pass = sum(1 for _, d in decoded if d["status"] == "PASS_UNIQUE_TARGET_WRITER")
     ambiguous = sum(1 for _, d in decoded if d["status"].startswith("AMBIGUOUS"))
     unresolved = len(decoded) - unique_pass - ambiguous
@@ -211,6 +211,7 @@ def main():
     out.append(f"CAPSTONE_VERSION={CAPSTONE_VERSION}")
     out.append("ARCH=x86")
     out.append("MODE_BITS=32")
+    out.append("ABSOLUTE_MEMORY_TARGET_REQUIRED=YES")
     out.append(f"CLIENT_SHA256={sha}")
     out.append(f"CLIENT_AUTHORITY={authority}")
     out.append(f"PID={pid}")
@@ -233,8 +234,8 @@ def main():
         )
         for index, c in enumerate(d["candidates"]):
             targets = ",".join(
-                "UNKNOWN" if addr is None else f"0x{addr:08X}"
-                for _, addr in c["writes"]
+                ("ABS:" if absolute else "REG:") + ("UNKNOWN" if addr is None else f"0x{addr:08X}")
+                for _, addr, absolute in c["writes"]
             ) or "NONE"
             out.append(
                 f"  CANDIDATE[{index}] START=0x{c['start']:08X} END=0x{c['end']:08X} "
@@ -256,6 +257,7 @@ def main():
     out.append(f"UNRESOLVED={unresolved}")
     out.append("RAW_BYTE_OPCODE_PROMOTION=NO")
     out.append("DECODER_ALIGNED_PROMOTION=YES")
+    out.append("ABSOLUTE_MEMORY_TARGET_REQUIRED=YES")
     out.append("HEAP_SCAN=NO")
     out.append("MEM_PRIVATE_SCAN=NO")
     out.append("MEMORY_WRITE=NO")
