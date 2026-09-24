@@ -81,8 +81,11 @@ if ($UseExistingV6) {
     if (-not (Test-Path -LiteralPath $v6Path)) { throw "Existing V6 report not found: $v6Path" }
 } else {
     if (-not (Test-Path -LiteralPath $v6Script)) { throw "V6 script not found: $v6Script" }
-    & $v6Script -ClientPath $ClientPath -OutputPath $v6Path
-    if ($LASTEXITCODE -ne 0) { throw "V6 execution failed: exit=$LASTEXITCODE" }
+    try {
+        & $v6Script -ClientPath $ClientPath -OutputPath $v6Path
+    } catch {
+        throw "V6 execution failed: $($_.Exception.Message)"
+    }
     if (-not (Test-Path -LiteralPath $v6Path)) { throw "V6 report missing after execution: $v6Path" }
 }
 
