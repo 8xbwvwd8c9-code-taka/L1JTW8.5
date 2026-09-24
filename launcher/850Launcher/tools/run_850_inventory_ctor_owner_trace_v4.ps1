@@ -214,7 +214,7 @@ function Find-VtableHits([string]$owner,[long]$rva){
     return $hits
 }
 
-function Find-InboundCalls([long]$target){
+function Find-RawE8Candidates([long]$target){
     $hits=New-Object System.Collections.Generic.List[object]
     foreach($r in $execImage){
         $b=$r.Bytes
@@ -259,7 +259,8 @@ function Find-GlobalStores([long]$start,[long]$end){
         if($b0 -eq 0xC7 -and (Byte-At ($a+1)) -eq 0x05){
             $dst=U32-At ($a+2)
             if($null-ne$dst -and $dst -ge $base -and $dst -lt $limit){
-                $hits.Add([pscustomobject]@{At=$a;AtRva=$a-$base;Kind='C7/05';Dest=[long]$dst;DestRva=[long]$dst-$base})
+                $imm=U32-At ($a+6)
+                $hits.Add([pscustomobject]@{At=$a;AtRva=$a-$base;Kind='C7/05';Dest=[long]$dst;DestRva=[long]$dst-$base;Imm=$imm})
             }
         }
     }
@@ -306,16 +307,28 @@ foreach($kv in $Vtables.GetEnumerator()){
         $observed.Add([pscustomobject]@{Owner=$kv.Key;Address=$hit;Rva=$hit-$base})
     }
 }
-if($observed.Count -lt 6){ throw "Expected at least 6 runtime vtable xrefs; found $($observed.Count)." }
+
+$qualified=New-Object System.Collections.Generic.List[object]
+$expectedCheck=New-Object System.Collections.Generic.List[object]
+foreach($kv in $ExpectedXrefs.GetEnumerator()){
+    $owner=($kv.Key -split '_')[0]
+    $rva=[long]$kv.Value
+    $found=@($observed | Where-Object { $_.Owner -eq $owner -and $_.Rva -eq $rva })
+    $expectedCheck.Add([pscustomobject]@{Name=$kv.Key;Owner=$owner;Rva=$rva;Count=$found.Count})
+    if($found.Count -ne 1){
+        throw "Expected xref $($kv.Key) at RVA 0x$($rva.ToString('X8')) exactly once; found $($found.Count)."
+    }
+    $qualified.Add($found[0])
+}
 
 $analyses=New-Object System.Collections.Generic.List[object]
-foreach($x in ($observed | Sort-Object Rva)){
+foreach($x in ($qualified | Sort-Object Rva)){
     $start=Find-Prologue $x.Address
     $end=if($start -gt 0){Find-Epilogue $start $x.Address}else{0L}
-    $callers=if($start -gt 0){@(Find-InboundCalls $start)}else{@()}
+    $rawCallCandidates=if($start -gt 0){@(Find-RawE8Candidates $start)}else{@()}
     $stores=if($start -gt 0 -and $end -gt $start){@(Find-GlobalStores $start $end)}else{@()}
     $members=if($start -gt 0 -and $end -gt $start){@(Find-MemberWrites $start $end)}else{@()}
-    $analyses.Add([pscustomobject]@{Xref=$x;Start=$start;End=$end;Callers=$callers;Stores=$stores;Members=$members})
+    $analyses.Add([pscustomobject]@{Xref=$x;Start=$start;End=$end;RawCallCandidates=$rawCallCandidates;Stores=$stores;Members=$members})
 }
 
 $lines=New-Object System.Collections.Generic.List[string]
@@ -328,7 +341,10 @@ $lines.Add("PID=$($proc.Id)")
 $lines.Add(("MODULE_BASE=0x{0:X8}" -f $base))
 $lines.Add(("MODULE_SIZE=0x{0:X}" -f $size))
 $lines.Add('RUNTIME_ATTACH=READ_ONLY_MODULE_IMAGE')
-$lines.Add('SCAN_SCOPE=TARGETED_VTABLE_FUNCTIONS_AND_DIRECT_CALLERS')
+$lines.Add('SCAN_SCOPE=SIX_KNOWN_VTABLE_XREF_FUNCTION_CONTEXTS')
+$lines.Add('VTABLE_LITERAL_EXTRA_HITS_ANALYZED=NO')
+$lines.Add('CALL_ALIGNMENT_PROOF=NO')
+$lines.Add('RAW_E8_CALLERS_PROMOTABLE=NO')
 $lines.Add('HEAP_SCAN=NO')
 $lines.Add('MEM_PRIVATE_SCAN=NO')
 $lines.Add('VECTOR_SCAN=NO')
@@ -336,19 +352,20 @@ $lines.Add('MEMORY_WRITE=NO')
 $lines.Add('')
 
 $lines.Add('[EXPECTED_XREF_CHECK]')
-foreach($kv in $ExpectedXrefs.GetEnumerator()){
-    $found=@($observed | Where-Object { $_.Rva -eq [long]$kv.Value })
-    $lines.Add(("NAME={0} RVA=0x{1:X8} FOUND={2}" -f $kv.Key,[long]$kv.Value,[int]($found.Count -gt 0)))
+foreach($x in $expectedCheck){
+    $lines.Add(("NAME={0} OWNER={1} RVA=0x{2:X8} COUNT={3} QUALIFIED={4}" -f $x.Name,$x.Owner,$x.Rva,$x.Count,[int]($x.Count -eq 1)))
 }
+$lines.Add("RAW_VTABLE_LITERAL_HITS=$($observed.Count)")
+$lines.Add("QUALIFIED_EXPECTED_XREFS=$($qualified.Count)")
 
 $lines.Add('')
 $lines.Add('[FUNCTION_BOUNDARY_CANDIDATES]')
 foreach($a in $analyses){
-    $lines.Add(("OWNER={0} XREF_RVA=0x{1:X8} START_RVA={2} END_RVA={3} CALLERS={4} GLOBAL_STORES={5} MEMBER_REFS={6}" -f
+    $lines.Add(("OWNER={0} XREF_RVA=0x{1:X8} START_RVA={2} END_RVA={3} RAW_E8_CANDIDATES={4} GLOBAL_STORES={5} MEMBER_REFS={6}" -f
         $a.Xref.Owner,$a.Xref.Rva,
         ($(if($a.Start-gt0){'0x'+($a.Start-$base).ToString('X8')}else{'NONE'})),
         ($(if($a.End-gt0){'0x'+($a.End-$base).ToString('X8')}else{'NONE'})),
-        $a.Callers.Count,$a.Stores.Count,$a.Members.Count))
+        $a.RawCallCandidates.Count,$a.Stores.Count,$a.Members.Count))
     if($a.Start -gt 0){ $lines.Add(("  START_BYTES={0}" -f (Hex-At $a.Start 48))) }
     if($a.End -gt 0){ $lines.Add(("  END_BYTES={0}" -f (Hex-At ([Math]::Max($a.Start,$a.End-24)) ([int]([Math]::Min(48,$a.End-[Math]::Max($a.Start,$a.End-24)+1))))) }
     foreach($m in ($a.Members | Sort-Object At | Select-Object -First 96)){
@@ -356,10 +373,11 @@ foreach($a in $analyses){
         $lines.Add(("  MEMBER RVA=0x{0:X8} OP={1} MODRM=0x{2:X2} DISP=0x{3:X3} IMM={4}" -f $m.AtRva,$m.Op,$m.ModRM,$m.Disp,$iv))
     }
     foreach($s in ($a.Stores | Select-Object -First 32)){
-        $lines.Add(("  GLOBAL_STORE RVA=0x{0:X8} KIND={1} DEST_RVA=0x{2:X8}" -f $s.AtRva,$s.Kind,$s.DestRva))
+        $immText=if($s.PSObject.Properties['Imm'] -and $null-ne$s.Imm){'0x'+([uint32]$s.Imm).ToString('X8')}else{'-'}
+        $lines.Add(("  GLOBAL_STORE RVA=0x{0:X8} KIND={1} DEST_RVA=0x{2:X8} IMM={3}" -f $s.AtRva,$s.Kind,$s.DestRva,$immText))
     }
-    foreach($c in ($a.Callers | Select-Object -First 32)){
-        $lines.Add(("  INBOUND_CALL RVA=0x{0:X8} -> 0x{1:X8}" -f $c.AtRva,$c.TargetRva))
+    foreach($c in ($a.RawCallCandidates | Select-Object -First 32)){
+        $lines.Add(("  RAW_E8_CANDIDATE RVA=0x{0:X8} -> 0x{1:X8} ALIGNMENT_PROOF=NO" -f $c.AtRva,$c.TargetRva))
     }
 }
 
@@ -378,10 +396,11 @@ foreach($g in $groups){
 }
 
 $lines.Add('')
-$lines.Add('[OWNER_STORE_CANDIDATES_FROM_CALLERS]')
+$lines.Add('[UNVERIFIED_OWNER_STORE_CANDIDATES_FROM_RAW_E8]')
+$lines.Add('PROMOTABLE=NO')
 $seenStores=New-Object 'System.Collections.Generic.HashSet[string]'
 foreach($a in $analyses){
-    foreach($c in $a.Callers){
+    foreach($c in $a.RawCallCandidates){
         $callerStart=Find-Prologue $c.At
         if($callerStart -le 0){ continue }
         $callerEnd=Find-Epilogue $callerStart $c.At
@@ -389,7 +408,7 @@ foreach($a in $analyses){
         foreach($s in (Find-GlobalStores $callerStart $callerEnd)){
             $key=('{0:X8}:{1:X8}:{2}' -f ($callerStart-$base),$s.DestRva,$a.Xref.Owner)
             if($seenStores.Add($key)){
-                $lines.Add(("OWNER={0} CALLEE_START_RVA=0x{1:X8} CALLER_RVA=0x{2:X8} CALLER_START_RVA=0x{3:X8} STORE_RVA=0x{4:X8} DEST_RVA=0x{5:X8} KIND={6}" -f
+                $lines.Add(("UNVERIFIED OWNER={0} CALLEE_START_RVA=0x{1:X8} RAW_E8_RVA=0x{2:X8} CALLER_START_RVA=0x{3:X8} STORE_RVA=0x{4:X8} DEST_RVA=0x{5:X8} KIND={6}" -f
                     $a.Xref.Owner,($a.Start-$base),$c.AtRva,($callerStart-$base),$s.AtRva,$s.DestRva,$s.Kind))
             }
         }
@@ -398,18 +417,22 @@ foreach($a in $analyses){
 
 $lines.Add('')
 $lines.Add('[INFERENCE_GATES]')
-$lines.Add('GATE_A=If INVWIN_A and GRID_A share START_RVA, treat them as same function context; do not call them independent constructors.')
-$lines.Add('GATE_B=If one function context writes multiple inventory vtables to the same this-register/base register, infer constructor/destructor inheritance transition only as INFERENCE until control flow is decoded.')
-$lines.Add('GATE_C=Prefer module-global stores in direct inbound callers of ROOT/GRID function starts over any heap/vector discovery.')
-$lines.Add('GATE_D=Do not promote GRID+1D8..1F8 vector semantics from zero initialization alone.')
+$lines.Add('GATE_A=Analyze only the six previously established owner/xref pairs. Extra same-value literal hits are diagnostic only.')
+$lines.Add('GATE_B=If INVWIN_A and GRID_A share START_RVA, treat them as same function context; do not call them independent constructors.')
+$lines.Add('GATE_C=Raw byte E8 matches are not direct-call proof. Never promote caller-derived global stores until instruction-boundary alignment is independently proven.')
+$lines.Add('GATE_D=Prefer exact absolute global xrefs from V4b and global stores inside the six qualified function contexts over raw-E8 caller candidates.')
+$lines.Add('GATE_E=Do not promote GRID+1D8..1F8 vector semantics from zero initialization alone.')
 $lines.Add('')
 $lines.Add('[SUMMARY]')
 $lines.Add('STATUS=PASS_TARGETED_TRACE_PREPARED')
-$lines.Add("VTABLE_XREFS=$($observed.Count)")
+$lines.Add("RAW_VTABLE_LITERAL_HITS=$($observed.Count)")
+$lines.Add("QUALIFIED_EXPECTED_XREFS=$($qualified.Count)")
 $lines.Add("FUNCTION_GROUPS=$(@($groups | Where-Object {[long]$_.Name -gt 0}).Count)")
+$lines.Add('CALL_ALIGNMENT_PROOF=NO')
+$lines.Add('RAW_E8_CALLERS_PROMOTABLE=NO')
 $lines.Add('WP5=NOT_YET')
 $lines.Add('WP6=NOT_YET')
-$lines.Add('NEXT=Use function groups and direct-caller global stores to choose one stable owner chain; then one narrow fixed-offset read only.')
+$lines.Add('NEXT=Use six-xref function groups plus V4b exact global refs to choose the next narrow owner hypothesis. Do not use raw E8 callers for promotion.')
 $lines.Add('HEAP_SCAN=NO')
 $lines.Add('MEM_PRIVATE_SCAN=NO')
 $lines.Add('VECTOR_SCAN=NO')
@@ -420,6 +443,8 @@ if($parent -and -not (Test-Path -LiteralPath $parent)){ New-Item -ItemType Direc
 [IO.File]::WriteAllLines($OutputPath,$lines,[Text.UTF8Encoding]::new($false))
 Write-Host 'STATUS=PASS_TARGETED_TRACE_PREPARED'
 Write-Host "OUTPUT=$OutputPath"
+Write-Host 'CALL_ALIGNMENT_PROOF=NO'
+Write-Host 'RAW_E8_CALLERS_PROMOTABLE=NO'
 Write-Host 'HEAP_SCAN=NO'
 Write-Host 'MEM_PRIVATE_SCAN=NO'
 Write-Host 'VECTOR_SCAN=NO'
