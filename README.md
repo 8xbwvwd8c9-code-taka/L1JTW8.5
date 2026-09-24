@@ -74,6 +74,7 @@ BUG
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 | BUG-850-249 | L2 | pet DB-first create/delete and atomic evolve replace | PASS / PROMOTED |
+| BUG-850-245 | L2 | castle treasury / Adena transactional consistency | PASS / PROMOTED |
 | BUG-850-246 | L2 | character_buff transactional snapshot rewrite / InnoDB gate | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
@@ -3124,3 +3125,35 @@ STATUS=PASS_PROMOTED
 DB_MIGRATION_REQUIRED=YES
 UNRELATED_SOURCE_REPLAY=NO
 ```
+
+## BUG-850-245 — castle treasury and player Adena could diverge on partial failure
+
+### Problem
+
+Castle deposit/withdraw paths mutated player Adena, castle `public_money`, and live inventory/castle state in separate operations. A DB failure between those operations could mint, lose, or desynchronize Adena.
+
+### Fix
+
+A shared `transferTreasuryAdena` path now performs castle CAS and `character_items` CAS/insert/delete inside one transaction, guarded by an InnoDB engine check. Live castle/inventory publication occurs only after commit. Deposit and withdrawal endpoints route through this helper. The completed promotion intentionally reuses existing CharacterItemTable/L1PcInventory transaction helpers and does not replay unrelated historical castle/withdrawal changes.
+
+### Validation
+
+```text
+WORK_CI=35720845477
+COMPLETED_CI=35943071611
+SOURCE_COMMIT=ffffcecd1dddc193cb7ac51a1fb9875b22fafc39
+BUG_850_245_SCOPED_PATCH_APPLIED=PASS
+UNRELATED_CASTLE_HISTORY_REPLAY=NO
+BUG_850_245_CONTRACT=PASS
+CASTLE_AND_ADENA_ONE_TRANSACTION=PASS
+DEPOSIT_NO_PRECOMMIT_LIVE_CONSUME=PASS
+WITHDRAWAL_NO_POSTFAIL_REWARD=PASS
+INNODB_GATE=PASS
+BUG_850_245_TARGETED_JAVAC=PASS
+BUG_850_245_TARGETED_BEHAVIOR_RUNTIME=PASS
+FAILED_TRANSFER_PRESERVES_BOTH_SIDES=PASS
+SUCCESSFUL_TRANSFER_CONSERVES_ADENA=PASS
+BUG_850_245_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-245_VALIDATION_20260924.md`.
