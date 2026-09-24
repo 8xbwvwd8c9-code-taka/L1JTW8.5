@@ -221,6 +221,160 @@ public class o {
         }
     }
 
+
+    public boolean updatePartnerRelationAtomic(u left, u right) {
+        if (left == null || right == null || left.fr() <= 0 || right.fr() <= 0 || left.fr() == right.fr()) {
+            return false;
+        }
+        u first = left.fr() < right.fr() ? left : right;
+        u second = first == left ? right : left;
+        synchronized (first) {
+            synchronized (second) {
+                Connection con = null;
+                boolean oldAutoCommit = true;
+                boolean committed = false;
+                int leftPartner = -1;
+                int rightPartner = -1;
+                try {
+                    con = l1j.server.b.a().b();
+                    this.requirePartnerInnoDb(con);
+                    oldAutoCommit = con.getAutoCommit();
+                    con.setAutoCommit(false);
+                    try (PreparedStatement pstm = con.prepareStatement("SELECT objid, PartnerID FROM characters WHERE objid IN (?,?) ORDER BY objid FOR UPDATE")) {
+                        pstm.setInt(1, first.fr());
+                        pstm.setInt(2, second.fr());
+                        try (ResultSet rs = pstm.executeQuery()) {
+                            int rows = 0;
+                            while (rs.next()) {
+                                int objid = rs.getInt("objid");
+                                int partnerId = rs.getInt("PartnerID");
+                                if (objid == left.fr()) {
+                                    leftPartner = partnerId;
+                                } else if (objid == right.fr()) {
+                                    rightPartner = partnerId;
+                                } else {
+                                    throw new SQLException("BUG-850-289 unexpected character row");
+                                }
+                                ++rows;
+                            }
+                            if (rows != 2 || leftPartner < 0 || rightPartner < 0) {
+                                throw new SQLException("BUG-850-289 missing marriage character row");
+                            }
+                        }
+                    }
+                    if ((leftPartner != 0 && leftPartner != right.fr()) || (rightPartner != 0 && rightPartner != left.fr())) {
+                        throw new SQLException("BUG-850-289 conflicting existing PartnerID");
+                    }
+                    if (leftPartner != right.fr()) {
+                        this.updatePartnerRow(con, left.fr(), leftPartner, right.fr());
+                    }
+                    if (rightPartner != left.fr()) {
+                        this.updatePartnerRow(con, right.fr(), rightPartner, left.fr());
+                    }
+                    con.commit();
+                    committed = true;
+                }
+                catch (Exception e2) {
+                    if (con != null) {
+                        try {
+                            con.rollback();
+                        }
+                        catch (SQLException rollbackError) {
+                            a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                        }
+                    }
+                    a.log(Level.SEVERE, "BUG-850-289 bilateral PartnerID transaction failed", e2);
+                }
+                finally {
+                    if (con != null) {
+                        try {
+                            con.setAutoCommit(oldAutoCommit);
+                        }
+                        catch (SQLException autoCommitError) {
+                            a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+                        }
+                    }
+                    j.a(con);
+                }
+                if (!committed) {
+                    return false;
+                }
+                left.aB(right.fr());
+                right.aB(left.fr());
+                return true;
+            }
+        }
+    }
+
+
+    public boolean clearPartnerRelationAtomic(u actor, int partnerId, u onlinePartner) {
+        if (actor == null || actor.fr() <= 0 || partnerId <= 0 || actor.fr() == partnerId) return false;
+        synchronized (actor) {
+            Connection con = null;
+            boolean oldAutoCommit = true;
+            boolean committed = false;
+            int actorPartner = -1;
+            int peerPartner = -1;
+            try {
+                con = l1j.server.b.a().b();
+                this.requirePartnerInnoDb(con);
+                oldAutoCommit = con.getAutoCommit();
+                con.setAutoCommit(false);
+                try (PreparedStatement pstm = con.prepareStatement("SELECT objid, PartnerID FROM characters WHERE objid IN (?,?) ORDER BY objid FOR UPDATE")) {
+                    pstm.setInt(1, actor.fr());
+                    pstm.setInt(2, partnerId);
+                    try (ResultSet rs = pstm.executeQuery()) {
+                        int rows = 0;
+                        while (rs.next()) {
+                            int objid = rs.getInt("objid");
+                            int pid = rs.getInt("PartnerID");
+                            if (objid == actor.fr()) actorPartner = pid;
+                            else if (objid == partnerId) peerPartner = pid;
+                            else throw new SQLException("BUG-850-289 unexpected divorce character row");
+                            rows++;
+                        }
+                        if (rows != 2 || actorPartner < 0 || peerPartner < 0) throw new SQLException("BUG-850-289 missing divorce character row");
+                    }
+                }
+                if (actorPartner != partnerId || peerPartner != actor.fr()) throw new SQLException("BUG-850-289 non-reciprocal divorce relation");
+                this.updatePartnerRow(con, actor.fr(), partnerId, 0);
+                this.updatePartnerRow(con, partnerId, actor.fr(), 0);
+                con.commit();
+                committed = true;
+            } catch (Exception e) {
+                if (con != null) try { con.rollback(); } catch (SQLException re) { a.log(Level.SEVERE, re.getLocalizedMessage(), re); }
+                a.log(Level.SEVERE, "BUG-850-289 bilateral divorce PartnerID transaction failed", e);
+            } finally {
+                if (con != null) try { con.setAutoCommit(oldAutoCommit); } catch (SQLException ignored) {}
+                j.a(con);
+            }
+            if (!committed) return false;
+            actor.aB(0);
+            if (onlinePartner != null && onlinePartner.fr() == partnerId) onlinePartner.aB(0);
+            return true;
+        }
+    }
+
+    private void requirePartnerInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='characters'");
+             ResultSet rs = pstm.executeQuery()) {
+            if (!rs.next() || !"InnoDB".equalsIgnoreCase(rs.getString("ENGINE")) || rs.next()) {
+                throw new SQLException("BUG-850-289 requires characters InnoDB");
+            }
+        }
+    }
+
+    private void updatePartnerRow(Connection con, int objid, int oldPartnerId, int newPartnerId) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET PartnerID=? WHERE objid=? AND PartnerID=?")) {
+            pstm.setInt(1, newPartnerId);
+            pstm.setInt(2, objid);
+            pstm.setInt(3, oldPartnerId);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-289 PartnerID CAS failed");
+            }
+        }
+    }
+
     public void a(String accountName, String charName) throws Exception {
         Connection con = null;
         try {

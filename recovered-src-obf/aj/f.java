@@ -327,22 +327,14 @@ extends cv {
             }
             case 653: {
                 c2 = this.d();
-                u target653 = (u)aq.a().a(pc.bD());
-                if (c2 == 0) {
-                    return;
-                }
+                int partnerId653 = pc.bD();
+                u target653 = (u)aq.a().a(partnerId653);
+                if (c2 == 0) return;
                 if (c2 == 1) {
-                    if (target653 != null) {
-                        target653.aB(0);
-                        target653.I();
-                        target653.a(new ds(662));
-                    } else {
-                        o.a().b(pc.bD());
-                    }
+                    if (!o.a().clearPartnerRelationAtomic(pc, partnerId653, target653)) return;
+                    if (target653 != null) target653.a(new ds(662));
+                    pc.a(new ds(662));
                 }
-                pc.aB(0);
-                pc.I();
-                pc.a(new ds(662));
                 break;
             }
             case 654: {
@@ -355,12 +347,11 @@ extends cv {
                     break;
                 }
                 if (c2 != 1) break;
-                pc.aB(partner.fr());
-                pc.I();
+                if (!o.a().updatePartnerRelationAtomic(pc, partner)) {
+                    return;
+                }
                 pc.a(new ds(790));
                 pc.a(new ds(655, partner.et()));
-                partner.aB(pc.fr());
-                partner.I();
                 partner.a(new ds(790));
                 partner.a(new ds(655, pc.et()));
                 break;

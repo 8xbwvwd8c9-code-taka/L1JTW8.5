@@ -312,24 +312,20 @@ public class C_Attr extends ClientBasePacket {
                break;
             case 653:
                var6 = this.d();
-               L1PcInstance var17 = (L1PcInstance)L1World.a().a(var3.bD());
+               int partnerId653 = var3.bD();
+               L1PcInstance var17 = (L1PcInstance)L1World.a().a(partnerId653);
                if (var6 == 0) {
                   return;
                }
-
                if (var6 == 1) {
-                  if (var17 != null) {
-                     var17.aB(0);
-                     var17.I();
-                     var17.a(new S_ServerMessage(662));
-                  } else {
-                     CharacterTable.a().b(var3.bD());
+                  if (!CharacterTable.a().clearPartnerRelationAtomic(var3, partnerId653, var17)) {
+                     return;
                   }
+                  if (var17 != null) {
+                     var17.a(new S_ServerMessage(662));
+                  }
+                  var3.a(new S_ServerMessage(662));
                }
-
-               var3.aB(0);
-               var3.I();
-               var3.a(new S_ServerMessage(662));
                break;
             case 654:
                var6 = this.d();
@@ -339,12 +335,11 @@ public class C_Attr extends ClientBasePacket {
                   if (var6 == 0) {
                      var18.a(new S_ServerMessage(656, var3.et()));
                   } else if (var6 == 1) {
-                     var3.aB(var18.fr());
-                     var3.I();
+                     if (!CharacterTable.a().updatePartnerRelationAtomic(var3, var18)) {
+                        return;
+                     }
                      var3.a(new S_ServerMessage(790));
                      var3.a(new S_ServerMessage(655, var18.et()));
-                     var18.aB(var3.fr());
-                     var18.I();
                      var18.a(new S_ServerMessage(790));
                      var18.a(new S_ServerMessage(655, var3.et()));
                   }

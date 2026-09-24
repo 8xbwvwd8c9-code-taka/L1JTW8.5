@@ -195,6 +195,169 @@ public class CharacterTable {
       }
    }
 
+
+   public boolean updatePartnerRelationAtomic(L1PcInstance var1, L1PcInstance var2) {
+      if (var1 == null || var2 == null || var1.fr() <= 0 || var2.fr() <= 0 || var1.fr() == var2.fr()) {
+         return false;
+      }
+
+      L1PcInstance var3 = var1.fr() < var2.fr() ? var1 : var2;
+      L1PcInstance var4 = var3 == var1 ? var2 : var1;
+      synchronized (var3) {
+         synchronized (var4) {
+            Connection var5 = null;
+            boolean var6 = true;
+            boolean var7 = false;
+            int var8 = -1;
+            int var9 = -1;
+
+            try {
+               var5 = DatabaseFactory.a().b();
+               this.requirePartnerInnoDb(var5);
+               var6 = var5.getAutoCommit();
+               var5.setAutoCommit(false);
+
+               try (PreparedStatement var10 = var5.prepareStatement(
+                  "SELECT objid, PartnerID FROM characters WHERE objid IN (?,?) ORDER BY objid FOR UPDATE"
+               )) {
+                  var10.setInt(1, var3.fr());
+                  var10.setInt(2, var4.fr());
+                  try (ResultSet var11 = var10.executeQuery()) {
+                     int var12 = 0;
+                     while (var11.next()) {
+                        int var13 = var11.getInt("objid");
+                        int var14 = var11.getInt("PartnerID");
+                        if (var13 == var1.fr()) {
+                           var8 = var14;
+                        } else if (var13 == var2.fr()) {
+                           var9 = var14;
+                        } else {
+                           throw new SQLException("BUG-850-289 unexpected character row");
+                        }
+                        var12++;
+                     }
+                     if (var12 != 2 || var8 < 0 || var9 < 0) {
+                        throw new SQLException("BUG-850-289 missing marriage character row");
+                     }
+                  }
+               }
+
+               if ((var8 != 0 && var8 != var2.fr()) || (var9 != 0 && var9 != var1.fr())) {
+                  throw new SQLException("BUG-850-289 conflicting existing PartnerID");
+               }
+
+               if (var8 != var2.fr()) {
+                  this.updatePartnerRow(var5, var1.fr(), var8, var2.fr());
+               }
+               if (var9 != var1.fr()) {
+                  this.updatePartnerRow(var5, var2.fr(), var9, var1.fr());
+               }
+
+               var5.commit();
+               var7 = true;
+            } catch (Exception var18) {
+               if (var5 != null) {
+                  try {
+                     var5.rollback();
+                  } catch (SQLException var17) {
+                     a.log(Level.SEVERE, var17.getLocalizedMessage(), var17);
+                  }
+               }
+               a.log(Level.SEVERE, "BUG-850-289 bilateral PartnerID transaction failed", var18);
+            } finally {
+               if (var5 != null) {
+                  try {
+                     var5.setAutoCommit(var6);
+                  } catch (SQLException var16) {
+                     a.log(Level.SEVERE, var16.getLocalizedMessage(), var16);
+                  }
+               }
+               SQLUtil.a(var5);
+            }
+
+            if (!var7) {
+               return false;
+            }
+
+            var1.aB(var2.fr());
+            var2.aB(var1.fr());
+            return true;
+         }
+      }
+   }
+
+
+   public boolean clearPartnerRelationAtomic(L1PcInstance var1, int var2, L1PcInstance var3) {
+      if (var1 == null || var1.fr() <= 0 || var2 <= 0 || var1.fr() == var2) return false;
+      synchronized (var1) {
+         Connection var4 = null;
+         boolean var5 = true;
+         boolean var6 = false;
+         int var7 = -1;
+         int var8 = -1;
+         try {
+            var4 = DatabaseFactory.a().b();
+            this.requirePartnerInnoDb(var4);
+            var5 = var4.getAutoCommit();
+            var4.setAutoCommit(false);
+            try (PreparedStatement var9 = var4.prepareStatement("SELECT objid, PartnerID FROM characters WHERE objid IN (?,?) ORDER BY objid FOR UPDATE")) {
+               var9.setInt(1, var1.fr());
+               var9.setInt(2, var2);
+               try (ResultSet var10 = var9.executeQuery()) {
+                  int var11 = 0;
+                  while (var10.next()) {
+                     int var12 = var10.getInt("objid");
+                     int var13 = var10.getInt("PartnerID");
+                     if (var12 == var1.fr()) var7 = var13;
+                     else if (var12 == var2) var8 = var13;
+                     else throw new SQLException("BUG-850-289 unexpected divorce character row");
+                     var11++;
+                  }
+                  if (var11 != 2 || var7 < 0 || var8 < 0) throw new SQLException("BUG-850-289 missing divorce character row");
+               }
+            }
+            if (var7 != var2 || var8 != var1.fr()) throw new SQLException("BUG-850-289 non-reciprocal divorce relation");
+            this.updatePartnerRow(var4, var1.fr(), var2, 0);
+            this.updatePartnerRow(var4, var2, var1.fr(), 0);
+            var4.commit();
+            var6 = true;
+         } catch (Exception var16) {
+            if (var4 != null) try { var4.rollback(); } catch (SQLException var15) { a.log(Level.SEVERE, var15.getLocalizedMessage(), var15); }
+            a.log(Level.SEVERE, "BUG-850-289 bilateral divorce PartnerID transaction failed", var16);
+         } finally {
+            if (var4 != null) try { var4.setAutoCommit(var5); } catch (SQLException ignored) {}
+            SQLUtil.a(var4);
+         }
+         if (!var6) return false;
+         var1.aB(0);
+         if (var3 != null && var3.fr() == var2) var3.aB(0);
+         return true;
+      }
+   }
+
+   private void requirePartnerInnoDb(Connection var1) throws SQLException {
+      try (PreparedStatement var2 = var1.prepareStatement(
+         "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='characters'"
+      ); ResultSet var3 = var2.executeQuery()) {
+         if (!var3.next() || !"InnoDB".equalsIgnoreCase(var3.getString("ENGINE")) || var3.next()) {
+            throw new SQLException("BUG-850-289 requires characters InnoDB");
+         }
+      }
+   }
+
+   private void updatePartnerRow(Connection var1, int var2, int var3, int var4) throws SQLException {
+      try (PreparedStatement var5 = var1.prepareStatement(
+         "UPDATE characters SET PartnerID=? WHERE objid=? AND PartnerID=?"
+      )) {
+         var5.setInt(1, var4);
+         var5.setInt(2, var2);
+         var5.setInt(3, var3);
+         if (var5.executeUpdate() != 1) {
+            throw new SQLException("BUG-850-289 PartnerID CAS failed");
+         }
+      }
+   }
+
    public void a(String var1, String var2) throws Exception {
       Connection var3 = null;
 
