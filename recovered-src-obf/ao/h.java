@@ -81,21 +81,80 @@ public class h {
     }
 
     public static void a(u pc) {
-        h.b(pc);
-        int[] nArray = b;
-        int n2 = b.length;
-        int n3 = 0;
-        while (n3 < n2) {
-            int skillId = nArray[n3];
-            int timeSec = pc.bC(skillId);
-            if (timeSec > 0) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        boolean oldAutoCommit = true;
+        try {
+            con = l1j.server.b.a().b();
+            c(con);
+            oldAutoCommit = con.getAutoCommit();
+            con.setAutoCommit(false);
+
+            pstm = con.prepareStatement("DELETE FROM character_buff WHERE char_obj_id=?");
+            pstm.setInt(1, pc.fr());
+            pstm.executeUpdate();
+            j.a(pstm);
+            pstm = con.prepareStatement("INSERT INTO character_buff SET char_obj_id=?, skill_id=?, remaining_time=?, poly_id=?, limit_time=?");
+
+            for (int skillId : b) {
+                int timeSec = pc.bC(skillId);
+                if (timeSec <= 0) {
+                    continue;
+                }
                 int polyId = 0;
                 if (skillId == 67) {
                     polyId = pc.fe();
                 }
-                h.a(pc.fr(), skillId, timeSec, polyId, pc.bD(skillId));
+                pstm.setInt(1, pc.fr());
+                pstm.setInt(2, skillId);
+                pstm.setInt(3, timeSec);
+                pstm.setInt(4, polyId);
+                pstm.setTimestamp(5, pc.bD(skillId));
+                if (pstm.executeUpdate() != 1) {
+                    throw new SQLException("BUG-850-246 buff insert affected unexpected row count");
+                }
             }
-            ++n3;
+
+            con.commit();
+        }
+        catch (SQLException e2) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException rollbackError) {
+                    a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                }
+            }
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+        }
+        finally {
+            j.a(pstm);
+            if (con != null) {
+                try {
+                    con.setAutoCommit(oldAutoCommit);
+                }
+                catch (SQLException autoCommitError) {
+                    a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+                }
+            }
+            j.a(con);
+        }
+    }
+
+    private static void c(Connection con) throws SQLException {
+        PreparedStatement pstm = null;
+        java.sql.ResultSet rs = null;
+        try {
+            pstm = con.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='character_buff'");
+            rs = pstm.executeQuery();
+            if (!rs.next() || !"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                throw new SQLException("BUG-850-246 requires character_buff InnoDB migration");
+            }
+        }
+        finally {
+            j.a(rs);
+            j.a(pstm);
         }
     }
 }

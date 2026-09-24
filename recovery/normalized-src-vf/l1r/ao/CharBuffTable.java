@@ -269,21 +269,78 @@ public class CharBuffTable {
    }
 
    public static void a(L1PcInstance var0) {
-      b(var0);
-      int[] var4 = b;
-      int var3 = b.length;
+      Connection var1 = null;
+      PreparedStatement var2 = null;
+      boolean var3 = true;
 
-      for (int var2 = 0; var2 < var3; var2++) {
-         int var1 = var4[var2];
-         int var5 = var0.bC(var1);
-         if (var5 > 0) {
-            int var6 = 0;
-            if (var1 == 67) {
-               var6 = var0.fe();
+      try {
+         var1 = DatabaseFactory.a().b();
+         c(var1);
+         var3 = var1.getAutoCommit();
+         var1.setAutoCommit(false);
+
+         var2 = var1.prepareStatement("DELETE FROM character_buff WHERE char_obj_id=?");
+         var2.setInt(1, var0.fr());
+         var2.executeUpdate();
+         SQLUtil.a(var2);
+         var2 = var1.prepareStatement("INSERT INTO character_buff SET char_obj_id=?, skill_id=?, remaining_time=?, poly_id=?, limit_time=?");
+
+         for (int var4 : b) {
+            int var5 = var0.bC(var4);
+            if (var5 > 0) {
+               int var6 = 0;
+               if (var4 == 67) {
+                  var6 = var0.fe();
+               }
+
+               var2.setInt(1, var0.fr());
+               var2.setInt(2, var4);
+               var2.setInt(3, var5);
+               var2.setInt(4, var6);
+               var2.setTimestamp(5, var0.bD(var4));
+               if (var2.executeUpdate() != 1) {
+                  throw new SQLException("BUG-850-246 buff insert affected unexpected row count");
+               }
             }
-
-            a(var0.fr(), var1, var5, var6, var0.bD(var1));
          }
+
+         var1.commit();
+      } catch (SQLException var10) {
+         if (var1 != null) {
+            try {
+               var1.rollback();
+            } catch (SQLException var9) {
+               a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+            }
+         }
+
+         a.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+      } finally {
+         SQLUtil.a(var2);
+         if (var1 != null) {
+            try {
+               var1.setAutoCommit(var3);
+            } catch (SQLException var8) {
+               a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+            }
+         }
+         SQLUtil.a(var1);
+      }
+   }
+
+   private static void c(Connection var0) throws SQLException {
+      PreparedStatement var1 = null;
+      java.sql.ResultSet var2 = null;
+
+      try {
+         var1 = var0.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='character_buff'");
+         var2 = var1.executeQuery();
+         if (!var2.next() || !"InnoDB".equalsIgnoreCase(var2.getString("ENGINE"))) {
+            throw new SQLException("BUG-850-246 requires character_buff InnoDB migration");
+         }
+      } finally {
+         SQLUtil.a(var2);
+         SQLUtil.a(var1);
       }
    }
 }
