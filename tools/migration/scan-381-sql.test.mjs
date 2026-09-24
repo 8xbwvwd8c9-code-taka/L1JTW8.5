@@ -3,8 +3,11 @@ import test from "node:test";
 
 import {
   classifyExactOverlap,
+  classifySchemaOverlap,
+  extractCreateColumnsByTable,
   extract381TableNames,
   extract850TableNames,
+  extractInsertColumnsByTable,
   renderFramework,
   summarizeSql,
 } from "./scan-381-sql.mjs";
@@ -15,6 +18,20 @@ test("extracts backtick and qualified 381 INSERT table names", () => {
     "INSERT INTO `另一表` (`id`) VALUES (2);",
   ].join("\n");
   assert.deepEqual(extract381TableNames(sql), ["w_測試", "另一表"]);
+});
+
+test("extracts insert and create columns for same-name schema comparison", () => {
+  const source = "INSERT INTO atu381.`accounts` (`login`,`password`) VALUES ('a','b');";
+  const target = "CREATE TABLE `accounts` (\n  `login` varchar(50),\n  `password` varchar(50),\n  PRIMARY KEY (`login`)\n) ENGINE=MyISAM;";
+  assert.deepEqual(extractInsertColumnsByTable(source).get("accounts"), ["login", "password"]);
+  assert.deepEqual(extractCreateColumnsByTable(target).get("accounts"), ["login", "password"]);
+});
+
+test("classifies equal, subset, different, and unproven column sets", () => {
+  assert.equal(classifySchemaOverlap(["a", "b"], ["a", "b"]), "EXACT_COLUMN_SET");
+  assert.equal(classifySchemaOverlap(["a"], ["a", "b"]), "381_COLUMNS_SUBSET_OF_850");
+  assert.equal(classifySchemaOverlap(["a", "c"], ["a", "b"]), "COLUMN_DIFFERENCE");
+  assert.equal(classifySchemaOverlap([], ["a", "b"]), "SOURCE_COLUMNS_NOT_PROVEN");
 });
 
 test("extracts 850 CREATE TABLE names without treating comments as tables", () => {
@@ -54,10 +71,11 @@ test("renders one framework row per SQL item with 850 overlap state", () => {
     source_table: "w_測試",
     data_state: "HAS_SQL_CONTENT",
     overlap_850_exact: "NO_EXACT_TABLE_MATCH",
+    overlap_850_schema: "NOT_APPLICABLE_NO_EXACT_TABLE",
     overlap_850_semantic: "PENDING_CORE_REVIEW",
     audit_status: "SQL_SCANNED",
     difficulty: "NOT_FINAL",
     decision: "HOLD",
   }]);
-  assert.match(markdown, /\| 1 \| `w_測試` \| HAS_SQL_CONTENT \| NO_EXACT_TABLE_MATCH \| PENDING_CORE_REVIEW \| SQL_SCANNED \| NOT_FINAL \| HOLD \|/u);
+  assert.match(markdown, /\| 1 \| `w_測試` \| HAS_SQL_CONTENT \| NO_EXACT_TABLE_MATCH \| NOT_APPLICABLE_NO_EXACT_TABLE \| PENDING_CORE_REVIEW \| SQL_SCANNED \| NOT_FINAL \| HOLD \|/u);
 });

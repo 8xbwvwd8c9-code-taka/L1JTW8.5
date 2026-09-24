@@ -33,6 +33,43 @@ export function extract850TableNames(sql) {
   return uniqueSorted(names);
 }
 
+export function extractInsertColumnsByTable(sql) {
+  const clean = stripSqlComments(sql);
+  const result = new Map();
+  const insert = /\b(?:INSERT|REPLACE)\s+INTO\s+(?:(?:`?[^`.\s]+`?)\s*\.\s*)?`?([^`\s(;.]+)`?\s*\(([^)]*)\)\s*VALUES/giu;
+  for (const match of clean.matchAll(insert)) {
+    const columns = match[2].split(",").map((value) => value.trim().replace(/^`|`$/gu, "")).filter(Boolean);
+    const previous = result.get(match[1]) ?? [];
+    result.set(match[1], uniqueInOrder([...previous, ...columns]));
+  }
+  return result;
+}
+
+export function extractCreateColumnsByTable(sql) {
+  const clean = stripSqlComments(sql);
+  const result = new Map();
+  const create = /\bCREATE\s+TABLE(?:\s+IF\s+NOT\s+EXISTS)?\s+`?([^`\s(;.]+)`?\s*\(([\s\S]*?)\)\s*(?:ENGINE\b|;)/giu;
+  for (const match of clean.matchAll(create)) {
+    const columns = [];
+    for (const line of match[2].split(/\r?\n/u)) {
+      const column = line.match(/^\s*`([^`]+)`\s+/u);
+      if (column) columns.push(column[1]);
+    }
+    result.set(match[1], uniqueInOrder(columns));
+  }
+  return result;
+}
+
+export function classifySchemaOverlap(sourceColumns, targetColumns) {
+  if (sourceColumns.length === 0) return "SOURCE_COLUMNS_NOT_PROVEN";
+  if (targetColumns.length === 0) return "850_COLUMNS_NOT_PROVEN";
+  const source = new Set(sourceColumns.map((name) => name.toLowerCase()));
+  const target = new Set(targetColumns.map((name) => name.toLowerCase()));
+  if (source.size === target.size && [...source].every((name) => target.has(name))) return "EXACT_COLUMN_SET";
+  if ([...source].every((name) => target.has(name))) return "381_COLUMNS_SUBSET_OF_850";
+  return "COLUMN_DIFFERENCE";
+}
+
 export function classifyExactOverlap(sourceTables, targetTables) {
   if (sourceTables.length === 0) return "SOURCE_TABLE_NOT_PROVEN";
   return sourceTables.some((name) => targetTables.has(name.toLowerCase()))
@@ -85,11 +122,11 @@ export function renderFramework(rows) {
     "",
     "每份 381 SQL 保留獨立項目。`overlap_850_exact` 只表示同名 table；語意重複、部分重疊與 850 native replacement 必須在核心追蹤後判定。",
     "",
-    "| ID | 381 table | 資料狀態 | 850 同名 | 850 語意對照 | 稽核狀態 | 難易度 | 決策 |",
-    "|---:|---|---|---|---|---|---|---|",
+    "| ID | 381 table | 資料狀態 | 850 同名 | 欄位對照 | 850 語意對照 | 稽核狀態 | 難易度 | 決策 |",
+    "|---:|---|---|---|---|---|---|---|---|",
   ];
   const body = rows.map((row) =>
-    `| ${row.id} | \`${markdownCell(row.source_table)}\` | ${markdownCell(row.data_state)} | ${markdownCell(row.overlap_850_exact)} | ${markdownCell(row.overlap_850_semantic)} | ${markdownCell(row.audit_status)} | ${markdownCell(row.difficulty)} | ${markdownCell(row.decision)} |`
+    `| ${row.id} | \`${markdownCell(row.source_table)}\` | ${markdownCell(row.data_state)} | ${markdownCell(row.overlap_850_exact)} | ${markdownCell(row.overlap_850_schema ?? "NOT_SCANNED")} | ${markdownCell(row.overlap_850_semantic)} | ${markdownCell(row.audit_status)} | ${markdownCell(row.difficulty)} | ${markdownCell(row.decision)} |`
   );
   return [...header, ...body, ""].join("\n");
 }
@@ -98,6 +135,8 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
   const targetText = await fs.readFile(targetSql, "utf8");
   const targetNames = extract850TableNames(targetText);
   const targetSet = new Set(targetNames.map((name) => name.toLowerCase()));
+  const targetColumnsByTable = extractCreateColumnsByTable(targetText);
+  const targetColumnsByLowerName = new Map([...targetColumnsByTable].map(([name, columns]) => [name.toLowerCase(), columns]));
   const dirEntries = await fs.readdir(sourceDir, { withFileTypes: true });
   const filenames = dirEntries
     .filter((entry) => entry.isFile() && entry.name.toLowerCase().endsWith(".sql"))
@@ -113,6 +152,9 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
     const parsedTables = extract381TableNames(sql);
     const sourceTables = parsedTables.length > 0 ? parsedTables : [deriveFileTable(filename)];
     const exactMatches = sourceTables.filter((name) => targetSet.has(name.toLowerCase()));
+    const sourceColumnsByTable = extractInsertColumnsByTable(sql);
+    const sourceColumns = uniqueInOrder(sourceTables.flatMap((name) => sourceColumnsByTable.get(name) ?? []));
+    const targetColumns = uniqueInOrder(exactMatches.flatMap((name) => targetColumnsByLowerName.get(name.toLowerCase()) ?? []));
     rows.push({
       id: index + 1,
       source_file: filename,
@@ -124,6 +166,9 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
       create_statements: summary.createStatements,
       overlap_850_exact: classifyExactOverlap(sourceTables, targetSet),
       overlap_850_tables: exactMatches.join(" | "),
+      columns_381: sourceColumns.join(" | "),
+      columns_850: targetColumns.join(" | "),
+      overlap_850_schema: exactMatches.length > 0 ? classifySchemaOverlap(sourceColumns, targetColumns) : "NOT_APPLICABLE_NO_EXACT_TABLE",
       overlap_850_semantic: "PENDING_CORE_REVIEW",
       module_family: "UNCLASSIFIED",
       audit_status: "SQL_SCANNED",
@@ -140,6 +185,7 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
   await fs.writeFile(path.join(outputDir, "SQL_FULL_INVENTORY.csv"), toCsv(rows), "utf8");
   await fs.writeFile(path.join(outputDir, "SQL_MODULE_FRAMEWORK.md"), renderFramework(rows), "utf8");
   const exactCount = rows.filter((row) => row.overlap_850_exact === "EXACT_TABLE_MATCH").length;
+  const schemaComparedCount = rows.filter((row) => row.overlap_850_exact === "EXACT_TABLE_MATCH").length;
   const emptyCount = rows.filter((row) => row.data_state === "NO_ACTIVE_DATA").length;
   const markdown = `# 381 → 850 SQL 全量掃描進度\n\n` +
     `- 381 SQL：${rows.length}\n` +
@@ -147,6 +193,7 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
     `- 空 SQL：${emptyCount}\n` +
     `- 850 CREATE TABLE：${targetNames.length}\n` +
     `- 850 同名 table：${exactCount}\n` +
+    `- 850 同名欄位已比較：${schemaComparedCount}/${exactCount}\n` +
     `- SQL_SCANNED：${rows.length}/${rows.length}\n` +
     `- CORE_TRACED：0/${rows.length}\n` +
     `- 850_COMPARED_SEMANTIC：0/${rows.length}\n` +

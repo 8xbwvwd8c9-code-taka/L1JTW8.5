@@ -8,10 +8,10 @@ const csvText = await fs.readFile(csvPath, "utf8");
 const workbook = await Workbook.fromCSV(csvText, { sheetName: "SQL inventory" });
 const inspected = await workbook.inspect({
   kind: "table",
-  range: "'SQL inventory'!A1:S321",
+  range: "'SQL inventory'!A1:V321",
   include: "values",
   tableMaxRows: 4,
-  tableMaxCols: 19,
+  tableMaxCols: 22,
   maxChars: 6000,
 });
 const dataLines = csvText.trimEnd().split(/\r?\n/).length - 1;
