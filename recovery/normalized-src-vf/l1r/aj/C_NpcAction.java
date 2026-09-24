@@ -1,5 +1,12 @@
 package l1r.aj;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import l1r.ai.IdFactory;
+import l1r.ao.CharacterItemTable;
+import l1r.l1j.server.DatabaseFactory;
+
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.Calendar;
@@ -841,24 +848,21 @@ public class C_NpcAction extends ClientBasePacket {
                                  }
                               } else if (var17 == 80050) {
                                  if (var5.equalsIgnoreCase("a")) {
-                                    if (var3.j().b(40718, 1)) {
-                                       var3.B((int)(-100.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40718, 1, (int)(-100.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1079));
                                        var10 = "meet107";
                                     } else {
                                        var10 = "meet104";
                                     }
                                  } else if (var5.equalsIgnoreCase("b")) {
-                                    if (var3.j().b(40718, 10)) {
-                                       var3.B((int)(-1000.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40718, 10, (int)(-1000.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1079));
                                        var10 = "meet108";
                                     } else {
                                        var10 = "meet104";
                                     }
                                  } else if (var5.equalsIgnoreCase("c")) {
-                                    if (var3.j().b(40718, 100)) {
-                                       var3.B((int)(-10000.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40718, 100, (int)(-10000.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1079));
                                        var10 = "meet109";
                                     } else {
@@ -951,24 +955,21 @@ public class C_NpcAction extends ClientBasePacket {
                                  var10 = "";
                               } else if (var17 == 80064) {
                                  if (var5.equalsIgnoreCase("a")) {
-                                    if (var3.j().b(40678, 1)) {
-                                       var3.B((int)(100.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40678, 1, (int)(100.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1078));
                                        var10 = "meet007";
                                     } else {
                                        var10 = "meet004";
                                     }
                                  } else if (var5.equalsIgnoreCase("b")) {
-                                    if (var3.j().b(40678, 10)) {
-                                       var3.B((int)(1000.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40678, 10, (int)(1000.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1078));
                                        var10 = "meet008";
                                     } else {
                                        var10 = "meet004";
                                     }
                                  } else if (var5.equalsIgnoreCase("c")) {
-                                    if (var3.j().b(40678, 100)) {
-                                       var3.B((int)(10000.0 * Config.D));
+                                    if (this.l1rAtomicKarmaItemExchange(var3, 40678, 100, (int)(10000.0 * Config.D), true, null)) {
                                        var3.a(new S_ServerMessage(1078));
                                        var10 = "meet009";
                                     } else {
@@ -3999,33 +4000,157 @@ public class C_NpcAction extends ClientBasePacket {
 
    private void e(L1PcInstance var1, L1NpcInstance var2, String var3) {
       if (var3.equalsIgnoreCase("1")) {
-         var1.B((int)(500.0 * Config.D));
-         ItemTable.a(var1, 40718, 1, var2.T());
-         var1.a(new S_ServerMessage(1081));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40718, 1, (int)(500.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1081));
+         }
       } else if (var3.equalsIgnoreCase("2")) {
-         var1.B((int)(5000.0 * Config.D));
-         ItemTable.a(var1, 40718, 10, var2.T());
-         var1.a(new S_ServerMessage(1081));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40718, 10, (int)(5000.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1081));
+         }
       } else if (var3.equalsIgnoreCase("3")) {
-         var1.B((int)(50000.0 * Config.D));
-         ItemTable.a(var1, 40718, 100, var2.T());
-         var1.a(new S_ServerMessage(1081));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40718, 100, (int)(50000.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1081));
+         }
       }
    }
 
    private void f(L1PcInstance var1, L1NpcInstance var2, String var3) {
       if (var3.equalsIgnoreCase("1")) {
-         var1.B((int)(-500.0 * Config.D));
-         ItemTable.a(var1, 40678, 1, var2.T());
-         var1.a(new S_ServerMessage(1080));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40678, 1, (int)(-500.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1080));
+         }
       } else if (var3.equalsIgnoreCase("2")) {
-         var1.B((int)(-5000.0 * Config.D));
-         ItemTable.a(var1, 40678, 10, var2.T());
-         var1.a(new S_ServerMessage(1080));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40678, 10, (int)(-5000.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1080));
+         }
       } else if (var3.equalsIgnoreCase("3")) {
-         var1.B((int)(-50000.0 * Config.D));
-         ItemTable.a(var1, 40678, 100, var2.T());
-         var1.a(new S_ServerMessage(1080));
+         if (this.l1rAtomicKarmaItemExchange(var1, 40678, 100, (int)(-50000.0 * Config.D), false, var2.T())) {
+            var1.a(new S_ServerMessage(1080));
+         }
+      }
+   }
+
+
+   private boolean l1rAtomicKarmaItemExchange(L1PcInstance pc, int itemId, int itemCount, int karmaDelta, boolean consumeItem, String outputSource) {
+      if (pc == null || itemCount <= 0) {
+         return false;
+      }
+
+      synchronized (pc) {
+         int oldKarma = pc.P();
+         long rawKarma = (long)oldKarma + (long)karmaDelta;
+         int newKarma = (int)Math.max(-15500000L, Math.min(15500000L, rawKarma));
+         L1ItemInstance item = pc.j().b(itemId);
+         int oldCount = item == null ? 0 : item.E();
+         int newCount = oldCount;
+         L1ItemInstance inserted = null;
+
+         if (consumeItem) {
+            if (item == null || oldCount < itemCount) {
+               return false;
+            }
+            newCount = oldCount - itemCount;
+         } else {
+            L1Item template = ItemTable.a().a(itemId);
+            if (template == null || !template.aF()) {
+               return false;
+            }
+            long nextCount = (long)oldCount + (long)itemCount;
+            if (nextCount <= 0L || nextCount > 2000000000L) {
+               return false;
+            }
+            newCount = (int)nextCount;
+            if (item == null) {
+               inserted = new L1ItemInstance(template, itemCount);
+               inserted.cF(IdFactory.a().d());
+               inserted.g(template.aM());
+               inserted.j(template.T());
+               inserted.n();
+            }
+         }
+
+         try (Connection con = DatabaseFactory.a().b()) {
+            boolean oldAutoCommit = con.getAutoCommit();
+            con.setAutoCommit(false);
+            try {
+               this.l1rRequireKarmaExchangeInnoDb(con);
+               CharacterItemTable itemTable = CharacterItemTable.a();
+               int charId = pc.fr();
+
+               if (consumeItem) {
+                  if (newCount == 0) {
+                     itemTable.deleteQuestRewardItem(con, charId, item, oldCount);
+                  } else {
+                     itemTable.updateQuestRewardCount(con, charId, item, oldCount, newCount);
+                  }
+               } else if (item == null) {
+                  itemTable.insertQuestReward(con, charId, inserted);
+               } else {
+                  itemTable.updateQuestRewardCount(con, charId, item, oldCount, newCount);
+               }
+
+               try (PreparedStatement pstm = con.prepareStatement(
+                  "UPDATE characters SET Karma=? WHERE objid=? AND Karma=?"
+               )) {
+                  pstm.setInt(1, newKarma);
+                  pstm.setInt(2, charId);
+                  pstm.setInt(3, oldKarma);
+                  if (pstm.executeUpdate() != 1) {
+                     throw new SQLException("BUG-850-126 Karma CAS failed");
+                  }
+               }
+
+               con.commit();
+
+               if (consumeItem) {
+                  if (newCount == 0) {
+                     pc.j().publishCommittedQuestDelete(item);
+                  } else {
+                     pc.j().publishCommittedQuestUpdate(item, newCount);
+                  }
+               } else if (item == null) {
+                  pc.j().publishCommittedQuestInsert(inserted);
+               } else {
+                  pc.j().publishCommittedQuestUpdate(item, newCount);
+               }
+               if (!consumeItem && outputSource != null) {
+                  L1ItemInstance granted = item == null ? inserted : item;
+                  pc.a(new S_ServerMessage(143, outputSource, granted.s()));
+               }
+               pc.A(newKarma);
+               con.setAutoCommit(oldAutoCommit);
+               return true;
+            } catch (Exception ex) {
+               try {
+                  con.rollback();
+               } catch (SQLException ignored) {
+               }
+               try {
+                  con.setAutoCommit(oldAutoCommit);
+               } catch (SQLException ignored) {
+               }
+               return false;
+            }
+         } catch (SQLException ex) {
+            return false;
+         }
+      }
+   }
+
+   private void l1rRequireKarmaExchangeInnoDb(Connection con) throws SQLException {
+      try (PreparedStatement pstm = con.prepareStatement(
+         "SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_items','characters')"
+      ); java.sql.ResultSet rs = pstm.executeQuery()) {
+         int seen = 0;
+         while (rs.next()) {
+            if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+               throw new SQLException("BUG-850-126 requires InnoDB: " + rs.getString("TABLE_NAME"));
+            }
+            seen++;
+         }
+         if (seen != 2) {
+            throw new SQLException("BUG-850-126 missing transactional table");
+         }
       }
    }
 
