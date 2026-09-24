@@ -25,14 +25,34 @@ def _normalize_rule(rule: Mapping[str, str], family: str) -> tuple[str, str]:
     return package, category
 
 
-def build_package_map(
-    mapping_rows: Iterable[Mapping[str, str]], rules: Mapping[str, object]
-) -> list[PackageMapEntry]:
+def _rule_for_identity(
+    original_internal: str, rules: Mapping[str, object]
+) -> tuple[str, str]:
     families = rules.get("families", {})
     overrides = rules.get("overrides", {})
     if not isinstance(families, Mapping) or not isinstance(overrides, Mapping):
         raise ValueError("rules must contain mapping objects: families, overrides")
 
+    override = overrides.get(original_internal)
+    if override is not None:
+        if not isinstance(override, Mapping):
+            raise ValueError(f"invalid override for: {original_internal}")
+        return _normalize_rule(override, original_internal)
+
+    if "/" not in original_internal:
+        raise ValueError(f"invalid application identity: {original_internal}")
+    family = original_internal.split("/", 1)[0]
+    family_rule = families.get(family)
+    if family_rule is None:
+        raise ValueError(f"unmapped application family: {family}")
+    if not isinstance(family_rule, Mapping):
+        raise ValueError(f"invalid package rule for family: {family}")
+    return _normalize_rule(family_rule, family)
+
+
+def build_package_map(
+    mapping_rows: Iterable[Mapping[str, str]], rules: Mapping[str, object]
+) -> list[PackageMapEntry]:
     result: list[PackageMapEntry] = []
     for row in mapping_rows:
         original_dotted = str(row.get("Class", "")).strip()
@@ -43,8 +63,9 @@ def build_package_map(
 
         original_internal = original_dotted.replace(".", "/")
 
-        # A few top-level classes were already in the readable l1j.server namespace
-        # in the production artifact. Preserve those identities exactly.
+        # Legacy fixture input: already-readable l1j.server names stay readable.
+        # The authoritative namespace builder below handles the real
+        # l1j/server/a -> Config recovery case.
         if original_internal.startswith("l1j/server/"):
             result.append(
                 PackageMapEntry(
@@ -57,29 +78,61 @@ def build_package_map(
             )
             continue
 
-        if "/" not in original_internal:
-            raise ValueError(f"invalid application identity: {original_internal}")
         family = original_internal.split("/", 1)[0]
         recovered_internal = f"l1r/{family}/{source_stem}"
-
-        override = overrides.get(original_internal)
-        if override is not None:
-            if not isinstance(override, Mapping):
-                raise ValueError(f"invalid override for: {original_internal}")
-            package, category = _normalize_rule(override, original_internal)
-        else:
-            family_rule = families.get(family)
-            if family_rule is None:
-                raise ValueError(f"unmapped application family: {family}")
-            if not isinstance(family_rule, Mapping):
-                raise ValueError(f"invalid package rule for family: {family}")
-            package, category = _normalize_rule(family_rule, family)
-
+        package, category = _rule_for_identity(original_internal, rules)
         result.append(
             PackageMapEntry(
                 original_internal=original_internal,
                 recovered_internal=recovered_internal,
                 dev_internal=f"{package}/{source_stem}",
+                source_file=source_file,
+                category=category,
+            )
+        )
+
+    return result
+
+
+def build_package_map_from_namespace(
+    namespace_rows: Iterable[Mapping[str, str]], rules: Mapping[str, object]
+) -> list[PackageMapEntry]:
+    """Build the real Fast Dev map from accepted namespace recovery output.
+
+    ``source_namespace_map.csv`` records collision-safe recovered top-level names,
+    including ``__obf_*`` variants for duplicate SourceFile groups. Inner rows are
+    excluded because their bytecode/source references follow their top-level owner.
+    """
+    result: list[PackageMapEntry] = []
+    for row in namespace_rows:
+        if str(row.get("Kind", "")).strip() != "TOP_LEVEL":
+            continue
+
+        original_internal = str(row.get("OldInternal", "")).strip().strip("/")
+        recovered_internal = str(row.get("NewInternal", "")).strip().strip("/")
+        if not original_internal or not recovered_internal:
+            raise ValueError("namespace TOP_LEVEL row missing OldInternal/NewInternal")
+        if "$" in original_internal or "$" in recovered_internal:
+            raise ValueError(
+                f"TOP_LEVEL row unexpectedly contains inner identity: {original_internal}"
+            )
+        if not recovered_internal.startswith("l1r/"):
+            raise ValueError(f"unexpected recovered namespace: {recovered_internal}")
+
+        simple_name = recovered_internal.rsplit("/", 1)[-1]
+        source_file = simple_name + ".java"
+
+        if original_internal.startswith("l1j/server/"):
+            package = "l1j/server"
+            category = "server"
+        else:
+            package, category = _rule_for_identity(original_internal, rules)
+
+        result.append(
+            PackageMapEntry(
+                original_internal=original_internal,
+                recovered_internal=recovered_internal,
+                dev_internal=f"{package}/{simple_name}",
                 source_file=source_file,
                 category=category,
             )
