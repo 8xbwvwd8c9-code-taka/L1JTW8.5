@@ -28,25 +28,28 @@ if (-not (Test-Path -LiteralPath $venvPython)) {
     if ($LASTEXITCODE -ne 0) { throw "venv creation failed: exit=$LASTEXITCODE" }
 }
 
-$version = ''
+$packageVersion = ''
 try {
-    $version = (& $venvPython -c "import capstone; print(capstone.__version__)" 2>$null | Select-Object -Last 1).Trim()
-} catch { $version = '' }
+    $packageVersion = (& $venvPython -c "import importlib.metadata as m; print(m.version('capstone'))" 2>$null | Select-Object -Last 1).Trim()
+} catch { $packageVersion = '' }
 
-if ($version -ne '5.0.9') {
+if ($packageVersion -ne '5.0.9') {
     $networkUsed = 'POSSIBLE'
     & $venvPython -m pip install --disable-pip-version-check --requirement $requirements
     if ($LASTEXITCODE -ne 0) { throw "pip install failed: exit=$LASTEXITCODE" }
-    $version = (& $venvPython -c "import capstone; print(capstone.__version__)" | Select-Object -Last 1).Trim()
+    $packageVersion = (& $venvPython -c "import importlib.metadata as m; print(m.version('capstone'))" | Select-Object -Last 1).Trim()
 }
-if ($version -ne '5.0.9') { throw "Unexpected Capstone version: $version" }
+if ($packageVersion -ne '5.0.9') { throw "Unexpected Capstone package version: $packageVersion" }
+
+$bindingVersion = (& $venvPython -c "import capstone; print(getattr(capstone,'__version__','UNKNOWN'))" | Select-Object -Last 1).Trim()
 
 & $venvPython $selftest
 if ($LASTEXITCODE -ne 0) { throw "Capstone decoder self-test failed: exit=$LASTEXITCODE" }
 
 Write-Host 'STATUS=PASS_CAPSTONE_DECODER_SETUP'
 Write-Host "PYTHON=$venvPython"
-Write-Host "CAPSTONE_VERSION=$version"
+Write-Host "CAPSTONE_PACKAGE_VERSION=$packageVersion"
+Write-Host "CAPSTONE_BINDING_VERSION=$bindingVersion"
 Write-Host 'SELFTEST=PASS'
 Write-Host "NETWORK_USED_FOR_SETUP=$networkUsed"
 Write-Host 'RUNTIME_TARGET_ATTACH=NO'
