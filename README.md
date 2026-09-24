@@ -69,6 +69,7 @@ BUG
 | BUG-850-258 | L2 | furniture DB/world persistence ordering | PASS / PROMOTED |
 | BUG-850-257 | L2 | SoulTower empty-board bootstrap admission | PASS / ALREADY COVERED |
 | BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |
+| BUG-850-254 | L2 | weekly mission durable delete / live-reset consistency | PASS / PROMOTED |
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 
@@ -2948,3 +2949,48 @@ BUG-850-255=L2
 STATUS=PASS
 PROMOTED=YES
 ```
+
+## BUG-850-254 — weekly live reset proceeded even when durable bulk delete failed
+
+### Problem
+
+The weekly reset path could clear live player weekly state even when the durable `character_mobs_week` bulk delete failed, creating RAM/DB divergence. The obfuscated weekly scheduler also lacked the already-validated `finally` reschedule parity required to survive early return or exception.
+
+### Fix
+
+- Added `deleteAllDurable()` to normalized and obfuscated weekly tables.
+- Durable delete uses `executeUpdate()` and propagates success/failure.
+- Live weekly reset aborts before player mutation when delete fails.
+- Weekly rescheduling remains in `finally`; missing obfuscated parity was restored from the historical validated precondition.
+- Existing BUG-850-255 UPSERT behavior was explicitly preserved; BUG-850-252 login self-heal was not replayed.
+
+### Validation
+
+```text
+WORK_CI=35722588093
+COMPLETED_CI=35938795118
+SOURCE_COMMIT=0f3c51e000e89cef0c3bf2f861d1e78fa271fcf4
+PATCH_CHAIN=e5320aea,2fb56fbd,c75e085e,8470e775,a5dba0e6
+EXACT_HISTORICAL_PATCH_CHAIN=PASS
+UNRELATED_SOURCE_REPLAY=NO
+SOURCE_CONTRACT=PASS
+BULK_DELETE_RESULT_PROPAGATED=PASS
+LIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS
+WEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS
+BUG_850_255_UPSERT_PRESERVED=PASS
+TARGETED_JAVAC=PASS
+TARGETED_BEHAVIOR_RUNTIME=PASS
+FAILED_DELETE_LIVE_STATE_UNCHANGED=PASS
+NEXT_WEEK_SCHEDULE_PRESERVED=PASS
+CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-254_VALIDATION_20260924.md`
+
+### Result
+
+```text
+BUG-850-254=L2
+STATUS=PASS_PROMOTED
+```
+
