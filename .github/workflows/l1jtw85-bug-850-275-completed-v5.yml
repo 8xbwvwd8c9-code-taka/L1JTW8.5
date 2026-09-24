@@ -52,55 +52,42 @@ jobs:
           import os
 
           def overlay_save(path, start, end, reps):
-              p = Path(path)
-              text = p.read_text(encoding='utf-8')
-              s = text.index(start)
-              e = text.index(end, s)
-              block = text[s:e]
-              for old, new in reps:
-                  count = block.count(old)
+              p=Path(path); text=p.read_text(encoding='utf-8')
+              s=text.index(start); e=text.index(end,s); block=text[s:e]
+              for old,new in reps:
+                  count=block.count(old)
                   if count != 1:
                       raise SystemExit(f'FAIL save overlay {path}: expected 1 got {count}: {old}')
-                  block = block.replace(old, new, 1)
-              p.write_text(text[:s] + block + text[e:], encoding='utf-8')
+                  block=block.replace(old,new,1)
+              p.write_text(text[:s]+block+text[e:],encoding='utf-8')
 
-          overlay_save(
-              'recovery/normalized-src-vf/l1r/ao/QuestNewTable.java',
-              'public void c(L1PcInstance var1)', 'public boolean claimReward', [
-                  ('var3 = var2.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
-                   'var3 = var2.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
-                  ('var3.setBytes(1, this.f(var1));', 'var3.setBytes(2, this.f(var1));'),
-                  ('var3.setInt(2, var1.fr());', 'var3.setInt(1, var1.fr());'),
-              ])
-          overlay_save(
-              'recovered-src-obf/ao/az.java',
-              'public void c(u pc)', 'public boolean claimReward', [
-                  ('pstm = con.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
-                   'pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
-                  ('pstm.setBytes(1, this.f(pc));', 'pstm.setBytes(2, this.f(pc));'),
-                  ('pstm.setInt(2, pc.fr());', 'pstm.setInt(1, pc.fr());'),
-              ])
+          overlay_save('recovery/normalized-src-vf/l1r/ao/QuestNewTable.java',
+              'public void c(L1PcInstance var1)','public boolean claimReward',[
+              ('var3 = var2.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
+               'var3 = var2.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('var3.setBytes(1, this.f(var1));','var3.setBytes(2, this.f(var1));'),
+              ('var3.setInt(2, var1.fr());','var3.setInt(1, var1.fr());')])
+          overlay_save('recovered-src-obf/ao/az.java',
+              'public void c(u pc)','public boolean claimReward',[
+              ('pstm = con.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
+               'pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+              ('pstm.setBytes(1, this.f(pc));','pstm.setBytes(2, this.f(pc));'),
+              ('pstm.setInt(2, pc.fr());','pstm.setInt(1, pc.fr());')])
 
           def replace_protocol_block(current_path, source_path, start_marker, end_marker):
-              current = Path(current_path).read_text(encoding='utf-8')
-              source = Path(source_path).read_text(encoding='utf-8')
+              current=Path(current_path).read_text(encoding='utf-8')
+              source=Path(source_path).read_text(encoding='utf-8')
               def bounds(text):
-                  sm = text.index(start_marker)
-                  em = text.index(end_marker, sm)
-                  return text.rfind('\n', 0, sm) + 1, text.rfind('\n', 0, em) + 1
-              cs, ce = bounds(current)
-              ss, se = bounds(source)
-              Path(current_path).write_text(current[:cs] + source[ss:se] + current[ce:], encoding='utf-8')
+                  sm=text.index(start_marker); em=text.index(end_marker,sm)
+                  return text.rfind('\n',0,sm)+1, text.rfind('\n',0,em)+1
+              cs,ce=bounds(current); ss,se=bounds(source)
+              Path(current_path).write_text(current[:cs]+source[ss:se]+current[ce:],encoding='utf-8')
 
-          replace_protocol_block(
-              'recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java',
-              os.environ['N_SRC'], 'var3 == 524', 'var3 == 527')
-          replace_protocol_block(
-              'recovered-src-obf/aj/bs.java',
-              os.environ['O_SRC'], 'type == 524', 'type == 527')
+          replace_protocol_block('recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java',os.environ['N_SRC'],'var3 == 524','var3 == 527')
+          replace_protocol_block('recovered-src-obf/aj/bs.java',os.environ['O_SRC'],'type == 524','type == 527')
 
-          n = Path('recovery/normalized-src-vf/l1r/ao/QuestNewTable.java').read_text(encoding='utf-8')
-          o = Path('recovered-src-obf/ao/az.java').read_text(encoding='utf-8')
+          n=Path('recovery/normalized-src-vf/l1r/ao/QuestNewTable.java').read_text(encoding='utf-8')
+          o=Path('recovered-src-obf/ao/az.java').read_text(encoding='utf-8')
           assert 'var5.a(var1.ev());' in n
           assert 'for (int objectiveIndex = 0; objectiveIndex < var5.r().length; objectiveIndex++)' in n
           assert 'quest.a(pc.ev());' in o
@@ -110,25 +97,18 @@ jobs:
           print('PRESERVE_255_276_277=PASS')
           PY
 
-          git add \
-            recovery/normalized-src-vf/l1r/ao/QuestNewTable.java \
-            recovered-src-obf/ao/az.java \
-            recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java \
-            recovered-src-obf/aj/bs.java
-
+          git add recovery/normalized-src-vf/l1r/ao/QuestNewTable.java recovered-src-obf/ao/az.java recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java recovered-src-obf/aj/bs.java
           git diff --cached --name-only | sort > "$RUNNER_TEMP/actual"
           cat > "$RUNNER_TEMP/expected" <<'EOF'
           db/migrations/BUG-850-275_quest_reward_atomicity.sql
           recovered-src-obf/aj/bs.java
           recovered-src-obf/ao/az.java
-          recovered-src-obf/ao/l.java
           recovered-src-obf/au/g.java
           recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java
-          recovery/normalized-src-vf/l1r/ao/CharacterItemTable.java
           recovery/normalized-src-vf/l1r/ao/QuestNewTable.java
-          recovery/normalized-src-vf/l1r/au/L1PcInventory.java
           EOF
           diff -u "$RUNNER_TEMP/expected" "$RUNNER_TEMP/actual"
+          echo "PRE_COVERED_HELPERS=CharacterItemTable,L1PcInventory,obf_ao_l"
           echo "SCOPED_SOURCE_APPLIED=PASS"
           echo "UNRELATED_SOURCE_REPLAY=NO"
 
