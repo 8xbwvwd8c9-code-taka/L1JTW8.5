@@ -123,7 +123,7 @@ class AuthorityCacheContracts(unittest.TestCase):
             baseline = git(source, "rev-parse", "HEAD")
             write_authority(source, 2)
             git(source, "add", ".")
-            git(source, "commit", "-m", "completed repair")
+            git(source, "commit", "-m", "fix(l2): promote BUG-850-001 completed repair")
             git(source, "branch", "-M", mod.COMPLETED_BRANCH)
 
             origin = root / "origin.git"
@@ -164,7 +164,7 @@ class AuthorityCacheContracts(unittest.TestCase):
             self.assertEqual(git(shallow, "rev-parse", "--is-shallow-repository"), "false")
             git(shallow, "cat-file", "-e", f"{baseline}^{{commit}}")
 
-    def test_completed_repair_scope_uses_baseline_to_pinned_completed_not_work_head(self):
+    def test_completed_repair_scope_uses_promotion_commits_not_work_head(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
             repo = Path(td) / "repo"
@@ -182,7 +182,7 @@ class AuthorityCacheContracts(unittest.TestCase):
 
             write_authority(repo, 2)
             git(repo, "add", ".")
-            git(repo, "commit", "-m", "completed A repair")
+            git(repo, "commit", "-m", "fix(l2): promote BUG-850-123 completed A repair")
             completed = git(repo, "rev-parse", "HEAD")
 
             other.write_text("package l1r.aa; public class B { public int value() { return 99; } }\n", encoding="utf-8")
@@ -196,7 +196,39 @@ class AuthorityCacheContracts(unittest.TestCase):
             )
             self.assertEqual(scope, ["recovery/normalized-src-vf/l1r/aa/A.java"])
 
-    def test_completed_repair_scope_rejects_deleted_normalized_source(self):
+    def test_nonpromotion_normalization_change_is_not_completed_repair_scope(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1)
+            other = repo / "recovery" / "normalized-src-vf" / "l1r" / "aa" / "B.java"
+            other.write_text("package l1r.aa; public class B { public int value() { return 1; } }\n", encoding="utf-8")
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "recovery baseline")
+            baseline = git(repo, "rev-parse", "HEAD")
+
+            other.write_text("package l1r.aa; public class B { public int value() { return 2; } }\n", encoding="utf-8")
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "chore: regenerate normalized sources")
+
+            write_authority(repo, 2)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "fix(l1): promote BUG-850-321 repaired A")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            scope = mod.completed_repair_source_paths(
+                repo,
+                commit=completed,
+                baseline_commit=baseline,
+            )
+            self.assertEqual(scope, ["recovery/normalized-src-vf/l1r/aa/A.java"])
+
+    def test_completed_repair_scope_rejects_deleted_promoted_source(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
             repo = Path(td) / "repo"
@@ -212,7 +244,7 @@ class AuthorityCacheContracts(unittest.TestCase):
 
             (repo / "recovery" / "normalized-src-vf" / "l1r" / "aa" / "A.java").unlink()
             git(repo, "add", "-A")
-            git(repo, "commit", "-m", "completed deletion")
+            git(repo, "commit", "-m", "fix(l3): promote BUG-850-999 deleted source")
             completed = git(repo, "rev-parse", "HEAD")
 
             with self.assertRaisesRegex(RuntimeError, "deleted normalized source"):
