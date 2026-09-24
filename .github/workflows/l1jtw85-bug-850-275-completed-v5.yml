@@ -86,6 +86,24 @@ jobs:
           replace_protocol_block('recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java',os.environ['N_SRC'],'var3 == 524','var3 == 527')
           replace_protocol_block('recovered-src-obf/aj/bs.java',os.environ['O_SRC'],'type == 524','type == 527')
 
+          def ensure_import(path, import_line, anchor):
+              p=Path(path); text=p.read_text(encoding='utf-8')
+              if import_line not in text:
+                  count=text.count(anchor)
+                  if count != 1:
+                      raise SystemExit(f'FAIL import anchor {path}: expected 1 got {count}: {anchor}')
+                  text=text.replace(anchor,anchor+'\n'+import_line,1)
+                  p.write_text(text,encoding='utf-8')
+              if p.read_text(encoding='utf-8').count(import_line) != 1:
+                  raise SystemExit(f'FAIL import count {path}: {import_line}')
+
+          ensure_import('recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java',
+                        'import l1r.ao.QuestNewTable;', 'import l1r.ao.RankingTable;')
+          ensure_import('recovered-src-obf/aj/bs.java',
+                        'import ao.az;', 'import ao.ba;')
+          print('NORMALIZED_QUESTNEW_IMPORT=PASS')
+          print('OBF_QUESTNEW_IMPORT=PASS')
+
           n=Path('recovery/normalized-src-vf/l1r/ao/QuestNewTable.java').read_text(encoding='utf-8')
           o=Path('recovered-src-obf/ao/az.java').read_text(encoding='utf-8')
           assert 'var5.a(var1.ev());' in n
