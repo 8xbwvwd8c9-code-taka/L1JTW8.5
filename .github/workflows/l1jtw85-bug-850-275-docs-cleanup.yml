@@ -1,0 +1,63 @@
+name: L1JTW8.5 BUG-850-275 Docs Cleanup
+
+on:
+  push:
+    branches: [completed/l1jtw85-core-fixes]
+    paths: [".github/workflows/l1jtw85-bug-850-275-docs-cleanup.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  record-cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Lock exact promoted source parent
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "ed430e87fdc3e8655345536a1c27e74d0dfc6e5b"
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_275_DOCS_CONCURRENCY_GATE=PASS"
+
+      - name: Record completed repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          README=Path('README.md')
+          text=README.read_text(encoding='utf-8')
+          row='| BUG-850-275 | L2 | new quest reward claim transactional atomicity | PASS / PROMOTED |'
+          if row not in text:
+              anchor='| BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |'
+              if anchor not in text:
+                  raise SystemExit('FAIL BUG-850-276 table anchor missing')
+              text=text.replace(anchor,anchor+'\n'+row,1)
+
+          heading='## BUG-850-275 — new quest reward claim was not transactionally atomic'
+          if heading not in text:
+              text=text.rstrip()+'''\n\n## BUG-850-275 — new quest reward claim was not transactionally atomic\n\n### Problem\n\nThe cmd524 quest-reward path could persist reward items, objective consumption, claimed quest state, EXP and live inventory as separate operations. A failure between those operations could split durable state from live state or leave a partial claim.\n\n### Fix\n\ncmd524 now delegates to `QuestNewTable.claimReward(...)`. Reward planning, objective consumption, `character_items`, `character_quests_new` claimed state and `characters.Exp` persist inside one InnoDB transaction with affected-row/count gates and rollback. Live inventory, EXP and quest packets publish only after commit. Existing BUG-850-255 save UPSERT plus BUG-850-276/277 quest behavior are preserved in normalized and obfuscated sources.\n\nMigration: `db/migrations/BUG-850-275_quest_reward_atomicity.sql`.\n\n### Validation\n\n```text\nWORK_CI=35726686125\nCOMPLETED_CI=35948391994\nSOURCE_COMMIT=ed430e87fdc3e8655345536a1c27e74d0dfc6e5b\nSCOPED_SOURCE_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nPRE_COVERED_HELPERS=CharacterItemTable,L1PcInventory,obf_ao_l\nPRESERVE_255_276_277=PASS\nNORMALIZED_QUESTNEW_IMPORT=PASS\nOBF_QUESTNEW_IMPORT=PASS\nBUG_850_275_CONTRACT=PASS\nCMD524_ATOMIC_ROUTE_ONLY=PASS\nTHREE_TABLE_INNODB_GATE=PASS\nITEM_COUNT_CAS=PASS\nQUEST_AUTOSAVE_LOCKED=PASS\nCOMMIT_BEFORE_LIVE_PUBLICATION=PASS\nROLLBACK_PATH_PRESENT=PASS\nSTACK_PLAN_MERGE=PASS\nOBJECTIVE_CONSUMPTION_IN_TRANSACTION=PASS\nEXP_IN_TRANSACTION=PASS\nQUESTNEW_JAVAC=PASS\nPROTO_NO_NEW_JAVAC_REGRESSION=PASS\nTARGETED_RUNTIME=PASS\nCONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-275_VALIDATION_20260924.md`.\n\n### Result\n\n```text\nBUG-850-275=L2\nSTATUS=PASS_PROMOTED\n```\n'''
+          README.write_text(text,encoding='utf-8')
+
+          Path('recovery/BUG-850-275_VALIDATION_20260924.md').write_text('''# BUG-850-275 Validation\n\n```text\nBUG=BUG-850-275\nLEVEL=L2\nWORK_CI=35726686125\nCOMPLETED_CI=35948391994\nSOURCE_COMMIT=ed430e87fdc3e8655345536a1c27e74d0dfc6e5b\nSCOPED_SOURCE_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nPRE_COVERED_HELPERS=CharacterItemTable,L1PcInventory,obf_ao_l\nPRESERVE_255_276_277=PASS\nNORMALIZED_QUESTNEW_IMPORT=PASS\nOBF_QUESTNEW_IMPORT=PASS\nSOURCE_CONTRACT=PASS\nQUESTNEW_JAVAC=PASS\nPROTO_NO_NEW_JAVAC_REGRESSION=PASS\nTARGETED_RUNTIME=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
+          PY
+
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md recovery/BUG-850-275_VALIDATION_20260924.md
+          git rm -f --ignore-unmatch \
+            .github/workflows/l1jtw85-bug-850-275-completed-promotion.yml \
+            .github/workflows/l1jtw85-bug-850-275-completed-v3.yml \
+            .github/workflows/l1jtw85-bug-850-275-completed-v4.yml \
+            .github/workflows/l1jtw85-bug-850-275-completed-v5.yml \
+            .github/workflows/l1jtw85-bug-850-275-docs-cleanup.yml
+          git commit -m "docs: record completed BUG-850-275 fix"
+          git push origin HEAD:completed/l1jtw85-core-fixes
