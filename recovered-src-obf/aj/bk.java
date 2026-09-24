@@ -3,6 +3,10 @@
  */
 package aj;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+
 import aj.cv;
 import ao.ab;
 import ao.ac;
@@ -756,24 +760,21 @@ extends cv {
                     }
                 } else if (npcid == 80050) {
                     if (s2.equalsIgnoreCase("a")) {
-                        if (pc.j().b(40718, 1)) {
-                            pc.B((int)(-100.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40718, 1, (int)(-100.0 * a.D), true, null)) {
                             pc.a(new ds(1079));
                             htmlid = "meet107";
                         } else {
                             htmlid = "meet104";
                         }
                     } else if (s2.equalsIgnoreCase("b")) {
-                        if (pc.j().b(40718, 10)) {
-                            pc.B((int)(-1000.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40718, 10, (int)(-1000.0 * a.D), true, null)) {
                             pc.a(new ds(1079));
                             htmlid = "meet108";
                         } else {
                             htmlid = "meet104";
                         }
                     } else if (s2.equalsIgnoreCase("c")) {
-                        if (pc.j().b(40718, 100)) {
-                            pc.B((int)(-10000.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40718, 100, (int)(-10000.0 * a.D), true, null)) {
                             pc.a(new ds(1079));
                             htmlid = "meet109";
                         } else {
@@ -853,24 +854,21 @@ extends cv {
                     htmlid = "";
                 } else if (npcid == 80064) {
                     if (s2.equalsIgnoreCase("a")) {
-                        if (pc.j().b(40678, 1)) {
-                            pc.B((int)(100.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40678, 1, (int)(100.0 * a.D), true, null)) {
                             pc.a(new ds(1078));
                             htmlid = "meet007";
                         } else {
                             htmlid = "meet004";
                         }
                     } else if (s2.equalsIgnoreCase("b")) {
-                        if (pc.j().b(40678, 10)) {
-                            pc.B((int)(1000.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40678, 10, (int)(1000.0 * a.D), true, null)) {
                             pc.a(new ds(1078));
                             htmlid = "meet008";
                         } else {
                             htmlid = "meet004";
                         }
                     } else if (s2.equalsIgnoreCase("c")) {
-                        if (pc.j().b(40678, 100)) {
-                            pc.B((int)(10000.0 * a.D));
+                        if (this.l1rAtomicKarmaItemExchange(pc, 40678, 100, (int)(10000.0 * a.D), true, null)) {
                             pc.a(new ds(1078));
                             htmlid = "meet009";
                         } else {
@@ -3566,33 +3564,150 @@ extends cv {
 
     private void e(u pc, t npc, String s2) {
         if (s2.equalsIgnoreCase("1")) {
-            pc.B((int)(500.0 * a.D));
-            ao.ah.a(pc, 40718, 1, npc.T());
-            pc.a(new ds(1081));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40718, 1, (int)(500.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1081));
+            }
         } else if (s2.equalsIgnoreCase("2")) {
-            pc.B((int)(5000.0 * a.D));
-            ao.ah.a(pc, 40718, 10, npc.T());
-            pc.a(new ds(1081));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40718, 10, (int)(5000.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1081));
+            }
         } else if (s2.equalsIgnoreCase("3")) {
-            pc.B((int)(50000.0 * a.D));
-            ao.ah.a(pc, 40718, 100, npc.T());
-            pc.a(new ds(1081));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40718, 100, (int)(50000.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1081));
+            }
         }
     }
 
     private void f(u pc, t npc, String s2) {
         if (s2.equalsIgnoreCase("1")) {
-            pc.B((int)(-500.0 * a.D));
-            ao.ah.a(pc, 40678, 1, npc.T());
-            pc.a(new ds(1080));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40678, 1, (int)(-500.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1080));
+            }
         } else if (s2.equalsIgnoreCase("2")) {
-            pc.B((int)(-5000.0 * a.D));
-            ao.ah.a(pc, 40678, 10, npc.T());
-            pc.a(new ds(1080));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40678, 10, (int)(-5000.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1080));
+            }
         } else if (s2.equalsIgnoreCase("3")) {
-            pc.B((int)(-50000.0 * a.D));
-            ao.ah.a(pc, 40678, 100, npc.T());
-            pc.a(new ds(1080));
+            if (this.l1rAtomicKarmaItemExchange(pc, 40678, 100, (int)(-50000.0 * a.D), false, npc.T())) {
+                pc.a(new ds(1080));
+            }
+        }
+    }
+
+
+    private boolean l1rAtomicKarmaItemExchange(u pc, int itemId, int itemCount, int karmaDelta, boolean consumeItem, String outputSource) {
+        if (pc == null || itemCount <= 0) {
+            return false;
+        }
+        synchronized (pc) {
+            int oldKarma = pc.P();
+            long rawKarma = (long)oldKarma + (long)karmaDelta;
+            int newKarma = (int)Math.max(-15500000L, Math.min(15500000L, rawKarma));
+            q item = pc.j().b(itemId);
+            int oldCount = item == null ? 0 : item.E();
+            int newCount = oldCount;
+            q inserted = null;
+            if (consumeItem) {
+                if (item == null || oldCount < itemCount) {
+                    return false;
+                }
+                newCount = oldCount - itemCount;
+            } else {
+                bh.j template = ao.ah.a().a(itemId);
+                if (template == null || !template.aF()) {
+                    return false;
+                }
+                long nextCount = (long)oldCount + (long)itemCount;
+                if (nextCount <= 0L || nextCount > 2000000000L) {
+                    return false;
+                }
+                newCount = (int)nextCount;
+                if (item == null) {
+                    inserted = new q(template, itemCount);
+                    inserted.cF(ai.d.a().d());
+                    inserted.g(template.aM());
+                    inserted.j(template.T());
+                    inserted.n();
+                }
+            }
+            try (Connection con = l1j.server.b.a().b()) {
+                boolean oldAutoCommit = con.getAutoCommit();
+                con.setAutoCommit(false);
+                try {
+                    this.l1rRequireKarmaExchangeInnoDb(con);
+                    ao.l itemTable = ao.l.a();
+                    int charId = pc.fr();
+                    if (consumeItem) {
+                        if (newCount == 0) {
+                            itemTable.deleteQuestRewardItem(con, charId, item, oldCount);
+                        } else {
+                            itemTable.updateQuestRewardCount(con, charId, item, oldCount, newCount);
+                        }
+                    } else if (item == null) {
+                        itemTable.insertQuestReward(con, charId, inserted);
+                    } else {
+                        itemTable.updateQuestRewardCount(con, charId, item, oldCount, newCount);
+                    }
+                    try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET Karma=? WHERE objid=? AND Karma=?")) {
+                        pstm.setInt(1, newKarma);
+                        pstm.setInt(2, charId);
+                        pstm.setInt(3, oldKarma);
+                        if (pstm.executeUpdate() != 1) {
+                            throw new SQLException("BUG-850-126 Karma CAS failed");
+                        }
+                    }
+                    con.commit();
+                    if (consumeItem) {
+                        if (newCount == 0) {
+                            pc.j().publishCommittedQuestDelete(item);
+                        } else {
+                            pc.j().publishCommittedQuestUpdate(item, newCount);
+                        }
+                    } else if (item == null) {
+                        pc.j().publishCommittedQuestInsert(inserted);
+                    } else {
+                        pc.j().publishCommittedQuestUpdate(item, newCount);
+                    }
+                    if (!consumeItem && outputSource != null) {
+                        q granted = item == null ? inserted : item;
+                        pc.a(new ds(143, outputSource, granted.s()));
+                    }
+                    pc.A(newKarma);
+                    con.setAutoCommit(oldAutoCommit);
+                    return true;
+                }
+                catch (Exception ex) {
+                    try {
+                        con.rollback();
+                    }
+                    catch (SQLException ignored) {
+                    }
+                    try {
+                        con.setAutoCommit(oldAutoCommit);
+                    }
+                    catch (SQLException ignored) {
+                    }
+                    return false;
+                }
+            }
+            catch (SQLException ex) {
+                return false;
+            }
+        }
+    }
+
+    private void l1rRequireKarmaExchangeInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_items','characters')"); java.sql.ResultSet rs = pstm.executeQuery()) {
+            int seen = 0;
+            while (rs.next()) {
+                if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-126 requires InnoDB: " + rs.getString("TABLE_NAME"));
+                }
+                ++seen;
+            }
+            if (seen != 2) {
+                throw new SQLException("BUG-850-126 missing transactional table");
+            }
         }
     }
 
