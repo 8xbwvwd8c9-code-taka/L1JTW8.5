@@ -12,7 +12,7 @@ CAPSTONE_PACKAGE_VERSION = metadata.version("capstone")
 CAPSTONE_BINDING_VERSION = getattr(capstone, "__version__", "UNKNOWN")
 TARGET_ASSIGN_RVA = 0x00C9A1E3
 TARGET_LOAD_RVA = 0x00C9A1DD
-ROOT_GLOBAL_VA = 0x016BCEE8
+ROOT_GLOBAL_RVA = 0x012BCEE8
 STACK_DISP = -0x3B8
 
 
@@ -62,11 +62,11 @@ def absolute_mem_target(op):
     return int(mem.disp) & 0xFFFFFFFF
 
 
-def is_target_assign(insn):
+def is_target_assign(insn, root_global_va):
     if insn.mnemonic != "mov" or len(insn.operands) < 2:
         return False
     dst, src = insn.operands[0], insn.operands[1]
-    return absolute_mem_target(dst) == ROOT_GLOBAL_VA and src.type == X86_OP_REG and src.reg == X86_REG_ECX
+    return absolute_mem_target(dst) == root_global_va and src.type == X86_OP_REG and src.reg == X86_REG_ECX
 
 
 def classify_source(md, insn):
@@ -83,7 +83,7 @@ def classify_source(md, insn):
     return "OTHER"
 
 
-def find_function_stream(md, blob, start_va, target_load_va, target_assign_va):
+def find_function_stream(md, blob, start_va, target_load_va, target_assign_va, root_global_va):
     candidates = []
     seen_prologues = set()
     target_off = target_assign_va - start_va
@@ -105,12 +105,11 @@ def find_function_stream(md, blob, start_va, target_load_va, target_assign_va):
         assign = by_addr.get(target_assign_va)
         if load is None or assign is None:
             continue
-        if not is_target_load(load) or not is_target_assign(assign):
+        if not is_target_load(load) or not is_target_assign(assign, root_global_va):
             continue
         if load.address + load.size != assign.address:
             continue
         candidates.append((prologue_va, stream))
-    # Nearest valid standard prologue is preferred, but all candidates are reported.
     candidates.sort(key=lambda x: x[0], reverse=True)
     return candidates
 
@@ -143,6 +142,7 @@ def main():
     module_base = hx(meta["MODULE_BASE"])
     target_load_va = module_base + TARGET_LOAD_RVA
     target_assign_va = module_base + TARGET_ASSIGN_RVA
+    root_global_va = module_base + ROOT_GLOBAL_RVA
     expected_sha = meta.get("WINDOW_SHA256", "").upper()
     actual_sha = hashlib.sha256(blob).hexdigest().upper()
 
@@ -157,7 +157,7 @@ def main():
 
     md = Cs(CS_ARCH_X86, CS_MODE_32)
     md.detail = True
-    functions = find_function_stream(md, blob, start_va, target_load_va, target_assign_va)
+    functions = find_function_stream(md, blob, start_va, target_load_va, target_assign_va, root_global_va)
 
     out = []
     out.append("MODE=850_INVENTORY_ROOT_ASSIGNMENT_SOURCE_V5")
@@ -166,6 +166,7 @@ def main():
     out.append(f"PID={meta.get('PID','')}")
     out.append(f"PROCESS_START_UTC={meta.get('PROCESS_START_UTC','')}")
     out.append(f"MODULE_BASE={meta.get('MODULE_BASE','')}")
+    out.append(f"ROOT_GLOBAL_VA=0x{root_global_va:08X}")
     out.append(f"WINDOW_START_RVA={meta.get('WINDOW_START_RVA','')}")
     out.append(f"WINDOW_END_RVA={meta.get('WINDOW_END_RVA','')}")
     out.append(f"WINDOW_SHA256={actual_sha}")
