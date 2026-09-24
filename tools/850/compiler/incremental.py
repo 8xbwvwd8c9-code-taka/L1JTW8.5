@@ -8,6 +8,7 @@ import os
 import shutil
 import subprocess
 import tempfile
+import zipfile
 from pathlib import Path
 from typing import Iterable
 
@@ -81,12 +82,14 @@ class IncrementalCompiler:
 
     def _scan_sources(self) -> dict[str, dict[str, object]]:
         found: dict[str, dict[str, object]] = {}
+        identities: set[str] = set()
         for path in sorted(self.source_root.rglob("*.java")):
             text = path.read_text(encoding="utf-8")
             rel = path.relative_to(self.source_root).as_posix()
             identity = _DEPS.source_identity(path, text)
-            if identity in {row["identity"] for row in found.values()}:
+            if identity in identities:
                 raise ValueError(f"duplicate source identity: {identity}")
+            identities.add(identity)
             found[rel] = {
                 "path": path,
                 "identity": identity,
@@ -113,6 +116,17 @@ class IncrementalCompiler:
             if name == simple + ".class" or name.startswith(simple + "$"):
                 result.append(path.relative_to(root).as_posix())
         return sorted(result)
+
+    @staticmethod
+    def _jar_family_paths(class_entries: list[str], identity: str) -> list[str]:
+        base = identity.replace(".", "/")
+        exact = base + ".class"
+        inner_prefix = base + "$"
+        return sorted(
+            name
+            for name in class_entries
+            if name == exact or (name.startswith(inner_prefix) and name.endswith(".class"))
+        )
 
     def _javac(self, source_paths: list[Path], output_dir: Path, *, include_overlay: bool) -> None:
         output_dir.mkdir(parents=True, exist_ok=True)
@@ -145,12 +159,55 @@ class IncrementalCompiler:
                 "hash": row["hash"],
                 "abi": row["abi"],
                 "class_family": family,
+                "origin": "overlay",
             }
         return {"schema": 1, "sources": rows}
 
     def _dependency_index(self, sources: dict[str, dict[str, object]]) -> dict[str, object]:
         by_identity = {str(row["identity"]): str(row["text"]) for row in sources.values()}
         return _DEPS.build_dependency_index(by_identity)
+
+    def seed_from_dev_base(self, dev_base_jar: Path) -> dict[str, object]:
+        """Seed incremental hashes/ABI/dependencies from an already-relocated Dev Base.
+
+        No application source is compiled and no overlay class directory is created.
+        Every semantic source must have a matching class family in the Dev Base JAR.
+        """
+        dev_base = Path(dev_base_jar)
+        if not dev_base.is_file():
+            raise FileNotFoundError(dev_base)
+        sources = self._scan_sources()
+        if not sources:
+            raise ValueError("no Java sources under source_root")
+
+        with zipfile.ZipFile(dev_base, "r") as archive:
+            class_entries = sorted(
+                info.filename
+                for info in archive.infolist()
+                if not info.is_dir() and info.filename.endswith(".class")
+            )
+
+        rows: dict[str, object] = {}
+        seeded: list[str] = []
+        for rel, row in sources.items():
+            identity = str(row["identity"])
+            family = self._jar_family_paths(class_entries, identity)
+            if not family:
+                raise RuntimeError(f"dev-base class family missing for {identity}")
+            rows[rel] = {
+                "identity": identity,
+                "hash": row["hash"],
+                "abi": row["abi"],
+                "class_family": family,
+                "origin": "baseline",
+            }
+            seeded.append(identity)
+
+        state = {"schema": 1, "sources": rows}
+        deps = self._dependency_index(sources)
+        _atomic_write_json(self.state_path, state)
+        _atomic_write_json(self.dependency_index_path, deps)
+        return {"mode": "seed", "seeded_identities": sorted(seeded)}
 
     def _publish_full(self, staging: Path) -> None:
         self.class_dir.parent.mkdir(parents=True, exist_ok=True)
@@ -275,17 +332,30 @@ class IncrementalCompiler:
             self._swap_class_dir(candidate)
 
         # Publish state only after javac and class overlay publication succeed.
+        # Unchanged seeded classes stay backed by Dev Base; only affected families
+        # are required to exist in the overlay directory.
         state_rows: dict[str, object] = {}
         for rel, row in current.items():
             identity = str(row["identity"])
-            family = self._family_paths(self.class_dir, identity)
-            if not family:
-                raise RuntimeError(f"published class family missing for {identity}")
+            if identity in affected:
+                family = self._family_paths(self.class_dir, identity)
+                if not family:
+                    raise RuntimeError(f"published class family missing for {identity}")
+                origin = "overlay"
+            else:
+                previous = old_sources.get(rel)
+                if not isinstance(previous, dict) or previous.get("identity") != identity:
+                    raise RuntimeError(f"unchanged source state missing for {identity}")
+                family = list(previous.get("class_family", []))
+                if not family:
+                    raise RuntimeError(f"unchanged class family state missing for {identity}")
+                origin = str(previous.get("origin", "overlay"))
             state_rows[rel] = {
                 "identity": identity,
                 "hash": row["hash"],
                 "abi": row["abi"],
                 "class_family": family,
+                "origin": origin,
             }
         new_state = {"schema": 1, "sources": state_rows}
         new_dependencies = self._dependency_index(current)
