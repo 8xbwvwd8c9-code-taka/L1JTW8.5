@@ -1,0 +1,57 @@
+name: L1JTW8.5 BUG-850-252 Record Completion
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-252-record.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  record-and-clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lock source and concurrency
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "9aeccb164e74d25f424cf6ac85494ff447ab8b49"
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_252_DOCS_CONCURRENCY_GATE=PASS"
+      - name: Record README and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          p=Path('README.md')
+          text=p.read_text(encoding='utf-8')
+          row='| BUG-850-252 | L2 | weekly mission malformed/missing login-row self-heal | PASS / PROMOTED |'
+          anchor='| BUG-850-254 | L2 | weekly mission durable delete / live-reset consistency | PASS / PROMOTED |'
+          if row not in text:
+              if anchor not in text: raise SystemExit('FAIL BUG-850-254 table anchor missing')
+              text=text.replace(anchor,anchor+'\n'+row,1)
+          heading='## BUG-850-252 — malformed weekly mission row could not self-heal on login'
+          if heading not in text:
+              text=text.rstrip()+'''\n\n## BUG-850-252 — malformed weekly mission row could not self-heal on login\n\n### Problem\n\nWhen weekly mission data could not be parsed, login fell back to default weekly state and called the weekly-row create path. That path used a plain `INSERT`; if the malformed row already existed, the duplicate key prevented the fallback from repairing it. Missing rows could be created, but malformed existing rows could remain permanently unrecoverable.\n\n### Fix\n\nNormalized and obfuscated weekly-row create/default paths now use the same `INSERT ... ON DUPLICATE KEY UPDATE` contract as the save path. Login fallback itself is unchanged: a null weekly state loads defaults and persists them. Existing BUG-850-254 durable-delete logic and BUG-850-255 save UPSERT logic are preserved.\n\n### Validation\n\n```text\nWORK_CI=35722501191\nCOMPLETED_CI=35939135578\nSOURCE_COMMIT=9aeccb164e74d25f424cf6ac85494ff447ab8b49\nPATCH_CHAIN=1b8f3dd8,6acdeac5\nEXACT_HISTORICAL_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nLOGIN_FALLBACK_UPSERT=PASS\nMALFORMED_ROW_SELF_HEAL=PASS\nBUG_850_254_DURABLE_DELETE_PRESERVED=PASS\nBUG_850_255_SAVE_UPSERT_PRESERVED=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nMALFORMED_EXISTING_ROW_REPLACED=PASS\nMISSING_ROW_CREATED=PASS\nCONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-252_VALIDATION_20260924.md`\n\n### Result\n\n```text\nBUG-850-252=L2\nSTATUS=PASS_PROMOTED\n```\n'''
+          p.write_text(text,encoding='utf-8')
+          Path('recovery/BUG-850-252_VALIDATION_20260924.md').write_text('''# BUG-850-252 Validation\n\n```text\nBUG=BUG-850-252\nLEVEL=L2\nWORK_CI=35722501191\nCOMPLETED_CI=35939135578\nSOURCE_COMMIT=9aeccb164e74d25f424cf6ac85494ff447ab8b49\nPATCH_CHAIN=1b8f3dd8,6acdeac5\nEXACT_HISTORICAL_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nLOGIN_FALLBACK_UPSERT=PASS\nMALFORMED_ROW_SELF_HEAL=PASS\nBUG_850_254_DURABLE_DELETE_PRESERVED=PASS\nBUG_850_255_SAVE_UPSERT_PRESERVED=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nMALFORMED_EXISTING_ROW_REPLACED=PASS\nMISSING_ROW_CREATED=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
+          PY
+      - name: Remove temporary workflows and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/l1jtw85-bug-850-252-promotion.yml
+          rm -f .github/workflows/l1jtw85-bug-850-252-record.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md recovery/BUG-850-252_VALIDATION_20260924.md .github/workflows/
+          git commit -m "docs: record BUG-850-252 promotion"
+          git push origin HEAD:completed/l1jtw85-core-fixes
