@@ -65,14 +65,34 @@ def clean_build_state(root: Path) -> None:
         shutil.rmtree(build)
 
 
+def _baseline_ready(root: Path) -> bool:
+    build = Path(root) / ".build850"
+    return all(
+        path.is_file()
+        for path in (
+            build / "cache" / "850-dev-base.jar",
+            build / "state.json",
+            build / "dependency-index.json",
+        )
+    )
+
+
+def _ensure_baseline(root: Path) -> None:
+    if _baseline_ready(root):
+        return
+    bootstrap = _load_module(
+        root / "tools" / "850" / "bootstrap" / "ensure_dev.py",
+        "fast_dev_automatic_bootstrap",
+    )
+    bootstrap.ensure_fast_dev(root)
+    if not _baseline_ready(root):
+        raise RuntimeError("Fast Dev automatic bootstrap completed without a usable baseline/state")
+
+
 def _compiler(root: Path):
+    _ensure_baseline(root)
     module = _load_module(root / "tools" / "850" / "compiler" / "incremental.py", "fast_dev_incremental_runtime")
     dev_base = root / ".build850" / "cache" / "850-dev-base.jar"
-    if not dev_base.is_file():
-        raise RuntimeError(
-            "Fast Dev baseline is missing: .build850/cache/850-dev-base.jar. "
-            "Run the bootstrap/migration stage before normal incremental builds."
-        )
     return module.IncrementalCompiler(
         source_root=root / "core" / "src",
         class_dir=root / ".build850" / "classes",
