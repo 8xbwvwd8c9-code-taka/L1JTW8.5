@@ -98,6 +98,21 @@ def _write_source_index(path: Path, entries, bootstrap_index: dict[str, dict[str
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
+def _write_runtime_class_map(path: Path, rows, entries, expected_count: int) -> int:
+    runtime_map = _PACKAGE_MAP.build_class_map_from_namespace(rows, entries)
+    if len(runtime_map) != expected_count:
+        raise RuntimeError(
+            f"runtime class map count mismatch: {len(runtime_map)} != {expected_count}"
+        )
+    if len(set(runtime_map.values())) != expected_count:
+        raise RuntimeError("runtime class map contains duplicate semantic identities")
+    path.write_text(
+        json.dumps(runtime_map, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
+    return len(runtime_map)
+
+
 def _assert_no_recovery_namespace(source_root: Path) -> None:
     offenders: list[str] = []
     for path in source_root.rglob("*.java"):
@@ -167,13 +182,21 @@ def materialize_sources(repo_root: Path, output_core: Path) -> dict[str, int]:
         _assert_no_recovery_namespace(source_root)
         _write_package_map(candidate / "package-map.csv", entries)
         _write_source_index(candidate / "source-index.json", entries, bootstrap_index)
+        expected_runtime = int(state["application_class_mappings"])
+        runtime_class_count = _write_runtime_class_map(
+            candidate / "runtime-class-map.json",
+            rows,
+            entries,
+            expected_runtime,
+        )
         (candidate / "MIGRATION_AUTHORITY.json").write_text(
             json.dumps(
                 {
                     "source_namespace_map": "recovery/source_namespace_map.csv",
                     "normalized_source_root": "recovery/normalized-src-vf",
+                    "runtime_class_map": "runtime-class-map.json",
                     "top_level_sources": expected,
-                    "application_class_mappings": int(state["application_class_mappings"]),
+                    "application_class_mappings": runtime_class_count,
                     "duplicate_source_groups": int(state["duplicate_sourcefile_groups"]),
                 },
                 indent=2,
@@ -189,7 +212,7 @@ def materialize_sources(repo_root: Path, output_core: Path) -> dict[str, int]:
 
     return {
         "source_count": len(entries),
-        "runtime_class_count": int(state["application_class_mappings"]),
+        "runtime_class_count": runtime_class_count,
         "namespace_row_count": len(rows),
     }
 
