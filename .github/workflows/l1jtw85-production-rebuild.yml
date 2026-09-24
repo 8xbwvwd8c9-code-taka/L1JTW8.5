@@ -47,6 +47,12 @@ jobs:
       - name: Fetch accepted recovery baseline
         run: git fetch --no-tags --depth=1 origin 999f2f6571e6984217c33cf0449cc8c7f1679dbd
 
+      - name: Probe selected-source incremental compile
+        run: >-
+          python tools/production-rebuild/probe_incremental_compile.py
+          --repo-root .
+          --baseline-ref 999f2f6571e6984217c33cf0449cc8c7f1679dbd
+
       - name: Run end-to-end repaired test JAR pipeline
         run: >-
           python tools/production-rebuild/run_production_rebuild.py
