@@ -77,28 +77,50 @@ public class InnTable {
       }
    }
 
-   private void a(int var1, int var2) {
+   private boolean a(int var1, int var2) {
       InnTable.L1R_a var3 = this.f.get(var1);
-      if (var3 != null) {
-         var3.c -= var2;
-         if (var3.c <= 0) {
-            this.b(var1);
-         } else {
-            Connection var4 = null;
-            PreparedStatement var5 = null;
+      if (var3 == null || var2 <= 0) {
+         return false;
+      }
 
-            try {
-               var4 = DatabaseFactory.a().b();
-               var5 = var4.prepareStatement("UPDATE inns SET count=? WHERE keyid = ?");
-               var5.setInt(1, var3.c);
-               var5.setInt(2, var1);
-               var5.execute();
-            } catch (SQLException var10) {
-               d.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
-            } finally {
-               SQLUtil.a(var5);
-               SQLUtil.a(var4);
+      synchronized (var3) {
+         if (var2 > var3.c) {
+            return false;
+         }
+
+         int var4 = var3.c - var2;
+         Connection var5 = null;
+         PreparedStatement var6 = null;
+
+         try {
+            var5 = DatabaseFactory.a().b();
+            if (var4 <= 0) {
+               var6 = var5.prepareStatement("DELETE FROM inns WHERE keyid=? AND count=?");
+               var6.setInt(1, var1);
+               var6.setInt(2, var3.c);
+            } else {
+               var6 = var5.prepareStatement("UPDATE inns SET count=? WHERE keyid=? AND count=?");
+               var6.setInt(1, var4);
+               var6.setInt(2, var1);
+               var6.setInt(3, var3.c);
             }
+
+            if (var6.executeUpdate() != 1) {
+               return false;
+            }
+
+            if (var4 <= 0) {
+               this.f.remove(var1, var3);
+            } else {
+               var3.c = var4;
+            }
+            return true;
+         } catch (SQLException var11) {
+            d.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
+            return false;
+         } finally {
+            SQLUtil.a(var6);
+            SQLUtil.a(var5);
          }
       }
    }
@@ -297,7 +319,7 @@ public class InnTable {
    }
 
    public int b(L1PcInstance var1) {
-      int var2 = 0;
+      long var2 = 0L;
       L1ItemInstance[] var6;
       int var5 = (var6 = var1.j().d(40312)).length;
 
@@ -308,17 +330,24 @@ public class InnTable {
             Timestamp var8 = var7.e;
             if (var8 != null) {
                Calendar var9 = Calendar.getInstance();
+               long var10 = 0L;
                if (var9.getTimeInMillis() < var8.getTime()) {
-                  var2 += 60 * var3.E();
+                  var10 = 60L * (long)var3.E();
+                  if (var10 > Integer.MAX_VALUE || var2 + var10 > Integer.MAX_VALUE) {
+                     continue;
+                  }
                }
 
+               if (!this.a(var3.M(), var3.E())) {
+                  continue;
+               }
                var1.j().f(var3);
-               this.a(var3.M(), var3.E());
+               var2 += var10;
             }
          }
       }
 
-      return var2;
+      return (int)var2;
    }
 
    public boolean a(int var1) {

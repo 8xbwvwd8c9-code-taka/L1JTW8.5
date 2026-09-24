@@ -80,50 +80,73 @@ public class af {
 
     private boolean a(int keyid, int count) {
         a data = this.f.get(keyid);
-        if (data == null || count <= 0 || count > data.c) {
+        if (data == null || count <= 0) {
             return false;
         }
-        int newCount = data.c - count;
-        if (newCount <= 0) {
-            return this.b(keyid);
-        }
-        Connection con = null;
-        PreparedStatement pstm = null;
-        try {
-            con = l1j.server.b.a().b();
-            pstm = con.prepareStatement("UPDATE inns SET count=? WHERE keyid = ?");
-            pstm.setInt(1, newCount);
-            pstm.setInt(2, keyid);
-            pstm.execute();
-            data.c = newCount;
-            return true;
-        }
-        catch (SQLException e2) {
-            d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            return false;
-        }
-        finally {
-            j.a(pstm);
-            j.a(con);
+        synchronized (data) {
+            if (count > data.c) {
+                return false;
+            }
+            int nextCount = data.c - count;
+            Connection con = null;
+            PreparedStatement pstm = null;
+            try {
+                con = l1j.server.b.a().b();
+                if (nextCount <= 0) {
+                    pstm = con.prepareStatement("DELETE FROM inns WHERE keyid=? AND count=?");
+                    pstm.setInt(1, keyid);
+                    pstm.setInt(2, data.c);
+                } else {
+                    pstm = con.prepareStatement("UPDATE inns SET count=? WHERE keyid=? AND count=?");
+                    pstm.setInt(1, nextCount);
+                    pstm.setInt(2, keyid);
+                    pstm.setInt(3, data.c);
+                }
+                if (pstm.executeUpdate() != 1) {
+                    return false;
+                }
+                if (nextCount <= 0) {
+                    this.f.remove(keyid, data);
+                } else {
+                    data.c = nextCount;
+                }
+                return true;
+            }
+            catch (SQLException e2) {
+                d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                return false;
+            }
+            finally {
+                j.a(pstm);
+                j.a(con);
+            }
         }
     }
 
-    private boolean b(int keyid) {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        try {
-            con = l1j.server.b.a().b();
-            pstm = con.prepareStatement("DELETE FROM inns WHERE keyid = ?");
-            pstm.setInt(1, keyid);
-            pstm.execute();
-            this.f.remove(keyid);
-            return true;
-        }
-        catch (SQLException e2) {
-            d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            return false;
-        }
-        finally {
+    private void b(int keyid) {
+        block5: {
+            Connection con = null;
+            PreparedStatement pstm = null;
+            try {
+                try {
+                    con = l1j.server.b.a().b();
+                    pstm = con.prepareStatement("DELETE FROM inns WHERE keyid = ?");
+                    pstm.setInt(1, keyid);
+                    pstm.execute();
+                    this.f.remove(keyid);
+                }
+                catch (SQLException e2) {
+                    d.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                    j.a(pstm);
+                    j.a(con);
+                    break block5;
+                }
+            }
+            catch (Throwable throwable) {
+                j.a(pstm);
+                j.a(con);
+                throw throwable;
+            }
             j.a(pstm);
             j.a(con);
         }
@@ -316,30 +339,29 @@ public class af {
         int n2 = qArray.length;
         int n3 = 0;
         while (n3 < n2) {
+            Timestamp dueTime;
             q item = qArray[n3];
             a data = this.f.get(item.M());
-            if (data != null && data.e != null && item.E() > 0) {
+            if (data != null && (dueTime = data.e) != null) {
                 Calendar cal = Calendar.getInstance();
-                long refund = cal.getTimeInMillis() < data.e.getTime() ? 60L * (long)item.E() : 0L;
-                int removed = pc.j().f(item);
-                if (removed == item.E()) {
-                    if (this.a(item.M(), item.E())) {
-                        price += refund;
-                    } else {
-                        aq.a().a(item);
-                        q restored = pc.j().d(item);
-                        if (restored == null) {
-                            d.log(Level.SEVERE, "Failed to restore inn key after lease-release failure: " + item.M());
-                        }
+                long refund = 0L;
+                if (cal.getTimeInMillis() < dueTime.getTime()) {
+                    refund = 60L * (long)item.E();
+                    if (refund > Integer.MAX_VALUE || price + refund > Integer.MAX_VALUE) {
+                        ++n3;
+                        continue;
                     }
                 }
+                if (!this.a(item.M(), item.E())) {
+                    ++n3;
+                    continue;
+                }
+                pc.j().f(item);
+                price += refund;
             }
             ++n3;
         }
-        if (price <= 0L) {
-            return 0;
-        }
-        return (int)Math.min(price, 2000000000L);
+        return (int)price;
     }
 
     public boolean a(int roomid) {
