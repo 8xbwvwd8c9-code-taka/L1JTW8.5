@@ -35,6 +35,18 @@ def _run(cmd, *, cwd: Path) -> None:
     subprocess.run(cmd, cwd=cwd, check=True)
 
 
+def _dump_compile_diagnostics(repo_root: Path, max_lines: int = 160) -> None:
+    log = repo_root / "recovery" / "normalized-javac.log"
+    if not log.is_file():
+        print("=== normalized-javac.log missing ===", flush=True)
+        return
+    lines = log.read_text(encoding="utf-8", errors="replace").splitlines()
+    print(f"=== normalized-javac.log first {min(max_lines, len(lines))}/{len(lines)} lines ===", flush=True)
+    for line in lines[:max_lines]:
+        print(line, flush=True)
+    print("=== end normalized-javac.log excerpt ===", flush=True)
+
+
 def _write_pipeline_result(output_dir: Path, state: dict) -> None:
     output_dir.mkdir(parents=True, exist_ok=True)
     (output_dir / "PIPELINE_RESULT.json").write_text(
@@ -87,8 +99,6 @@ def run_pipeline(*, repo_root: Path, baseline_ref: str, current_ref: str, source
             f"original JAR SHA-256 mismatch: expected {EXPECTED_ORIGINAL_JAR_SHA256}, got {original_before}"
         )
 
-    # Reuse the accepted normalized compile pipeline. It has its own donor-class
-    # closure check and never puts the donor game JAR on javac's classpath.
     _run(
         [sys.executable, "tools/normalized-recovery/compile-normalized-source.py"],
         cwd=repo_root,
@@ -107,8 +117,10 @@ def run_pipeline(*, repo_root: Path, baseline_ref: str, current_ref: str, source
         "donor_game_jar_on_classpath": compile_state.get("donor_game_jar_on_classpath"),
     }
     if compile_gate["compiler_exit"] != 0:
+        _dump_compile_diagnostics(repo_root)
         raise ValueError(f"normalized compile failed: {compile_gate}")
     if compile_gate["javac_error_headers"] != 0 or compile_gate["javac_error_files"] != 0:
+        _dump_compile_diagnostics(repo_root)
         raise ValueError(f"normalized compile emitted javac errors: {compile_gate}")
     if compile_gate["missing_classes"] != 0 or compile_gate["extra_classes"] != 0:
         raise ValueError(f"normalized class closure failed: {compile_gate}")
