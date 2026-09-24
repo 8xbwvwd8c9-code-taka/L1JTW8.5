@@ -107,6 +107,63 @@ class AuthorityCacheContracts(unittest.TestCase):
             self.assertEqual(resolved, completed_tip)
             self.assertNotEqual(resolved, work_head)
 
+    def test_missing_recovery_baseline_is_unshallowed_from_completed_branch(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            source = root / "source"
+            source.mkdir()
+            git(source, "init")
+            git(source, "config", "user.email", "test@example.invalid")
+            git(source, "config", "user.name", "Fast Dev Test")
+
+            write_authority(source, 1)
+            git(source, "add", ".")
+            git(source, "commit", "-m", "recovery baseline")
+            baseline = git(source, "rev-parse", "HEAD")
+            write_authority(source, 2)
+            git(source, "add", ".")
+            git(source, "commit", "-m", "completed repair")
+            git(source, "branch", "-M", mod.COMPLETED_BRANCH)
+
+            origin = root / "origin.git"
+            subprocess.run(
+                ["git", "clone", "--bare", str(source), str(origin)],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            shallow = root / "shallow"
+            subprocess.run(
+                [
+                    "git", "clone", "--depth", "1", "--branch", mod.COMPLETED_BRANCH,
+                    origin.resolve().as_uri(), str(shallow),
+                ],
+                check=True,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            self.assertEqual(git(shallow, "rev-parse", "--is-shallow-repository"), "true")
+            missing = subprocess.run(
+                ["git", "cat-file", "-e", f"{baseline}^{{commit}}"],
+                cwd=shallow,
+                stdout=subprocess.PIPE,
+                stderr=subprocess.PIPE,
+                text=True,
+            )
+            self.assertNotEqual(missing.returncode, 0)
+
+            resolved = mod.ensure_recovery_baseline_commit(
+                shallow,
+                baseline_commit=baseline,
+                fetch_if_missing=True,
+            )
+            self.assertEqual(resolved, baseline)
+            self.assertEqual(git(shallow, "rev-parse", "--is-shallow-repository"), "false")
+            git(shallow, "cat-file", "-e", f"{baseline}^{{commit}}")
+
     def test_completed_repair_scope_uses_baseline_to_pinned_completed_not_work_head(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
