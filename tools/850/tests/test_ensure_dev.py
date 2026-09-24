@@ -19,6 +19,13 @@ def load_module():
     return module
 
 
+def write_core_source(core: Path, name: str, text: str) -> Path:
+    path = core / "src" / "l1j" / "server" / f"{name}.java"
+    path.parent.mkdir(parents=True, exist_ok=True)
+    path.write_text(text, encoding="utf-8")
+    return path
+
+
 class FakeAuthority:
     def __init__(self):
         self.calls = []
@@ -195,6 +202,46 @@ class EnsureDevContracts(unittest.TestCase):
 
             self.assertFalse(stale.exists())
             self.assertTrue((root / ".build850" / "state.json").is_file())
+
+    def test_sync_working_core_updates_completed_files_and_preserves_unrelated_local_edits(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            old = root / "old"
+            new = root / "new"
+            work = root / "core"
+            write_core_source(old, "A", "A old\n")
+            write_core_source(old, "B", "B stable\n")
+            write_core_source(new, "A", "A completed\n")
+            write_core_source(new, "B", "B stable\n")
+            a = write_core_source(work, "A", "A old\n")
+            b = write_core_source(work, "B", "B local edit\n")
+
+            result = mod.sync_working_core(old, new, work)
+
+            self.assertEqual(a.read_text(encoding="utf-8"), "A completed\n")
+            self.assertEqual(b.read_text(encoding="utf-8"), "B local edit\n")
+            self.assertEqual(result["updated_files"], ["l1j/server/A.java"])
+
+    def test_sync_working_core_conflict_is_atomic_and_fails_closed(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            old = root / "old"
+            new = root / "new"
+            work = root / "core"
+            write_core_source(old, "A", "A old\n")
+            write_core_source(old, "B", "B old\n")
+            write_core_source(new, "A", "A completed\n")
+            write_core_source(new, "B", "B completed\n")
+            a = write_core_source(work, "A", "A local conflict\n")
+            b = write_core_source(work, "B", "B old\n")
+
+            with self.assertRaisesRegex(RuntimeError, "completed repair sync conflict"):
+                mod.sync_working_core(old, new, work)
+
+            self.assertEqual(a.read_text(encoding="utf-8"), "A local conflict\n")
+            self.assertEqual(b.read_text(encoding="utf-8"), "B old\n")
 
 
 if __name__ == "__main__":
