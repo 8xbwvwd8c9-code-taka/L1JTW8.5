@@ -80,19 +80,21 @@ def _write_package_map(path: Path, entries) -> None:
             )
 
 
-def _write_source_index(path: Path, entries) -> None:
-    payload = [
-        {
-            "original_internal": entry.original_internal,
-            "recovered_internal": entry.recovered_internal,
-            "dev_internal": entry.dev_internal,
-            "source_file": entry.source_file,
-            "category": entry.category,
-            "dev_source": f"src/{entry.dev_internal}.java",
-            "authority": "recovery/source_namespace_map.csv + recovery/normalized-src-vf",
-        }
-        for entry in entries
-    ]
+def _write_source_index(path: Path, entries, bootstrap_index: dict[str, dict[str, str]]) -> None:
+    payload = []
+    for entry in entries:
+        authority = bootstrap_index[entry.dev_internal]["authority"]
+        payload.append(
+            {
+                "original_internal": entry.original_internal,
+                "recovered_internal": entry.recovered_internal,
+                "dev_internal": entry.dev_internal,
+                "source_file": entry.source_file,
+                "category": entry.category,
+                "dev_source": f"src/{entry.dev_internal}.java",
+                "authority": authority,
+            }
+        )
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
 
 
@@ -140,25 +142,31 @@ def materialize_sources(repo_root: Path, output_core: Path) -> dict[str, int]:
     candidate = stage_parent / "core"
     candidate.mkdir()
     try:
-        written = _BOOTSTRAP.build_core_tree(
-            baseline_sources=sources,
+        tree, bootstrap_index = _BOOTSTRAP.build_core_tree(
             entries=entries,
-            output_root=candidate / "src",
-            completed_sources=None,
-            work_sources=None,
+            baseline_sources=sources,
+            completed_sources={},
+            quarantined_sources=None,
         )
         expected = int(state["top_level_mappings"])
-        if len(written) != expected:
-            raise RuntimeError(f"materialized source count mismatch: {len(written)} != {expected}")
-        actual_files = list((candidate / "src").rglob("*.java"))
+        if len(tree) != expected:
+            raise RuntimeError(f"materialized source count mismatch: {len(tree)} != {expected}")
+
+        source_root = candidate / "src"
+        for dev_path, text in tree.items():
+            target = source_root / dev_path
+            target.parent.mkdir(parents=True, exist_ok=True)
+            target.write_text(text, encoding="utf-8", newline="\n")
+
+        actual_files = list(source_root.rglob("*.java"))
         if len(actual_files) != expected:
             raise RuntimeError(
                 f"materialized Java file count mismatch: {len(actual_files)} != {expected}"
             )
 
-        _assert_no_recovery_namespace(candidate / "src")
+        _assert_no_recovery_namespace(source_root)
         _write_package_map(candidate / "package-map.csv", entries)
-        _write_source_index(candidate / "source-index.json", entries)
+        _write_source_index(candidate / "source-index.json", entries, bootstrap_index)
         (candidate / "MIGRATION_AUTHORITY.json").write_text(
             json.dumps(
                 {
