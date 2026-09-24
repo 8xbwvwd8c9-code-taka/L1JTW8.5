@@ -43,3 +43,13 @@ jobs:
 
       - name: Run completed repair selection contract tests
         run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_select_completed_repairs.py' -v
+
+      - name: Fetch accepted recovery baseline
+        run: git fetch --no-tags --depth=1 origin 999f2f6571e6984217c33cf0449cc8c7f1679dbd
+
+      - name: Run end-to-end repaired test JAR pipeline
+        run: >-
+          python tools/production-rebuild/run_production_rebuild.py
+          --repo-root .
+          --baseline-ref 999f2f6571e6984217c33cf0449cc8c7f1679dbd
+          --source-authority completed/l1jtw85-core-fixes@70d4ffb1ee3bca1f8b9c876aa8fcece304683b64
