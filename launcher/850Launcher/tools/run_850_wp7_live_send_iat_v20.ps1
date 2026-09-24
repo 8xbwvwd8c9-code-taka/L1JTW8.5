@@ -312,7 +312,7 @@ foreach($x in $xrefs){
     if($seen.Add($key)){
         $candidates.Add([pscustomobject]@{Depth=0;FunctionVa=[long]$x.OwnerVa;FunctionRva=[long]$x.OwnerRva;TriggerRva=[long]$x.Rva;Strong5E=(Test-Strong5E $regions ([long]$x.OwnerVa));Source=$x.Kind})
     }
-    foreach($c in (Find-DirectCallers $regions ([long]$x.OwnerVa)){
+    foreach($c in (Find-DirectCallers $regions ([long]$x.OwnerVa))){
         if(-not $c.OwnerVa){continue}
         $key=('1:{0:X8}' -f [long]$c.OwnerRva)
         if($seen.Add($key)){
