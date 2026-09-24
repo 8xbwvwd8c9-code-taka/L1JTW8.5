@@ -1,0 +1,37 @@
+{
+  "families": {
+    "ai": {
+      "package": "l1j/server",
+      "category": "server"
+    },
+    "aj": {
+      "package": "l1j/server/clientpackets",
+      "category": "clientpackets"
+    },
+    "ao": {
+      "package": "l1j/server/datatables",
+      "category": "datatables"
+    },
+    "ap": {
+      "package": "l1j/server/model/instance",
+      "category": "model-instance"
+    },
+    "aq": {
+      "package": "l1j/server/model",
+      "category": "model"
+    },
+    "aw": {
+      "package": "l1j/server/model/item",
+      "category": "model-item"
+    },
+    "ba": {
+      "package": "l1j/server/model/timer",
+      "category": "model-timer"
+    },
+    "bh": {
+      "package": "l1j/server/templates",
+      "category": "templates"
+    }
+  },
+  "overrides": {}
+}
