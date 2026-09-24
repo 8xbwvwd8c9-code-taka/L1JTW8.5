@@ -405,9 +405,11 @@ internal static class HeadlessWatch850V2
                                         var eipRva = eipInModule ? (uint)((ulong)context.Eip - moduleStart) : 0u;
                                         var postWriteValue = ReadDwordText(processHandle, watches[wi].Address);
 
+                                        // x86 instructions can be up to 15 bytes. Capture 24 bytes before
+                                        // post-write EIP so a decoder can align the writer, plus forward context.
                                         int codeGot;
-                                        var codeStart = context.Eip >= 8 ? context.Eip - 8 : context.Eip;
-                                        var code = ReadBytes(processHandle, codeStart, 32, out codeGot);
+                                        var codeStart = context.Eip >= 24 ? context.Eip - 24 : 0u;
+                                        var code = ReadBytes(processHandle, codeStart, 64, out codeGot);
                                         int stackGot;
                                         var stack = ReadBytes(processHandle, context.Esp, 64, out stackGot);
 
