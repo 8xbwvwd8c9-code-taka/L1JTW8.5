@@ -10,6 +10,9 @@ import java.util.Calendar;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import l1r.ai.IdFactory;
+import l1r.ap.L1ItemInstance;
+import l1r.ap.L1PcInstance;
 import l1r.bh.L1Castle;
 import l1r.bi.SQLUtil;
 import l1r.l1j.server.DatabaseFactory;
@@ -121,6 +124,149 @@ public class CastleTable {
          this.c.put(var1.a(), var1);
       } catch (SQLException var9) {
          a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+      } finally {
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
+   public boolean transferTreasuryAdena(L1PcInstance var1, int var2, int var3, boolean var4) {
+      if (var1 == null || var3 <= 0) {
+         return false;
+      }
+
+      L1Castle var5 = this.c.get(var2);
+      if (var5 == null) {
+         return false;
+      }
+
+      synchronized (var5) {
+         L1ItemInstance var6 = var1.j().b(40308);
+         int var7 = var6 == null ? 0 : var6.E();
+         int var8 = var5.f();
+         long var9 = var4 ? (long)var8 + (long)var3 : (long)var8 - (long)var3;
+         long var11 = var4 ? (long)var7 - (long)var3 : (long)var7 + (long)var3;
+         if (var9 < 0L || var9 > 2000000000L || var11 < 0L || var11 > 2000000000L) {
+            return false;
+         }
+
+         if (var4 && (var6 == null || var7 < var3)) {
+            return false;
+         }
+
+         if (!var4 && var6 == null && var1.j().c() >= 180) {
+            return false;
+         }
+
+         L1ItemInstance var13 = null;
+         if (!var4 && var6 == null) {
+            if (ItemTable.a().a(40308) == null) {
+               return false;
+            }
+
+            var13 = new L1ItemInstance(ItemTable.a().a(40308), var3);
+            var13.cF(IdFactory.a().d());
+         }
+
+         Connection var14 = null;
+         PreparedStatement var15 = null;
+         boolean var16 = true;
+         boolean var17 = false;
+
+         try {
+            var14 = DatabaseFactory.a().b();
+            this.requireTreasuryInnoDb(var14);
+            var16 = var14.getAutoCommit();
+            var14.setAutoCommit(false);
+
+            var15 = var14.prepareStatement("UPDATE castle SET public_money=? WHERE castle_id=? AND public_money=?");
+            var15.setInt(1, (int)var9);
+            var15.setInt(2, var2);
+            var15.setInt(3, var8);
+            if (var15.executeUpdate() != 1) {
+               throw new SQLException("BUG-850-245 castle treasury CAS failed");
+            }
+            SQLUtil.a(var15);
+            var15 = null;
+
+            CharacterItemTable var18 = CharacterItemTable.a();
+            if (var4) {
+               if (var11 == 0L) {
+                  var18.deleteQuestRewardItem(var14, var1.fr(), var6, var7);
+               } else {
+                  var18.updateQuestRewardCount(var14, var1.fr(), var6, var7, (int)var11);
+               }
+            } else if (var6 != null) {
+               var18.updateQuestRewardCount(var14, var1.fr(), var6, var7, (int)var11);
+            } else {
+               var18.insertQuestReward(var14, var1.fr(), var13);
+            }
+
+            var14.commit();
+            var17 = true;
+         } catch (Exception var22) {
+            if (var14 != null) {
+               try {
+                  var14.rollback();
+               } catch (SQLException var21) {
+                  a.log(Level.SEVERE, var21.getLocalizedMessage(), var21);
+               }
+            }
+
+            a.log(Level.SEVERE, "BUG-850-245 castle treasury transfer failed", var22);
+         } finally {
+            SQLUtil.a(var15);
+            if (var14 != null) {
+               try {
+                  var14.setAutoCommit(var16);
+               } catch (SQLException var20) {
+                  a.log(Level.SEVERE, var20.getLocalizedMessage(), var20);
+               }
+            }
+            SQLUtil.a(var14);
+         }
+
+         if (!var17) {
+            return false;
+         }
+
+         var5.b((int)var9);
+         this.c.put(var2, var5);
+         if (var4) {
+            if (var11 == 0L) {
+               var1.j().publishCommittedQuestDelete(var6);
+            } else {
+               var1.j().publishCommittedQuestUpdate(var6, (int)var11);
+            }
+         } else if (var6 != null) {
+            var1.j().publishCommittedQuestUpdate(var6, (int)var11);
+         } else {
+            var1.j().publishCommittedQuestInsert(var13);
+         }
+
+         return true;
+      }
+   }
+
+   private void requireTreasuryInnoDb(Connection var1) throws SQLException {
+      PreparedStatement var2 = null;
+      ResultSet var3 = null;
+
+      try {
+         var2 = var1.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('castle','character_items')");
+         var3 = var2.executeQuery();
+         int var4 = 0;
+
+         while (var3.next()) {
+            if (!"InnoDB".equalsIgnoreCase(var3.getString("ENGINE"))) {
+               throw new SQLException("BUG-850-245 requires castle and character_items InnoDB migration");
+            }
+            var4++;
+         }
+
+         if (var4 != 2) {
+            throw new SQLException("BUG-850-245 missing treasury transaction table");
+         }
       } finally {
          SQLUtil.a(var3);
          SQLUtil.a(var2);

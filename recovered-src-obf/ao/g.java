@@ -148,6 +148,144 @@ public class g {
         }
     }
 
+    public boolean transferTreasuryAdena(ap.u pc, int castleId, int amount, boolean deposit) {
+        if (pc == null || amount <= 0) {
+            return false;
+        }
+        d castle = this.c.get(castleId);
+        if (castle == null) {
+            return false;
+        }
+
+        synchronized (castle) {
+            ap.q adena = pc.j().b(40308);
+            int oldCount = adena == null ? 0 : adena.E();
+            int oldMoney = castle.f();
+            long newMoney = deposit ? (long)oldMoney + (long)amount : (long)oldMoney - (long)amount;
+            long newCount = deposit ? (long)oldCount - (long)amount : (long)oldCount + (long)amount;
+            if (newMoney < 0L || newMoney > 2000000000L || newCount < 0L || newCount > 2000000000L) {
+                return false;
+            }
+            if (deposit && (adena == null || oldCount < amount)) {
+                return false;
+            }
+            if (!deposit && adena == null && pc.j().c() >= 180) {
+                return false;
+            }
+
+            ap.q newAdena = null;
+            if (!deposit && adena == null) {
+                if (ah.a().a(40308) == null) {
+                    return false;
+                }
+                newAdena = new ap.q(ah.a().a(40308), amount);
+                newAdena.cF(ai.d.a().d());
+            }
+
+            Connection con = null;
+            PreparedStatement pstm = null;
+            boolean oldAutoCommit = true;
+            boolean committed = false;
+            try {
+                con = l1j.server.b.a().b();
+                this.requireTreasuryInnoDb(con);
+                oldAutoCommit = con.getAutoCommit();
+                con.setAutoCommit(false);
+
+                pstm = con.prepareStatement("UPDATE castle SET public_money=? WHERE castle_id=? AND public_money=?");
+                pstm.setInt(1, (int)newMoney);
+                pstm.setInt(2, castleId);
+                pstm.setInt(3, oldMoney);
+                if (pstm.executeUpdate() != 1) {
+                    throw new SQLException("BUG-850-245 castle treasury CAS failed");
+                }
+                j.a(pstm);
+                pstm = null;
+
+                l itemTable = l.a();
+                if (deposit) {
+                    if (newCount == 0L) {
+                        itemTable.deleteQuestRewardItem(con, pc.fr(), adena, oldCount);
+                    } else {
+                        itemTable.updateQuestRewardCount(con, pc.fr(), adena, oldCount, (int)newCount);
+                    }
+                } else if (adena != null) {
+                    itemTable.updateQuestRewardCount(con, pc.fr(), adena, oldCount, (int)newCount);
+                } else {
+                    itemTable.insertQuestReward(con, pc.fr(), newAdena);
+                }
+
+                con.commit();
+                committed = true;
+            }
+            catch (Exception e2) {
+                if (con != null) {
+                    try {
+                        con.rollback();
+                    }
+                    catch (SQLException rollbackError) {
+                        a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                    }
+                }
+                a.log(Level.SEVERE, "BUG-850-245 castle treasury transfer failed", e2);
+            }
+            finally {
+                j.a(pstm);
+                if (con != null) {
+                    try {
+                        con.setAutoCommit(oldAutoCommit);
+                    }
+                    catch (SQLException autoCommitError) {
+                        a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+                    }
+                }
+                j.a(con);
+            }
+
+            if (!committed) {
+                return false;
+            }
+
+            castle.b((int)newMoney);
+            this.c.put(castleId, castle);
+            if (deposit) {
+                if (newCount == 0L) {
+                    pc.j().publishCommittedQuestDelete(adena);
+                } else {
+                    pc.j().publishCommittedQuestUpdate(adena, (int)newCount);
+                }
+            } else if (adena != null) {
+                pc.j().publishCommittedQuestUpdate(adena, (int)newCount);
+            } else {
+                pc.j().publishCommittedQuestInsert(newAdena);
+            }
+            return true;
+        }
+    }
+
+    private void requireTreasuryInnoDb(Connection con) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('castle','character_items')");
+            rs = pstm.executeQuery();
+            int count = 0;
+            while (rs.next()) {
+                if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-245 requires castle and character_items InnoDB migration");
+                }
+                ++count;
+            }
+            if (count != 2) {
+                throw new SQLException("BUG-850-245 missing treasury transaction table");
+            }
+        }
+        finally {
+            j.a(rs);
+            j.a(pstm);
+        }
+    }
+
     /*
      * WARNING - Removed try catching itself - possible behaviour change.
      */

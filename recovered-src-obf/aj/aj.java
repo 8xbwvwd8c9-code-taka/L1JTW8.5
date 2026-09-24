@@ -40,12 +40,9 @@ extends cv {
             return;
         }
         bh.d l1castle = g.a().a(castle_id);
-        int money = l1castle.f();
-        if (money - count >= 0) {
-            l1castle.b(money - count);
-            g.a().a(l1castle);
+        if (l1castle != null && count > 0 && count <= l1castle.f()) {
+            g.a().transferTreasuryAdena(pc, castle_id, count, false);
         }
-        ah.a(pc, 40308, count, "$457");
     }
 
     @Override

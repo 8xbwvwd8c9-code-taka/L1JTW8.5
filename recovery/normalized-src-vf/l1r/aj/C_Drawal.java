@@ -31,13 +31,9 @@ public class C_Drawal extends ClientBasePacket {
                int var10 = var9.m();
                if (var10 != 0) {
                   L1Castle var11 = CastleTable.a().a(var10);
-                  int var12 = var11.f();
-                  if (var12 - var5 >= 0) {
-                     var11.b(var12 - var5);
-                     CastleTable.a().a(var11);
+                  if (var11 != null && var5 > 0 && var5 <= var11.f()) {
+                     CastleTable.a().transferTreasuryAdena(var3, var10, var5, false);
                   }
-
-                  ItemTable.a(var3, 40308, var5, "$457");
                }
             }
          }

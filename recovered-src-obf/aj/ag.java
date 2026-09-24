@@ -18,28 +18,33 @@ extends cv {
      */
     public ag(byte[] abyte0, d clientthread) throws Exception {
         super(abyte0);
-        int castle_id;
-        i clan;
         u player = clientthread.f();
         if (player == null) {
             return;
         }
         int objid = this.b();
         int count = this.b();
-        if (objid == player.fr() && (clan = q.a().a(player.aF())) != null && (castle_id = clan.m()) != 0) {
-            bh.d l1castle;
-            bh.d d2 = l1castle = g.a().a(castle_id);
-            synchronized (d2) {
-                int money = l1castle.f();
-                if (money + count >= 2000000000) {
-                    player.a(new ei("\u5b58\u5165\u7684\u91d1\u5e63\u8d85\u904e\u4e862000000000\u4e0a\u9650"));
-                    return;
-                }
-                if (player.j().b(40308, count)) {
-                    l1castle.b(money + count);
-                    g.a().a(l1castle);
-                }
+        if (objid != player.fr() || count <= 0) {
+            return;
+        }
+        i clan = q.a().a(player.aF());
+        if (clan == null) {
+            return;
+        }
+        int castleId = clan.m();
+        if (castleId == 0) {
+            return;
+        }
+        bh.d castle = g.a().a(castleId);
+        if (castle == null) {
+            return;
+        }
+        synchronized (castle) {
+            if ((long)castle.f() + (long)count >= 2000000000L) {
+                player.a(new ei("\u5b58\u5165\u7684\u91d1\u5e63\u8d85\u904e\u4e862000000000\u4e0a\u9650"));
+                return;
             }
+            g.a().transferTreasuryAdena(player, castleId, count, true);
         }
     }
 
