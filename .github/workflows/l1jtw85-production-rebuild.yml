@@ -40,3 +40,6 @@ jobs:
 
       - name: Run structural validator contract tests
         run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_validate_repaired_test_jar.py' -v
+
+      - name: Run completed repair selection contract tests
+        run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_select_completed_repairs.py' -v
