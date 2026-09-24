@@ -1,12 +1,20 @@
 -- =======================================================
 -- 850匯入 / DB install — D系列怪物菁英化系統
 -- 包含：
--- 1. 怪物1~10級階梯施法規則表 w_monster_spell_tier_rule (InnoDB) (含攻擊/增益雙軌)
--- 2. 世界難度與菁英配置表 w_elite_monster_config (InnoDB)
--- 3. 怪物前後詞墜定義表 w_monster_affix_template (InnoDB) (擴充暗黑破壞神系列共60個詞墜)
+-- 1. _config 表開關與時段設定條目 (InnoDB)
+-- 2. 怪物1~10級階梯施法規則表 w_monster_spell_tier_rule (InnoDB) (含攻擊/增益雙軌)
+-- 3. 世界難度與菁英配置表 w_elite_monster_config (InnoDB)
+-- 4. 怪物前後詞墜定義表 w_monster_affix_template (InnoDB) (暗黑系列60個詞墜)
 -- =======================================================
 
--- 1. 怪物1~10級階梯施法規則表 (支援攻擊與增益雙軌)
+-- 1. _config 表開關與時段控制條目 (INDEX 由 DB 自增，以參數名為唯一識別)
+INSERT INTO `_config` (`parameter`, `value`, `note`)
+VALUES
+  ('EliteMonsterSwitch', '0', 'D系列怪物菁英化系統總開關 (0=關閉, 1=開啟, 預設0)'),
+  ('EliteMonsterTimeSchedule', '23', '菁英化開放時段 (現實世界24小時制: 0=全天候開放, 預設23點, 可設如 1-2 或 18-20)')
+ON DUPLICATE KEY UPDATE `note`=VALUES(`note`);
+
+-- 2. 怪物1~10級階梯施法規則表 (支援攻擊與增益雙軌)
 CREATE TABLE IF NOT EXISTS `w_monster_spell_tier_rule` (
   `tier` tinyint(2) unsigned NOT NULL COMMENT '怪物階級 (1~10)',
   `min_lvl` int(3) unsigned NOT NULL COMMENT '對應最低怪物等級',
@@ -36,7 +44,7 @@ VALUES
   (10, 91, 127, 10, 1, 35, 30, 50, '十階滅世BOSS (全套1~10級流星雨/究光/絕屏/全職大招)')
 ON DUPLICATE KEY UPDATE `tier_name`=VALUES(`tier_name`);
 
--- 2. 世界難度與菁英生成配置
+-- 3. 世界難度與菁英生成配置
 CREATE TABLE IF NOT EXISTS `w_elite_monster_config` (
   `difficulty_level` tinyint(2) NOT NULL DEFAULT 0 COMMENT '世界難度等級: 0=普通 1=困難 2=惡夢 3=地獄',
   `difficulty_name` varchar(32) NOT NULL DEFAULT '' COMMENT '難度名稱',
@@ -61,7 +69,7 @@ VALUES
   (3, '地獄難度', 10, 130, 100, 200, 4, '1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30', '101,102,103,104,105,106,107,108,109,110,111,112,113,114,115,116,117,118,119,120,121,122,123,124,125,126,127,128,129,130', 50)
 ON DUPLICATE KEY UPDATE `difficulty_name`=VALUES(`difficulty_name`);
 
--- 3. 怪物前後詞墜庫 (支援暗黑系列60個詞墜)
+-- 4. 怪物前後詞墜庫 (支援暗黑系列60個詞墜)
 CREATE TABLE IF NOT EXISTS `w_monster_affix_template` (
   `affix_id` int(10) unsigned NOT NULL COMMENT '詞墜ID',
   `diablo_name` varchar(45) NOT NULL DEFAULT '' COMMENT '暗黑破壞神原型名稱',
@@ -81,11 +89,7 @@ CREATE TABLE IF NOT EXISTS `w_monster_affix_template` (
   PRIMARY KEY (`affix_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='暗黑破壞神菁英怪前後詞墜庫';
 
--- =======================================================
 -- 暗黑破壞神 60 個前後詞墜種子資料
--- 前綴 1~30 (屬性/防禦/體質/光環)
--- 後綴 101~130 (技能/攻擊/異常狀態/觸發事件)
--- =======================================================
 INSERT INTO `w_monster_affix_template`
   (`affix_id`, `diablo_name`, `affix_name`, `affix_type`, `add_hp_pct`, `add_physical_reduction`, `add_magic_reduction`, `add_fire_resist`, `add_water_resist`, `add_wind_resist`, `add_earth_resist`, `proc_skill_id`, `proc_chance_pct`, `aura_gfx_id`, `status`)
 VALUES
@@ -97,61 +101,61 @@ VALUES
   (5, 'Lightning Enchanted', '雷電強化的', 'PREFIX', 15, 5, 0, 0, 0, 50, 0, 0, 0, 0, 'ACTIVE'),
   (6, 'Poison Enchanted', '毒素強化的', 'PREFIX', 15, 5, 0, 0, 0, 0, 50, 0, 0, 0, 'ACTIVE'),
   (7, 'Extra Strong', '特別強壯的', 'PREFIX', 30, 15, 5, 10, 10, 10, 10, 0, 0, 0, 'ACTIVE'),
-  (8, 'Extra Fast', '特別迅速的', 'PREFIX', 0, 0, 0, 0, 0, 0, 43, 100, 0, 'ACTIVE'), -- proc 43=加速術
+  (8, 'Extra Fast', '特別迅速的', 'PREFIX', 0, 0, 0, 0, 0, 0, 43, 100, 0, 'ACTIVE'),
   (9, 'Mana Burn', '法力燃燒的', 'PREFIX', 0, 0, 10, 0, 0, 0, 0, 0, 0, 0, 'ACTIVE'),
   (10, 'Spectral Hit', '幽靈一擊的', 'PREFIX', 10, 0, 15, 15, 15, 15, 15, 0, 0, 0, 'ACTIVE'),
-  (11, 'Shielding', '護盾加護的', 'PREFIX', 0, 0, 0, 0, 0, 0, 0, 78, 10, 0, 'ACTIVE'), -- proc 78=絕對屏障
+  (11, 'Shielding', '護盾加護的', 'PREFIX', 0, 0, 0, 0, 0, 0, 0, 78, 10, 0, 'ACTIVE'),
   (12, 'Arcane Enchanted', '秘術強化的', 'PREFIX', 10, 0, 25, 10, 10, 10, 10, 0, 0, 0, 'ACTIVE'),
-  (13, 'Avenger', '復仇怒火的', 'PREFIX', 25, 10, 10, 10, 10, 10, 10, 102, 30, 0, 'ACTIVE'), -- proc 102=燃燒鬥志
+  (13, 'Avenger', '復仇怒火的', 'PREFIX', 25, 10, 10, 10, 10, 10, 10, 102, 30, 0, 'ACTIVE'),
   (14, 'Health Link', '生命鏈接的', 'PREFIX', 50, 10, 10, 0, 0, 0, 0, 0, 0, 0, 'ACTIVE'),
   (15, 'Horde', '族群聚集的', 'PREFIX', 10, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'ACTIVE'),
   (16, 'Missile Dampening', '遠程抑制的', 'PREFIX', 0, 20, 0, 0, 0, 0, 0, 0, 0, 0, 'ACTIVE'),
-  (17, 'Reflects Damage', '傷害反彈的', 'PREFIX', 0, 10, 10, 0, 0, 0, 0, 91, 20, 0, 'ACTIVE'), -- proc 91=反擊屏障
-  (18, 'Cursed', '詛咒印記的', 'PREFIX', 0, 0, 0, 0, 0, 0, 0, 56, 25, 0, 'ACTIVE'), -- proc 56=疾病術
-  (19, 'Berserker', '狂暴化身的', 'PREFIX', 20, 15, 0, 15, 15, 15, 15, 55, 100, 0, 'ACTIVE'), -- proc 55=狂暴術
-  (20, 'Fanatic', '狂熱追隨的', 'PREFIX', 15, 0, 0, 0, 0, 0, 0, 54, 100, 0, 'ACTIVE'), -- proc 54=強力加速術
-  (21, 'Ghostly', '虛無幽靈的', 'PREFIX', -10, 30, 0, 0, 30, 0, 0, 60, 10, 0, 'ACTIVE'), -- proc 60=隱身術
+  (17, 'Reflects Damage', '傷害反彈的', 'PREFIX', 0, 10, 10, 0, 0, 0, 0, 91, 20, 0, 'ACTIVE'),
+  (18, 'Cursed', '詛咒印記的', 'PREFIX', 0, 0, 0, 0, 0, 0, 0, 56, 25, 0, 'ACTIVE'),
+  (19, 'Berserker', '狂暴化身的', 'PREFIX', 20, 15, 0, 15, 15, 15, 15, 55, 100, 0, 'ACTIVE'),
+  (20, 'Fanatic', '狂熱追隨的', 'PREFIX', 15, 0, 0, 0, 0, 0, 0, 54, 100, 0, 'ACTIVE'),
+  (21, 'Ghostly', '虛無幽靈的', 'PREFIX', -10, 30, 0, 0, 30, 0, 0, 60, 10, 0, 'ACTIVE'),
   (22, 'Possessed', '狂亂著魔的', 'PREFIX', 60, 0, 20, 0, 0, 0, 0, 0, 0, 0, 'ACTIVE'),
   (23, 'Champion', '勇士頭目的', 'PREFIX', 40, 10, 10, 10, 10, 10, 10, 0, 0, 0, 'ACTIVE'),
-  (24, 'Holy Freeze Aura', '神聖冰凍的', 'PREFIX', 10, 0, 0, 0, 40, 0, 0, 29, 25, 0, 'ACTIVE'), -- proc 29=緩速術
-  (25, 'Might Aura', '力量光環的', 'PREFIX', 20, 10, 0, 0, 0, 0, 0, 42, 100, 0, 'ACTIVE'), -- proc 42=體魄強健術
-  (26, 'Conviction Aura', '審判信念的', 'PREFIX', 0, 0, 0, -20, -20, -20, -20, 44, 15, 0, 'ACTIVE'), -- proc 44=魔法相消術
-  (27, 'Fanaticism Aura', '狂熱光環的', 'PREFIX', 15, 0, 0, 0, 0, 0, 0, 105, 20, 0, 'ACTIVE'), -- proc 105=雙重破壞
-  (28, 'Blessed Aim Aura', '精準指引的', 'PREFIX', 10, 0, 0, 0, 0, 0, 0, 8, 100, 0, 'ACTIVE'), -- proc 8=神聖武器
-  (29, 'Iron Skin', '鋼鐵之膚的', 'PREFIX', 30, 30, 0, 0, 0, 0, 0, 168, 100, 0, 'ACTIVE'), -- proc 168=鋼鐵防護
-  (30, 'Prismatic', '稜鏡庇護的', 'PREFIX', 10, 0, 40, 25, 25, 25, 25, 31, 30, 0, 'ACTIVE'), -- proc 31=魔法屏障
+  (24, 'Holy Freeze Aura', '神聖冰凍的', 'PREFIX', 10, 0, 0, 0, 40, 0, 0, 29, 25, 0, 'ACTIVE'),
+  (25, 'Might Aura', '力量光環的', 'PREFIX', 20, 10, 0, 0, 0, 0, 0, 42, 100, 0, 'ACTIVE'),
+  (26, 'Conviction Aura', '審判信念的', 'PREFIX', 0, 0, 0, -20, -20, -20, -20, 44, 15, 0, 'ACTIVE'),
+  (27, 'Fanaticism Aura', '狂熱光環的', 'PREFIX', 15, 0, 0, 0, 0, 0, 0, 105, 20, 0, 'ACTIVE'),
+  (28, 'Blessed Aim Aura', '精準指引的', 'PREFIX', 10, 0, 0, 0, 0, 0, 0, 8, 100, 0, 'ACTIVE'),
+  (29, 'Iron Skin', '鋼鐵之膚的', 'PREFIX', 30, 30, 0, 0, 0, 0, 0, 168, 100, 0, 'ACTIVE'),
+  (30, 'Prismatic', '稜鏡庇護的', 'PREFIX', 10, 0, 40, 25, 25, 25, 25, 31, 30, 0, 'ACTIVE'),
 
   -- 後綴 (101 ~ 130)
-  (101, 'of Electrified', '之電弧', 'SUFFIX', 0, 0, 0, 0, 0, 20, 0, 17, 20, 0, 'ACTIVE'), -- proc 17=極光雷電
-  (102, 'of Frozen', '之冰凍', 'SUFFIX', 0, 0, 0, 0, 30, 0, 0, 22, 20, 0, 'ACTIVE'), -- proc 22=寒冰氣息
-  (103, 'of Molten', '之熔火', 'SUFFIX', 0, 0, 0, 30, 0, 0, 0, 46, 20, 0, 'ACTIVE'), -- proc 46=烈炎術
-  (104, 'of Plagued', '之疫病', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 11, 25, 0, 'ACTIVE'), -- proc 11=毒咒
-  (105, 'of Mortar', '之迫擊', 'SUFFIX', 0, 0, 0, 20, 0, 0, 0, 25, 20, 0, 'ACTIVE'), -- proc 25=燃燒火球
-  (106, 'of Thunderstorm', '之雷暴', 'SUFFIX', 0, 0, 0, 0, 0, 30, 0, 65, 15, 0, 'ACTIVE'), -- proc 65=雷霆風暴
-  (107, 'of Desecrator', '之褻瀆', 'SUFFIX', 0, 0, 0, 25, 0, 0, 0, 58, 20, 0, 'ACTIVE'), -- proc 58=火牢
-  (108, 'of Frozen Pulse', '之極凍脈衝', 'SUFFIX', 0, 0, 0, 0, 35, 0, 0, 80, 15, 0, 'ACTIVE'), -- proc 80=寒冰尖刺
-  (109, 'of Jailer', '之監禁', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 87, 15, 0, 'ACTIVE'), -- proc 87=衝擊之暈
-  (110, 'of Knockback', '之震退', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 192, 15, 0, 'ACTIVE'), -- proc 192=奪命之雷
-  (111, 'of Nightmarish', '之夢魘', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 66, 15, 0, 'ACTIVE'), -- proc 66=沉睡之霧
-  (112, 'of Vortex', '之漩渦', 'SUFFIX', 0, 0, 0, 0, 0, 30, 0, 51, 15, 0, 'ACTIVE'), -- proc 51=龍捲風
-  (113, 'of Waller', '之築牆', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 157, 10, 0, 'ACTIVE'), -- proc 157=大地屏障
-  (114, 'of Illusionist', '之幻象', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'NA'), -- N/A: 鏡像分身 (需本體召喚同模組)
-  (115, 'of Teleporter', '之瞬移', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 5, 20, 0, 'ACTIVE'), -- proc 5=指定傳送
-  (116, 'of Wormhole', '之蟲洞', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'NA'), -- N/A: 傳送門機制
-  (117, 'of Fire Chains', '之火鏈', 'SUFFIX', 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 'NA'), -- N/A: 連鎖火焰鏈
-  (118, 'of Orbiter', '之天體球', 'SUFFIX', 0, 0, 0, 0, 0, 25, 0, 0, 0, 0, 'NA'), -- N/A: 旋轉閃電球
-  (119, 'of Frost Nova', '之霜凍新星', 'SUFFIX', 0, 0, 0, 0, 30, 0, 0, 59, 15, 0, 'ACTIVE'), -- proc 59=冰雪暴
-  (120, 'of Corpse Explosion', '之屍爆', 'SUFFIX', 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 'NA'), -- N/A: 死亡屍爆
-  (121, 'of Multishot', '之多重射擊', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 148, 25, 0, 'ACTIVE'), -- proc 148=三重矢
-  (122, 'of Blindness', '之致盲', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 20, 20, 0, 'ACTIVE'), -- proc 20=闇盲咒術
-  (123, 'of Leech', '之吸取', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 28, 25, 0, 'ACTIVE'), -- proc 28=吸血鬼之吻
-  (124, 'of Petrify', '之石化', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 33, 10, 0, 'ACTIVE'), -- proc 33=木乃伊的詛咒
-  (125, 'of Corrosive', '之腐蝕', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 27, 20, 0, 'ACTIVE'), -- proc 27=壞物術
-  (126, 'of Meteor', '之流星', 'SUFFIX', 10, 5, 5, 20, 0, 0, 0, 74, 10, 0, 'ACTIVE'), -- proc 74=流星雨
-  (127, 'of Cataclysm', '之天譴', 'SUFFIX', 15, 10, 10, 15, 15, 15, 15, 77, 8, 0, 'ACTIVE'), -- proc 77=究極光裂術
-  (128, 'of Armor Piercing', '之破甲', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 112, 15, 0, 'ACTIVE'), -- proc 112=破壞盔甲
-  (129, 'of Savage Slaying', '之屠戮', 'SUFFIX', 10, 5, 0, 0, 0, 0, 0, 187, 25, 0, 'ACTIVE'), -- proc 187=屠宰者
-  (130, 'of Nullification', '之虛無', 'SUFFIX', 0, 0, 20, 0, 0, 0, 0, 71, 15, 0, 'ACTIVE')  -- proc 71=藥水霜化術
+  (101, 'of Electrified', '之電弧', 'SUFFIX', 0, 0, 0, 0, 0, 20, 0, 17, 20, 0, 'ACTIVE'),
+  (102, 'of Frozen', '之冰凍', 'SUFFIX', 0, 0, 0, 0, 30, 0, 0, 22, 20, 0, 'ACTIVE'),
+  (103, 'of Molten', '之熔火', 'SUFFIX', 0, 0, 0, 30, 0, 0, 0, 46, 20, 0, 'ACTIVE'),
+  (104, 'of Plagued', '之疫病', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 11, 25, 0, 'ACTIVE'),
+  (105, 'of Mortar', '之迫擊', 'SUFFIX', 0, 0, 0, 20, 0, 0, 0, 25, 20, 0, 'ACTIVE'),
+  (106, 'of Thunderstorm', '之雷暴', 'SUFFIX', 0, 0, 0, 0, 0, 30, 0, 65, 15, 0, 'ACTIVE'),
+  (107, 'of Desecrator', '之褻瀆', 'SUFFIX', 0, 0, 0, 25, 0, 0, 0, 58, 20, 0, 'ACTIVE'),
+  (108, 'of Frozen Pulse', '之極凍脈衝', 'SUFFIX', 0, 0, 0, 0, 35, 0, 0, 80, 15, 0, 'ACTIVE'),
+  (109, 'of Jailer', '之監禁', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 87, 15, 0, 'ACTIVE'),
+  (110, 'of Knockback', '之震退', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 192, 15, 0, 'ACTIVE'),
+  (111, 'of Nightmarish', '之夢魘', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 66, 15, 0, 'ACTIVE'),
+  (112, 'of Vortex', '之漩渦', 'SUFFIX', 0, 0, 0, 0, 0, 30, 0, 51, 15, 0, 'ACTIVE'),
+  (113, 'of Waller', '之築牆', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 157, 10, 0, 'ACTIVE'),
+  (114, 'of Illusionist', '之幻象', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'NA'),
+  (115, 'of Teleporter', '之瞬移', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 5, 20, 0, 'ACTIVE'),
+  (116, 'of Wormhole', '之蟲洞', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 'NA'),
+  (117, 'of Fire Chains', '之火鏈', 'SUFFIX', 0, 0, 0, 20, 0, 0, 0, 0, 0, 0, 'NA'),
+  (118, 'of Orbiter', '之天體球', 'SUFFIX', 0, 0, 0, 0, 0, 25, 0, 0, 0, 0, 'NA'),
+  (119, 'of Frost Nova', '之霜凍新星', 'SUFFIX', 0, 0, 0, 0, 30, 0, 0, 59, 15, 0, 'ACTIVE'),
+  (120, 'of Corpse Explosion', '之屍爆', 'SUFFIX', 0, 0, 0, 25, 0, 0, 0, 0, 0, 0, 'NA'),
+  (121, 'of Multishot', '之多重射擊', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 148, 25, 0, 'ACTIVE'),
+  (122, 'of Blindness', '之致盲', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 20, 20, 0, 'ACTIVE'),
+  (123, 'of Leech', '之吸取', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 28, 25, 0, 'ACTIVE'),
+  (124, 'of Petrify', '之石化', 'SUFFIX', 0, 0, 0, 0, 0, 0, 30, 33, 10, 0, 'ACTIVE'),
+  (125, 'of Corrosive', '之腐蝕', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 27, 20, 0, 'ACTIVE'),
+  (126, 'of Meteor', '之流星', 'SUFFIX', 10, 5, 5, 20, 0, 0, 0, 74, 10, 0, 'ACTIVE'),
+  (127, 'of Cataclysm', '之天譴', 'SUFFIX', 15, 10, 10, 15, 15, 15, 15, 77, 8, 0, 'ACTIVE'),
+  (128, 'of Armor Piercing', '之破甲', 'SUFFIX', 0, 0, 0, 0, 0, 0, 0, 112, 15, 0, 'ACTIVE'),
+  (129, 'of Savage Slaying', '之屠戮', 'SUFFIX', 10, 5, 0, 0, 0, 0, 0, 187, 25, 0, 'ACTIVE'),
+  (130, 'of Nullification', '之虛無', 'SUFFIX', 0, 0, 20, 0, 0, 0, 0, 71, 15, 0, 'ACTIVE')
 ON DUPLICATE KEY UPDATE 
   `diablo_name`=VALUES(`diablo_name`),
   `affix_name`=VALUES(`affix_name`),

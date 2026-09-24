@@ -1,29 +1,28 @@
-# D系列怪物菁英化系統 — 控制設定
-# 放置位置：config/lineage.properties
+# D系列怪物菁英化系統 — 控制設定說明
+# 備註：依企劃最新指示，總開關與開放時段改由 DB [_config] 資料表權威控制。
+# 此處為對照說明檔。
 
-# 是否啟用怪物菁英化系統 (true / false)
-EliteMonsterEnabled=true
+# ========================================================
+# DB [_config] 設定條目說明：
+# ========================================================
+# 1. 系統總開關
+# parameter: EliteMonsterSwitch
+# value: 0=關閉, 1=開啟 (預設: 0)
+#
+# 2. 開放時段 (現實世界24小時制)
+# parameter: EliteMonsterTimeSchedule
+# value: 
+#   0     -> 全天候 24 小時開放
+#   23    -> 每天 23:00~23:59 開放 (預設)
+#   1-2   -> 每天 01:00~02:59 開放
+#   18-20 -> 每天 18:00~20:59 開放
+# ========================================================
 
-# 一般小怪生成菁英機率(%) (預設10%)
+# 細部機率與倍率 (由 w_elite_monster_config 表與 Config 控制)
 EliteMonsterSpawnChance=10
-
-# 小怪菁英血量倍率(%) (預設130 = x1.3)
 EliteMonsterHpMultiplierPct=130
-
-# BOSS血量倍率(%) (預設100 = 保持不變)
-EliteBossHpMultiplierPct=100
-
-# 菁英怪掉落率倍率(%) (預設200 = 加倍)
 EliteDropRateMultiplierPct=200
-
-# 預設世界難度 (0=普通 1=困難 2=惡夢 3=地獄)
-WorldDifficultyDefault=0
-
-# 召喚隊友/寵物 AI 受到菁英/BOSS攻擊時之傷害減免比例(%) (預設30%)
 SummonAiDamageReductionPct=30
-
-# 是否分離計算物理傷害抗性與魔法傷害抗性 (true / false)
-SeparatePhysicalMagicResistance=true
-
-# 是否分離計算四屬性 (地/水/火/風) 獨立魔法抗性 (true / false)
-SeparateElementalResistance=true
+MonsterSpellTierEnabled=true
+MonsterUsePlayerBuffSkills=true
+MonsterUsePlayerAttackSkills=true
