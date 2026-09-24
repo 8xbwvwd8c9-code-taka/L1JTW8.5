@@ -47,6 +47,35 @@ def _atomic_write_json(path: Path, payload: object) -> None:
         raise
 
 
+def _load_overlay_state(
+    path: Path,
+    *,
+    authority_commit: str,
+    source_count: int,
+) -> dict[str, object] | None:
+    if not path.is_file():
+        return None
+    try:
+        payload = json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+    if not isinstance(payload, dict):
+        return None
+    if payload.get("authority_commit") != authority_commit:
+        return None
+    try:
+        recorded_sources = int(payload["source_count"])
+        deployable = int(payload["deployable_source_count"])
+        deferred = int(payload["deferred_source_count"])
+    except (KeyError, TypeError, ValueError):
+        return None
+    if recorded_sources != int(source_count):
+        return None
+    if deployable < 0 or deferred < 0 or deployable + deferred != recorded_sources:
+        return None
+    return payload
+
+
 def _publish_directory(candidate: Path, output: Path) -> None:
     output.parent.mkdir(parents=True, exist_ok=True)
     backup = output.with_name(output.name + ".previous")
@@ -234,6 +263,7 @@ def ensure_fast_dev(
     authority_core = cache / "completed-authority-core"
     preliminary = cache / "850-dev-base.original-semantic.jar"
     completed_overlay = cache / "completed-repair-overlay"
+    completed_overlay_state = cache / "completed-overlay-state.json"
     dev_base = cache / "850-dev-base.jar"
     cache_key_path = cache / "850-dev-base.key.json"
     class_dir = build / "classes"
@@ -280,7 +310,16 @@ def ensure_fast_dev(
             schema_version=_DEV_BASE.SCHEMA_VERSION,
             completed_authority_commit=authority_commit,
         )
-        cache_hit = dev_base.is_file() and _DEV_BASE.cache_matches(cache_key_path, cache_key)
+        overlay_state = _load_overlay_state(
+            completed_overlay_state,
+            authority_commit=authority_commit,
+            source_count=len(completed_sources),
+        )
+        cache_hit = (
+            dev_base.is_file()
+            and _DEV_BASE.cache_matches(cache_key_path, cache_key)
+            and overlay_state is not None
+        )
         rebuilt = False
         candidate_dev_base = stage / "850-dev-base.jar"
 
@@ -291,13 +330,28 @@ def ensure_fast_dev(
                     preliminary,
                     runtime_map,
                 )
-                _OVERLAY.compile_completed_overlay(
+                overlay_result = _OVERLAY.compile_completed_overlay(
                     authority_core=authority_core,
                     normalized_source_paths=completed_sources,
                     dev_base_jar=preliminary,
                     output_dir=completed_overlay,
                     lib_dir=root / "lib",
                 )
+                if int(overlay_result["source_count"]) != len(completed_sources):
+                    raise RuntimeError(
+                        "completed overlay source count mismatch: "
+                        f"{overlay_result['source_count']} != {len(completed_sources)}"
+                    )
+                if (
+                    int(overlay_result["deployable_source_count"])
+                    + int(overlay_result["deferred_source_count"])
+                    != len(completed_sources)
+                ):
+                    raise RuntimeError("completed overlay deployable/deferred count does not close")
+                overlay_state = {
+                    "authority_commit": authority_commit,
+                    **overlay_result,
+                }
                 _DEV_BASE.build_dev_base(
                     original,
                     candidate_dev_base,
@@ -322,6 +376,7 @@ def ensure_fast_dev(
 
             if not cache_hit:
                 os.replace(candidate_dev_base, dev_base)
+                _atomic_write_json(completed_overlay_state, overlay_state)
                 _atomic_write_json(cache_key_path, cache_key)
                 rebuilt = True
         except Exception:
@@ -330,6 +385,9 @@ def ensure_fast_dev(
                 shutil.copytree(previous_authority, restore)
                 _publish_directory(restore, authority_core)
             raise
+
+    if overlay_state is None:
+        raise RuntimeError("completed overlay state unavailable after bootstrap")
 
     seed_required = rebuilt or not state_path.is_file() or not dependency_index_path.is_file()
     if seed_required:
@@ -344,8 +402,12 @@ def ensure_fast_dev(
     return {
         "authority_commit": authority_commit,
         "completed_source_count": len(completed_sources),
+        "deployable_source_count": int(overlay_state["deployable_source_count"]),
+        "deferred_source_count": int(overlay_state["deferred_source_count"]),
+        "completed_class_count": int(overlay_state.get("class_count", 0)),
         "runtime_class_count": len(runtime_map),
         "dev_base": str(dev_base),
+        "overlay_state": str(completed_overlay_state),
         "cache_hit": cache_hit,
         "rebuilt": rebuilt,
         "core_action": core_action,
@@ -360,6 +422,8 @@ def main() -> int:
         "FAST_DEV_BOOTSTRAP=PASS "
         f"AUTHORITY={result['authority_commit']} "
         f"COMPLETED_SOURCES={result['completed_source_count']} "
+        f"DEPLOYABLE={result['deployable_source_count']} "
+        f"DEFERRED={result['deferred_source_count']} "
         f"RUNTIME_CLASSES={result['runtime_class_count']} "
         f"CACHE_HIT={str(result['cache_hit']).upper()} "
         f"CORE={result['core_action']}"
