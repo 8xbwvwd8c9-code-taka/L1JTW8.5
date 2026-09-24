@@ -71,7 +71,7 @@ namespace L1JTW850Launcher
                 Width = 410,
                 Height = 52,
                 Text =
-                    "建議 3 次：同角色登入 → 重登 → 完整關閉 Lin.bin2 後重新啟動。"
+                    "建議 3 次：同一組 itemId=count → 重登 → 完整關閉 Lin.bin2 後重新啟動。"
             };
 
             top.Controls.Add(_status);
@@ -139,6 +139,17 @@ namespace L1JTW850Launcher
                     : "有 session 未通過");
 
             Add(
+                "Record identity",
+                summary.RecordIdentityPassSessions +
+                "/" +
+                summary.Sessions,
+                summary.Sessions > 0 &&
+                summary.RecordIdentityPassSessions ==
+                    summary.Sessions
+                    ? "PASS：record>0 且 ObjectId 一筆一個"
+                    : "RecordCount/UniqueObjectIds 不一致");
+
+            Add(
                 "Client instances",
                 summary.DistinctProcessInstances
                     .ToString(),
@@ -147,11 +158,19 @@ namespace L1JTW850Launcher
                     : "尚無跨 client restart");
 
             Add(
+                "Expectation sets",
+                summary.DistinctExpectationSets
+                    .ToString(),
+                summary.DistinctExpectationSets == 1
+                    ? "PASS：同一組 itemId=count"
+                    : "expected 項目或 Count 不同，不能合併");
+
+            Add(
                 "ItemId sets",
                 summary.DistinctItemIdSets
                     .ToString(),
                 summary.DistinctItemIdSets == 1
-                    ? "同一批 ItemId；Count 可每次不同"
+                    ? "PASS：同一批 ItemId"
                     : "驗證的 ItemId 集合不同，不能合併");
 
             Add(
