@@ -16,15 +16,15 @@ HERE = Path(__file__).resolve().parent
 # production-rebuild baseline. Normal Fast Dev bootstrap resolves the latest
 # completed branch tip and pins that exact SHA for the current cache.
 PINNED_COMPLETED_COMMIT = "fc473aef65485d1524283fa34d01ab7fad9a7b93"
-# Last normalized recovery-generation commit before completed repair promotions
-# begin changing recovery/normalized-src-vf. Repair overlay scope is derived as
-# the Java-source diff from this immutable anchor to one pinned completed tip.
+# Last normalized recovery-generation commit before completed repair promotions.
+# It is the immutable lower bound for promotion-history traversal.
 RECOVERY_BASELINE_COMMIT = "ba0f234dcb6fc43b47f397652048561a6f28ae68"
 NORMALIZED_SOURCE_ROOT = "recovery/normalized-src-vf"
 COMPLETED_BRANCH = "completed/l1jtw85-core-fixes"
 REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
+PROMOTION_RE = re.compile(r"^fix\(l[123]\): promote (BUG-850-\d+)\b", re.IGNORECASE)
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
@@ -190,6 +190,50 @@ def ensure_recovery_baseline_commit(
     return baseline
 
 
+def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[str]:
+    history = _git(
+        repo_root,
+        "log",
+        "--first-parent",
+        "--reverse",
+        "--format=%H%x09%s",
+        f"{baseline}..{completed}",
+    )
+    commits: list[str] = []
+    for line in history.stdout.splitlines():
+        if not line.strip() or "\t" not in line:
+            continue
+        sha, subject = line.split("\t", 1)
+        if PROMOTION_RE.match(subject.strip()):
+            commits.append(_exact_commit(sha, "promotion commit"))
+    return commits
+
+
+def _promotion_java_changes(repo_root: Path, promotion_commit: str) -> list[tuple[str, str]]:
+    diff = _git(
+        repo_root,
+        "show",
+        "--format=",
+        "--name-status",
+        "--no-renames",
+        promotion_commit,
+        "--",
+        NORMALIZED_SOURCE_ROOT,
+    )
+    changes: list[tuple[str, str]] = []
+    for raw_line in diff.stdout.splitlines():
+        if not raw_line.strip():
+            continue
+        fields = raw_line.split("\t")
+        if len(fields) != 2:
+            raise RuntimeError(f"malformed promotion normalized source record: {raw_line}")
+        status, path = fields
+        if not path.endswith(".java"):
+            continue
+        changes.append((status, path))
+    return changes
+
+
 def completed_repair_source_paths(
     repo_root: Path,
     *,
@@ -197,12 +241,18 @@ def completed_repair_source_paths(
     baseline_commit: str = RECOVERY_BASELINE_COMMIT,
     fetch_if_missing: bool = True,
 ) -> list[str]:
-    """Return normalized Java sources changed by completed repairs only.
+    """Return normalized Java sources formally promoted as completed repairs.
 
-    Scope is the immutable recovery baseline -> exact completed-authority diff.
-    The active worktree and HEAD are never read, so work/in-progress changes are
-    excluded. Deletions/renames/type-conflicts fail closed because they cannot be
-    represented safely as a class overlay on the original production runtime.
+    Candidate membership comes only from first-parent commits whose subject matches
+    ``fix(l1|l2|l3): promote BUG-850-*`` between the immutable recovery baseline
+    and one exact completed-authority SHA. The active worktree/HEAD is never read.
+    Later non-promotion normalization/regeneration commits cannot silently enter the
+    runtime overlay. Source bytes are still materialized from the pinned completed
+    SHA, matching the production-rebuild policy of promotion membership plus current
+    completed-authority source content.
+
+    Promoted Java deletions and unsupported statuses fail closed because they cannot
+    be represented safely as a class overlay on the original production runtime.
     """
     repo_root = Path(repo_root).resolve()
     completed = _exact_commit(commit, "completed authority commit")
@@ -229,48 +279,17 @@ def completed_repair_source_paths(
             f"{baseline} -> {completed}"
         )
 
-    diff = _git(
-        repo_root,
-        "diff",
-        "--name-status",
-        "--find-renames",
-        baseline,
-        completed,
-        "--",
-        NORMALIZED_SOURCE_ROOT,
-    )
-
     changed: set[str] = set()
-    for raw_line in diff.stdout.splitlines():
-        if not raw_line.strip():
-            continue
-        fields = raw_line.split("\t")
-        status = fields[0]
-        code = status[:1]
-
-        if code in {"R", "C"}:
-            if len(fields) != 3:
-                raise RuntimeError(f"malformed normalized source diff record: {raw_line}")
-            old_path, new_path = fields[1], fields[2]
-            if old_path.endswith(".java") or new_path.endswith(".java"):
-                kind = "renamed" if code == "R" else "copied"
+    for promotion_commit in _promotion_commits(repo_root, baseline, completed):
+        for status, path in _promotion_java_changes(repo_root, promotion_commit):
+            code = status[:1]
+            if code == "D":
+                raise RuntimeError(f"deleted normalized source is not overlay-safe: {path}")
+            if code not in {"A", "M"}:
                 raise RuntimeError(
-                    f"{kind} normalized source is not overlay-safe: {old_path} -> {new_path}"
+                    f"unsupported normalized source promotion status {status}: {path}"
                 )
-            continue
-
-        if len(fields) != 2:
-            raise RuntimeError(f"malformed normalized source diff record: {raw_line}")
-        path = fields[1]
-        if not path.endswith(".java"):
-            continue
-        if code == "D":
-            raise RuntimeError(f"deleted normalized source is not overlay-safe: {path}")
-        if code not in {"A", "M"}:
-            raise RuntimeError(
-                f"unsupported normalized source diff status {status}: {path}"
-            )
-        changed.add(path)
+            changed.add(path)
 
     return sorted(changed)
 
