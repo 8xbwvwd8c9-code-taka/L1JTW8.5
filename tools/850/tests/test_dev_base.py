@@ -179,6 +179,31 @@ class DevBaseTests(unittest.TestCase):
             self.assertTrue(mod.cache_matches(cache_file, key1))
             self.assertFalse(mod.cache_matches(cache_file, key3))
 
+    def test_cache_key_changes_when_completed_authority_changes(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            original = self.make_fixture_jar(root)
+            package_map = root / "package-map.csv"
+            package_map.write_text("a,b\n", encoding="utf-8")
+            key1 = mod.make_cache_key(
+                original,
+                package_map,
+                java_major=8,
+                schema_version="1",
+                completed_authority_commit="1" * 40,
+            )
+            key2 = mod.make_cache_key(
+                original,
+                package_map,
+                java_major=8,
+                schema_version="1",
+                completed_authority_commit="2" * 40,
+            )
+            self.assertNotEqual(key1, key2)
+            self.assertEqual(key1["completed_authority_commit"], "1" * 40)
+            self.assertEqual(key2["completed_authority_commit"], "2" * 40)
+
     def test_unmapped_application_class_fails_closed(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
