@@ -74,7 +74,7 @@ public static class V7Read850 {
 "@
 
 function Read-U32([long]$Address) { return [uint32][V7Read850]::ReadU32($proc.Id,$Address) }
-function H([uint32]$v) { return ('0x{0:X8}' -f [uint64]$v) }
+function Hex32([uint32]$Value) { return ('0x{0:X8}' -f [uint64]$Value) }
 
 $rootGlobalVa = $base + $RootGlobalRva
 $root = Read-U32 $rootGlobalVa
@@ -120,9 +120,9 @@ $lines.Add("PID=$($proc.Id)")
 $lines.Add("PROCESS_START_UTC=$processStartUtc")
 $lines.Add(('MODULE_BASE=0x{0:X8}' -f $base))
 $lines.Add('V6B_GATE=PASS_RESTART_STABLE')
-$lines.Add("ROOT_OBJECT=$(H $root)")
-$lines.Add("GRID_OBJECT=$(H $grid)")
-$lines.Add("INVWIN_OBJECT=$(H $invwin)")
+$lines.Add("ROOT_OBJECT=$(Hex32 $root)")
+$lines.Add("GRID_OBJECT=$(Hex32 $grid)")
+$lines.Add("INVWIN_OBJECT=$(Hex32 $invwin)")
 $lines.Add('ROOT_GRAPH_REVALIDATED=PASS')
 $lines.Add('READ_DWORD_COUNT_COLLECTION=9')
 $lines.Add('EXACT_TARGET_DEREFERENCE=YES')
@@ -132,7 +132,7 @@ $lines.Add('VECTOR_WIDE_SCAN=NO')
 $lines.Add('MEMORY_WRITE=NO')
 $lines.Add('')
 $lines.Add('[GRID_FIXED_OFFSETS]')
-foreach ($o in $Offsets) { $lines.Add(('OFFSET=0x{0:X3} VALUE={1}' -f $o,(H $vals[$o]))) }
+foreach ($o in $Offsets) { $lines.Add(('OFFSET=0x{0:X3} VALUE={1}' -f $o,(Hex32 $vals[$o]))) }
 $lines.Add('')
 $lines.Add('[TRIPLES]')
 foreach ($g in $groups) {
@@ -140,7 +140,7 @@ foreach ($g in $groups) {
     $class = Triple-Class $a $b $c
     $used = if ([uint64]$b -ge [uint64]$a) { [uint64]$b - [uint64]$a } else { 0 }
     $cap = if ([uint64]$c -ge [uint64]$a) { [uint64]$c - [uint64]$a } else { 0 }
-    $lines.Add("GROUP=$($g.Name) OFFSETS=0x$('{0:X3}' -f $g.A),0x$('{0:X3}' -f $g.B),0x$('{0:X3}' -f $g.C) BEGIN=$(H $a) END=$(H $b) CAP=$(H $c) USED_BYTES=$used CAP_BYTES=$cap CLASS=$class")
+    $lines.Add("GROUP=$($g.Name) OFFSETS=0x$('{0:X3}' -f $g.A),0x$('{0:X3}' -f $g.B),0x$('{0:X3}' -f $g.C) BEGIN=$(Hex32 $a) END=$(Hex32 $b) CAP=$(Hex32 $c) USED_BYTES=$used CAP_BYTES=$cap CLASS=$class")
 }
 $lines.Add('')
 $lines.Add('[DECISION]')
