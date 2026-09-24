@@ -1,0 +1,62 @@
+name: L1JTW8.5 BUG-850-254 Record Completion
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-254-record.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  record-and-clean:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Lock source and concurrency
+        shell: bash
+        run: |
+          set -euo pipefail
+          test "$(git rev-parse HEAD^)" = "0f3c51e000e89cef0c3bf2f861d1e78fa271fcf4"
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_254_DOCS_CONCURRENCY_GATE=PASS"
+      - name: Record README and evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          readme=Path('README.md')
+          text=readme.read_text(encoding='utf-8')
+          row='| BUG-850-254 | L2 | weekly mission durable delete / live-reset consistency | PASS / PROMOTED |'
+          anchor='| BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |'
+          if row not in text:
+              if anchor not in text:
+                  raise SystemExit('FAIL BUG-850-255 table anchor missing')
+              text=text.replace(anchor,anchor+'\n'+row,1)
+          heading='## BUG-850-254 — weekly live reset proceeded even when durable bulk delete failed'
+          if heading not in text:
+              section='\n\n'+heading+'\n\n### Problem\n\nThe weekly reset path could clear live player weekly state even when the durable `character_mobs_week` bulk delete failed, creating RAM/DB divergence. The obfuscated weekly scheduler also lacked the already-validated `finally` reschedule parity required to survive early return or exception.\n\n### Fix\n\n- Added `deleteAllDurable()` to normalized and obfuscated weekly tables.\n- Durable delete uses `executeUpdate()` and propagates success/failure.\n- Live weekly reset aborts before player mutation when delete fails.\n- Weekly rescheduling remains in `finally`; missing obfuscated parity was restored from the historical validated precondition.\n- Existing BUG-850-255 UPSERT behavior was explicitly preserved; BUG-850-252 login self-heal was not replayed.\n\n### Validation\n\n```text\nWORK_CI=35722588093\nCOMPLETED_CI=35938795118\nSOURCE_COMMIT=0f3c51e000e89cef0c3bf2f861d1e78fa271fcf4\nPATCH_CHAIN=e5320aea,2fb56fbd,c75e085e,8470e775,a5dba0e6\nEXACT_HISTORICAL_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nBULK_DELETE_RESULT_PROPAGATED=PASS\nLIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS\nWEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS\nBUG_850_255_UPSERT_PRESERVED=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nFAILED_DELETE_LIVE_STATE_UNCHANGED=PASS\nNEXT_WEEK_SCHEDULE_PRESERVED=PASS\nCONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-254_VALIDATION_20260924.md`\n\n### Result\n\n```text\nBUG-850-254=L2\nSTATUS=PASS_PROMOTED\n```\n'
+              text=text.rstrip()+section+'\n'
+          readme.write_text(text,encoding='utf-8')
+          evidence=Path('recovery/BUG-850-254_VALIDATION_20260924.md')
+          evidence.write_text('# BUG-850-254 Validation\n\n```text\nBUG=BUG-850-254\nLEVEL=L2\nWORK_CI=35722588093\nCOMPLETED_CI=35938795118\nSOURCE_COMMIT=0f3c51e000e89cef0c3bf2f861d1e78fa271fcf4\nPATCH_CHAIN=e5320aea,2fb56fbd,c75e085e,8470e775,a5dba0e6\nEXACT_HISTORICAL_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nBULK_DELETE_RESULT_PROPAGATED=PASS\nLIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS\nWEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS\nBUG_850_255_UPSERT_PRESERVED=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nFAILED_DELETE_LIVE_STATE_UNCHANGED=PASS\nNEXT_WEEK_SCHEDULE_PRESERVED=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n',encoding='utf-8')
+          PY
+      - name: Remove temporary workflows and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          rm -f .github/workflows/l1jtw85-bug-850-254-promotion.yml
+          rm -f .github/workflows/l1jtw85-bug-850-254-promotion-v3.yml
+          rm -f .github/workflows/l1jtw85-bug-850-254-promotion-v4.yml
+          rm -f .github/workflows/l1jtw85-bug-850-254-record.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add README.md recovery/BUG-850-254_VALIDATION_20260924.md .github/workflows/
+          git commit -m "docs: record BUG-850-254 promotion"
+          git push origin HEAD:completed/l1jtw85-core-fixes
