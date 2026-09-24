@@ -62,9 +62,29 @@ jobs:
           python tools/850/bootstrap/ensure_dev.py
           test -f .build850/cache/850-dev-base.jar
           test -f .build850/cache/850-dev-base.key.json
+          test -f .build850/cache/completed-overlay-state.json
           test -f .build850/state.json
           test -f .build850/dependency-index.json
           test -f core/PINNED_AUTHORITY.json
           test "$(find core/src -type f -name '*.java' | wc -l)" -eq 788
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          cache_key = json.loads(Path('.build850/cache/850-dev-base.key.json').read_text(encoding='utf-8'))
+          overlay = json.loads(Path('.build850/cache/completed-overlay-state.json').read_text(encoding='utf-8'))
+          authority = json.loads(Path('core/PINNED_AUTHORITY.json').read_text(encoding='utf-8'))
+          assert cache_key['schema_version'] == '2', cache_key
+          assert overlay['authority_commit'] == authority['commit'], (overlay, authority)
+          assert overlay['source_count'] == overlay['deployable_source_count'] + overlay['deferred_source_count'], overlay
+          print(
+              'FAST_DEV_REAL_BOOTSTRAP_STATE=PASS '
+              f"AUTHORITY={overlay['authority_commit']} "
+              f"COMPLETED={overlay['source_count']} "
+              f"DEPLOYABLE={overlay['deployable_source_count']} "
+              f"DEFERRED={overlay['deferred_source_count']} "
+              f"CLASSES={overlay['class_count']}"
+          )
+          PY
           python tools/850/fast_dev.py
           test "$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')" = "$original_sha"
