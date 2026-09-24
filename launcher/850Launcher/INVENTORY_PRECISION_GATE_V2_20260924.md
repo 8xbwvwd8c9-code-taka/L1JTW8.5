@@ -1,13 +1,42 @@
 # 850 Inventory Precision Gate V2 — 2026-09-24
 
 ```text
-STATUS=PREPARED_NOT_RUNTIME_VALIDATED
+STATUS=STATIC_TOOLING_CI_PASS_RUNTIME_NOT_YET
 BRANCH=work/850-inventory-helper
 FORMAL_WP5=NOT_YET
 FORMAL_WP6=NOT_YET
 OWNER_PROMOTION=NOT_YET
 MEMORY_WRITE=NO
 ```
+
+## CI validation
+
+Windows GitHub Actions validation completed successfully:
+
+```text
+WORKFLOW=850 Inventory Tooling CI
+RUN_ID=35944881299
+RESULT=SUCCESS
+PYTHON=3.13
+CAPSTONE_PACKAGE_VERSION=5.0.9
+CAPSTONE_BINDING_VERSION=5.0.7
+CAPSTONE_SEMANTIC_SELFTEST=PASS
+PYTHON_COMPILE=PASS
+POWERSHELL_PARSER=PASS
+HEADLESS_WATCH_X86_BUILD=PASS
+WRITEPROCESSMEMORY_GATE=PASS
+```
+
+Important version note:
+
+```text
+pip/package metadata = 5.0.9
+capstone.__version__ = 5.0.7
+```
+
+Package metadata is the dependency authority. The binding string is recorded diagnostically only; semantic self-tests are still mandatory.
+
+This CI validates tooling syntax/build/decoder behavior only. It does not substitute for runtime owner or inventory evidence.
 
 ## Why V2 exists
 
@@ -21,7 +50,7 @@ fixed authoritative Lin.bin2
  -> V4b exact ROOT-global absolute-reference set
  -> x86 DR hardware write watch on module+0x012BCEE8
  -> Capstone 5.0.9 decode of the instruction immediately before post-write EIP
- -> require unique aligned memory writer to ROOT_GLOBAL_VA
+ -> require unique aligned absolute memory writer to ROOT_GLOBAL_VA
  -> correlate decoder-proven writer EIP with V4b exact store
  -> fresh-process repeat before owner promotion
 ```
@@ -41,6 +70,7 @@ launcher/850Launcher/tools/decoder/run_850_inventory_watch_decoder.ps1
 
 launcher/850Launcher/tools/correlate_850_inventory_root_watch_decoder_v2.ps1
 launcher/850Launcher/tools/run_850_inventory_precision_gate_v2.ps1
+.github/workflows/850-inventory-tooling-ci.yml
 ```
 
 ## Decoder authority
@@ -51,9 +81,10 @@ Pinned stable dependency:
 capstone==5.0.9
 ARCH=x86
 MODE=32
+ABSOLUTE_MEMORY_TARGET_REQUIRED=YES
 ```
 
-The setup script runs offline semantic self-tests after installation:
+The setup script runs semantic self-tests after installation:
 
 ```text
 C7 05 <abs32> 00000000
@@ -61,6 +92,8 @@ A3 <abs32>
 ```
 
 Both must resolve as a unique memory writer ending exactly at the supplied post-write EIP and targeting the watched absolute address.
+
+After first setup, if package metadata remains 5.0.9, repeated setup runs do not need network access; they rerun the semantic self-test.
 
 ## Writer alignment rule
 
@@ -85,15 +118,18 @@ A hit is decoder-authoritative only when exactly one candidate satisfies all of:
 instruction start is inside the captured window
 instruction end == hardware-watch EIP
 Capstone detail marks a memory operand as WRITE
-resolved memory target == watched ROOT_GLOBAL_VA
+memory operand uses absolute addressing (base=0,index=0)
+absolute target == watched ROOT_GLOBAL_VA
 ```
+
+Register-based memory writers remain diagnostic only because hardware-breakpoint register state is post-instruction state.
 
 Classification:
 
 ```text
 PASS_UNIQUE_TARGET_WRITER
 AMBIGUOUS_MULTIPLE_TARGET_WRITERS
-ALIGNED_INSTRUCTION_BUT_TARGET_NOT_PROVEN
+ALIGNED_INSTRUCTION_BUT_ABSOLUTE_TARGET_NOT_PROVEN
 NO_ALIGNED_PREDECESSOR
 ```
 
@@ -124,6 +160,7 @@ CLIENT_SHA256
 PID
 PROCESS_START_UTC
 CLIENT_AUTHORITY=1
+CAPSTONE package metadata version=5.0.9
 ```
 
 and the hit simultaneously has:
