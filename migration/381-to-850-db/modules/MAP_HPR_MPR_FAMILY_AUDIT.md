@@ -1,10 +1,15 @@
 # 381 -> 850 Map HPR/MPR Family Audit
 
+## Migration authority
+- 850 core/runtime/data model is authoritative.
+- 381 is donor/reference only.
+- Difficulty is measured by capability missing from 850, not by donor framework size.
+
 ## Scope
 Tables:
-- w_指定地圖回血魔
-- w_hprmprrangemap
-- w_地圖回血魔設置 (candidate/delta dataset; exact runtime table mapping not fully proven)
+- `w_指定地圖回血魔`
+- `w_hprmprrangemap`
+- `w_地圖回血魔設置` (candidate/delta dataset; exact runtime table mapping not fully proven)
 
 ## Donor runtimes
 - whole map: `MapHprMprTable`
@@ -60,7 +65,7 @@ SUM_INDIVIDUAL_AREAS=12282
 
 So there are no overlapping-value conflicts among the six visible map4 rectangles.
 
-## Critical single-mapid data loss
+## Critical donor defect: single-mapid data loss
 Range runtime stores:
 ```java
 _maphprmprList.put(mapid, map);
@@ -91,21 +96,11 @@ lost_union_area=12178
 lost_percent=99.15%
 ```
 
-Candidate retained-area losses:
-```text
-R1: lost 12178 (99.15%)
-R2: lost 10995 (89.52%)
-R3: lost 5554  (45.22%)
-R4: lost 10567 (86.04%)
-R5: lost 11178 (91.01%)
-R6: lost 10938 (89.06%)
-```
-
-This is a structural donor defect for multiple ranges sharing one map id.
+This is a donor defect and MUST NOT be reproduced in 850.
 
 Preferred 850 structure:
 ```text
-Map<Integer, List<Rectangle>>
+Map<Integer, List<RectangleRule>>
 ```
 
 ## map800 invalid rectangle
@@ -120,38 +115,26 @@ Here:
 minY > maxY
 ```
 
-Current `checkLoc` accepts no point.
+Current donor `checkLoc` accepts no point.
 Therefore:
 ```text
 EFFECTIVE_AREA=0
 ROW_UNREACHABLE=YES
 ```
 
-Target import should reject or normalize invalid rectangles explicitly, not silently preserve dead geometry.
+Target import should reject or explicitly normalize invalid rectangles.
 
 ## Area arithmetic
-Safe examples:
-```text
-1000x1000=1,000,000
-50000x50000=2,500,000,000 > Integer.MAX_VALUE
-```
-
-Thus rectangle area should use long:
+Use `long` for area arithmetic:
 ```java
 long area=((long)width)*height;
 ```
 
+because `50000*50000=2,500,000,000 > Integer.MAX_VALUE`.
+
 ## Underwater HPR/MPR asymmetry
-
-Whole-map runtime:
-- HPR path checks underwater protection and can return 0
-- MPR path has no pc parameter and no equivalent underwater protection check
-
-Range runtime:
-- HPR path checks underwater protection
-- MPR path checks location only
-
-For configured 50/50 under a protective condition:
+Whole-map and range donor runtimes can suppress HPR under underwater protection while still applying MPR.
+For a configured 50/50 rule this can become:
 ```text
 HPR=0
 MPR=50
@@ -162,57 +145,52 @@ Therefore:
 UNDERWATER_ASYMMETRY=PROVEN
 ```
 
-This may be intentional or donor defect; target policy required.
+Target policy must decide whether this donor asymmetry is intentional.
 
-## Whole-map duplicate ids
-Whole-map loader also uses:
+## 850 native comparison
+850 repaired core already contains native regeneration lifecycle:
+- `recovery/normalized-src-vf/l1r/bc/HpRegenerationTimer.java`
+- `recovery/normalized-src-vf/l1r/bc/MpRegenerationTimer.java`
+- `recovery/normalized-src-vf/l1r/ap/L1PcInstance.java`
+
+`L1PcInstance` owns and schedules HP/MP regeneration timers. The native regeneration calculations already include map/coordinate/location-dependent bonus logic.
+
+Therefore the 381 behavior does **not** require a new persistent owner, a new scheduler, or a parallel regeneration framework. The 850-first target is:
+
 ```text
-Map.put(mapid,value)
+381 rule data
+  -> 850 DB loader / validated rule model
+  -> mapId -> List<whole-map/range rules>
+  -> small lookup adapter inside existing HpRegenerationTimer / MpRegenerationTimer calculation
 ```
 
-Thus:
+Do not port `MapHprMprTable` / `MapHprMprRangeTable` as parallel lifecycle owners.
+
+## Client dependency
 ```text
-N duplicate rows -> 1 retained -> N-1 lost
+CLIENT_DEP=NO
 ```
-
-## Regen throughput
-Pure arithmetic examples:
-
-For 1-second tick:
-```text
-50  => 3000/min, 180000/hour
-70  => 4200/min, 252000/hour
-120 => 7200/min, 432000/hour
-200 => 12000/min, 720000/hour
-250 => 15000/min, 900000/hour
-300 => 18000/min, 1080000/hour
-```
-
-For longer tick intervals divide by interval seconds proportionally.
-These are throughput calculations only; actual donor tick cadence is not proven in this audit.
-
-## Target HP/MP clamp safety
-Safe target model:
-```text
-newHP=min(maxHP,currentHP+regen)
-newMP=min(maxMP,currentMP+regen)
-```
-
-This is target safety policy, not proven donor behavior from these table classes alone.
+No dedicated client UI/protocol/resource dependency is required for server-side HPR/MPR calculation.
 
 ## Classification
 ```text
 DATA_LEVEL=L1
-RUNTIME_STRUCTURE_LEVEL=L3
-CLIENT_DEP=NO_CURRENT_PROOF
-FINAL_LEVEL=L3
+SERVER_LEVEL=L2
+CLIENT_DEP=NO
+FINAL_LEVEL=L2
 ```
+
+L2 reason:
+- 850 native regeneration lifecycle already exists.
+- Required work is validated DB conversion plus a small native regen lookup adapter.
+- No new persistent state owner/session/scheduler is required.
 
 ## Status
 ```text
 STATUS=BLOCKED
 AUDIT=PASS
 MODULE=MAP_HPR_MPR_FAMILY
+TARGET_POLICY=850_NATIVE_FIRST
 WHOLE_MAP_RUNTIME=MapHprMprTable
 RANGE_RUNTIME=MapHprMprRangeTable
 MAP4_VISIBLE_RANGES=6
@@ -224,8 +202,10 @@ MAP800_INVALID_RECTANGLE=YES
 AREA_INT_OVERFLOW=PROVEN_POSSIBLE
 UNDERWATER_ASYMMETRY=HPR_0_MPR_NONZERO
 DUPLICATE_MAPID_LAST_WRITE_WINS=YES
-850_NATIVE=NOT_PROVEN
-CLIENT_DEP=NO_CURRENT_PROOF
-LEVEL=L3
-BLOCKERS=exact mapping of w_地圖回血魔設置 to donor runtime; multi-range owner structure; invalid rectangle policy; underwater HPR/MPR policy; tick cadence; map-id semantic mapping
+850_NATIVE_REGEN=PROVEN
+850_TARGET_STRUCTURE=mapId_to_List_of_rules
+CLIENT_DEP=NO
+LEVEL=L2
+BLOCKERS=exact mapping of w_地圖回血魔設置 to donor runtime; invalid rectangle policy; underwater HPR/MPR policy; authoritative map-id/data mapping
+PRODUCTION_PORT=NO
 ```
