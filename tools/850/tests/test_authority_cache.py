@@ -74,6 +74,39 @@ class AuthorityCacheContracts(unittest.TestCase):
         if shutil.which("git") is None:
             raise unittest.SkipTest("git is required")
 
+    def test_resolve_completed_authority_commit_pins_completed_tip_not_work_head(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "completed one")
+            git(repo, "branch", mod.COMPLETED_BRANCH)
+
+            write_authority(repo, 2)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "completed two")
+            completed_tip = git(repo, "rev-parse", "HEAD")
+            git(repo, "branch", "-f", mod.COMPLETED_BRANCH, completed_tip)
+
+            write_authority(repo, 99)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "wip source")
+            work_head = git(repo, "rev-parse", "HEAD")
+            self.assertNotEqual(completed_tip, work_head)
+
+            resolved = mod.resolve_completed_authority_commit(
+                repo,
+                fetch_latest=False,
+            )
+            self.assertEqual(resolved, completed_tip)
+            self.assertNotEqual(resolved, work_head)
+
     def test_materialization_uses_pinned_commit_not_newer_worktree_source(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
