@@ -1,0 +1,26 @@
+name: L1JTW8.5 Fast Dev
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-fast-dev-build
+    paths:
+      - 'tools/850/**'
+      - 'core/**'
+      - 'build850.ps1'
+      - 'build850.cmd'
+      - 'docs/superpowers/specs/2026-09-24-l1jtw85-fast-dev-build-design.md'
+      - 'docs/superpowers/plans/2026-09-24-l1jtw85-fast-dev-build.md'
+      - '.github/workflows/850-fast-dev.yml'
+  workflow_dispatch:
+
+jobs:
+  fast-dev-contracts:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Run package-map contracts
+        run: python -m unittest -v tools/850/tests/test_package_map.py
