@@ -161,7 +161,7 @@ DO_NOT_MARK_DONOR_BEHAVIOR_AS_850_PROOF
 
 ```text
 WP3 Player      = runtime evidence required
-WP4 HP/MP       = runtime evidence required
+WP4 HP/MP       = PASS (formal runtime map proven)
 WP5 Inventory   = authoritative map/session validation required
 WP6 Inventory   = restart gate required
 WP7 UseItem     = behavior correlation + native send path required
