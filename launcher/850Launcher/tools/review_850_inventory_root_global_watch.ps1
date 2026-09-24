@@ -5,8 +5,8 @@ param(
 
 $ErrorActionPreference = 'Stop'
 $ExpectedSha256 = 'FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4'
-$ExpectedRootGlobalRva = '0x012BCEE8'
-$ExpectedRootBPostWriteEipRva = '0x00701E80'
+$ExpectedRootGlobalRva = '0X012BCEE8'
+$ExpectedRootBPostWriteEipRva = '0X00701E80'
 
 if (-not (Test-Path -LiteralPath $InputPath)) { throw "Missing watch report: $InputPath" }
 $lines = @(Get-Content -LiteralPath $InputPath)
