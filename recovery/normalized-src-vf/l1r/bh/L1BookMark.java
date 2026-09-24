@@ -353,47 +353,101 @@ public class L1BookMark {
    }
 
    public static void a(L1ItemInstance var0, L1PcInstance var1) {
-      HashMap var2 = new HashMap<>();
+      if (var0 == null || var1 == null) {
+         return;
+      }
+
+      java.util.ArrayList<L1BookMark> pending = new java.util.ArrayList<>();
       Connection var3 = null;
-      PreparedStatement var4 = null;
+      PreparedStatement select = null;
+      PreparedStatement insert = null;
+      PreparedStatement deleteBookmarks = null;
+      PreparedStatement deleteItem = null;
       ResultSet var5 = null;
+      boolean oldAutoCommit = true;
 
       try {
          var3 = DatabaseFactory.a().b();
-         var4 = var3.prepareStatement("SELECT * FROM character_teleport WHERE char_id=? ORDER BY order_id");
-         var4.setInt(1, var0.fr());
-         var5 = var4.executeQuery();
-
+         oldAutoCommit = var3.getAutoCommit();
+         var3.setAutoCommit(false);
+         select = var3.prepareStatement("SELECT name,locx,locy,mapid FROM character_teleport WHERE char_id=? ORDER BY order_id");
+         select.setInt(1, var0.fr());
+         var5 = select.executeQuery();
+         int order = var1.ba().size();
          while (var5.next()) {
-            String var6 = var5.getString("name");
-            int var7 = var5.getInt("locx");
-            int var8 = var5.getInt("locy");
-            int var9 = var5.getShort("mapid");
-            var2.put(var6, new L1Location(var7, var8, var9));
+            L1BookMark bookmark = new L1BookMark();
+            bookmark.a(IdFactory.a().d());
+            bookmark.b(var1.fr());
+            bookmark.a(var5.getString("name"));
+            bookmark.c(var5.getInt("locx"));
+            bookmark.d(var5.getInt("locy"));
+            bookmark.g(var5.getShort("mapid"));
+            bookmark.e(order++);
+            pending.add(bookmark);
          }
-
-         if (var2.size() <= 0) {
+         if (pending.isEmpty()) {
+            var3.rollback();
             var1.a(new S_ServerMessage(2963));
             return;
          }
-
-         int var11 = var1.cI();
-         if (var11 - var1.ba().size() < var2.size()) {
-            int var12 = var2.size() - (var11 - var1.ba().size());
-            var1.a(new S_ServerMessage(2961, "" + var12));
+         int free = var1.cI() - var1.ba().size();
+         if (free < pending.size()) {
+            var3.rollback();
+            var1.a(new S_ServerMessage(2961, "" + (pending.size() - free)));
             return;
          }
-
-         a(var1, var2);
-         var4 = var3.prepareStatement("DELETE FROM character_teleport WHERE char_id=?");
-         var4.setInt(1, var0.fr());
-         var4.execute();
-         var1.j().f(var0);
+         insert = var3.prepareStatement("INSERT INTO character_teleport SET id=?, char_id=?, name=?, locx=?, locy=?, mapid=?, order_id=?");
+         for (L1BookMark bookmark : pending) {
+            insert.setInt(1, bookmark.a());
+            insert.setInt(2, bookmark.b());
+            insert.setString(3, bookmark.c());
+            insert.setInt(4, bookmark.d());
+            insert.setInt(5, bookmark.e());
+            insert.setInt(6, bookmark.h());
+            insert.setInt(7, bookmark.f());
+            insert.addBatch();
+         }
+         insert.executeBatch();
+         deleteBookmarks = var3.prepareStatement("DELETE FROM character_teleport WHERE char_id=?");
+         deleteBookmarks.setInt(1, var0.fr());
+         deleteBookmarks.executeUpdate();
+         deleteItem = var3.prepareStatement("DELETE FROM character_items WHERE id=? AND char_id=?");
+         deleteItem.setInt(1, var0.fr());
+         deleteItem.setInt(2, var1.fr());
+         if (deleteItem.executeUpdate() != 1) {
+            var3.rollback();
+            return;
+         }
+         var3.commit();
       } catch (SQLException var10) {
          c.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+         if (var3 != null) {
+            try {
+               var3.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         return;
+      } finally {
+         SQLUtil.a(var5);
+         SQLUtil.a(select);
+         SQLUtil.a(insert);
+         SQLUtil.a(deleteBookmarks);
+         SQLUtil.a(deleteItem);
+         if (var3 != null) {
+            try {
+               var3.setAutoCommit(oldAutoCommit);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var3);
       }
 
-      SQLUtil.a(var5, var4, var3);
+      for (L1BookMark bookmark : pending) {
+         var1.ba().add(bookmark);
+         var1.a(new S_Bookmarks(bookmark.c(), bookmark.h(), bookmark.a(), bookmark.d(), bookmark.e()));
+      }
+      var1.j().f(var0);
    }
 
    public static void a(L1PcInstance var0) {
