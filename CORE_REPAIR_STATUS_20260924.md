@@ -97,3 +97,86 @@ Treat `BUG-850-244` only as the next **promotion candidate to reconcile**:
 6. Record completed status only after PASS.
 
 Detailed handoff: `recovery/L1JTW85_CORE_REPAIR_HANDOFF_20260924.md`.
+
+## Production repaired-JAR rebuild verification — 2026-09-24
+
+Branch: `work/l1jtw85-production-jar-rebuild`
+
+Pinned completed repair authority:
+
+```text
+COMPLETED_REF=3d4a392593d61c9203e3f22a154e752c2c51fa97
+POLICY=PROMOTION_COMMIT_PLUS_CURRENT_JAVA8_RC0_ONLY
+CANDIDATES=25
+DEPLOYABLE_TOP_LEVEL=13
+DEFERRED_TOP_LEVEL=12
+REPLACED_RUNTIME_CLASSES=23
+```
+
+Contract and structural gates:
+
+```text
+CONTRACT_TESTS=22/22 PASS
+STRUCTURAL_VALIDATION=PASS
+MISSING_ENTRIES=0
+UNEXPECTED_ENTRIES=0
+INTERNAL_NAME_MISMATCHES=0
+NAMESPACE_LEAKS=0
+CHANGED_PRESERVED_ENTRIES=0
+```
+
+Production JAR preservation:
+
+```text
+ORIGINAL_JAR=l1jserver2.jar
+ORIGINAL_SHA256=8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814
+ORIGINAL_JAR_UNCHANGED=YES
+TEST_JAR=recovery/production-build/l1jserver2.repaired-test.jar
+TEST_JAR_SHA256=32B9405850A29650EFFA7528225863806F27E70893ACBD267FDB15FFD14DFD59
+```
+
+DB-backed runtime startup gate, GitHub Actions run `36012858606`:
+
+```text
+MYSQL_VERSION=5.7
+MYSQL_AUTH_READY=YES
+DB_TABLES=99
+RUNTIME_JDBC_SSL_DISABLED=YES (CI runner only)
+RUNTIME_SMOKE=PASS
+JAVA_PROCESS=ALIVE
+PORT_2000=LISTENING
+SERVER_INITIALIZATION=PASS
+WAITING_FOR_CLIENT=YES
+```
+
+The runtime smoke used two environment-compatibility adjustments only in CI:
+
+1. MySQL 5.7 was started with `--sql-mode=NO_ENGINE_SUBSTITUTION` because the legacy dump fails under the modern 5.7 default strict mode with `ERROR 1406 Data too long`.
+2. The checked-out runner copy of `config/server.properties` was temporarily changed to append `&useSSL=false` because the bundled legacy MySQL JDBC driver otherwise attempts SSL and fails against current Java 8 TLS policy.
+
+Neither adjustment modifies the original `l1jserver2.jar`. The repository's formal production JAR was not overwritten.
+
+Verified Actions artifacts from run `36012858606`:
+
+```text
+REPAIRED_JAR_ARTIFACT_ID=10812844448
+REPAIRED_JAR_ARTIFACT_NAME=l1jtw85-repaired-test-3d4a3925
+REPAIRED_JAR_ARTIFACT_EXPIRED=NO
+RUNTIME_SMOKE_ARTIFACT_ID=10812589680
+RUNTIME_SMOKE_ARTIFACT_NAME=l1jtw85-runtime-smoke-3d4a3925
+RUNTIME_SMOKE_ARTIFACT_EXPIRED=NO
+ARTIFACT_RETENTION_UNTIL=2026-10-24
+```
+
+Current gate boundary:
+
+```text
+BUILD_GATE=PASS
+STRUCTURAL_GATE=PASS
+DB_IMPORT_GATE=PASS
+RUNTIME_STARTUP_GATE=PASS
+REAL_CLIENT_LOGIN_GATE=NOT_RUN
+FUNCTIONAL_GAMEPLAY_GATE=NOT_RUN
+```
+
+Do **not** label this JAR fully production-ready solely from the startup smoke. The next higher-confidence validation is a real 8.50c client login/session test against this repaired JAR, followed by targeted functional checks for the 13 promoted deployable repairs.
