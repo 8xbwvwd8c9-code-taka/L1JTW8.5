@@ -250,6 +250,7 @@ public class L1BookMark {
                var5.execute();
             } catch (SQLException var10) {
                c.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
+               return;
             } finally {
                SQLUtil.a(var5);
                SQLUtil.a(var4);
