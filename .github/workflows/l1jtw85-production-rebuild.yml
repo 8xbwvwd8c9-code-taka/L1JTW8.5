@@ -68,3 +68,29 @@ jobs:
           python tools/production-rebuild/run_production_rebuild.py
           --repo-root .
           --completed-ref 3d4a392593d61c9203e3f22a154e752c2c51fa97
+
+      - name: Write artifact checksum manifest
+        run: |
+          set -euo pipefail
+          cd recovery/production-build
+          sha256sum l1jserver2.repaired-test.jar > ARTIFACT_SHA256.txt
+          cat ARTIFACT_SHA256.txt
+
+      - name: Upload verified repaired test JAR
+        uses: actions/upload-artifact@v7
+        with:
+          name: l1jtw85-repaired-test-3d4a3925
+          if-no-files-found: error
+          retention-days: 30
+          path: |
+            recovery/production-build/l1jserver2.repaired-test.jar
+            recovery/production-build/ARTIFACT_SHA256.txt
+            recovery/production-build/PIPELINE_RESULT.json
+            recovery/production-build/PIPELINE_RESULT.md
+            recovery/production-build/production_build_state.json
+            recovery/production-build/REPLACED_CLASSES.md
+            recovery/production-build/VALIDATION_RESULT.json
+            recovery/production-build/VALIDATION_RESULT.md
+            recovery/production-build/deployable/DEPLOYABILITY_STATE.json
+            recovery/production-build/deployable/DEPLOYABILITY_STATE.md
+            recovery/production-build/deployable/logs/*.log
