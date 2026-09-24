@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-129 | L2 | inn refund / durable lease release / overflow consistency | PASS / PROMOTED |
 | BUG-850-144 | L2 | house-sale price range validation | PASS / PROMOTED |
 | BUG-850-140 | L2 | house-sale authority revalidation | PASS / ALREADY COVERED |
 | BUG-850-141 | L2 | house-bid state / eligibility / minimum revalidation | PASS / PROMOTED |
@@ -3206,4 +3207,41 @@ Validation evidence: `recovery/BUG-850-275_VALIDATION_20260924.md`.
 ```text
 BUG-850-275=L2
 STATUS=PASS_PROMOTED
+```
+
+
+## BUG-850-129 — inn refund could diverge from durable lease state
+
+### Problem
+
+The refund path could publish refund/item and live inn-count changes while the durable `inns` UPDATE/DELETE had failed or affected no row. Refund multiplication/aggregation also used 32-bit arithmetic.
+
+### Fix
+
+- inn release is DB-first and returns success/failure;
+- UPDATE/DELETE use old-count CAS and require `executeUpdate() == 1`;
+- SQL failure or stale count fails closed before RAM/refund publication;
+- refund multiplication and aggregate use `long` and reject results beyond the public `int` contract;
+- normalized and obfuscated source authorities are kept in parity.
+
+### Validation
+
+```text
+DURABILITY_RUN=35810284620
+OVERFLOW_RUN=35810475334
+SOURCE_CONTRACT=PASS
+JAVAC=PASS
+RUNTIME_MODEL=PASS
+OVERFLOW=PASS
+NORMALIZED_OBFUSCATED_PARITY=PASS
+PROMOTED_SOURCE_COMMIT=f68bbb7dd504d9f70c50711733db78dc9732969c
+REPORT=recovery/BUG-850-129_COMPLETED_VALIDATION_20260924.md
+```
+
+### Result
+
+```text
+BUG-850-129=L2
+STATUS=PASS
+PROMOTED=YES
 ```
