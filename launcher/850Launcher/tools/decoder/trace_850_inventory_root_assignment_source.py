@@ -6,12 +6,13 @@ from pathlib import Path
 
 import capstone
 from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_AC_WRITE
-from capstone.x86 import X86_OP_MEM, X86_OP_REG, X86_OP_IMM, X86_REG_EBP
+from capstone.x86 import X86_OP_MEM, X86_OP_REG, X86_OP_IMM, X86_REG_EBP, X86_REG_ECX
 
 CAPSTONE_PACKAGE_VERSION = metadata.version("capstone")
 CAPSTONE_BINDING_VERSION = getattr(capstone, "__version__", "UNKNOWN")
 TARGET_ASSIGN_RVA = 0x00C9A1E3
 TARGET_LOAD_RVA = 0x00C9A1DD
+ROOT_GLOBAL_VA = 0x016BCEE8
 STACK_DISP = -0x3B8
 
 
@@ -32,15 +33,40 @@ def fmt(insn):
     return f"0x{insn.address:08X}  {bytes(insn.bytes).hex(' ').upper():<32}  {insn.mnemonic} {insn.op_str}".rstrip()
 
 
+def is_stack_slot_mem(op, write_required=False):
+    if op.type != X86_OP_MEM:
+        return False
+    if write_required and not (getattr(op, "access", 0) & CS_AC_WRITE):
+        return False
+    mem = op.mem
+    return mem.base == X86_REG_EBP and mem.index == 0 and int(mem.disp) == STACK_DISP
+
+
 def is_stack_slot_write(insn):
-    for op in insn.operands:
-        access = getattr(op, "access", 0)
-        if op.type != X86_OP_MEM or not (access & CS_AC_WRITE):
-            continue
-        mem = op.mem
-        if mem.base == X86_REG_EBP and mem.index == 0 and int(mem.disp) == STACK_DISP:
-            return True
-    return False
+    return any(is_stack_slot_mem(op, True) for op in insn.operands)
+
+
+def is_target_load(insn):
+    if insn.mnemonic != "mov" or len(insn.operands) < 2:
+        return False
+    dst, src = insn.operands[0], insn.operands[1]
+    return dst.type == X86_OP_REG and dst.reg == X86_REG_ECX and is_stack_slot_mem(src, False)
+
+
+def absolute_mem_target(op):
+    if op.type != X86_OP_MEM:
+        return None
+    mem = op.mem
+    if mem.base or mem.index:
+        return None
+    return int(mem.disp) & 0xFFFFFFFF
+
+
+def is_target_assign(insn):
+    if insn.mnemonic != "mov" or len(insn.operands) < 2:
+        return False
+    dst, src = insn.operands[0], insn.operands[1]
+    return absolute_mem_target(dst) == ROOT_GLOBAL_VA and src.type == X86_OP_REG and src.reg == X86_REG_ECX
 
 
 def classify_source(md, insn):
@@ -59,6 +85,7 @@ def classify_source(md, insn):
 
 def find_function_stream(md, blob, start_va, target_load_va, target_assign_va):
     candidates = []
+    seen_prologues = set()
     target_off = target_assign_va - start_va
     search_end = min(len(blob) - 3, max(0, target_off))
     for off in range(search_end + 1):
@@ -66,17 +93,21 @@ def find_function_stream(md, blob, start_va, target_load_va, target_assign_va):
         normal = blob[off:off+3] == b"\x55\x8B\xEC"
         if not (hotpatch or normal):
             continue
-        prologue_off = off if normal else off + 2
+        prologue_off = off + 2 if hotpatch else off
         prologue_va = start_va + prologue_off
+        if prologue_va in seen_prologues:
+            continue
+        seen_prologues.add(prologue_va)
+
         stream = list(md.disasm(blob[prologue_off:], prologue_va))
         by_addr = {i.address: i for i in stream}
         load = by_addr.get(target_load_va)
         assign = by_addr.get(target_assign_va)
         if load is None or assign is None:
             continue
-        if load.mnemonic != "mov" or "[ebp - 0x3b8]" not in load.op_str.lower():
+        if not is_target_load(load) or not is_target_assign(assign):
             continue
-        if assign.mnemonic != "mov" or "[0x16bcee8]" not in assign.op_str.lower():
+        if load.address + load.size != assign.address:
             continue
         candidates.append((prologue_va, stream))
     # Nearest valid standard prologue is preferred, but all candidates are reported.
@@ -90,7 +121,7 @@ def previous_def(md, stream, idx, reg_name, max_back=12):
     for j in range(idx - 1, lo - 1, -1):
         insn = stream[j]
         try:
-            regs_read, regs_write = insn.regs_access()
+            _, regs_write = insn.regs_access()
         except Exception:
             continue
         written = {md.reg_name(r).upper() for r in regs_write}
