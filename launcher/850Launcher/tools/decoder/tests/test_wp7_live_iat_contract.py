@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from pathlib import Path
 
-ROOT = Path(__file__).resolve().parents[2]
+ROOT = Path(__file__).resolve().parents[3]
 SCANNER = ROOT / "NativeSendXrefScanner.cs"
 CONTROL = ROOT / "NativeSendProbeControl.cs"
 PROBE = ROOT / "tools" / "run_850_wp7_live_send_iat_v20.ps1"
