@@ -134,6 +134,22 @@ jobs:
           : > "$LOG"
           : > "$RESULT"
 
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path("config/server.properties")
+          text = path.read_text(encoding="utf-8-sig")
+          base = "URL=jdbc:mysql://localhost/8.5?useUnicode=true&characterEncoding=utf8"
+          secure = base + "&useSSL=false"
+          if secure not in text:
+              if base not in text:
+                  raise SystemExit("runtime smoke JDBC URL not found")
+              text = text.replace(base, secure, 1)
+              path.write_text(text, encoding="utf-8")
+          print("RUNTIME_JDBC_SSL_DISABLED=YES")
+          PY
+          grep '^URL=' config/server.properties
+
           java -server -noverify \
             -XX:+UseG1GC \
             -XX:+UseStringDeduplication \
