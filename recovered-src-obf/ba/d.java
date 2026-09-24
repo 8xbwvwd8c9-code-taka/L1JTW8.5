@@ -88,14 +88,16 @@ public class d {
                 System.out.println("[\u8a08\u6642\u5730\u5716\u91cd\u7f6e\u4e86]");
                 ba.b();
                 System.out.println("[\u6392\u884c\u699c\u6392\u540d\u66f4\u65b0\u4e86]");
-                long timeMill = 86400000L;
-                System.out.println("\u8a08\u6642\u5730\u5716/\u6392\u884c\u699c\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...1440\u5206");
-                e.a().a(new a(), 86400000L);
             }
             catch (Exception e2) {
                 a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
             }
+            finally {
+                System.out.println("\u8a08\u6642\u5730\u5716/\u6392\u884c\u699c\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...1440\u5206");
+                e.a().a(new a(), 86400000L);
+            }
         }
+
     }
 
     private class b
