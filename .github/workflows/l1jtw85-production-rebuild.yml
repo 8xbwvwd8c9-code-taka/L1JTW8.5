@@ -94,3 +94,108 @@ jobs:
             recovery/production-build/deployable/DEPLOYABILITY_STATE.json
             recovery/production-build/deployable/DEPLOYABILITY_STATE.md
             recovery/production-build/deployable/logs/*.log
+
+      - name: Start MySQL 5.7 for runtime smoke
+        run: |
+          set -euo pipefail
+          docker rm -f l1jtw85-mysql >/dev/null 2>&1 || true
+          docker run --name l1jtw85-mysql \
+            -e MYSQL_ROOT_PASSWORD=root \
+            -e MYSQL_ROOT_HOST=% \
+            -p 3306:3306 \
+            -d mysql:5.7
+          for i in $(seq 1 60); do
+            if docker exec l1jtw85-mysql mysqladmin ping -uroot -proot --silent >/dev/null 2>&1; then
+              echo "MYSQL_READY=YES"
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs l1jtw85-mysql
+          echo "MYSQL_READY=NO"
+          exit 1
+
+      - name: Import 8.5 runtime database
+        run: |
+          set -euo pipefail
+          docker exec l1jtw85-mysql mysql -uroot -proot -e 'CREATE DATABASE IF NOT EXISTS `8.5` CHARACTER SET utf8 COLLATE utf8_general_ci;'
+          docker exec -i l1jtw85-mysql mysql -uroot -proot '8.5' < db/8.5.sql
+          TABLES="$(docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema="8.5";')"
+          echo "DB_TABLES=$TABLES"
+          test "$TABLES" -gt 0
+
+      - name: Run repaired JAR runtime smoke
+        run: |
+          set -euo pipefail
+          JAR="recovery/production-build/l1jserver2.repaired-test.jar"
+          LOG="recovery/production-build/RUNTIME_SMOKE.log"
+          RESULT="recovery/production-build/RUNTIME_SMOKE_RESULT.txt"
+          : > "$LOG"
+          : > "$RESULT"
+
+          java -server -noverify \
+            -XX:+UseG1GC \
+            -XX:+UseStringDeduplication \
+            -XX:+UseFastAccessorMethods \
+            -XX:+AggressiveOpts \
+            -XX:+OptimizeStringConcat \
+            -XX:+UseBiasedLocking \
+            -jar "$JAR" >"$LOG" 2>&1 &
+          PID=$!
+
+          cleanup_java() {
+            if kill -0 "$PID" >/dev/null 2>&1; then
+              kill "$PID" >/dev/null 2>&1 || true
+              wait "$PID" >/dev/null 2>&1 || true
+            fi
+          }
+          trap cleanup_java EXIT
+
+          for i in $(seq 1 60); do
+            if ! kill -0 "$PID" >/dev/null 2>&1; then
+              set +e
+              wait "$PID"
+              RC=$?
+              set -e
+              echo "RUNTIME_SMOKE=FAIL" | tee -a "$RESULT"
+              echo "JAVA_EXIT=$RC" | tee -a "$RESULT"
+              echo "PORT_2000=NOT_LISTENING" | tee -a "$RESULT"
+              cat "$LOG"
+              exit 1
+            fi
+
+            if python - <<'PY'
+          import socket
+          with socket.create_connection(("127.0.0.1", 2000), timeout=1):
+              pass
+          PY
+            then
+              echo "RUNTIME_SMOKE=PASS" | tee -a "$RESULT"
+              echo "JAVA_PROCESS=ALIVE" | tee -a "$RESULT"
+              echo "PORT_2000=LISTENING" | tee -a "$RESULT"
+              cat "$LOG"
+              exit 0
+            fi
+            sleep 1
+          done
+
+          echo "RUNTIME_SMOKE=FAIL" | tee -a "$RESULT"
+          echo "JAVA_PROCESS=ALIVE" | tee -a "$RESULT"
+          echo "PORT_2000=NOT_LISTENING_TIMEOUT" | tee -a "$RESULT"
+          cat "$LOG"
+          exit 1
+
+      - name: Upload runtime smoke evidence
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: l1jtw85-runtime-smoke-3d4a3925
+          if-no-files-found: warn
+          retention-days: 30
+          path: |
+            recovery/production-build/RUNTIME_SMOKE.log
+            recovery/production-build/RUNTIME_SMOKE_RESULT.txt
+
+      - name: Cleanup runtime smoke database
+        if: always()
+        run: docker rm -f l1jtw85-mysql >/dev/null 2>&1 || true
