@@ -85,7 +85,8 @@ function Stamp-Identity([string]$Path,[string]$Gate) {
         'CLIENT_AUTHORITY=1',
         'MEMORY_WRITE=NO'
     )
-    [IO.File]::AppendAllLines($Path,$stamp,[Text.UTF8Encoding]::new($false))
+    $appendText = ($stamp -join [Environment]::NewLine) + [Environment]::NewLine
+    [IO.File]::AppendAllText($Path,$appendText,[Text.UTF8Encoding]::new($false))
 }
 
 Write-Host 'STATUS=PRECISION_GATE_V2_STATIC_CONTEXT'
