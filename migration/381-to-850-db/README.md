@@ -255,9 +255,12 @@ Complete the 320-item SQL census before selecting migration candidates:
 1. use [`inventory/SQL_FULL_INVENTORY.csv`](inventory/SQL_FULL_INVENTORY.csv) as the canonical per-SQL ledger
 2. use [`inventory/SQL_MODULE_FRAMEWORK.md`](inventory/SQL_MODULE_FRAMEWORK.md) for the readable 320-item framework
 3. use [`inventory/SQL_SCAN_PROGRESS.md`](inventory/SQL_SCAN_PROGRESS.md) for completion counts
-4. trace each item's 381 runtime/control owner and compare its 850 DB/core equivalent
-5. classify exact duplicate, semantic duplicate, partial overlap, missing target capability, client gate and difficulty
-6. select migration candidates only after all 320 items have final comparison records
+4. use [`inventory/SQL_PROVISIONAL_L1_L4.csv`](inventory/SQL_PROVISIONAL_L1_L4.csv) for the requested three-column provisional list: level, 381 item name, 850 item name or `N/A`
+5. trace each item's 381 runtime/control owner and compare its 850 DB/core equivalent
+6. classify exact duplicate, semantic duplicate, partial overlap, missing target capability, client gate and final difficulty
+7. select migration candidates only after all 320 items have final comparison records
+
+The L1-L4 list is deliberately provisional. It combines current DB overlap, estimated core lifecycle depth and likely client dependency. Specialized audits replace its provisional level when stronger evidence is available.
 
 Current mechanical baseline:
 ```text

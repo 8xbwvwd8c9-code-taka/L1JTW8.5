@@ -70,6 +70,25 @@ export function classifySchemaOverlap(sourceColumns, targetColumns) {
   return "COLUMN_DIFFERENCE";
 }
 
+export function classifyProvisionalLevel(row) {
+  const name = String(row.source_table ?? "").toLowerCase();
+  const clientPattern = /變身|卡片|炫色|外觀|造型|特效|sprite|gfx|紋樣|稱號|圖示|圖檔/u;
+  const deepCorePattern = /characters?|character_|clan|血盟|合成|升級|附魔|道具狀態|威望|時間限制|掉落限制|爆氣|屬性強化|祝福系統|achievement|成就|quest|任務|城堡|攻城|warehouse|倉庫|交易限制|限制物品|鐘點/u;
+  const adapterPattern = /製作|craft|技能|skill|怪物|monster|獎勵|reward|廣播|broadcast|掉落|drop|召喚|spawn|回收|分解|地圖|map|回血|回魔/u;
+  if (clientPattern.test(name)) return "L4";
+  if (deepCorePattern.test(name)) return "L3";
+  if (adapterPattern.test(name)) return "L2";
+  if (row.overlap_850_exact === "EXACT_TABLE_MATCH") {
+    return row.overlap_850_schema === "COLUMN_DIFFERENCE" ? "L2" : "L1";
+  }
+  return "L2";
+}
+
+export function validateIdentifierColumn(header, values) {
+  if (String(header).toLowerCase() !== "id") return;
+  if (new Set(values).size !== values.length) throw new Error("Inventory IDs are not unique");
+}
+
 export function classifyExactOverlap(sourceTables, targetTables) {
   if (sourceTables.length === 0) return "SOURCE_TABLE_NOT_PROVEN";
   return sourceTables.some((name) => targetTables.has(name.toLowerCase()))
@@ -184,6 +203,15 @@ export async function buildInventory({ sourceDir, targetSql, outputDir }) {
   await fs.mkdir(outputDir, { recursive: true });
   await fs.writeFile(path.join(outputDir, "SQL_FULL_INVENTORY.csv"), toCsv(rows), "utf8");
   await fs.writeFile(path.join(outputDir, "SQL_MODULE_FRAMEWORK.md"), renderFramework(rows), "utf8");
+  const levelOrder = new Map([["L1", 1], ["L2", 2], ["L3", 3], ["L4", 4]]);
+  const provisionalRows = rows
+    .map((row) => ({
+      level: classifyProvisionalLevel(row),
+      item_381: row.source_table,
+      item_850: row.overlap_850_tables || "N/A",
+    }))
+    .sort((a, b) => levelOrder.get(a.level) - levelOrder.get(b.level) || a.item_381.localeCompare(b.item_381, "zh-Hant"));
+  await fs.writeFile(path.join(outputDir, "SQL_PROVISIONAL_L1_L4.csv"), toCsv(provisionalRows), "utf8");
   const exactCount = rows.filter((row) => row.overlap_850_exact === "EXACT_TABLE_MATCH").length;
   const schemaComparedCount = rows.filter((row) => row.overlap_850_exact === "EXACT_TABLE_MATCH").length;
   const emptyCount = rows.filter((row) => row.data_state === "NO_ACTIVE_DATA").length;

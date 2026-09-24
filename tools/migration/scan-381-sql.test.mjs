@@ -4,12 +4,14 @@ import test from "node:test";
 import {
   classifyExactOverlap,
   classifySchemaOverlap,
+  classifyProvisionalLevel,
   extractCreateColumnsByTable,
   extract381TableNames,
   extract850TableNames,
   extractInsertColumnsByTable,
   renderFramework,
   summarizeSql,
+  validateIdentifierColumn,
 } from "./scan-381-sql.mjs";
 
 test("extracts backtick and qualified 381 INSERT table names", () => {
@@ -18,6 +20,19 @@ test("extracts backtick and qualified 381 INSERT table names", () => {
     "INSERT INTO `另一表` (`id`) VALUES (2);",
   ].join("\n");
   assert.deepEqual(extract381TableNames(sql), ["w_測試", "另一表"]);
+});
+
+test("requires unique values only when the first CSV column is id", () => {
+  assert.doesNotThrow(() => validateIdentifierColumn("level", ["L1", "L1", "L2"]));
+  assert.throws(() => validateIdentifierColumn("id", ["1", "1"]), /not unique/u);
+  assert.doesNotThrow(() => validateIdentifierColumn("id", ["1", "2"]));
+});
+
+test("assigns provisional L1-L4 from DB overlap, core lifecycle, and client dependency", () => {
+  assert.equal(classifyProvisionalLevel({ source_table: "accounts", overlap_850_exact: "EXACT_TABLE_MATCH", overlap_850_schema: "EXACT_COLUMN_SET" }), "L1");
+  assert.equal(classifyProvisionalLevel({ source_table: "w_火神裝備製作", overlap_850_exact: "NO_EXACT_TABLE_MATCH", overlap_850_schema: "NOT_APPLICABLE_NO_EXACT_TABLE" }), "L2");
+  assert.equal(classifyProvisionalLevel({ source_table: "w_血盟技能", overlap_850_exact: "NO_EXACT_TABLE_MATCH", overlap_850_schema: "NOT_APPLICABLE_NO_EXACT_TABLE" }), "L3");
+  assert.equal(classifyProvisionalLevel({ source_table: "w_變身卡片能力登入", overlap_850_exact: "NO_EXACT_TABLE_MATCH", overlap_850_schema: "NOT_APPLICABLE_NO_EXACT_TABLE" }), "L4");
 });
 
 test("extracts insert and create columns for same-name schema comparison", () => {
