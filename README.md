@@ -27,6 +27,8 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-048 | L2 | LuckyDraw atomic pending consumption / reward persistence | PASS / PROMOTED |
+| BUG-850-049 | L2 | LuckyDraw reward publication requires durable pending consumption | PASS / PROMOTED / COVERED BY 048 |
 | BUG-850-039 | L2 | private-shop settlement fixed-slot bounds | PASS / PROMOTED |
 | BUG-850-043 | L2 | private-shop listing count/price/quantity bounds | PASS / PROMOTED |
 | BUG-850-046 | L2 | private-shop creation/settlement slot invariant | PASS / PROMOTED |
@@ -3481,4 +3483,39 @@ SOURCE_CONTRACT=PASS
 DB_CONTROL=NO_NEW_DB_OR_CONFIG_DEPENDENCY
 JAVA8_NO_NEW_REGRESSION=PASS
 RUNTIME_BOUNDARY_MODEL=PASS
+```
+
+
+## BUG-850-048 / 049 — LuckyDraw atomic redemption
+
+### Problem
+
+The legacy command-100 route granted item `640106` first and then removed selected `character_luckydraw` rows independently. A DB failure, duplicate/retry, or partial pending-row delete could therefore publish a reward without authoritative durable consumption, or consume only part of the pending state.
+
+### Fix
+
+- Route validates a unique selected-key set and declared count before mutation.
+- `redeemTickets` validates all pending keys and reward stack bounds.
+- `character_luckydraw` delete and `character_items` insert/update execute on one connection and transaction.
+- Every pending delete and reward insert/update requires exactly one affected row.
+- Both tables must be InnoDB; migration converts them explicitly.
+- Commit occurs before pending-map removal and reward RAM publication.
+- Failure rolls back and publishes nothing; retry of an already consumed key fails the affected-row gate and cannot duplicate the reward.
+- Normalized and obfuscated routes/helpers are repaired together.
+
+### Validation
+
+```text
+RUN=36017748771
+HISTORICAL_RED=PASS
+SOURCE_CONTRACT=PASS
+ITEM_CAS_DEPENDENCY=PASS
+JAVA8_HELPER_COMPILE=PASS
+ROUTE_NO_NEW_JAVAC_REGRESSION=PASS
+RUNTIME_MODEL=PASS
+MYSQL_5_7_INNODB_GATE=PASS
+MYSQL_5_7_ROLLBACK_GATE=PASS
+MYSQL_5_7_AFFECTED_ROW_GATE=PASS
+MYSQL_5_7_RETRY_GATE=PASS
+NORMALIZED_OBFUSCATED_PAIR=PASS
 ```

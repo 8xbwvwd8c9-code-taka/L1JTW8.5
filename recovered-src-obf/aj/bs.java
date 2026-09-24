@@ -517,12 +517,15 @@ extends cv {
                         int dataLength = this.d();
                         byte[] data = this.a(dataLength);
                         b.c msg = b.c.a(data);
-                        ah.a(pc, 640106, msg.r());
-                        for (int key : msg.q()) {
-                            al.a().a(client.a(), key);
+                        java.util.HashSet<Integer> selected = new java.util.HashSet<Integer>(msg.q());
+                        if (selected.isEmpty() || selected.size() != msg.r()) {
+                            return;
+                        }
+                        if (!al.a().redeemTickets(pc, client.a(), selected)) {
+                            return;
                         }
                         pc.a(new dc(al.a().c(client.a()), 0));
-                        pc.a(new ds(3728, msg.r()));
+                        pc.a(new ds(3728, selected.size()));
                     } else if (type == 122) {
                         int dataLength = this.d();
                         byte[] data = this.a(dataLength);

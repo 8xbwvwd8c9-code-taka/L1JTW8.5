@@ -4,7 +4,9 @@
 package ao;
 
 import ao.ah;
+import ai.d;
 import ap.q;
+import ap.u;
 import aq.aq;
 import be.ds;
 import bi.i;
@@ -15,6 +17,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -279,6 +282,126 @@ public class al {
         finally {
             j.a(pstm);
             j.a(con);
+        }
+    }
+
+    public boolean redeemTickets(u pc, String acc, Set<Integer> selected) {
+        if (pc == null || acc == null || selected == null || selected.isEmpty()) {
+            return false;
+        }
+        a data = this.e.get(acc);
+        if (data == null) {
+            return false;
+        }
+        HashMap<Integer, q> pending = data.c;
+        synchronized (pending) {
+            for (int key : selected) {
+                if (!pending.containsKey(key)) {
+                    return false;
+                }
+            }
+
+            int rewardCount = selected.size();
+            bh.j rewardTemplate = ah.a().a(640106);
+            if (rewardTemplate == null || !rewardTemplate.aF()) {
+                return false;
+            }
+
+            q reward = pc.j().b(640106);
+            int oldRewardCount = reward == null ? 0 : reward.E();
+            long newRewardCount = (long)oldRewardCount + (long)rewardCount;
+            if (newRewardCount <= 0L || newRewardCount > 2000000000L) {
+                return false;
+            }
+
+            q inserted = null;
+            if (reward == null) {
+                inserted = new q(rewardTemplate, rewardCount);
+                inserted.cF(d.a().d());
+                inserted.g(rewardTemplate.aM());
+                inserted.j(rewardTemplate.T());
+                inserted.n();
+            }
+
+            try (Connection con = l1j.server.b.a().b()) {
+                boolean oldAutoCommit = con.getAutoCommit();
+                boolean luckyInnoDb = false;
+                boolean itemsInnoDb = false;
+                try (PreparedStatement engineCheck = con.prepareStatement(
+                    "SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_luckydraw','character_items')"
+                ); ResultSet rs = engineCheck.executeQuery()) {
+                    while (rs.next()) {
+                        String tableName = rs.getString("TABLE_NAME");
+                        String engine = rs.getString("ENGINE");
+                        if ("character_luckydraw".equalsIgnoreCase(tableName)) {
+                            luckyInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                        } else if ("character_items".equalsIgnoreCase(tableName)) {
+                            itemsInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                        }
+                    }
+                }
+
+                if (!luckyInnoDb || !itemsInnoDb) {
+                    a.log(Level.SEVERE, "BUG-850-048 requires InnoDB character_luckydraw + character_items");
+                    return false;
+                }
+
+                con.setAutoCommit(false);
+                try {
+                    try (PreparedStatement delete = con.prepareStatement(
+                        "DELETE FROM character_luckydraw WHERE acc_name=? AND indexid=?"
+                    )) {
+                        for (int key : selected) {
+                            delete.setString(1, acc);
+                            delete.setInt(2, key);
+                            if (delete.executeUpdate() != 1) {
+                                throw new SQLException("BUG-850-048 lucky draw key CAS failed");
+                            }
+                        }
+                    }
+
+                    ao.l itemTable = ao.l.a();
+                    if (reward == null) {
+                        itemTable.insertQuestReward(con, pc.fr(), inserted);
+                    } else {
+                        itemTable.updateQuestRewardCount(con, pc.fr(), reward, oldRewardCount, (int)newRewardCount);
+                    }
+                    con.commit();
+                }
+                catch (Exception ex) {
+                    try {
+                        con.rollback();
+                    }
+                    catch (SQLException ignored) {
+                    }
+                    try {
+                        con.setAutoCommit(oldAutoCommit);
+                    }
+                    catch (SQLException ignored) {
+                    }
+                    return false;
+                }
+
+                try {
+                    con.setAutoCommit(oldAutoCommit);
+                }
+                catch (SQLException ignored) {
+                }
+
+                for (int key : selected) {
+                    pending.remove(key);
+                }
+                if (reward == null) {
+                    pc.j().publishCommittedQuestInsert(inserted);
+                } else {
+                    pc.j().publishCommittedQuestUpdate(reward, (int)newRewardCount);
+                }
+                return true;
+            }
+            catch (SQLException ex) {
+                a.log(Level.SEVERE, ex.getLocalizedMessage(), ex);
+                return false;
+            }
         }
     }
 

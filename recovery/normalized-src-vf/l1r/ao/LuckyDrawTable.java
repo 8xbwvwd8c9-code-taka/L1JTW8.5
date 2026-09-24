@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import l1r.ai.IdFactory;
 import l1r.ap.L1ItemInstance;
+import l1r.ap.L1PcInstance;
 import l1r.aq.L1World;
 import l1r.be.S_ServerMessage;
+import l1r.bh.L1Item;
 import l1r.bi.Random;
 import l1r.bi.SQLUtil;
 import l1r.l1j.server.DatabaseFactory;
@@ -229,6 +233,127 @@ public class LuckyDrawTable {
       } finally {
          SQLUtil.a(var4);
          SQLUtil.a(var3);
+      }
+   }
+
+   public boolean redeemTickets(L1PcInstance var1, String var2, Set<Integer> var3) {
+      if (var1 == null || var2 == null || var3 == null || var3.isEmpty()) {
+         return false;
+      }
+
+      LuckyDrawTable.L1R_a var4 = this.e.get(var2);
+      if (var4 == null) {
+         return false;
+      }
+
+      HashMap<Integer, L1ItemInstance> var5 = var4.c;
+      synchronized (var5) {
+         for (int var6 : var3) {
+            if (!var5.containsKey(var6)) {
+               return false;
+            }
+         }
+
+         int var7 = var3.size();
+         L1Item var8 = ItemTable.a().a(640106);
+         if (var8 == null || !var8.aF()) {
+            return false;
+         }
+
+         L1ItemInstance var9 = var1.j().b(640106);
+         int var10 = var9 == null ? 0 : var9.E();
+         long var11 = (long)var10 + (long)var7;
+         if (var11 <= 0L || var11 > 2000000000L) {
+            return false;
+         }
+
+         L1ItemInstance var12 = null;
+         if (var9 == null) {
+            var12 = new L1ItemInstance(var8, var7);
+            var12.cF(IdFactory.a().d());
+            var12.g(var8.aM());
+            var12.j(var8.T());
+            var12.n();
+         }
+
+         try (Connection var13 = DatabaseFactory.a().b()) {
+            boolean var14 = var13.getAutoCommit();
+            boolean var15 = false;
+            boolean var16 = false;
+
+            try (PreparedStatement var17 = var13.prepareStatement(
+               "SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_luckydraw','character_items')"
+            ); ResultSet var18 = var17.executeQuery()) {
+               while (var18.next()) {
+                  String var19 = var18.getString("TABLE_NAME");
+                  String var20 = var18.getString("ENGINE");
+                  if ("character_luckydraw".equalsIgnoreCase(var19)) {
+                     var15 = "InnoDB".equalsIgnoreCase(var20);
+                  } else if ("character_items".equalsIgnoreCase(var19)) {
+                     var16 = "InnoDB".equalsIgnoreCase(var20);
+                  }
+               }
+            }
+
+            if (!var15 || !var16) {
+               a.log(Level.SEVERE, "BUG-850-048 requires InnoDB character_luckydraw + character_items");
+               return false;
+            }
+
+            var13.setAutoCommit(false);
+
+            try {
+               try (PreparedStatement var21 = var13.prepareStatement(
+                  "DELETE FROM character_luckydraw WHERE acc_name=? AND indexid=?"
+               )) {
+                  for (int var22 : var3) {
+                     var21.setString(1, var2);
+                     var21.setInt(2, var22);
+                     if (var21.executeUpdate() != 1) {
+                        throw new SQLException("BUG-850-048 lucky draw key CAS failed");
+                     }
+                  }
+               }
+
+               CharacterItemTable var23 = CharacterItemTable.a();
+               if (var9 == null) {
+                  var23.insertQuestReward(var13, var1.fr(), var12);
+               } else {
+                  var23.updateQuestRewardCount(var13, var1.fr(), var9, var10, (int)var11);
+               }
+
+               var13.commit();
+            } catch (Exception var26) {
+               try {
+                  var13.rollback();
+               } catch (SQLException var25) {
+               }
+               try {
+                  var13.setAutoCommit(var14);
+               } catch (SQLException var24) {
+               }
+               return false;
+            }
+
+            try {
+               var13.setAutoCommit(var14);
+            } catch (SQLException var27) {
+            }
+
+            for (int var28 : var3) {
+               var5.remove(var28);
+            }
+
+            if (var9 == null) {
+               var1.j().publishCommittedQuestInsert(var12);
+            } else {
+               var1.j().publishCommittedQuestUpdate(var9, (int)var11);
+            }
+            return true;
+         } catch (SQLException var29) {
+            a.log(Level.SEVERE, var29.getLocalizedMessage(), var29);
+            return false;
+         }
       }
    }
 

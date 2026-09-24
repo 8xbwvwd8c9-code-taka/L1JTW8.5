@@ -515,14 +515,17 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   int var34 = this.d();
                   byte[] var57 = this.a(var34);
                   PBMessageALL2.L1R_c var81 = PBMessageALL2.L1R_c.a(var57);
-                  ItemTable.a(var4, 640106, var81.r());
+                  java.util.HashSet<Integer> l1rSelected = new java.util.HashSet<Integer>(var81.q());
+                  if (l1rSelected.isEmpty() || l1rSelected.size() != var81.r()) {
+                     return;
+                  }
 
-                  for (int var103 : var81.q()) {
-                     LuckyDrawTable.a().a(var2.a(), var103);
+                  if (!LuckyDrawTable.a().redeemTickets(var4, var2.a(), l1rSelected)) {
+                     return;
                   }
 
                   var4.a(new S_ProtoBuffers(LuckyDrawTable.a().c(var2.a()), 0));
-                  var4.a(new S_ServerMessage(3728, var81.r()));
+                  var4.a(new S_ServerMessage(3728, l1rSelected.size()));
                } else if (var3 == 122) {
                   int var35 = this.d();
                   byte[] var58 = this.a(var35);
