@@ -116,6 +116,8 @@ class CompletedOverlayContracts(unittest.TestCase):
             self.assertFalse((output / "dev/readable/B.class").exists())
             self.assertEqual(result["source_count"], 1)
             self.assertEqual(result["class_count"], 2)
+            self.assertEqual(result["deployable_source_count"], 1)
+            self.assertEqual(result["deferred_source_count"], 0)
 
     def test_unmapped_normalized_source_fails_closed(self):
         mod = load_module()
@@ -133,7 +135,7 @@ class CompletedOverlayContracts(unittest.TestCase):
                     output_dir=root / "overlay",
                 )
 
-    def test_failed_javac_preserves_last_known_good_overlay(self):
+    def test_unbuildable_completed_family_is_deferred_and_stale_overlay_is_removed(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -142,25 +144,57 @@ class CompletedOverlayContracts(unittest.TestCase):
             output = root / "overlay"
             output.mkdir()
             sentinel = output / "keep.class"
-            sentinel.write_bytes(b"last-known-good")
+            sentinel.write_bytes(b"stale-completed-overlay")
             source = core / "src" / "dev" / "readable" / "A.java"
             source.write_text(
                 "package dev.readable; public class A { this is not java; }\n",
                 encoding="utf-8",
             )
 
-            with self.assertRaises(mod.OverlayCompileError):
-                mod.compile_completed_overlay(
-                    authority_core=core,
-                    normalized_source_paths=[
-                        "recovery/normalized-src-vf/l1r/aa/A.java",
-                    ],
-                    dev_base_jar=base,
-                    output_dir=output,
-                )
+            result = mod.compile_completed_overlay(
+                authority_core=core,
+                normalized_source_paths=[
+                    "recovery/normalized-src-vf/l1r/aa/A.java",
+                ],
+                dev_base_jar=base,
+                output_dir=output,
+            )
 
-            self.assertEqual(sentinel.read_bytes(), b"last-known-good")
-            self.assertEqual([p.name for p in output.iterdir()], ["keep.class"])
+            self.assertFalse(sentinel.exists())
+            self.assertEqual(list(output.rglob("*.class")), [])
+            self.assertEqual(result["source_count"], 1)
+            self.assertEqual(result["deployable_source_count"], 0)
+            self.assertEqual(result["deferred_source_count"], 1)
+            self.assertEqual(result["deferred_identities"], ["dev/readable/A"])
+
+    def test_deferred_family_does_not_block_other_completed_family(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            core = self.make_authority_core(root)
+            base = self.make_base_jar(root)
+            output = root / "overlay"
+            (core / "src" / "dev" / "readable" / "A.java").write_text(
+                "package dev.readable; public class A { this is not java; }\n",
+                encoding="utf-8",
+            )
+
+            result = mod.compile_completed_overlay(
+                authority_core=core,
+                normalized_source_paths=[
+                    "recovery/normalized-src-vf/l1r/aa/A.java",
+                    "recovery/normalized-src-vf/l1r/aa/B.java",
+                ],
+                dev_base_jar=base,
+                output_dir=output,
+            )
+
+            self.assertFalse((output / "dev/readable/A.class").exists())
+            self.assertTrue((output / "dev/readable/B.class").is_file())
+            self.assertEqual(result["source_count"], 2)
+            self.assertEqual(result["deployable_source_count"], 1)
+            self.assertEqual(result["deferred_source_count"], 1)
+            self.assertEqual(result["deferred_identities"], ["dev/readable/A"])
 
 
 if __name__ == "__main__":
