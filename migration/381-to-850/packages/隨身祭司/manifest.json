@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "module_id": "隨身祭司",
+  "module_name": "隨身祭司",
+  "enterprise_item": "天堂企劃.txt L2,w_隨身祭司,N/A",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": [],
+    "381_db": ["w_隨身祭司_202609221205.sql (520 bytes)"],
+    "381_core": [],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "w_隨身祭司 資料表在 850 db/8.5.sql 中不存在，需全新建立",
+    "core": "NOT_PROVEN — 無對應 Java 實作（NPC 跟隨＋自動施法）證據"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": ["850匯入/db/install_隨身祭司.sql"],
+    "control": ["850匯入/control/隨身祭司.properties.example"],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [
+    "確認 w_隨身祭司 資料表建立成功，4 筆資料完整",
+    "確認 NPC ID 93001~93004 可正確載入",
+    "確認技能 ID 26,42,151,168,79,68 在 850 skills 表中存在",
+    "確認多技能 ID 逗號格式可被 Java 解析"
+  ],
+  "rollback": [
+    "DROP TABLE IF EXISTS w_隨身祭司"
+  ]
+}
+

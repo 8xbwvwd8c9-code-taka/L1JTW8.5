@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "module_id": "天m合成系統",
+  "module_name": "天M合成系統",
+  "enterprise_item": "天堂企劃.txt 第16條",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": ["L3,w_天m合成系統,N/A"],
+    "381_db": ["w_天m合成系統_202609221205.sql (8515 bytes, 36 rows)"],
+    "381_core": ["NOT_PROVEN — audit references NPC 93064 娃娃合成師, NPC 93068 變身師"],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "w_天m合成系統 not confirmed in 850 DB",
+    "core": "NOT_PROVEN"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": ["850匯入/db/install_天m合成系統.sql"],
+    "control": [],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [
+    "Confirm w_天m合成系統 table schema in 850 DB",
+    "Confirm NPC 93064 and 93068 exist in 850 spawnlist",
+    "Confirm pity counter (保底) runtime in 850 core",
+    "Confirm doll item IDs (55xxx / 80xxx) and polymorph card IDs exist in 850 item table"
+  ],
+  "rollback": [
+    "DROP TABLE IF EXISTS w_天m合成系統"
+  ]
+}
+

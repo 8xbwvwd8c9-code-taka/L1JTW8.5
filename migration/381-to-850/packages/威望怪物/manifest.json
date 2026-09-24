@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "module_id": "威望怪物",
+  "module_name": "威望怪物設定",
+  "enterprise_item": "L3,w_威望怪物,N/A",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_APPLICABLE",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 61503,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_威望怪物_202609221205.sql",
+        "name": "w_威望怪物_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,w_威望怪物,N/A",
+      "擊殺特定怪物獲得威望值設定"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/威望怪物.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_威望怪物.sql",
+      "850匯入/db/rollback_威望怪物.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_威望怪物.sql"
+  ],
+  "notes": "HOLD狀態。擊殺特定怪物獲得威望值設定"
+}
+

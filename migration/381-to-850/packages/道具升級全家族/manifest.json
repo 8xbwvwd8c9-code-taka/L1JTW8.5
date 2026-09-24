@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "module_id": "道具升級全家族",
+  "module_name": "道具升級與升級系統",
+  "enterprise_item": "L3,w_道具升級,N/A (含道具升級系統)",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 465,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具升級_202609221205.sql",
+        "name": "w_道具升級_202609221205.sql"
+      },
+      {
+        "bytes": 414,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具升級系統_202609221205.sql",
+        "name": "w_道具升級系統_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,w_道具升級,N/A (含道具升級系統)",
+      "道具進階樹、升級成功率與保底材料"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/道具升級全家族.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_道具升級全家族.sql",
+      "850匯入/db/rollback_道具升級全家族.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_道具升級全家族.sql"
+  ],
+  "notes": "HOLD狀態。道具進階樹、升級成功率與保底材料"
+}
+

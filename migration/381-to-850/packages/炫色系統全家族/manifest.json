@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "module_id": "炫色系統全家族",
+  "module_name": "炫色系統全家族 (記錄/素質/隨機名稱/武器/防具)",
+  "enterprise_item": "L4,炫色系列 (character_炫色_記錄資料, w_炫色_素質設定, w_隨機能力炫色)",
+  "decision": "HOLD",
+  "server_level": "L4",
+  "client_gate": "L4_BLOCKED",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 0,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\character_炫色_記錄資料_202609221205.sql",
+        "name": "character_炫色_記錄資料_202609221205.sql"
+      },
+      {
+        "bytes": 38179,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_炫色_素質設定_202609221205.sql",
+        "name": "w_炫色_素質設定_202609221205.sql"
+      },
+      {
+        "bytes": 234,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色名稱_202609221205.sql",
+        "name": "w_隨機能力炫色名稱_202609221205.sql"
+      },
+      {
+        "bytes": 532,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色防具_202609221205.sql",
+        "name": "w_隨機能力炫色防具_202609221205.sql"
+      },
+      {
+        "bytes": 532,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色武器_202609221205.sql",
+        "name": "w_隨機能力炫色武器_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L4,炫色系列 (character_炫色_記錄資料, w_炫色_素質設定, w_隨機能力炫色)",
+      "裝備與名稱變色光暈，需客戶端支援特定色彩ID與封包"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/炫色系統全家族.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_炫色系統全家族.sql",
+      "850匯入/db/rollback_炫色系統全家族.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_炫色系統全家族.sql"
+  ],
+  "notes": "HOLD狀態。裝備與名稱變色光暈，需客戶端支援特定色彩ID與封包"
+}
+

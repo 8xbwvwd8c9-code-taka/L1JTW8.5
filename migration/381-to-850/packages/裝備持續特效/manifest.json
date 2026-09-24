@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "module_id": "裝備持續特效",
+  "module_name": "裝備持續特效",
+  "enterprise_item": "L4,w_裝備持續特效,N/A",
+  "decision": "HOLD",
+  "server_level": "L4",
+  "client_gate": "L4_BLOCKED",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 0,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_裝備持續特效_202609221205.sql",
+        "name": "w_裝備持續特效_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L4,w_裝備持續特效,N/A",
+      "穿戴特定神裝時腳底/周身常駐 GFX 動畫特效"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/裝備持續特效.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_裝備持續特效.sql",
+      "850匯入/db/rollback_裝備持續特效.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_裝備持續特效.sql"
+  ],
+  "notes": "HOLD狀態。穿戴特定神裝時腳底/周身常駐 GFX 動畫特效"
+}
+

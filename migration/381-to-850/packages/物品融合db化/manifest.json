@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "module_id": "物品融合db化",
+  "module_name": "物品融合db化",
+  "enterprise_item": "天堂企劃.txt 第4條",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": ["L2,w_物品融合db化,N/A  備注:適合暗黑系統 先暫存"],
+    "381_db": ["DB/381_DB_AI用/w_物品融合db化_202609221205.sql  SIZE=0 bytes  SCHEMA=atu381_0906.sql:line~2850"],
+    "381_core": [],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "850 db/8.5.sql 無 w_物品融合db化 或等效資料表。缺口明確。",
+    "core": "NOT_PROVEN"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": ["850匯入/db/install_物品融合db化.sql"],
+    "control": ["850匯入/control/物品融合db化.properties.example"],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": ["驗證/validation_checklist.md"],
+  "rollback": ["850匯入/db/rollback_物品融合db化.sql"]
+}
+

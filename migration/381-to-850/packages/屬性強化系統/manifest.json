@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "module_id": "屬性強化系統",
+  "module_name": "武器屬性強化系統",
+  "enterprise_item": "L3,w_屬性強化系統,N/A",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "381_db": [
+      {
+        "bytes": 17077,
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_屬性強化系統_202609221205.sql",
+        "name": "w_屬性強化系統_202609221205.sql"
+      }
+    ],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,w_屬性強化系統,N/A",
+      "地水火風四屬性卷軸強化與發動機率加成"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "待根據381 schema移植或以850原生schema適配",
+    "core": "待確認生命週期hook與加成計算"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/屬性強化系統.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_屬性強化系統.sql",
+      "850匯入/db/rollback_屬性強化系統.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_屬性強化系統.sql"
+  ],
+  "notes": "HOLD狀態。地水火風四屬性卷軸強化與發動機率加成"
+}
+
