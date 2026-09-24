@@ -1,0 +1,15 @@
+# 怪物菁英化系統 — 控制設定範例
+# 放置位置：config/lineage.properties
+
+# 是否啟用怪物菁英化系統
+EliteMonsterEnabled=true
+
+# 預設生成菁英機率(%)（覆蓋DB值）
+EliteMonsterSpawnChance=10
+
+# 小怪菁英版血量倍率(%) 130=x1.3（覆蓋DB值）
+# BOSS（npc.hard=1）不套用此倍率
+EliteMonsterHpMultiplierPct=130
+
+# 菁英版掉落率倍率(%) 200=加倍（覆蓋DB值）
+EliteMonsterDropMultiplierPct=200

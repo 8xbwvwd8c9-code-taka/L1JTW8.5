@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "module_id": "monster-death-spawn",
+  "module_name": "怪物死亡召喚（Monster Death Spawn）",
+  "enterprise_item": "天堂企劃.txt 第31條: L2,w_怪物死亡召喚,N/A",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "NOT_APPLICABLE",
+  "source": {
+    "requirements": [
+      "I:\\天堂企劃.txt: 小怪1% / BOSS 0.5% 死亡後復活加強1.5%能力；累積至100%強化度；每次掉落率+1%"
+    ],
+    "381_db": [
+      {
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\w_怪物死亡召喚_202609221205.sql",
+        "table": "w_怪物死亡召喚",
+        "size_bytes": 0,
+        "status": "BLOCKED_EMPTY_SQL",
+        "note": "0 bytes，schema不可用，不得推斷欄位"
+      }
+    ],
+    "381_core": [
+      "com.lineage.data.event.Npe_DeadSpan (event gate START=true)",
+      "com.lineage.william.Npc_Dead_span.getData17() (SELECT * FROM w_怪物死亡召喚)",
+      "L1MonsterInstance.receiveDamage() death path → Npc_Dead_span.forresolvent(atkpc, this)"
+    ],
+    "381_control": [
+      "Npe_DeadSpan.START=true (event gate)"
+    ],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "無w_monster_death_spawn表（需全新創建）",
+    "core": "無Npe_DeadSpan/Npc_Dead_span等同class；L1Monster death hook缺對應調用"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": [],
+    "control": [],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [],
+  "blocker": "AUTHORITATIVE_SCHEMA_MISSING：w_怪物死亡召喚 SQL=0 bytes，需從atu381_0906.sql或live DB取得完整schema",
+  "reference_audit": "migration/381-to-850-db/modules/MONSTER_DEATH_SPAWN_AUDIT.md",
+  "notes": "L3模組：death hook + rule loader + spawn + strength accumulation + drop bonus。無客戶端依賴。"
+}
