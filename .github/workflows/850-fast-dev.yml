@@ -42,3 +42,5 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_pack_dev.py
       - name: Run real migration contracts
         run: python -m unittest -v tools/850/tests/test_real_migration.py
+      - name: Run real core materialization contracts
+        run: python -m unittest -v tools/850/tests/test_migrate_core.py
