@@ -80,12 +80,13 @@ class IncrementalCompiler:
         self.classpath = [str(Path(p)) for p in classpath]
         self.javac = javac
 
-    def _scan_sources(self) -> dict[str, dict[str, object]]:
+    def _scan_sources(self, source_root: Path | None = None) -> dict[str, dict[str, object]]:
+        root = Path(source_root) if source_root is not None else self.source_root
         found: dict[str, dict[str, object]] = {}
         identities: set[str] = set()
-        for path in sorted(self.source_root.rglob("*.java")):
+        for path in sorted(root.rglob("*.java")):
             text = path.read_text(encoding="utf-8")
-            rel = path.relative_to(self.source_root).as_posix()
+            rel = path.relative_to(root).as_posix()
             identity = _DEPS.source_identity(path, text)
             if identity in identities:
                 raise ValueError(f"duplicate source identity: {identity}")
@@ -167,18 +168,25 @@ class IncrementalCompiler:
         by_identity = {str(row["identity"]): str(row["text"]) for row in sources.values()}
         return _DEPS.build_dependency_index(by_identity)
 
-    def seed_from_dev_base(self, dev_base_jar: Path) -> dict[str, object]:
-        """Seed incremental hashes/ABI/dependencies from an already-relocated Dev Base.
+    def seed_from_dev_base(
+        self,
+        dev_base_jar: Path,
+        *,
+        baseline_source_root: Path | None = None,
+    ) -> dict[str, object]:
+        """Seed hashes/ABI/dependencies from the source authority backing Dev Base.
 
         No application source is compiled and no overlay class directory is created.
-        Every semantic source must have a matching class family in the Dev Base JAR.
+        When ``baseline_source_root`` is supplied, state is calculated from that
+        pinned authority instead of the possibly edited working source tree.
+        Every baseline source must have a matching class family in the Dev Base JAR.
         """
         dev_base = Path(dev_base_jar)
         if not dev_base.is_file():
             raise FileNotFoundError(dev_base)
-        sources = self._scan_sources()
+        sources = self._scan_sources(baseline_source_root)
         if not sources:
-            raise ValueError("no Java sources under source_root")
+            raise ValueError("no Java sources under baseline source root")
 
         with zipfile.ZipFile(dev_base, "r") as archive:
             class_entries = sorted(
