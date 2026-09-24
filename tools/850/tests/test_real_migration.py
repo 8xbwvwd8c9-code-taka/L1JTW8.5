@@ -41,6 +41,19 @@ class RealMigrationContracts(unittest.TestCase):
         self.assertEqual(len({e.recovered_internal for e in entries}), 788)
         self.assertEqual(len({e.dev_internal for e in entries}), 788)
 
+    def test_full_runtime_mapping_covers_all_1109_application_classes(self):
+        mod = load_module()
+        rules = json.loads(RULES_PATH.read_text(encoding="utf-8"))
+        rows = namespace_rows()
+        entries = mod.build_package_map_from_namespace(rows, rules)
+        full_map = mod.build_class_map_from_namespace(rows, entries)
+        state = json.loads(STATE_PATH.read_text(encoding="utf-8"))
+        self.assertEqual(len(full_map), state["application_class_mappings"])
+        self.assertEqual(len(full_map), 1109)
+        self.assertEqual(len(set(full_map.values())), 1109)
+        self.assertEqual(full_map["ai/c$a"], "l1j/server/GameServer$L1R_a")
+        self.assertEqual(full_map["bj/d$a"], "l1j/server/network/ClientThread$L1R_a")
+
     def test_every_authoritative_normalized_source_is_represented_once(self):
         mod = load_module()
         rules = json.loads(RULES_PATH.read_text(encoding="utf-8"))
