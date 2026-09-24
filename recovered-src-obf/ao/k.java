@@ -129,10 +129,19 @@ public class k {
             return;
         }
         a gift = this.c.get(pc.fr());
-        if (index < gift.b.length && gift.b[index] == 0) {
-            gift.b[index] = 1;
-            this.b(gift);
-            this.b(pc, index);
+        if (index >= 0 && index < gift.b.length) {
+            synchronized (gift) {
+                if (gift.b[index] != 0) {
+                    return;
+                }
+                byte[] next = gift.b.clone();
+                next[index] = 1;
+                if (!this.b(gift, next)) {
+                    return;
+                }
+                gift.b = next;
+                this.b(pc, index);
+            }
         }
     }
 
@@ -169,29 +178,22 @@ public class k {
         }
     }
 
-    private void b(a gift) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("UPDATE character_gift SET  data=? WHERE objid=" + gift.a);
-                    pstm.setBytes(1, gift.b);
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+    private boolean b(a gift, byte[] next) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE character_gift SET data=? WHERE objid=? AND data=?");
+            pstm.setBytes(1, next);
+            pstm.setInt(2, gift.a);
+            pstm.setBytes(3, gift.b);
+            return pstm.executeUpdate() == 1;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
         }

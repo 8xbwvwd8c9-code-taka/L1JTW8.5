@@ -115,10 +115,21 @@ public class CharacterGiftTable {
          System.out.println("CharacterGiftTable has some error , ID=" + var1.fr());
       } else {
          CharacterGiftTable.L1R_a var3 = this.c.get(var1.fr());
-         if (var2 < var3.b.length && var3.b[var2] == 0) {
-            var3.b[var2] = 1;
-            this.b(var3);
-            this.b(var1, var2);
+         if (var2 >= 0 && var2 < var3.b.length) {
+            synchronized (var3) {
+               if (var3.b[var2] != 0) {
+                  return;
+               }
+
+               byte[] var4 = var3.b.clone();
+               var4[var2] = 1;
+               if (!this.b(var3, var4)) {
+                  return;
+               }
+
+               var3.b = var4;
+               this.b(var1, var2);
+            }
          }
       }
    }
@@ -144,20 +155,23 @@ public class CharacterGiftTable {
       }
    }
 
-   private void b(CharacterGiftTable.L1R_a var1) {
-      Connection var2 = null;
-      PreparedStatement var3 = null;
+   private boolean b(CharacterGiftTable.L1R_a var1, byte[] var2) {
+      Connection var3 = null;
+      PreparedStatement var4 = null;
 
       try {
-         var2 = DatabaseFactory.a().b();
-         var3 = var2.prepareStatement("UPDATE character_gift SET  data=? WHERE objid=" + var1.a);
-         var3.setBytes(1, var1.b);
-         var3.execute();
-      } catch (SQLException var8) {
-         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         var3 = DatabaseFactory.a().b();
+         var4 = var3.prepareStatement("UPDATE character_gift SET data=? WHERE objid=? AND data=?");
+         var4.setBytes(1, var2);
+         var4.setInt(2, var1.a);
+         var4.setBytes(3, var1.b);
+         return var4.executeUpdate() == 1;
+      } catch (SQLException var9) {
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         return false;
       } finally {
+         SQLUtil.a(var4);
          SQLUtil.a(var3);
-         SQLUtil.a(var2);
       }
    }
 
