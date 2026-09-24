@@ -18,15 +18,17 @@ if (-not $SkipSetup -or -not (Test-Path -LiteralPath $venvPython)) {
 }
 if (-not (Test-Path -LiteralPath $venvPython)) { throw "Decoder Python missing after setup: $venvPython" }
 
-$version = (& $venvPython -c "import capstone; print(capstone.__version__)" | Select-Object -Last 1).Trim()
-if ($version -ne '5.0.9') { throw "Unexpected Capstone version: $version" }
+$packageVersion = (& $venvPython -c "import importlib.metadata as m; print(m.version('capstone'))" | Select-Object -Last 1).Trim()
+if ($packageVersion -ne '5.0.9') { throw "Unexpected Capstone package version: $packageVersion" }
+$bindingVersion = (& $venvPython -c "import capstone; print(getattr(capstone,'__version__','UNKNOWN'))" | Select-Object -Last 1).Trim()
 
 & $venvPython $script --input $InputPath --output $OutputPath
 if ($LASTEXITCODE -ne 0) { throw "Capstone decoder failed: exit=$LASTEXITCODE" }
 if (-not (Test-Path -LiteralPath $OutputPath)) { throw "Decoder output missing: $OutputPath" }
 
 Write-Host 'STATUS=PASS_CAPSTONE_DECODER_EXECUTED'
-Write-Host "CAPSTONE_VERSION=$version"
+Write-Host "CAPSTONE_PACKAGE_VERSION=$packageVersion"
+Write-Host "CAPSTONE_BINDING_VERSION=$bindingVersion"
 Write-Host "OUTPUT=$OutputPath"
 Write-Host 'RUNTIME_TARGET_ATTACH=NO'
 Write-Host 'MEMORY_WRITE_TO_GAME=NO'
