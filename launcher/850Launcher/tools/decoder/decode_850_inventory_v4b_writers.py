@@ -65,7 +65,7 @@ def parse_refs(lines):
     return refs
 
 
-def absolute_mem_target(md, op):
+def absolute_mem_target(op):
     if op.type != X86_OP_MEM:
         return None
     mem = op.mem
@@ -74,57 +74,98 @@ def absolute_mem_target(md, op):
     return int(mem.disp) & 0xFFFFFFFF
 
 
-def decode_ref(md, module_base, root_va, ref):
-    # V4B emits 48 bytes starting exactly 16 bytes before the 4-byte absolute-address literal.
-    context_start = (module_base + ref.literal_rva - 16) & 0xFFFFFFFF
-    literal_va = (module_base + ref.literal_rva) & 0xFFFFFFFF
-    instructions = list(md.disasm(ref.code, context_start))
-
-    writer = None
-    writer_index = None
-    for idx, insn in enumerate(instructions):
-        if not (insn.address <= literal_va < insn.address + insn.size):
-            continue
-        for op in insn.operands:
-            access = getattr(op, "access", 0)
-            if op.type == X86_OP_MEM and (access & CS_AC_WRITE):
-                target = absolute_mem_target(md, op)
-                if target == root_va:
-                    writer = insn
-                    writer_index = idx
-                    break
-        if writer is not None:
-            break
-
-    result = {
-        "writer": writer,
-        "writer_index": writer_index,
-        "instructions": instructions,
-        "context_start": context_start,
-        "literal_va": literal_va,
-        "source": "UNKNOWN",
-        "class": "UNRESOLVED",
-    }
-    if writer is None:
-        return result
-
-    # Classify the value source of common x86 MOV stores.
+def classify_writer(md, writer):
+    source = "UNKNOWN"
+    writer_class = "TARGET_WRITE_OTHER"
     if writer.mnemonic == "mov" and len(writer.operands) >= 2:
         src = writer.operands[1]
         if src.type == X86_OP_IMM:
             value = int(src.imm) & 0xFFFFFFFF
-            result["source"] = f"IMM32:0x{value:08X}"
-            result["class"] = "ZERO_CLEAR" if value == 0 else "NONZERO_IMMEDIATE_ASSIGNMENT"
+            source = f"IMM32:0x{value:08X}"
+            writer_class = "ZERO_CLEAR" if value == 0 else "NONZERO_IMMEDIATE_ASSIGNMENT"
         elif src.type == X86_OP_REG:
             reg = md.reg_name(src.reg).upper()
-            result["source"] = f"REG:{reg}"
-            result["class"] = "REGISTER_ASSIGNMENT"
+            source = f"REG:{reg}"
+            writer_class = "REGISTER_ASSIGNMENT"
         else:
-            result["source"] = "OTHER"
-            result["class"] = "OTHER_ASSIGNMENT"
-    else:
-        result["class"] = "TARGET_WRITE_OTHER"
-    return result
+            source = "OTHER"
+            writer_class = "OTHER_ASSIGNMENT"
+    return writer_class, source
+
+
+def decode_ref(md, module_base, root_va, ref):
+    # V4B emits 48 bytes starting exactly 16 bytes before the 4-byte absolute-address literal.
+    # That start may be in the middle of an x86 instruction. Try every possible instruction
+    # boundary in the preceding 15 bytes and keep only instructions which both cover the
+    # literal and write an absolute memory operand to ROOT_GLOBAL_VA.
+    context_start = (module_base + ref.literal_rva - 16) & 0xFFFFFFFF
+    literal_va = (module_base + ref.literal_rva) & 0xFFFFFFFF
+    literal_off = literal_va - context_start
+
+    aligned_candidates = []
+    target_candidates = []
+    lo = max(0, literal_off - 15)
+    hi = min(len(ref.code), literal_off + 1)
+
+    for start_off in range(lo, hi):
+        start_va = context_start + start_off
+        decoded = list(md.disasm(ref.code[start_off:], start_va, count=1))
+        if len(decoded) != 1:
+            continue
+        insn = decoded[0]
+        insn_end = insn.address + insn.size
+        if not (insn.address <= literal_va < insn_end):
+            continue
+        aligned_candidates.append(insn)
+
+        writes_target = False
+        for op in insn.operands:
+            access = getattr(op, "access", 0)
+            if op.type != X86_OP_MEM or not (access & CS_AC_WRITE):
+                continue
+            if absolute_mem_target(op) == root_va:
+                writes_target = True
+                break
+        if writes_target:
+            target_candidates.append(insn)
+
+    writer = target_candidates[0] if len(target_candidates) == 1 else None
+    writer_class = "UNRESOLVED"
+    source = "UNKNOWN"
+    if writer is not None:
+        writer_class, source = classify_writer(md, writer)
+
+    # Build context from the chosen instruction boundary only; do not trust arbitrary-window
+    # linear disassembly for promotion. This context is diagnostic, not authority.
+    context_instructions = []
+    writer_index = None
+    if writer is not None:
+        writer_off = writer.address - context_start
+        prefix_start = max(0, writer_off - 20)
+        for candidate_start in range(prefix_start, writer_off + 1):
+            seq = list(md.disasm(ref.code[candidate_start:], context_start + candidate_start))
+            for idx, insn in enumerate(seq):
+                if insn.address == writer.address and insn.size == writer.size:
+                    context_instructions = seq
+                    writer_index = idx
+                    break
+            if writer_index is not None:
+                break
+        if writer_index is None:
+            context_instructions = [writer]
+            writer_index = 0
+
+    return {
+        "writer": writer,
+        "writer_index": writer_index,
+        "instructions": context_instructions,
+        "context_start": context_start,
+        "literal_va": literal_va,
+        "source": source,
+        "class": writer_class,
+        "aligned_candidates": aligned_candidates,
+        "target_candidates": target_candidates,
+    }
 
 
 def fmt_insn(insn):
@@ -199,10 +240,11 @@ def main():
         writer = d["writer"]
         out.append(
             f"WRITER N={n} REF_RVA=0x{ref.literal_rva:08X} KIND={ref.kind} "
-            f"FUNC_START_RVA={ref.func_start_rva} CLASS={d['class']} SOURCE={d['source']}"
+            f"FUNC_START_RVA={ref.func_start_rva} CLASS={d['class']} SOURCE={d['source']} "
+            f"ALIGNED_CANDIDATES={len(d['aligned_candidates'])} TARGET_CANDIDATES={len(d['target_candidates'])}"
         )
         if writer is None:
-            out.append("  STATUS=NO_DECODER_ALIGNED_TARGET_WRITER")
+            out.append("  STATUS=NO_UNIQUE_DECODER_ALIGNED_TARGET_WRITER")
             continue
         writer_rva = (writer.address - module_base) & 0xFFFFFFFF
         post_rva = (writer.address + writer.size - module_base) & 0xFFFFFFFF
@@ -211,13 +253,14 @@ def main():
             f"ASM={writer.mnemonic} {writer.op_str} BYTES={bytes(writer.bytes).hex(' ').upper()}"
         )
         idx = d["writer_index"]
-        lo = max(0, idx - 5)
-        hi = min(len(d["instructions"]), idx + 4)
-        out.append("  CONTEXT_BEGIN")
-        for i in range(lo, hi):
-            prefix = ">" if i == idx else " "
-            out.append(f"  {prefix} {fmt_insn(d['instructions'][i])}")
-        out.append("  CONTEXT_END")
+        if idx is not None:
+            lo = max(0, idx - 5)
+            hi = min(len(d["instructions"]), idx + 4)
+            out.append("  CONTEXT_BEGIN")
+            for i in range(lo, hi):
+                prefix = ">" if i == idx else " "
+                out.append(f"  {prefix} {fmt_insn(d['instructions'][i])}")
+            out.append("  CONTEXT_END")
 
     out.append("")
     out.append("[SUMMARY]")
@@ -246,7 +289,7 @@ def main():
         next_step = "Need a decoder-aligned construction assignment to the same global; do not broaden memory scanning."
     else:
         status = "STATIC_OWNER_LIFECYCLE_NOT_YET"
-        next_step = "Inspect only the decoded target writer contexts; do not rerun broad scans."
+        next_step = "Inspect only the decoder-aligned target writer contexts; do not rerun broad scans."
 
     out.append(f"STATUS={status}")
     out.append("OWNER_PROMOTION=NOT_YET")
