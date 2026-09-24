@@ -90,12 +90,16 @@ def _ensure_baseline(root: Path) -> None:
 
 
 def sync_completed(root: Path) -> dict[str, object]:
-    """Refresh formally completed repairs without compiling working sources."""
+    """Refresh formally completed repairs and safely merge them into working core."""
     bootstrap = _load_module(
         Path(root) / "tools" / "850" / "bootstrap" / "ensure_dev.py",
         "fast_dev_completed_sync",
     )
-    return bootstrap.ensure_fast_dev(Path(root), fetch_latest=True)
+    return bootstrap.ensure_fast_dev(
+        Path(root),
+        fetch_latest=True,
+        sync_working_core=True,
+    )
 
 
 def _compiler(root: Path):
