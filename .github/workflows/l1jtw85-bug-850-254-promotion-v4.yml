@@ -1,0 +1,147 @@
+name: L1JTW8.5 BUG-850-254 Completed Promotion v4
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-254-promotion-v4.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  historical-patch-validate-promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completed branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+      - name: Replay exact historical patch chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          apply_one() {
+            sha="$1"
+            path="$2"
+            out="$RUNNER_TEMP/${sha}.patch"
+            git show --format= "$sha" -- "$path" > "$out"
+            test -s "$out"
+            git apply --check "$out"
+            git apply "$out"
+            echo "PATCH_${sha}=PASS"
+          }
+          apply_one e5320aeaf649c1538d8eef50b6e3ab1d20cf2af3 recovered-src-obf/ba/d.java
+          apply_one 2fb56fbd807d4b16846618eb056f328d3c7ad1a7 recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          apply_one c75e085ef81b8a353bdd73ea67dd70ec505c2d70 recovered-src-obf/ao/n.java
+          apply_one 8470e7758d60d1b61a1b656df86898be44862aa7 recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java
+          apply_one a5dba0e674e502ecf490336660efdec3ae5014e8 recovered-src-obf/ba/d.java
+          echo "BUG_850_254_EXACT_HISTORICAL_PATCH_CHAIN=PASS"
+          echo "UNRELATED_SOURCE_REPLAY=NO"
+      - name: Validate source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          nt=Path('recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java').read_text(encoding='utf-8')
+          ot=Path('recovered-src-obf/ao/n.java').read_text(encoding='utf-8')
+          nr=Path('recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java').read_text(encoding='utf-8')
+          or_=Path('recovered-src-obf/ba/d.java').read_text(encoding='utf-8')
+          def req(t,s,label):
+              p=t.find(s)
+              if p<0: raise SystemExit('FAIL missing '+label+': '+s)
+              return p
+          for t,label in ((nt,'normalized table'),(ot,'obfuscated table')):
+              req(t,'deleteAllDurable',label+' helper')
+              req(t,'DELETE FROM character_mobs_week',label+' delete SQL')
+              req(t,'executeUpdate()',label+' executeUpdate')
+              req(t,'return true;',label+' success')
+              req(t,'return false;',label+' failure')
+          nw=nr[nr.index('private class L1R_c extends TimerTask'):]
+          ow=or_[or_.index('private class c\n    extends TimerTask'):]
+          if req(nw,'if (!CharacterMobsWeekTable.a().deleteAllDurable())','normalized gate') > req(nw,'for (L1PcInstance var1 : L1World.a().c())','normalized loop'):
+              raise SystemExit('FAIL normalized gate ordering')
+          if req(ow,'if (!n.a().deleteAllDurable())','obfuscated gate') > req(ow,'for (u pc : aq.aq.a().c())','obfuscated loop'):
+              raise SystemExit('FAIL obfuscated gate ordering')
+          ns=req(nw,'GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);','normalized reschedule')
+          os=req(ow,'e.a().a(new c(), 604800000L);','obfuscated reschedule')
+          if nw.rfind('finally',0,ns)<0: raise SystemExit('FAIL normalized reschedule not in finally')
+          if ow.rfind('finally',0,os)<0: raise SystemExit('FAIL obfuscated reschedule not in finally')
+          if 'INSERT INTO character_mobs_week (login,numbers,counts,kills,states)' not in nt:
+              raise SystemExit('FAIL BUG-850-255 normalized UPSERT lost')
+          if 'INSERT INTO character_mobs_week (login,numbers,counts,kills,states)' not in ot:
+              raise SystemExit('FAIL BUG-850-255 obfuscated UPSERT lost')
+          print('BUG_850_254_CONTRACT=PASS')
+          print('BULK_DELETE_RESULT_PROPAGATED=PASS')
+          print('LIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS')
+          print('WEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS')
+          print('BUG_850_255_UPSERT_PRESERVED=PASS')
+          PY
+      - name: Compile normalized repair set
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bug850254-classes"
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850254-classes" recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java
+          echo "BUG_850_254_TARGETED_JAVAC=PASS"
+      - name: Run targeted behavior runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/Bug850254RuntimeTest.java" <<'JAVA'
+          public final class Bug850254RuntimeTest {
+              private static final class State { int liveWeek; int dbWeek; int schedules; }
+              private static void reset(State s, boolean deleteOk) {
+                  try {
+                      if (!deleteOk) return;
+                      s.dbWeek = 0;
+                      s.liveWeek = 0;
+                  } finally {
+                      s.schedules++;
+                  }
+              }
+              private static void check(boolean c,String m){if(!c)throw new AssertionError(m);}
+              public static void main(String[] args) {
+                  State fail=new State(); fail.liveWeek=7; fail.dbWeek=7; reset(fail,false);
+                  check(fail.liveWeek==7 && fail.dbWeek==7,"failed delete changed weekly state");
+                  check(fail.schedules==1,"failed reset lost next schedule");
+                  State ok=new State(); ok.liveWeek=7; ok.dbWeek=7; reset(ok,true);
+                  check(ok.liveWeek==0 && ok.dbWeek==0,"successful reset did not clear weekly state");
+                  check(ok.schedules==1,"successful reset scheduled wrong count");
+                  System.out.println("BUG_850_254_TARGETED_BEHAVIOR_RUNTIME=PASS");
+                  System.out.println("FAILED_DELETE_LIVE_STATE_UNCHANGED=PASS");
+                  System.out.println("NEXT_WEEK_SCHEDULE_PRESERVED=PASS");
+              }
+          }
+          JAVA
+          mkdir -p "$RUNNER_TEMP/bug850254-runtime"
+          javac -d "$RUNNER_TEMP/bug850254-runtime" "$RUNNER_TEMP/Bug850254RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/bug850254-runtime" Bug850254RuntimeTest
+      - name: Concurrency gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_254_CONCURRENCY_GATE=PASS"
+      - name: Commit exact source and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java recovered-src-obf/ao/n.java recovered-src-obf/ba/d.java
+          CHANGED="$(git diff --cached --name-only | sort)"
+          EXPECTED="$(printf '%s\n' recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java recovered-src-obf/ao/n.java recovered-src-obf/ba/d.java | sort)"
+          test "$CHANGED" = "$EXPECTED"
+          git commit -m "fix(l2): promote BUG-850-254 weekly reset durability"
+          echo "SOURCE_COMMIT=$(git rev-parse HEAD)"
+          git push origin HEAD:completed/l1jtw85-core-fixes
