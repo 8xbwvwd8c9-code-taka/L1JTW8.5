@@ -23,6 +23,7 @@ import l1r.ao.ExpTable;
 import l1r.ao.ItemTable;
 import l1r.ao.LuckyDrawTable;
 import l1r.ao.RankingTable;
+import l1r.ao.QuestNewTable;
 import l1r.ap.L1ItemInstance;
 import l1r.ap.L1NpcInstance;
 import l1r.ap.L1PcInstance;
@@ -104,9 +105,10 @@ public class C_ProtoBuffers extends ClientBasePacket {
             PBMessageALL.L1R_a var91 = PBMessageALL.L1R_a.a(var67);
             int var114 = var91.p();
             L1QuestNew var132 = var4.dS().get(var114);
-            if (var132 != null && !var132.w()) {
+            if (var132 != null && !var132.w() && var132.x()) {
+               int var147 = -1;
                if (var91.q()) {
-                  int var147 = var91.r();
+                  var147 = var91.r();
                   if (var132.i() == null
                      || var132.j() == null
                      || var132.k() == null
@@ -119,26 +121,9 @@ public class C_ProtoBuffers extends ClientBasePacket {
                   }
                }
 
-               for (int var146 = 0; var146 < var132.f().length; var146++) {
-                  ItemTable.a(var4, var132.f()[var146], var132.g()[var146], var132.h()[var146]);
-               }
-
-               if (var91.q()) {
-                  int var147 = var91.r();
-                  ItemTable.a(var4, var132.i()[var147], var132.j()[var147], var132.k()[var147]);
-               }
-
-               if (var132.l() > 0) {
-                  double var148 = ExpTable.d(var4.ev());
-                  var4.x((int)(var132.l() * var148));
-               }
-
-               var132.a(true);
-               var4.a(new S_ProtoBuffers(525, var114));
-               if (var132.r().length > 0 && var132.o()) {
-                  for (int var149 = 0; var149 < var132.r().length; var149++) {
-                     var4.j().b(var132.r()[var149], var132.t()[var149], var132.s()[var149], 3);
-                  }
+               if (!QuestNewTable.a().claimReward(var4, var132, var147)) {
+                  var4.a(new S_ServerMessage(79));
+                  return;
                }
             }
          } else if (var3 == 527) {

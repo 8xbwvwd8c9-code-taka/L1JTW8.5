@@ -507,6 +507,58 @@ extends f {
         }
     }
 
+    public synchronized void publishCommittedQuestInsert(q item) {
+        item.q();
+        this.a.add(item);
+        aq.a().a(item);
+        for (s qn : this.i.dS().values()) {
+            int i2 = 0;
+            while (i2 < qn.r().length) {
+                if (qn.r()[i2] == item.N() && qn.t()[i2] <= item.G()) {
+                    qn.a(i2, item.E());
+                }
+                ++i2;
+            }
+        }
+        this.i.a(new c(item));
+        if (item.N() == 640100 || item.N() == 640102) {
+            this.i.ae();
+        }
+        if (item.a().l() != 0) {
+            this.i.a(new dc(485, this.i));
+        }
+    }
+
+    public synchronized void publishCommittedQuestUpdate(q item, int newCount) {
+        item.e(newCount);
+        item.a[0] = newCount;
+        this.b(item);
+    }
+
+    public synchronized void publishCommittedQuestDelete(q item) {
+        if (item.D()) {
+            this.a(item, false);
+        }
+        if (item.a().l() != 0) {
+            this.i.a(new dc(485, this.i));
+        }
+        this.i.a(new ag(item));
+        this.a.remove(item);
+        aq.a().b(item);
+        if (item.N() == 640100) {
+            this.i.bz(25005);
+        }
+        for (s qn : this.i.dS().values()) {
+            int i2 = 0;
+            while (i2 < qn.r().length) {
+                if (qn.r()[i2] == item.N() && qn.t()[i2] <= item.G()) {
+                    qn.a(i2, Math.max(0, qn.B()[i2] - item.E()));
+                }
+                ++i2;
+            }
+        }
+    }
+
     @Override
     public void c(q item) {
         if (item.D()) {

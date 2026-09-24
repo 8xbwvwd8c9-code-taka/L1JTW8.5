@@ -16,6 +16,7 @@ import an.f;
 import ao.ah;
 import ao.al;
 import ao.ba;
+import ao.az;
 import ao.j;
 import ao.m;
 import ao.w;
@@ -110,35 +111,22 @@ extends cv {
                     a.a msg = a.a.a(data);
                     int questID = msg.p();
                     bh.s qn = pc.dS().get(questID);
-                    if (qn != null && !qn.w()) {
+                    if (qn != null && !qn.w() && qn.x()) {
+                        int selectedIndex = -1;
                         if (msg.q()) {
-                            int idx = msg.r();
-                            if (qn.i() == null || qn.j() == null || qn.k() == null || idx < 0 || idx >= qn.i().length || idx >= qn.j().length || idx >= qn.k().length) {
+                            selectedIndex = msg.r();
+                            if (qn.i() == null || qn.j() == null || qn.k() == null
+                                    || selectedIndex < 0
+                                    || selectedIndex >= qn.i().length
+                                    || selectedIndex >= qn.j().length
+                                    || selectedIndex >= qn.k().length) {
                                 pc.a(new ds(79));
                                 return;
                             }
                         }
-                        int i2 = 0;
-                        while (i2 < qn.f().length) {
-                            ah.a(pc, qn.f()[i2], qn.g()[i2], qn.h()[i2]);
-                            ++i2;
-                        }
-                        if (msg.q()) {
-                            int idx = msg.r();
-                            ah.a(pc, qn.i()[idx], qn.j()[idx], qn.k()[idx]);
-                        }
-                        if (qn.l() > 0) {
-                            double exppenalty = w.d(pc.ev());
-                            pc.x((int)((double)qn.l() * exppenalty));
-                        }
-                        qn.a(true);
-                        pc.a(new dc(525, questID));
-                        if (qn.r().length > 0 && qn.o()) {
-                            i = 0;
-                            while (i < qn.r().length) {
-                                pc.j().b(qn.r()[i], qn.t()[i], qn.s()[i], 3);
-                                ++i;
-                            }
+                        if (!az.a().claimReward(pc, qn, selectedIndex)) {
+                            pc.a(new ds(79));
+                            return;
                         }
                     }
                     break block139;

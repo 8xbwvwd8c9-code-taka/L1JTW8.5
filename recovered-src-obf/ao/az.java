@@ -9,13 +9,17 @@ import an.g;
 import ap.q;
 import ap.u;
 import be.dc;
+import be.ds;
 import bh.s;
 import bi.j;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import l1j.server.b;
@@ -220,31 +224,360 @@ public class az {
     }
 
     public void c(u pc) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
+        synchronized (pc.dS()) {
+            block5: {
+                Connection con = null;
+                PreparedStatement pstm = null;
                 try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
-                    pstm.setBytes(2, this.f(pc));
-                    pstm.setInt(1, pc.fr());
-                    pstm.execute();
+                    try {
+                        con = l1j.server.b.a().b();
+                        pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");
+                        pstm.setBytes(2, this.f(pc));
+                        pstm.setInt(1, pc.fr());
+                        pstm.execute();
+                    }
+                    catch (SQLException e2) {
+                        a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                        j.a(pstm);
+                        j.a(con);
+                        break block5;
+                    }
                 }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                catch (Throwable throwable) {
                     j.a(pstm);
                     j.a(con);
-                    break block5;
+                    throw throwable;
                 }
-            }
-            catch (Throwable throwable) {
                 j.a(pstm);
                 j.a(con);
-                throw throwable;
             }
-            j.a(pstm);
-            j.a(con);
+        }
+    }
+
+    public boolean claimReward(u pc, s qn, int selectedIndex) {
+        if (pc == null || qn == null) {
+            return false;
+        }
+        synchronized (qn) {
+            synchronized (pc) {
+                synchronized (pc.dS()) {
+                    synchronized (pc.j()) {
+                    if (qn.w() || !qn.x()) {
+                        return false;
+                    }
+                    QuestRewardPlan plan = this.buildQuestRewardPlan(pc, qn, selectedIndex);
+                    if (plan == null) {
+                        return false;
+                    }
+                    int expGain = 0;
+                    if (qn.l() > 0) {
+                        double expPenalty = w.d(pc.ev());
+                        expGain = (int)((double)qn.l() * expPenalty);
+                        if (expGain < 0) {
+                            return false;
+                        }
+                    }
+                    int oldExp = pc.m();
+                    int newExp = (int)Math.min(1859065562L, (long)oldExp + (long)expGain);
+                    byte[] claimedData;
+                    qn.a(true);
+                    try {
+                        claimedData = this.f(pc);
+                    }
+                    catch (RuntimeException e2) {
+                        qn.a(false);
+                        throw e2;
+                    }
+
+                    Connection con = null;
+                    boolean oldAutoCommit = true;
+                    boolean committed = false;
+                    try {
+                        con = l1j.server.b.a().b();
+                        oldAutoCommit = con.getAutoCommit();
+                        this.requireInnoDb(con, "character_items");
+                        this.requireInnoDb(con, "character_quests_new");
+                        this.requireInnoDb(con, "characters");
+                        con.setAutoCommit(false);
+                        l storage = l.a();
+
+                        for (QuestItemMutation mutation : plan.existing.values()) {
+                            if (mutation.newCount == mutation.oldCount) {
+                                continue;
+                            }
+                            if (mutation.newCount < 0) {
+                                throw new SQLException("BUG-850-275 negative item count");
+                            }
+                            if (mutation.newCount == 0) {
+                                storage.deleteQuestRewardItem(con, pc.fr(), mutation.item, mutation.oldCount);
+                            } else {
+                                storage.updateQuestRewardCount(con, pc.fr(), mutation.item, mutation.oldCount, mutation.newCount);
+                            }
+                        }
+
+                        for (q item : plan.inserts) {
+                            storage.insertQuestReward(con, pc.fr(), item);
+                        }
+
+                        try (PreparedStatement pstm = con.prepareStatement(
+                                "UPDATE character_quests_new SET data=? WHERE objid=?")) {
+                            pstm.setBytes(1, claimedData);
+                            pstm.setInt(2, pc.fr());
+                            if (pstm.executeUpdate() != 1) {
+                                throw new SQLException("BUG-850-275 quest claimed persistence failed");
+                            }
+                        }
+
+                        if (expGain > 0) {
+                            try (PreparedStatement pstm = con.prepareStatement(
+                                    "UPDATE characters SET Exp=? WHERE objid=?")) {
+                                pstm.setInt(1, newExp);
+                                pstm.setInt(2, pc.fr());
+                                if (pstm.executeUpdate() != 1) {
+                                    throw new SQLException("BUG-850-275 EXP persistence failed");
+                                }
+                            }
+                        }
+
+                        con.commit();
+                        committed = true;
+                    }
+                    catch (Exception e3) {
+                        if (con != null) {
+                            try {
+                                con.rollback();
+                            }
+                            catch (SQLException rollbackError) {
+                                a.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                            }
+                        }
+                        a.log(Level.SEVERE, "BUG-850-275 quest reward transaction failed", e3);
+                    }
+                    finally {
+                        if (con != null) {
+                            try {
+                                con.setAutoCommit(oldAutoCommit);
+                            }
+                            catch (SQLException autoCommitError) {
+                                a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+                            }
+                        }
+                        j.a(con);
+                    }
+
+                    if (!committed) {
+                        qn.a(false);
+                        return false;
+                    }
+
+                    try {
+                        for (QuestItemMutation mutation : plan.existing.values()) {
+                            if (mutation.newCount == mutation.oldCount) {
+                                continue;
+                            }
+                            if (mutation.newCount == 0) {
+                                pc.j().publishCommittedQuestDelete(mutation.item);
+                            } else {
+                                pc.j().publishCommittedQuestUpdate(mutation.item, mutation.newCount);
+                            }
+                        }
+
+                        for (q item : plan.inserts) {
+                            pc.j().publishCommittedQuestInsert(item);
+                        }
+
+                        if (expGain > 0) {
+                            pc.k(newExp);
+                        }
+
+                        for (String notice : plan.notices) {
+                            pc.a(new ds(403, notice));
+                        }
+
+                        pc.a(new dc(525, qn.a()));
+                    }
+                    catch (RuntimeException publishError) {
+                        a.log(Level.SEVERE, "BUG-850-275 committed reward live publication failed; relog restores durable state", publishError);
+                    }
+
+                    return true;
+                    }
+                }
+            }
+        }
+    }
+
+    private QuestRewardPlan buildQuestRewardPlan(u pc, s qn, int selectedIndex) {
+        QuestRewardPlan plan = new QuestRewardPlan(pc.j().e());
+        if (selectedIndex < -1
+                || qn.f() == null
+                || qn.g() == null
+                || qn.h() == null
+                || qn.f().length != qn.g().length
+                || qn.f().length != qn.h().length) {
+            return null;
+        }
+        int i2 = 0;
+        while (i2 < qn.f().length) {
+            if (!this.addQuestReward(pc, plan, qn.f()[i2], qn.g()[i2], qn.h()[i2])) {
+                return null;
+            }
+            ++i2;
+        }
+
+        if (selectedIndex >= 0) {
+            if (qn.i() == null || qn.j() == null || qn.k() == null
+                    || selectedIndex >= qn.i().length
+                    || selectedIndex >= qn.j().length
+                    || selectedIndex >= qn.k().length
+                    || !this.addQuestReward(pc, plan, qn.i()[selectedIndex], qn.j()[selectedIndex], qn.k()[selectedIndex])) {
+                return null;
+            }
+        }
+
+        if (pc.j().c() + plan.newSlots > 180 || (double)plan.projectedWeight >= pc.K()) {
+            return null;
+        }
+
+        if (qn.r().length > 0 && qn.o()) {
+            if (qn.r().length != qn.s().length || qn.r().length != qn.t().length) {
+                return null;
+            }
+            int i3 = 0;
+            while (i3 < qn.r().length) {
+                if (!this.consumeQuestRequirement(pc, plan, qn.r()[i3], qn.t()[i3], qn.s()[i3])) {
+                    return null;
+                }
+                ++i3;
+            }
+        }
+
+        return plan;
+    }
+
+    private boolean addQuestReward(u pc, QuestRewardPlan plan, int itemId, int count, int enchant) {
+        if (count <= 0 || itemId == 40312 || itemId == 413 || itemId == 21446) {
+            return false;
+        }
+        bh.j itemTemplate = ah.a().a(itemId);
+        if (itemTemplate == null) {
+            return false;
+        }
+        q prototype = new q(itemTemplate, count);
+        prototype.a(enchant);
+        plan.notices.add(prototype.s());
+        plan.projectedWeight += (long)itemTemplate.l() * (long)count / 1000L + 1L;
+
+        if (itemTemplate.aF()) {
+            q existing = pc.j().d(itemId, prototype.F());
+            if (existing != null) {
+                QuestItemMutation mutation = plan.existing.get(existing.fr());
+                if (mutation == null) {
+                    mutation = new QuestItemMutation(existing);
+                    plan.existing.put(existing.fr(), mutation);
+                }
+                long newCount = (long)mutation.newCount + (long)count;
+                if (newCount > 2000000000L) {
+                    return false;
+                }
+                mutation.newCount = (int)newCount;
+                return true;
+            }
+
+            String stackKey = itemId + ":" + prototype.F();
+            q plannedStack = plan.newStacks.get(stackKey);
+            if (plannedStack != null) {
+                long newCount = (long)plannedStack.E() + (long)count;
+                if (newCount > 2000000000L) {
+                    return false;
+                }
+                plannedStack.e((int)newCount);
+                return true;
+            }
+            prototype.cF(ai.d.a().d());
+            plan.inserts.add(prototype);
+            plan.newStacks.put(stackKey, prototype);
+            ++plan.newSlots;
+            return true;
+        }
+
+        int i2 = 0;
+        while (i2 < count) {
+            q item = new q(itemTemplate, 1);
+            item.cF(ai.d.a().d());
+            item.a(enchant);
+            item.n();
+            plan.inserts.add(item);
+            ++plan.newSlots;
+            ++i2;
+        }
+        return true;
+    }
+
+    private boolean consumeQuestRequirement(u pc, QuestRewardPlan plan, int itemId, int enchant, int count) {
+        if (count <= 0) {
+            return false;
+        }
+        int remaining = count;
+        for (q item : pc.j().d()) {
+            if (item.D() || item.N() != itemId || item.G() != enchant) {
+                continue;
+            }
+            QuestItemMutation mutation = plan.existing.get(item.fr());
+            if (mutation == null) {
+                mutation = new QuestItemMutation(item);
+                plan.existing.put(item.fr(), mutation);
+            }
+            int available = Math.max(0, mutation.oldCount - mutation.consumed);
+            if (available <= 0) {
+                continue;
+            }
+            int take = item.d() ? Math.min(remaining, available) : 1;
+            mutation.consumed += take;
+            mutation.newCount -= take;
+            remaining -= take;
+            if (remaining == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private void requireInnoDb(Connection con, String table) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement(
+                "SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=?")) {
+            pstm.setString(1, table);
+            try (ResultSet rs = pstm.executeQuery()) {
+                if (!rs.next() || !"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-275 requires InnoDB table: " + table);
+                }
+            }
+        }
+    }
+
+    private static final class QuestRewardPlan {
+        private final LinkedHashMap<Integer, QuestItemMutation> existing = new LinkedHashMap<Integer, QuestItemMutation>();
+        private final List<q> inserts = new ArrayList<q>();
+        private final LinkedHashMap<String, q> newStacks = new LinkedHashMap<String, q>();
+        private final List<String> notices = new ArrayList<String>();
+        private int newSlots = 0;
+        private long projectedWeight;
+
+        private QuestRewardPlan(long weight) {
+            this.projectedWeight = weight;
+        }
+    }
+
+    private static final class QuestItemMutation {
+        private final q item;
+        private final int oldCount;
+        private int newCount;
+        private int consumed = 0;
+
+        private QuestItemMutation(q item) {
+            this.item = item;
+            this.oldCount = item.E();
+            this.newCount = this.oldCount;
         }
     }
 
