@@ -52,3 +52,19 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_real_migration.py
       - name: Run real core materialization contracts
         run: python -m unittest -v tools/850/tests/test_migrate_core.py
+      - name: Run real automatic bootstrap integration
+        shell: bash
+        run: |
+          set -euo pipefail
+          original_sha="$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')"
+          test "$original_sha" = "8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814"
+          rm -rf .build850 core
+          python tools/850/bootstrap/ensure_dev.py
+          test -f .build850/cache/850-dev-base.jar
+          test -f .build850/cache/850-dev-base.key.json
+          test -f .build850/state.json
+          test -f .build850/dependency-index.json
+          test -f core/PINNED_AUTHORITY.json
+          test "$(find core/src -type f -name '*.java' | wc -l)" -eq 788
+          python tools/850/fast_dev.py
+          test "$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')" = "$original_sha"
