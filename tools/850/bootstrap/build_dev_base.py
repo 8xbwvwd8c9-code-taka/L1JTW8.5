@@ -14,7 +14,7 @@ from typing import Mapping
 
 ROOT = Path(__file__).resolve().parents[3]
 TRANSFORMER_PATH = ROOT / "tools" / "production-rebuild" / "inverse_remap.py"
-SCHEMA_VERSION = "1"
+SCHEMA_VERSION = "2"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
@@ -183,41 +183,39 @@ def build_dev_base(
                     continue
 
                 source_internal = info.filename[:-6]
-                if source_internal in normalized_mapping:
-                    target_path = _target_class_path(source_internal, normalized_mapping)
-                    if target_path in seen_targets:
-                        raise ValueError(f"duplicate output class: {target_path}")
-                    if target_path in completed_classes:
-                        remapped = completed_classes[target_path]
-                    else:
-                        remapped = _TRANSFORMER.remap_class_bytes(data, normalized_mapping)
-                    actual = class_internal_name(remapped)
-                    expected = normalized_mapping[source_internal]
-                    if actual != expected:
-                        raise ValueError(f"relocated class identity mismatch: {actual} != {expected}")
-                    target_info = zipfile.ZipInfo(target_path, date_time=info.date_time)
-                    target_info.compress_type = info.compress_type
-                    target_info.external_attr = info.external_attr
-                    target_info.comment = info.comment
-                    target_info.extra = info.extra
-                    zout.writestr(target_info, remapped)
-                    seen_targets.add(target_path)
+                if _is_application_class(source_internal, roots):
+                    target_name = _target_class_path(source_internal, normalized_mapping)
+                    data = _TRANSFORMER.remap_class(data, normalized_mapping)
+                    actual_internal = class_internal_name(data)
+                    expected_internal = target_name[:-6]
+                    if actual_internal != expected_internal:
+                        raise ValueError(
+                            f"relocated class identity mismatch: {actual_internal} != {expected_internal}"
+                        )
                     relocated += 1
-                elif _is_application_class(source_internal, roots):
-                    raise KeyError(f"unmapped application class: {source_internal}")
                 else:
-                    zout.writestr(info, data)
+                    target_name = info.filename
                     preserved_classes += 1
 
-            missing_overlay = set(completed_classes) - seen_targets
-            if missing_overlay:
-                raise KeyError(
-                    "completed overlay target missing from original application JAR: "
-                    + ", ".join(sorted(missing_overlay))
-                )
+                if target_name in seen_targets:
+                    raise ValueError(f"duplicate JAR target entry: {target_name}")
+                seen_targets.add(target_name)
+                replacement = completed_classes.get(target_name)
+                if replacement is not None:
+                    data = replacement
+                target_info = zipfile.ZipInfo(target_name, date_time=info.date_time)
+                target_info.compress_type = info.compress_type
+                target_info.comment = info.comment
+                target_info.extra = info.extra
+                target_info.create_system = info.create_system
+                target_info.external_attr = info.external_attr
+                target_info.internal_attr = info.internal_attr
+                target_info.flag_bits = info.flag_bits
+                zout.writestr(target_info, data)
 
-        if sha256_file(original) != before_sha:
-            raise RuntimeError("original JAR changed during Fast Dev bootstrap")
+        after_sha = sha256_file(original)
+        if after_sha != before_sha:
+            raise RuntimeError("original production JAR changed while building Dev Base")
         os.replace(temp_path, output)
     finally:
         if temp_path.exists():
