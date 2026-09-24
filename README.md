@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-057 | L2 | DB-first inventory insert / fail-closed live publication | PASS / PROMOTED |
 | BUG-850-048 | L2 | LuckyDraw atomic pending consumption / reward persistence | PASS / PROMOTED |
 | BUG-850-049 | L2 | LuckyDraw reward publication requires durable pending consumption | PASS / PROMOTED / COVERED BY 048 |
 | BUG-850-039 | L2 | private-shop settlement fixed-slot bounds | PASS / PROMOTED |
@@ -3518,4 +3519,36 @@ MYSQL_5_7_ROLLBACK_GATE=PASS
 MYSQL_5_7_AFFECTED_ROW_GATE=PASS
 MYSQL_5_7_RETRY_GATE=PASS
 NORMALIZED_OBFUSCATED_PAIR=PASS
+```
+
+
+## BUG-850-057 — DB-first inventory insertion
+
+### Problem
+New/destination item paths could expose live/client state before `character_items` INSERT was authoritative.
+
+### Fix
+Persistence now succeeds before live-list insertion and client publication in both normalized and obfuscated ACTIVE forms. Creation failure removes its pre-registered world object; destination failure returns without destroying the shared transferred object. Existing later inventory hardening is preserved; only the proven invariant is ported.
+
+### DB / control evidence
+```text
+DB_TABLE=character_items
+DB_WRITER=CharacterItemTable.a(int,L1ItemInstance)
+INSERT_FAILURE=SQLException propagates into fail-closed helper
+CONFIG_CONTROL=NONE
+DEFAULT_FAIL_CLOSED=return null before live/client publication
+```
+
+### Validation
+```text
+RUN=36027811029
+RECORDED_REPAIR_COMMIT=00a34774678295030f7cbd39b9e3bcddec1c572b
+LATEST_COMPLETED_RED=PASS
+EXACT_CORE_SCOPE=2_FILES
+SOURCE_CONTRACT=PASS
+BOTH_FORMS_ORDERING=PASS
+DB_CONTROL_EVIDENCE=PASS
+JAVA8_NO_NEW_REGRESSION=PASS
+RUNTIME_FAILURE_MODEL=PASS
+PROMOTION_BASE=LATEST_COMPLETED_AT_RUN
 ```

@@ -153,6 +153,10 @@ public class L1PcInventory extends L1Inventory {
       }
 
       var1.n();
+      if (!this.l1rPersistNewItem(var1)) {
+         L1World.a().b(var1);
+         return null;
+      }
       this.a.add(var1);
       this.a(var1);
       return var1;
@@ -205,6 +209,9 @@ public class L1PcInventory extends L1Inventory {
          }
       }
 
+      if (!this.l1rPersistNewItem(var1)) {
+         return null;
+      }
       this.a.add(var1);
       this.a(var1);
       return var1;
@@ -306,10 +313,15 @@ public class L1PcInventory extends L1Inventory {
          this.i.a(new S_ProtoBuffers(485, this.i));
       }
 
+   }
+
+   private boolean l1rPersistNewItem(L1ItemInstance var1) {
       try {
          CharacterItemTable.a().a(this.i.fr(), var1);
-      } catch (Exception var5) {
-         g.log(Level.SEVERE, var5.getLocalizedMessage(), var5);
+         return true;
+      } catch (Exception var2) {
+         g.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
+         return false;
       }
    }
 

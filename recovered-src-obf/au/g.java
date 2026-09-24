@@ -154,6 +154,10 @@ extends f {
             item.j(item.a().T());
         }
         item.n();
+        if (!this.l1rPersistNewItem(item)) {
+            aq.a().b(item);
+            return null;
+        }
         this.a.add(item);
         this.a(item);
         if (!this.a.contains(item)) {
@@ -215,6 +219,9 @@ extends f {
                     return null;
                 }
             }
+        }
+        if (!this.l1rPersistNewItem(item)) {
+            return null;
         }
         this.a.add(item);
         this.a(item);
@@ -299,15 +306,6 @@ extends f {
 
     @Override
     public void a(q item) {
-        try {
-            ao.l.a().a(this.i.fr(), item);
-        }
-        catch (Exception e2) {
-            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            this.a.remove(item);
-            aq.a().b(item);
-            return;
-        }
         for (s qn : this.i.dS().values()) {
             int i2 = 0;
             while (i2 < qn.r().length) {
@@ -323,6 +321,17 @@ extends f {
         }
         if (item.a().l() != 0) {
             this.i.a(new dc(485, this.i));
+        }
+    }
+
+    private boolean l1rPersistNewItem(q item) {
+        try {
+            ao.l.a().a(this.i.fr(), item);
+            return true;
+        }
+        catch (Exception e2) {
+            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
         }
     }
 
