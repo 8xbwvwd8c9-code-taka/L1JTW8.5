@@ -31,12 +31,19 @@ jobs:
         shell: pwsh
         run: |
           python -m pip install --disable-pip-version-check -r launcher/850Launcher/tools/decoder/requirements.txt
-          python -c "import capstone; assert capstone.__version__ == '5.0.9', capstone.__version__; print('CAPSTONE_VERSION=' + capstone.__version__)"
+          python -c "import importlib.metadata as m; v=m.version('capstone'); assert v == '5.0.9', v; print('CAPSTONE_PACKAGE_VERSION=' + v)"
+          python -c "import capstone; print('CAPSTONE_BINDING_VERSION=' + getattr(capstone,'__version__','UNKNOWN'))"
 
       - name: Run Capstone semantic self-test
         shell: pwsh
         run: |
           python launcher/850Launcher/tools/decoder/selftest_capstone_decoder.py
+
+      - name: Parse Python decoder
+        shell: pwsh
+        run: |
+          python -m py_compile launcher/850Launcher/tools/decoder/decode_850_inventory_watch.py
+          python -m py_compile launcher/850Launcher/tools/decoder/selftest_capstone_decoder.py
 
       - name: Parse PowerShell tooling
         shell: pwsh
