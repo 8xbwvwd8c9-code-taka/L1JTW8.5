@@ -1,0 +1,50 @@
+name: L1JTW8.5 DB Import Compatibility
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-production-jar-rebuild
+    paths:
+      - '.github/workflows/l1jtw85-db-import-compat.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  db-import-compat:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Start MySQL 5.7
+        run: |
+          set -euo pipefail
+          docker run --name l1jtw85-mysql \
+            -e MYSQL_ROOT_PASSWORD=root \
+            -d mysql:5.7 \
+            --sql-mode=NO_ENGINE_SUBSTITUTION
+          for i in $(seq 1 60); do
+            if docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT 1' >/dev/null 2>&1; then
+              echo 'MYSQL_AUTH_READY=YES'
+              exit 0
+            fi
+            sleep 1
+          done
+          docker logs l1jtw85-mysql
+          exit 1
+
+      - name: Import legacy 8.5 dump
+        run: |
+          set -euo pipefail
+          docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT @@GLOBAL.sql_mode, @@SESSION.sql_mode;'
+          docker exec l1jtw85-mysql mysql -uroot -proot -e 'CREATE DATABASE `8.5` CHARACTER SET utf8 COLLATE utf8_general_ci;'
+          docker exec -i l1jtw85-mysql mysql -uroot -proot '8.5' < db/8.5.sql
+          TABLES="$(docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT COUNT(*) FROM information_schema.tables WHERE table_schema="8.5";')"
+          echo "DB_TABLES=$TABLES"
+          test "$TABLES" -gt 0
+
+      - name: Cleanup
+        if: always()
+        run: docker rm -f l1jtw85-mysql >/dev/null 2>&1 || true
