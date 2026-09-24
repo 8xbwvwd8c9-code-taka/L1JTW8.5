@@ -74,6 +74,7 @@ BUG
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 | BUG-850-249 | L2 | pet DB-first create/delete and atomic evolve replace | PASS / PROMOTED |
+| BUG-850-246 | L2 | character_buff transactional snapshot rewrite / InnoDB gate | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -3076,5 +3077,50 @@ Validation evidence: `recovery/BUG-850-249_VALIDATION_20260924.md`
 ```text
 BUG-850-249=L2
 STATUS=PASS_PROMOTED
+UNRELATED_SOURCE_REPLAY=NO
+```
+
+## BUG-850-246 — character buff snapshot rewrite could be partially persisted
+
+### Problem
+
+Saving a character buff snapshot deleted existing rows and then inserted replacements through independent autocommit statements. A failure after the delete or during any insert could leave only part of the durable buff snapshot.
+
+### Fix
+
+- require `character_buff` to use InnoDB before destructive work;
+- execute the per-character DELETE plus all replacement INSERTs inside one JDBC transaction;
+- require every INSERT to affect exactly one row;
+- rollback on any SQL/row-count failure and restore the prior auto-commit mode;
+- apply the same contract to normalized and obfuscated sources;
+- provide `db/migrations/BUG-850-246_character_buff_innodb.sql`.
+
+### Validation
+
+```text
+WORK_CI=35721934912
+COMPLETED_CI=35941243082
+SOURCE_COMMIT=af456f3f58fdb896639b87d94521422d3d2a0b92
+PATCH_CHAIN=6d8aab93,bb1d2932,ba3be853,5fd48930,0870ac82
+BUG_850_246_HISTORICAL_MANIFESTS=PASS
+BUG_850_246_EXACT_PATCH_CHAIN=PASS
+UNRELATED_SOURCE_REPLAY=NO
+BUG_850_246_CONTRACT=PASS
+ENGINE_GATE_BEFORE_DELETE=PASS
+BUFF_SNAPSHOT_TRANSACTION=PASS
+ROLLBACK_PRESENT=PASS
+BUG_850_246_TARGETED_JAVAC=PASS
+BUG_850_246_TARGETED_BEHAVIOR_RUNTIME=PASS
+BUG_850_246_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-246_VALIDATION_20260924.md`
+
+### Result
+
+```text
+BUG-850-246=L2
+STATUS=PASS_PROMOTED
+DB_MIGRATION_REQUIRED=YES
 UNRELATED_SOURCE_REPLAY=NO
 ```
