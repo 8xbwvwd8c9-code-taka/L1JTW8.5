@@ -47,6 +47,9 @@ jobs:
       - name: Run deployability policy contract tests
         run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_deployable_repairs.py' -v
 
+      - name: Run local production driver contract tests
+        run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_local_driver_contract.py' -v
+
       - name: Fetch pinned completed repair authority
         run: git fetch --no-tags --depth=1000 origin 3d4a392593d61c9203e3f22a154e752c2c51fa97
 
