@@ -37,6 +37,12 @@ class RealCoreMaterializationTests(unittest.TestCase):
             source_index = json.loads((output / "source-index.json").read_text(encoding="utf-8"))
             self.assertEqual(len(source_index), 788)
 
+            runtime_map = json.loads((output / "runtime-class-map.json").read_text(encoding="utf-8"))
+            self.assertEqual(len(runtime_map), 1109)
+            self.assertEqual(runtime_map["ai/c$a"], "l1j/server/GameServer$L1R_a")
+            self.assertEqual(runtime_map["bj/d$a"], "l1j/server/network/ClientThread$L1R_a")
+            self.assertEqual(result["runtime_class_count"], 1109)
+
     def test_known_sources_land_in_semantic_paths_with_semantic_packages(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
