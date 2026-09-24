@@ -8,7 +8,7 @@ Mode: `FAST_DEV`
 
 Turn L1JTW8.5 into a readable-source-first development project where normal core edits can be recompiled immediately without rerunning the full recovery / inverse-remap / production-JAR rebuild pipeline.
 
-The daily development experience should be close to the 880 workflow:
+Daily use should be close to 880:
 
 ```powershell
 .\build850.ps1
@@ -16,60 +16,97 @@ The daily development experience should be close to the 880 workflow:
 .\build850.ps1 -Watch
 ```
 
-The user should not need to work directly in `recovery/normalized-src-vf/...`, inspect obfuscated runtime paths, rebuild all 1109 recovered application classes for every change, or run production remapping during ordinary development.
+The developer should not need to work inside `recovery/normalized-src-vf/...`, inspect obfuscated runtime paths, rebuild all recovered application classes for every edit, or run production remapping during ordinary development.
 
-Obfuscation / release remapping is not part of the default development loop. It remains an optional future release step.
+Obfuscation/remap is a future release concern, not a development concern.
 
 ## 2. Non-goals
 
-- Do not overwrite the original `l1jserver2.jar`.
-- Do not delete historical recovery evidence.
-- Do not make `work/l1jtw85-core-fixes` an accepted runtime source.
-- Do not promote an in-progress BUG core into the active dev runtime before completed/PASS authority exists.
-- Do not require the 880 compiler implementation or assume 880 ABI/package layout equals 850.
-- Do not add obfuscation to the daily development path.
+- Never overwrite the original `l1jserver2.jar`.
+- Never delete historical recovery evidence.
+- Never make `work/l1jtw85-core-fixes` an accepted runtime source.
+- Never deploy an in-progress BUG core before completed/PASS authority exists.
+- Do not assume the 880 compiler implementation or ABI equals 850.
+- Do not add obfuscation to the default development loop.
 
 ## 3. Authority model
 
 ### 3.1 Development source authority
 
-The new readable development source tree is:
+After migration the only normal human-editing source root is:
 
 ```text
-core/
+core/src/
 ```
 
-`core/` becomes the only normal human-editing location after migration.
-
-Its initial contents are constructed from:
+It is constructed from:
 
 1. accepted recovered/decompiled 850 source baseline;
-2. latest validated source from `completed/l1jtw85-core-fixes` where a repair has been promoted;
-3. original/unrepaired recovered source for BUGs still pending or in repair.
+2. latest validated source from `completed/l1jtw85-core-fixes` where repairs are promoted;
+3. original/unrepaired recovered source for BUGs still pending/in repair.
 
-`work/l1jtw85-core-fixes` is never directly merged into `core/` simply because a file exists there. Work-branch changes remain quarantined until promotion.
+`work/l1jtw85-core-fixes` is quarantine only. A work-only change never becomes active dev source merely because it exists.
 
 ### 3.2 Recovery authority
 
-Existing recovery trees remain preserved under:
-
-```text
-recovery/
-```
-
-They become historical / bootstrap / evidence material rather than daily source roots.
+Existing `recovery/` content remains preserved as historical/bootstrap/evidence material. It is no longer a daily source root.
 
 ### 3.3 Original production authority
 
+`l1jserver2.jar` remains immutable and is used only as the original runtime/bootstrap/release authority.
+
+## 4. Semantic readable namespace
+
+Fast Dev removes the historical recovery namespace from the new working tree.
+
+The new source tree must use normal Java package-aligned paths so VS Code/Java Language Server works without package/path mismatch warnings.
+
+Target examples:
+
 ```text
-l1jserver2.jar
+core/src/l1j/server/clientpackets/C_NpcAction.java
+core/src/l1j/server/datatables/AccountTable.java
+core/src/l1j/server/datatables/CharacterTable.java
+core/src/l1j/server/model/L1Master.java
+core/src/l1j/server/model/instance/L1PetInstance.java
+core/src/l1j/server/model/item/FurnitureItem.java
+core/src/l1j/server/model/timer/CurrentTimeReseter.java
+core/src/l1j/server/model/timer/HomeTownTimer.java
+core/src/l1j/server/templates/L1BookMark.java
 ```
 
-remains immutable. Its known SHA-256 stays a safety authority for bootstrap and release verification.
+No `l1r/aj`, `l1r/ao`, or other recovery package path should remain as the canonical location under `core/src/` after migration.
 
-## 4. Simplified repository layout
+### 4.1 Package mapping
 
-Target layout:
+Migration creates an explicit complete map:
+
+```text
+core/package-map.csv
+```
+
+Logical columns:
+
+```text
+OriginalInternal
+RecoveredInternal
+DevInternal
+SourceFile
+Category
+```
+
+Example concept:
+
+```text
+aj/bk,l1r/aj/C_NpcAction,l1j/server/clientpackets/C_NpcAction,C_NpcAction.java,clientpackets
+ao/a,l1r/ao/AccountTable,l1j/server/datatables/AccountTable,AccountTable.java,datatables
+```
+
+Every accepted application class must map exactly once. No guessed silent fallback is allowed. Unknown classifications block migration until assigned a stable semantic package.
+
+The original<->recovered map plus recovered<->dev map preserves a deterministic route back to the original runtime namespace if a future release needs remap/obfuscation.
+
+## 5. Simplified repository layout
 
 ```text
 I:\L1JTW8.5
@@ -78,18 +115,11 @@ I:\L1JTW8.5
 ├─ build850.cmd
 │
 ├─ core\
-│  ├─ client\
-│  ├─ server\
-│  ├─ table\
-│  ├─ model\
-│  ├─ instance\
-│  ├─ item\
-│  ├─ npc\
-│  ├─ timer\
-│  ├─ world\
-│  ├─ system\
-│  ├─ util\
-│  └─ misc\
+│  ├─ src\l1j\server\...
+│  ├─ package-map.csv
+│  ├─ source-index.json
+│  ├─ repair-registry.json
+│  └─ repair-registry.md
 │
 ├─ tools\850\
 │  ├─ compiler\
@@ -113,44 +143,46 @@ I:\L1JTW8.5
 └─ l1jserver2.jar
 ```
 
-### 4.1 Physical source layout vs Java identity
+The top-level development surface is therefore only:
 
-Fast Dev must not require the historical obfuscated package directories to remain the user-facing file layout.
+```text
+core/
+build850.ps1
+.build850/
+dist/
+tools/850/
+```
 
-The migration tool maintains a source registry mapping physical readable paths to Java/internal identities. This permits semantic folders such as `core/table/AccountTable.java` while preserving compile-correct package declarations during the first migration stage.
+Recovery internals stay out of ordinary work.
 
-The compiler always receives an explicit source manifest, so Java source files do not need to be discovered by the old recovery directory hierarchy.
+## 6. Fast Dev runtime
 
-A later package-cleanup phase may replace temporary internal package names with semantic package names after the Fast Dev runtime is stable. That namespace cleanup is not allowed to block incremental-build delivery.
+### 6.1 One-time readable dev baseline
 
-## 5. Fast Dev runtime
-
-### 5.1 One-time readable dev baseline
-
-The original production JAR is transformed once into a development baseline:
+Bootstrap transforms the original production application classes directly into the semantic Dev namespace and writes:
 
 ```text
 .build850/cache/850-dev-base.jar
 ```
 
-This bootstrap operation relocates application class identities into the readable development namespace and validates class closure before marking the cache usable.
+This is a runtime baseline, not merely a source-recovery artifact.
 
-Cache identity is keyed at minimum by:
+It must pass class-closure and startup validation before being cached as usable.
+
+Cache identity is keyed by at least:
 
 ```text
 original l1jserver2.jar SHA-256
-namespace mapping SHA-256
+package-map.csv SHA-256
 Java major version
 Fast Dev compiler schema version
 ```
 
-If these values do not change, the dev baseline is reused and must not be rebuilt for ordinary source edits.
+If these do not change, ordinary source edits never rebuild the baseline.
 
-### 5.2 Classpath overlay
+### 6.2 Classpath overlay instead of repacking
 
-Normal `-Run` does not need to repack a JAR after every edit.
-
-Runtime classpath order:
+Normal development runs with:
 
 ```text
 .build850/classes
@@ -158,101 +190,91 @@ Runtime classpath order:
 lib/*
 ```
 
-Newly compiled classes in `.build850/classes` override the same class identities inside the cached baseline.
+Fresh compiled classes override the cached baseline through classpath order.
 
-This is the default fast path.
+Therefore a one-class edit does not need to repack a JAR.
 
-`dist/l1jserver2-dev.jar` is generated only when packaging is explicitly requested or required by a validation gate.
+`dist/l1jserver2-dev.jar` is created only for `-Pack` or explicit packaging/validation.
 
-## 6. Incremental compiler
+## 7. Incremental compiler
 
-### 6.1 Default command
+### 7.1 Default flow
 
 ```powershell
 .\build850.ps1
 ```
 
-Default behavior:
-
 1. load `.build850/state.json`;
-2. hash readable core source files;
-3. detect changed/new/deleted source files;
+2. hash `core/src/` sources;
+3. detect changed/new/deleted sources;
 4. identify affected top-level classes;
 5. compile only changed classes plus required dependents;
-6. update `.build850/classes` atomically;
-7. update ABI/dependency state only after compile PASS;
-8. leave last known-good class output intact on compile failure.
+6. write candidate classes to a staging directory;
+7. atomically publish classes only after javac PASS;
+8. update ABI/dependency state only after PASS;
+9. preserve the last-known-good class output on failure.
 
-### 6.2 ABI-aware dependency rebuild
+### 7.2 ABI-aware dependency rebuild
 
-Each successfully compiled top-level class gets a public/protected ABI fingerprint.
+Each compiled top-level class receives a public/protected ABI fingerprint.
 
-If source content changes but ABI fingerprint is unchanged:
+If source changes but ABI is unchanged:
 
 ```text
-compile changed top-level class + generated inner classes only
+changed top-level + generated inner classes only
 ```
 
-If ABI fingerprint changes:
+If ABI changes:
 
 ```text
-compile changed class
-+ reverse dependents from dependency-index.json
+changed class + reverse dependents from dependency-index.json
 ```
 
 If dependency closure cannot be proven safe:
 
 ```text
-automatically escalate to safe full application compile
+escalate automatically to safe full application compile
 ```
 
-The default policy is therefore:
+Policy:
 
 ```text
 incremental when proven safe
 full compile only when necessary
 ```
 
-### 6.3 Watch mode
+### 7.3 Watch mode
 
 ```powershell
 .\build850.ps1 -Watch
 ```
 
-Watch mode:
+Watch mode monitors `core/src/`, debounces editor saves, and recompiles affected classes immediately.
 
-- monitors `core/` only;
-- debounces editor save bursts;
-- compiles changed source sets immediately;
-- prints concise PASS/FAIL and affected-class count;
-- never starts a full recovery pipeline merely because one Java file changed.
+It does not automatically restart a live game server by default. A later explicit restart option can be added after lifecycle safety testing.
 
-Automatic server restart is not enabled by default because live DB/world state may be active. A later explicit `-RestartOnSuccess` option may be added after runtime lifecycle testing.
-
-## 7. Commands
-
-Required front-end contract:
+## 8. Commands
 
 ```powershell
 # Fast incremental compile
 .\build850.ps1
 
-# Fast compile then start readable dev runtime
+# Compile and start readable dev runtime
 .\build850.ps1 -Run
 
-# Continuous compile-on-save
+# Compile-on-save
 .\build850.ps1 -Watch
 
-# Force application-wide readable source compile
+# Full readable application compile
 .\build850.ps1 -Full
 
-# Clear Fast Dev state/cache and bootstrap again
+# Clear generated state/cache only, then bootstrap again
 .\build850.ps1 -Clean
 
-# Refresh validated BUG repairs into core/
+# Refresh validated BUG promotions into core/src
 .\build850.ps1 -Sync
 
-# Package readable dev runtime when a single JAR is wanted
+# Produce one readable dev JAR
 .\build850.ps1 -Pack
 ```
 
@@ -262,11 +284,11 @@ Future only:
 .\build850.ps1 -Release
 ```
 
-`-Release` may later perform remap/obfuscation/encryption. It is intentionally outside the initial Fast Dev implementation.
+`-Release` may later perform production namespace remap, obfuscation or encryption. It is intentionally excluded from initial Fast Dev delivery.
 
-## 8. BUG repair registry
+## 9. BUG repair registry
 
-Fast Dev must explicitly track repaired, pending and in-progress BUG cores so future promotions are not forgotten.
+Fast Dev explicitly tracks repaired, pending and in-progress BUG cores so future completed repairs are never forgotten.
 
 Registry files:
 
@@ -275,7 +297,7 @@ core/repair-registry.json
 core/repair-registry.md
 ```
 
-Each entry stores at least:
+Minimum fields:
 
 ```text
 bug_id
@@ -290,7 +312,7 @@ dev_compile_status
 last_sync_time
 ```
 
-Allowed states:
+States:
 
 ```text
 PENDING
@@ -301,142 +323,140 @@ DEFERRED_COMPILE
 VALIDATED_DEV
 ```
 
-### 8.1 Source rules
+### 9.1 Repair source rules
 
-- `work/l1jtw85-core-fixes` describes pending/in-progress work only.
-- `completed/l1jtw85-core-fixes` is the only repair promotion authority.
-- `-Sync` compares current work/completed authorities and registry state.
-- A work-only core is never copied into active `core/`.
-- When a BUG first appears on completed with PASS evidence, its validated source files become eligible for `PROMOTED_NOT_SYNCED`.
-- Sync copies/reconciles the promoted source into `core/`, runs the Fast Dev compile gate, then marks `SYNCED_DEV` or `DEFERRED_COMPILE`.
-- A failed compile never removes the current last-known-good dev class.
+- `work/l1jtw85-core-fixes` = pending/in-progress evidence only.
+- `completed/l1jtw85-core-fixes` = only promotion authority.
+- A work-only repaired source never replaces active `core/src`.
+- Pending/in-progress BUGs continue using the unrepaired baseline source in Fast Dev.
+- When completed gains PASS promotion evidence, the repair becomes `PROMOTED_NOT_SYNCED`.
+- `-Sync` transforms the completed recovered source into the semantic Dev namespace, compiles it, then publishes atomically.
+- Compile PASS -> `SYNCED_DEV`/`VALIDATED_DEV`.
+- Compile FAIL -> `DEFERRED_COMPILE`, while the previous last-known-good dev class remains active.
 
-### 8.2 Current pending seed
+### 9.2 Dynamic registry, not a hard-coded count
 
-The latest authoritative L2 recount recorded 20 pending IDs:
+The latest authoritative L2 recount recorded these 20 pending IDs:
 
 ```text
 010,027,032,033,034,039,043,046,049,057,058,059,082,083,087,089,095,100,102,103
 ```
 
-After that recount, completed commit `d9448ca6253efd17ae8a47254815c2336f939d5f` promoted `039`, `043`, and `046` together.
+Completed commit `d9448ca6253efd17ae8a47254815c2336f939d5f` subsequently promoted `039`, `043`, and `046` together.
 
-Therefore the Fast Dev registry seed currently treats the remaining effective pending set as:
+Current effective seed:
 
 ```text
 010,027,032,033,034,049,057,058,059,082,083,087,089,095,100,102,103
-```
-
-Count:
-
-```text
 CURRENT_EFFECTIVE_PENDING=17
 ```
 
-This number is a bootstrap snapshot only. The implementation must compute state from branch/evidence changes rather than hard-code `17`.
+This is only the bootstrap snapshot. The implementation derives current state from work/completed/evidence changes and never hard-codes `17` as permanent truth.
 
-## 9. Completed repair synchronization
+## 10. Repair synchronization
 
-A completed promotion can touch one or many source files. Fast Dev sync operates at BUG promotion scope, not just single filenames.
+`-Sync` is separate from ordinary incremental build so normal compile does not pay network/branch-inspection cost.
 
-Sync flow:
+Flow:
 
 ```text
-fetch/inspect completed authority
-  -> identify newly promoted BUG IDs since last_completed_seen
-  -> identify exact validated source files
-  -> translate recovery source locations to core/ canonical locations
-  -> stage candidate readable sources
-  -> compile candidate + dependency closure
-  -> PASS: atomically replace core/ source + class outputs
-  -> FAIL: keep old core/class runtime and mark DEFERRED_COMPILE
+refresh/inspect work + completed
+  -> compare against registry last_completed_seen
+  -> identify newly promoted BUG scope
+  -> identify exact validated normalized/recovered source files
+  -> transform source package/import/type identities to semantic Dev namespace
+  -> stage source + affected dependency set
+  -> compile
+  -> PASS: atomically publish core/src + classes + registry state
+  -> FAIL: keep old source/classes active; mark DEFERRED_COMPILE
 ```
 
-This preserves the rule:
+Invariant:
 
 ```text
 completed repaired source wins
 in-progress repaired source never wins
-unrepaired source stays active until promotion
+unrepaired baseline stays active until promotion
 ```
 
-## 10. Migration from recovery tree
+A promotion touching multiple source files is synchronized as one atomic BUG scope, not file-by-file partial publication.
 
-Migration is one-time and auditable.
+## 11. One-time migration
 
-Input authorities:
+Inputs:
 
 ```text
 accepted recovered/decompiled source set
 latest completed repair branch
-source namespace mapping
+original<->recovered namespace mapping
 original production JAR
 ```
 
-Migration output:
+Outputs:
 
 ```text
-core/
+core/src/
+core/package-map.csv
 core/source-index.json
 core/repair-registry.json
 .build850/cache/850-dev-base.jar
 .build850/dependency-index.json
 ```
 
-The migration must validate:
+Migration gates:
 
 ```text
-all accepted application top-level sources represented exactly once
-no source silently omitted
-no duplicate canonical source identity
-no in-progress work source promoted into core
-completed repair precedence preserved
-original JAR remains unchanged
+ALL_ACCEPTED_TOP_LEVEL_SOURCES_REPRESENTED=100%
+ALL_APPLICATION_CLASSES_HAVE_DEV_MAPPING=100%
+NO_CANONICAL_SOURCE_DUPLICATES=YES
+NO_L1R_NAMESPACE_IN_CORE=YES
+NO_IN_PROGRESS_WORK_PROMOTED=YES
+COMPLETED_REPAIR_PRECEDENCE=PASS
+ORIGINAL_JAR_UNCHANGED=YES
 ```
 
-## 11. Relationship to existing production-rebuild pipeline
+## 12. Existing production-rebuild relationship
 
-The existing `tools/production-rebuild/` pipeline remains intact as a safety/reference implementation.
-
-Fast Dev does not delete or rewrite it during initial rollout.
+Existing `tools/production-rebuild/` remains intact during rollout as the verified safety/reference bridge.
 
 Responsibilities become:
 
 ```text
 FAST DEV
-  readable source editing
-  cached readable ABI/runtime
+  semantic readable sources
+  cached readable runtime
   incremental javac
   classpath overlay
-  fast local server tests
+  fast local testing
+  BUG repair synchronization
 
-PRODUCTION REBUILD / FUTURE RELEASE
-  strict structural verification
-  optional inverse remap
+PRODUCTION/RELEASE (future)
+  strict packaging verification
+  semantic->production namespace transform if needed
   optional obfuscation/encryption
-  production artifact packaging
+  release artifact generation
 ```
 
-Once Fast Dev is fully validated, the older pipeline may be moved under `tools/850/release/` without losing history.
+After Fast Dev is validated, old production rebuild helpers may be moved under `tools/850/release/` without deleting history.
 
-## 12. Failure safety
+## 13. Failure safety
 
-Fast Dev is fail-closed:
-
-- compilation failure keeps previous good `.class` output;
-- sync failure keeps previous good `core/` version active;
-- registry state records the failure;
+- compile failure preserves previous good classes;
+- repair-sync failure preserves previous active source/classes;
+- registry records failure state;
+- `-Clean` removes generated `.build850` state only, never `core/` or `recovery/`;
 - production JAR is never modified;
-- `-Clean` never deletes `core/` or `recovery/`;
-- build cache may always be regenerated from source + original JAR authorities.
+- every cache can be regenerated from source + original authorities.
 
-## 13. Initial validation gates
+## 14. Validation gates
 
-The Fast Dev architecture is accepted only after all of the following pass:
+Fast Dev is accepted only when:
 
 ```text
+PACKAGE_MAP_COVERAGE=100%
 BOOTSTRAP_DEV_BASE=PASS
 CORE_MIGRATION_COVERAGE=100%
+NO_L1R_NAMESPACE_IN_CORE=PASS
 COMPLETED_REPAIR_PRECEDENCE=PASS
 PENDING_REPAIR_QUARANTINE=PASS
 FAST_SINGLE_CLASS_COMPILE=PASS
@@ -445,60 +465,65 @@ ABI_UNCHANGED_INCREMENTAL=PASS
 ABI_CHANGED_DEPENDENT_REBUILD=PASS
 FAILED_COMPILE_LAST_GOOD_PRESERVED=PASS
 WATCH_MODE_COMPILE=PASS
+REPAIR_SYNC_ATOMICITY=PASS
 DEV_RUNTIME_START=PASS
 DB_CONNECT=PASS
 PORT_2000=PASS
 ORIGINAL_PRODUCTION_JAR_MODIFIED=NO
 ```
 
-After runtime startup, unchanged 8.50c account login -> character select -> enter-game remains the highest-confidence integration gate.
+Then run unchanged 8.50c:
 
-## 14. Performance target
+```text
+account login -> character select -> enter-game
+```
 
-After the one-time bootstrap, ordinary single-core edits should not rebuild the entire 788-source / 1109-class recovered application.
+## 15. Performance target
 
-Target behavior:
+After one-time bootstrap, ordinary single-core edits must not rebuild the entire 788-source / 1109-class recovered application.
 
 ```text
 METHOD_BODY_ONLY_CHANGE
-  -> 1 top-level source + its generated inner classes
+  -> 1 top-level source + generated inner classes
 
 PUBLIC_ABI_CHANGE
-  -> changed source + proven reverse dependents
+  -> changed source + reverse dependents
 
 UNKNOWN_DEPENDENCY_CHANGE
   -> safe full application compile
 
-ORIGINAL_JAR_OR_NAMESPACE_MAP_CHANGE
+ORIGINAL_JAR_OR_PACKAGE_MAP_CHANGE
   -> rebuild dev baseline cache
 ```
 
-The primary optimization goal is avoiding repeated global recovery/remap work during normal core development.
+The performance goal is to remove repeated global recovery/remap work from normal development.
 
-## 15. Rollout order
+## 16. Rollout order
 
-1. Build Fast Dev source/repair registries.
-2. Migrate readable sources into `core/` without deleting recovery sources.
-3. Build and validate reusable readable dev baseline.
-4. Implement incremental compiler and atomic class output.
-5. Implement dependency/ABI tracking.
-6. Implement `build850.ps1` front end.
-7. Implement `-Run` classpath-overlay runtime.
-8. Implement `-Watch`.
-9. Implement repair `-Sync` and current pending registry.
-10. Run DB/runtime/client smoke tests.
-11. Keep release/obfuscation mode deferred until requested.
+1. Inventory accepted recovered classes and create 100% semantic `package-map.csv`.
+2. Build source/repair registries.
+3. Migrate readable sources into `core/src/` without deleting recovery sources.
+4. Build runtime-capable semantic `850-dev-base.jar`.
+5. Validate full readable runtime startup.
+6. Implement atomic incremental compiler.
+7. Implement ABI/dependency tracking.
+8. Implement root `build850.ps1` + `build850.cmd`.
+9. Implement `-Run` classpath-overlay runtime.
+10. Implement `-Watch`.
+11. Implement `-Sync` and seed/refresh pending repair registry.
+12. Run DB/runtime/client smoke tests.
+13. Leave release/obfuscation mode deferred until requested.
 
-## 16. Success definition
+## 17. Success definition
 
-The architecture succeeds when normal development looks like:
+Normal work becomes:
 
 ```text
-edit core/<readable source>.java
+edit core/src/l1j/server/.../ReadableClass.java
 save
-run build850.ps1 (or leave -Watch running)
+build850.ps1 (or leave -Watch running)
 only affected classes compile
 run/test server
 ```
 
-and the developer no longer needs to understand or manually operate the recovery/remap directory structure for everyday core work.
+The developer no longer needs to understand or manually operate recovery/remap paths for everyday core changes, while completed BUG repairs continue to flow safely into the readable Dev source tree after PASS promotion.
