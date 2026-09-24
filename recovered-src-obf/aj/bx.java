@@ -119,6 +119,9 @@ extends cv {
                     return;
                 }
                 sellList = targetPc.aU();
+                if (sellList.size() > 8) {
+                    return;
+                }
                 isRemoveFromList = new boolean[8];
                 var14_29 = sellList;
                 synchronized (var14_29) {
@@ -130,7 +133,7 @@ extends cv {
                     while (i < size) {
                         order = this.b();
                         count = this.b();
-                        if (order < 0 || order >= sellList.size()) {
+                        if (order < 0 || order >= sellList.size() || order >= 8) {
                             targetPc.h(false);
                             return;
                         }
@@ -220,13 +223,17 @@ lbl128:
                 }
                 targetPc.h(true);
                 buyList = targetPc.aV();
+                if (buyList.size() > 8) {
+                    targetPc.h(false);
+                    return;
+                }
                 isRemoveFromList = new boolean[8];
                 i = 0;
                 while (i < size) {
                     itemObjectId = this.b();
                     count = this.e();
                     order = this.c();
-                    if (order < 0 || order >= buyList.size()) {
+                    if (order < 0 || order >= buyList.size() || order >= 8) {
                         targetPc.h(false);
                         return;
                     }

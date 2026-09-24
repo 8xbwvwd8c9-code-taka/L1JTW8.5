@@ -44,11 +44,20 @@ extends cv {
         if (type == 0) {
             ap.q checkItem;
             int sellTotalCount = this.d();
+            if (sellTotalCount < 0 || sellTotalCount > 8) {
+                tradable = false;
+            }
             int i2 = 0;
-            while (i2 < sellTotalCount) {
+            while (i2 < sellTotalCount && i2 < 8) {
                 int sellObjectId = this.b();
                 int sellPrice = this.b();
                 int sellCount = this.b();
+                long sellTotal = (long)sellPrice * (long)sellCount;
+                if (sellPrice < 0 || sellCount <= 0 || sellTotal < 0L || sellTotal > 2000000000L) {
+                    tradable = false;
+                    ++i2;
+                    continue;
+                }
                 checkItem = pc.j().e(sellObjectId);
                 if (checkItem != null) {
                     if (!checkItem.a().s()) {
@@ -72,11 +81,20 @@ extends cv {
                 ++i2;
             }
             int buyTotalCount = this.d();
+            if (buyTotalCount < 0 || buyTotalCount > 8) {
+                tradable = false;
+            }
             int i3 = 0;
-            while (i3 < buyTotalCount) {
+            while (i3 < buyTotalCount && i3 < 8) {
                 int buyObjectId = this.b();
                 int buyPrice = this.b();
                 int buyCount = this.b();
+                long buyTotal = (long)buyPrice * (long)buyCount;
+                if (buyPrice < 0 || buyCount <= 0 || buyTotal < 0L || buyTotal > 2000000000L) {
+                    tradable = false;
+                    ++i3;
+                    continue;
+                }
                 checkItem = pc.j().e(buyObjectId);
                 if (checkItem != null) {
                     if (!checkItem.a().s()) {

@@ -93,6 +93,9 @@ public class C_Result extends ClientBasePacket {
                            }
 
                            CopyOnWriteArrayList var44 = var37.aU();
+                           if (var44.size() > 8) {
+                              return;
+                           }
                            boolean[] var50 = new boolean[8];
                            synchronized (var44) {
                               if (var3.aZ() != var44.size()) {
@@ -104,7 +107,7 @@ public class C_Result extends ClientBasePacket {
                               for (int var55 = 0; var55 < var6; var55++) {
                                  int var60 = this.b();
                                  int var63 = this.b();
-                                 if (var60 < 0 || var60 >= var44.size()) {
+                                 if (var60 < 0 || var60 >= var44.size() || var60 >= 8) {
                                     var37.h(false);
                                     return;
                                  }
@@ -222,13 +225,17 @@ public class C_Result extends ClientBasePacket {
 
                            var35.h(true);
                            List var41 = var35.aV();
+                           if (var41.size() > 8) {
+                              var35.h(false);
+                              return;
+                           }
                            boolean[] var48 = new boolean[8];
 
                            for (int var52 = 0; var52 < var6; var52++) {
                               int var54 = this.b();
                               int var59 = this.e();
                               int var62 = this.c();
-                              if (var62 < 0 || var62 >= var41.size()) {
+                              if (var62 < 0 || var62 >= var41.size() || var62 >= 8) {
                                  var35.h(false);
                                  return;
                               }

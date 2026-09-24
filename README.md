@@ -27,6 +27,9 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-039 | L2 | private-shop settlement fixed-slot bounds | PASS / PROMOTED |
+| BUG-850-043 | L2 | private-shop listing count/price/quantity bounds | PASS / PROMOTED |
+| BUG-850-046 | L2 | private-shop creation/settlement slot invariant | PASS / PROMOTED |
 | BUG-850-117 | L2 | bookmark import source/destination/item atomic transaction | PASS / PROMOTED |
 | BUG-850-118 | L2 | batch bookmark DB transaction and post-commit publication | PASS / PROMOTED |
 | BUG-850-121 | L2 | single bookmark DB failure fail-closed publication | PASS / PROMOTED |
@@ -3444,4 +3447,38 @@ NO_NEW_JAVAC_REGRESSION=PASS
 BUG-850-117=L2
 STATUS=PASS
 PROMOTED=YES
+```
+
+
+## BUG-850-039 / 043 / 046 — private-shop listing and settlement bounds
+
+### Problem
+
+Private-shop creation could accept list counts beyond the settlement cleanup capacity, while settlement indexed fixed eight-slot bookkeeping from live/stale order data. The latest completed snapshot had also lost the already-validated normalized/obfuscated per-listing price×quantity guards that were part of the recorded repair baseline.
+
+### Fix
+
+- Restore the validated arithmetic prerequisite pair before applying the recorded shared repair.
+- Reject negative prices, non-positive quantities, and per-listing products above 2,000,000,000 before publication.
+- Creation rejects sell/buy list counts outside `0..8` and parses at most eight entries.
+- Settlement rejects live sell/buy lists larger than eight before mutation.
+- Transaction indexes must be within both the live list and fixed cleanup capacity.
+- Normalized and obfuscated sources are validated as one pair.
+
+### DB / control evidence
+
+This repair changes only packet/list arithmetic and bounds validation. The candidate introduces no SQL, table, storage-engine, loader, `Config.*`, or new default/fallback dependency. Existing inventory persistence paths are not changed.
+
+### Validation
+
+```text
+RUN=36015234539
+HISTORICAL_RED=PASS
+ARITHMETIC_PREREQUISITES=8a23ba5682320df765a3fe09fd88af41222a535f,71c710be712b2e7169a7f3ac6a2d831b4d95c086
+RECORDED_PATCH=a856d355b2ec8abc8a62e768956c0bcd7aaa8692
+EXACT_CORE_SCOPE=4_FILES
+SOURCE_CONTRACT=PASS
+DB_CONTROL=NO_NEW_DB_OR_CONFIG_DEPENDENCY
+JAVA8_NO_NEW_REGRESSION=PASS
+RUNTIME_BOUNDARY_MODEL=PASS
 ```

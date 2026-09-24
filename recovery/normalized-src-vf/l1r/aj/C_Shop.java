@@ -35,11 +35,20 @@ public class C_Shop extends ClientBasePacket {
             int var9 = this.c();
             if (var9 == 0) {
                int var10 = this.d();
+               if (var10 < 0 || var10 > 8) {
+                  var8 = false;
+               }
 
-               for (int var14 = 0; var14 < var10; var14++) {
+               for (int var14 = 0; var14 < var10 && var14 < 8; var14++) {
                   int var11 = this.b();
                   int var12 = this.b();
                   int var13 = this.b();
+                  long var33 = (long)var12 * (long)var13;
+                  if (var12 < 0 || var13 <= 0 || var33 < 0L || var33 > 2000000000L) {
+                     var8 = false;
+                     continue;
+                  }
+
                   L1ItemInstance var7 = var3.j().e(var11);
                   if (var7 != null) {
                      if (!var7.a().s()) {
@@ -67,11 +76,20 @@ public class C_Shop extends ClientBasePacket {
                }
 
                int var24 = this.d();
+               if (var24 < 0 || var24 > 8) {
+                  var8 = false;
+               }
 
-               for (int var18 = 0; var18 < var24; var18++) {
+               for (int var18 = 0; var18 < var24 && var18 < 8; var18++) {
                   int var26 = this.b();
                   int var27 = this.b();
                   int var28 = this.b();
+                  long var34 = (long)var27 * (long)var28;
+                  if (var27 < 0 || var28 <= 0 || var34 < 0L || var34 > 2000000000L) {
+                     var8 = false;
+                     continue;
+                  }
+
                   L1ItemInstance var23 = var3.j().e(var26);
                   if (var23 != null) {
                      if (!var23.a().s()) {
