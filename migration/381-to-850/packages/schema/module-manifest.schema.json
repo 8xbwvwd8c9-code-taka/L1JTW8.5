@@ -1,0 +1,48 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "module-manifest.schema.json",
+  "title": "381 to 850 isolated module package manifest",
+  "type": "object",
+  "required": [
+    "schema_version",
+    "module_id",
+    "module_name",
+    "decision",
+    "server_level",
+    "client_gate",
+    "deployable",
+    "source",
+    "imports",
+    "path_map",
+    "dependencies",
+    "validation",
+    "rollback"
+  ],
+  "properties": {
+    "schema_version": {"const": 1},
+    "module_id": {"type": "string", "minLength": 1},
+    "module_name": {"type": "string", "minLength": 1},
+    "decision": {"enum": ["MIGRATE", "ADAPT", "MERGE", "HOLD", "SKIP"]},
+    "server_level": {"enum": ["L1", "L2", "L3", "L4", "NOT_FINAL"]},
+    "client_gate": {"type": "string", "minLength": 1},
+    "deployable": {"type": "boolean"},
+    "source": {
+      "type": "object",
+      "required": ["requirements", "381_db", "381_core", "381_control", "381_client"]
+    },
+    "imports": {
+      "type": "object",
+      "required": ["java", "class", "db", "control", "data", "client"],
+      "additionalProperties": false
+    },
+    "path_map": {
+      "type": "object",
+      "required": ["core_fixes", "fast_dev_build"],
+      "additionalProperties": false
+    },
+    "dependencies": {"type": "array"},
+    "validation": {"type": "array"},
+    "rollback": {"type": "array"}
+  },
+  "additionalProperties": false
+}
