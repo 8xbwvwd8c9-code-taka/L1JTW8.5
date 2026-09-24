@@ -48,19 +48,16 @@ jobs:
           start = text.index('public static void b(L1PcInstance var0, String var1)')
           end = text.index('public static void a(L1PcInstance var0, HashMap<String, L1Location> var1)', start)
           method = text[start:end]
-          old = '''} catch (SQLException var10) {
-               c.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
-            } finally {'''
-          new = '''} catch (SQLException var10) {
-               c.log(Level.SEVERE, var10.getLocalizedMessage(), var10);
-               return;
-            } finally {'''
-          if new in method:
+          logline = 'c.log(Level.SEVERE, var10.getLocalizedMessage(), var10);'
+          if method.count(logline) != 1:
+              raise SystemExit('FAIL normalized single-create SQLException log shape')
+          lp = method.index(logline)
+          fp = method.index('} finally {', lp)
+          between = method[lp:fp]
+          if 'return;' in between:
               print('BUG_850_121_NORMALIZED_ALREADY_FIXED=YES')
           else:
-              if method.count(old) != 1:
-                  raise SystemExit('FAIL normalized single-create catch shape')
-              method = method.replace(old, new, 1)
+              method = method[:lp] + method[lp:].replace(logline, logline + '\n               return;', 1)
               text = text[:start] + method + text[end:]
               path.write_text(text, encoding='utf-8')
           PY
@@ -99,10 +96,10 @@ jobs:
               if 'INSERT INTO character_teleport' not in method:
                   raise SystemExit(f'FAIL {label} missing durable insert')
 
-          # Preserve completed branch's stronger batch repair; do not replace it with work source.
           if 'public static boolean a(u pc, HashMap<String, aq.u> bookmark_list)' not in o:
               raise SystemExit('FAIL completed obfuscated batch repair lost')
-          if 'con.setAutoCommit(false);' not in o[oe:o.index('public static boolean a(u pc, q item)', oe)]:
+          batch_end = o.index('public static boolean a(u pc, q item)', oe)
+          if 'con.setAutoCommit(false);' not in o[oe:batch_end]:
               raise SystemExit('FAIL completed obfuscated batch transaction lost')
 
           print('BUG_850_121_COMPLETED_CONTRACT=PASS')
