@@ -11,8 +11,13 @@ from pathlib import Path
 
 
 HERE = Path(__file__).resolve().parent
+# Historical authority retained for callers that intentionally request the old
+# production-rebuild baseline. Normal Fast Dev bootstrap resolves the latest
+# completed branch tip and pins that exact SHA for the current cache.
 PINNED_COMPLETED_COMMIT = "fc473aef65485d1524283fa34d01ab7fad9a7b93"
 COMPLETED_BRANCH = "completed/l1jtw85-core-fixes"
+REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
+LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
@@ -50,6 +55,54 @@ def _git(repo_root: Path, *args: str, check: bool = True) -> subprocess.Complete
 def _commit_available(repo_root: Path, commit: str) -> bool:
     proc = _git(repo_root, "cat-file", "-e", f"{commit}^{{commit}}", check=False)
     return proc.returncode == 0
+
+
+def _resolve_ref(repo_root: Path, ref: str) -> str | None:
+    proc = _git(repo_root, "rev-parse", "--verify", f"{ref}^{{commit}}", check=False)
+    if proc.returncode != 0:
+        return None
+    value = proc.stdout.strip()
+    return value if len(value) == 40 else None
+
+
+def resolve_completed_authority_commit(
+    repo_root: Path,
+    *,
+    fetch_latest: bool = True,
+) -> str:
+    """Resolve the completed repair authority to one exact commit SHA.
+
+    When fetch_latest is enabled, the completed branch is fetched into an
+    explicit remote-tracking ref and a fetch failure is fatal. The active HEAD
+    is never considered, so work/in-progress commits cannot become authority.
+    """
+    repo_root = Path(repo_root).resolve()
+
+    if fetch_latest:
+        proc = _git(
+            repo_root,
+            "fetch",
+            "--no-tags",
+            "origin",
+            f"+refs/heads/{COMPLETED_BRANCH}:{REMOTE_COMPLETED_REF}",
+            check=False,
+        )
+        if proc.returncode != 0:
+            detail = proc.stderr.strip() or proc.stdout.strip() or "git fetch failed"
+            raise RuntimeError(
+                f"cannot refresh completed authority branch {COMPLETED_BRANCH}: {detail}"
+            )
+
+    refs = (REMOTE_COMPLETED_REF, LOCAL_COMPLETED_REF)
+    for ref in refs:
+        commit = _resolve_ref(repo_root, ref)
+        if commit is not None:
+            return commit
+
+    raise RuntimeError(
+        "completed authority branch unavailable: "
+        f"{COMPLETED_BRANCH}; fetch the branch and retry"
+    )
 
 
 def ensure_completed_authority_commit(
@@ -95,16 +148,22 @@ def materialize_authority_core(
     repo_root: Path,
     cache_core: Path,
     *,
-    commit: str = PINNED_COMPLETED_COMMIT,
+    commit: str | None = None,
     fetch_if_missing: bool = True,
 ) -> dict[str, object]:
     """Materialize semantic core sources from one exact completed repair commit.
 
-    The active working tree is never used as source authority. Only the pinned Git
-    object is archived; newer work/WIP changes therefore cannot enter this cache.
+    If commit is omitted, the latest completed branch tip is refreshed and then
+    pinned to its exact SHA before materialization. The active working tree is
+    never used as source authority; newer work/WIP changes cannot enter cache.
     """
     repo_root = Path(repo_root).resolve()
     cache_core = Path(cache_core).resolve()
+    if commit is None:
+        commit = resolve_completed_authority_commit(
+            repo_root,
+            fetch_latest=fetch_if_missing,
+        )
 
     if _cache_hit(cache_core, commit):
         return {
