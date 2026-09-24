@@ -263,41 +263,67 @@ public class L1BookMark {
    }
 
    public static void a(L1PcInstance var0, HashMap<String, L1Location> var1) {
-      for (String var2 : var1.keySet()) {
-         int var4 = var1.get(var2).f();
-         int var5 = var1.get(var2).g();
-         short var6 = (short)var1.get(var2).b();
-         L1BookMark var7 = new L1BookMark();
-         var7.a(IdFactory.a().d());
-         var7.b(var0.fr());
-         var7.a(var2);
-         var7.c(var4);
-         var7.d(var5);
-         var7.g(var6);
-         var7.e(var0.ba().size());
-         Connection var8 = null;
-         PreparedStatement var9 = null;
+      java.util.ArrayList<L1BookMark> var2 = new java.util.ArrayList<>();
+      int var3 = var0.ba().size();
+      for (String var4 : var1.keySet()) {
+         L1Location var5 = var1.get(var4);
+         L1BookMark var6 = new L1BookMark();
+         var6.a(IdFactory.a().d());
+         var6.b(var0.fr());
+         var6.a(var4);
+         var6.c(var5.f());
+         var6.d(var5.g());
+         var6.g((short)var5.b());
+         var6.e(var3++);
+         var2.add(var6);
+      }
+      if (var2.isEmpty()) {
+         return;
+      }
 
-         try {
-            var8 = DatabaseFactory.a().b();
-            var9 = var8.prepareStatement("INSERT INTO character_teleport SET id = ?, char_id = ?, name = ?, locx = ?, locy = ?, mapid = ?,order_id=?");
-            var9.setInt(1, var7.a());
-            var9.setInt(2, var7.b());
-            var9.setString(3, var7.c());
-            var9.setInt(4, var7.d());
-            var9.setInt(5, var7.e());
-            var9.setInt(6, var7.h());
-            var9.setInt(7, var7.f());
-            var9.execute();
-         } catch (SQLException var14) {
-            c.log(Level.SEVERE, var14.getLocalizedMessage(), var14);
-         } finally {
-            SQLUtil.a(var9);
-            SQLUtil.a(var8);
+      Connection var7 = null;
+      PreparedStatement var8 = null;
+      boolean var9 = true;
+      try {
+         var7 = DatabaseFactory.a().b();
+         var9 = var7.getAutoCommit();
+         var7.setAutoCommit(false);
+         var8 = var7.prepareStatement("INSERT INTO character_teleport SET id = ?, char_id = ?, name = ?, locx = ?, locy = ?, mapid = ?,order_id=?");
+         for (L1BookMark var10 : var2) {
+            var8.setInt(1, var10.a());
+            var8.setInt(2, var10.b());
+            var8.setString(3, var10.c());
+            var8.setInt(4, var10.d());
+            var8.setInt(5, var10.e());
+            var8.setInt(6, var10.h());
+            var8.setInt(7, var10.f());
+            var8.addBatch();
          }
+         var8.executeBatch();
+         var7.commit();
+      } catch (SQLException var13) {
+         c.log(Level.SEVERE, var13.getLocalizedMessage(), var13);
+         if (var7 != null) {
+            try {
+               var7.rollback();
+            } catch (SQLException ignored) {
+            }
+         }
+         return;
+      } finally {
+         SQLUtil.a(var8);
+         if (var7 != null) {
+            try {
+               var7.setAutoCommit(var9);
+            } catch (SQLException ignored) {
+            }
+         }
+         SQLUtil.a(var7);
+      }
 
-         var0.ba().add(var7);
-         var0.a(new S_Bookmarks(var2, var6, var7.a(), var4, var5));
+      for (L1BookMark var10 : var2) {
+         var0.ba().add(var10);
+         var0.a(new S_Bookmarks(var10.c(), var10.h(), var10.a(), var10.d(), var10.e()));
       }
    }
 

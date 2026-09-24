@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-118 | L2 | batch bookmark DB transaction and post-commit publication | PASS / PROMOTED |
 | BUG-850-121 | L2 | single bookmark DB failure fail-closed publication | PASS / PROMOTED |
 | BUG-850-124 | L2 | house upgrade/renewal payment and house persistence atomicity | PASS / PROMOTED |
 | BUG-850-126 | L2 | Karma/item persistence atomicity and DB/control consistency | PASS / PROMOTED |
@@ -3365,6 +3366,43 @@ NO_NEW_JAVAC_REGRESSION=PASS
 
 ```text
 BUG-850-121=L2
+STATUS=PASS
+PROMOTED=YES
+```
+
+## BUG-850-118 — batch bookmark creation could partially persist and publish
+
+### Problem
+
+The normalized batch bookmark path inserted rows independently and could publish RAM/client state after partial SQL failure.
+
+### Fix
+
+- stage bookmarks before persistence;
+- use one JDBC batch transaction with rollback on failure;
+- publish RAM/client state only after commit;
+- include existing BUG-850-216 character_teleport InnoDB migration;
+- preserve newer completed obfuscated atomic implementation.
+
+### Validation
+
+```text
+PROMOTION_RUN=36007435999
+REPAIR_CI_RUN=35953101310
+HISTORICAL_RED=PASS
+OBF_ALREADY_COVERED=PASS
+CHARACTER_TELEPORT_INNODB=PASS
+SOURCE_CONTRACT=PASS
+BUG_850_121_PRESERVED=PASS
+BUG_850_117_SCOPE_EXCLUDED=PASS
+MINIMAL_SCOPE=PASS
+NO_NEW_JAVAC_REGRESSION=PASS
+```
+
+### Result
+
+```text
+BUG-850-118=L2
 STATUS=PASS
 PROMOTED=YES
 ```
