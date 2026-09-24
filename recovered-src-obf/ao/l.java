@@ -292,6 +292,37 @@ public class l {
         j.a(con);
     }
 
+    public void persistInventoryState(int charId, q item, int expectedCount) throws SQLException {
+        try (Connection con = l1j.server.b.a().b();
+             PreparedStatement pstm = con.prepareStatement(
+                     "UPDATE character_items SET item_id=?, item_name=?, count=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, temp_value=?, last_used=?, bless=?, attr_enchant_kind=?, attr_enchant_level=?, super_enchant_field_1=?, super_enchant_field_2=?, super_enchant_field_3=?, super_enchant_field_4=?, limit_time=?, is_equipped=? WHERE id=? AND char_id=? AND count=?")) {
+            pstm.setInt(1, item.N());
+            pstm.setString(2, item.a().h());
+            pstm.setInt(3, item.E());
+            pstm.setInt(4, item.G());
+            pstm.setInt(5, item.C() ? 1 : 0);
+            pstm.setInt(6, item.H());
+            pstm.setInt(7, item.I());
+            pstm.setInt(8, item.M());
+            pstm.setTimestamp(9, item.J());
+            pstm.setInt(10, item.F());
+            pstm.setInt(11, item.K());
+            pstm.setInt(12, item.L());
+            pstm.setInt(13, item.X());
+            pstm.setInt(14, item.Y());
+            pstm.setInt(15, item.Z());
+            pstm.setInt(16, item.aa());
+            pstm.setTimestamp(17, item.bb());
+            pstm.setBoolean(18, item.D());
+            pstm.setInt(19, item.fr());
+            pstm.setInt(20, charId);
+            pstm.setInt(21, expectedCount);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-059 inventory state CAS failed");
+            }
+        }
+    }
+
     public void insertQuestReward(Connection con, int charId, q item) throws SQLException {
         try (PreparedStatement pstm = con.prepareStatement(
                 "INSERT INTO character_items SET id = ?, item_id = ?, char_id = ?, item_name = ?, count = ?, enchantlvl = ?, is_id = ?, durability = ?, charge_count = ?, temp_value = ?, last_used = ?, bless = ?, attr_enchant_kind = ?, attr_enchant_level = ?,super_enchant_field_1 = ? ,super_enchant_field_2 = ?,super_enchant_field_3 = ? ,super_enchant_field_4=? ,limit_time=?,is_equipped=?")) {

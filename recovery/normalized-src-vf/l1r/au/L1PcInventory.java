@@ -327,6 +327,10 @@ public class L1PcInventory extends L1Inventory {
 
    @Override
    public void b(L1ItemInstance var1) {
+      if (!this.l1rPersistMutation(var1)) {
+         return;
+      }
+
       for (L1QuestNew var2 : this.i.dS().values()) {
          for (int var4 = 0; var4 < var2.r().length; var4++) {
             if (var2.r()[var4] == var1.N() && var2.t()[var4] <= var1.G()) {
@@ -414,9 +418,77 @@ public class L1PcInventory extends L1Inventory {
          var1.f[1] = var1.C();
       }
 
-      if (var1.a().u()) {
-         this.i(var1);
+   }
+
+   private boolean l1rPersistMutation(L1ItemInstance var1) {
+      if (!var1.a().u() || !this.l1rHasDurableDelta(var1)) {
+         return true;
       }
+
+      try {
+         CharacterItemTable.a().persistInventoryState(this.i.fr(), var1, var1.a[0]);
+         this.l1rMarkDurableState(var1);
+         return true;
+      } catch (Exception var2) {
+         this.l1rRestoreDurableState(var1);
+         g.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
+         return false;
+      }
+   }
+
+   private boolean l1rHasDurableDelta(L1ItemInstance var1) {
+      return var1.o[0] != var1.X() || var1.p[0] != var1.Y() || var1.q[0] != var1.Z() || var1.r[0] != var1.aa()
+         || var1.n[0] != var1.L() || var1.m[0] != var1.K() || var1.l[0] != var1.F()
+         || var1.i[0] != var1.M() || !l1rTimestampEquals(var1.j[0], var1.bb()) || var1.h[0] != var1.I()
+         || var1.b[0] != var1.N() || !l1rTimestampEquals(var1.k[0], var1.J()) || var1.a[0] != var1.E()
+         || var1.c[0] != var1.D() || var1.e[0] != var1.G() || var1.f[0] != var1.C() || var1.g[0] != var1.H();
+   }
+
+   private static boolean l1rTimestampEquals(Timestamp var1, Timestamp var2) {
+      return var1 == null ? var2 == null : var1.equals(var2);
+   }
+
+   private void l1rMarkDurableState(L1ItemInstance var1) {
+      var1.o[0] = var1.X();
+      var1.p[0] = var1.Y();
+      var1.q[0] = var1.Z();
+      var1.r[0] = var1.aa();
+      var1.n[0] = var1.L();
+      var1.m[0] = var1.K();
+      var1.l[0] = var1.F();
+      var1.i[0] = var1.M();
+      var1.j[0] = var1.bb();
+      var1.h[0] = var1.I();
+      var1.b[0] = var1.N();
+      var1.k[0] = var1.J();
+      var1.a[0] = var1.E();
+      var1.c[0] = var1.D();
+      var1.e[0] = var1.G();
+      var1.f[0] = var1.C();
+      var1.g[0] = var1.H();
+   }
+
+   private void l1rRestoreDurableState(L1ItemInstance var1) {
+      if (var1.b[0] != var1.N() && ItemTable.a().a(var1.b[0]) != null) {
+         var1.a(ItemTable.a().a(var1.b[0]));
+         var1.n();
+      }
+      var1.e(var1.a[0]);
+      var1.b(var1.c[0]);
+      var1.a(var1.e[0]);
+      var1.a(var1.f[0]);
+      var1.b(var1.g[0]);
+      var1.g(var1.h[0]);
+      var1.j(var1.i[0]);
+      var1.b(var1.j[0]);
+      var1.a(var1.k[0]);
+      var1.f(var1.l[0]);
+      var1.h(var1.m[0]);
+      var1.i(var1.n[0]);
+      var1.l(var1.o[0]);
+      var1.m(var1.p[0]);
+      var1.n(var1.q[0]);
+      var1.o(var1.r[0]);
    }
 
    public void i(L1ItemInstance var1) {

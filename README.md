@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-059 | L2 | durable inventory state CAS before client publication | PASS / PROMOTED |
 | BUG-850-058 | L2 | durable CAS before inventory full-delete publication | PASS / PROMOTED |
 | BUG-850-057 | L2 | DB-first inventory insert / fail-closed live publication | PASS / PROMOTED |
 | BUG-850-048 | L2 | LuckyDraw atomic pending consumption / reward persistence | PASS / PROMOTED |
@@ -3567,6 +3568,24 @@ EXACT_CORE_SCOPE=4_FILES
 SOURCE_CONTRACT=PASS
 BOTH_FORMS_ORDERING=PASS
 DB_CAS=PASS
+CONFIG_CONTROL=NONE
+JAVA8_NO_NEW_REGRESSION=PASS
+RUNTIME_FAILURE_MODEL=PASS
+```
+
+
+## BUG-850-059 — durable inventory update before client publication
+
+Mutable inventory state is now persisted through one `character_items` CAS UPDATE before quest/client publication. The CAS covers `id+char_id+expected count`; SQL failure or affectedRows!=1 restores the last durable item snapshot and suppresses publication. Durable snapshots advance only after successful persistence.
+
+```text
+RUN=36029799473
+RECORDED_REPAIR_COMMIT=3ba5da40428180c00d8996465b2b33ad359992bf
+LATEST_COMPLETED_RED=PASS
+EXACT_CORE_SCOPE=4_FILES
+SOURCE_CONTRACT=PASS
+DB_TABLE=character_items
+DB_CAS=id+char_id+expected_count affectedRows==1
 CONFIG_CONTROL=NONE
 JAVA8_NO_NEW_REGRESSION=PASS
 RUNTIME_FAILURE_MODEL=PASS

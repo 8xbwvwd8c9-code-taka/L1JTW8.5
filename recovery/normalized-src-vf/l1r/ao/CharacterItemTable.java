@@ -233,6 +233,38 @@ public class CharacterItemTable {
       }
    }
 
+   public void persistInventoryState(int var1, L1ItemInstance var2, int var3) throws SQLException {
+      try (Connection var4 = DatabaseFactory.a().b();
+           PreparedStatement var5 = var4.prepareStatement(
+              "UPDATE character_items SET item_id=?, item_name=?, count=?, enchantlvl=?, is_id=?, durability=?, charge_count=?, temp_value=?, last_used=?, bless=?, attr_enchant_kind=?, attr_enchant_level=?, super_enchant_field_1=?, super_enchant_field_2=?, super_enchant_field_3=?, super_enchant_field_4=?, limit_time=?, is_equipped=? WHERE id=? AND char_id=? AND count=?"
+           )) {
+         var5.setInt(1, var2.N());
+         var5.setString(2, var2.a().h());
+         var5.setInt(3, var2.E());
+         var5.setInt(4, var2.G());
+         var5.setInt(5, var2.C() ? 1 : 0);
+         var5.setInt(6, var2.H());
+         var5.setInt(7, var2.I());
+         var5.setInt(8, var2.M());
+         var5.setTimestamp(9, var2.J());
+         var5.setInt(10, var2.F());
+         var5.setInt(11, var2.K());
+         var5.setInt(12, var2.L());
+         var5.setInt(13, var2.X());
+         var5.setInt(14, var2.Y());
+         var5.setInt(15, var2.Z());
+         var5.setInt(16, var2.aa());
+         var5.setTimestamp(17, var2.bb());
+         var5.setBoolean(18, var2.D());
+         var5.setInt(19, var2.fr());
+         var5.setInt(20, var1);
+         var5.setInt(21, var3);
+         if (var5.executeUpdate() != 1) {
+            throw new SQLException("BUG-850-059 inventory state CAS failed");
+         }
+      }
+   }
+
    public void insertQuestReward(Connection var1, int var2, L1ItemInstance var3) throws SQLException {
       try (PreparedStatement var4 = var1.prepareStatement(
          "INSERT INTO character_items SET id = ?, item_id = ?, char_id = ?, item_name = ?, count = ?, enchantlvl = ?, is_id = ?, durability = ?, charge_count = ?, temp_value = ?, last_used = ?, bless = ?, attr_enchant_kind = ?, attr_enchant_level = ?,super_enchant_field_1 = ? ,super_enchant_field_2 = ?,super_enchant_field_3 = ? ,super_enchant_field_4=? ,limit_time=?,is_equipped=?"

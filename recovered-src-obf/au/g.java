@@ -418,7 +418,7 @@ extends f {
 
     public boolean i(q item) {
         try {
-            ao.l.a().p(item);
+            ao.l.a().persistInventoryState(this.i.fr(), item, item.a[0]);
             item.o[0] = item.X();
             item.p[0] = item.Y();
             item.q[0] = item.Z();
