@@ -36,3 +36,5 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_dev_base.py
       - name: Run incremental compiler contracts
         run: python -m unittest -v tools/850/tests/test_incremental.py
+      - name: Run frontend contracts
+        run: python -m unittest -v tools/850/tests/test_frontend_contract.py
