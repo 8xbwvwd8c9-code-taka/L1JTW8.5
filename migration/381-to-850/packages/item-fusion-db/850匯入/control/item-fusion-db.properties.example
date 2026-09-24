@@ -1,0 +1,10 @@
+# item-fusion-db 控制設定範例
+# 物品融合db化系統
+# decision=HOLD — 此設定檔為範例，尚未啟用
+
+# 啟用物品融合db化系統
+# ItemFusionDBSet=0
+
+# 說明: 啟用後讀取 w_物品融合db化 資料表
+# 0=停用 1=啟用
+# 對應 server_event 系統 (event key: ItemFusionDBSet)

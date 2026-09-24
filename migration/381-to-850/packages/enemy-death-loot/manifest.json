@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "module_id": "enemy-death-loot",
+  "module_name": "敵人死亡奪寶",
+  "enterprise_item": "天堂企劃.txt L2,w_敵人死亡奪寶,N/A",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": ["適合紅人假人，在玩家看不到的區域邊緣刷新後來追殺"],
+    "381_db": ["w_敵人死亡奪寶_202609221205.sql (273 bytes)"],
+    "381_core": [],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "w_敵人死亡奪寶 資料表在 850 db/8.5.sql 中不存在，需全新建立",
+    "core": "NOT_PROVEN — 無對應 Java 實作證據"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": ["850匯入/db/install_enemy-death-loot.sql"],
+    "control": ["850匯入/control/enemy-death-loot.properties.example"],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [
+    "確認 w_敵人死亡奪寶 資料表建立成功",
+    "確認 item_id 40308（金幣）存在於 850 item 表",
+    "確認廣播訊息格式 %S 佔位符與 850 核心相容"
+  ],
+  "rollback": [
+    "DROP TABLE IF EXISTS w_敵人死亡奪寶"
+  ]
+}

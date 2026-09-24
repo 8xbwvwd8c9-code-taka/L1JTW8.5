@@ -1,0 +1,6 @@
+-- ============================================================
+-- rollback_character-talent-record.sql
+-- Module  : character-talent-record (天賦紀錄)
+-- Decision: HOLD — do NOT execute until install has been approved+run
+-- ============================================================
+-- DROP TABLE IF EXISTS `character_天賦紀錄`;

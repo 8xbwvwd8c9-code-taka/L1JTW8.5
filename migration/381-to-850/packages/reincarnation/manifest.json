@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "module_id": "reincarnation",
+  "module_name": "轉生家族",
+  "enterprise_item": "天堂企劃.txt L2,william_pc_轉生,N/A + william_pc_轉生_giveitem,N/A + william_pc_轉生經驗,N/A",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": ["三張資料表合為一套轉生系統套件"],
+    "381_db": [
+      "william_pc_轉生_202609221205.sql (22951 bytes)",
+      "william_pc_轉生_giveitem_202609221205.sql (125 bytes)",
+      "william_pc_轉生經驗_202609221205.sql (982 bytes)"
+    ],
+    "381_core": [],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "william_pc_轉生 / william_pc_轉生_giveitem / william_pc_轉生經驗 三張資料表在 850 db/8.5.sql 中均不存在",
+    "core": "NOT_PROVEN — 無對應轉生系統 Java 實作證據"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": ["850匯入/db/install_reincarnation.sql"],
+    "control": ["850匯入/control/reincarnation.properties.example"],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [
+    "確認 william_pc_轉生 建立成功，支援全職業 × 最大轉生等級",
+    "確認 william_pc_轉生_giveitem 建立成功，logpcpower=1 → item 40308",
+    "確認 william_pc_轉生經驗 建立成功，49 筆 expPenalty 資料完整",
+    "確認 mete_level + type 聯合主鍵不衝突",
+    "確認職業類型 (type) 0~N 值域涵蓋 850 所有職業",
+    "確認稱號格式碼 \\f3 在 850 客戶端可正確顯示"
+  ],
+  "rollback": [
+    "DROP TABLE IF EXISTS william_pc_轉生",
+    "DROP TABLE IF EXISTS william_pc_轉生_giveitem",
+    "DROP TABLE IF EXISTS william_pc_轉生經驗"
+  ]
+}

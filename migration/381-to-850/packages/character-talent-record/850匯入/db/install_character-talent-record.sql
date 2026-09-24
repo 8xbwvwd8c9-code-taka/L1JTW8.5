@@ -1,0 +1,45 @@
+-- ============================================================
+-- install_character-talent-record.sql
+-- Module  : character-talent-record (天賦紀錄)
+-- Decision: HOLD — do NOT execute until decision is APPROVED
+-- Source  : 381 atu381_0906.sql line 1164 + character_天賦紀錄_202609221205.sql
+-- ============================================================
+-- HOLD: This script is a reference draft only.
+-- Schema must be verified against 850 DB before execution.
+
+-- CREATE TABLE `character_天賦紀錄` (
+--   `char_obj_id`    int(11) NOT NULL DEFAULT '0',
+--   `tfcount`        int(11) DEFAULT '0',
+--   `tfcount1`       int(11) DEFAULT '0',
+--   `Attack`         int(11) DEFAULT '0',
+--   `BowAttack`      int(11) DEFAULT '0',
+--   `Hit`            int(11) DEFAULT '0',
+--   `BowHit`         int(11) DEFAULT '0',
+--   `Sp`             int(11) DEFAULT '0',
+--   `Str`            int(11) DEFAULT '0',
+--   `Dex`            int(11) DEFAULT '0',
+--   `Int`            int(11) DEFAULT '0',
+--   `Con`            int(11) NOT NULL DEFAULT '0',
+--   `Cha`            int(11) DEFAULT '0',
+--   `Wis`            int(11) DEFAULT '0',
+--   `Hp`             int(11) DEFAULT '0',
+--   `Mp`             int(11) DEFAULT '0',
+--   `Mr`             int(11) DEFAULT '0',
+--   `ReductionDmg`   int(11) DEFAULT '0',
+--   `Hpr`            int(11) DEFAULT '0',
+--   `Mpr`            int(11) DEFAULT '0',
+--   `hppotion`       int(11) DEFAULT '0',
+--   `exp`            int(11) DEFAULT '0',
+--   `ac`             int(11) DEFAULT '0',
+--   `weight`         int(11) DEFAULT '0',
+--   `regist_stun`    int(11) DEFAULT '0',
+--   `regist_stone`   int(11) DEFAULT '0',
+--   `regist_sleep`   int(11) DEFAULT '0',
+--   `regist_freeze`  int(11) DEFAULT '0',
+--   `regist_sustain` int(11) DEFAULT '0',
+--   `regist_blind`   int(11) DEFAULT '0',
+--   `PVP`            int(11) DEFAULT '0',
+--   `BowPVP`         int(11) DEFAULT '0',
+--   PRIMARY KEY (`char_obj_id`) USING BTREE,
+--   KEY `char_obj_id` (`char_obj_id`) USING BTREE
+-- ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
