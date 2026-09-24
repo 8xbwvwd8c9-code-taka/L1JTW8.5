@@ -1,0 +1,36 @@
+name: L1JTW8.5 Production Rebuild
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-production-jar-rebuild
+    paths:
+      - 'tools/production-rebuild/**'
+      - '.github/workflows/l1jtw85-production-rebuild.yml'
+      - 'recovery/PRODUCTION_JAR_REBUILD_DESIGN_20260924.md'
+      - 'docs/superpowers/plans/2026-09-24-production-jar-rebuild.md'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  inverse-remap-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Run inverse remap contract tests
+        run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_inverse_remap.py' -v
