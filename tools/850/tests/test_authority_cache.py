@@ -107,6 +107,64 @@ class AuthorityCacheContracts(unittest.TestCase):
             self.assertEqual(resolved, completed_tip)
             self.assertNotEqual(resolved, work_head)
 
+    def test_completed_repair_scope_uses_baseline_to_pinned_completed_not_work_head(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1)
+            other = repo / "recovery" / "normalized-src-vf" / "l1r" / "aa" / "B.java"
+            other.write_text("package l1r.aa; public class B { public int value() { return 1; } }\n", encoding="utf-8")
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "recovery baseline")
+            baseline = git(repo, "rev-parse", "HEAD")
+
+            write_authority(repo, 2)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "completed A repair")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            other.write_text("package l1r.aa; public class B { public int value() { return 99; } }\n", encoding="utf-8")
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "wip B repair")
+
+            scope = mod.completed_repair_source_paths(
+                repo,
+                commit=completed,
+                baseline_commit=baseline,
+            )
+            self.assertEqual(scope, ["recovery/normalized-src-vf/l1r/aa/A.java"])
+
+    def test_completed_repair_scope_rejects_deleted_normalized_source(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "recovery baseline")
+            baseline = git(repo, "rev-parse", "HEAD")
+
+            (repo / "recovery" / "normalized-src-vf" / "l1r" / "aa" / "A.java").unlink()
+            git(repo, "add", "-A")
+            git(repo, "commit", "-m", "completed deletion")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            with self.assertRaisesRegex(RuntimeError, "deleted normalized source"):
+                mod.completed_repair_source_paths(
+                    repo,
+                    commit=completed,
+                    baseline_commit=baseline,
+                )
+
     def test_materialization_uses_pinned_commit_not_newer_worktree_source(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
