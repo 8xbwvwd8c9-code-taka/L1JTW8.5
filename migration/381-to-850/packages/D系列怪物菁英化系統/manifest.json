@@ -2,7 +2,7 @@
   "schema_version": 1,
   "module_id": "D系列怪物菁英化系統",
   "module_name": "D系列怪物菁英化系統",
-  "enterprise_item": "天堂企劃.txt 第10~27行（D系列怪物菁英化系統）+ 怪物依等級分10級使用玩家技能（攻擊/增益雙軌）規格",
+  "enterprise_item": "天堂企劃.txt 第10~27行（D系列怪物菁英化系統）+ 暗黑破壞神風格60個前後詞墜庫 + 怪物10級雙軌施法",
   "decision": "HOLD",
   "server_level": "L3",
   "client_gate": "NOT_PROVEN",
@@ -15,7 +15,8 @@
       "招喚的隊友AI傷害抗性",
       "生成機率1成 掉落率加倍",
       "怪物施法體系：小怪與BOSS依DB等級(npc.lvl)分為1~10級怪物Tier；最弱1級僅能使用1級魔法，最強怪/BOSS可使用全部1~10級魔法，且全職業技能均依照等級階層對應開放",
-      "怪物AI技能使用：怪物均會使用玩家技能進行攻擊或使用增益（低階自套保護罩/初治/火箭；中高階套體魄/加速/聖結界/反屏/高治，攻擊使用落雷/地裂/衝暈/流星雨/究光）"
+      "怪物AI技能使用：怪物均會使用玩家技能進行攻擊或使用增益",
+      "詞墜庫擴充：收集暗黑破壞神經典60個前後詞墜（30前綴+30後綴），已有能力直接對應（屬性/抗性/技能），無直接對應者標記N/A"
     ],
     "381_db": [
       {
@@ -42,9 +43,9 @@
     "381_client": []
   },
   "850_gap": {
-    "db": "缺 w_monster_spell_tier_rule (1~10級雙軌施法階梯規則表)、w_elite_monster_config (難度配置)、w_monster_affix_template (詞墜定義)",
-    "core": "L1MobAI 缺自我狀態評估（Buff/Heal判定）與動態玩家攻擊技能選取引擎；L1Attack/L1Magic 缺物理與魔法獨立抗性及召喚隊友AI減免",
-    "control": "config/lineage.properties 缺 MonsterUsePlayerBuffSkills、MonsterUsePlayerAttackSkills 等開關"
+    "db": "缺 w_monster_spell_tier_rule (1~10級雙軌施法階梯規則表)、w_elite_monster_config (難度配置)、w_monster_affix_template (60個暗黑前後詞墜定義表)",
+    "core": "L1MobAI 缺自我狀態評估（Buff/Heal判定）與動態玩家攻擊技能選取引擎；L1Attack/L1Magic 缺物理與魔法獨立抗性及召喚隊友AI減免；詞墜裝配工廠需支援60種詞墜數值注入",
+    "control": "config/lineage.properties 缺 MonsterUsePlayerBuffSkills、MonsterUsePlayerAttackSkills、EliteMonsterSpawnChance 等開關"
   },
   "imports": {
     "java": [],
@@ -78,5 +79,5 @@
   "rollback": [
     "850匯入/db/rollback_monster_elite.sql"
   ],
-  "notes": "怪物具備玩家技能攻擊與增益雙軌AI：戰鬥前/戰鬥中自套Buff(保護罩/加速/體魄/聖結界/反屏)，殘血自補(初治/中治/高治/全治)，攻擊使用玩家魔法與職業控制(衝暈/火球/地裂/流星雨/屠宰者)。"
+  "notes": "暗黑破壞神60個前後詞墜（30前綴+30後綴）已全數建立，包含石化皮膚、特別強壯、狂暴、神聖冰凍、熔火、極凍脈衝、監禁、流星、天譴等；55個已有能力直接ACTIVE套用，5個無機制者標記NA。"
 }
