@@ -37,7 +37,9 @@ if([long]$SendIatRva -ge $size){ throw ('Send IAT RVA 0x{0:X8} exceeds module si
 Add-Type -TypeDefinition @"
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Runtime.InteropServices;
+using System.Text;
 
 public sealed class Wp7ExecRegion850 {
     public long Address;
@@ -66,8 +68,78 @@ public static class Wp7LiveIat850 {
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool CloseHandle(IntPtr h);
     [DllImport("kernel32.dll",SetLastError=true)] static extern bool ReadProcessMemory(IntPtr h,IntPtr a,byte[] b,int s,out IntPtr r);
     [DllImport("kernel32.dll",SetLastError=true)] static extern int VirtualQueryEx(IntPtr h,IntPtr a,out MBI m,uint l);
-    [DllImport("kernel32.dll",CharSet=CharSet.Ansi,SetLastError=true)] static extern IntPtr LoadLibrary(string n);
-    [DllImport("kernel32.dll",CharSet=CharSet.Ansi,SetLastError=true)] static extern IntPtr GetProcAddress(IntPtr h,string n);
+
+    static ushort U16(byte[] d,int o){ return BitConverter.ToUInt16(d,o); }
+    static uint U32(byte[] d,int o){ return BitConverter.ToUInt32(d,o); }
+
+    static int RvaToOffset(byte[] d,int sectionTable,int sectionCount,uint sizeOfHeaders,uint rva){
+        if(rva < sizeOfHeaders && rva < d.Length) return (int)rva;
+        for(int i=0;i<sectionCount;i++){
+            int s=sectionTable+i*40;
+            if(s+40>d.Length) break;
+            uint vsize=U32(d,s+8), va=U32(d,s+12), rawSize=U32(d,s+16), raw=U32(d,s+20);
+            uint span=Math.Max(vsize,rawSize);
+            if(rva>=va && rva<va+span){
+                long off=(long)raw+(rva-va);
+                return off>=0 && off<d.Length ? (int)off : -1;
+            }
+        }
+        return -1;
+    }
+
+    static string AsciiZ(byte[] d,int off){
+        if(off<0 || off>=d.Length) return "";
+        int end=off;
+        while(end<d.Length && d[end]!=0 && end-off<512) end++;
+        return Encoding.ASCII.GetString(d,off,end-off);
+    }
+
+    public static long ResolvePeExportRva(string path,string exportName){
+        byte[] d=File.ReadAllBytes(path);
+        if(d.Length<0x100 || d[0]!='M' || d[1]!='Z') return -1;
+        int pe=(int)U32(d,0x3C);
+        if(pe<0 || pe+24>d.Length || U32(d,pe)!=0x00004550) return -1;
+        int fh=pe+4;
+        int sectionCount=U16(d,fh+2);
+        int optionalSize=U16(d,fh+16);
+        int opt=fh+20;
+        if(opt+optionalSize>d.Length) return -1;
+        ushort magic=U16(d,opt);
+        int dataDir;
+        if(magic==0x10B) dataDir=opt+96;
+        else if(magic==0x20B) dataDir=opt+112;
+        else return -1;
+        if(dataDir+8>d.Length) return -1;
+        uint exportRva=U32(d,dataDir);
+        if(exportRva==0) return -1;
+        uint sizeOfHeaders=U32(d,opt+60);
+        int sections=opt+optionalSize;
+        int exp=RvaToOffset(d,sections,sectionCount,sizeOfHeaders,exportRva);
+        if(exp<0 || exp+40>d.Length) return -1;
+        uint numberOfFunctions=U32(d,exp+20);
+        uint numberOfNames=U32(d,exp+24);
+        uint functionsRva=U32(d,exp+28);
+        uint namesRva=U32(d,exp+32);
+        uint ordinalsRva=U32(d,exp+36);
+        int functions=RvaToOffset(d,sections,sectionCount,sizeOfHeaders,functionsRva);
+        int names=RvaToOffset(d,sections,sectionCount,sizeOfHeaders,namesRva);
+        int ordinals=RvaToOffset(d,sections,sectionCount,sizeOfHeaders,ordinalsRva);
+        if(functions<0 || names<0 || ordinals<0) return -1;
+        for(uint i=0;i<numberOfNames;i++){
+            int np=names+(int)i*4;
+            int op=ordinals+(int)i*2;
+            if(np+4>d.Length || op+2>d.Length) break;
+            uint nameRva=U32(d,np);
+            int nameOff=RvaToOffset(d,sections,sectionCount,sizeOfHeaders,nameRva);
+            if(!string.Equals(AsciiZ(d,nameOff),exportName,StringComparison.Ordinal)) continue;
+            ushort ordinal=U16(d,op);
+            if(ordinal>=numberOfFunctions) return -1;
+            int fp=functions+ordinal*4;
+            if(fp+4>d.Length) return -1;
+            return U32(d,fp);
+        }
+        return -1;
+    }
 
     static bool IsExec(uint p){
         if((p&PAGE_GUARD)!=0 || (p&PAGE_NOACCESS)!=0) return false;
@@ -84,14 +156,6 @@ public static class Wp7LiveIat850 {
                 throw new Exception("ReadProcessMemory failed/short @0x"+address.ToString("X")+" Win32="+Marshal.GetLastWin32Error());
             return b;
         }finally{ CloseHandle(h); }
-    }
-
-    public static long ResolveLocalExportRva(string dll,string name){
-        IntPtr h=LoadLibrary(dll);
-        if(h==IntPtr.Zero) throw new Exception("LoadLibrary failed: "+dll);
-        IntPtr p=GetProcAddress(h,name);
-        if(p==IntPtr.Zero) throw new Exception("GetProcAddress failed: "+dll+"!"+name);
-        return p.ToInt64()-h.ToInt64();
     }
 
     public static List<Wp7ExecRegion850> ReadExecImageRegions(int pid,long start,long end){
@@ -169,7 +233,6 @@ function Test-Strong5E([object[]]$regions,[long]$function,[int]$window=0x800){
     $start=[int]($function-[long]$r.Address)
     $end=[Math]::Min($r.Bytes.Length,$start+$window)
     for($i=$start;$i -lt $end-1;$i++){
-        # Ranking hint only: common immediate forms push 0x5E / mov r32,0x5E / cmp imm8.
         if($r.Bytes[$i] -eq 0x6A -and $r.Bytes[$i+1] -eq 0x5E){return $true}
         if($r.Bytes[$i] -ge 0xB8 -and $r.Bytes[$i] -le 0xBF -and $i+4 -lt $end -and [BitConverter]::ToUInt32($r.Bytes,$i+1) -eq 0x5E){return $true}
         if($r.Bytes[$i] -eq 0x83 -and $i+2 -lt $end -and $r.Bytes[$i+2] -eq 0x5E){return $true}
@@ -200,13 +263,24 @@ $sendTarget=[uint32][BitConverter]::ToUInt32($slot,0)
 if($sendTarget -eq 0){throw 'Live send IAT slot is NULL.'}
 
 $remoteWs=$null
-try{$remoteWs=@($proc.Modules | Where-Object {$_.ModuleName -ieq 'ws2_32.dll'} | Select-Object -First 1)[0]}catch{}
-$sendExportRva=[Wp7LiveIat850]::ResolveLocalExportRva('ws2_32.dll','send')
+try{$remoteWs=$proc.Modules | Where-Object {$_.ModuleName -ieq 'ws2_32.dll'} | Select-Object -First 1}catch{}
+$remoteWsPath=$null
+$sendExportRva=-1L
 $expectedRemoteSend=$null
+$targetInsideWs2=$false
 $sendTargetVerified=$false
 if($remoteWs){
-    $expectedRemoteSend=[long]$remoteWs.BaseAddress+$sendExportRva
-    $sendTargetVerified=([uint32]$expectedRemoteSend -eq $sendTarget)
+    try{$remoteWsPath=[string]$remoteWs.FileName}catch{}
+    if($remoteWsPath -and (Test-Path -LiteralPath $remoteWsPath)){
+        $sendExportRva=[Wp7LiveIat850]::ResolvePeExportRva($remoteWsPath,'send')
+    }
+    $wsBase=[long]$remoteWs.BaseAddress
+    $wsSize=[long]$remoteWs.ModuleMemorySize
+    $targetInsideWs2=([long]$sendTarget -ge $wsBase -and [long]$sendTarget -lt ($wsBase+$wsSize))
+    if($sendExportRva -ge 0){
+        $expectedRemoteSend=$wsBase+$sendExportRva
+        $sendTargetVerified=([uint32]$expectedRemoteSend -eq $sendTarget)
+    }
 }
 
 $regions=[Wp7LiveIat850]::ReadExecImageRegions($proc.Id,$base,$limit)
@@ -264,8 +338,10 @@ $lines.Add(('SEND_IAT_RVA=0x{0:X8}' -f $SendIatRva))
 $lines.Add(('SEND_IAT_VA=0x{0:X8}' -f $iatVa))
 $lines.Add(('SEND_TARGET_VA=0x{0:X8}' -f $sendTarget))
 $lines.Add(('REMOTE_WS2_32_BASE={0}' -f $(if($remoteWs){'0x{0:X8}' -f [long]$remoteWs.BaseAddress}else{'UNKNOWN'})))
-$lines.Add(('LOCAL_SEND_EXPORT_RVA=0x{0:X8}' -f $sendExportRva))
-$lines.Add(('EXPECTED_REMOTE_SEND={0}' -f $(if($expectedRemoteSend){'0x{0:X8}' -f $expectedRemoteSend}else{'UNKNOWN'})))
+$lines.Add(('REMOTE_WS2_32_PATH={0}' -f $(if($remoteWsPath){$remoteWsPath}else{'UNKNOWN'})))
+$lines.Add(('SEND_TARGET_WITHIN_WS2_32={0}' -f $(if($targetInsideWs2){1}else{0})))
+$lines.Add(('TARGET_WS2_32_SEND_EXPORT_RVA={0}' -f $(if($sendExportRva -ge 0){'0x{0:X8}' -f $sendExportRva}else{'UNKNOWN'})))
+$lines.Add(('EXPECTED_REMOTE_SEND={0}' -f $(if($expectedRemoteSend -ne $null){'0x{0:X8}' -f $expectedRemoteSend}else{'UNKNOWN'})))
 $lines.Add(('SEND_TARGET_EXPORT_MATCH={0}' -f $(if($sendTargetVerified){1}else{0})))
 $lines.Add('SCAN_SCOPE=LIN.BIN2_EXECUTABLE_MEM_IMAGE_ONLY')
 $lines.Add('CALLER_DEPTH=1')
@@ -299,6 +375,10 @@ $lines.Add('')
 $lines.Add('[SUMMARY]')
 if(-not $remoteWs){
     $lines.Add('STATUS=PARTIAL_WS2_32_MODULE_NOT_ENUMERATED')
+}elseif(-not $targetInsideWs2){
+    $lines.Add('STATUS=BLOCKED_SEND_IAT_TARGET_OUTSIDE_WS2_32')
+}elseif($sendExportRva -lt 0){
+    $lines.Add('STATUS=PARTIAL_WS2_32_EXPORT_PARSE_FAILED')
 }elseif(-not $sendTargetVerified){
     $lines.Add('STATUS=BLOCKED_SEND_IAT_TARGET_MISMATCH')
 }elseif($xrefs.Count -eq 0){
