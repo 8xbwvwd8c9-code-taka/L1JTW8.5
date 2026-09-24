@@ -1,0 +1,208 @@
+name: L1JTW8.5 BUG-850-275 Source Promotion v5
+
+on:
+  push:
+    branches: [completed/l1jtw85-core-fixes]
+    paths: [".github/workflows/l1jtw85-bug-850-275-completed-v5.yml"]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  validate-promote-source:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Apply scoped source
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git fetch origin work/l1jtw85-core-fixes completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "PRE_APPLY_CONCURRENCY=PASS"
+
+          for c in \
+            1dedda57877a106921cace193d2c6185b838f06d \
+            fa79fb92e5f1e13bb98b232a96e3d5e99b962eea \
+            49a18c9019a52cbb5223a2fd30d5398c47c6f451 \
+            096157cdf7fb62a56b988276eea57ad31393d949 \
+            b25d425a5d0151f1bf8547d0b721bb3da3398214; do
+            git cherry-pick -n "$c"
+          done
+
+          mkdir -p "$RUNNER_TEMP/proto-base/l1r/aj"
+          cp recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java "$RUNNER_TEMP/proto-base/l1r/aj/C_ProtoBuffers.java"
+          git show 92ac8fe09fa8574d999ba9d40d0ce0961d232d2a:recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java > "$RUNNER_TEMP/proto-275.java"
+          git show 1210cd2d22f191e769ce91a112429550d41cb474:recovered-src-obf/aj/bs.java > "$RUNNER_TEMP/proto-275-obf.java"
+          git show 5c29a9848f572b2fcf362f0f9485c6856ffd2fe8:recovery/normalized-src-vf/l1r/ao/QuestNewTable.java > recovery/normalized-src-vf/l1r/ao/QuestNewTable.java
+          git show ab38c16a271242ddb0f7f3394138c18ce2dc7667:recovered-src-obf/ao/az.java > recovered-src-obf/ao/az.java
+
+          N_SRC="$RUNNER_TEMP/proto-275.java" O_SRC="$RUNNER_TEMP/proto-275-obf.java" python - <<'PY'
+          from pathlib import Path
+          import os
+
+          def overlay_save(path, start, end, reps):
+              p = Path(path)
+              text = p.read_text(encoding='utf-8')
+              s = text.index(start)
+              e = text.index(end, s)
+              block = text[s:e]
+              for old, new in reps:
+                  count = block.count(old)
+                  if count != 1:
+                      raise SystemExit(f'FAIL save overlay {path}: expected 1 got {count}: {old}')
+                  block = block.replace(old, new, 1)
+              p.write_text(text[:s] + block + text[e:], encoding='utf-8')
+
+          overlay_save(
+              'recovery/normalized-src-vf/l1r/ao/QuestNewTable.java',
+              'public void c(L1PcInstance var1)', 'public boolean claimReward', [
+                  ('var3 = var2.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
+                   'var3 = var2.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+                  ('var3.setBytes(1, this.f(var1));', 'var3.setBytes(2, this.f(var1));'),
+                  ('var3.setInt(2, var1.fr());', 'var3.setInt(1, var1.fr());'),
+              ])
+          overlay_save(
+              'recovered-src-obf/ao/az.java',
+              'public void c(u pc)', 'public boolean claimReward', [
+                  ('pstm = con.prepareStatement("UPDATE character_quests_new SET data=? WHERE objid=?");',
+                   'pstm = con.prepareStatement("INSERT INTO character_quests_new (objid,data) VALUES (?,?) ON DUPLICATE KEY UPDATE data=VALUES(data)");'),
+                  ('pstm.setBytes(1, this.f(pc));', 'pstm.setBytes(2, this.f(pc));'),
+                  ('pstm.setInt(2, pc.fr());', 'pstm.setInt(1, pc.fr());'),
+              ])
+
+          def replace_protocol_block(current_path, source_path, start_marker, end_marker):
+              current = Path(current_path).read_text(encoding='utf-8')
+              source = Path(source_path).read_text(encoding='utf-8')
+              def bounds(text):
+                  sm = text.index(start_marker)
+                  em = text.index(end_marker, sm)
+                  return text.rfind('\n', 0, sm) + 1, text.rfind('\n', 0, em) + 1
+              cs, ce = bounds(current)
+              ss, se = bounds(source)
+              Path(current_path).write_text(current[:cs] + source[ss:se] + current[ce:], encoding='utf-8')
+
+          replace_protocol_block(
+              'recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java',
+              os.environ['N_SRC'], 'var3 == 524', 'var3 == 527')
+          replace_protocol_block(
+              'recovered-src-obf/aj/bs.java',
+              os.environ['O_SRC'], 'type == 524', 'type == 527')
+
+          n = Path('recovery/normalized-src-vf/l1r/ao/QuestNewTable.java').read_text(encoding='utf-8')
+          o = Path('recovered-src-obf/ao/az.java').read_text(encoding='utf-8')
+          assert 'var5.a(var1.ev());' in n
+          assert 'for (int objectiveIndex = 0; objectiveIndex < var5.r().length; objectiveIndex++)' in n
+          assert 'quest.a(pc.ev());' in o
+          assert 'while (objectiveIndex < quest.r().length)' in o
+          assert 'ON DUPLICATE KEY UPDATE data=VALUES(data)' in n
+          assert 'ON DUPLICATE KEY UPDATE data=VALUES(data)' in o
+          print('PRESERVE_255_276_277=PASS')
+          PY
+
+          git add \
+            recovery/normalized-src-vf/l1r/ao/QuestNewTable.java \
+            recovered-src-obf/ao/az.java \
+            recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java \
+            recovered-src-obf/aj/bs.java
+
+          git diff --cached --name-only | sort > "$RUNNER_TEMP/actual"
+          cat > "$RUNNER_TEMP/expected" <<'EOF'
+          db/migrations/BUG-850-275_quest_reward_atomicity.sql
+          recovered-src-obf/aj/bs.java
+          recovered-src-obf/ao/az.java
+          recovered-src-obf/ao/l.java
+          recovered-src-obf/au/g.java
+          recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java
+          recovery/normalized-src-vf/l1r/ao/CharacterItemTable.java
+          recovery/normalized-src-vf/l1r/ao/QuestNewTable.java
+          recovery/normalized-src-vf/l1r/au/L1PcInventory.java
+          EOF
+          diff -u "$RUNNER_TEMP/expected" "$RUNNER_TEMP/actual"
+          echo "SCOPED_SOURCE_APPLIED=PASS"
+          echo "UNRELATED_SOURCE_REPLAY=NO"
+
+      - name: Original source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/validate_bug_850_275.py > "$RUNNER_TEMP/validate.py"
+          python "$RUNNER_TEMP/validate.py"
+
+      - name: Java 8 integration compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/qstub/l1r/ao" "$RUNNER_TEMP/qstub/l1r/au" "$RUNNER_TEMP/qoverlay" "$RUNNER_TEMP/qclasses"
+          cat > "$RUNNER_TEMP/qstub/l1r/ao/CharacterItemTable.java" <<'JAVA'
+          package l1r.ao;
+          import java.sql.Connection; import java.sql.SQLException; import l1r.ap.L1ItemInstance;
+          public class CharacterItemTable {
+            public static CharacterItemTable a(){return null;}
+            public void deleteQuestRewardItem(Connection c,int x,L1ItemInstance i,int n)throws SQLException{}
+            public void updateQuestRewardCount(Connection c,int x,L1ItemInstance i,int o,int n)throws SQLException{}
+            public void insertQuestReward(Connection c,int x,L1ItemInstance i)throws SQLException{}
+          }
+          JAVA
+          cat > "$RUNNER_TEMP/qstub/l1r/au/L1PcInventory.java" <<'JAVA'
+          package l1r.au;
+          import java.util.List; import l1r.ap.L1ItemInstance;
+          public class L1PcInventory {
+            public List<L1ItemInstance> d(){return null;} public int e(){return 0;} public int c(){return 0;}
+            public L1ItemInstance d(int i,int n){return null;}
+            public void publishCommittedQuestDelete(L1ItemInstance i){}
+            public void publishCommittedQuestUpdate(L1ItemInstance i,int n){}
+            public void publishCommittedQuestInsert(L1ItemInstance i){}
+          }
+          JAVA
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/qoverlay" "$RUNNER_TEMP/qstub/l1r/ao/CharacterItemTable.java" "$RUNNER_TEMP/qstub/l1r/au/L1PcInventory.java"
+          javac -proc:none -encoding UTF-8 -cp "$RUNNER_TEMP/qoverlay:recovery/l1jserver2-source-normalized.jar" -d "$RUNNER_TEMP/qclasses" recovery/normalized-src-vf/l1r/ao/QuestNewTable.java
+          echo "QUESTNEW_JAVAC=PASS"
+
+          mkdir -p "$RUNNER_TEMP/pstub/l1r/ao" "$RUNNER_TEMP/poverlay" "$RUNNER_TEMP/baseclasses" "$RUNNER_TEMP/currentclasses"
+          cat > "$RUNNER_TEMP/pstub/l1r/ao/QuestNewTable.java" <<'JAVA'
+          package l1r.ao; import l1r.ap.L1PcInstance; import l1r.bh.L1QuestNew;
+          public class QuestNewTable { public static QuestNewTable a(){return null;} public boolean claimReward(L1PcInstance p,L1QuestNew q,int s){return false;} }
+          JAVA
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/poverlay" "$RUNNER_TEMP/pstub/l1r/ao/QuestNewTable.java"
+          set +e
+          javac -proc:none -encoding UTF-8 -cp "$RUNNER_TEMP/poverlay:recovery/l1jserver2-source-normalized.jar" -d "$RUNNER_TEMP/baseclasses" "$RUNNER_TEMP/proto-base/l1r/aj/C_ProtoBuffers.java" 2> "$RUNNER_TEMP/base.err"; BASE_RC=$?
+          javac -proc:none -encoding UTF-8 -cp "$RUNNER_TEMP/poverlay:recovery/l1jserver2-source-normalized.jar" -d "$RUNNER_TEMP/currentclasses" recovery/normalized-src-vf/l1r/aj/C_ProtoBuffers.java 2> "$RUNNER_TEMP/current.err"; CURRENT_RC=$?
+          set -e
+          grep 'error:' "$RUNNER_TEMP/base.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/base.sig" || true
+          grep 'error:' "$RUNNER_TEMP/current.err" | sed -E 's#^.*error:#error:#' > "$RUNNER_TEMP/current.sig" || true
+          diff -u "$RUNNER_TEMP/base.sig" "$RUNNER_TEMP/current.sig"
+          echo "PROTO_NO_NEW_JAVAC_REGRESSION=PASS"
+          echo "BASELINE_JAVAC_RC=$BASE_RC"
+          echo "CURRENT_JAVAC_RC=$CURRENT_RC"
+
+      - name: Original targeted runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/Bug850275RuntimeTest.java > "$RUNNER_TEMP/Bug850275RuntimeTest.java"
+          mkdir -p "$RUNNER_TEMP/runtime"
+          javac -d "$RUNNER_TEMP/runtime" "$RUNNER_TEMP/Bug850275RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/runtime" Bug850275RuntimeTest
+
+      - name: Final concurrency and source push
+        shell: bash
+        run: |
+          set -euo pipefail
+          git commit -m "fix(l2): promote BUG-850-275 atomic quest reward claim"
+          SOURCE_COMMIT=$(git rev-parse HEAD)
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "CONCURRENCY_GATE=PASS"
+          echo "SOURCE_COMMIT=$SOURCE_COMMIT"
+          git push origin HEAD:completed/l1jtw85-core-fixes
