@@ -1,0 +1,150 @@
+name: L1JTW8.5 BUG-850-246 Completed Promotion
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-246-promotion.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  exact-history-validate-promote:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout completed branch
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Java 8
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+
+      - name: Validate historical patch manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin work/l1jtw85-core-fixes completed/l1jtw85-core-fixes
+          python - <<'PY'
+          import subprocess
+          expected = {
+              '6d8aab93ceaf9216500b0ee31537f77515407d37': ['db/migrations/BUG-850-246_character_buff_innodb.sql'],
+              'bb1d29321560582c07106bbd639ed4475b954c7f': ['recovery/normalized-src-vf/l1r/ao/CharBuffTable.java'],
+              'ba3be853adf06e97a2cee3998d51464a713e970f': ['recovered-src-obf/ao/h.java'],
+              '5fd4893033d2ac21be02c502e8e1b457d4acd317': ['recovery/normalized-src-vf/l1r/ao/CharBuffTable.java'],
+              '0870ac829c52982dbf6441ba4d150d4c1f792189': ['recovered-src-obf/ao/h.java'],
+          }
+          for sha, want in expected.items():
+              out = subprocess.check_output(['git','show','--pretty=format:','--name-only',sha], text=True)
+              got = [x for x in out.splitlines() if x.strip()]
+              if got != want:
+                  raise SystemExit(f'FAIL manifest {sha}: {got} != {want}')
+          print('BUG_850_246_HISTORICAL_MANIFESTS=PASS')
+          PY
+
+      - name: Apply exact historical BUG-850-246 chain
+        shell: bash
+        run: |
+          set -euo pipefail
+          git cherry-pick -n \
+            6d8aab93ceaf9216500b0ee31537f77515407d37 \
+            bb1d29321560582c07106bbd639ed4475b954c7f \
+            ba3be853adf06e97a2cee3998d51464a713e970f \
+            5fd4893033d2ac21be02c502e8e1b457d4acd317 \
+            0870ac829c52982dbf6441ba4d150d4c1f792189
+          python - <<'PY'
+          import subprocess
+          want = sorted([
+              'db/migrations/BUG-850-246_character_buff_innodb.sql',
+              'recovery/normalized-src-vf/l1r/ao/CharBuffTable.java',
+              'recovered-src-obf/ao/h.java',
+          ])
+          got = sorted(x for x in subprocess.check_output(['git','diff','--cached','--name-only'], text=True).splitlines() if x)
+          if got != want:
+              raise SystemExit(f'FAIL staged paths: {got} != {want}')
+          print('BUG_850_246_EXACT_PATCH_CHAIN=PASS')
+          print('UNRELATED_SOURCE_REPLAY=NO')
+          PY
+
+      - name: Validate source contract
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/validate_bug_850_246.py > "$RUNNER_TEMP/validate_bug_850_246.py"
+          python "$RUNNER_TEMP/validate_bug_850_246.py"
+
+      - name: Compile normalized repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bug850246-classes"
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar \
+            -d "$RUNNER_TEMP/bug850246-classes" recovery/normalized-src-vf/l1r/ao/CharBuffTable.java
+          echo "BUG_850_246_TARGETED_JAVAC=PASS"
+
+      - name: Run targeted behavior runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          git show origin/work/l1jtw85-core-fixes:tools/core-fix/Bug850246RuntimeTest.java > "$RUNNER_TEMP/Bug850246RuntimeTest.java"
+          mkdir -p "$RUNNER_TEMP/bug850246-runtime"
+          javac -d "$RUNNER_TEMP/bug850246-runtime" "$RUNNER_TEMP/Bug850246RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/bug850246-runtime" Bug850246RuntimeTest
+
+      - name: Concurrency gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_246_CONCURRENCY_GATE=PASS"
+
+      - name: Commit exact source, record evidence, and push
+        shell: bash
+        env:
+          WORK_CI: "35721934912"
+          PATCH_CHAIN: "6d8aab93,bb1d2932,ba3be853,5fd48930,0870ac82"
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+
+          git commit -m "fix(l2): promote BUG-850-246 atomic buff snapshot rewrite"
+          SOURCE_COMMIT="$(git rev-parse HEAD)"
+          export SOURCE_COMMIT
+
+          python - <<'PY'
+          from pathlib import Path
+          import os
+
+          readme = Path('README.md')
+          text = readme.read_text(encoding='utf-8')
+          row = '| BUG-850-246 | L2 | character_buff transactional snapshot rewrite / InnoDB gate | PASS / PROMOTED |'
+          if row not in text:
+              anchor = '| BUG-850-249 | L2 | pet DB-first create/delete and atomic evolve replace | PASS / PROMOTED |'
+              if anchor not in text:
+                  raise SystemExit('FAIL BUG-850-249 table anchor missing')
+              text = text.replace(anchor, anchor + '\n' + row, 1)
+
+          heading = '## BUG-850-246 — character buff snapshot rewrite could be partially persisted'
+          if heading not in text:
+              text = text.rstrip() + f'''\n\n{heading}\n\n### Problem\n\nSaving a character buff snapshot deleted existing rows and then inserted replacements through independent autocommit statements. A failure after the delete or during any insert could leave only part of the durable buff snapshot.\n\n### Fix\n\n- require `character_buff` to use InnoDB before destructive work;\n- execute the per-character DELETE plus all replacement INSERTs inside one JDBC transaction;\n- require every INSERT to affect exactly one row;\n- rollback on any SQL/row-count failure and restore the prior auto-commit mode;\n- apply the same contract to normalized and obfuscated sources;\n- provide `db/migrations/BUG-850-246_character_buff_innodb.sql`.\n\n### Validation\n\n```text\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nPATCH_CHAIN={os.environ['PATCH_CHAIN']}\nBUG_850_246_HISTORICAL_MANIFESTS=PASS\nBUG_850_246_EXACT_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nBUG_850_246_CONTRACT=PASS\nENGINE_GATE_BEFORE_DELETE=PASS\nBUFF_SNAPSHOT_TRANSACTION=PASS\nROLLBACK_PRESENT=PASS\nBUG_850_246_TARGETED_JAVAC=PASS\nBUG_850_246_TARGETED_BEHAVIOR_RUNTIME=PASS\nBUG_850_246_CONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-246_VALIDATION_20260924.md`\n\n### Result\n\n```text\nBUG-850-246=L2\nSTATUS=PASS_PROMOTED\nDB_MIGRATION_REQUIRED=YES\nUNRELATED_SOURCE_REPLAY=NO\n```\n'''
+          readme.write_text(text, encoding='utf-8')
+
+          evidence = Path('recovery/BUG-850-246_VALIDATION_20260924.md')
+          evidence.write_text(f'''# BUG-850-246 Validation\n\n```text\nBUG=BUG-850-246\nLEVEL=L2\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nPATCH_CHAIN={os.environ['PATCH_CHAIN']}\nHISTORICAL_MANIFESTS=PASS\nEXACT_PATCH_CHAIN=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nENGINE_GATE_BEFORE_DELETE=PASS\nBUFF_SNAPSHOT_TRANSACTION=PASS\nROLLBACK_PRESENT=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nCONCURRENCY_GATE=PASS\nDB_MIGRATION_REQUIRED=YES\nSTATUS=PASS_PROMOTED\n```\n''', encoding='utf-8')
+          PY
+
+          git add README.md recovery/BUG-850-246_VALIDATION_20260924.md
+          git rm .github/workflows/l1jtw85-bug-850-246-promotion.yml
+          git commit -m "docs: record BUG-850-246 completed repair"
+
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          git push origin HEAD:completed/l1jtw85-core-fixes
