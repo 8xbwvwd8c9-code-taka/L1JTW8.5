@@ -67,7 +67,7 @@ public class CharacterMobsWeekTable {
 
       try {
          var2 = DatabaseFactory.a().b();
-         var3 = var2.prepareStatement("INSERT INTO character_mobs_week SET login=?, numbers=?, counts=?, kills=?, states=?");
+         var3 = var2.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");
          String var4 = "";
          String var5 = "";
          String var6 = "";

@@ -83,7 +83,7 @@ public class n {
             try {
                 try {
                     con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO character_mobs_week SET login=?, numbers=?, counts=?, kills=?, states=?");
+                    pstm = con.prepareStatement("INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)");
                     String numbers = "";
                     String count = "";
                     String kill = "";
