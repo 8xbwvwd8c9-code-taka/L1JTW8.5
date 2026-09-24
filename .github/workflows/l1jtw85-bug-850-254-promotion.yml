@@ -12,7 +12,7 @@ permissions:
   contents: write
 
 jobs:
-  exact-patch-validate-record:
+  exact-patch-validate-promote:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout completed branch
@@ -24,177 +24,166 @@ jobs:
         with:
           distribution: temurin
           java-version: "8"
-      - name: Apply exact BUG-850-254 patches only
+      - name: Apply exact BUG-850-254 patch chain
         shell: bash
         run: |
           set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          patches = {
-            'recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java': [(
-'''   public void b() {
-      Connection var1 = null;
-      PreparedStatement var2 = null;
-
-      try {
-         var1 = DatabaseFactory.a().b();
-         var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
-         var2.execute();
-      } catch (SQLException var7) {
-         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
-      } finally {
-         SQLUtil.a(var2);
-         SQLUtil.a(var1);
-      }
-   }''',
-'''   public void b() {
-      this.deleteAllDurable();
-   }
-
-   public boolean deleteAllDurable() {
-      Connection var1 = null;
-      PreparedStatement var2 = null;
-
-      try {
-         var1 = DatabaseFactory.a().b();
-         var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
-         var2.executeUpdate();
-         return true;
-      } catch (SQLException var7) {
-         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
-         return false;
-      } finally {
-         SQLUtil.a(var2);
-         SQLUtil.a(var1);
-      }
-   }''')],
-            'recovered-src-obf/ao/n.java': [(
-'''    public void b() {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
+          cat > "$RUNNER_TEMP/bug850254.patch" <<'PATCH'
+          diff --git a/recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java b/recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          --- a/recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          +++ b/recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          @@ -130,15 +130,21 @@
+             }
+          
+             public void b() {
+          +      this.deleteAllDurable();
+          +   }
+          +
+          +   public boolean deleteAllDurable() {
+                Connection var1 = null;
+                PreparedStatement var2 = null;
+          
                 try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("DELETE FROM character_mobs_week");
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
-            j.a(pstm);
-            j.a(con);
-        }
-    }''',
-'''    public void b() {
-        this.deleteAllDurable();
-    }
-
-    public boolean deleteAllDurable() {
-        Connection con = null;
-        PreparedStatement pstm = null;
-        try {
-            con = l1j.server.b.a().b();
-            pstm = con.prepareStatement("DELETE FROM character_mobs_week");
-            pstm.executeUpdate();
-            return true;
-        }
-        catch (SQLException e2) {
-            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            return false;
-        }
-        finally {
-            j.a(pstm);
-            j.a(con);
-        }
-    }''')],
-            'recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java': [(
-'''            CharacterMobsWeekTable.a().b();''',
-'''            if (!CharacterMobsWeekTable.a().deleteAllDurable()) {
-               return;
-            }''')],
-            'recovered-src-obf/ba/d.java': [(
-'''                n.a().b();''',
-'''                if (!n.a().deleteAllDurable()) {
-                    return;
-                }'''),(
-'''                long timeMill = 604800000L;
-                System.out.println("\\u6bcf\\u9031\\u4efb\\u52d9\\u91cd\\u7f6e:\\u8ddd\\u96e2\\u57f7\\u884c\\u6642\\u9593\\u9084\\u6709...10080\\u5206");
-                e.a().a(new c(), 604800000L);
-            }
-            catch (Exception e2) {
-                a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            }''',
-'''            }
-            catch (Exception e2) {
-                a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-            }
-            finally {
-                System.out.println("\\u6bcf\\u9031\\u4efb\\u52d9\\u91cd\\u7f6e:\\u8ddd\\u96e2\\u57f7\\u884c\\u6642\\u9593\\u9084\\u6709...10080\\u5206");
-                e.a().a(new c(), 604800000L);
-            }''')],
-          }
-
-          for file, reps in patches.items():
-              p = Path(file)
-              text = p.read_text(encoding='utf-8')
-              for old, new in reps:
-                  count = text.count(old)
-                  if count != 1:
-                      raise SystemExit(f'FAIL exact patch count {file}: expected 1 got {count}: {old[:100]!r}')
-                  text = text.replace(old, new, 1)
-              p.write_text(text, encoding='utf-8')
-          print('BUG_850_254_EXACT_PATCH_APPLIED=PASS')
-          print('UNRELATED_SOURCE_REPLAY=NO')
-          print('OBF_WEEKLY_FINALLY_PRECONDITION=e5320aeaf649c1538d8eef50b6e3ab1d20cf2af3')
-          PY
+                   var1 = DatabaseFactory.a().b();
+                   var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
+          -         var2.execute();
+          +         var2.executeUpdate();
+          +         return true;
+                } catch (SQLException var7) {
+                   a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
+          +         return false;
+                } finally {
+                   SQLUtil.a(var2);
+                   SQLUtil.a(var1);
+          diff --git a/recovered-src-obf/ao/n.java b/recovered-src-obf/ao/n.java
+          --- a/recovered-src-obf/ao/n.java
+          +++ b/recovered-src-obf/ao/n.java
+          @@ -168,27 +168,23 @@
+              }
+          
+              public void b() {
+          -        block5: {
+          -            Connection con = null;
+          -            PreparedStatement pstm = null;
+          -            try {
+          -                try {
+          -                    con = l1j.server.b.a().b();
+          -                    pstm = con.prepareStatement("DELETE FROM character_mobs_week");
+          -                    pstm.execute();
+          -                }
+          -                catch (SQLException e2) {
+          -                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+          -                    j.a(pstm);
+          -                    j.a(con);
+          -                    break block5;
+          -                }
+          -            }
+          -            catch (Throwable throwable) {
+          -                j.a(pstm);
+          -                j.a(con);
+          -                throw throwable;
+          -            }
+          +        this.deleteAllDurable();
+          +    }
+          +
+          +    public boolean deleteAllDurable() {
+          +        Connection con = null;
+          +        PreparedStatement pstm = null;
+          +        try {
+          +            con = l1j.server.b.a().b();
+          +            pstm = con.prepareStatement("DELETE FROM character_mobs_week");
+          +            pstm.executeUpdate();
+          +            return true;
+          +        }
+          +        catch (SQLException e2) {
+          +            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+          +            return false;
+          +        }
+          +        finally {
+                       j.a(pstm);
+                       j.a(con);
+                   }
+          diff --git a/recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java b/recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java
+          --- a/recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java
+          +++ b/recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java
+          @@ -147,7 +147,9 @@
+                @Override
+                public void run() {
+                   try {
+          -            CharacterMobsWeekTable.a().b();
+          +            if (!CharacterMobsWeekTable.a().deleteAllDurable()) {
+          +               return;
+          +            }
+          
+                      for (L1PcInstance var1 : L1World.a().c()) {
+                         var1.a(MobQuestWeekTable.a().b());
+          diff --git a/recovered-src-obf/ba/d.java b/recovered-src-obf/ba/d.java
+          --- a/recovered-src-obf/ba/d.java
+          +++ b/recovered-src-obf/ba/d.java
+          @@ -130,14 +130,16 @@
+                              n.a().b(pc);
+                              pc.a(new dc(810, pc.dY()));
+                          }
+          -                long timeMill = 604800000L;
+          -                System.out.println("\u6bcf\u9031\u4efb\u52d9\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...10080\u5206");
+          -                e.a().a(new c(), 604800000L);
+                      }
+                      catch (Exception e2) {
+                          a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                      }
+          +            finally {
+          +                System.out.println("\u6bcf\u9031\u4efb\u52d9\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...10080\u5206");
+          +                e.a().a(new c(), 604800000L);
+          +            }
+                  }
+          +
+              }
+          @@ -124,7 +126,9 @@
+                  @Override
+                  public void run() {
+                      try {
+          -                n.a().b();
+          +                if (!n.a().deleteAllDurable()) {
+          +                    return;
+          +                }
+                      for (u pc : aq.aq.a().c()) {
+                          pc.a(aq.a().b());
+                          n.a().b(pc);
+          PATCH
+          git apply --check "$RUNNER_TEMP/bug850254.patch"
+          git apply "$RUNNER_TEMP/bug850254.patch"
+          echo "BUG_850_254_EXACT_PATCH_APPLIED=PASS"
+          echo "UNRELATED_SOURCE_REPLAY=NO"
       - name: Validate source contract
         shell: bash
         run: |
           set -euo pipefail
           python - <<'PY'
           from pathlib import Path
-
-          N_TABLE=Path('recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java').read_text(encoding='utf-8')
-          O_TABLE=Path('recovered-src-obf/ao/n.java').read_text(encoding='utf-8')
-          N_RESET=Path('recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java').read_text(encoding='utf-8')
-          O_RESET=Path('recovered-src-obf/ba/d.java').read_text(encoding='utf-8')
-
-          def req(t,n,label):
-              p=t.find(n)
-              if p<0: raise SystemExit(f'FAIL missing {label}: {n}')
+          nt=Path('recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java').read_text(encoding='utf-8')
+          ot=Path('recovered-src-obf/ao/n.java').read_text(encoding='utf-8')
+          nr=Path('recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java').read_text(encoding='utf-8')
+          or_=Path('recovered-src-obf/ba/d.java').read_text(encoding='utf-8')
+          def req(t,s,label):
+              p=t.find(s)
+              if p<0: raise SystemExit('FAIL '+label)
               return p
-
-          for text,label in ((N_TABLE,'normalized table'),(O_TABLE,'obfuscated table')):
-              req(text,'deleteAllDurable',f'{label} delete helper')
-              req(text,'DELETE FROM character_mobs_week',f'{label} delete SQL')
-              req(text,'executeUpdate()',f'{label} executeUpdate')
-              req(text,'return true;',f'{label} success result')
-              req(text,'return false;',f'{label} failure result')
-
-          n_week=N_RESET[N_RESET.index('private class L1R_c extends TimerTask'):]
-          o_week=O_RESET[O_RESET.index('private class c\n    extends TimerTask'):]
-          ng=req(n_week,'if (!CharacterMobsWeekTable.a().deleteAllDurable())','normalized reset gate')
-          nl=req(n_week,'for (L1PcInstance var1 : L1World.a().c())','normalized weekly player loop')
-          if ng>nl: raise SystemExit('FAIL normalized live reset starts before delete gate')
-          og=req(o_week,'if (!n.a().deleteAllDurable())','obfuscated reset gate')
-          ol=req(o_week,'for (u pc : aq.aq.a().c())','obfuscated weekly player loop')
-          if og>ol: raise SystemExit('FAIL obfuscated live reset starts before delete gate')
-          ns=req(n_week,'GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);','normalized weekly reschedule')
-          os=req(o_week,'e.a().a(new c(), 604800000L);','obfuscated weekly reschedule')
-          if n_week.rfind('finally',0,ns)<0: raise SystemExit('FAIL normalized weekly reschedule no longer in finally')
-          if o_week.rfind('finally',0,os)<0: raise SystemExit('FAIL obfuscated weekly reschedule no longer in finally')
-
+          for t,label in ((nt,'normalized table'),(ot,'obfuscated table')):
+              req(t,'deleteAllDurable',label+' helper')
+              req(t,'DELETE FROM character_mobs_week',label+' SQL')
+              req(t,'executeUpdate()',label+' executeUpdate')
+              req(t,'return true;',label+' success')
+              req(t,'return false;',label+' failure')
+          nw=nr[nr.index('private class L1R_c extends TimerTask'):]
+          ow=or_[or_.index('private class c\n    extends TimerTask'):]
+          if req(nw,'if (!CharacterMobsWeekTable.a().deleteAllDurable())','normalized gate') > req(nw,'for (L1PcInstance var1 : L1World.a().c())','normalized loop'):
+              raise SystemExit('FAIL normalized gate ordering')
+          if req(ow,'if (!n.a().deleteAllDurable())','obfuscated gate') > req(ow,'for (u pc : aq.aq.a().c())','obfuscated loop'):
+              raise SystemExit('FAIL obfuscated gate ordering')
+          ns=req(nw,'GeneralThreadPool.a().a(CurrentTimeReseter.this.new L1R_c(), 604800000L);','normalized reschedule')
+          os=req(ow,'e.a().a(new c(), 604800000L);','obfuscated reschedule')
+          if nw.rfind('finally',0,ns)<0: raise SystemExit('FAIL normalized finally')
+          if ow.rfind('finally',0,os)<0: raise SystemExit('FAIL obfuscated finally')
           print('BUG_850_254_CONTRACT=PASS')
           print('BULK_DELETE_RESULT_PROPAGATED=PASS')
           print('LIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS')
@@ -247,41 +236,16 @@ jobs:
           git fetch origin completed/l1jtw85-core-fixes
           test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
           echo "BUG_850_254_CONCURRENCY_GATE=PASS"
-      - name: Commit exact source then docs and push
+      - name: Commit exact source and push
         shell: bash
-        env:
-          WORK_CI: "35722588093"
-          PATCH_CHAIN: "e5320aea,2fb56fbd,c75e085e,8470e775,a5dba0e6"
         run: |
           set -euo pipefail
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovered-src-obf/ao/n.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java recovered-src-obf/ba/d.java
+          git add recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java recovered-src-obf/ao/n.java recovered-src-obf/ba/d.java
           CHANGED="$(git diff --cached --name-only | sort)"
           EXPECTED="$(printf '%s\n' recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovery/normalized-src-vf/l1r/ba/CurrentTimeReseter.java recovered-src-obf/ao/n.java recovered-src-obf/ba/d.java | sort)"
           test "$CHANGED" = "$EXPECTED"
           git commit -m "fix(l2): promote BUG-850-254 weekly reset durability"
-          SOURCE_COMMIT="$(git rev-parse HEAD)"
-          export SOURCE_COMMIT
-          python - <<'PY'
-          from pathlib import Path
-          import os
-
-          p=Path('README.md'); text=p.read_text(encoding='utf-8')
-          row='| BUG-850-254 | L2 | weekly mission durable delete / live-reset consistency | PASS / PROMOTED |'
-          if row not in text:
-              anchor='| BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |'
-              if anchor not in text: raise SystemExit('FAIL BUG-850-255 table anchor missing')
-              text=text.replace(anchor,anchor+'\n'+row,1)
-          heading='## BUG-850-254 — weekly live reset proceeded even when durable bulk delete failed'
-          if heading not in text:
-              text=text.rstrip()+f'''\n\n{heading}\n\n### Problem\n\nThe weekly reset path deleted `character_mobs_week` and then reset live player state without receiving a durable success/failure result. A failed DB delete could therefore leave persistent weekly progress intact while live state was cleared. The obfuscated reset path also still lacked the previously validated recurring-schedule `finally` parity required to guarantee the next weekly run after early return or exception.\n\n### Fix\n\n- `CharacterMobsWeekTable` now exposes `deleteAllDurable()` in normalized and obfuscated sources.\n- The helper uses `executeUpdate()` and returns `true` on success / `false` on SQL failure.\n- Weekly live-player reset returns before mutation when durable delete fails.\n- Weekly scheduling remains in `finally`; the missing obfuscated parity is restored from the validated historical precondition only.\n- Existing BUG-850-255 UPSERT logic is preserved; BUG-850-252 login self-heal is not replayed.\n\n### Validation\n\n```text\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nPATCH_CHAIN={os.environ['PATCH_CHAIN']}\nBUG_850_254_EXACT_PATCH_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nBUG_850_254_CONTRACT=PASS\nBULK_DELETE_RESULT_PROPAGATED=PASS\nLIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS\nWEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS\nBUG_850_254_TARGETED_JAVAC=PASS\nBUG_850_254_TARGETED_BEHAVIOR_RUNTIME=PASS\nFAILED_DELETE_LIVE_STATE_UNCHANGED=PASS\nNEXT_WEEK_SCHEDULE_PRESERVED=PASS\nBUG_850_254_CONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-254_VALIDATION_20260924.md`\n\n### Result\n\n```text\nBUG-850-254=L2\nSTATUS=PASS_PROMOTED\n```\n'''
-          p.write_text(text,encoding='utf-8')
-
-          e=Path('recovery/BUG-850-254_VALIDATION_20260924.md')
-          e.write_text(f'''# BUG-850-254 Validation\n\n```text\nBUG=BUG-850-254\nLEVEL=L2\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nPATCH_CHAIN={os.environ['PATCH_CHAIN']}\nEXACT_PATCH_APPLIED=PASS\nUNRELATED_SOURCE_REPLAY=NO\nSOURCE_CONTRACT=PASS\nBULK_DELETE_RESULT_PROPAGATED=PASS\nLIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS\nWEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nFAILED_DELETE_LIVE_STATE_UNCHANGED=PASS\nNEXT_WEEK_SCHEDULE_PRESERVED=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
-          PY
-          rm -f .github/workflows/l1jtw85-bug-850-254-promotion.yml
-          git add README.md recovery/BUG-850-254_VALIDATION_20260924.md .github/workflows/l1jtw85-bug-850-254-promotion.yml
-          git commit -m "docs: record BUG-850-254 promotion"
+          echo "SOURCE_COMMIT=$(git rev-parse HEAD)"
           git push origin HEAD:completed/l1jtw85-core-fixes
