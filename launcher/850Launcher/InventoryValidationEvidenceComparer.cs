@@ -274,7 +274,7 @@ namespace L1JTW850Launcher
             if (authoritative.Count == 0)
             {
                 result.Status =
-                    "尚無 authoritative 850 inventory evidence。";
+                    "尚無具 authority hash + process-start identity 的 850 inventory evidence。";
 
                 return result;
             }
@@ -408,6 +408,8 @@ namespace L1JTW850Launcher
             InventoryValidationSession session)
         {
             return session != null &&
+                   session.Pid > 0 &&
+                   session.ProcessStartUtc.HasValue &&
                    session.ClientAuthority &&
                    string.Equals(
                        session.ClientSha256,
@@ -482,8 +484,7 @@ namespace L1JTW850Launcher
                         CultureInfo.InvariantCulture);
             }
 
-            return "PID:" +
-                   session.Pid;
+            return "MISSING_PROCESS_START";
         }
     }
 }
