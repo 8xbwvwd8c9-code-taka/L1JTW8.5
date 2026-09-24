@@ -1,17 +1,15 @@
-import os
-import struct
-import tempfile
-import unittest
+import os, struct, tempfile, unittest
 
 import decode_850_session_wrapper_imports_v18 as v18
 
 
 def build_test_pe(path):
+    # Minimal PE32 with .text at RVA 0x1000/raw 0x200 and .idata at RVA 0x2000/raw 0x400.
     data = bytearray(0x800)
     data[0:2] = b'MZ'
     struct.pack_into('<I', data, 0x3C, 0x80)
     pe = 0x80
-    data[pe:pe + 4] = b'PE\0\0'
+    data[pe:pe+4] = b'PE\0\0'
     fh = pe + 4
     struct.pack_into('<H', data, fh + 0, 0x14C)
     struct.pack_into('<H', data, fh + 2, 2)
@@ -20,33 +18,39 @@ def build_test_pe(path):
     struct.pack_into('<H', data, oh + 0, 0x10B)
     struct.pack_into('<I', data, oh + 28, 0x00400000)
     struct.pack_into('<I', data, oh + 56, 0x3000)
+    # import directory data dir #1 at optional+104
     struct.pack_into('<I', data, oh + 104, 0x2000)
     struct.pack_into('<I', data, oh + 108, 40)
 
     sh = oh + 0xE0
-    data[sh:sh + 8] = b'.text\0\0\0'
+    # .text
+    data[sh:sh+8] = b'.text\0\0\0'
     struct.pack_into('<I', data, sh + 8, 0x200)
     struct.pack_into('<I', data, sh + 12, 0x1000)
     struct.pack_into('<I', data, sh + 16, 0x200)
     struct.pack_into('<I', data, sh + 20, 0x200)
     struct.pack_into('<I', data, sh + 36, 0x60000020)
-
     sh2 = sh + 40
-    data[sh2:sh2 + 8] = b'.idata\0\0'
+    data[sh2:sh2+8] = b'.idata\0\0'
     struct.pack_into('<I', data, sh2 + 8, 0x200)
     struct.pack_into('<I', data, sh2 + 12, 0x2000)
     struct.pack_into('<I', data, sh2 + 16, 0x200)
     struct.pack_into('<I', data, sh2 + 20, 0x400)
     struct.pack_into('<I', data, sh2 + 36, 0xC0000040)
 
+    # Import descriptor at raw 0x400: OFT=0x2040, name=0x2080, FT=0x2060
     struct.pack_into('<IIIII', data, 0x400, 0x2040, 0, 0, 0x2080, 0x2060)
+    # null descriptor already zero
+    # lookup table: name thunk 0x20A0 then null
     struct.pack_into('<I', data, 0x440, 0x20A0)
     struct.pack_into('<I', data, 0x444, 0)
+    # IAT storage doesn't matter for static parser, but reserve two dwords
     struct.pack_into('<II', data, 0x460, 0, 0)
-    data[0x480:0x480 + 13] = b'LIBEAY32.dll\0'
+    data[0x480:0x480+13] = b'LIBEAY32.dll\0'
     struct.pack_into('<H', data, 0x4A0, 0)
-    data[0x4A2:0x4A2 + 10] = b'SSL_write\0'
+    data[0x4A2:0x4A2+10] = b'SSL_write\0'
 
+    # call dword ptr [0x00402060] at .text RVA 0x1010 => FF 15 60 20 40 00
     data[0x210:0x216] = b'\xFF\x15' + struct.pack('<I', 0x00402060)
     with open(path, 'wb') as f:
         f.write(data)
