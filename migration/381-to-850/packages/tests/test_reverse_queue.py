@@ -37,6 +37,12 @@ class ReverseQueueTest(unittest.TestCase):
         self.assertEqual("w_變身賦予狀態_道具", items[0]["module_name"])
         self.assertEqual("技能等級化", items[-1]["module_name"])
         self.assertEqual(list(range(1, 54)), [item["sequence"] for item in items])
+        self.assertEqual("變身賦予狀態", self.queue["package_folders"][items[0]["module_id"]])
+        self.assertEqual("技能等級化與覺醒進度", self.queue["package_folders"][items[-1]["module_id"]])
+
+    def test_all_queue_items_map_to_existing_package_folders(self):
+        packages_root = QUEUE.parent
+        self.assertEqual([], self.tool.verify_package_folders(self.queue, packages_root))
 
     def test_rejects_missing_sequence_number(self):
         changed = copy.deepcopy(self.queue)
@@ -54,6 +60,12 @@ class ReverseQueueTest(unittest.TestCase):
         changed = copy.deepcopy(self.queue)
         changed["items"][1]["module_id"] = changed["items"][0]["module_id"]
         with self.assertRaisesRegex(ValueError, "QUEUE_MODULE_ID_DUPLICATE"):
+            self.tool.load_queue(self.write_queue(changed))
+
+    def test_rejects_package_folder_map_missing_item(self):
+        changed = copy.deepcopy(self.queue)
+        del changed["package_folders"][changed["items"][0]["module_id"]]
+        with self.assertRaisesRegex(ValueError, "QUEUE_PACKAGE_FOLDER_MAP_INVALID"):
             self.tool.load_queue(self.write_queue(changed))
 
     def test_reports_source_hash_drift(self):

@@ -40,6 +40,12 @@ def load_queue(path: Path) -> dict:
     if len(set(module_ids)) != len(module_ids):
         _fail("QUEUE_MODULE_ID_DUPLICATE")
 
+    package_folders = queue.get("package_folders")
+    if not isinstance(package_folders, dict) or set(package_folders) != set(module_ids):
+        _fail("QUEUE_PACKAGE_FOLDER_MAP_INVALID")
+    if any(not isinstance(value, str) or not value for value in package_folders.values()):
+        _fail("QUEUE_PACKAGE_FOLDER_INVALID")
+
     module_names = [item.get("module_name") for item in items]
     if any(not isinstance(value, str) or not value for value in module_names):
         _fail("QUEUE_MODULE_NAME_INVALID")
@@ -66,6 +72,18 @@ def verify_source(queue: dict, source: Path) -> list[str]:
     return []
 
 
+def verify_package_folders(queue: dict, packages_root: Path) -> list[str]:
+    packages_root = Path(packages_root)
+    missing = sorted(
+        {
+            folder
+            for folder in queue["package_folders"].values()
+            if not (packages_root / folder).is_dir()
+        }
+    )
+    return [f"PACKAGE_FOLDER_NOT_FOUND:{folder}" for folder in missing]
+
+
 def main(argv=None) -> int:
     parser = argparse.ArgumentParser(description="Validate the fixed reverse migration queue.")
     parser.add_argument("--source", required=True, type=Path)
@@ -77,6 +95,7 @@ def main(argv=None) -> int:
         print(str(error), file=sys.stderr)
         return 1
     errors = verify_source(queue, args.source)
+    errors.extend(verify_package_folders(queue, args.check.resolve().parent))
     if errors:
         print("\n".join(errors), file=sys.stderr)
         return 1
