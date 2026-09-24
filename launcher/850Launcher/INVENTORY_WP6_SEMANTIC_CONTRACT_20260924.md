@@ -158,8 +158,10 @@ The 850 launcher's hidden inventory-validation workflow requires:
 ```text
 InventoryBridge mapped
 record list readable
+recordCount > 0
 ObjectId nonzero
 ObjectId unique per record
+recordCount == uniqueObjectIds
 expected ItemId totals equal observed totals
 Count summation has no overflow
 ```
@@ -169,9 +171,14 @@ Restart comparison requires:
 ```text
 >=3 checked validation sessions
 all sessions PASS
+all sessions satisfy recordCount > 0 and recordCount == uniqueObjectIds
 >=2 distinct Lin.bin2 process instances
-same expectation set across compared sessions
+same exact expectation set (itemId=count) across compared sessions
+same ItemId set across compared sessions
+>=2 expected ItemIds per session
 ```
+
+`same exact expectation set` is intentionally stricter than merely keeping the same ItemId list. If inventory counts change, start a separate restart-validation set; do not merge sessions with different expected counts into one WP6 proof set.
 
 Therefore a structurally plausible vector or a high catalog-match percentage cannot independently satisfy WP6.
 
@@ -203,7 +210,7 @@ Do not reverse this order:
 4. correlate ItemId using catalog + controlled inventory truth
 5. correlate Count using controlled stack changes
 6. identify ObjectId using uniqueness/stability + C_ItemUSe semantic requirement
-7. validate >=3 sessions / >=2 process instances
+7. validate >=3 sessions / >=2 process instances with one exact expectation set
 8. only then FORMAL_WP6 may pass
 ```
 
@@ -221,6 +228,23 @@ IItemUseBridge=NATIVE_CLIENT_PATH_REQUIRED
 ```
 
 This keeps packet semantics separate from transport/native-dispatch proof.
+
+## Gate implementation status
+
+The implementation now enforces the semantic restart contract rather than only reporting it:
+
+```text
+InventoryValidationEvidenceComparer
+  requires DistinctExpectationSets == 1
+  requires DistinctItemIdSets == 1
+  requires every checked session RecordCount > 0
+  requires every checked session RecordCount == UniqueObjectIds
+  requires >=3 sessions
+  requires >=2 distinct process instances
+  requires >=2 expected ItemIds
+```
+
+The player-facing comparison page reports these conditions separately so a failed gate cannot be hidden behind an aggregate PASS count.
 
 ```text
 FORMAL_WP5=NOT_YET
