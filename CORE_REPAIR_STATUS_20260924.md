@@ -113,10 +113,11 @@ DEFERRED_TOP_LEVEL=12
 REPLACED_RUNTIME_CLASSES=23
 ```
 
-Contract and structural gates:
+Contract and structural gates after Task 5 integration:
 
 ```text
-CONTRACT_TESTS=22/22 PASS
+CONTRACT_TESTS=24/24 PASS
+LOCAL_DRIVER_CONTRACT_TESTS=2/2 PASS
 STRUCTURAL_VALIDATION=PASS
 MISSING_ENTRIES=0
 UNEXPECTED_ENTRIES=0
@@ -135,7 +136,7 @@ TEST_JAR=recovery/production-build/l1jserver2.repaired-test.jar
 TEST_JAR_SHA256=32B9405850A29650EFFA7528225863806F27E70893ACBD267FDB15FFD14DFD59
 ```
 
-DB-backed runtime startup gate, GitHub Actions run `36012858606`:
+Latest DB-backed runtime startup gate, GitHub Actions run `36013950600` at branch head `48256951985d138b0d2237eea568ef8065c0d0a1`:
 
 ```text
 MYSQL_VERSION=5.7
@@ -145,28 +146,77 @@ RUNTIME_JDBC_SSL_DISABLED=YES (CI runner only)
 RUNTIME_SMOKE=PASS
 JAVA_PROCESS=ALIVE
 PORT_2000=LISTENING
+MAP_LOAD=PASS
+MOB_SPAWN=PASS
 SERVER_INITIALIZATION=PASS
 WAITING_FOR_CLIENT=YES
 ```
 
-The runtime smoke used two environment-compatibility adjustments only in CI:
-
-1. MySQL 5.7 was started with `--sql-mode=NO_ENGINE_SUBSTITUTION` because the legacy dump fails under the modern 5.7 default strict mode with `ERROR 1406 Data too long`.
-2. The checked-out runner copy of `config/server.properties` was temporarily changed to append `&useSSL=false` because the bundled legacy MySQL JDBC driver otherwise attempts SSL and fails against current Java 8 TLS policy.
-
-Neither adjustment modifies the original `l1jserver2.jar`. The repository's formal production JAR was not overwritten.
-
-Verified Actions artifacts from run `36012858606`:
+Latest runtime artifact log explicitly reached:
 
 ```text
-REPAIRED_JAR_ARTIFACT_ID=10812844448
+loading map...OK!
+spawning mob...OK!
+初始化完畢
+等待客戶端連接中...
+```
+
+The runtime smoke uses two environment-compatibility adjustments only in CI:
+
+1. MySQL 5.7 is started with `--sql-mode=NO_ENGINE_SUBSTITUTION` because the legacy dump fails under the modern 5.7 default strict mode with `ERROR 1406 Data too long`.
+2. The checked-out runner copy of `config/server.properties` is temporarily changed to append `&useSSL=false` because the bundled legacy MySQL JDBC driver otherwise attempts SSL and fails against current Java 8 TLS policy.
+
+Neither adjustment modifies the original `l1jserver2.jar`. The repository's formal production JAR is not overwritten.
+
+Verified Actions artifacts from run `36013950600`:
+
+```text
+REPAIRED_JAR_ARTIFACT_ID=10813044701
 REPAIRED_JAR_ARTIFACT_NAME=l1jtw85-repaired-test-3d4a3925
 REPAIRED_JAR_ARTIFACT_EXPIRED=NO
-RUNTIME_SMOKE_ARTIFACT_ID=10812589680
+RUNTIME_SMOKE_ARTIFACT_ID=10813547261
 RUNTIME_SMOKE_ARTIFACT_NAME=l1jtw85-runtime-smoke-3d4a3925
 RUNTIME_SMOKE_ARTIFACT_EXPIRED=NO
 ARTIFACT_RETENTION_UNTIL=2026-10-24
 ```
+
+The downloaded latest JAR artifact was independently inspected after upload. `ARTIFACT_SHA256.txt` and `PIPELINE_RESULT.json` confirm:
+
+```text
+PIPELINE_PASS=YES
+ORIGINAL_JAR_UNCHANGED=YES
+CANDIDATES=25
+DEPLOYABLE=13
+DEFERRED=12
+REPLACED_CLASSES=23
+TEST_JAR_SHA256=32B9405850A29650EFFA7528225863806F27E70893ACBD267FDB15FFD14DFD59
+```
+
+## Local Task 5 driver / login runbook
+
+Task 5 is now implemented and CI-contract validated:
+
+```text
+DRIVER=tools/production-rebuild/build-production-test.ps1
+RUNBOOK=recovery/BUILD_REPRODUCTION.md
+DRIVER_COMMIT=138cf66556cbc012525aee13b013b1213c004454
+RUNBOOK_COMMIT=fcc637483d42211e32eaade2e73dee33d367cf43
+CI_TRIGGER_COMMIT=48256951985d138b0d2237eea568ef8065c0d0a1
+```
+
+Local build-only command at `I:\L1JTW8.5`:
+
+```powershell
+pwsh -File '.\tools\production-rebuild\build-production-test.ps1'
+```
+
+Local repaired-server command without replacing `l1jserver2.jar`:
+
+```powershell
+pwsh -File '.\tools\production-rebuild\build-production-test.ps1' -StartServer
+```
+
+The local driver fails closed on the authoritative production JAR SHA, requires Java 8 `javac`, reuses the pinned completed repair authority, rebuilds only `l1jserver2.repaired-test.jar`, rechecks the production JAR hash after the pipeline, and can optionally launch the repaired test JAR directly while leaving production untouched.
 
 Current gate boundary:
 
@@ -175,8 +225,11 @@ BUILD_GATE=PASS
 STRUCTURAL_GATE=PASS
 DB_IMPORT_GATE=PASS
 RUNTIME_STARTUP_GATE=PASS
+LOCAL_DRIVER_GATE=PASS
 REAL_CLIENT_LOGIN_GATE=NOT_RUN
 FUNCTIONAL_GAMEPLAY_GATE=NOT_RUN
+OVERALL_REBUILD_STATUS=PARTIAL
+NEXT_ACTION=Run the local driver with -StartServer and use the unchanged 8.50c client for account login -> character select -> enter-game.
 ```
 
-Do **not** label this JAR fully production-ready solely from the startup smoke. The next higher-confidence validation is a real 8.50c client login/session test against this repaired JAR, followed by targeted functional checks for the 13 promoted deployable repairs.
+Do **not** label this JAR fully production-ready solely from the startup smoke. Final rebuild PASS requires the unchanged 8.50c client to complete account login, character select and enter-game against the repaired test JAR; targeted gameplay checks for the 13 promoted deployable repairs follow after login PASS.
