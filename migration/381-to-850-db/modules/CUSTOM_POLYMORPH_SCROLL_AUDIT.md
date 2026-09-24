@@ -1,63 +1,285 @@
-# `w_自訂變形卷軸` 深度稽核
+# 381 -> 850 Custom Polymorph Scroll Audit
 
-## 結論
+## Scope
+Table: `w_自訂變形卷軸`
 
-`DONOR_RUNTIME_PORT_REQUIRED=NO`。381 的功能可由 850 原生 polymorph 加 action/item-cost mapping 表達；不可直接啟用，因 action owner、40308 語義與 client resource 尚未全部證明。
+Current donor rows:
+- 6 rows
+- 5 unique actions
+- 5 unique poly IDs
+- duplicate exact row for `tw wizard plus -> 13219`
+- all current rows require level 62
+- all current rows configure consume item 40308 x1
+- CREATE schema not proven
 
-## 來源與重複列
+## Donor runtime
+`com.lineage.william.ItemActionPoly`
 
-證據：`I:\L381\Atu-381伺服器端主\DB\381_DB_AI用\w_自訂變形卷軸_202609221205.sql`，以及 `DB\atu381_0906.sql`。
+Loader behavior:
+- lazy load on first `forNpcQuest()`
+- one static ArrayList cache
+- no reload path
+- DB exceptions swallowed
+- source order preserved
+- all matching rows are iterated; there is no break/return after successful polymorph
 
-* `SOURCE_ROWS=6`
-* `UNIQUE_ACTION_COUNT=5`
-* `UNIQUE_POLY_COUNT=5`：13216, 13217, 13218, 13219, 13220
-* `DUPLICATE_ROWS=1`
-* `DUPLICATE_ACTIONS=tw wizard plus`
-* `DUPLICATE_POLY_IDS=13219`
-* `INSERT_COLUMN_COUNT=6`; `COLUMN_ALIGNMENT=PROVEN`; `CREATE_SCHEMA=NOT_PROVEN`
+## Duplicate runtime proof
 
-兩筆 `tw wizard plus` 均為 `13219,62,Sosc_Japan 防LH變身,40308,1`，屬 byte/semantic exact duplicate，分類 `REDUNDANT_DATA`，不得靜默 dedupe。
+Current duplicate:
+```text
+tw wizard plus,13219,62,40308,1
+tw wizard plus,13219,62,40308,1
+```
 
-## `ItemActionPoly` loader/runtime
+For a level-eligible player with enough items, both rows match because the loop continues after the first success.
 
-證據：`I:\L381\Atu-381伺服器端主\src\com\lineage\william\ItemActionPoly.java`。
+Each match executes:
+```text
+checkItem(itemId)
+consumeItem(itemId)
+L1PolyMorph.doPoly(...)
+close dialog
+```
 
-`LOAD_MODE=lazy first-use`；`CACHE_MODE=static ArrayList + one-shot flag`；`RELOAD_SUPPORT=NO`；`THREAD_SAFETY=UNSAFE/NOT_PROVEN`；`ERROR_HANDLING=swallow all Exception`；`ORDER_PRESERVATION=ResultSet append order`。
+Therefore:
+```text
+DUPLICATE_CONSUME_RISK=YES
+DUPLICATE_POLY_APPLY_RISK=YES
+DUPLICATE_ROW_IMPACT=double execution while resources remain
+```
 
-精確控制流：符合 action 與 level 後，`checkItem(itemId)` → `consumeItem(itemId)` → `L1PolyMorph.doPoly(polyId,1800,1)` → `S_CloseList`；沒有 `return/break`，迴圈繼續，方法最後固定 `return false`。因此 duplicate action 在有兩個 40308 時會消耗兩次並套用兩次；`DUPLICATE_CONSUME_RISK=YES`、`DUPLICATE_POLY_APPLY_RISK=YES`、`DUPLICATE_ROW_IMPACT=double execution`。設定的 count 未傳給 check/consume，故 count 欄位實際未生效。
+The second polymorph may refresh/reapply the same transform lifecycle even though the visible gfx is unchanged.
 
-## Callsite/action origin
+## Configured count bug
 
-唯一直接 callsite 已證明：381 `L1ActionPc.action(String cmd,long amount)` → `ItemActionPoly.forNpcQuest(cmd,pc)`。`CALLSITE=PROVEN`、`CALLER=L1ActionPc.action`、`RUNTIME_REACHABILITY=PROVEN in donor; NOT_PROVEN in 850`。五個 action 的來源只在 DB row 中出現，未找到 HTML/NPC owner：`ACTION_ORIGIN=BLOCKED`；`NPC_REQUIRED=not required by method signature`、`HTML_REQUIRED=not proven`、`ITEM_REQUIRED=40308 x1`。
+The DB has `扣除道具數量`, but donor runtime checks and consumes using overloads without the configured count:
 
-## 850 polymorph mapping
+```text
+checkItem(itemId)
+consumeItem(itemId)
+```
 
-850 authority：`origin/completed/l1jtw85-core-fixes:db/8.5.sql`。
+The count value is only used in the insufficient-item message.
 
-| donor action | donor ID | 850 native name | 850 ID | status |
-|---|---:|---|---:|---|
-| `tw shogun plus` | 13216 | `大名` / `branch shogun seven` | 13216 | `EXACT_NATIVE_MATCH`, client pending |
-| `tw samurai plus` | 13217 | `武士` / `branch samurai seven` | 13217 | `EXACT_NATIVE_MATCH`, client pending |
-| `tw archer plus` | 13218 | `姬武者` / `branch archer seven` | 13218 | `EXACT_NATIVE_MATCH`, client pending |
-| `tw wizard plus` | 13219 | `陰陽師` / `branch wizard seven` | 13219 | `EXACT_NATIVE_MATCH`, client pending |
-| `tw ninja plus` | 13220 | `忍者` / `branch ninja three` | 13220 | `EXACT_NATIVE_MATCH`, client pending |
+Current rows all use count=1, so current content happens to match runtime.
+Future rows with count>1 would be semantically incorrect.
 
-850 另有 item 640307--640311 指向上述 IDs。數字相等只證明 server identity，不證明 client resource。850 native `L1PolyMorph.doPoly/undoPoly` 是 replacement/lifecycle owner；donor 的 1800 秒與 mode 1 可由既有 native contract 表達。`DURATION_COMPAT=PROVEN`、`MODE_COMPAT=PROVEN`、`REPLACEMENT_COMPAT=PROVEN`。
+## Consume ordering
 
-## level/item/order
+Donor:
+```text
+validate level
+-> validate item existence
+-> consume item
+-> doPoly
+```
 
-`DONOR_MIN_LEVEL=62`；850 五筆 native min level 均為 1；`RULE_RELATIONSHIP=donor custom rule stricter`，不能由 native min-level 取代。Donor order 是 `check -> consume -> doPoly`，無 refund：`CONSUME_BEFORE_EFFECT=YES`、`PARTIAL_FAILURE_RISK=YES`、`REFUND_PATH=NONE`。
+381 `L1PolyMorph.doPoly` may return early for:
+- dead player
+- blocked maps
+- protected/temp gfx states
+- cause mismatch
+- item-poly restrictions / missing secondary eligibility item
+- other transformation restrictions
 
-Donor item `40308 x1`。850 `etcitem` 定義 `40308=金幣`；donor item 名稱/DDL 未由本次證據證明，故 `SEMANTIC_MATCH=NOT_PROVEN`、`DIRECT_ID_SAFE=NO`。不得因數字相等直接遷移。
+Because `ItemActionPoly` consumes first and donor `doPoly` is void, it cannot know success.
 
-## native/status/arrow/client
+```text
+CONSUME_BEFORE_EFFECT=YES
+PARTIAL_FAILURE_RISK=PROVEN
+REFUND_PATH=NONE
+```
 
-`UNIQUE_DONOR_BEHAVIOR=action string routing + level 62 + item cost + fixed 1800s + close-list`；沒有獨立 stat/persistence lifecycle。`w_變身賦予狀態_FAMILY` 已證明 `L1PolyMorph` 負責 replacement remove/apply；`TRANSFORM_STATUS_DEP=CHECKED`、`SHARED_LIFECYCLE_OWNER=L1PolyMorph`。`w_變身箭矢特效` targeted data 只有 polyid 6611，故 `ARROW_EFFECT_DEP=NO_CURRENT_MAPPING`。
+## Runtime reachability
 
-五個 ID：`SERVER_POLY_DEFINITION=PROVEN`、`CLIENT_GFX_REQUIRED=YES`、`CLIENT_RESOURCE_MAPPING=NOT_PROVEN`、`CUSTOM_HTML_REQUIRED=NOT_PROVEN`；`CLIENT_DEP=BLOCKED`。
+Targeted inspection of donor `C_NPCAction` does not import or invoke `ItemActionPoly`.
+Repository-targeted searches did not prove another direct callsite.
 
-## proven bugs/classification
+Therefore:
+```text
+CALLSITE=PROVEN
+RUNTIME_REACHABILITY=PROVEN_DONOR;NOT_PROVEN_850
+ACTION_ORIGIN=BLOCKED
+```
 
-已證明：duplicate row；無 return/break 導致重複消耗/套用；count 欄位未傳入 check/consume；consume 在 doPoly 前且無 refund；DB exception swallowed；lazy cache 無 reload/同步。遷移不得重現上述控制流。未證明 action 與其他 command collision。
+Do not treat the current DB rows as guaranteed reachable production content until an action owner is proven.
 
-`DATA_LEVEL=L1`；`SERVER_RUNTIME_LEVEL=L2`；`CLIENT_LEVEL=L4`；`FINAL_LEVEL=L4/BLOCKED`。建議 `Option C`：850 native polymorph + 小型 generic action/item-cost adapter；不移植 `ItemActionPoly`，不讓 scroll module 擁有 transform stat。未修改 production core/DB/client。
+## Donor/native polymorph comparison
+
+381 native polymorph already owns:
+- transformation timer effect 67
+- tempCharGfx
+- map restrictions
+- cause restrictions
+- equipment compatibility
+- replacement cleanup
+- transform-stat family add/remove
+- arrow effect hook
+
+Thus `ItemActionPoly` adds only:
+- action-string routing
+- custom minimum-level gate
+- item cost
+- hardcoded 1800-second duration
+
+It does not need to own transformation lifecycle.
+
+## 850 native comparison
+
+850 completed authority has:
+- `PolyTable`
+- `L1PolyMorph`
+- native lookup by name and poly ID
+- minimum level data
+- weapon/armor compatibility
+- cause flags
+- map restriction check
+- effect 67 ownership
+- native transformation duration packet
+
+Important difference:
+850 native polymorph application returns boolean success/failure.
+
+Therefore the preferred target can safely be:
+
+```text
+validate action mapping
+-> validate semantic item cost
+-> call 850 native polymorph
+-> only on success consume required item
+```
+
+This removes donor consume-before-effect failure.
+
+```text
+850_NATIVE_POLYMORPH=YES
+DONOR_RUNTIME_PORT_REQUIRED=NO
+MINIMAL_EXTENSION=small action/item-cost adapter only if an action entry point is still required
+```
+
+## Semantic ID mapping
+
+Donor polymorph IDs:
+- 13216
+- 13217
+- 13218
+- 13219
+- 13220
+
+Donor cost item:
+- 40308
+
+Current audit does NOT prove semantic equivalence of these numeric IDs in 850.
+
+```text
+POLY_MAPPING=EXACT_NATIVE_MATCH_SERVER_SIDE
+ITEM_MAPPING=NOT_PROVEN
+DIRECT_ID_SAFE=NO
+```
+
+Do not migrate numeric IDs blindly.
+
+## Interaction with transform-status family
+
+381 `L1PolyMorph.doPoly` already invokes transform-status add/remove around tempCharGfx replacement.
+
+Therefore custom scroll/action migration must call the 850 polymorph lifecycle and must NOT independently apply transform-status modifiers.
+
+```text
+TRANSFORM_STATUS_DEP=YES_LIFECYCLE
+SHARED_LIFECYCLE_OWNER=POLYMORPH
+```
+
+## Arrow effect interaction
+
+No current `w_變身箭矢特效` row has been proven for poly IDs 13216..13220.
+
+```text
+ARROW_EFFECT_DEP=NO_CURRENT_MAPPING_PROVEN
+```
+
+## Donor bugs / do-not-reproduce
+
+1. Exact duplicate source action
+   - impact: double execution / double consumption possible
+   - do not reproduce: enforce unique action identity or explicit multi-action semantics
+
+2. No break after successful match
+   - impact: every duplicate matching row executes
+   - do not reproduce: one authoritative action mapping
+
+3. Configured consume count ignored by validation/consumption
+   - impact: future count>1 rows are incorrect
+   - do not reproduce: count-aware check/consume
+
+4. Consume before polymorph success
+   - impact: item loss on failed transformation
+   - do not reproduce: consume only after native success or use atomic transaction semantics
+
+5. DB load exceptions swallowed
+   - impact: silent feature disappearance
+   - do not reproduce: explicit loader diagnostics
+
+6. No loader reload
+   - impact: runtime DB changes not reflected
+   - not necessarily required in 850; document ownership explicitly
+
+## Classification
+
+```text
+DATA_LEVEL=L1
+SERVER_RUNTIME_LEVEL=L2
+CLIENT_LEVEL=L4_IF_POLY_RESOURCE_MAPPING_MISSING
+FINAL_LEVEL=L4_BLOCKED_BY_SEMANTIC_CLIENT_MAPPING
+```
+
+If all five polymorphs and action origins map cleanly to existing 850 resources, implementation can reduce to L2.
+
+## Status
+
+```text
+STATUS=BLOCKED
+AUDIT=PASS
+MODULE=w_自訂變形卷軸
+SOURCE_ROWS=6
+UNIQUE_ACTIONS=5
+DUPLICATE_ROWS=1
+DONOR_RUNTIME=ItemActionPoly
+CALLSITE=NOT_PROVEN
+RUNTIME_REACHABILITY=NOT_PROVEN
+CONSUME_ORDER=BEFORE_EFFECT
+DUPLICATE_RUNTIME_EFFECT=DOUBLE_EXECUTION_POSSIBLE
+POLY_MAPPING=BLOCKED
+ITEM_MAPPING=BLOCKED
+850_NATIVE=YES_POLYMORPH
+MINIMAL_EXTENSION=ACTION_AND_ITEM_COST_ADAPTER_IF_REQUIRED
+DONOR_RUNTIME_PORT_REQUIRED=NO
+TRANSFORM_STATUS_DEP=YES_POLYMORPH_LIFECYCLE
+CLIENT_DEP=BLOCKED
+LEVEL=L4
+SOURCE_SCHEMA=NOT_PROVEN
+BLOCKERS=action owner; semantic item mapping 40308; client GFX/resource mapping; duplicate source row; consume-before-effect donor bug
+```
+
+
+## Agent reconciliation addendum
+
+Latest targeted donor/850 verification supersedes earlier unresolved callsite/poly mapping state:
+
+```text
+CALLSITE=PROVEN
+RUNTIME_REACHABILITY=PROVEN donor / NOT_PROVEN 850
+POLY_MAPPING=EXACT_NATIVE_MATCH server-side
+ITEM_MAPPING=NOT_PROVEN
+850_NATIVE=PROVEN
+MINIMAL_EXTENSION=generic action/item-cost adapter
+TRANSFORM_STATUS_DEP=CHECKED; L1PolyMorph owns lifecycle
+CLIENT_DEP=BLOCKED
+LEVEL=L4
+```
+
+Interpretation:
+- donor action path is reachable
+- 13216..13220 have server-side native polymorph equivalents
+- 850 should still not port ItemActionPoly
+- remaining migration blockers are action ownership mapping, semantic identity of item 40308, and client GFX/resource compatibility

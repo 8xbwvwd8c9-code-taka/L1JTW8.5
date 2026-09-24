@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "module_id": "skill-grade-system",
+  "module_name": "技能等級化（Skill Grade System）",
+  "enterprise_item": "天堂企劃.txt 第1條",
+  "decision": "HOLD",
+  "server_level": "NOT_FINAL",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": [
+      "I:\\天堂企劃.txt L1: 技能等級化（白/綠/藍/紅/紫/金 六色稀有度）"
+    ],
+    "381_db": [
+      {
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\skills_202609221205.sql",
+        "table": "skills",
+        "note": "skill_level=職業別(1-8)；無grade/rarity欄位；非直接供體",
+        "status": "NOT_PROVEN_AS_GRADE_DONOR"
+      },
+      {
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\skills_item_202609221205.sql",
+        "table": "skills_item",
+        "note": "技能合成消耗物品表；grade語意NOT_PROVEN",
+        "status": "NOT_PROVEN"
+      }
+    ],
+    "381_core": [],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "skills表缺grade欄位（已確認）",
+    "core": "SkillsTable/L1Skills缺grade讀取（已確認）",
+    "control": "config缺SkillGradeEnabled開關"
+  },
+  "imports": {
+    "java": [],
+    "class": [],
+    "db": [
+      "850匯入/db/install_skill_grade.sql",
+      "850匯入/db/rollback_skill_grade.sql"
+    ],
+    "control": [
+      "850匯入/control/skill_grade.properties.example"
+    ],
+    "data": [],
+    "client": []
+  },
+  "path_map": {
+    "core_fixes": [
+      {
+        "logical": "db/install_skill_grade.sql",
+        "path": "migration/381-to-850/packages/skill-grade-system/850匯入/db/install_skill_grade.sql"
+      }
+    ],
+    "fast_dev_build": [
+      {
+        "logical": "db/install_skill_grade.sql",
+        "path": "migration/381-to-850/packages/skill-grade-system/850匯入/db/install_skill_grade.sql"
+      }
+    ]
+  },
+  "dependencies": [],
+  "validation": [],
+  "rollback": [
+    "850匯入/db/rollback_skill_grade.sql"
+  ],
+  "notes": "381 DB中skill_level為職業別非稀有度grade；本功能為新增需求。DB extension最小化：只在skills表新增grade tinyint。客戶端呼叫鏈未證明。"
+}

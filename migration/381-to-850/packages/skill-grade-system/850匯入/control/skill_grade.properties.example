@@ -1,0 +1,12 @@
+# 技能等級化 — 控制設定範例
+# 放置位置：config/lineage.properties（新增以下 key）
+# 若不設定，預設值為 true
+
+# 是否啟用技能稀有度 grade 欄位讀取
+# true  = SkillsTable 載入時讀取 skills.grade 並設定 L1Skills.grade
+# false = SkillsTable 略過 grade，L1Skills.grade 固定為 -1（不顯示等級）
+SkillGradeEnabled=true
+
+# 最高 grade 值（0=白 1=綠 2=藍 3=紅 4=紫 5=金/神話）
+# 超過此值的技能視為 INVALID，loader 記 WARN 並設回 -1
+SkillGradeMax=5
