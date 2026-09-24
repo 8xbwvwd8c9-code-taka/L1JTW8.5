@@ -21,6 +21,10 @@ class ClaimNextModuleTest(unittest.TestCase):
     def setUp(self):
         self.tool = load_tool()
         self.queue = json.loads(QUEUE.read_text(encoding="utf-8"))
+        for item in self.queue["items"]:
+            item["status"] = "PENDING"
+            item.pop("claim", None)
+            item.pop("evidence", None)
 
     def test_claims_only_first_pending_item(self):
         result = self.tool.claim_next(self.queue, "conversation-A")
