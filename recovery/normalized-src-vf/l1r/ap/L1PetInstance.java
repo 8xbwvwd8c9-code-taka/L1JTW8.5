@@ -282,16 +282,20 @@ public class L1PetInstance extends L1NpcInstance {
             var8.b(new S_SkillSound(var8.fr(), 2127));
          }
 
-         PetTable.a().a(this.F);
-         var2.a(var1);
-         var2.c(var3);
-         var2.a(this.et());
-         var2.d(this.ev());
-         var2.e(this.ew());
-         var2.f(this.ex());
-         var2.g(this.m());
-         var2.i(this.fj());
-         PetTable.a().a(this, this.fr(), var1);
+         L1Pet var16 = new L1Pet();
+         var16.a(var1);
+         var16.b(this.fr());
+         var16.c(var3);
+         var16.a(this.et());
+         var16.d(this.ev());
+         var16.e(this.ew());
+         var16.f(this.ex());
+         var16.g(this.m());
+         var16.h(var2.i());
+         var16.i(this.fj());
+         if (!PetTable.a().replaceDurable(this.F, var16)) {
+            return;
+         }
          this.F = var1;
          if (var7 != null && var7 instanceof L1NpcInstance) {
             L1PetInstance var15 = (L1PetInstance)var7;

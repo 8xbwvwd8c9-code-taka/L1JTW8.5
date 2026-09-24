@@ -79,101 +79,37 @@ public class aw {
     }
 
     public void a(int npcid, int itemobjid) {
-        block5: {
-            l l1npc = au.a().a(npcid);
-            n l1pet = new n();
-            l1pet.a(itemobjid);
-            l1pet.b(d.a().c());
-            l1pet.c(l1npc.b());
-            l1pet.a(l1npc.c());
-            l1pet.d(l1npc.e());
-            l1pet.e(l1npc.f());
-            l1pet.f(l1npc.g());
-            l1pet.g(750);
-            l1pet.h(0);
-            l1pet.i(50);
+        l l1npc = au.a().a(npcid);
+        n l1pet = new n();
+        l1pet.a(itemobjid);
+        l1pet.b(d.a().c());
+        l1pet.c(l1npc.b());
+        l1pet.a(l1npc.c());
+        l1pet.d(l1npc.e());
+        l1pet.e(l1npc.f());
+        l1pet.f(l1npc.g());
+        l1pet.g(750);
+        l1pet.h(0);
+        l1pet.i(50);
+        if (this.insertDurable(l1pet)) {
             this.c.put(new Integer(itemobjid), l1pet);
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-                    pstm.setInt(1, l1pet.a());
-                    pstm.setInt(2, l1pet.b());
-                    pstm.setInt(3, l1pet.c());
-                    pstm.setString(4, l1pet.d());
-                    pstm.setInt(5, l1pet.e());
-                    pstm.setInt(6, l1pet.f());
-                    pstm.setInt(7, l1pet.g());
-                    pstm.setInt(8, l1pet.h());
-                    pstm.setInt(9, l1pet.i());
-                    pstm.setInt(10, l1pet.j());
-                    pstm.execute();
-                }
-                catch (Exception e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
-            j.a(pstm);
-            j.a(con);
         }
     }
 
     public void a(t pet, int objid, int itemobjid) {
-        block5: {
-            n l1pet = new n();
-            l1pet.a(itemobjid);
-            l1pet.b(objid);
-            l1pet.c(pet.U_().b());
-            l1pet.a(pet.U_().c());
-            l1pet.d(pet.U_().e());
-            l1pet.e(pet.ew());
-            l1pet.f(pet.ex());
-            l1pet.g(750);
-            l1pet.h(0);
-            l1pet.i(50);
+        n l1pet = new n();
+        l1pet.a(itemobjid);
+        l1pet.b(objid);
+        l1pet.c(pet.U_().b());
+        l1pet.a(pet.U_().c());
+        l1pet.d(pet.U_().e());
+        l1pet.e(pet.ew());
+        l1pet.f(pet.ex());
+        l1pet.g(750);
+        l1pet.h(0);
+        l1pet.i(50);
+        if (this.insertDurable(l1pet)) {
             this.c.put(new Integer(itemobjid), l1pet);
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-                    pstm.setInt(1, l1pet.a());
-                    pstm.setInt(2, l1pet.b());
-                    pstm.setInt(3, l1pet.c());
-                    pstm.setString(4, l1pet.d());
-                    pstm.setInt(5, l1pet.e());
-                    pstm.setInt(6, l1pet.f());
-                    pstm.setInt(7, l1pet.g());
-                    pstm.setInt(8, l1pet.h());
-                    pstm.setInt(9, l1pet.i());
-                    pstm.setInt(10, l1pet.j());
-                    pstm.execute();
-                }
-                catch (Exception e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
-            j.a(pstm);
-            j.a(con);
         }
     }
 
@@ -244,32 +180,9 @@ public class aw {
     }
 
     public void a(int itemobjid) {
-        block5: {
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
-                    pstm.setInt(1, itemobjid);
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block5;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
-            j.a(pstm);
-            j.a(con);
+        if (this.deleteDurable(itemobjid)) {
+            this.c.remove(itemobjid);
         }
-        this.c.remove(itemobjid);
     }
 
     /*
@@ -322,64 +235,110 @@ lbl-1000:
     }
 
     public void a(int petNpcId, int objid, int itemobjid, int upLv, int lvExp) {
-        block6: {
-            p petType = ax.b().a(petNpcId);
-            n l1pet = new n();
-            l1pet.a(itemobjid);
-            l1pet.b(objid);
-            l1pet.c(petNpcId);
-            l1pet.a(petType.c());
-            l1pet.d(upLv);
-            int hpUpMin = petType.e().b();
-            int hpUpMax = petType.e().c();
-            int mpUpMin = petType.f().b();
-            int mpUpMax = petType.f().c();
-            short randomhp = (short)((hpUpMin + hpUpMax) / 2);
-            short randommp = (short)((mpUpMin + mpUpMax) / 2);
-            int i2 = 1;
-            while (i2 < upLv) {
-                randomhp = (short)(randomhp + (i.a(hpUpMax - hpUpMin) + hpUpMin + 1));
-                randommp = (short)(randommp + (i.a(mpUpMax - mpUpMin) + mpUpMin + 1));
-                ++i2;
-            }
-            l1pet.e(randomhp);
-            l1pet.f(randommp);
-            l1pet.g(lvExp);
-            l1pet.h(0);
-            l1pet.i(50);
+        p petType = ax.b().a(petNpcId);
+        n l1pet = new n();
+        l1pet.a(itemobjid);
+        l1pet.b(objid);
+        l1pet.c(petNpcId);
+        l1pet.a(petType.c());
+        l1pet.d(upLv);
+        int hpUpMin = petType.e().b();
+        int hpUpMax = petType.e().c();
+        int mpUpMin = petType.f().b();
+        int mpUpMax = petType.f().c();
+        short randomhp = (short)((hpUpMin + hpUpMax) / 2);
+        short randommp = (short)((mpUpMin + mpUpMax) / 2);
+        int i2 = 1;
+        while (i2 < upLv) {
+            randomhp = (short)(randomhp + (i.a(hpUpMax - hpUpMin) + hpUpMin + 1));
+            randommp = (short)(randommp + (i.a(mpUpMax - mpUpMin) + mpUpMin + 1));
+            ++i2;
+        }
+        l1pet.e(randomhp);
+        l1pet.f(randommp);
+        l1pet.g(lvExp);
+        l1pet.h(0);
+        l1pet.i(50);
+        if (this.insertDurable(l1pet)) {
             this.c.put(new Integer(itemobjid), l1pet);
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-                    pstm.setInt(1, l1pet.a());
-                    pstm.setInt(2, l1pet.b());
-                    pstm.setInt(3, l1pet.c());
-                    pstm.setString(4, l1pet.d());
-                    pstm.setInt(5, l1pet.e());
-                    pstm.setInt(6, l1pet.f());
-                    pstm.setInt(7, l1pet.g());
-                    pstm.setInt(8, l1pet.h());
-                    pstm.setInt(9, l1pet.i());
-                    pstm.setInt(10, l1pet.j());
-                    pstm.execute();
-                }
-                catch (SQLException e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block6;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+        }
+    }
+
+    private boolean insertDurable(n pet) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
+            this.bindPet(pstm, pet, false, 0);
+            return pstm.executeUpdate() == 1;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
             j.a(pstm);
             j.a(con);
+        }
+    }
+
+    private boolean deleteDurable(int itemobjid) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
+            pstm.setInt(1, itemobjid);
+            return pstm.executeUpdate() == 1;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
+    public boolean replaceDurable(int oldItemObjId, n pet) {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("UPDATE pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=? WHERE item_obj_id=?");
+            this.bindPet(pstm, pet, true, oldItemObjId);
+            if (pstm.executeUpdate() != 1) {
+                return false;
+            }
+            this.c.remove(oldItemObjId);
+            this.c.put(new Integer(pet.a()), pet);
+            return true;
+        }
+        catch (SQLException e2) {
+            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+        finally {
+            j.a(pstm);
+            j.a(con);
+        }
+    }
+
+    private void bindPet(PreparedStatement pstm, n pet, boolean replace, int oldItemObjId) throws SQLException {
+        pstm.setInt(1, pet.a());
+        pstm.setInt(2, pet.b());
+        pstm.setInt(3, pet.c());
+        pstm.setString(4, pet.d());
+        pstm.setInt(5, pet.e());
+        pstm.setInt(6, pet.f());
+        pstm.setInt(7, pet.g());
+        pstm.setInt(8, pet.h());
+        pstm.setInt(9, pet.i());
+        pstm.setInt(10, pet.j());
+        if (replace) {
+            pstm.setInt(11, oldItemObjId);
         }
     }
 

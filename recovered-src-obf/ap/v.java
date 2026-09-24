@@ -277,16 +277,20 @@ extends t {
             }
             new_pet.b(new ee(new_pet.fr(), 2127));
         }
-        aw.a().a(this.F);
-        l1pet.a(new_itemobjid);
-        l1pet.c(newNpcId);
-        l1pet.a(this.et());
-        l1pet.d(this.ev());
-        l1pet.e(this.ew());
-        l1pet.f(this.ex());
-        l1pet.g(this.m());
-        l1pet.i(this.fj());
-        aw.a().a(this, this.fr(), new_itemobjid);
+        n replacement = new n();
+        replacement.a(new_itemobjid);
+        replacement.b(this.fr());
+        replacement.c(newNpcId);
+        replacement.a(this.et());
+        replacement.d(this.ev());
+        replacement.e(this.ew());
+        replacement.f(this.ex());
+        replacement.g(this.m());
+        replacement.h(l1pet.i());
+        replacement.i(this.fj());
+        if (!aw.a().replaceDurable(this.F, replacement)) {
+            return;
+        }
         this.F = new_itemobjid;
         if (obj != null && obj instanceof t) {
             new_pet = (v)obj;

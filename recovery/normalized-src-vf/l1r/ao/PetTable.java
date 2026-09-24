@@ -79,29 +79,8 @@ public class PetTable {
       var4.g(750);
       var4.h(0);
       var4.i(50);
-      this.c.put(new Integer(var2), var4);
-      Connection var5 = null;
-      PreparedStatement var6 = null;
-
-      try {
-         var5 = DatabaseFactory.a().b();
-         var6 = var5.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-         var6.setInt(1, var4.a());
-         var6.setInt(2, var4.b());
-         var6.setInt(3, var4.c());
-         var6.setString(4, var4.d());
-         var6.setInt(5, var4.e());
-         var6.setInt(6, var4.f());
-         var6.setInt(7, var4.g());
-         var6.setInt(8, var4.h());
-         var6.setInt(9, var4.i());
-         var6.setInt(10, var4.j());
-         var6.execute();
-      } catch (Exception var11) {
-         a.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
-      } finally {
-         SQLUtil.a(var6);
-         SQLUtil.a(var5);
+      if (this.insertDurable(var4)) {
+         this.c.put(new Integer(var2), var4);
       }
    }
 
@@ -117,29 +96,8 @@ public class PetTable {
       var4.g(750);
       var4.h(0);
       var4.i(50);
-      this.c.put(new Integer(var3), var4);
-      Connection var5 = null;
-      PreparedStatement var6 = null;
-
-      try {
-         var5 = DatabaseFactory.a().b();
-         var6 = var5.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-         var6.setInt(1, var4.a());
-         var6.setInt(2, var4.b());
-         var6.setInt(3, var4.c());
-         var6.setString(4, var4.d());
-         var6.setInt(5, var4.e());
-         var6.setInt(6, var4.f());
-         var6.setInt(7, var4.g());
-         var6.setInt(8, var4.h());
-         var6.setInt(9, var4.i());
-         var6.setInt(10, var4.j());
-         var6.execute();
-      } catch (Exception var11) {
-         a.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
-      } finally {
-         SQLUtil.a(var6);
-         SQLUtil.a(var5);
+      if (this.insertDurable(var4)) {
+         this.c.put(new Integer(var3), var4);
       }
    }
 
@@ -188,22 +146,9 @@ public class PetTable {
    }
 
    public void a(int var1) {
-      Connection var2 = null;
-      PreparedStatement var3 = null;
-
-      try {
-         var2 = DatabaseFactory.a().b();
-         var3 = var2.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
-         var3.setInt(1, var1);
-         var3.execute();
-      } catch (SQLException var8) {
-         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
-      } finally {
-         SQLUtil.a(var3);
-         SQLUtil.a(var2);
+      if (this.deleteDurable(var1)) {
+         this.c.remove(var1);
       }
-
-      this.c.remove(var1);
    }
 
    public static boolean a(String var0) {
@@ -259,29 +204,84 @@ public class PetTable {
       var7.g(var5);
       var7.h(0);
       var7.i(50);
-      this.c.put(new Integer(var3), var7);
-      Connection var22 = null;
-      PreparedStatement var15 = null;
+      if (this.insertDurable(var7)) {
+         this.c.put(new Integer(var3), var7);
+      }
+   }
+
+   private boolean insertDurable(L1Pet var1) {
+      Connection var2 = null;
+      PreparedStatement var3 = null;
 
       try {
-         var22 = DatabaseFactory.a().b();
-         var15 = var22.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
-         var15.setInt(1, var7.a());
-         var15.setInt(2, var7.b());
-         var15.setInt(3, var7.c());
-         var15.setString(4, var7.d());
-         var15.setInt(5, var7.e());
-         var15.setInt(6, var7.f());
-         var15.setInt(7, var7.g());
-         var15.setInt(8, var7.h());
-         var15.setInt(9, var7.i());
-         var15.setInt(10, var7.j());
-         var15.execute();
-      } catch (SQLException var20) {
-         a.log(Level.SEVERE, var20.getLocalizedMessage(), var20);
+         var2 = DatabaseFactory.a().b();
+         var3 = var2.prepareStatement("INSERT INTO pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=?");
+         this.bindPet(var3, var1, false, 0);
+         return var3.executeUpdate() == 1;
+      } catch (SQLException var8) {
+         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return false;
       } finally {
-         SQLUtil.a(var15);
-         SQLUtil.a(var22);
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
+   private boolean deleteDurable(int var1) {
+      Connection var2 = null;
+      PreparedStatement var3 = null;
+
+      try {
+         var2 = DatabaseFactory.a().b();
+         var3 = var2.prepareStatement("DELETE FROM pets WHERE item_obj_id=?");
+         var3.setInt(1, var1);
+         return var3.executeUpdate() == 1;
+      } catch (SQLException var8) {
+         a.log(Level.SEVERE, var8.getLocalizedMessage(), var8);
+         return false;
+      } finally {
+         SQLUtil.a(var3);
+         SQLUtil.a(var2);
+      }
+   }
+
+   public boolean replaceDurable(int var1, L1Pet var2) {
+      Connection var3 = null;
+      PreparedStatement var4 = null;
+
+      try {
+         var3 = DatabaseFactory.a().b();
+         var4 = var3.prepareStatement("UPDATE pets SET item_obj_id=?,objid=?,npcid=?,name=?,lvl=?,hp=?,mp=?,exp=?,lawful=?,food=? WHERE item_obj_id=?");
+         this.bindPet(var4, var2, true, var1);
+         if (var4.executeUpdate() != 1) {
+            return false;
+         }
+
+         this.c.remove(var1);
+         this.c.put(new Integer(var2.a()), var2);
+         return true;
+      } catch (SQLException var9) {
+         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         return false;
+      } finally {
+         SQLUtil.a(var4);
+         SQLUtil.a(var3);
+      }
+   }
+
+   private void bindPet(PreparedStatement var1, L1Pet var2, boolean var3, int var4) throws SQLException {
+      var1.setInt(1, var2.a());
+      var1.setInt(2, var2.b());
+      var1.setInt(3, var2.c());
+      var1.setString(4, var2.d());
+      var1.setInt(5, var2.e());
+      var1.setInt(6, var2.f());
+      var1.setInt(7, var2.g());
+      var1.setInt(8, var2.h());
+      var1.setInt(9, var2.i());
+      var1.setInt(10, var2.j());
+      if (var3) {
+         var1.setInt(11, var4);
       }
    }
 
