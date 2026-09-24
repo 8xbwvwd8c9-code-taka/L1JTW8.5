@@ -52,7 +52,7 @@ class FakeAuthority:
 
 
 class FakeDevBase:
-    SCHEMA_VERSION = "1"
+    SCHEMA_VERSION = "2"
 
     def __init__(self, cache_hit=False):
         self.cache_hit = cache_hit
@@ -94,7 +94,16 @@ class FakeOverlay:
         target = output / "l1j" / "server" / "A.class"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(b"completed")
-        return {"source_count": 1, "class_count": 1}
+        return {
+            "source_count": 1,
+            "class_count": 1,
+            "deployable_source_count": 1,
+            "deferred_source_count": 0,
+            "deployable_identities": ["l1j/server/A"],
+            "deferred_identities": [],
+            "deferred": [],
+            "rounds": 1,
+        }
 
 
 class FakeCompiler:
@@ -160,6 +169,31 @@ class EnsureDevContracts(unittest.TestCase):
                 FakeCompiler.instances[0].seed_calls[0][1],
                 root / ".build850" / "cache" / "completed-authority-core" / "src",
             )
+            self.assertEqual(result["deployable_source_count"], 1)
+            self.assertEqual(result["deferred_source_count"], 0)
+            state_path = root / ".build850" / "cache" / "completed-overlay-state.json"
+            self.assertTrue(state_path.is_file())
+            state = json.loads(state_path.read_text(encoding="utf-8"))
+            self.assertEqual(state["authority_commit"], COMMIT)
+            self.assertEqual(state["source_count"], 1)
+            self.assertEqual(state["deployable_source_count"], 1)
+            self.assertEqual(state["deferred_source_count"], 0)
+
+    def test_cache_hit_requires_matching_completed_overlay_state(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            _, dev_base, overlay = self.install_fakes(mod, cache_hit=True)
+            cached = root / ".build850" / "cache" / "850-dev-base.jar"
+            cached.parent.mkdir(parents=True)
+            cached.write_bytes(b"old-cache")
+
+            result = mod.ensure_fast_dev(root, fetch_latest=False)
+
+            self.assertFalse(result["cache_hit"])
+            self.assertEqual(len(dev_base.build_calls), 2)
+            self.assertEqual(len(overlay.calls), 1)
 
     def test_existing_working_core_is_never_overwritten_by_bootstrap(self):
         mod = load_module()
