@@ -61,6 +61,7 @@ BUG
 | BUG-850-280 | L2 | LuckyDraw claim capacity/reward-count authority | PASS / PROMOTED |
 | BUG-850-277 | L2 | new quest existing-inventory item progress initialization | PASS / PROMOTED |
 | BUG-850-276 | L2 | new quest level-objective completion evaluation | PASS / PROMOTED |
+| BUG-850-275 | L2 | new quest reward claim transactional atomicity | PASS / PROMOTED |
 | BUG-850-269 | L2 | boss fixed-time scheduler minute/ms unit conversion | PASS / PROMOTED |
 | BUG-850-266 | L2 | mob skill exact probability boundary | PASS / PROMOTED |
 | BUG-850-265 | L2 | monthly town salary pre-reset contribution calculation | PASS / PROMOTED |
@@ -3157,3 +3158,52 @@ BUG_850_245_CONCURRENCY_GATE=PASS
 ```
 
 Validation evidence: `recovery/BUG-850-245_VALIDATION_20260924.md`.
+
+## BUG-850-275 — new quest reward claim was not transactionally atomic
+
+### Problem
+
+The cmd524 quest-reward path could persist reward items, objective consumption, claimed quest state, EXP and live inventory as separate operations. A failure between those operations could split durable state from live state or leave a partial claim.
+
+### Fix
+
+cmd524 now delegates to `QuestNewTable.claimReward(...)`. Reward planning, objective consumption, `character_items`, `character_quests_new` claimed state and `characters.Exp` persist inside one InnoDB transaction with affected-row/count gates and rollback. Live inventory, EXP and quest packets publish only after commit. Existing BUG-850-255 save UPSERT plus BUG-850-276/277 quest behavior are preserved in normalized and obfuscated sources.
+
+Migration: `db/migrations/BUG-850-275_quest_reward_atomicity.sql`.
+
+### Validation
+
+```text
+WORK_CI=35726686125
+COMPLETED_CI=35948391994
+SOURCE_COMMIT=ed430e87fdc3e8655345536a1c27e74d0dfc6e5b
+SCOPED_SOURCE_APPLIED=PASS
+UNRELATED_SOURCE_REPLAY=NO
+PRE_COVERED_HELPERS=CharacterItemTable,L1PcInventory,obf_ao_l
+PRESERVE_255_276_277=PASS
+NORMALIZED_QUESTNEW_IMPORT=PASS
+OBF_QUESTNEW_IMPORT=PASS
+BUG_850_275_CONTRACT=PASS
+CMD524_ATOMIC_ROUTE_ONLY=PASS
+THREE_TABLE_INNODB_GATE=PASS
+ITEM_COUNT_CAS=PASS
+QUEST_AUTOSAVE_LOCKED=PASS
+COMMIT_BEFORE_LIVE_PUBLICATION=PASS
+ROLLBACK_PATH_PRESENT=PASS
+STACK_PLAN_MERGE=PASS
+OBJECTIVE_CONSUMPTION_IN_TRANSACTION=PASS
+EXP_IN_TRANSACTION=PASS
+QUESTNEW_JAVAC=PASS
+PROTO_NO_NEW_JAVAC_REGRESSION=PASS
+TARGETED_RUNTIME=PASS
+CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-275_VALIDATION_20260924.md`.
+
+### Result
+
+```text
+BUG-850-275=L2
+STATUS=PASS_PROMOTED
+```
