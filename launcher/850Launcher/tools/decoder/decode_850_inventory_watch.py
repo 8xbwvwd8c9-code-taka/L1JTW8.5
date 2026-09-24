@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 import argparse
+import importlib.metadata as metadata
 import re
 from dataclasses import dataclass
 from pathlib import Path
 
-from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_AC_WRITE, __version__ as CAPSTONE_VERSION
+import capstone
+from capstone import Cs, CS_ARCH_X86, CS_MODE_32, CS_AC_WRITE
 from capstone.x86 import X86_OP_MEM
+
+CAPSTONE_PACKAGE_VERSION = metadata.version("capstone")
+CAPSTONE_BINDING_VERSION = getattr(capstone, "__version__", "UNKNOWN")
 
 HEX_RE = re.compile(r"^0x[0-9A-Fa-f]+$")
 HIT_RE = re.compile(
@@ -121,8 +126,6 @@ def decode_hit(md, hit: Hit):
         result["status"] = "EIP_OUTSIDE_CODE_WINDOW"
         return result
 
-    # x86 max instruction length is 15 bytes. Try only possible starts for the
-    # instruction immediately preceding the hardware-watch post-write EIP.
     lo = max(0, eip_offset - 15)
     hi = eip_offset
     for start_off in range(lo, hi):
@@ -158,9 +161,6 @@ def decode_hit(md, hit: Hit):
         }
         result["candidates"].append(candidate)
 
-        # Promotion-critical ROOT_GLOBAL stores must use an absolute memory
-        # operand. Register-based effective addresses are retained for diagnosis
-        # only because the captured register state is post-instruction state.
         if any(absolute and addr == hit.watch for _, addr, absolute in writes):
             result["target_candidates"].append(candidate)
 
@@ -204,11 +204,14 @@ def main():
     unresolved = len(decoded) - unique_pass - ambiguous
 
     identity_ok = bool(sha and authority == "1" and pid and start_utc and root_rva and root_va and memory_write == "NO")
+    version_ok = CAPSTONE_PACKAGE_VERSION == "5.0.9"
 
     out = []
     out.append("MODE=850_INVENTORY_WATCH_CAPSTONE_DECODER")
     out.append(f"INPUT={input_path}")
-    out.append(f"CAPSTONE_VERSION={CAPSTONE_VERSION}")
+    out.append(f"CAPSTONE_VERSION={CAPSTONE_PACKAGE_VERSION}")
+    out.append(f"CAPSTONE_PACKAGE_VERSION={CAPSTONE_PACKAGE_VERSION}")
+    out.append(f"CAPSTONE_BINDING_VERSION={CAPSTONE_BINDING_VERSION}")
     out.append("ARCH=x86")
     out.append("MODE_BITS=32")
     out.append("ABSOLUTE_MEMORY_TARGET_REQUIRED=YES")
@@ -220,6 +223,7 @@ def main():
     out.append(f"ROOT_GLOBAL_VA={root_va}")
     out.append(f"TARGET_MEMORY_WRITE={memory_write}")
     out.append(f"IDENTITY_GATE={'PASS' if identity_ok else 'FAIL'}")
+    out.append(f"PACKAGE_VERSION_GATE={'PASS' if version_ok else 'FAIL'}")
     out.append("")
     out.append("[DECODED_HITS]")
 
@@ -262,8 +266,8 @@ def main():
     out.append("MEM_PRIVATE_SCAN=NO")
     out.append("MEMORY_WRITE=NO")
 
-    if not identity_ok:
-        status = "REJECT_IDENTITY_OR_SAFETY_GATE"
+    if not identity_ok or not version_ok:
+        status = "REJECT_IDENTITY_OR_DECODER_VERSION_GATE"
     elif not decoded:
         status = "NO_WATCH_HITS"
     elif unique_pass == len(decoded):
