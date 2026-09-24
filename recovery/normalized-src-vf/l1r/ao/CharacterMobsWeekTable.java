@@ -130,15 +130,21 @@ public class CharacterMobsWeekTable {
    }
 
    public void b() {
+      this.deleteAllDurable();
+   }
+
+   public boolean deleteAllDurable() {
       Connection var1 = null;
       PreparedStatement var2 = null;
 
       try {
          var1 = DatabaseFactory.a().b();
          var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
-         var2.execute();
+         var2.executeUpdate();
+         return true;
       } catch (SQLException var7) {
          a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
+         return false;
       } finally {
          SQLUtil.a(var2);
          SQLUtil.a(var1);

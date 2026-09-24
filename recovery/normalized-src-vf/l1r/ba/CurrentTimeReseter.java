@@ -146,7 +146,9 @@ public class CurrentTimeReseter {
       @Override
       public void run() {
          try {
-            CharacterMobsWeekTable.a().b();
+            if (!CharacterMobsWeekTable.a().deleteAllDurable()) {
+               return;
+            }
 
             for (L1PcInstance var1 : L1World.a().c()) {
                var1.a(MobQuestWeekTable.a().b());

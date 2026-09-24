@@ -122,20 +122,24 @@ public class d {
         @Override
         public void run() {
             try {
-                n.a().b();
+                if (!n.a().deleteAllDurable()) {
+                    return;
+                }
                 for (u pc : aq.aq.a().c()) {
                     pc.a(aq.a().b());
                     n.a().b(pc);
                     pc.a(new dc(810, pc.dY()));
                 }
-                long timeMill = 604800000L;
-                System.out.println("\u6bcf\u9031\u4efb\u52d9\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...10080\u5206");
-                e.a().a(new c(), 604800000L);
             }
             catch (Exception e2) {
                 a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
             }
+            finally {
+                System.out.println("\u6bcf\u9031\u4efb\u52d9\u91cd\u7f6e:\u8ddd\u96e2\u57f7\u884c\u6642\u9593\u9084\u6709...10080\u5206");
+                e.a().a(new c(), 604800000L);
+            }
         }
+
     }
 }
 
