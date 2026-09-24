@@ -73,6 +73,7 @@ BUG
 | BUG-850-252 | L2 | weekly mission malformed/missing login-row self-heal | PASS / PROMOTED |
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
+| BUG-850-249 | L2 | pet DB-first create/delete and atomic evolve replace | PASS / PROMOTED |
 
 ## BUG-850-144 — unchecked house-sale price flowed into auction settlement
 
@@ -3033,4 +3034,47 @@ Validation evidence: `recovery/BUG-850-252_VALIDATION_20260924.md`
 ```text
 BUG-850-252=L2
 STATUS=PASS_PROMOTED
+```
+
+## BUG-850-249 — pet persistence could diverge from live pet state
+
+### Problem
+
+Pet creation published the live pet map before the `pets` insert succeeded, deletion removed the live map regardless of durable delete success, and evolution used a delete-then-create sequence that could lose the durable pet row mid-transition.
+
+### Fix
+
+- all three create paths insert durably before publishing the live map;
+- deletion removes the live map only after `DELETE` affects exactly one row;
+- evolution uses one `UPDATE ... WHERE item_obj_id=?` replacement and changes the live item id only after durable success;
+- normalized and obfuscated sources use the same DB-first contract.
+
+### Validation
+
+```text
+WORK_CI=35722189007
+COMPLETED_CI=35940935402
+SOURCE_COMMIT=b84758a28bd7e6b00e1e8c80f40558cd383edbd9
+PATCH_CHAIN=80259951,5ead04e6,2bb6274a,d7aab0ee
+BUG_850_249_HISTORICAL_MANIFESTS=PASS
+BUG_850_249_EXACT_PATCH_CHAIN=PASS
+UNRELATED_SOURCE_REPLAY=NO
+BUG_850_249_CONTRACT=PASS
+PET_CREATE_DB_BEFORE_MAP=PASS
+PET_DELETE_DB_BEFORE_MAP_REMOVE=PASS
+PET_EVOLVE_SINGLE_STATEMENT_REPLACE=PASS
+BUG_850_249_PETTABLE_JAVAC=PASS
+BUG_850_249_L1PETINSTANCE_NO_NEW_JAVAC_REGRESSION=PASS
+BUG_850_249_TARGETED_BEHAVIOR_RUNTIME=PASS
+BUG_850_249_CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-249_VALIDATION_20260924.md`
+
+### Result
+
+```text
+BUG-850-249=L2
+STATUS=PASS_PROMOTED
+UNRELATED_SOURCE_REPLAY=NO
 ```
