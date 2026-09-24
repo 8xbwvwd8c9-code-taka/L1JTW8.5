@@ -64,6 +64,81 @@ class FrontendContractTests(unittest.TestCase):
         with self.assertRaises(SystemExit):
             mod.parse_cli(["-Full", "-Clean"])
 
+    def test_compiler_bootstraps_missing_baseline_automatically(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            calls = []
+
+            class FakeBootstrap:
+                @staticmethod
+                def ensure_fast_dev(repo_root):
+                    calls.append(Path(repo_root))
+                    build = Path(repo_root) / ".build850"
+                    dev_base = build / "cache" / "850-dev-base.jar"
+                    dev_base.parent.mkdir(parents=True, exist_ok=True)
+                    dev_base.write_bytes(b"base")
+                    (build / "state.json").write_text("{}", encoding="utf-8")
+                    (build / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            class FakeCompiler:
+                def __init__(self, **kwargs):
+                    self.kwargs = kwargs
+
+            class FakeIncremental:
+                IncrementalCompiler = FakeCompiler
+
+            original_loader = mod._load_module
+
+            def fake_loader(path, name):
+                path = Path(path)
+                if path.name == "ensure_dev.py":
+                    return FakeBootstrap
+                if path.name == "incremental.py":
+                    return FakeIncremental
+                return original_loader(path, name)
+
+            mod._load_module = fake_loader
+            compiler = mod._compiler(root)
+
+            self.assertEqual(calls, [root])
+            self.assertEqual(
+                compiler.kwargs["classpath"][0],
+                root / ".build850" / "cache" / "850-dev-base.jar",
+            )
+
+    def test_compiler_ready_fast_path_does_not_refresh_bootstrap(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            build = root / ".build850"
+            dev_base = build / "cache" / "850-dev-base.jar"
+            dev_base.parent.mkdir(parents=True)
+            dev_base.write_bytes(b"base")
+            (build / "state.json").write_text("{}", encoding="utf-8")
+            (build / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            class FakeCompiler:
+                def __init__(self, **kwargs):
+                    self.kwargs = kwargs
+
+            class FakeIncremental:
+                IncrementalCompiler = FakeCompiler
+
+            original_loader = mod._load_module
+
+            def fake_loader(path, name):
+                path = Path(path)
+                if path.name == "ensure_dev.py":
+                    raise AssertionError("ready fast path must not bootstrap/fetch")
+                if path.name == "incremental.py":
+                    return FakeIncremental
+                return original_loader(path, name)
+
+            mod._load_module = fake_loader
+            compiler = mod._compiler(root)
+            self.assertEqual(compiler.kwargs["state_path"], build / "state.json")
+
     def test_wrappers_are_thin_and_do_not_replace_production_jar(self):
         self.assertTrue(PS1_PATH.is_file())
         self.assertTrue(CMD_PATH.is_file())
