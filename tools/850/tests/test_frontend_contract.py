@@ -139,7 +139,7 @@ class FrontendContractTests(unittest.TestCase):
             compiler = mod._compiler(root)
             self.assertEqual(compiler.kwargs["state_path"], build / "state.json")
 
-    def test_sync_completed_forces_latest_completed_authority_refresh(self):
+    def test_sync_completed_forces_latest_completed_authority_and_working_source_refresh(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
@@ -147,13 +147,13 @@ class FrontendContractTests(unittest.TestCase):
 
             class FakeBootstrap:
                 @staticmethod
-                def ensure_fast_dev(repo_root, *, fetch_latest=True):
-                    calls.append((Path(repo_root), fetch_latest))
+                def ensure_fast_dev(repo_root, *, fetch_latest=True, sync_working_core=False):
+                    calls.append((Path(repo_root), fetch_latest, sync_working_core))
                     return {
                         "authority_commit": "b" * 40,
                         "completed_source_count": 17,
                         "rebuilt": True,
-                        "core_action": "preserved",
+                        "core_action": "synced",
                     }
 
             original_loader = mod._load_module
@@ -166,10 +166,10 @@ class FrontendContractTests(unittest.TestCase):
             mod._load_module = fake_loader
             result = mod.sync_completed(root)
 
-            self.assertEqual(calls, [(root, True)])
+            self.assertEqual(calls, [(root, True, True)])
             self.assertEqual(result["authority_commit"], "b" * 40)
             self.assertTrue(result["rebuilt"])
-            self.assertEqual(result["core_action"], "preserved")
+            self.assertEqual(result["core_action"], "synced")
 
     def test_sync_mode_calls_sync_helper_without_compiling(self):
         mod = load_module()
