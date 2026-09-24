@@ -102,11 +102,13 @@ Therefore:
 ```text
 GLOBAL_VA =0x016BCEE8
 GLOBAL_RVA=0x012BCEE8
-TEARDOWN_CLEAR=PROVEN
+TEARDOWN_CLEAR=PROVEN_FROM_RECONSTRUCTION
 OWNER_SEMANTICS=NOT_YET
 ```
 
 Only ROOT_B among the reconstructed target teardown-shaped snippets clears a module-global immediately after its vtable write. This matches ROOT being the higher-level object in the proven UI graph, but construction-side assignment/repeated ROOT-context loads are still required before promotion.
+
+V4b now independently decodes the `C7 05 [global] imm32` immediate and counts a teardown clear only when `imm32 == 0`; a generic `C7 05` hit is no longer enough.
 
 ## Prior backing-model evidence adjudicated
 
@@ -137,7 +139,7 @@ Full report:
 launcher/850Launcher/INVENTORY_BACKING_MODEL_ADJUDICATION_20260924.md
 ```
 
-## WP6 semantic contract — prepared
+## WP6 semantic contract — prepared / implementation hardened
 
 ```text
 launcher/850Launcher/INVENTORY_WP6_SEMANTIC_CONTRACT_20260924.md
@@ -170,17 +172,52 @@ SESSION_FRAMING_ENCRYPTION=CLIENT_OWNED
 IItemUseBridge=UNMAPPED
 ```
 
+WP6 restart comparison now enforces:
+
+```text
+>=3 authoritative sessions
+all sessions PASS
+all sessions have PID + PROCESS_START_UTC
+>=2 distinct process-start identities
+same exact itemId=count expectation set
+same ItemId set
+>=2 expected ItemIds/session
+RecordCount > 0/session
+RecordCount == UniqueObjectIds/session
+```
+
+Sessions lacking authoritative SHA/CLIENT_AUTHORITY/process-start identity are ignored for PASS purposes. If known counts change, begin a separate proof set instead of mixing different truth inputs into one restart-stability result.
+
 WP6 promotion still requires a restart-stable bounded record source and multi-session ObjectId/ItemId/Count validation.
 
 ## Targeted runtime gates
 
-### V4 — function/caller trace
+### V4 — six-xref function-context trace / hardened
 
 ```text
 launcher/850Launcher/tools/run_850_inventory_ctor_owner_trace_v4.ps1
 ```
 
-Purpose: exact six xrefs -> candidate function boundaries -> exact-target direct callers -> module-global stores.
+Scope is now restricted to exactly these six established owner/xref pairs:
+
+```text
+INVWIN_A / GRID_A / ROOT_A
+INVWIN_B / GRID_B / ROOT_B
+```
+
+Extra same-value vtable literal hits are diagnostic only and are not analyzed as owners.
+
+V4 still records byte-level `E8` target matches, but they are explicitly classified as:
+
+```text
+RAW_E8_CANDIDATE
+ALIGNMENT_PROOF=NO
+PROMOTABLE=NO
+```
+
+They cannot prove direct callers and cannot promote caller-derived global stores. This prevents recurrence of the V3 `0x00701E78` false-CALL bug.
+
+Function starts/ends remain boundary candidates based on prologue/RET heuristics; they are not symbol-level truth.
 
 ### V4b — ROOT global trace / hardened
 
@@ -190,6 +227,13 @@ SEED_GLOBAL_RVA=0x012BCEE8
 ```
 
 Purpose: classify exact absolute references to the candidate global and split construction-side vs teardown-side contexts. It reads the module-global dword itself but never dereferences it into heap/MEM_PRIVATE.
+
+Critical hardening:
+
+```text
+STORE_IMM_C705 alone != zero clear
+TEARDOWN_ZERO_STORE requires decoded IMM32 == 0
+```
 
 ### V4c — vtable RTTI / hardened
 
@@ -230,6 +274,15 @@ I:\L共通工具\LineageAIResourceToolkit\outputs\850_inventory_root_global_xref
 I:\L共通工具\LineageAIResourceToolkit\outputs\850_inventory_ctor_owner_trace_v4.txt
 ```
 
+Review priority after the run:
+
+```text
+1. V4c RTTI names/hierarchy if internally valid
+2. V4b exact global xref kinds + decoded IMM32
+3. V4 six-xref function groups + in-function global/member refs
+4. raw E8 candidates are diagnostic only
+```
+
 ## Hard boundaries
 
 ```text
@@ -240,6 +293,7 @@ MEM_PRIVATE_SCAN=NO
 VECTOR_WIDE_SCAN=NO
 NO_381_880_RUNTIME_ADDRESS_REUSE=YES
 NO_RETURN_TO_V2_V3_BROAD_RANKING=YES
+RAW_E8_CALLERS_PROMOTABLE=NO
 ```
 
 ## Current gate
@@ -248,6 +302,8 @@ NO_RETURN_TO_V2_V3_BROAD_RANKING=YES
 FORMAL_WP5=NOT_YET
 FORMAL_WP6=NOT_YET
 ITEM_USE_BRIDGE=UNMAPPED
+ROOT_GLOBAL_RVA=0x012BCEE8
+OWNER_PROMOTION=NOT_YET
 NEXT_RUNTIME=run_850_inventory_next_gate.ps1
 NEXT_AFTER_OWNER_PROOF=fixed-offset read only; no broad scan
 ```
