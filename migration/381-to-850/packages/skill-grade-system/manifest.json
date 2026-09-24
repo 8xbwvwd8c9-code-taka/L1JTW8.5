@@ -1,14 +1,16 @@
 {
   "schema_version": 1,
   "module_id": "skill-grade-system",
-  "module_name": "技能等級化（Skill Grade System）",
-  "enterprise_item": "天堂企劃.txt 第1條",
+  "module_name": "技能等級化與進度覺醒系統（Skill Grade & Awakening Progression System）",
+  "enterprise_item": "天堂企劃.txt 第1條（技能等級化 + 核心吃書升階/覺醒業務規格）",
   "decision": "HOLD",
-  "server_level": "NOT_FINAL",
+  "server_level": "L3",
   "client_gate": "NOT_PROVEN",
   "source": {
     "requirements": [
-      "I:\\天堂企劃.txt L1: 技能等級化（白/綠/藍/紅/紫/金 六色稀有度）"
+      "I:\\天堂企劃.txt L1: 技能等級化（白/綠/藍/紅/紫/金 六色稀有度）",
+      "核心流程：未學第一次吃書學會LV1；已學再吃同書不重複學，累積 duplicate_book_count；每累積5本自動升階(LV1->LV2->LV3)；LV3後停止自動升階；找技能覺醒NPC依材料選擇永久互斥之A/B覺醒路線",
+      "DB架構：character_skills維持Authority；新增 character_skill_progress (InnoDB) 與 skill_upgrade_chain (InnoDB)；跨Engine交易補償與冪等防禦"
     ],
     "381_db": [
       {
@@ -20,8 +22,8 @@
       {
         "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\skills_item_202609221205.sql",
         "table": "skills_item",
-        "note": "技能合成消耗物品表；grade語意NOT_PROVEN",
-        "status": "NOT_PROVEN"
+        "note": "技能學習/合成消耗物品表",
+        "status": "REFERENCE_ONLY"
       }
     ],
     "381_core": [],
@@ -29,9 +31,9 @@
     "381_client": []
   },
   "850_gap": {
-    "db": "skills表缺grade欄位（已確認）",
-    "core": "SkillsTable/L1Skills缺grade讀取（已確認）",
-    "control": "config缺SkillGradeEnabled開關"
+    "db": "skills表缺grade欄位；缺skill_upgrade_chain規則表；缺character_skill_progress進度追蹤表",
+    "core": "UseItem/技能學習路徑無重複吃書計數與升級處理；缺SkillProgressHandler；缺覺醒NPC驗證與互斥分流",
+    "control": "config缺SkillGradeEnabled與SkillUpgradeCostBooks等配置"
   },
   "imports": {
     "java": [],
@@ -65,5 +67,5 @@
   "rollback": [
     "850匯入/db/rollback_skill_grade.sql"
   ],
-  "notes": "381 DB中skill_level為職業別非稀有度grade；本功能為新增需求。DB extension最小化：只在skills表新增grade tinyint。客戶端呼叫鏈未證明。"
+  "notes": "已補充核心吃書階級與覺醒互斥規格。DB設計採用混用Engine策略：原生MyISAM表保留，新業務採用InnoDB。吃書/扣材料/升階需做冪等防禦與compensation log。"
 }
