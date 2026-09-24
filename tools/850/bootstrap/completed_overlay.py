@@ -135,6 +135,37 @@ def _publish_directory(candidate: Path, output: Path) -> None:
             shutil.rmtree(backup)
 
 
+def _copy_family(candidate_classes: Path, accepted_classes: Path, identity: str) -> int:
+    copied = 0
+    for source in sorted(candidate_classes.rglob("*.class")):
+        rel = source.relative_to(candidate_classes).as_posix()
+        internal = rel[:-6]
+        if internal != identity and not internal.startswith(identity + "$"):
+            raise RuntimeError(
+                f"javac generated class outside completed repair family {identity}: {internal}"
+            )
+        target = accepted_classes / rel
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if target.exists() and target.read_bytes() != source.read_bytes():
+            raise RuntimeError(f"completed repair class collision: {internal}")
+        shutil.copy2(source, target)
+        copied += 1
+    return copied
+
+
+def _error_summary(stdout: str, stderr: str, limit: int = 8) -> list[str]:
+    rows: list[str] = []
+    for line in (stderr + "\n" + stdout).splitlines():
+        text = line.strip()
+        if not text:
+            continue
+        if "error:" in text or text.endswith("errors") or text.endswith("error"):
+            rows.append(text)
+        if len(rows) >= limit:
+            break
+    return rows
+
+
 def compile_completed_overlay(
     *,
     authority_core: Path,
@@ -143,13 +174,19 @@ def compile_completed_overlay(
     output_dir: Path,
     lib_dir: Path | None = None,
     javac: str = "javac",
-) -> dict[str, int]:
-    """Compile only formally completed repair families against semantic Dev Base.
+) -> dict[str, object]:
+    """Compile only deployable formally completed repair families.
 
-    Source selection comes exclusively from the exact materialized authority core.
-    An empty sourcepath and ``-implicit:none`` prevent javac from discovering and
-    compiling unrelated worktree sources. Publication is atomic so a failed compile
-    leaves the previous completed overlay untouched.
+    Each completed family is gated independently against the semantic Dev Base.
+    Successful families are accumulated and made available to later rounds so
+    completed repairs may depend on other completed repairs. A family that still
+    cannot compile after no further progress is deferred and therefore falls back
+    to the relocated original runtime class already present in Dev Base.
+
+    Source selection still comes exclusively from the exact materialized completed
+    authority. ``-sourcepath`` is empty and ``-implicit:none`` prevents javac from
+    discovering unrelated worktree sources. Publication is atomic and replaces any
+    stale overlay from an older authority, including the all-deferred case.
     """
     core = Path(authority_core).resolve()
     base = Path(dev_base_jar).resolve()
@@ -162,42 +199,99 @@ def compile_completed_overlay(
 
     with tempfile.TemporaryDirectory(prefix="completed-overlay.", dir=output.parent) as td:
         stage = Path(td)
-        classes = stage / "classes"
-        classes.mkdir()
+        accepted_classes = stage / "classes"
+        accepted_classes.mkdir()
         empty_sourcepath = stage / "empty-sourcepath"
         empty_sourcepath.mkdir()
+        work_root = stage / "work"
+        work_root.mkdir()
 
-        if selected:
-            classpath = [str(base)]
-            if lib_dir is not None:
-                libraries = Path(lib_dir).resolve()
-                if not libraries.is_dir():
-                    raise FileNotFoundError(libraries)
-                classpath.append(str(libraries / "*"))
-            command = [
-                javac,
-                "-encoding", "UTF-8",
-                "-source", "8",
-                "-target", "8",
-                "-implicit:none",
-                "-sourcepath", str(empty_sourcepath),
-                "-classpath", os.pathsep.join(classpath),
-                "-d", str(classes),
-                *[str(source) for source, _ in selected],
-            ]
-            proc = subprocess.run(
-                command,
-                stdout=subprocess.PIPE,
-                stderr=subprocess.PIPE,
-                text=True,
+        libraries: Path | None = None
+        if lib_dir is not None:
+            libraries = Path(lib_dir).resolve()
+            if not libraries.is_dir():
+                raise FileNotFoundError(libraries)
+
+        pending = list(selected)
+        deferred_details: dict[str, dict[str, object]] = {}
+        deployable_identities: list[str] = []
+        accepted_class_count = 0
+        round_no = 0
+
+        while pending:
+            round_no += 1
+            progressed = False
+            next_pending: list[tuple[Path, str]] = []
+
+            for source, identity in pending:
+                candidate_classes = work_root / f"round-{round_no}" / identity / "classes"
+                candidate_classes.mkdir(parents=True, exist_ok=True)
+
+                classpath = [str(accepted_classes), str(base)]
+                if libraries is not None:
+                    classpath.append(str(libraries / "*"))
+                command = [
+                    javac,
+                    "-encoding", "UTF-8",
+                    "-source", "8",
+                    "-target", "8",
+                    "-implicit:none",
+                    "-sourcepath", str(empty_sourcepath),
+                    "-classpath", os.pathsep.join(classpath),
+                    "-d", str(candidate_classes),
+                    str(source),
+                ]
+                proc = subprocess.run(
+                    command,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True,
+                )
+                if proc.returncode != 0:
+                    deferred_details[identity] = {
+                        "identity": identity,
+                        "javac_exit": proc.returncode,
+                        "round": round_no,
+                        "errors": _error_summary(proc.stdout, proc.stderr),
+                    }
+                    next_pending.append((source, identity))
+                    continue
+
+                _validate_generated_families(candidate_classes, [(source, identity)])
+                accepted_class_count += _copy_family(
+                    candidate_classes,
+                    accepted_classes,
+                    identity,
+                )
+                deployable_identities.append(identity)
+                deferred_details.pop(identity, None)
+                progressed = True
+
+            if not progressed:
+                pending = next_pending
+                break
+            pending = next_pending
+
+        deferred_identities = sorted(identity for _, identity in pending)
+        deployable_identities = sorted(set(deployable_identities))
+        class_count = _validate_generated_families(
+            accepted_classes,
+            [pair for pair in selected if pair[1] in set(deployable_identities)],
+        ) if deployable_identities else 0
+        if class_count != accepted_class_count:
+            raise RuntimeError(
+                f"completed overlay class count mismatch: {class_count} != {accepted_class_count}"
             )
-            if proc.returncode != 0:
-                raise OverlayCompileError(command, proc.stdout, proc.stderr)
 
-        class_count = _validate_generated_families(classes, selected)
-        _publish_directory(classes, output)
+        _publish_directory(accepted_classes, output)
 
     return {
         "source_count": len(selected),
         "class_count": class_count,
+        "deployable_source_count": len(deployable_identities),
+        "deferred_source_count": len(deferred_identities),
+        "deployable_identities": deployable_identities,
+        "deferred_identities": deferred_identities,
+        "deferred": [deferred_details[i] for i in deferred_identities],
+        "rounds": round_no,
     }
