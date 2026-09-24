@@ -4,6 +4,7 @@
 package ao;
 
 import ap.u;
+import aq.x;
 import ax.b;
 import ax.d;
 import bi.j;
@@ -222,6 +223,65 @@ public class o {
     }
 
 
+    private boolean deleteCharacterAndDetachMasterAtomic(Connection con, String accountName, String charName, int objid) throws SQLException {
+        boolean oldAutoCommit = con.getAutoCommit();
+        boolean deletedMaster = false;
+        boolean targetFound = false;
+        con.setAutoCommit(false);
+        try {
+            try (PreparedStatement engine = con.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME='characters'");
+                 ResultSet engineRs = engine.executeQuery()) {
+                if (!engineRs.next() || !"InnoDB".equalsIgnoreCase(engineRs.getString("ENGINE")) || engineRs.next()) {
+                    throw new SQLException("BUG-850-099 requires characters InnoDB");
+                }
+            }
+            try (PreparedStatement pstm = con.prepareStatement("SELECT objid, MasterID FROM characters WHERE objid=? OR MasterID=? ORDER BY objid FOR UPDATE")) {
+                pstm.setInt(1, objid);
+                pstm.setInt(2, objid);
+                try (ResultSet rs = pstm.executeQuery()) {
+                    while (rs.next()) {
+                        int rowObjid = rs.getInt("objid");
+                        int masterId = rs.getInt("MasterID");
+                        if (rowObjid == objid) {
+                            targetFound = true;
+                            if (masterId < 0) deletedMaster = true;
+                        } else if (masterId == objid) {
+                            deletedMaster = true;
+                        } else {
+                            throw new SQLException("BUG-850-099 unexpected mentor delete row");
+                        }
+                    }
+                }
+            }
+            if (!targetFound) throw new SQLException("BUG-850-099 missing delete character row");
+            try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET MasterID=0 WHERE MasterID=?")) {
+                pstm.setInt(1, objid);
+                pstm.executeUpdate();
+            }
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM characters WHERE objid=? AND account_name=? AND char_name=?")) {
+                pstm.setInt(1, objid);
+                pstm.setString(2, accountName);
+                pstm.setString(3, charName);
+                if (pstm.executeUpdate() != 1) throw new SQLException("BUG-850-099 character delete identity gate failed");
+            }
+            con.commit();
+            return deletedMaster;
+        } catch (SQLException e) {
+            try {
+                con.rollback();
+            } catch (SQLException rollbackError) {
+                e.addSuppressed(rollbackError);
+            }
+            throw e;
+        } finally {
+            try {
+                con.setAutoCommit(oldAutoCommit);
+            } catch (SQLException autoCommitError) {
+                a.log(Level.SEVERE, autoCommitError.getLocalizedMessage(), autoCommitError);
+            }
+        }
+    }
+
     public boolean updatePartnerRelationAtomic(u left, u right) {
         if (left == null || right == null || left.fr() <= 0 || right.fr() <= 0 || left.fr() == right.fr()) {
             return false;
@@ -412,7 +472,10 @@ public class o {
                 pstm.setString(1, charName);
                 pstm.executeUpdate();
             }
-            executeDeleteById(con, "DELETE FROM characters WHERE objid=?", objid);
+            boolean deletedMaster = this.deleteCharacterAndDetachMasterAtomic(con, accountName, charName, objid);
+            if (deletedMaster) {
+                x.a().removeDeletedMaster(objid);
+            }
             this.c.remove(charName);
             an.a().removeInboxCache(objid);
             f.a().removeDeletedCharacter(objid, charName);

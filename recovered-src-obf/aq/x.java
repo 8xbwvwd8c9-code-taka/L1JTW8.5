@@ -388,6 +388,23 @@ public class x {
         }
     }
 
+    public void removeDeletedMaster(int masterId) {
+        CopyOnWriteArrayList<u> disciples = c.remove(masterId);
+        d.remove(masterId);
+        if (disciples == null) return;
+        for (u cached : disciples) {
+            aa obj = aq.a().a(cached.fr());
+            if (obj instanceof u) {
+                u live = (u)obj;
+                if (live.cE() == masterId) {
+                    live.aV(0);
+                    live.I();
+                    this.f(live);
+                }
+            }
+        }
+    }
+
     private void f(u pc) {
         int id = 4059;
         while (id <= 4066) {

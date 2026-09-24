@@ -366,6 +366,23 @@ public class L1Master {
       }
    }
 
+   public void removeDeletedMaster(int var1) {
+      CopyOnWriteArrayList<L1PcInstance> var2 = c.remove(var1);
+      d.remove(var1);
+      if (var2 == null) return;
+      for (L1PcInstance var3 : var2) {
+         L1Object var4 = L1World.a().a(var3.fr());
+         if (var4 instanceof L1PcInstance) {
+            L1PcInstance var5 = (L1PcInstance)var4;
+            if (var5.cE() == var1) {
+               var5.aV(0);
+               var5.I();
+               this.f(var5);
+            }
+         }
+      }
+   }
+
    private void f(L1PcInstance var1) {
       for (int var2 = 4059; var2 <= 4066; var2++) {
          if (var1.bB(var2)) {
