@@ -174,7 +174,7 @@ def materialize_sources(repo_root: Path, output_core: Path) -> dict[str, int]:
                     "normalized_source_root": "recovery/normalized-src-vf",
                     "top_level_sources": expected,
                     "application_class_mappings": int(state["application_class_mappings"]),
-                    "duplicate_source_groups": int(state["duplicate_source_groups"]),
+                    "duplicate_source_groups": int(state["duplicate_sourcefile_groups"]),
                 },
                 indent=2,
             )
