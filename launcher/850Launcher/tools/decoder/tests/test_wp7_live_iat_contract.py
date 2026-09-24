@@ -27,10 +27,15 @@ assert "LIVE_IAT_RESTART_STABLE=NO" in control
 assert "0x00EA5898" in probe
 assert "FAB9DB971F22BF91D06BB36485AAAABFFAEA795BB0DCC22D2EB4039227F54AD4" in probe
 assert "ReadProcessMemory" in probe
+assert "ResolvePeExportRva" in probe
+assert "REMOTE_WS2_32_PATH" in probe
+assert "SEND_TARGET_WITHIN_WS2_32" in probe
 assert "SEND_TARGET_EXPORT_MATCH" in probe
 assert "SCAN_SCOPE=LIN.BIN2_EXECUTABLE_MEM_IMAGE_ONLY" in probe
 assert "CALLER_DEPTH=1" in probe
 assert "WP7_NATIVE_USEITEM_PASS=NO" in probe
+assert "LoadLibrary(" not in probe
+assert "GetProcAddress(" not in probe
 
 assert "DISTINCT_PROCESS_INSTANCE" in compare
 assert "SEND_IAT_RVA_STABLE" in compare
