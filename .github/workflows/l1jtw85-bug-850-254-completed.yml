@@ -32,44 +32,8 @@ jobs:
           from pathlib import Path
           p=Path('recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java')
           text=p.read_text(encoding='utf-8')
-          old='''   public void b() {
-      Connection var1 = null;
-      PreparedStatement var2 = null;
-
-      try {
-         var1 = DatabaseFactory.a().b();
-         var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
-         var2.execute();
-      } catch (SQLException var7) {
-         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
-      } finally {
-         SQLUtil.a(var2);
-         SQLUtil.a(var1);
-      }
-   }
-'''
-          new='''   public void b() {
-      this.deleteAllDurable();
-   }
-
-   public boolean deleteAllDurable() {
-      Connection var1 = null;
-      PreparedStatement var2 = null;
-
-      try {
-         var1 = DatabaseFactory.a().b();
-         var2 = var1.prepareStatement("DELETE FROM character_mobs_week");
-         var2.executeUpdate();
-         return true;
-      } catch (SQLException var7) {
-         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);
-         return false;
-      } finally {
-         SQLUtil.a(var2);
-         SQLUtil.a(var1);
-      }
-   }
-'''
+          old="   public void b() {\n      Connection var1 = null;\n      PreparedStatement var2 = null;\n\n      try {\n         var1 = DatabaseFactory.a().b();\n         var2 = var1.prepareStatement(\"DELETE FROM character_mobs_week\");\n         var2.execute();\n      } catch (SQLException var7) {\n         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);\n      } finally {\n         SQLUtil.a(var2);\n         SQLUtil.a(var1);\n      }\n   }\n"
+          new="   public void b() {\n      this.deleteAllDurable();\n   }\n\n   public boolean deleteAllDurable() {\n      Connection var1 = null;\n      PreparedStatement var2 = null;\n\n      try {\n         var1 = DatabaseFactory.a().b();\n         var2 = var1.prepareStatement(\"DELETE FROM character_mobs_week\");\n         var2.executeUpdate();\n         return true;\n      } catch (SQLException var7) {\n         a.log(Level.SEVERE, var7.getLocalizedMessage(), var7);\n         return false;\n      } finally {\n         SQLUtil.a(var2);\n         SQLUtil.a(var1);\n      }\n   }\n"
           if text.count(old) != 1:
               raise SystemExit('FAIL normalized historical BUG-850-254 patch target count != 1')
           text=text.replace(old,new,1)
@@ -166,6 +130,7 @@ jobs:
           git add recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
           git commit -m "fix(l2): promote BUG-850-254 normalized parity"
           SOURCE_COMMIT=$(git rev-parse HEAD)
+          export SOURCE_COMMIT
           python - <<'PY'
           from pathlib import Path
           import os
@@ -180,9 +145,8 @@ jobs:
               text=text.rstrip()+f'''\n\n{heading}\n\n### Problem\n\nThe weekly scheduler could reset in-memory player state even when deleting durable `character_mobs_week` rows failed, leaving DB and live state inconsistent.\n\n### Fix\n\n`CharacterMobsWeekTable` exposes `deleteAllDurable()` with a boolean result and the weekly reset returns before live player resets when deletion fails. Recurring scheduling remains in `finally`. The completed branch already contained both reset gates and the obfuscated durable helper; this promotion repairs the missing normalized-table parity only.\n\n### Validation\n\n```text\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nBUG_850_254_EXACT_PATCH_APPLIED=PASS\nNORMALIZED_ONLY_PARITY_REPAIR=PASS\nBUG_850_254_CONTRACT=PASS\nBULK_DELETE_RESULT_PROPAGATED=PASS\nLIVE_WEEKLY_RESET_GATED_BY_DELETE_SUCCESS=PASS\nWEEKLY_RESCHEDULE_FINALLY_PRESERVED=PASS\nBUG_850_254_TARGETED_JAVAC=PASS\nBUG_850_254_TARGETED_BEHAVIOR_RUNTIME=PASS\nDELETE_FAILURE_BLOCKS_LIVE_RESET=PASS\nFINALLY_RESCHEDULE_SURVIVES_RETURN=PASS\nBUG_850_254_CONCURRENCY_GATE=PASS\n```\n\nValidation evidence: `recovery/BUG-850-254_VALIDATION_20260924.md`.\n'''
           p.write_text(text,encoding='utf-8')
           e=Path('recovery/BUG-850-254_VALIDATION_20260924.md')
-          e.write_text(f'''# BUG-850-254 Validation\n\n```text\nBUG=BUG-850-254\nLEVEL=L2\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ.get('SOURCE_COMMIT','SET_AFTER_SOURCE_COMMIT')}\nHISTORICAL_NORMALIZED_TABLE={os.environ['HISTORICAL_NORM_TABLE']}\nHISTORICAL_OBFUSCATED_TABLE={os.environ['HISTORICAL_OBF_TABLE']}\nHISTORICAL_NORMALIZED_GATE={os.environ['HISTORICAL_NORM_GATE']}\nHISTORICAL_OBFUSCATED_GATE={os.environ['HISTORICAL_OBF_GATE']}\nEXACT_PATCH_APPLIED=PASS\nNORMALIZED_ONLY_PARITY_REPAIR=PASS\nSOURCE_CONTRACT=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
+          e.write_text(f'''# BUG-850-254 Validation\n\n```text\nBUG=BUG-850-254\nLEVEL=L2\nWORK_CI={os.environ['WORK_CI']}\nCOMPLETED_CI={os.environ['GITHUB_RUN_ID']}\nSOURCE_COMMIT={os.environ['SOURCE_COMMIT']}\nHISTORICAL_NORMALIZED_TABLE={os.environ['HISTORICAL_NORM_TABLE']}\nHISTORICAL_OBFUSCATED_TABLE={os.environ['HISTORICAL_OBF_TABLE']}\nHISTORICAL_NORMALIZED_GATE={os.environ['HISTORICAL_NORM_GATE']}\nHISTORICAL_OBFUSCATED_GATE={os.environ['HISTORICAL_OBF_GATE']}\nEXACT_PATCH_APPLIED=PASS\nNORMALIZED_ONLY_PARITY_REPAIR=PASS\nSOURCE_CONTRACT=PASS\nTARGETED_JAVAC=PASS\nTARGETED_BEHAVIOR_RUNTIME=PASS\nCONCURRENCY_GATE=PASS\nSTATUS=PASS_PROMOTED\n```\n''',encoding='utf-8')
           PY
-          sed -i "s/SOURCE_COMMIT=SET_AFTER_SOURCE_COMMIT/SOURCE_COMMIT=$SOURCE_COMMIT/" recovery/BUG-850-254_VALIDATION_20260924.md
           rm .github/workflows/l1jtw85-bug-850-254-completed.yml
           git add README.md recovery/BUG-850-254_VALIDATION_20260924.md .github/workflows/l1jtw85-bug-850-254-completed.yml
           git commit -m "docs: record BUG-850-254 promotion"
