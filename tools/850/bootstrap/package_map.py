@@ -141,6 +141,56 @@ def build_package_map_from_namespace(
     return result
 
 
+def build_class_map_from_namespace(
+    namespace_rows: Iterable[Mapping[str, str]],
+    top_level_entries: Iterable[PackageMapEntry],
+) -> dict[str, str]:
+    """Expand 788 top-level mappings to every accepted application class.
+
+    Inner-class names are never guessed. The recovered namespace map already
+    contains the exact renamed owner and exact ``$...`` suffix. We preserve that
+    suffix and attach it to the semantic Dev top-level owner.
+    """
+    rows = list(namespace_rows)
+    tops = list(top_level_entries)
+    by_original = {entry.original_internal: entry for entry in tops}
+    if len(by_original) != len(tops):
+        raise ValueError("duplicate top-level original identity")
+
+    result: dict[str, str] = {}
+    seen_dev: set[str] = set()
+    for row in rows:
+        original = str(row.get("OldInternal", "")).strip().strip("/")
+        recovered = str(row.get("NewInternal", "")).strip().strip("/")
+        if not original or not recovered:
+            raise ValueError("namespace row missing OldInternal/NewInternal")
+
+        owner_original = original.split("$", 1)[0]
+        owner = by_original.get(owner_original)
+        if owner is None:
+            raise ValueError(f"inner/runtime class has no top-level owner: {original}")
+
+        owner_recovered = owner.recovered_internal
+        if recovered == owner_recovered:
+            dev = owner.dev_internal
+        else:
+            required_prefix = owner_recovered + "$"
+            if not recovered.startswith(required_prefix):
+                raise ValueError(
+                    f"recovered inner identity escaped owner: {recovered} !~ {required_prefix}"
+                )
+            dev = owner.dev_internal + recovered[len(owner_recovered):]
+
+        if original in result:
+            raise ValueError(f"duplicate runtime OriginalInternal: {original}")
+        if dev in seen_dev:
+            raise ValueError(f"duplicate runtime DevInternal: {dev}")
+        result[original] = dev
+        seen_dev.add(dev)
+
+    return result
+
+
 def validate_package_map(entries: Iterable[PackageMapEntry]) -> None:
     seen_original: dict[str, PackageMapEntry] = {}
     seen_recovered: dict[str, PackageMapEntry] = {}
