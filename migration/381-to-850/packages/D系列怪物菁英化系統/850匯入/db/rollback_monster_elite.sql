@@ -4,3 +4,4 @@
 
 DROP TABLE IF EXISTS `w_monster_affix_template`;
 DROP TABLE IF EXISTS `w_elite_monster_config`;
+DROP TABLE IF EXISTS `w_monster_spell_tier_rule`;

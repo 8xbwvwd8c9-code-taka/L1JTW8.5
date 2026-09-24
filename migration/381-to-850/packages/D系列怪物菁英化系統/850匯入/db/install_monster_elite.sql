@@ -1,11 +1,40 @@
 -- =======================================================
 -- 850匯入 / DB install — D系列怪物菁英化系統
 -- 包含：
--- 1. 世界難度與菁英配置表 w_elite_monster_config (InnoDB)
--- 2. 怪物前後詞墜定義表 w_monster_affix_template (InnoDB)
+-- 1. 怪物1~10級階梯施法規則表 w_monster_spell_tier_rule (InnoDB)
+-- 2. 世界難度與菁英配置表 w_elite_monster_config (InnoDB)
+-- 3. 怪物前後詞墜定義表 w_monster_affix_template (InnoDB)
 -- =======================================================
 
--- 1. 世界難度與菁英生成配置
+-- 1. 怪物1~10級階梯施法規則表
+CREATE TABLE IF NOT EXISTS `w_monster_spell_tier_rule` (
+  `tier` tinyint(2) unsigned NOT NULL COMMENT '怪物階級 (1~10)',
+  `min_lvl` int(3) unsigned NOT NULL COMMENT '對應最低怪物等級',
+  `max_lvl` int(3) unsigned NOT NULL COMMENT '對應最高怪物等級',
+  `max_magic_level` tinyint(2) unsigned NOT NULL COMMENT '允許施放之魔法等級上限 (1~10)',
+  `allow_class_skills` tinyint(1) NOT NULL DEFAULT 1 COMMENT '是否開放全職業技能對應階級施放',
+  `spell_chance_pct` int(3) unsigned NOT NULL DEFAULT 20 COMMENT 'AI施法觸發機率%',
+  `tier_name` varchar(32) NOT NULL DEFAULT '' COMMENT '階級描述',
+  PRIMARY KEY (`tier`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='怪物1~10級階梯施法規則表';
+
+-- 預設十級階梯種子資料
+INSERT INTO `w_monster_spell_tier_rule`
+  (`tier`, `min_lvl`, `max_lvl`, `max_magic_level`, `allow_class_skills`, `spell_chance_pct`, `tier_name`)
+VALUES
+  (1, 1, 10, 1, 0, 10, '一階弱小怪 (僅1級魔法)'),
+  (2, 11, 20, 2, 0, 12, '二階普通怪 (1~2級魔法)'),
+  (3, 21, 30, 3, 1, 15, '三階進階怪 (1~3級魔法)'),
+  (4, 31, 40, 4, 1, 18, '四階精銳怪 (1~4級魔法)'),
+  (5, 41, 50, 5, 1, 20, '五階統領怪 (1~5級魔法)'),
+  (6, 51, 60, 6, 1, 22, '六階王國怪 (1~6級魔法)'),
+  (7, 61, 70, 7, 1, 25, '七階深淵怪 (1~7級魔法)'),
+  (8, 71, 80, 8, 1, 28, '八階傳奇怪 (1~8級魔法)'),
+  (9, 81, 90, 9, 1, 30, '九階神話怪 (1~9級魔法)'),
+  (10, 91, 127, 10, 1, 35, '十階滅世BOSS (全套1~10級魔法與全職技能)')
+ON DUPLICATE KEY UPDATE `tier_name`=VALUES(`tier_name`);
+
+-- 2. 世界難度與菁英生成配置
 CREATE TABLE IF NOT EXISTS `w_elite_monster_config` (
   `difficulty_level` tinyint(2) NOT NULL DEFAULT 0 COMMENT '世界難度等級: 0=普通 1=困難 2=惡夢 3=地獄',
   `difficulty_name` varchar(32) NOT NULL DEFAULT '' COMMENT '難度名稱',
@@ -30,7 +59,7 @@ VALUES
   (3, '地獄難度', 10, 130, 100, 200, 4, '1,2,3,4,5,6', '101,102,103,104,105', 50)
 ON DUPLICATE KEY UPDATE `difficulty_name`=VALUES(`difficulty_name`);
 
--- 2. 怪物前後詞墜庫 (前綴增強屬性抗性/體質，後綴附加技能/異常)
+-- 3. 怪物前後詞墜庫
 CREATE TABLE IF NOT EXISTS `w_monster_affix_template` (
   `affix_id` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT '詞墜ID',
   `affix_name` varchar(32) NOT NULL DEFAULT '' COMMENT '詞墜顯示名稱',
