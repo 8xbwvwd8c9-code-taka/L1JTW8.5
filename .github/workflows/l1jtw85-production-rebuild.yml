@@ -62,3 +62,9 @@ jobs:
           --repo-root .
           --completed-ref 3d4a392593d61c9203e3f22a154e752c2c51fa97
           --output-dir recovery/production-build/deployable
+
+      - name: Run end-to-end repaired test JAR pipeline
+        run: >-
+          python tools/production-rebuild/run_production_rebuild.py
+          --repo-root .
+          --completed-ref 3d4a392593d61c9203e3f22a154e752c2c51fa97
