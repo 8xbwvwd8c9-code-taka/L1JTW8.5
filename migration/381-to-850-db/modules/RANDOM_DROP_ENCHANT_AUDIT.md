@@ -1,5 +1,10 @@
 # 381 -> 850 Random Drop Enchant Audit
 
+## Migration authority
+- 850 is the target/core authority.
+- 381 is donor/reference only.
+- Empty source data is **not** evidence that the feature can be skipped.
+
 ## Scope
 Module: `w_怪物掉落隨機強化`
 
@@ -15,13 +20,13 @@ DB/381_DB_AI用/w_怪物掉落隨機強化_202609221205.sql
 SIZE=0 bytes
 ```
 
-Therefore:
+Therefore only the following is proven:
 ```text
-ACTIVE_CONTENT=NONE_PROVEN
+DATA_STATE=NO_ACTIVE_DATA
 SOURCE_SCHEMA=NOT_PROVEN
 ```
 
-Do not synthesize CREATE TABLE from runtime accessors.
+This does **not** justify `SKIP`, because the donor runtime is already proven.
 
 ## Donor runtime semantics
 `DropItemEnchantTable.load()` queries:
@@ -37,13 +42,7 @@ Runtime expects:
 `drop_enchants` is a comma-separated integer list.
 
 Rules are grouped by NPC ID and matched again by item ID at drop creation time.
-
-`getEnchant(...)` chooses:
-```text
-one array element uniformly at random
-```
-
-If duplicate values are present in the CSV, they implicitly act as weights.
+`getEnchant(...)` chooses one configured array element uniformly at random. Duplicate values implicitly act as weights.
 
 ## Drop hook
 381 `SetDrop.additem(...)` creates normal droplist items, then:
@@ -53,26 +52,20 @@ If duplicate values are present in the CSV, they implicitly act as weights.
 4. calls `item.setEnchantLevel(level)`
 5. stores the generated item
 
-For non-stackable drops, every generated item rolls independently.
+For non-stackable drops, generated items roll independently.
 
 ## Donor hazards
+### Loader mutates production data
+If a configured `item_id` does not exist, donor loader executes a DELETE against the configuration table. Target must validate/log instead of destructively repairing configuration.
 
-### 1. Loader mutates production data
-If a configured `item_id` does not exist, `DropItemEnchantTable.errorItem(...)` executes:
-```sql
-DELETE FROM w_怪物掉落隨機強化 WHERE item_id=?
-```
-
-A loader should not destructively repair configuration. Target migration must fail validation/log instead.
-
-### 2. Empty enchant arrays are unsafe
+### Empty arrays
 The random selector assumes at least one parsed enchant value.
 
-### 3. CSV duplicates alter probability
-Because selection is by array index, repeated enchant values increase their probability. This may be intentional weighting or accidental duplication; preserve only after data authority is known.
+### CSV duplicates
+Repeated values alter probability by index weighting. Preserve only if authoritative data proves this is intended.
 
-### 4. Stackable items also receive enchant
-The donor hook applies an enchant value even on the stackable branch. Target should validate allowed item types rather than blindly applying enchant metadata.
+### Stackable items
+Donor applies enchant metadata on the stackable branch too. 850 must validate allowed item types.
 
 ## 850 comparison
 850 native `DropTable` already reads:
@@ -80,53 +73,60 @@ The donor hook applies an enchant value even on the stackable branch. Target sho
 droplist.enchantlvl
 ```
 
-and applies that fixed enchant value to generated drops.
+and applies a fixed enchant value to generated drops.
 
-Thus:
+Therefore:
 ```text
 850_FIXED_DROP_ENCHANT=YES
 850_RANDOM_ENCHANT_LIST=NOT_PROVEN
 ```
 
-A single fixed enchant rule can be expressed natively in 850. A per-drop random list cannot be proven equivalent by simply adding multiple droplist rows, because duplicate droplist rows can alter drop-count/chance semantics.
+A single deterministic enchant can map to the 850 native drop table. A random list cannot be assumed equivalent to multiple droplist rows because that can change drop-count/chance semantics.
 
-## Migration decision
-Current content is empty, so there is no active behavior to migrate.
-
+## Migration paths
 ```text
-CURRENT_CONTENT_MIGRATION=SKIP
+PATH_A: one deterministic enchant per mob/item
+  -> 850 droplist.enchantlvl
+  -> SERVER_LEVEL=L2
+
+PATH_B: multiple random enchant outcomes / weighted outcomes
+  -> minimal 850 drop-generation rule extension
+  -> SERVER_LEVEL=L3
 ```
 
-If future source rows appear:
-- one deterministic enchant per mob/item -> rewrite to 850 native `droplist.enchantlvl` (L2 candidate)
-- multiple random enchant outcomes -> minimal drop-generation extension required (L3)
+The active path cannot be finalized while source rows/schema are unavailable.
 
-Do not port the donor loader/hook until active content demonstrates the need.
-
-## Difficulty
+## Decision
 ```text
-FRAMEWORK_LEVEL=L3
-CURRENT_CONTENT=NONE
-CURRENT_MIGRATION=SKIP
+STATUS=HOLD
+DATA_STATE=NO_ACTIVE_DATA
+DONOR_RUNTIME=PROVEN
+CURRENT_MIGRATION=HOLD
+DIFFICULTY=NOT_FINAL
 ```
 
-Framework L3 reason: random per-instance enchant requires a drop-generation hook and rule loader.
-Current migration skip reason: zero active source content and 850 already supports fixed enchant natively.
+Do not port the donor loader/hook wholesale. When authoritative rows appear, choose the smallest 850-native path required by the actual semantics.
 
 ## Status
 ```text
-STATUS=PASS
+STATUS=HOLD
+AUDIT=PASS
 MODULE=w_怪物掉落隨機強化
-FRAMEWORK_LEVEL=L3
-CURRENT_CONTENT=NONE
-CURRENT_MIGRATION=SKIP
+TARGET_POLICY=850_NATIVE_FIRST
+SOURCE_SQL=EMPTY_0_BYTES
+SOURCE_SCHEMA=NOT_PROVEN
+DATA_STATE=NO_ACTIVE_DATA
+DONOR_RUNTIME=PROVEN
+DROP_HOOK=SetDrop.additem
 CORE_DEP_IF_USED=YES
 DB_DEP_IF_USED=YES
-DROP_HOOK=SetDrop.additem
 CLIENT_DEP=NO
 850_FIXED_DROP_ENCHANT=YES
 850_RANDOM_LIST_EQUIVALENT=NOT_PROVEN
-SOURCE_SQL=EMPTY_0_BYTES
-SOURCE_SCHEMA=NOT_PROVEN
+L2_PATH=fixed_enchant_native_droplist
+L3_PATH=random_or_weighted_per_instance_extension
+DIFFICULTY=NOT_FINAL
+CURRENT_MIGRATION=HOLD
 PRODUCTION_PORT=NO
+BLOCKERS=authoritative schema/data and intended random-enchant semantics
 ```
