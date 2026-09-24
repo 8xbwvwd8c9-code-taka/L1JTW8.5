@@ -1,0 +1,22 @@
+# ========================================================
+# 怪物死亡召喚 (Monster Death Spawn) 設定範例
+# 伺服器優先讀取 DB _config 與 w_monster_death_spawn 資料表
+# ========================================================
+
+# 系統總開關 (0=關閉, 1=開啟)
+MonsterDeathSpawnSwitch = 1
+
+# 全域小怪死亡召喚機率x10 (10 = 1.0%)
+MonsterDeathSpawnGlobalMobChance = 10
+
+# 全域BOSS死亡召喚機率x10 (5 = 0.5%)
+MonsterDeathSpawnGlobalBossChance = 5
+
+# 每次復活能力強化值百分比 (150 = 1.5%)
+MonsterDeathSpawnStrengthPctPerSpawn = 150
+
+# 最大強化度上限百分比 (10000 = 100%)
+MonsterDeathSpawnMaxStrengthPct = 10000
+
+# 每次復活掉落率加成百分比 (1 = +1%)
+MonsterDeathSpawnDropBonusPctPerSpawn = 1

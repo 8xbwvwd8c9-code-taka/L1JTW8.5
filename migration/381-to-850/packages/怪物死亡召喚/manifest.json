@@ -8,59 +8,68 @@
   "client_gate": "NOT_APPLICABLE",
   "source": {
     "requirements": [
-      "I:\\天堂企劃.txt: 小怪1% / BOSS 0.5% 死亡後復活加強1.5%能力；累積至100%強化度；每次掉落率+1%"
+      "I:\\天堂企劃.txt: 小怪1% / BOSS 0.5% 死亡後在角色周邊復活並加強1.5%能力；累積至100%強化度；每次掉落率+1%"
     ],
     "381_db": [
-      {
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\w_怪物死亡召喚_202609221205.sql",
-        "table": "w_怪物死亡召喚",
-        "size_bytes": 0,
-        "status": "EMPTY_SPLIT_BUT_SCHEMA_FOUND_IN_BACKUP",
-        "note": "split SQL 0 bytes，但atu381_0906.sql line 4808 有完整DDL"
-      },
       {
         "file": "I:\\L381\\Atu-381伺服器端主\\DB\\atu381_0906.sql",
         "line": 4808,
         "table": "w_怪物死亡召喚",
         "status": "SCHEMA_CONFIRMED",
-        "columns": "id, 死亡NPC編號, note, 召喚NPC編號, 召喚NPC時間, 死亡NPC說話, tele_x, tele_y, tele_mapid",
-        "engine": "MyISAM",
-        "charset": "sjis",
-        "active_rows_hint": "AUTO_INCREMENT=7（估計6筆資料）"
+        "columns": "id, 死亡NPC編號, note, 召喚NPC編號, 召喚NPC時間, 死亡NPC說話, tele_x, tele_y, tele_mapid"
       }
     ],
     "381_core": [
       "com.lineage.data.event.Npe_DeadSpan (event gate START=true)",
       "com.lineage.william.Npc_Dead_span.getData17() (SELECT * FROM w_怪物死亡召喚)",
-      "L1MonsterInstance.receiveDamage() death path → Npc_Dead_span.forresolvent(atkpc, this)"
+      "L1MonsterInstance.receiveDamage() death path -> Npc_Dead_span.forresolvent(atkpc, this)"
     ],
     "381_control": [
-      "Npe_DeadSpan.START=true (event gate)"
+      "Npe_DeadSpan.START=true"
     ],
     "381_client": []
   },
   "850_gap": {
-    "db": "無w_monster_death_spawn表（需全新創建）",
-    "core": "無Npe_DeadSpan/Npc_Dead_span等同class；L1Monster death hook缺對應調用"
+    "db": "850-native w_monster_death_spawn 與 _config 整合",
+    "core": "MonsterDeathSpawnTable 快取管理器, L1MonsterInstance 死亡 hook 與強化累積, DropTable 加成結算"
   },
   "imports": {
-    "java": [],
-    "class": [],
-    "db": [],
-    "control": [],
+    "java": [
+      "server/java/l1r/ao/MonsterDeathSpawnTable.java",
+      "server/java/l1r/ao/DropTable.java",
+      "server/java/l1r/l1j/server/Config.java",
+      "server/java/l1r/ap/L1MonsterInstance.java"
+    ],
+    "class": [
+      "server/class/l1r/ao/MonsterDeathSpawnTable.class",
+      "server/class/l1r/ao/MonsterDeathSpawnTable$DeathSpawnRule.class",
+      "server/class/l1r/ao/DropTable.class",
+      "server/class/l1r/l1j/server/Config.class",
+      "server/class/l1r/ap/L1MonsterInstance.class",
+      "server/class/l1r/ap/L1MonsterInstance$L1R_a.class"
+    ],
+    "db": [
+      "db/install_monster_death_spawn.sql",
+      "db/rollback_monster_death_spawn.sql"
+    ],
+    "control": [
+      "control/monster_death_spawn.properties.example"
+    ],
     "data": [],
     "client": []
   },
   "path_map": {
-    "core_fixes": [],
+    "core_fixes": [
+      "recovery/normalized-src-vf/l1r/ao/MonsterDeathSpawnTable.java",
+      "recovery/normalized-src-vf/l1r/ao/DropTable.java",
+      "recovery/normalized-src-vf/l1r/l1j/server/Config.java",
+      "recovery/normalized-src-vf/l1r/ap/L1MonsterInstance.java"
+    ],
     "fast_dev_build": []
   },
   "dependencies": [],
   "validation": [],
-  "rollback": [],
-  "blocker": null,
-  "381_schema_source": "atu381_0906.sql line 4808（SCHEMA_CONFIRMED）",
-  "reference_audit": "migration/381-to-850/packages/_共用稽核/modules/MONSTER_DEATH_SPAWN_AUDIT.md",
-  "notes": "L3模組。企劃新增強化累積(1.5%/次至100%上限)/掉落+1%/次超出381原始功能，為850-first extension。schema從atu381_0906.sql取得，可解除BLOCKED。"
+  "rollback": [
+    "db/rollback_monster_death_spawn.sql"
+  ]
 }
-
