@@ -88,16 +88,56 @@ def _target_class_path(source_internal: str, mapping: Mapping[str, str]) -> str:
     return target + ".class"
 
 
+def _load_completed_overlay(
+    completed_overlay: Path | None,
+    normalized_mapping: Mapping[str, str],
+) -> dict[str, bytes]:
+    if completed_overlay is None:
+        return {}
+
+    root = Path(completed_overlay)
+    if not root.is_dir():
+        raise FileNotFoundError(root)
+
+    allowed = {target + ".class" for target in normalized_mapping.values()}
+    overlay: dict[str, bytes] = {}
+    for path in sorted(root.rglob("*")):
+        if not path.is_file():
+            continue
+        if path.suffix != ".class":
+            raise ValueError(f"completed overlay contains non-class file: {path}")
+        relative = path.relative_to(root).as_posix()
+        if relative not in allowed:
+            raise KeyError(f"completed overlay class is not mapped application authority: {relative}")
+        data = path.read_bytes()
+        expected_internal = relative[:-6]
+        actual_internal = class_internal_name(data)
+        if actual_internal != expected_internal:
+            raise ValueError(
+                "completed overlay class identity mismatch: "
+                f"{actual_internal} != {expected_internal}"
+            )
+        if relative in overlay:
+            raise ValueError(f"duplicate completed overlay class: {relative}")
+        overlay[relative] = data
+    return overlay
+
+
 def build_dev_base(
     original_jar: Path,
     output_jar: Path,
     mapping: Mapping[str, str],
+    *,
+    completed_overlay: Path | None = None,
 ) -> dict[str, int]:
-    """Relocate mapped application classes into the semantic Fast Dev namespace.
+    """Relocate original classes, then overlay formally completed repairs.
 
     Classes that live under an application root represented by ``mapping`` must be
     mapped explicitly. Classes outside those roots are treated as third-party/runtime
-    dependencies and are copied byte-for-byte. The original JAR is never modified.
+    dependencies and are copied byte-for-byte. ``completed_overlay`` may replace only
+    semantic application classes already represented by the mapping; this prevents a
+    work/in-progress or foreign class from entering the Dev Base. The original JAR is
+    never modified.
     """
     original = Path(original_jar)
     output = Path(output_jar)
@@ -112,6 +152,7 @@ def build_dev_base(
     if len(set(normalized_mapping.values())) != len(normalized_mapping):
         raise ValueError("duplicate dev class identity")
 
+    completed_classes = _load_completed_overlay(completed_overlay, normalized_mapping)
     roots = _application_roots(normalized_mapping)
     output.parent.mkdir(parents=True, exist_ok=True)
     before_sha = sha256_file(original)
@@ -137,7 +178,10 @@ def build_dev_base(
                     target_path = _target_class_path(source_internal, normalized_mapping)
                     if target_path in seen_targets:
                         raise ValueError(f"duplicate output class: {target_path}")
-                    remapped = _TRANSFORMER.remap_class_bytes(data, normalized_mapping)
+                    if target_path in completed_classes:
+                        remapped = completed_classes[target_path]
+                    else:
+                        remapped = _TRANSFORMER.remap_class_bytes(data, normalized_mapping)
                     actual = class_internal_name(remapped)
                     expected = normalized_mapping[source_internal]
                     if actual != expected:
@@ -156,6 +200,13 @@ def build_dev_base(
                     zout.writestr(info, data)
                     preserved_classes += 1
 
+            missing_overlay = set(completed_classes) - seen_targets
+            if missing_overlay:
+                raise KeyError(
+                    "completed overlay target missing from original application JAR: "
+                    + ", ".join(sorted(missing_overlay))
+                )
+
         if sha256_file(original) != before_sha:
             raise RuntimeError("original JAR changed during Fast Dev bootstrap")
         os.replace(temp_path, output)
@@ -167,4 +218,5 @@ def build_dev_base(
         "relocated_classes": relocated,
         "preserved_classes": preserved_classes,
         "preserved_resources": preserved_resources,
+        "overlaid_classes": len(completed_classes),
     }
