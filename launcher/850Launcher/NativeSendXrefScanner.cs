@@ -14,6 +14,8 @@ namespace L1JTW850Launcher
 
     internal static class NativeSendXrefScanner
     {
+        private const int MaxKnownRuntimeIatXrefs = 256;
+
         public static List<NativeImportXref> Scan(
             RuntimeMemoryProbe probe,
             RuntimeSnapshot runtime,
@@ -80,6 +82,141 @@ namespace L1JTW850Launcher
                 }
             }
 
+            Sort(output);
+
+            status =
+                "network send import=" + imports.Count +
+                "，IAT call/jmp xref=" + output.Count + "。";
+
+            return output;
+        }
+
+        // Packed 8.50c Lin.bin2 exposes an incomplete on-disk import table.
+        // This bounded path accepts only an already-observed module-relative live IAT RVA,
+        // verifies that the slot is readable in the authoritative runtime, and searches
+        // only executable Lin.bin2 sections for FF 15 / FF 25 references to that exact slot.
+        public static List<NativeImportXref> ScanKnownRuntimeIat(
+            RuntimeMemoryProbe probe,
+            RuntimeSnapshot runtime,
+            PeImageInfo image,
+            string importName,
+            uint iatRva,
+            out string status)
+        {
+            var output = new List<NativeImportXref>();
+            status = "";
+
+            if (probe == null || runtime == null || image == null)
+            {
+                status = "KNOWN_RUNTIME_IAT 輸入資料不足。";
+                return output;
+            }
+
+            if (!runtime.Connected ||
+                !runtime.ClientHashAuthoritative ||
+                runtime.ModuleBase == IntPtr.Zero ||
+                runtime.ModuleSize <= 0)
+            {
+                status = "KNOWN_RUNTIME_IAT 僅允許 authoritative 850 runtime。";
+                return output;
+            }
+
+            if (iatRva >= (uint)runtime.ModuleSize)
+            {
+                status = "KNOWN_RUNTIME_IAT RVA 超出 Lin.bin2 module 範圍。";
+                return output;
+            }
+
+            var iatAddress = new IntPtr(
+                runtime.ModuleBase.ToInt64() + iatRva);
+
+            byte[] pointerBytes;
+            string error;
+            if (!probe.TryReadBytes(
+                iatAddress,
+                4,
+                out pointerBytes,
+                out error) ||
+                pointerBytes == null ||
+                pointerBytes.Length < 4)
+            {
+                status = "KNOWN_RUNTIME_IAT slot 無法讀取：" + error;
+                return output;
+            }
+
+            var targetVa = BitConverter.ToUInt32(pointerBytes, 0);
+            if (targetVa == 0)
+            {
+                status = "KNOWN_RUNTIME_IAT slot 為 NULL，不建立 xref root。";
+                return output;
+            }
+
+            var entry = new PeImportEntry
+            {
+                Dll = "LIVE_IAT",
+                Name = string.IsNullOrEmpty(importName) ? "unknown" : importName,
+                IatRva = iatRva,
+                ByOrdinal = false
+            };
+
+            var iatVa = unchecked((uint)iatAddress.ToInt64());
+
+            foreach (var section in image.Sections)
+            {
+                if (!section.IsExecutable)
+                    continue;
+
+                var size = (int)Math.Min(
+                    (long)Math.Max(section.VirtualSize, section.RawSize),
+                    32L * 1024L * 1024L);
+
+                if (size <= 0)
+                    continue;
+
+                byte[] bytes;
+                var start = new IntPtr(
+                    runtime.ModuleBase.ToInt64() +
+                    section.VirtualAddress);
+
+                if (!probe.TryReadBytes(
+                    start,
+                    size,
+                    out bytes,
+                    out error))
+                    continue;
+
+                ScanForIatXrefs(
+                    bytes,
+                    start,
+                    runtime.ModuleBase,
+                    entry,
+                    iatVa,
+                    output);
+
+                if (output.Count >= MaxKnownRuntimeIatXrefs)
+                    break;
+            }
+
+            var limited = output.Count > MaxKnownRuntimeIatXrefs;
+            if (limited)
+                output.RemoveRange(
+                    MaxKnownRuntimeIatXrefs,
+                    output.Count - MaxKnownRuntimeIatXrefs);
+
+            Sort(output);
+
+            status =
+                "KNOWN_RUNTIME_IAT RVA=0x" + iatRva.ToString("X8") +
+                " target=0x" + targetVa.ToString("X8") +
+                "，exact IAT call/jmp xref=" + output.Count +
+                (limited ? "，候選達安全上限。" : "。");
+
+            return output;
+        }
+
+        private static void Sort(
+            List<NativeImportXref> output)
+        {
             output.Sort(delegate(NativeImportXref a, NativeImportXref b)
             {
                 var byImport = string.Compare(
@@ -92,12 +229,6 @@ namespace L1JTW850Launcher
 
                 return a.InstructionRva.CompareTo(b.InstructionRva);
             });
-
-            status =
-                "network send import=" + imports.Count +
-                "，IAT call/jmp xref=" + output.Count + "。";
-
-            return output;
         }
 
         private static void ScanForIatXrefs(
