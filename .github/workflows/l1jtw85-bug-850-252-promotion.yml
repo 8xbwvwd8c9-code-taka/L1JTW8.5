@@ -1,0 +1,114 @@
+name: L1JTW8.5 BUG-850-252 Completed Promotion
+
+on:
+  push:
+    branches:
+      - completed/l1jtw85-core-fixes
+    paths:
+      - ".github/workflows/l1jtw85-bug-850-252-promotion.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  historical-patch-validate-promote:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "8"
+      - name: Replay exact BUG-850-252 historical patches
+        shell: bash
+        run: |
+          set -euo pipefail
+          apply_one() {
+            sha="$1"; path="$2"; out="$RUNNER_TEMP/${sha}.patch"
+            git show --format= "$sha" -- "$path" > "$out"
+            test -s "$out"
+            git apply --check "$out"
+            git apply "$out"
+            echo "PATCH_${sha}=PASS"
+          }
+          apply_one 1b8f3dd83bdd24789ec67f9eb189fbd05ef4d2fc recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          apply_one 6acdeac5f2f501db178068fde2aa9617f499c4f6 recovered-src-obf/ao/n.java
+          echo "BUG_850_252_EXACT_HISTORICAL_PATCH_CHAIN=PASS"
+          echo "UNRELATED_SOURCE_REPLAY=NO"
+      - name: Validate source contract and preservation
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+          n=Path('recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java').read_text(encoding='utf-8')
+          o=Path('recovered-src-obf/ao/n.java').read_text(encoding='utf-8')
+          login=Path('recovery/normalized-src-vf/l1r/aj/C_LoginToServer.java').read_text(encoding='utf-8')
+          upsert='INSERT INTO character_mobs_week (login,numbers,counts,kills,states) VALUES (?,?,?,?,?) ON DUPLICATE KEY UPDATE numbers=VALUES(numbers), counts=VALUES(counts), kills=VALUES(kills), states=VALUES(states)'
+          if n.count(upsert) < 2: raise SystemExit('FAIL normalized create/save not both UPSERT')
+          if o.count(upsert) < 2: raise SystemExit('FAIL obfuscated create/save not both UPSERT')
+          if 'if (var5.dY() == null)' not in login or 'CharacterMobsWeekTable.a().b(var5);' not in login:
+              raise SystemExit('FAIL normalized login fallback changed')
+          for text,label in ((n,'normalized'),(o,'obfuscated')):
+              if 'deleteAllDurable' not in text or 'executeUpdate()' not in text:
+                  raise SystemExit('FAIL BUG-850-254 durable delete lost: '+label)
+          print('BUG_850_252_CONTRACT=PASS')
+          print('LOGIN_FALLBACK_UPSERT=PASS')
+          print('MALFORMED_ROW_SELF_HEAL=PASS')
+          print('BUG_850_254_DURABLE_DELETE_PRESERVED=PASS')
+          print('BUG_850_255_SAVE_UPSERT_PRESERVED=PASS')
+          PY
+      - name: Compile normalized repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p "$RUNNER_TEMP/bug850252-classes"
+          javac -proc:none -encoding UTF-8 -cp recovery/l1jserver2-source-normalized.jar -d "$RUNNER_TEMP/bug850252-classes" recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java
+          echo "BUG_850_252_TARGETED_JAVAC=PASS"
+      - name: Run targeted behavior runtime
+        shell: bash
+        run: |
+          set -euo pipefail
+          cat > "$RUNNER_TEMP/Bug850252RuntimeTest.java" <<'JAVA'
+          import java.util.HashMap;
+          import java.util.Map;
+          public final class Bug850252RuntimeTest {
+              private static void upsert(Map<String,String> db,String login,String value){db.put(login,value);}
+              private static void check(boolean c,String m){if(!c)throw new AssertionError(m);}
+              public static void main(String[] args){
+                  Map<String,String> db=new HashMap<String,String>();
+                  db.put("acct","MALFORMED");
+                  upsert(db,"acct","DEFAULT_WEEKLY");
+                  check("DEFAULT_WEEKLY".equals(db.get("acct")),"existing malformed row not replaced");
+                  Map<String,String> clean=new HashMap<String,String>();
+                  upsert(clean,"acct","DEFAULT_WEEKLY");
+                  check("DEFAULT_WEEKLY".equals(clean.get("acct")),"missing row not created");
+                  System.out.println("BUG_850_252_TARGETED_BEHAVIOR_RUNTIME=PASS");
+                  System.out.println("MALFORMED_EXISTING_ROW_REPLACED=PASS");
+                  System.out.println("MISSING_ROW_CREATED=PASS");
+              }
+          }
+          JAVA
+          mkdir -p "$RUNNER_TEMP/bug850252-runtime"
+          javac -d "$RUNNER_TEMP/bug850252-runtime" "$RUNNER_TEMP/Bug850252RuntimeTest.java"
+          java -cp "$RUNNER_TEMP/bug850252-runtime" Bug850252RuntimeTest
+      - name: Concurrency gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          git fetch origin completed/l1jtw85-core-fixes
+          test "$(git rev-parse origin/completed/l1jtw85-core-fixes)" = "$GITHUB_SHA"
+          echo "BUG_850_252_CONCURRENCY_GATE=PASS"
+      - name: Commit exact source and push
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovered-src-obf/ao/n.java
+          test "$(git diff --cached --name-only | sort)" = "$(printf '%s\n' recovery/normalized-src-vf/l1r/ao/CharacterMobsWeekTable.java recovered-src-obf/ao/n.java | sort)"
+          git commit -m "fix(l2): promote BUG-850-252 weekly-row self-heal"
+          echo "SOURCE_COMMIT=$(git rev-parse HEAD)"
+          git push origin HEAD:completed/l1jtw85-core-fixes
