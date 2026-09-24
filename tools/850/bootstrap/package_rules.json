@@ -1,37 +1,33 @@
 {
   "families": {
-    "ai": {
-      "package": "l1j/server",
-      "category": "server"
-    },
-    "aj": {
-      "package": "l1j/server/clientpackets",
-      "category": "clientpackets"
-    },
-    "ao": {
-      "package": "l1j/server/datatables",
-      "category": "datatables"
-    },
-    "ap": {
-      "package": "l1j/server/model/instance",
-      "category": "model-instance"
-    },
-    "aq": {
-      "package": "l1j/server/model",
-      "category": "model"
-    },
-    "aw": {
-      "package": "l1j/server/model/item",
-      "category": "model-item"
-    },
-    "ba": {
-      "package": "l1j/server/model/timer",
-      "category": "model-timer"
-    },
-    "bh": {
-      "package": "l1j/server/templates",
-      "category": "templates"
-    }
+    "ai": {"package": "l1j/server", "category": "server"},
+    "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
+    "ak": {"package": "l1j/server/command", "category": "command-router"},
+    "al": {"package": "l1j/server/command/executor", "category": "gm-command"},
+    "am": {"package": "l1j/server/data", "category": "data-reader"},
+    "an": {"package": "l1j/server/proto", "category": "proto-message"},
+    "ao": {"package": "l1j/server/datatables", "category": "datatables"},
+    "ap": {"package": "l1j/server/model/instance", "category": "model-instance"},
+    "aq": {"package": "l1j/server/model", "category": "model"},
+    "ar": {"package": "l1j/server/model/classes", "category": "class-feature"},
+    "as": {"package": "l1j/server/model/gamesystem", "category": "game-system"},
+    "at": {"package": "l1j/server/model/gametime", "category": "game-time"},
+    "au": {"package": "l1j/server/model/inventory", "category": "inventory"},
+    "av": {"package": "l1j/server/model/item", "category": "item-delay"},
+    "aw": {"package": "l1j/server/model/item/action", "category": "item-handler"},
+    "ax": {"package": "l1j/server/model/map", "category": "map"},
+    "ay": {"package": "l1j/server/model/monitor", "category": "pc-monitor"},
+    "az": {"package": "l1j/server/model/poison", "category": "poison"},
+    "ba": {"package": "l1j/server/model/timer", "category": "timer"},
+    "bb": {"package": "l1j/server/model/timer", "category": "timer"},
+    "bc": {"package": "l1j/server/model/timer", "category": "timer"},
+    "bd": {"package": "l1j/server/model/trap", "category": "trap"},
+    "be": {"package": "l1j/server/serverpackets", "category": "serverpackets"},
+    "bf": {"package": "l1j/server/skill/executor", "category": "skill-executor"},
+    "bg": {"package": "l1j/server/skill", "category": "skill-core"},
+    "bh": {"package": "l1j/server/templates", "category": "templates"},
+    "bi": {"package": "l1j/server/utils", "category": "utility"},
+    "bj": {"package": "l1j/server/network", "category": "network"}
   },
   "overrides": {}
 }
