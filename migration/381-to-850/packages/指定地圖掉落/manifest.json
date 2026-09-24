@@ -1,53 +1,65 @@
 {
   "schema_version": 1,
   "module_id": "指定地圖掉落",
-  "module_name": "指定地圖掉落與全地圖掉落",
-  "enterprise_item": "L2,w_指定地圖掉落,N/A",
+  "module_name": "指定地圖掉落與全地圖掉落（Map & Global Drop System）",
+  "enterprise_item": "天堂企劃.txt 第42條: L2,w_指定地圖掉落,N/A + 跟全地圖掉落",
   "decision": "HOLD",
   "server_level": "L2",
   "client_gate": "NOT_APPLICABLE",
   "source": {
+    "requirements": [
+      "I:\\天堂企劃.txt: w_指定地圖掉落, 跟全地圖掉落"
+    ],
     "381_db": [
       {
-        "bytes": 41614,
         "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_指定地圖掉落_202609221205.sql",
-        "name": "w_指定地圖掉落_202609221205.sql"
+        "table": "w_指定地圖掉落",
+        "rows": 515,
+        "status": "DATA_CONFIRMED",
+        "columns": "mapid, itemid, min, max, chance, note"
       }
     ],
-    "381_client": [],
     "381_core": [],
-    "requirements": [
-      "L2,w_指定地圖掉落,N/A",
-      "掉落表延伸：依 map_id 覆蓋或追加全地圖掉落池"
-    ],
-    "381_control": []
+    "381_control": [],
+    "381_client": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "850-native w_map_designated_drop 與 _config 整合",
+    "core": "DropMapTable 擴充全地圖通用掉落 (-1) 與 _config 雙重開關"
   },
   "imports": {
-    "class": [],
-    "java": [],
+    "java": [
+      "server/java/l1r/ao/DropMapTable.java",
+      "server/java/l1r/l1j/server/Config.java"
+    ],
+    "class": [
+      "server/class/l1r/ao/DropMapTable.class",
+      "server/class/l1r/ao/DropMapTable$L1R_a.class",
+      "server/class/l1r/ao/DropMapTable$L1R_b.class",
+      "server/class/l1r/l1j/server/Config.class"
+    ],
+    "db": [
+      "db/install_map-designated-drop.sql",
+      "db/rollback_map-designated-drop.sql"
+    ],
     "control": [
-      "850匯入/control/指定地圖掉落.properties.example"
+      "control/map-designated-drop.properties.example"
     ],
     "data": [],
-    "client": [],
-    "db": [
-      "850匯入/db/install_指定地圖掉落.sql",
-      "850匯入/db/rollback_指定地圖掉落.sql"
-    ]
+    "client": []
   },
   "path_map": {
-    "fast_dev_build": [],
-    "core_fixes": []
+    "core_fixes": [
+      "recovery/normalized-src-vf/l1r/ao/DropMapTable.java",
+      "recovery/normalized-src-vf/l1r/l1j/server/Config.java"
+    ],
+    "fast_dev_build": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_指定地圖掉落.sql"
+  "validation": [
+    "驗證/validation_checklist.md"
   ],
-  "notes": "HOLD狀態。掉落表延伸：依 map_id 覆蓋或追加全地圖掉落池"
+  "rollback": [
+    "db/rollback_map-designated-drop.sql"
+  ]
 }
-

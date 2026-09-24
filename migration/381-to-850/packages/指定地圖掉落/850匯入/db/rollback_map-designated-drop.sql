@@ -1,4 +1,5 @@
 -- =======================================================
--- 850匯入 / DB rollback — map-designated-drop
+-- 850匯入 / DB rollback — 指定地圖掉落與全地圖掉落
 -- =======================================================
--- 待填入對應 DROP/ALTER
+DROP TABLE IF EXISTS `w_map_designated_drop`;
+DELETE FROM `_config` WHERE `parameter` IN ('MapDesignatedDropSwitch', 'GlobalMapDropSwitch');
