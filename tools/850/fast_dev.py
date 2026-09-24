@@ -89,6 +89,15 @@ def _ensure_baseline(root: Path) -> None:
         raise RuntimeError("Fast Dev automatic bootstrap completed without a usable baseline/state")
 
 
+def sync_completed(root: Path) -> dict[str, object]:
+    """Refresh formally completed repairs without compiling working sources."""
+    bootstrap = _load_module(
+        Path(root) / "tools" / "850" / "bootstrap" / "ensure_dev.py",
+        "fast_dev_completed_sync",
+    )
+    return bootstrap.ensure_fast_dev(Path(root), fetch_latest=True)
+
+
 def _compiler(root: Path):
     _ensure_baseline(root)
     module = _load_module(root / "tools" / "850" / "compiler" / "incremental.py", "fast_dev_incremental_runtime")
@@ -147,7 +156,14 @@ def main(argv: list[str] | None = None) -> int:
         return 0
 
     if args.mode == "sync":
-        print("FAST_DEV_SYNC=REGISTRY_READY; source promotion application is completed by the migration/sync stage")
+        result = sync_completed(root)
+        print(
+            "FAST_DEV_SYNC=PASS "
+            f"AUTHORITY={result['authority_commit']} "
+            f"COMPLETED_SOURCES={result['completed_source_count']} "
+            f"REBUILT={str(result['rebuilt']).upper()} "
+            f"CORE={result['core_action']}"
+        )
         return 0
 
     if args.mode == "pack":
