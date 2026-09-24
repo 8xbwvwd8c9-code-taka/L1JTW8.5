@@ -15,7 +15,7 @@ permissions:
   contents: read
 
 jobs:
-  inverse-remap-tests:
+  production-rebuild-tests:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -34,3 +34,6 @@ jobs:
 
       - name: Run inverse remap contract tests
         run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_inverse_remap.py' -v
+
+      - name: Run repaired JAR contract tests
+        run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_build_repaired_test_jar.py' -v
