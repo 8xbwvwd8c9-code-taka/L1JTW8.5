@@ -4,6 +4,28 @@
 
 目前 `main` 保留原始 baseline。反編譯、核心修復與支線整理請從以下入口進入。
 
+### 最新 L2 修復停止點（2026-09-25 00:04 +08:00）
+
+```text
+STATE=PAUSED_CLEAN_HANDOFF
+LANE=SINGLE_REPAIR_LANE
+WORK_BRANCH=work/l1jtw85-core-fixes
+WORK_HEAD_BEFORE_HANDOFF=d29e786e50a0da7510816a6a0c296c375e188b43
+HANDOFF_COMMIT=4c729f5c4fbf5bff84cc587c8f6de923886a8a9f
+COMPLETED_BRANCH=completed/l1jtw85-core-fixes
+COMPLETED_HEAD=027f95323f46dc2c5d3bb4529992dfd48dfe3dda
+NEXT_SEQUENCE=BUG-850-057 -> BUG-850-058 -> BUG-850-059
+BUG_057_PROMOTION=NOT_COMPLETED_IN_THIS_CHAT
+BUG_058_PROMOTION=NOT_COMPLETED_IN_THIS_CHAT
+BUG_059_PROMOTION=NOT_COMPLETED_IN_THIS_CHAT
+FRESH_RECOUNT_REQUIRED=YES
+FRESH_VALIDATION_REQUIRED=YES
+```
+
+本輪停止在 057/058/059 promotion 前的準備階段：已 refresh `work/completed` HEAD、確認舊 L2 recount 已落後目前分支、開始反查三顆 BUG 的權威 repair commit / touched files；**尚未**把 057/058/059 標記 PASS、尚未 promotion、也沒有扣減 pending count。
+
+最新交接包：[`recovery/L1JTW85_L2_REPAIR_HANDOFF_20260925.md`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/l1jtw85-core-fixes/recovery/L1JTW85_L2_REPAIR_HANDOFF_20260925.md)。恢復時先 fresh recount，再依序處理 057 → 058 → 059；不得沿用舊 `L2_PENDING=20` 當目前即時值。
+
 
 ### 850 資料整理 / 客戶端研究
 
