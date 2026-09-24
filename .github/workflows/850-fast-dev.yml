@@ -24,3 +24,5 @@ jobs:
           python-version: '3.13'
       - name: Run package-map contracts
         run: python -m unittest -v tools/850/tests/test_package_map.py
+      - name: Run core bootstrap contracts
+        run: python -m unittest -v tools/850/tests/test_bootstrap_core.py
