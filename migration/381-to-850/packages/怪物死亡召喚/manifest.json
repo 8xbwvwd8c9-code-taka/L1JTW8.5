@@ -60,7 +60,7 @@
   "rollback": [],
   "blocker": null,
   "381_schema_source": "atu381_0906.sql line 4808（SCHEMA_CONFIRMED）",
-  "reference_audit": "migration/381-to-850-db/modules/MONSTER_DEATH_SPAWN_AUDIT.md",
+  "reference_audit": "migration/381-to-850/packages/_共用稽核/modules/MONSTER_DEATH_SPAWN_AUDIT.md",
   "notes": "L3模組。企劃新增強化累積(1.5%/次至100%上限)/掉落+1%/次超出381原始功能，為850-first extension。schema從atu381_0906.sql取得，可解除BLOCKED。"
 }
 

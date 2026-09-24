@@ -47,8 +47,8 @@
 - Create: `migration/381-to-850/packages/tests/test_validate_module_package.py` — 隔離、雜湊、inner class、client gate 測試。
 - Create: `migration/381-to-850/packages/tests/test_claim_next_module.py` — 單一 active module 與完成條件測試。
 - Modify: `README.md` — 完成首頁逐項報告。
-- Modify: `migration/381-to-850-db/README.md` — canonical migration ledger；從 analysis 支線同步其權威內容後更新。
-- Modify: `migration/381-to-850-db/inventory/SQL_FULL_INVENTORY.csv` — 項目與 381 SQL 的多對多關聯。
+- Modify: `migration/381-to-850/packages/_共用稽核/README.md` — canonical migration ledger。
+- Modify: `migration/381-to-850/packages/_共用稽核/inventory/SQL_FULL_INVENTORY.csv` — 項目與 381 SQL 的多對多關聯。
 
 ### 每項固定檔案
 
@@ -258,7 +258,7 @@ git commit -m "feat(migration): enforce sequential module claims"
 - Create per item: `migration/381-to-850/packages/<module>/驗證/validation.json`
 - Modify as proven: 850 normalized／obfuscated Java、DB migration、control、data、client files
 - Modify: `README.md`
-- Modify: `migration/381-to-850-db/README.md`
+- Modify: `migration/381-to-850/packages/_共用稽核/README.md`
 
 **Interfaces:**
 - Consumes: `claim_next_module.py` 唯一 active module、381/850 證據與前一個 completed head。
@@ -449,7 +449,7 @@ Expected: 失敗原因與該項缺口一致；若無法重現，完成 `HOLD` �
 
 **Files:**
 - Modify: `README.md`
-- Modify: `migration/381-to-850-db/README.md`
+- Modify: `migration/381-to-850/packages/_共用稽核/README.md`
 - Modify: `migration/381-to-850/packages/reverse-order.json`
 - Create: `migration/381-to-850/packages/FINAL_VALIDATION.md`
 - Create: temporary handoff via `handoff` skill
