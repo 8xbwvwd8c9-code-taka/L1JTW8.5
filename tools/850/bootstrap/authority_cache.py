@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import json
+import re
 import shutil
 import subprocess
 import tarfile
@@ -15,13 +16,19 @@ HERE = Path(__file__).resolve().parent
 # production-rebuild baseline. Normal Fast Dev bootstrap resolves the latest
 # completed branch tip and pins that exact SHA for the current cache.
 PINNED_COMPLETED_COMMIT = "fc473aef65485d1524283fa34d01ab7fad9a7b93"
+# Last normalized recovery-generation commit before completed repair promotions
+# begin changing recovery/normalized-src-vf. Repair overlay scope is derived as
+# the Java-source diff from this immutable anchor to one pinned completed tip.
+RECOVERY_BASELINE_COMMIT = "ba0f234dcb6fc43b47f397652048561a6f28ae68"
+NORMALIZED_SOURCE_ROOT = "recovery/normalized-src-vf"
 COMPLETED_BRANCH = "completed/l1jtw85-core-fixes"
 REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
+COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
-    "recovery/normalized-src-vf",
+    NORMALIZED_SOURCE_ROOT,
 )
 
 
@@ -50,6 +57,13 @@ def _git(repo_root: Path, *args: str, check: bool = True) -> subprocess.Complete
         detail = proc.stderr.strip() or proc.stdout.strip() or "git command failed"
         raise RuntimeError(detail)
     return proc
+
+
+def _exact_commit(value: str, label: str) -> str:
+    commit = str(value).strip()
+    if not COMMIT_RE.fullmatch(commit):
+        raise ValueError(f"{label} must be an exact 40-hex SHA")
+    return commit.lower()
 
 
 def _commit_available(repo_root: Path, commit: str) -> bool:
@@ -112,6 +126,7 @@ def ensure_completed_authority_commit(
     fetch_if_missing: bool = True,
 ) -> None:
     repo_root = Path(repo_root).resolve()
+    commit = _exact_commit(commit, "completed authority commit")
     if _commit_available(repo_root, commit):
         return
 
@@ -130,6 +145,88 @@ def ensure_completed_authority_commit(
             "completed authority commit unavailable: "
             f"{commit}; fetch {COMPLETED_BRANCH} and retry"
         )
+
+
+def completed_repair_source_paths(
+    repo_root: Path,
+    *,
+    commit: str,
+    baseline_commit: str = RECOVERY_BASELINE_COMMIT,
+) -> list[str]:
+    """Return normalized Java sources changed by completed repairs only.
+
+    Scope is the immutable recovery baseline -> exact completed-authority diff.
+    The active worktree and HEAD are never read, so work/in-progress changes are
+    excluded. Deletions/renames/type-conflicts fail closed because they cannot be
+    represented safely as a class overlay on the original production runtime.
+    """
+    repo_root = Path(repo_root).resolve()
+    completed = _exact_commit(commit, "completed authority commit")
+    baseline = _exact_commit(baseline_commit, "recovery baseline commit")
+
+    if not _commit_available(repo_root, baseline):
+        raise RuntimeError(f"recovery baseline commit unavailable: {baseline}")
+    if not _commit_available(repo_root, completed):
+        raise RuntimeError(f"completed authority commit unavailable: {completed}")
+
+    ancestor = _git(
+        repo_root,
+        "merge-base",
+        "--is-ancestor",
+        baseline,
+        completed,
+        check=False,
+    )
+    if ancestor.returncode != 0:
+        raise RuntimeError(
+            "recovery baseline is not an ancestor of completed authority: "
+            f"{baseline} -> {completed}"
+        )
+
+    diff = _git(
+        repo_root,
+        "diff",
+        "--name-status",
+        "--find-renames",
+        baseline,
+        completed,
+        "--",
+        NORMALIZED_SOURCE_ROOT,
+    )
+
+    changed: set[str] = set()
+    for raw_line in diff.stdout.splitlines():
+        if not raw_line.strip():
+            continue
+        fields = raw_line.split("\t")
+        status = fields[0]
+        code = status[:1]
+
+        if code in {"R", "C"}:
+            if len(fields) != 3:
+                raise RuntimeError(f"malformed normalized source diff record: {raw_line}")
+            old_path, new_path = fields[1], fields[2]
+            if old_path.endswith(".java") or new_path.endswith(".java"):
+                kind = "renamed" if code == "R" else "copied"
+                raise RuntimeError(
+                    f"{kind} normalized source is not overlay-safe: {old_path} -> {new_path}"
+                )
+            continue
+
+        if len(fields) != 2:
+            raise RuntimeError(f"malformed normalized source diff record: {raw_line}")
+        path = fields[1]
+        if not path.endswith(".java"):
+            continue
+        if code == "D":
+            raise RuntimeError(f"deleted normalized source is not overlay-safe: {path}")
+        if code not in {"A", "M"}:
+            raise RuntimeError(
+                f"unsupported normalized source diff status {status}: {path}"
+            )
+        changed.add(path)
+
+    return sorted(changed)
 
 
 def _cache_hit(cache_core: Path, commit: str) -> bool:
@@ -164,6 +261,7 @@ def materialize_authority_core(
             repo_root,
             fetch_latest=fetch_if_missing,
         )
+    commit = _exact_commit(commit, "completed authority commit")
 
     if _cache_hit(cache_core, commit):
         return {
