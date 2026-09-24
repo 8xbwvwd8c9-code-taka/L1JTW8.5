@@ -105,14 +105,14 @@ jobs:
             -p 3306:3306 \
             -d mysql:5.7
           for i in $(seq 1 60); do
-            if docker exec l1jtw85-mysql mysqladmin ping -uroot -proot --silent >/dev/null 2>&1; then
-              echo "MYSQL_READY=YES"
+            if docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT 1' >/dev/null 2>&1; then
+              echo "MYSQL_AUTH_READY=YES"
               exit 0
             fi
             sleep 1
           done
           docker logs l1jtw85-mysql
-          echo "MYSQL_READY=NO"
+          echo "MYSQL_AUTH_READY=NO"
           exit 1
 
       - name: Import 8.5 runtime database
