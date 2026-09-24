@@ -147,11 +147,55 @@ def ensure_completed_authority_commit(
         )
 
 
+def ensure_recovery_baseline_commit(
+    repo_root: Path,
+    *,
+    baseline_commit: str = RECOVERY_BASELINE_COMMIT,
+    fetch_if_missing: bool = True,
+) -> str:
+    """Ensure the immutable recovery baseline commit is locally reachable.
+
+    Normal full clones pay no fetch cost. A shallow clone is unshallowed from
+    the completed authority branch only when the baseline anchor is missing.
+    """
+    repo_root = Path(repo_root).resolve()
+    baseline = _exact_commit(baseline_commit, "recovery baseline commit")
+    if _commit_available(repo_root, baseline):
+        return baseline
+    if not fetch_if_missing:
+        raise RuntimeError(f"recovery baseline commit unavailable: {baseline}")
+
+    shallow = _git(repo_root, "rev-parse", "--is-shallow-repository", check=False)
+    is_shallow = shallow.returncode == 0 and shallow.stdout.strip().lower() == "true"
+    command = ["fetch", "--no-tags"]
+    if is_shallow:
+        command.append("--unshallow")
+    command.extend(
+        [
+            "origin",
+            f"+refs/heads/{COMPLETED_BRANCH}:{REMOTE_COMPLETED_REF}",
+        ]
+    )
+    proc = _git(repo_root, *command, check=False)
+    if proc.returncode != 0:
+        detail = proc.stderr.strip() or proc.stdout.strip() or "git fetch failed"
+        raise RuntimeError(
+            f"cannot recover baseline history from {COMPLETED_BRANCH}: {detail}"
+        )
+    if not _commit_available(repo_root, baseline):
+        raise RuntimeError(
+            "recovery baseline commit unavailable after completed-branch history fetch: "
+            f"{baseline}"
+        )
+    return baseline
+
+
 def completed_repair_source_paths(
     repo_root: Path,
     *,
     commit: str,
     baseline_commit: str = RECOVERY_BASELINE_COMMIT,
+    fetch_if_missing: bool = True,
 ) -> list[str]:
     """Return normalized Java sources changed by completed repairs only.
 
@@ -162,10 +206,12 @@ def completed_repair_source_paths(
     """
     repo_root = Path(repo_root).resolve()
     completed = _exact_commit(commit, "completed authority commit")
-    baseline = _exact_commit(baseline_commit, "recovery baseline commit")
+    baseline = ensure_recovery_baseline_commit(
+        repo_root,
+        baseline_commit=baseline_commit,
+        fetch_if_missing=fetch_if_missing,
+    )
 
-    if not _commit_available(repo_root, baseline):
-        raise RuntimeError(f"recovery baseline commit unavailable: {baseline}")
     if not _commit_available(repo_root, completed):
         raise RuntimeError(f"completed authority commit unavailable: {completed}")
 
