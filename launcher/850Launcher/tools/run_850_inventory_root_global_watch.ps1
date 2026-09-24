@@ -130,12 +130,24 @@ if ($parent -and -not (Test-Path -LiteralPath $parent)) {
     New-Item -ItemType Directory -Force -Path $parent | Out-Null
 }
 
+$debugModeEntered = $false
+$seDebugStatus = 'NOT_ENABLED'
+try {
+    [Diagnostics.Process]::EnterDebugMode()
+    $debugModeEntered = $true
+    $seDebugStatus = 'ENABLED_FOR_RUN'
+}
+catch {
+    $seDebugStatus = 'ENABLE_FAILED:' + $_.Exception.GetType().Name
+}
+
 Write-Host 'STATUS=READY_ROOT_GLOBAL_WATCH'
 Write-Host "PID=$($proc.Id)"
 Write-Host "PROCESS_START_UTC=$($startUtc.ToString('o'))"
 Write-Host ('MODULE_BASE=0x{0:X8}' -f $moduleBase64)
 Write-Host ('ROOT_GLOBAL_RVA=0x{0:X8}' -f $RootGlobalRva)
 Write-Host ('ROOT_GLOBAL_VA=0x{0:X8}' -f $watchVa64)
+Write-Host "SEDEBUG=$seDebugStatus"
 Write-Host 'ACTION=During the watch window, use normal game flow only: enter/re-enter the world and open/close inventory. A logout/relogin can help expose teardown + construction writes.'
 Write-Host 'TARGET_MEMORY_WRITE=NO'
 
@@ -150,8 +162,16 @@ $helperArgs = @(
     '--output', $OutputPath
 )
 
-& $helperExe $helperArgs
-$helperExit = $LASTEXITCODE
+$helperExit = 99
+try {
+    & $helperExe $helperArgs
+    $helperExit = $LASTEXITCODE
+}
+finally {
+    if ($debugModeEntered) {
+        try { [Diagnostics.Process]::LeaveDebugMode() } catch { }
+    }
+}
 
 $raw = if (Test-Path -LiteralPath $OutputPath) { Get-Content -LiteralPath $OutputPath -Raw } else { '' }
 $header = @(
@@ -165,6 +185,7 @@ $header = @(
     ('ROOT_GLOBAL_VA=0x{0:X8}' -f $watchVa64),
     "HELPER_EXIT=$helperExit",
     'RUNNER_ELEVATED=YES',
+    "SEDEBUG=$seDebugStatus",
     'TARGET_MEMORY_WRITE=NO',
     '---HELPER---'
 ) -join "`r`n"
@@ -179,6 +200,7 @@ Copy-Item -LiteralPath $OutputPath -Destination $archivePath -Force
 Write-Host "OUTPUT=$OutputPath"
 Write-Host "ARCHIVE=$archivePath"
 Write-Host "HELPER_EXIT=$helperExit"
+Write-Host "SEDEBUG=$seDebugStatus"
 Write-Host 'TARGET_MEMORY_WRITE=NO'
 if ($helperExit -eq 0) {
     Write-Host 'STATUS=PASS_OBSERVED_WRITE'
