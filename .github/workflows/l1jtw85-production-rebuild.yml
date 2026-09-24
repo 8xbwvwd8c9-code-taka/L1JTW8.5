@@ -103,7 +103,8 @@ jobs:
             -e MYSQL_ROOT_PASSWORD=root \
             -e MYSQL_ROOT_HOST=% \
             -p 3306:3306 \
-            -d mysql:5.7
+            -d mysql:5.7 \
+            --sql-mode=NO_ENGINE_SUBSTITUTION
           for i in $(seq 1 60); do
             if docker exec l1jtw85-mysql mysql -uroot -proot -N -B -e 'SELECT 1' >/dev/null 2>&1; then
               echo "MYSQL_AUTH_READY=YES"
