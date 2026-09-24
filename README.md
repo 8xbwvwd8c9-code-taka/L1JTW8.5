@@ -2,8 +2,109 @@
 
 此支線只收納 **850 登入器與 850 客戶端內掛** 相關文件/程式。
 
+## Mission — 功能完成優先，逆向只做最小必要 Bridge
+
+這條支線的最終目標不是完整還原 8.50c 客戶端，也不是把 UI / Inventory 架構全部逆向完。
+
+**最終目標是做出可以實際使用的公版登入器 + 輔助功能。**
+
 ```text
-BRANCH=work/850-launcher-helper
+PRIMARY_PRODUCT=PUBLIC_850_LAUNCHER_WITH_FUNCTIONAL_HELPER
+CLIENT_AUTHORITY=850 Lin.bin2 ONLY
+REVERSE_ENGINEERING=MEANS_NOT_GOAL
+MINIMUM_REQUIRED_BRIDGE_ONLY=YES
+```
+
+### 功能性目標
+
+依目前優先順序：
+
+```text
+P1=AUTO_POTION
+P2=AUTO_BUFF
+P3=AUTO_TRANSFORM
+P4=DAMAGE_NUMBER_UI
+P5=AUTO_DELETE_ITEM
+P6=RECYCLE_DISSOLVE_ITEM
+```
+
+功能完成定義：
+
+- **自動喝水**：讀取 HP/MP，找到藥水 runtime item identity，經客戶端原生 UseItem 路徑安全使用。
+- **自動施放增益**：能判斷技能 / Buff 狀態，經客戶端原生技能路徑自動補 Buff。
+- **自動變身**：能判斷目前變身狀態，使用 850 專用 Transform / Skill / Item 路徑自動變身。
+- **傷害數字 UI**：取得可信 damage event / value，於 helper overlay 或客戶端 UI 顯示傷害數字。
+- **自動刪物品**：列出背包物品並使用正確 runtime identity 執行客戶端原生刪除流程。
+- **回收 / 溶解**：在 Inventory identity 與 native action bridge 成立後，再接回收 / 溶解規則與 UI。
+
+### 目前最小必要 Bridge
+
+```text
+HP_MP_RUNTIME_MAP=PASS
+
+AUTO_POTION_BLOCKERS:
+- INVENTORY_ITEM_OBJECT_ID
+- CLIENT_NATIVE_USEITEM_PATH
+
+AUTO_BUFF_BLOCKERS:
+- CLIENT_NATIVE_SKILL_USE_PATH
+- BUFF_STATE
+
+AUTO_TRANSFORM_BLOCKERS:
+- TRANSFORM_STATE
+- 850_NATIVE_TRANSFORM_SKILL_OR_ITEM_PATH
+
+DAMAGE_NUMBER_UI_BLOCKERS:
+- DAMAGE_EVENT_OR_VALUE_SOURCE
+- DISPLAY_BRIDGE
+
+AUTO_DELETE_BLOCKERS:
+- INVENTORY_ENUMERATION
+- OBJECT_ID
+- CLIENT_NATIVE_DELETE_ACTION
+```
+
+### Anti-drift rule — 偏離時先重讀首頁
+
+任何工作開始前、代理人接手前、或懷疑方向偏離時，先重新閱讀本 README 的 `Mission`。
+
+```text
+DRIFT_GUARD=ENABLED
+
+EVERY_RE_TASK_MUST_ADVANCE_AT_LEAST_ONE_FUNCTIONAL_TARGET=YES
+DO_NOT_REVERSE_FOR_COMPLETENESS=YES
+DO_NOT_EXPAND_UI_HIERARCHY_WITHOUT_FUNCTIONAL_BLOCKER_LINK=YES
+DO_NOT_CHASE_GENERIC_CONTAINER_WITHOUT_ITEM_SKILL_DAMAGE_TRANSFORM_EVIDENCE=YES
+PREFER_SHORTEST_NATIVE_BRIDGE_PATH=YES
+```
+
+若出現以下任一情況，立即停止目前擴張並重新看首頁：
+
+1. 連續工作只增加 class / offset / vtable 知識，卻沒有縮小任何功能 blocker。
+2. 正在研究 UI / generic container，但無法說明它如何直接推進 AutoPotion / AutoBuff / AutoTransform / Damage UI / AutoDelete。
+3. 已有負面證據證明某 lane 為 UI / framework / resource，仍持續往下深挖。
+4. 逆向範圍從 exact-target / bounded helper 開始變成 broad scan。
+5. 有更短的反向路徑可用，例如從 `UseItem / SkillUse / damage consumer` 回追 runtime identity，卻仍持續掃 UI owner。
+
+偏離後的固定恢復流程：
+
+```text
+STOP
+-> READ README MISSION
+-> STATE FUNCTIONAL_GOAL
+-> STATE CURRENT_BLOCKER
+-> STATE WHY_NEXT_STEP_REDUCES_BLOCKER
+-> CONTINUE ONLY IF DIRECTLY RELEVANT
+```
+
+**判定原則：**
+
+> 能讓登入器功能更快可用的路徑優先；完整逆向不是交付物。
+
+---
+
+```text
+BRANCH=work/850-inventory-helper
 TARGET=850
 AUTHORITY=850
 DONORS=381,880
