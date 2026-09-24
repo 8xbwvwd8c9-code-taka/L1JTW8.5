@@ -3,9 +3,10 @@
   "module_id": "裝武強化lv",
   "module_name": "裝武強化等級能力加成",
   "enterprise_item": "L2,w_裝武強化lv,N/A",
-  "decision": "HOLD",
+  "decision": "READY",
   "server_level": "L2",
   "client_gate": "NOT_APPLICABLE",
+  "delivery_mode": "DUAL_DELIVERY",
   "source": {
     "381_db": [
       {
@@ -15,7 +16,11 @@
       }
     ],
     "381_client": [],
-    "381_core": [],
+    "381_core": [
+      "com.lineage.william.EnchantOrginal",
+      "com.lineage.william.L1WilliamEnchantOrginal",
+      "com.lineage.server.model.L1EquipmentSlot"
+    ],
     "requirements": [
       "L2,w_裝武強化lv,N/A",
       "武器/防具每強化 1 級對應能力加成設定"
@@ -23,31 +28,45 @@
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "建立 w_item_enchant_level_bonus 與相容視圖 w_裝武強化lv，並於 _config 新增 ItemEnchantLevelBonusSwitch",
+    "core": "實作 l1r.ao.ItemEnchantLevelTable 並掛載於 l1r.aq.L1EquipmentSlot 穿脫裝流程"
   },
   "imports": {
-    "class": [],
-    "java": [],
+    "class": [
+      "850匯入/server/class/l1r/ao/ItemEnchantLevelTable.class",
+      "850匯入/server/class/l1r/ao/ItemEnchantLevelTable$EnchantBonus.class",
+      "850匯入/server/class/l1r/aq/L1EquipmentSlot.class",
+      "850匯入/server/class/l1r/l1j/server/Config.class"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemEnchantLevelTable.java",
+      "850匯入/server/java/l1r/aq/L1EquipmentSlot.java",
+      "850匯入/server/java/l1r/l1j/server/Config.java"
+    ],
     "control": [
-      "850匯入/control/裝武強化lv.properties.example"
+      "850匯入/control/equip-enchant-level.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_裝武強化lv.sql",
-      "850匯入/db/rollback_裝武強化lv.sql"
+      "850匯入/db/install_equip-enchant-level.sql",
+      "850匯入/db/rollback_equip-enchant-level.sql"
     ]
   },
   "path_map": {
     "fast_dev_build": [],
-    "core_fixes": []
+    "core_fixes": [
+      "recovery/normalized-src-vf/l1r/ao/ItemEnchantLevelTable.java",
+      "recovery/normalized-src-vf/l1r/aq/L1EquipmentSlot.java",
+      "recovery/normalized-src-vf/l1r/l1j/server/Config.java"
+    ]
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_裝武強化lv.sql"
+  "validation": [
+    "驗證/validation_checklist.md"
   ],
-  "notes": "HOLD狀態。武器/防具每強化 1 級對應能力加成設定"
+  "rollback": [
+    "850匯入/db/rollback_equip-enchant-level.sql"
+  ],
+  "notes": "READY狀態。裝武強化等級能力加成系統完整雙重交付（分支核心修復 + 套件獨立匯入包）。"
 }
-

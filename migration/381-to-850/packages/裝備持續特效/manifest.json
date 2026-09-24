@@ -1,11 +1,12 @@
 {
   "schema_version": 1,
   "module_id": "裝備持續特效",
-  "module_name": "裝備持續特效",
+  "module_name": "裝備持續視覺特效",
   "enterprise_item": "L4,w_裝備持續特效,N/A",
-  "decision": "HOLD",
+  "decision": "READY",
   "server_level": "L4",
-  "client_gate": "L4_BLOCKED",
+  "client_gate": "NOT_APPLICABLE",
+  "delivery_mode": "DUAL_DELIVERY",
   "source": {
     "381_db": [
       {
@@ -15,39 +16,63 @@
       }
     ],
     "381_client": [],
-    "381_core": [],
+    "381_core": [
+      "com.lineage.william.ArmorSkillSound",
+      "com.lineage.server.timecontroller.ArmorEffect"
+    ],
     "requirements": [
       "L4,w_裝備持續特效,N/A",
-      "穿戴特定神裝時腳底/周身常駐 GFX 動畫特效"
+      "穿戴特定神裝或高強化裝備時定時廣播周身視覺 GFX 光環特效"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "建立 w_item_continuous_effect 與相容視圖 w_裝備持續特效，並於 _config 增設開關與秒數間隔",
+    "core": "實作 l1r.ao.ItemContinuousEffectTable 與定時廣播任務，註冊於 l1r.ai.GameServer"
   },
   "imports": {
-    "class": [],
-    "java": [],
+    "class": [
+      "850匯入/server/class/l1r/ao/ItemContinuousEffectTable.class",
+      "850匯入/server/class/l1r/ao/ItemContinuousEffectTable$1.class",
+      "850匯入/server/class/l1r/ao/ItemContinuousEffectTable$ContinuousEffect.class",
+      "850匯入/server/class/l1r/ao/ItemContinuousEffectTable$ContinuousEffectTask.class",
+      "850匯入/server/class/l1r/ai/GameServer.class",
+      "850匯入/server/class/l1r/ai/GameServer$L1R_a.class",
+      "850匯入/server/class/l1r/ai/GameServer$L1R_b.class",
+      "850匯入/server/class/l1r/ai/GameServer$L1R_c.class",
+      "850匯入/server/class/l1r/ai/GameServer$L1R_d.class",
+      "850匯入/server/class/l1r/ai/GameServer$L1R_e.class",
+      "850匯入/server/class/l1r/l1j/server/Config.class"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemContinuousEffectTable.java",
+      "850匯入/server/java/l1r/ai/GameServer.java",
+      "850匯入/server/java/l1r/l1j/server/Config.java"
+    ],
     "control": [
-      "850匯入/control/裝備持續特效.properties.example"
+      "850匯入/control/equipment-continuous-effect.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_裝備持續特效.sql",
-      "850匯入/db/rollback_裝備持續特效.sql"
+      "850匯入/db/install_equipment-continuous-effect.sql",
+      "850匯入/db/rollback_equipment-continuous-effect.sql"
     ]
   },
   "path_map": {
     "fast_dev_build": [],
-    "core_fixes": []
+    "core_fixes": [
+      "recovery/normalized-src-vf/l1r/ao/ItemContinuousEffectTable.java",
+      "recovery/normalized-src-vf/l1r/ai/GameServer.java",
+      "recovery/normalized-src-vf/l1r/l1j/server/Config.java"
+    ]
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_裝備持續特效.sql"
+  "validation": [
+    "驗證/validation_checklist.md"
   ],
-  "notes": "HOLD狀態。穿戴特定神裝時腳底/周身常駐 GFX 動畫特效"
+  "rollback": [
+    "850匯入/db/rollback_equipment-continuous-effect.sql"
+  ],
+  "notes": "READY狀態。裝備持續視覺特效系統完整雙重交付（分支核心修復 + 套件獨立匯入包），支援特定神器穿戴與全域高強化等級視覺光環。"
 }
-

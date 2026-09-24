@@ -1,2 +1,12 @@
-# 裝備持續特效 控制開關
-Enabled=false
+# -------------------------------------------------------------
+# 裝備持續特效系統配置 (equipment-continuous-effect.properties)
+# 對應企劃：L4,w_裝備持續特效,N/A
+# -------------------------------------------------------------
+
+# 是否開啟裝備持續視覺特效廣播 (1: 開啟, 0: 關閉, 預設 1)
+# 亦可由資料庫 _config 表中的 EquipmentContinuousEffectSwitch 動態控制
+EquipmentContinuousEffectSwitch = 1
+
+# 持續視覺光環播放週期 (秒, 預設 15 秒)
+# 亦可由資料庫 _config 表中的 EquipmentContinuousEffectInterval 動態控制
+EquipmentContinuousEffectInterval = 15

@@ -1,4 +1,7 @@
 -- =======================================================
--- 850匯入 / DB rollback — equipment-continuous-effect
+-- 850匯入 / DB rollback — 裝備持續特效 (w_item_continuous_effect)
 -- =======================================================
--- 待填入對應 DROP/ALTER
+
+DROP VIEW IF EXISTS `w_裝備持續特效`;
+DROP TABLE IF EXISTS `w_item_continuous_effect`;
+DELETE FROM `_config` WHERE `key` IN ('EquipmentContinuousEffectSwitch', 'EquipmentContinuousEffectInterval');
