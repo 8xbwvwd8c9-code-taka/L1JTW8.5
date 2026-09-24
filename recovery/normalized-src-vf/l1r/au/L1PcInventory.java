@@ -559,6 +559,39 @@ public class L1PcInventory extends L1Inventory {
    }
 
    @Override
+   protected boolean l1rBeforeFullDelete(L1ItemInstance var1) {
+      try (java.sql.Connection var2 = l1r.l1j.server.DatabaseFactory.a().b()) {
+         CharacterItemTable.a().deleteQuestRewardItem(var2, this.i.fr(), var1, var1.E());
+         return true;
+      } catch (Exception var3) {
+         g.log(Level.SEVERE, var3.getLocalizedMessage(), var3);
+         return false;
+      }
+   }
+
+   @Override
+   protected void l1rPublishFullDelete(L1ItemInstance var1) {
+      if (var1.D()) {
+         this.a(var1, false);
+      }
+      if (var1.a().l() != 0) {
+         this.i.a(new S_ProtoBuffers(485, this.i));
+      }
+      this.i.a(new S_DeleteInventoryItem(var1));
+      this.a.remove(var1);
+      if (var1.N() == 640100) {
+         this.i.bz(25005);
+      }
+      for (L1QuestNew var2 : this.i.dS().values()) {
+         for (int var3 = 0; var3 < var2.r().length; var3++) {
+            if (var2.r()[var3] == var1.N() && var2.t()[var3] <= var1.G()) {
+               var2.a(var3, Math.max(0, var2.B()[var3] - var1.E()));
+            }
+         }
+      }
+   }
+
+   @Override
    public void c(L1ItemInstance var1) {
       try {
          CharacterItemTable.a().a(var1);

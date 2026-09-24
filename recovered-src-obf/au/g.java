@@ -569,6 +569,42 @@ extends f {
     }
 
     @Override
+    protected boolean l1rBeforeFullDelete(q item) {
+        try (java.sql.Connection con = l1j.server.b.a().b()) {
+            ao.l.a().deleteQuestRewardItem(con, this.i.fr(), item, item.E());
+            return true;
+        }
+        catch (Exception e2) {
+            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return false;
+        }
+    }
+
+    @Override
+    protected void l1rPublishFullDelete(q item) {
+        if (item.D()) {
+            this.a(item, false);
+        }
+        if (item.a().l() != 0) {
+            this.i.a(new dc(485, this.i));
+        }
+        this.i.a(new ag(item));
+        this.a.remove(item);
+        if (item.N() == 640100) {
+            this.i.bz(25005);
+        }
+        for (s qn : this.i.dS().values()) {
+            int i2 = 0;
+            while (i2 < qn.r().length) {
+                if (qn.r()[i2] == item.N() && qn.t()[i2] <= item.G()) {
+                    qn.a(i2, Math.max(0, qn.B()[i2] - item.E()));
+                }
+                ++i2;
+            }
+        }
+    }
+
+    @Override
     public void c(q item) {
         if (item.D()) {
             this.a(item, false);

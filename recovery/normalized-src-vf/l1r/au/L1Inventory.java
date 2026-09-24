@@ -304,6 +304,9 @@ public class L1Inventory extends L1Object {
          }
 
          if (var1.E() == var2) {
+            if (!this.l1rBeforeFullDelete(var1)) {
+               return 0;
+            }
             int var3 = var1.N();
             if (var3 == 40314 || var3 == 40316) {
                PetTable.a().a(var1.fr());
@@ -326,7 +329,7 @@ public class L1Inventory extends L1Object {
                ((L1PcInventory)this).k(null);
             }
 
-            this.c(var1);
+            this.l1rPublishFullDelete(var1);
             L1World.a().b(var1);
          } else {
             var1.e(var1.E() - var2);
@@ -337,6 +340,14 @@ public class L1Inventory extends L1Object {
       } else {
          return 0;
       }
+   }
+
+   protected boolean l1rBeforeFullDelete(L1ItemInstance var1) {
+      return true;
+   }
+
+   protected void l1rPublishFullDelete(L1ItemInstance var1) {
+      this.c(var1);
    }
 
    public void c(L1ItemInstance var1) {

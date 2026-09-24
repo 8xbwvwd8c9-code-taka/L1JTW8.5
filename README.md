@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-058 | L2 | durable CAS before inventory full-delete publication | PASS / PROMOTED |
 | BUG-850-057 | L2 | DB-first inventory insert / fail-closed live publication | PASS / PROMOTED |
 | BUG-850-048 | L2 | LuckyDraw atomic pending consumption / reward persistence | PASS / PROMOTED |
 | BUG-850-049 | L2 | LuckyDraw reward publication requires durable pending consumption | PASS / PROMOTED / COVERED BY 048 |
@@ -3551,4 +3552,22 @@ DB_CONTROL_EVIDENCE=PASS
 JAVA8_NO_NEW_REGRESSION=PASS
 RUNTIME_FAILURE_MODEL=PASS
 PROMOTION_BASE=LATEST_COMPLETED_AT_RUN
+```
+
+
+## BUG-850-058 — durable inventory full delete
+
+Full-delete side effects are gated by a `character_items` CAS delete (`id+char_id+count`, affectedRows==1). SQL/CAS failure returns 0 before item cleanup, RAM/client publication, or world removal. Latest inventory hardening and current packet mapping are preserved in both ACTIVE forms.
+
+```text
+RUN=36029081637
+RECORDED_REPAIR_COMMIT=84faa6ebf09d6fe920219ccc0082c20afc8888d2
+LATEST_COMPLETED_RED=PASS
+EXACT_CORE_SCOPE=4_FILES
+SOURCE_CONTRACT=PASS
+BOTH_FORMS_ORDERING=PASS
+DB_CAS=PASS
+CONFIG_CONTROL=NONE
+JAVA8_NO_NEW_REGRESSION=PASS
+RUNTIME_FAILURE_MODEL=PASS
 ```

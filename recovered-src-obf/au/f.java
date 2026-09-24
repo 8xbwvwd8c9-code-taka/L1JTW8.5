@@ -277,6 +277,9 @@ extends aa {
             count = item.E();
         }
         if (item.E() == count) {
+            if (!this.l1rBeforeFullDelete(item)) {
+                return 0;
+            }
             int itemId = item.N();
             if (itemId == 40314 || itemId == 40316) {
                 aw.a().a(item.fr());
@@ -294,7 +297,7 @@ extends aa {
             if (this instanceof g && ((g)this).k() == item.fr()) {
                 ((g)this).k(null);
             }
-            this.c(item);
+            this.l1rPublishFullDelete(item);
             if (this.a.contains(item)) {
                 return 0;
             }
@@ -309,6 +312,14 @@ extends aa {
             }
         }
         return count;
+    }
+
+    protected boolean l1rBeforeFullDelete(q item) {
+        return true;
+    }
+
+    protected void l1rPublishFullDelete(q item) {
+        this.c(item);
     }
 
     public void c(q item) {
