@@ -37,6 +37,7 @@ assert "SEND_IAT_RVA_STABLE" in compare
 assert "STABLE_EXACT_TARGET" in compare
 assert "PASS_RESTART_STABLE_LIVE_SEND_IAT" in compare
 assert "WP7_NATIVE_USEITEM_PASS=NO" in compare
+assert compare.index("'^EXACT_TARGET=") < compare.index("'^([A-Z0-9_]+)=")
 
 combined = scanner + "\n" + control + "\n" + probe + "\n" + compare
 for forbidden in (
