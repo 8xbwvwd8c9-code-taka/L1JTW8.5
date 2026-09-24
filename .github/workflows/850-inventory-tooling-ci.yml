@@ -80,6 +80,39 @@ jobs:
         run: |
           ./launcher/850Launcher/tools/headless_watch/build_headless_watch.ps1
 
+      - name: Run end-to-end evidence fixture
+        shell: pwsh
+        run: |
+          $watch = 'launcher/850Launcher/tools/decoder/fixtures/root_global_watch_fixture.txt'
+          $v4b = 'launcher/850Launcher/tools/decoder/fixtures/root_global_v4b_fixture.txt'
+          $decoded = Join-Path $env:RUNNER_TEMP 'fixture_decoded.txt'
+          $correlated = Join-Path $env:RUNNER_TEMP 'fixture_correlation.txt'
+
+          python launcher/850Launcher/tools/decoder/decode_850_inventory_watch.py --input $watch --output $decoded
+          if ($LASTEXITCODE -ne 0) { throw "decoder fixture failed: exit=$LASTEXITCODE" }
+
+          ./launcher/850Launcher/tools/correlate_850_inventory_root_watch_decoder_v2.ps1 `
+            -WatchPath $watch `
+            -DecoderPath $decoded `
+            -V4bPath $v4b `
+            -OutputPath $correlated
+
+          $decoderText = Get-Content $decoded -Raw
+          $correlationText = Get-Content $correlated -Raw
+          if ($decoderText -notmatch 'UNIQUE_TARGET_WRITERS=2') {
+            throw 'Expected two decoder-proven fixture writers.'
+          }
+          if ($correlationText -notmatch 'CORRELATED_NONZERO_ASSIGNMENTS=1') {
+            throw 'Expected one correlated nonzero assignment.'
+          }
+          if ($correlationText -notmatch 'CORRELATED_ZERO_CLEARS=1') {
+            throw 'Expected one correlated zero clear.'
+          }
+          if ($correlationText -notmatch 'STATUS=OWNER_ANCHOR_STRONG_DECODER_RUNTIME_CANDIDATE') {
+            throw 'End-to-end fixture did not reach the expected strong candidate state.'
+          }
+          Write-Host 'STATUS=PASS_END_TO_END_FIXTURE'
+
       - name: Verify no target-memory write API
         shell: pwsh
         run: |
