@@ -341,8 +341,10 @@ Validation checks:
 ```text
 InventoryBridge mapped
 record list readable
+RecordCount > 0
 ObjectId nonzero
 ObjectId unique per record
+RecordCount == UniqueObjectIds
 expected ItemId totals match actual totals
 count summation has no overflow
 ```
@@ -354,9 +356,15 @@ The hidden **背包比對** page compares the latest sessions. The restart gate 
 ```text
 at least 3 validation sessions
 every session PASS
+every session RecordCount > 0
+every session RecordCount == UniqueObjectIds
 at least 2 distinct client process instances
-the same expectation set in all compared sessions
+the same exact itemId=count expectation set in all compared sessions
+the same ItemId set in all compared sessions
+at least 2 expected ItemIds per session
 ```
+
+If a known inventory Count changes, start a separate restart-validation set. Do not mix different expected counts into the same WP6 restart proof.
 
 A single-session match is not WP6 PASS.
 
@@ -508,16 +516,19 @@ CLIENT_SHA256
 CLIENT_AUTHORITY
 ```
 
-WP6 restart comparison was corrected so that counts may change between sessions.
+WP6 restart comparison now uses a strict frozen expectation set for one proof run.
 
-The stable condition is now:
+The stable condition is:
 
 ```text
+same exact itemId=count expectation set
 same ItemId set
+RecordCount > 0 in every session
+RecordCount == UniqueObjectIds in every session
 at least 2 known ItemIds per session
 each session's entered count matches that session's actual inventory
 >=3 PASS sessions
 >=2 distinct client process instances
 ```
 
-This allows legitimate inventory count changes after relog/restart while still proving the same item records are resolved correctly.
+If inventory counts legitimately change, begin a new proof set instead of combining those sessions with the old set. This prevents different truth inputs from being aggregated into one restart-stability PASS.
