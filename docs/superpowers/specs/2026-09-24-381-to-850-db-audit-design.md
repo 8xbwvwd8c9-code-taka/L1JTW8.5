@@ -104,11 +104,17 @@ optional 模組不得偷偷依賴另一個 optional 模組。若兩個模組需�
 
 完成條件：381 與 850 證據可定位、server level 與 client gate 分開、隔離邊界明確、未證明事項標記 `NOT_PROVEN` 或 `HOLD`、各文件不矛盾，且 commit 已推送遠端既有 migration 支線。
 
-## 第一批工作
+## 全量掃描優先順序
 
-1. 將 `AUTO_LEARN_SKILL.md` 改為 `SKIP_USER_DECISION`。
-2. 將 `TRANSFORM_CARD_LOGIN_ABILITY_AUDIT.md` 的登入能力 consumer 改為 `PROVEN` 並重寫 blocker。
-3. 在 `MODULE_ISOLATION_AUDIT.md` 標記相關早期 L2／L3／L4 結論為 `SUPERSEDED`。
-4. 確認首頁 canonical ledger 與三份 specialized／isolation 文件一致。
+移植候選不得在 SQL 全量對照完成前選定。固定順序為：
 
-完成漂移清理後，再依首頁 audit queue 一顆一顆繼續未完成 DB 模組，不混查多個無直接 lifecycle 關係的項目。
+1. 將 381 的 320 份 SQL 全部建立獨立清冊項目，包括 210 份非空 SQL 與 110 份空 SQL。
+2. 對照 850 `db/8.5.sql`，先判定同名 table，再比較同名 table 的欄位集合。
+3. 逐項追蹤 381 runtime owner、loader、hook 與控制來源。
+4. 逐項對照 850 native DB、核心 lifecycle 與可替代功能，判定 `EXACT_DUPLICATE`、`SEMANTIC_DUPLICATE`、`PARTIAL_OVERLAP`、`850_MISSING` 或 `NOT_PROVEN`。
+5. 只有需要功能呈現或資源映射的項目才檢查 8.50c 客戶端。
+6. 320 項全部完成難易度與隔離性判定後，再建立移植候選清單。
+
+全量掃描期間所有未完成項目維持 `HOLD`，不得因名稱相似直接宣告重複，也不得因 SQL 為空直接 `SKIP`。
+
+已知文件漂移仍須修正，但不再先於全量框架與 SQL 對照；修正時必須回填同一份 320 項清冊，確保 specialized audit 與總表一致。

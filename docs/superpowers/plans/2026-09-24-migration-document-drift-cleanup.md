@@ -1,5 +1,7 @@
 # 381 → 850 Migration Document Drift Cleanup Implementation Plan
 
+> **SUPERSEDED EXECUTION ORDER:** The user changed the priority after approving this plan. Do not execute Tasks 1–4 before the 320-item SQL inventory, 850 duplicate comparison, runtime tracing, and difficulty framework are complete. The current authority is the full-scan order in `docs/superpowers/specs/2026-09-24-381-to-850-db-audit-design.md` and the live inventory under `migration/381-to-850-db/inventory/`.
+
 > **For agentic workers:** REQUIRED SUB-SKILL: Use superpowers:subagent-driven-development (recommended) or superpowers:executing-plans to implement this plan task-by-task. Steps use checkbox (`- [ ]`) syntax for tracking.
 
 **Goal:** Remove the confirmed auto-learn and transformation-card contradictions while preserving the repository's 850-first, analysis-only migration authority.

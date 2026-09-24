@@ -251,10 +251,27 @@ When conflicts exist, precedence is:
 ---
 
 ## Current audit queue
-Continue targeted audit rather than implementation:
-1. empty/no-data HOLD modules: prove 381 runtime/control aliases and 850 equivalents
-2. reconcile remaining old L3 labels against actual 850 native lifecycle
-3. inspect unresolved client gates using available 8.50c Sprite/Text/Tile/client resources before declaring L4
-4. update specialized module audit first, then update this homepage ledger
+Complete the 320-item SQL census before selecting migration candidates:
+1. use [`inventory/SQL_FULL_INVENTORY.csv`](inventory/SQL_FULL_INVENTORY.csv) as the canonical per-SQL ledger
+2. use [`inventory/SQL_MODULE_FRAMEWORK.md`](inventory/SQL_MODULE_FRAMEWORK.md) for the readable 320-item framework
+3. use [`inventory/SQL_SCAN_PROGRESS.md`](inventory/SQL_SCAN_PROGRESS.md) for completion counts
+4. trace each item's 381 runtime/control owner and compare its 850 DB/core equivalent
+5. classify exact duplicate, semantic duplicate, partial overlap, missing target capability, client gate and difficulty
+6. select migration candidates only after all 320 items have final comparison records
+
+Current mechanical baseline:
+```text
+381_SQL_TOTAL=320
+381_SQL_NON_EMPTY=210
+381_SQL_EMPTY=110
+850_CREATE_TABLES=99
+850_EXACT_NAME_MATCH=46
+850_EXACT_COLUMN_SET=6
+850_381_COLUMNS_SUBSET=6
+850_COLUMN_DIFFERENCE=24
+850_SOURCE_COLUMNS_NOT_PROVEN=10
+SEMANTIC_COMPARISON_PENDING=320
+MIGRATION_SELECTION=NOT_STARTED
+```
 
 Production core modification remains out of scope for this branch.
