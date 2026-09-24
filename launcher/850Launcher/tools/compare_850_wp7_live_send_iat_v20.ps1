@@ -13,8 +13,14 @@ function Read-Evidence([string]$path){
     $targets=New-Object System.Collections.Generic.List[string]
     foreach($raw in $rows){
         $line=$raw.Trim()
-        if($line -match '^([A-Z0-9_]+)=(.*)$'){$kv[$matches[1]]=$matches[2];continue}
-        if($line -match '^EXACT_TARGET=\d+\s+FUNCTION_RVA=(0x[0-9A-Fa-f]+)'){$targets.Add($matches[1].ToUpperInvariant())}
+        if($line -match '^EXACT_TARGET=\d+\s+FUNCTION_RVA=(0x[0-9A-Fa-f]+)'){
+            $targets.Add($matches[1].ToUpperInvariant())
+            continue
+        }
+        if($line -match '^([A-Z0-9_]+)=(.*)$'){
+            $kv[$matches[1]]=$matches[2]
+            continue
+        }
     }
     return [pscustomobject]@{Path=[IO.Path]::GetFullPath($path);Kv=$kv;Targets=@($targets | Sort-Object -Unique)}
 }
