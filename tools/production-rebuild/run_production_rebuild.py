@@ -3,13 +3,11 @@ import argparse
 import hashlib
 import importlib.util
 import json
-import subprocess
-import sys
 from pathlib import Path
 
 
 EXPECTED_ORIGINAL_JAR_SHA256 = "8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814"
-EXPECTED_APPLICATION_CLASSES = 1109
+EXPECTED_DEPLOYABILITY_POLICY = "PROMOTION_COMMIT_PLUS_CURRENT_JAVA8_RC0_ONLY"
 
 
 def _load_sibling(filename: str, module_name: str):
@@ -30,21 +28,82 @@ def sha256_file(path: Path) -> str:
     return h.hexdigest().upper()
 
 
-def _run(cmd, *, cwd: Path) -> None:
-    print("+ " + " ".join(str(x) for x in cmd), flush=True)
-    subprocess.run(cmd, cwd=cwd, check=True)
+def _compiled_class_inventory(classes_dir: Path) -> list[str]:
+    return sorted(
+        path.relative_to(classes_dir).as_posix()
+        for path in classes_dir.rglob("*.class")
+    )
 
 
-def _dump_compile_diagnostics(repo_root: Path, max_lines: int = 160) -> None:
-    log = repo_root / "recovery" / "normalized-javac.log"
-    if not log.is_file():
-        print("=== normalized-javac.log missing ===", flush=True)
-        return
-    lines = log.read_text(encoding="utf-8", errors="replace").splitlines()
-    print(f"=== normalized-javac.log first {min(max_lines, len(lines))}/{len(lines)} lines ===", flush=True)
-    for line in lines[:max_lines]:
-        print(line, flush=True)
-    print("=== end normalized-javac.log excerpt ===", flush=True)
+def _validate_deployability_state(state: dict, *, completed_ref: str, classes_dir: Path) -> None:
+    if state.get("completed_ref") != completed_ref:
+        raise ValueError(
+            f"deployability authority mismatch: expected {completed_ref}, got {state.get('completed_ref')}"
+        )
+    if state.get("policy") != EXPECTED_DEPLOYABILITY_POLICY:
+        raise ValueError(f"unexpected deployability policy: {state.get('policy')}")
+
+    deployable = list(state.get("deployable", []))
+    deferred = list(state.get("deferred", []))
+    tops = list(state.get("deployable_normalized_tops", []))
+    if not deployable or not tops:
+        raise ValueError("deployability gate produced no deployable repairs")
+    if state.get("deployable_count") != len(deployable) or len(deployable) != len(tops):
+        raise ValueError("deployability count mismatch")
+    if state.get("deferred_count") != len(deferred):
+        raise ValueError("deferred count mismatch")
+    if state.get("candidate_count") != len(deployable) + len(deferred):
+        raise ValueError("candidate/deployable/deferred counts do not close")
+    if len(tops) != len(set(tops)):
+        raise ValueError("duplicate deployable normalized top")
+
+    for row in deployable:
+        if row.get("status") != "DEPLOYABLE" or row.get("javac_exit") != 0:
+            raise ValueError(f"invalid deployable row: {row.get('normalized_top')}")
+        if row.get("normalized_top") not in tops:
+            raise ValueError(f"deployable row omitted from top list: {row.get('normalized_top')}")
+    for row in deferred:
+        if row.get("status") != "DEFERRED":
+            raise ValueError(f"invalid deferred row: {row.get('normalized_top')}")
+
+    if not classes_dir.is_dir():
+        raise FileNotFoundError(classes_dir)
+    inventory = _compiled_class_inventory(classes_dir)
+    if not inventory:
+        raise ValueError("deployable classes directory is empty")
+    inventory_internal = [entry[:-6] for entry in inventory]
+    for top in tops:
+        if top not in inventory_internal:
+            raise ValueError(f"deployable top-level class missing from compiled output: {top}")
+    for internal in inventory_internal:
+        if not any(internal == top or internal.startswith(top + "$") for top in tops):
+            raise ValueError(f"compiled output contains non-deployable class: {internal}")
+
+
+def _load_or_compile_deployability(*, repo_root: Path, completed_ref: str, deployable_dir: Path) -> dict:
+    state_path = deployable_dir / "DEPLOYABILITY_STATE.json"
+    classes_dir = deployable_dir / "classes"
+    if state_path.is_file():
+        state = json.loads(state_path.read_text(encoding="utf-8"))
+        try:
+            _validate_deployability_state(
+                state, completed_ref=completed_ref, classes_dir=classes_dir
+            )
+            print("REUSE_DEPLOYABILITY_STATE=YES", flush=True)
+            return state
+        except Exception as exc:
+            print(f"REUSE_DEPLOYABILITY_STATE=NO reason={exc}", flush=True)
+
+    compiler = _load_sibling("compile_deployable_repairs.py", "l1jtw85_compile_deployable")
+    state = compiler.compile_deployable_repairs(
+        repo_root=repo_root,
+        completed_ref=completed_ref,
+        output_dir=deployable_dir,
+    )
+    _validate_deployability_state(
+        state, completed_ref=completed_ref, classes_dir=classes_dir
+    )
+    return state
 
 
 def _write_pipeline_result(output_dir: Path, state: dict) -> None:
@@ -53,40 +112,43 @@ def _write_pipeline_result(output_dir: Path, state: dict) -> None:
         json.dumps(state, indent=2, ensure_ascii=False) + "\n",
         encoding="utf-8",
     )
-    compile_state = state["compile"]
+
+    deployability = state["deployability"]
+    build = state["build"]
     validation = state["validation"]
     lines = [
         "# L1JTW8.5 Production Rebuild Pipeline",
         "",
         f"Status: **{'PASS' if state['pass'] else 'FAIL'}**",
         "",
-        f"- Source authority: `{state['source_authority']}`",
-        f"- Recovery baseline: `{state['baseline_ref']}`",
+        f"- Completed repair authority: `{state['completed_ref']}`",
+        f"- Selection policy: `{deployability['policy']}`",
+        f"- Promotion candidates: **{deployability['candidate_count']}**",
+        f"- Java 8 deployable top-level repairs: **{deployability['deployable_count']}**",
+        f"- Deferred top-level repairs: **{deployability['deferred_count']}**",
+        f"- Replaced runtime classes incl. inner/anonymous: **{build['replaced_class_count']}**",
         f"- Original JAR SHA-256: `{state['original_jar_sha256_before']}`",
         f"- Original JAR unchanged: **{'YES' if state['original_jar_unchanged'] else 'NO'}**",
-        f"- Java sources: **{compile_state['java_sources']}**",
-        f"- Generated application classes: **{compile_state['generated_classes']}**",
-        f"- javac errors: **{compile_state['javac_error_headers']}**",
-        f"- Selected repaired top-level classes: **{state['selection']['selected_count']}**",
-        f"- Replaced runtime classes incl. inner/anonymous: **{state['build']['replaced_class_count']}**",
         f"- Structural validation: **{'PASS' if validation['pass'] else 'FAIL'}**",
-        f"- Output: `{state['build']['test_jar']}`",
+        f"- Test JAR SHA-256: `{build['test_jar_sha256']}`",
+        f"- Test JAR: `{build['test_jar']}`",
         "",
+        "Deferred repairs are intentionally left as the original runtime classes; they are not silently included.",
         "This is a structural/build PASS only. Server startup and unchanged 8.50c client login remain separate runtime gates.",
     ]
-    (output_dir / "PIPELINE_RESULT.md").write_text("\n".join(lines) + "\n", encoding="utf-8")
+    (output_dir / "PIPELINE_RESULT.md").write_text(
+        "\n".join(lines) + "\n", encoding="utf-8"
+    )
 
 
-def run_pipeline(*, repo_root: Path, baseline_ref: str, current_ref: str, source_authority: str) -> dict:
+def run_pipeline(*, repo_root: Path, completed_ref: str) -> dict:
     repo_root = Path(repo_root).resolve()
     original_jar = repo_root / "l1jserver2.jar"
     mapping_csv = repo_root / "recovery" / "source_namespace_map.csv"
-    compiled_classes = repo_root / "recovery" / "normalized-build-classes"
-    compile_state_path = repo_root / "recovery" / "normalized_compile.json"
     output_dir = repo_root / "recovery" / "production-build"
+    deployable_dir = output_dir / "deployable"
+    deployable_classes = deployable_dir / "classes"
     output_jar = output_dir / "l1jserver2.repaired-test.jar"
-    selection_file = output_dir / "selected-completed-tops.txt"
-    selection_state_path = output_dir / "selection-state.json"
 
     if not original_jar.is_file():
         raise FileNotFoundError(original_jar)
@@ -99,57 +161,21 @@ def run_pipeline(*, repo_root: Path, baseline_ref: str, current_ref: str, source
             f"original JAR SHA-256 mismatch: expected {EXPECTED_ORIGINAL_JAR_SHA256}, got {original_before}"
         )
 
-    _run(
-        [sys.executable, "tools/normalized-recovery/compile-normalized-source.py"],
-        cwd=repo_root,
-    )
-    compile_state = json.loads(compile_state_path.read_text(encoding="utf-8"))
-    compile_gate = {
-        "compiler_exit": compile_state.get("compiler_exit"),
-        "java_sources": compile_state.get("java_sources"),
-        "generated_classes": compile_state.get("generated_classes"),
-        "donor_application_classes": compile_state.get("donor_application_classes"),
-        "built_donor_classes_normalized": compile_state.get("built_donor_classes_normalized"),
-        "missing_classes": compile_state.get("missing_classes"),
-        "extra_classes": compile_state.get("extra_classes"),
-        "javac_error_headers": compile_state.get("javac_error_headers"),
-        "javac_error_files": compile_state.get("javac_error_files"),
-        "donor_game_jar_on_classpath": compile_state.get("donor_game_jar_on_classpath"),
-    }
-    if compile_gate["compiler_exit"] != 0:
-        _dump_compile_diagnostics(repo_root)
-        raise ValueError(f"normalized compile failed: {compile_gate}")
-    if compile_gate["javac_error_headers"] != 0 or compile_gate["javac_error_files"] != 0:
-        _dump_compile_diagnostics(repo_root)
-        raise ValueError(f"normalized compile emitted javac errors: {compile_gate}")
-    if compile_gate["missing_classes"] != 0 or compile_gate["extra_classes"] != 0:
-        raise ValueError(f"normalized class closure failed: {compile_gate}")
-    if compile_gate["generated_classes"] != EXPECTED_APPLICATION_CLASSES:
-        raise ValueError(
-            f"application class-count changed: expected {EXPECTED_APPLICATION_CLASSES}, got {compile_gate['generated_classes']}"
-        )
-    if compile_gate["donor_application_classes"] != EXPECTED_APPLICATION_CLASSES:
-        raise ValueError(f"donor inventory changed unexpectedly: {compile_gate}")
-    if compile_gate["built_donor_classes_normalized"] != EXPECTED_APPLICATION_CLASSES:
-        raise ValueError(f"not all donor application classes rebuilt: {compile_gate}")
-    if compile_gate["donor_game_jar_on_classpath"] is not False:
-        raise ValueError("donor game JAR must not be on normalized compile classpath")
-
-    selector = _load_sibling("select_completed_repairs.py", "l1jtw85_select_completed")
-    selection = selector.select_completed_repairs(
+    deployability = _load_or_compile_deployability(
         repo_root=repo_root,
-        baseline_ref=baseline_ref,
-        current_ref=current_ref,
-        mapping_csv=mapping_csv,
-        output_file=selection_file,
-        state_json=selection_state_path,
+        completed_ref=completed_ref,
+        deployable_dir=deployable_dir,
     )
-    selected_tops = set(selection["selected_normalized_tops"])
+    selected_tops = set(deployability["deployable_normalized_tops"])
+    source_authority = (
+        f"completed/l1jtw85-core-fixes@{completed_ref}; "
+        f"policy={EXPECTED_DEPLOYABILITY_POLICY}"
+    )
 
     builder = _load_sibling("build_repaired_test_jar.py", "l1jtw85_build_repaired")
     build_state = builder.build_repaired_test_jar(
         original_jar=original_jar,
-        normalized_classes=compiled_classes,
+        normalized_classes=deployable_classes,
         mapping_csv=mapping_csv,
         selected_tops=selected_tops,
         output_jar=output_jar,
@@ -175,36 +201,33 @@ def run_pipeline(*, repo_root: Path, baseline_ref: str, current_ref: str, source
     state = {
         "pass": True,
         "repo_root": repo_root.as_posix(),
-        "baseline_ref": baseline_ref,
-        "current_ref": current_ref,
+        "completed_ref": completed_ref,
         "source_authority": source_authority,
         "original_jar_sha256_before": original_before,
         "original_jar_sha256_after": original_after,
         "original_jar_unchanged": unchanged,
-        "compile": compile_gate,
-        "selection": selection,
+        "deployability": deployability,
         "build": build_state,
         "validation": validation_state,
+        "runtime_startup_gate": "NOT_RUN",
         "runtime_login_gate": "NOT_RUN",
     }
     _write_pipeline_result(output_dir, state)
-    print(json.dumps(state, indent=2, ensure_ascii=False))
+    print(json.dumps(state, indent=2, ensure_ascii=False), flush=True)
     return state
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Build structurally validated L1JTW8.5 repaired test JAR")
+    parser = argparse.ArgumentParser(
+        description="Build a structurally validated L1JTW8.5 test JAR from Java-8-deployable promoted repairs only"
+    )
     parser.add_argument("--repo-root", default=".")
-    parser.add_argument("--baseline-ref", required=True)
-    parser.add_argument("--current-ref", default="HEAD")
-    parser.add_argument("--source-authority", required=True)
+    parser.add_argument("--completed-ref", required=True)
     args = parser.parse_args()
 
     run_pipeline(
         repo_root=Path(args.repo_root),
-        baseline_ref=args.baseline_ref,
-        current_ref=args.current_ref,
-        source_authority=args.source_authority,
+        completed_ref=args.completed_ref,
     )
 
 
