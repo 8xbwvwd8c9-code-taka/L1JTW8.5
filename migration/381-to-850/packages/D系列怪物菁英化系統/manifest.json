@@ -2,7 +2,7 @@
   "schema_version": 1,
   "module_id": "D系列怪物菁英化系統",
   "module_name": "D系列怪物菁英化系統",
-  "enterprise_item": "天堂企劃.txt 第10~27行（D系列怪物菁英化系統）+ 怪物依等級分10級施放1~10級全職業技能規格",
+  "enterprise_item": "天堂企劃.txt 第10~27行（D系列怪物菁英化系統）+ 怪物依等級分10級使用玩家技能（攻擊/增益雙軌）規格",
   "decision": "HOLD",
   "server_level": "L3",
   "client_gate": "NOT_PROVEN",
@@ -14,7 +14,8 @@
       "物理抗性跟魔法抗性分開",
       "招喚的隊友AI傷害抗性",
       "生成機率1成 掉落率加倍",
-      "怪物施法體系：小怪與BOSS依DB等級(npc.lvl)分為1~10級怪物Tier；最弱1級僅能使用1級魔法，最強怪/BOSS可使用全部1~10級魔法，且全職業技能均依照等級階層對應開放"
+      "怪物施法體系：小怪與BOSS依DB等級(npc.lvl)分為1~10級怪物Tier；最弱1級僅能使用1級魔法，最強怪/BOSS可使用全部1~10級魔法，且全職業技能均依照等級階層對應開放",
+      "怪物AI技能使用：怪物均會使用玩家技能進行攻擊或使用增益（低階自套保護罩/初治/火箭；中高階套體魄/加速/聖結界/反屏/高治，攻擊使用落雷/地裂/衝暈/流星雨/究光）"
     ],
     "381_db": [
       {
@@ -41,9 +42,9 @@
     "381_client": []
   },
   "850_gap": {
-    "db": "缺 w_monster_spell_tier_rule (1~10級施法階梯規則表)、w_elite_monster_config (難度配置)、w_monster_affix_template (詞墜定義)",
-    "core": "L1MobAI / L1MonsterInstance 缺基於等級 Tier 的動態施法判定引擎；L1Attack/L1Magic 缺物理與魔法獨立抗性及召喚隊友AI減免",
-    "control": "config/lineage.properties 缺 EliteMonsterEnabled、MonsterSpellTierEnabled 等開關"
+    "db": "缺 w_monster_spell_tier_rule (1~10級雙軌施法階梯規則表)、w_elite_monster_config (難度配置)、w_monster_affix_template (詞墜定義)",
+    "core": "L1MobAI 缺自我狀態評估（Buff/Heal判定）與動態玩家攻擊技能選取引擎；L1Attack/L1Magic 缺物理與魔法獨立抗性及召喚隊友AI減免",
+    "control": "config/lineage.properties 缺 MonsterUsePlayerBuffSkills、MonsterUsePlayerAttackSkills 等開關"
   },
   "imports": {
     "java": [],
@@ -77,5 +78,5 @@
   "rollback": [
     "850匯入/db/rollback_monster_elite.sql"
   ],
-  "notes": "已將怪物等級分為1~10階Tier，最弱怪只會1級魔法，最強怪全會；全職業技能按等級對應。整合前後詞墜、物理/魔法抗性分開、隊友AI抗性、小怪HP*1.3/BOSS血量不變、掉落率加倍。"
+  "notes": "怪物具備玩家技能攻擊與增益雙軌AI：戰鬥前/戰鬥中自套Buff(保護罩/加速/體魄/聖結界/反屏)，殘血自補(初治/中治/高治/全治)，攻擊使用玩家魔法與職業控制(衝暈/火球/地裂/流星雨/屠宰者)。"
 }
