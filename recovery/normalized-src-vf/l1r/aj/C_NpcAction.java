@@ -546,10 +546,10 @@ public class C_NpcAction extends ClientBasePacket {
                                              var3.a(new S_ServerMessage(518));
                                           } else if (var176.h()) {
                                              var3.a(new S_ServerMessage(1135));
-                                          } else if (var3.j().b(40308, 5000000)) {
-                                             var176.b(true);
-                                             HouseTable.a().a(var176);
-                                             var3.a(new S_ServerMessage(1099));
+                                          } else if (var3.j().g(40308, 5000000)) {
+                                             if (this.l1rAtomicHousePayment(var3, var176, 5000000, Boolean.TRUE, null)) {
+                                                var3.a(new S_ServerMessage(1099));
+                                             }
                                           } else {
                                              var3.a(new S_ServerMessage(189));
                                           }
@@ -3803,14 +3803,13 @@ public class C_NpcAction extends ClientBasePacket {
                   var1.a(new S_ServerMessage(1729));
                } else {
                   if (var1.j().g(40308, 2000)) {
-                     var1.j().b(40308, 2000);
-                     Timestamp var8 = new Timestamp(System.currentTimeMillis() + Config.an * 24 * 60 * 60 * 1000L);
-                     var5.a(var8);
-                     HouseTable.a().a(var5);
-                     return true;
+                     Timestamp var8 = this.l1rHouseRenewDeadline();
+                     if (var8 != null && this.l1rAtomicHousePayment(var1, var5, 2000, null, var8)) {
+                        return true;
+                     }
+                  } else {
+                     var1.a(new S_ServerMessage(189));
                   }
-
-                  var1.a(new S_ServerMessage(189));
                }
             }
          }
@@ -4030,6 +4029,117 @@ public class C_NpcAction extends ClientBasePacket {
       }
    }
 
+
+
+   private Timestamp l1rHouseRenewDeadline() {
+      try {
+         long duration = Math.multiplyExact((long)Config.an, 86400000L);
+         if (duration <= 0L) {
+            return null;
+         }
+         return new Timestamp(Math.addExact(System.currentTimeMillis(), duration));
+      } catch (ArithmeticException ex) {
+         return null;
+      }
+   }
+
+   private boolean l1rAtomicHousePayment(L1PcInstance pc, L1House house, int fee, Boolean newBasement, Timestamp newTaxDeadline) {
+      if (pc == null || house == null || fee <= 0 || (newBasement == null) == (newTaxDeadline == null)) {
+         return false;
+      }
+
+      synchronized (house) {
+         L1ItemInstance adena = pc.j().b(40308);
+         if (adena == null || adena.E() < fee) {
+            return false;
+         }
+         int oldAdena = adena.E();
+         int newAdena = oldAdena - fee;
+         boolean oldBasement = house.h();
+         Timestamp oldTaxDeadline = house.i();
+         if (newBasement != null && oldBasement == newBasement.booleanValue()) {
+            return false;
+         }
+         if (newTaxDeadline != null && oldTaxDeadline == null) {
+            return false;
+         }
+
+         try (Connection con = DatabaseFactory.a().b()) {
+            boolean oldAutoCommit = con.getAutoCommit();
+            con.setAutoCommit(false);
+            try {
+               this.l1rRequireHousePaymentInnoDb(con);
+               CharacterItemTable itemTable = CharacterItemTable.a();
+               if (newAdena == 0) {
+                  itemTable.deleteQuestRewardItem(con, pc.fr(), adena, oldAdena);
+               } else {
+                  itemTable.updateQuestRewardCount(con, pc.fr(), adena, oldAdena, newAdena);
+               }
+
+               int affected;
+               if (newBasement != null) {
+                  try (PreparedStatement pstm = con.prepareStatement(
+                     "UPDATE house SET is_purchase_basement=? WHERE house_id=? AND is_purchase_basement=?"
+                  )) {
+                     pstm.setBoolean(1, newBasement.booleanValue());
+                     pstm.setInt(2, house.b());
+                     pstm.setBoolean(3, oldBasement);
+                     affected = pstm.executeUpdate();
+                  }
+               } else {
+                  try (PreparedStatement pstm = con.prepareStatement(
+                     "UPDATE house SET tax_deadline=? WHERE house_id=? AND tax_deadline=?"
+                  )) {
+                     pstm.setTimestamp(1, newTaxDeadline);
+                     pstm.setInt(2, house.b());
+                     pstm.setTimestamp(3, oldTaxDeadline);
+                     affected = pstm.executeUpdate();
+                  }
+               }
+               if (affected != 1) {
+                  throw new SQLException("BUG-850-124 house CAS failed");
+               }
+
+               con.commit();
+               if (newAdena == 0) {
+                  pc.j().publishCommittedQuestDelete(adena);
+               } else {
+                  pc.j().publishCommittedQuestUpdate(adena, newAdena);
+               }
+               if (newBasement != null) {
+                  house.b(newBasement.booleanValue());
+               } else {
+                  house.a(newTaxDeadline);
+               }
+               con.setAutoCommit(oldAutoCommit);
+               return true;
+            } catch (Exception ex) {
+               try { con.rollback(); } catch (SQLException ignored) {}
+               try { con.setAutoCommit(oldAutoCommit); } catch (SQLException ignored) {}
+               return false;
+            }
+         } catch (SQLException ex) {
+            return false;
+         }
+      }
+   }
+
+   private void l1rRequireHousePaymentInnoDb(Connection con) throws SQLException {
+      try (PreparedStatement pstm = con.prepareStatement(
+         "SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_items','house')"
+      ); java.sql.ResultSet rs = pstm.executeQuery()) {
+         int seen = 0;
+         while (rs.next()) {
+            if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+               throw new SQLException("BUG-850-124 requires InnoDB: " + rs.getString("TABLE_NAME"));
+            }
+            seen++;
+         }
+         if (seen != 2) {
+            throw new SQLException("BUG-850-124 missing transactional table");
+         }
+      }
+   }
 
    private boolean l1rAtomicKarmaItemExchange(L1PcInstance pc, int itemId, int itemCount, int karmaDelta, boolean consumeItem, String outputSource) {
       if (pc == null || itemCount <= 0) {

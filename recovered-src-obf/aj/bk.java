@@ -490,10 +490,10 @@ extends cv {
                         if (pc.x() && pc.fr() == clan.k()) {
                             if (house.h()) {
                                 pc.a(new ds(1135));
-                            } else if (pc.j().b(40308, 5000000)) {
-                                house.b(true);
-                                ab.a().a(house);
-                                pc.a(new ds(1099));
+                            } else if (pc.j().g(40308, 5000000)) {
+                                if (this.l1rAtomicHousePayment(pc, house, 5000000, Boolean.TRUE, null)) {
+                                    pc.a(new ds(1099));
+                                }
                             } else {
                                 pc.a(new ds(189));
                             }
@@ -3384,13 +3384,13 @@ extends cv {
                     pc.a(new ds(1729));
                 } else {
                     if (pc.j().g(40308, 2000)) {
-                        pc.j().b(40308, 2000);
-                        Timestamp ts = new Timestamp(System.currentTimeMillis() + (long)(a.an * 24 * 60 * 60) * 1000L);
-                        house.a(ts);
-                        ab.a().a(house);
-                        return true;
+                        Timestamp ts = this.l1rHouseRenewDeadline();
+                        if (ts != null && this.l1rAtomicHousePayment(pc, house, 2000, null, ts)) {
+                            return true;
+                        }
+                    } else {
+                        pc.a(new ds(189));
                     }
-                    pc.a(new ds(189));
                 }
             }
         }
@@ -3594,6 +3594,110 @@ extends cv {
         }
     }
 
+
+
+    private Timestamp l1rHouseRenewDeadline() {
+        try {
+            long duration = Math.multiplyExact((long)a.an, 86400000L);
+            if (duration <= 0L) {
+                return null;
+            }
+            return new Timestamp(Math.addExact(System.currentTimeMillis(), duration));
+        }
+        catch (ArithmeticException ex) {
+            return null;
+        }
+    }
+
+    private boolean l1rAtomicHousePayment(u pc, bh.i house, int fee, Boolean newBasement, Timestamp newTaxDeadline) {
+        if (pc == null || house == null || fee <= 0 || (newBasement == null) == (newTaxDeadline == null)) {
+            return false;
+        }
+        synchronized (house) {
+            q adena = pc.j().b(40308);
+            if (adena == null || adena.E() < fee) {
+                return false;
+            }
+            int oldAdena = adena.E();
+            int newAdena = oldAdena - fee;
+            boolean oldBasement = house.h();
+            Timestamp oldTaxDeadline = house.i();
+            if (newBasement != null && oldBasement == newBasement.booleanValue()) {
+                return false;
+            }
+            if (newTaxDeadline != null && oldTaxDeadline == null) {
+                return false;
+            }
+            try (Connection con = l1j.server.b.a().b()) {
+                boolean oldAutoCommit = con.getAutoCommit();
+                con.setAutoCommit(false);
+                try {
+                    this.l1rRequireHousePaymentInnoDb(con);
+                    ao.l itemTable = ao.l.a();
+                    if (newAdena == 0) {
+                        itemTable.deleteQuestRewardItem(con, pc.fr(), adena, oldAdena);
+                    } else {
+                        itemTable.updateQuestRewardCount(con, pc.fr(), adena, oldAdena, newAdena);
+                    }
+                    int affected;
+                    if (newBasement != null) {
+                        try (PreparedStatement pstm = con.prepareStatement("UPDATE house SET is_purchase_basement=? WHERE house_id=? AND is_purchase_basement=?")) {
+                            pstm.setBoolean(1, newBasement.booleanValue());
+                            pstm.setInt(2, house.b());
+                            pstm.setBoolean(3, oldBasement);
+                            affected = pstm.executeUpdate();
+                        }
+                    } else {
+                        try (PreparedStatement pstm = con.prepareStatement("UPDATE house SET tax_deadline=? WHERE house_id=? AND tax_deadline=?")) {
+                            pstm.setTimestamp(1, newTaxDeadline);
+                            pstm.setInt(2, house.b());
+                            pstm.setTimestamp(3, oldTaxDeadline);
+                            affected = pstm.executeUpdate();
+                        }
+                    }
+                    if (affected != 1) {
+                        throw new SQLException("BUG-850-124 house CAS failed");
+                    }
+                    con.commit();
+                    if (newAdena == 0) {
+                        pc.j().publishCommittedQuestDelete(adena);
+                    } else {
+                        pc.j().publishCommittedQuestUpdate(adena, newAdena);
+                    }
+                    if (newBasement != null) {
+                        house.b(newBasement.booleanValue());
+                    } else {
+                        house.a(newTaxDeadline);
+                    }
+                    con.setAutoCommit(oldAutoCommit);
+                    return true;
+                }
+                catch (Exception ex) {
+                    try { con.rollback(); } catch (SQLException ignored) {}
+                    try { con.setAutoCommit(oldAutoCommit); } catch (SQLException ignored) {}
+                    return false;
+                }
+            }
+            catch (SQLException ex) {
+                return false;
+            }
+        }
+    }
+
+    private void l1rRequireHousePaymentInnoDb(Connection con) throws SQLException {
+        try (PreparedStatement pstm = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_items','house')"); java.sql.ResultSet rs = pstm.executeQuery()) {
+            int seen = 0;
+            while (rs.next()) {
+                if (!"InnoDB".equalsIgnoreCase(rs.getString("ENGINE"))) {
+                    throw new SQLException("BUG-850-124 requires InnoDB: " + rs.getString("TABLE_NAME"));
+                }
+                ++seen;
+            }
+            if (seen != 2) {
+                throw new SQLException("BUG-850-124 missing transactional table");
+            }
+        }
+    }
 
     private boolean l1rAtomicKarmaItemExchange(u pc, int itemId, int itemCount, int karmaDelta, boolean consumeItem, String outputSource) {
         if (pc == null || itemCount <= 0) {
