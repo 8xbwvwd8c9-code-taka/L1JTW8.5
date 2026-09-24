@@ -2,26 +2,31 @@
   "schema_version": 1,
   "module_id": "D系列怪物菁英化系統",
   "module_name": "D系列怪物菁英化系統",
-  "enterprise_item": "天堂企劃.txt 第2條（D系列怪物菁英化）",
+  "enterprise_item": "天堂企劃.txt 第10~27行（D系列怪物菁英化系統）",
   "decision": "HOLD",
-  "server_level": "NOT_FINAL",
+  "server_level": "L3",
   "client_gate": "NOT_PROVEN",
   "source": {
     "requirements": [
-      "I:\\天堂企劃.txt: D系列怪物菁英化系統 - 小怪HP×1.3, BOSS不變, 詞墜, 生成機率1成, 掉落率加倍"
+      "I:\\天堂企劃.txt: 小怪血量*1.3，BOSS血量不變",
+      "前後墜 會依照世界難度不同增加一條詞墜",
+      "先把魔法屬性系統分開",
+      "物理抗性跟魔法抗性分開",
+      "招喚的隊友AI傷害抗性",
+      "生成機率1成 掉落率加倍"
     ],
     "381_db": [
       {
         "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\npc_202609221205.sql",
         "table": "npc",
-        "note": "npc表含hard欄位但無elite_chance/world_difficulty；非直接供體",
+        "note": "npc表含hard/damage_reduction欄位，無菁英化/詞墜/世界難度；非直接供體",
         "status": "NOT_PROVEN_AS_ELITE_DONOR"
       },
       {
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\eric_random_mob_202609221205.sql",
-        "table": "eric_random_mob",
-        "note": "特殊隨機出怪表(2筆)，與菁英化無關",
-        "status": "NOT_APPLICABLE"
+        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI系\\w_屬性強化系統_202609221205.sql",
+        "table": "w_屬性強化系統",
+        "note": "提供四屬性數值參考",
+        "status": "REFERENCE_ONLY"
       }
     ],
     "381_core": [],
@@ -29,12 +34,10 @@
     "381_client": []
   },
   "850_gap": {
-    "db": "缺w_elite_monster_config表（難度→菁英設定映射）",
-    "core": "缺EliteConfigTable loader；L1Monster缺isElite/eliteDropMultiplier；SpawnTable缺10%擲骰；DropTable缺菁英掉落乘算"
+    "db": "缺 w_elite_monster_config (難度/倍率/詞墜池) 與 w_monster_affix_template (詞墜定義表)",
+    "core": "L1MonsterInstance 缺 isElite/affixes 屬性；L1Attack/L1Magic 缺物理與魔法抗性分開結算及召喚隊友AI抗性保護；SpawnTable 缺10%菁英生成判定；DropTable 缺菁英掉落率加倍處理",
+    "control": "config/lineage.properties 缺 EliteMonsterEnabled、EliteMonsterSpawnChance、SummonAiDamageReductionPct 等配置"
   },
-  "prerequisites": [
-    "世界難度系統（world_difficulty值來源）"
-  ],
   "imports": {
     "java": [],
     "class": [],
@@ -49,16 +52,23 @@
     "client": []
   },
   "path_map": {
-    "core_fixes": [],
-    "fast_dev_build": []
+    "core_fixes": [
+      {
+        "logical": "db/install_monster_elite.sql",
+        "path": "migration/381-to-850/packages/D系列怪物菁英化系統/850匯入/db/install_monster_elite.sql"
+      }
+    ],
+    "fast_dev_build": [
+      {
+        "logical": "db/install_monster_elite.sql",
+        "path": "migration/381-to-850/packages/D系列怪物菁英化系統/850匯入/db/install_monster_elite.sql"
+      }
+    ]
   },
-  "dependencies": [
-    "world-difficulty-system（前置依賴，未建立）"
-  ],
+  "dependencies": [],
   "validation": [],
   "rollback": [
     "850匯入/db/rollback_monster_elite.sql"
   ],
-  "notes": "381無菁英化直接供體。BOSS判斷：npc.hard=1或npcid清單。詞墜效果需與屬性強化系統協調。"
+  "notes": "全量覆蓋企劃第10~27行五大規格：小怪10%機率HP*1.3/BOSS血量不變、前後詞墜庫隨世界難度增加、物理抗性與魔法抗性分開、魔法四屬性分開、召喚隊友AI傷害抗性減免、掉落加倍。InnoDB表設計，無跨表外部依賴。"
 }
-

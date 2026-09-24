@@ -1,15 +1,29 @@
-# 怪物菁英化系統 — 控制設定範例
+# D系列怪物菁英化系統 — 控制設定
 # 放置位置：config/lineage.properties
 
-# 是否啟用怪物菁英化系統
+# 是否啟用怪物菁英化系統 (true / false)
 EliteMonsterEnabled=true
 
-# 預設生成菁英機率(%)（覆蓋DB值）
+# 一般小怪生成菁英機率(%) (預設10%)
 EliteMonsterSpawnChance=10
 
-# 小怪菁英版血量倍率(%) 130=x1.3（覆蓋DB值）
-# BOSS（npc.hard=1）不套用此倍率
+# 小怪菁英血量倍率(%) (預設130 = x1.3)
 EliteMonsterHpMultiplierPct=130
 
-# 菁英版掉落率倍率(%) 200=加倍（覆蓋DB值）
-EliteMonsterDropMultiplierPct=200
+# BOSS血量倍率(%) (預設100 = 保持不變)
+EliteBossHpMultiplierPct=100
+
+# 菁英怪掉落率倍率(%) (預設200 = 加倍)
+EliteDropRateMultiplierPct=200
+
+# 預設世界難度 (0=普通 1=困難 2=惡夢 3=地獄)
+WorldDifficultyDefault=0
+
+# 召喚隊友/寵物 AI 受到菁英/BOSS攻擊時之傷害減免比例(%) (預設30%)
+SummonAiDamageReductionPct=30
+
+# 是否分離計算物理傷害抗性與魔法傷害抗性 (true / false)
+SeparatePhysicalMagicResistance=true
+
+# 是否分離計算四屬性 (地/水/火/風) 獨立魔法抗性 (true / false)
+SeparateElementalResistance=true
