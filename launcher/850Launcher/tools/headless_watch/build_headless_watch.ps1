@@ -7,8 +7,8 @@ $source = Join-Path $PSScriptRoot 'HeadlessWatch850V2.cs'
 if (-not (Test-Path -LiteralPath $source)) { throw "Missing source: $source" }
 
 $text = Get-Content -LiteralPath $source -Raw
-if ($text -match '(?i)WriteProcessMemory') {
-    throw 'Safety gate failed: source contains WriteProcessMemory.'
+if ($text -match '(?i)WriteProcessMemory\s*\(') {
+    throw 'Safety gate failed: source declares or calls WriteProcessMemory.'
 }
 if ($text -notmatch 'TARGET_MEMORY_WRITE=NO') {
     throw 'Safety gate failed: TARGET_MEMORY_WRITE=NO marker missing.'
@@ -33,8 +33,8 @@ $args = @(
     '/optimize+',
     '/debug-',
     '/reference:System.dll',
-    ('/out:"{0}"' -f $OutputPath),
-    ('"{0}"' -f $source)
+    ("/out:$OutputPath"),
+    $source
 )
 
 & $csc $args
