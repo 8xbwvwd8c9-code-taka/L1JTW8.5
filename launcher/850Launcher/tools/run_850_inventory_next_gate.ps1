@@ -103,10 +103,8 @@ foreach ($tool in $tools) {
             'MEMORY_WRITE=NO'
         )
 
-        [IO.File]::AppendAllLines(
-            $tool.OutputPath,
-            $identityLines,
-            [Text.UTF8Encoding]::new($false))
+        $appendText = ($identityLines -join [Environment]::NewLine) + [Environment]::NewLine
+        [IO.File]::AppendAllText($tool.OutputPath,$appendText,[Text.UTF8Encoding]::new($false))
 
         $results.Add([pscustomobject]@{
             Name = $tool.Name
