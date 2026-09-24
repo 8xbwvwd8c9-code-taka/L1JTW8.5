@@ -70,6 +70,7 @@ BUG
 | BUG-850-257 | L2 | SoulTower empty-board bootstrap admission | PASS / ALREADY COVERED |
 | BUG-850-255 | L2 | progression save missing-row self-heal via UPSERT | PASS / PROMOTED |
 | BUG-850-254 | L2 | weekly mission durable delete / live-reset consistency | PASS / PROMOTED |
+| BUG-850-252 | L2 | weekly mission malformed/missing login-row self-heal | PASS / PROMOTED |
 | BUG-850-251 | L2 | SoulTower durable rewrite / live publication consistency | PASS / PROMOTED |
 | BUG-850-250 | L2 | SoulTower top-10 ranking / safe comparator | PASS / PROMOTED |
 
@@ -2994,3 +2995,42 @@ BUG-850-254=L2
 STATUS=PASS_PROMOTED
 ```
 
+## BUG-850-252 — malformed weekly mission row could not self-heal on login
+
+### Problem
+
+When weekly mission data could not be parsed, login fell back to default weekly state and called the weekly-row create path. That path used a plain `INSERT`; if the malformed row already existed, the duplicate key prevented the fallback from repairing it. Missing rows could be created, but malformed existing rows could remain permanently unrecoverable.
+
+### Fix
+
+Normalized and obfuscated weekly-row create/default paths now use the same `INSERT ... ON DUPLICATE KEY UPDATE` contract as the save path. Login fallback itself is unchanged: a null weekly state loads defaults and persists them. Existing BUG-850-254 durable-delete logic and BUG-850-255 save UPSERT logic are preserved.
+
+### Validation
+
+```text
+WORK_CI=35722501191
+COMPLETED_CI=35939135578
+SOURCE_COMMIT=9aeccb164e74d25f424cf6ac85494ff447ab8b49
+PATCH_CHAIN=1b8f3dd8,6acdeac5
+EXACT_HISTORICAL_PATCH_CHAIN=PASS
+UNRELATED_SOURCE_REPLAY=NO
+SOURCE_CONTRACT=PASS
+LOGIN_FALLBACK_UPSERT=PASS
+MALFORMED_ROW_SELF_HEAL=PASS
+BUG_850_254_DURABLE_DELETE_PRESERVED=PASS
+BUG_850_255_SAVE_UPSERT_PRESERVED=PASS
+TARGETED_JAVAC=PASS
+TARGETED_BEHAVIOR_RUNTIME=PASS
+MALFORMED_EXISTING_ROW_REPLACED=PASS
+MISSING_ROW_CREATED=PASS
+CONCURRENCY_GATE=PASS
+```
+
+Validation evidence: `recovery/BUG-850-252_VALIDATION_20260924.md`
+
+### Result
+
+```text
+BUG-850-252=L2
+STATUS=PASS_PROMOTED
+```
