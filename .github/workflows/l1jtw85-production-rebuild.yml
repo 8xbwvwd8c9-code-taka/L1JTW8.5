@@ -21,7 +21,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Set up Java
+      - name: Set up Java 17 for contract tests
         uses: actions/setup-java@v4
         with:
           distribution: temurin
@@ -47,42 +47,18 @@ jobs:
       - name: Run deployability policy contract tests
         run: python -m unittest discover -s tools/production-rebuild/tests -p 'test_deployable_repairs.py' -v
 
-      - name: Fetch accepted recovery baseline
-        run: git fetch --no-tags --depth=1 origin 999f2f6571e6984217c33cf0449cc8c7f1679dbd
+      - name: Fetch pinned completed repair authority
+        run: git fetch --no-tags --depth=1000 origin 3d4a392593d61c9203e3f22a154e752c2c51fa97
 
-      - name: Set up Java 8 for runtime-source probe
+      - name: Set up Java 8 for deployability gate
         uses: actions/setup-java@v4
         with:
           distribution: temurin
           java-version: '8'
 
-      - name: Probe direct obfuscated C_NpcAction compile
-        run: |
-          set -euo pipefail
-          COMPLETED=3d4a392593d61c9203e3f22a154e752c2c51fa97
-          git fetch --no-tags --depth=1 origin "$COMPLETED"
-          mkdir -p "$RUNNER_TEMP/obf/aj" "$RUNNER_TEMP/obf-classes"
-          git show "$COMPLETED:recovered-src-obf/aj/bk.java" > "$RUNNER_TEMP/obf/aj/bk.java"
-          set +e
-          javac -proc:none -encoding UTF-8 -cp 'l1jserver2.jar:lib/*' -d "$RUNNER_TEMP/obf-classes" "$RUNNER_TEMP/obf/aj/bk.java" 2> "$RUNNER_TEMP/obf.err"
-          RC=$?
-          set -e
-          echo "OBF_C_NPCACTION_JAVAC_RC=$RC"
-          if [ "$RC" -ne 0 ]; then
-            sed -n '1,180p' "$RUNNER_TEMP/obf.err"
-            exit "$RC"
-          fi
-          find "$RUNNER_TEMP/obf-classes" -type f -name '*.class' -print | sort
-
-      - name: Probe selected-source incremental compile
+      - name: Compile deployable promoted repairs
         run: >-
-          python tools/production-rebuild/probe_incremental_compile.py
+          python tools/production-rebuild/compile_deployable_repairs.py
           --repo-root .
-          --baseline-ref 999f2f6571e6984217c33cf0449cc8c7f1679dbd
-
-      - name: Run end-to-end repaired test JAR pipeline
-        run: >-
-          python tools/production-rebuild/run_production_rebuild.py
-          --repo-root .
-          --baseline-ref 999f2f6571e6984217c33cf0449cc8c7f1679dbd
-          --source-authority completed/l1jtw85-core-fixes@70d4ffb1ee3bca1f8b9c876aa8fcece304683b64
+          --completed-ref 3d4a392593d61c9203e3f22a154e752c2c51fa97
+          --output-dir recovery/production-build/deployable
