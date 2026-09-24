@@ -5,6 +5,7 @@ import hashlib
 import importlib.util
 import json
 import os
+import re
 import tempfile
 import zipfile
 from pathlib import Path
@@ -14,6 +15,7 @@ from typing import Mapping
 ROOT = Path(__file__).resolve().parents[3]
 TRANSFORMER_PATH = ROOT / "tools" / "production-rebuild" / "inverse_remap.py"
 SCHEMA_VERSION = "1"
+COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 
 def _load_transformer():
@@ -44,13 +46,20 @@ def make_cache_key(
     *,
     java_major: int,
     schema_version: str = SCHEMA_VERSION,
+    completed_authority_commit: str | None = None,
 ) -> dict[str, object]:
-    return {
+    key: dict[str, object] = {
         "original_jar_sha256": sha256_file(original_jar),
         "package_map_sha256": sha256_file(package_map),
         "java_major": int(java_major),
         "schema_version": str(schema_version),
     }
+    if completed_authority_commit is not None:
+        commit = str(completed_authority_commit).strip()
+        if not COMMIT_RE.fullmatch(commit):
+            raise ValueError("completed authority commit must be an exact 40-hex SHA")
+        key["completed_authority_commit"] = commit.lower()
+    return key
 
 
 def cache_matches(cache_key_path: Path, expected: Mapping[str, object]) -> bool:
