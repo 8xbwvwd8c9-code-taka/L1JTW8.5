@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import json
 import os
 import shutil
@@ -10,7 +11,22 @@ from pathlib import Path
 from typing import Iterable
 
 
+HERE = Path(__file__).resolve().parent
+ROOT = Path(__file__).resolve().parents[3]
 NORMALIZED_PREFIX = "recovery/normalized-src-vf/"
+
+
+def _load_local(filename: str, module_name: str):
+    path = HERE / filename
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_AUTHORITY = _load_local("authority_cache.py", "fast_dev_overlay_authority")
 
 
 class OverlayCompileError(RuntimeError):
@@ -162,6 +178,70 @@ def _error_summary(stdout: str, stderr: str, limit: int = 8) -> list[str]:
     return rows
 
 
+def _pinned_authority_scopes(
+    authority_core: Path,
+    requested_paths: Iterable[str],
+) -> list[list[str]] | None:
+    """Recover atomic promotion scopes for a materialized pinned authority.
+
+    Fast Dev bootstrap historically passes a flat completed-source union into this
+    compiler. The materialized authority also carries the exact completed SHA and
+    immutable recovery baseline. When that marker says promotion-only, recover the
+    authoritative promotion scopes from those exact SHAs and require their union to
+    match the caller's flat source set exactly. Any mismatch fails closed rather
+    than silently changing the runtime repair set.
+    """
+    marker = Path(authority_core) / "PINNED_AUTHORITY.json"
+    if not marker.is_file():
+        return None
+    try:
+        payload = json.loads(marker.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        raise RuntimeError(f"invalid pinned authority marker: {marker}") from exc
+    if not isinstance(payload, dict):
+        raise RuntimeError(f"invalid pinned authority marker: {marker}")
+    if payload.get("promotion_only") is not True:
+        return None
+
+    commit = str(payload.get("commit", "")).strip()
+    baseline = str(payload.get("baseline_commit", "")).strip()
+    if not commit or not baseline:
+        raise RuntimeError("promotion-only pinned authority is missing exact commit metadata")
+
+    raw_scopes = _AUTHORITY.completed_repair_source_scopes(
+        ROOT,
+        commit=commit,
+        baseline_commit=baseline,
+        fetch_if_missing=False,
+    )
+    scopes: list[list[str]] = []
+    for raw in raw_scopes:
+        if not isinstance(raw, dict):
+            raise RuntimeError("completed authority returned a malformed promotion scope")
+        paths = raw.get("source_paths")
+        if not isinstance(paths, list):
+            raise RuntimeError("completed authority promotion scope is missing source_paths")
+        scope = sorted(set(str(path) for path in paths))
+        if scope:
+            scopes.append(scope)
+
+    requested = set(str(path) for path in requested_paths)
+    authoritative = {path for scope in scopes for path in scope}
+    if authoritative != requested:
+        missing = sorted(requested - authoritative)
+        unexpected = sorted(authoritative - requested)
+        details: list[str] = []
+        if missing:
+            details.append("missing=" + ",".join(missing))
+        if unexpected:
+            details.append("unexpected=" + ",".join(unexpected))
+        raise RuntimeError(
+            "pinned completed promotion scope does not match requested repair source union"
+            + (": " + "; ".join(details) if details else "")
+        )
+    return scopes
+
+
 def _normalize_scopes(
     *,
     normalized_source_paths: Iterable[str] | None,
@@ -204,11 +284,10 @@ def compile_completed_overlay(
 ) -> dict[str, object]:
     """Compile deployable formally completed repair scopes.
 
-    Flat ``normalized_source_paths`` remain backward-compatible and are treated as
-    independent one-source scopes. ``normalized_source_scopes`` preserves atomic
-    multi-source promotion boundaries: every source in one scope is compiled and
-    published together, so repaired APIs may depend on peers from the same formal
-    promotion closure without exposing a partially repaired runtime.
+    Flat ``normalized_source_paths`` remain backward-compatible for synthetic or
+    legacy authorities. For a promotion-only ``PINNED_AUTHORITY.json`` they are
+    automatically expanded back into the exact completed promotion scopes before
+    javac runs. Explicit ``normalized_source_scopes`` remain supported.
 
     Scopes are gated independently against the semantic Dev Base. Successful scopes
     are accumulated and made available to later rounds so completed repairs may
@@ -226,6 +305,15 @@ def compile_completed_overlay(
     output = Path(output_dir).resolve()
     if not base.is_file():
         raise FileNotFoundError(base)
+
+    flat_paths = None
+    if normalized_source_paths is not None:
+        flat_paths = sorted(set(str(path) for path in normalized_source_paths))
+    if flat_paths is not None and normalized_source_scopes is None:
+        recovered_scopes = _pinned_authority_scopes(core, flat_paths)
+        if recovered_scopes is not None:
+            normalized_source_paths = None
+            normalized_source_scopes = recovered_scopes
 
     normalized_scopes = _normalize_scopes(
         normalized_source_paths=normalized_source_paths,
