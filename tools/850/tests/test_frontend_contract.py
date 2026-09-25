@@ -36,6 +36,26 @@ class FrontendContractTests(unittest.TestCase):
             self.assertEqual(cp[1], root / ".build850" / "cache" / "850-dev-base.jar")
             self.assertEqual(cp[2], root / "lib" / "*")
 
+    def test_run_server_matches_production_noverify_policy(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            calls = []
+
+            def fake_call(command, cwd=None):
+                calls.append((list(command), Path(cwd)))
+                return 0
+
+            mod.subprocess.call = fake_call
+            rc = mod.run_server(root)
+
+            self.assertEqual(rc, 0)
+            self.assertEqual(len(calls), 1)
+            command, cwd = calls[0]
+            self.assertEqual(command[0:2], ["java", "-noverify"])
+            self.assertEqual(command[-1], "l1j.server.Server")
+            self.assertEqual(cwd, root)
+
     def test_watch_monitors_core_src_only(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
