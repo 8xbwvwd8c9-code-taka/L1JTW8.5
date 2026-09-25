@@ -18,7 +18,7 @@ HERE = Path(__file__).resolve().parent
 PINNED_COMPLETED_COMMIT = "fc473aef65485d1524283fa34d01ab7fad9a7b93"
 # Last normalized recovery-generation commit before completed repair promotions.
 # It is the immutable lower bound for promotion-history traversal.
-RECOVERY_BASELINE_COMMIT = "ba0f234dcb6fc43b47f397652048561a6f28ae68"
+RECOVERY_BASELINE_COMMIT = "f49015ff55120eb414f1feba0b268bbb51484e16"
 NORMALIZED_SOURCE_ROOT = "recovery/normalized-src-vf"
 COMPLETED_BRANCH = "completed/l1jtw85-core-fixes"
 REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
