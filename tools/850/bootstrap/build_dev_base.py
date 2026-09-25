@@ -97,6 +97,18 @@ def _target_class_path(source_internal: str, mapping: Mapping[str, str]) -> str:
     return target + ".class"
 
 
+def _is_authorized_overlay_class(relative: str, semantic_targets: set[str]) -> bool:
+    if not relative.endswith(".class"):
+        return False
+    internal = relative[:-6]
+    if internal in semantic_targets:
+        return True
+    if "$" not in internal:
+        return False
+    top_level = internal.split("$", 1)[0]
+    return top_level in semantic_targets
+
+
 def _load_completed_overlay(
     completed_overlay: Path | None,
     normalized_mapping: Mapping[str, str],
@@ -108,7 +120,7 @@ def _load_completed_overlay(
     if not root.is_dir():
         raise FileNotFoundError(root)
 
-    allowed = {target + ".class" for target in normalized_mapping.values()}
+    semantic_targets = set(normalized_mapping.values())
     overlay: dict[str, bytes] = {}
     for path in sorted(root.rglob("*")):
         if not path.is_file():
@@ -116,7 +128,7 @@ def _load_completed_overlay(
         if path.suffix != ".class":
             raise ValueError(f"completed overlay contains non-class file: {path}")
         relative = path.relative_to(root).as_posix()
-        if relative not in allowed:
+        if not _is_authorized_overlay_class(relative, semantic_targets):
             raise KeyError(f"completed overlay class is not mapped application authority: {relative}")
         data = path.read_bytes()
         expected_internal = relative[:-6]
@@ -143,10 +155,10 @@ def build_dev_base(
 
     Classes that live under an application root represented by ``mapping`` must be
     mapped explicitly. Classes outside those roots are treated as third-party/runtime
-    dependencies and are copied byte-for-byte. ``completed_overlay`` may replace only
-    semantic application classes already represented by the mapping; this prevents a
-    work/in-progress or foreign class from entering the Dev Base. The original JAR is
-    never modified.
+    dependencies and are copied byte-for-byte. ``completed_overlay`` may replace
+    mapped semantic application classes and may add compiler-generated nested members
+    whose top-level owner is mapped; foreign top-level classes are rejected. The
+    original JAR is never modified.
     """
     original = Path(original_jar)
     output = Path(output_jar)
@@ -212,6 +224,12 @@ def build_dev_base(
                 target_info.internal_attr = info.internal_attr
                 target_info.flag_bits = info.flag_bits
                 zout.writestr(target_info, data)
+
+            for target_name in sorted(set(completed_classes) - seen_targets):
+                target_info = zipfile.ZipInfo(target_name)
+                target_info.compress_type = zipfile.ZIP_DEFLATED
+                zout.writestr(target_info, completed_classes[target_name])
+                seen_targets.add(target_name)
 
         after_sha = sha256_file(original)
         if after_sha != before_sha:
