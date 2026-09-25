@@ -10,31 +10,15 @@ on:
       - '.github/workflows/850-fast-dev-baseline-contract.yml'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   recovery-baseline-contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Apply candidate
-        run: |
-          perl -0pi -e 's/        "--first-parent",\n        "--reverse",/        "--reverse",\n        "--topo-order",/' tools/850/bootstrap/authority_cache.py
-      - name: Verify promotion history contracts
+      - name: Verify finalized recovery and promotion history contracts
         run: python -m unittest -v tools/850/tests/test_recovery_baseline_contract.py
-      - name: Publish candidate
-        run: |
-          if git diff --quiet -- tools/850/bootstrap/authority_cache.py; then
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tools/850/bootstrap/authority_cache.py
-          git commit -m 'fix(fast-dev): include merged completed promotions'
-          git push origin HEAD:work/l1jtw85-fast-dev-build
