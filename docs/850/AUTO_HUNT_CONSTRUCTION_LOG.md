@@ -192,19 +192,137 @@ In particular, the following must be proven before implementation:
 - action serialization between movement, attack, magic and teleport,
 - whether 850 already has reusable scheduled-task ownership patterns.
 
+## 2026-09-26 — MAP-B closure / summon, persistence, teleport and action serialization
+
+### `src/com/add/Atu_summon_Timer.java`
+
+- Scheduler model: dedicated `Thread` with a 1-second sleep loop.
+- Scope: scans every online player in `World.get().getAllPlayers()`.
+- Gate: requires active/new Atu session, alive state, non-teleport/private-shop state and `AtuActionGate.isSkillReady()`.
+- Coordination: obtains the same per-character `AtuActionGate.lock` used by PcAI/magic/teleport; pending/safety teleport has priority.
+- Responsibilities:
+  - detect whether a live summon already exists,
+  - select wizard summon or elf elemental skill,
+  - apply retry interval using a per-player timestamp map,
+  - cast summon through native `L1SkillUse`,
+  - optionally haste pets/summons,
+  - heal pets/summons by configured HP/MP thresholds.
+- Port note: preserve summon/heal decisions, but do not create another permanent global thread in 850 unless MAP-C proves a need. These decisions are candidates for a lower-frequency phase of the per-player auto-hunt session.
+
+### `src/com/add/Atu_settings_IO.java`
+
+381 persists each character's auto-hunt settings to:
+
+```text
+./data/atu/{charId}.cfg
+```
+
+using Java `Properties`.
+
+Persisted groups:
+
+- supply master/item/quantity settings,
+- auto magic, MP threshold, single/area skill and intervals,
+- summon/heal/haste thresholds,
+- patrol/teleport mode/radius/idle timeout,
+- safety escape toggles and enemy-name list.
+
+Port note: the **configuration schema/semantics** are useful donor evidence, but the filesystem-per-character persistence mechanism is not assumed for 850. 850 persistence must follow the host's existing DB/config conventions after host mapping.
+
+### `src/com/add/AtuActionGate.java`
+
+381 uses a fair per-character `ReentrantLock` as an action serialization primitive. It also keeps:
+
+- a monotonic skill-ready deadline (`skillReadyAtNanos`),
+- a teleport completion sequence (`teleportSequence`),
+- a thread-local marker preventing duplicated auto-teleport visuals.
+
+The design explicitly distinguishes packet paths, which may wait for an action, from global polling timers, which use `tryLock()` and skip a busy player rather than blocking an entire scan.
+
+Port consequence: 850 must retain the **single-character action serialization invariant**, but it does not need to copy this exact class if a single-owner session/scheduler can remove most competing execution contexts.
+
+### `src/com/add/AtuAutoTeleport.java`
+
+This is not a simple direct teleport helper. Confirmed flow:
+
+```text
+trigger wants teleport
+  -> acquire per-character AtuActionGate
+  -> revalidate reason/current scene
+  -> CAS pendingTeleport from null to intent
+  -> schedule windup callback on GeneralThreadPool
+  -> release lock while waiting
+  -> callback reacquires lock
+  -> verify same pending intent / position / map / teleport sequence / resource legality
+  -> call native C_UseSkill or C_ItemUSe auto-teleport entry
+  -> confirm teleport sequence advanced
+  -> reset movement/target state and apply retry cooldown
+```
+
+Important invariants:
+
+- trigger-time checks are repeated at commit time,
+- only one pending auto-teleport intent exists per character,
+- delayed callback cannot act after the character/map/position/teleport sequence changed,
+- actual resource consumption and final legality remain in native skill/item handlers,
+- the action lock is never held across the visual windup delay.
+
+This is strong donor evidence for stale-action prevention. In 850, the behavior should be represented by session generation/task identity plus native teleport validation rather than copying every 381 compatibility field.
+
+### L381 runtime topology — closed for architecture purposes
+
+Confirmed runtime topology is now:
+
+```text
+Atu_auto_Controller
+  -> per-character state maps + settings persistence
+  -> L1PcInstance.startAI()
+       -> PcAI on NpcAiThreadPool
+            -> per-character main action loop
+            -> target/search/move/attack
+            -> single-target magic
+
+Global side execution contexts
+  -> Atu_move_Timer     : GSTPool, 1 s, idle teleport
+  -> Atu_safe_Timer     : GSTPool, 1 s, safety teleport
+  -> Atu_magic_Timer    : dedicated Thread, 1 s, area magic
+  -> Atu_summon_Timer   : dedicated Thread, 1 s, summon/pet support
+  -> Atu_supply_Timer   : PcOtherThreadPool, 30 s, replenishment
+
+Coordination layer
+  -> AtuActionGate      : per-character serialization
+  -> AtuAutoTeleport    : pending intent + delayed revalidation/native commit
+```
+
+### MAP-B conclusion
+
+For 850, preserve the **behaviors and invariants**, not the 381 scheduler topology.
+
+The strongest candidate architecture remains:
+
+- one authoritative per-character auto-hunt session/task for high-frequency target/move/combat/skill/safety decisions,
+- native 850 skill/item/attack/movement/teleport APIs for execution,
+- low-frequency services only where host evidence justifies them,
+- one session generation/task identity to invalidate delayed work,
+- explicit lifecycle stop/reset at 850 death/logout/disconnect/restart/teleport/map-change hooks.
+
+This remains a candidate until MAP-C verifies 850-native thread/lifecycle patterns.
+
 ### Current design status
 
-- MAP-A controller gate: partially complete and documented.
-- MAP-B main runtime loop: confirmed.
-- MAP-B move/safe/magic/supply timers: confirmed.
-- MAP-B summon/settings/teleport helper: pending.
-- MAP-C 850-native lifecycle/scheduler mapping: pending.
+- MAP-A L381 controller/control state: confirmed.
+- MAP-B L381 main runtime loop: confirmed.
+- MAP-B move/safe/magic/supply/summon responsibilities: confirmed.
+- MAP-B settings persistence and teleport/action coordination: confirmed.
+- MAP-B L381 architecture responsibility mapping: CLOSED for initial 850 architecture selection.
+- MAP-C 850 repaired-core lifecycle/scheduler mapping: NEXT.
 - 880 UI/control mapping: pending.
 - No production auto-hunt implementation has been copied into 850.
 
 ### Next evidence
 
-1. Inspect `Atu_summon_Timer`, `Atu_settings_IO`, `AtuAutoTeleport` and action-state helpers.
-2. Trace exact stop/reset methods around `L1PcInstance` AI state.
-3. Map repaired 850 `GeneralThreadPool`, `L1PcInstance`, `L1ActionPc`, map and client lifecycle classes.
-4. Map L880C UI/control path only after donor runtime responsibilities are fully enumerated.
+1. Map repaired 850 `GeneralThreadPool` and available scheduling/cancellation APIs.
+2. Map repaired 850 `L1PcInstance` task/state ownership and death cleanup.
+3. Map `C_Disconnect`, `C_Restart`, teleport/map-change lifecycle hooks.
+4. Map repaired 850 `L1Map` / `MapsTable` map-policy APIs.
+5. Only after MAP-C, freeze the 850 session/scheduler topology and begin Phase-1 implementation.
