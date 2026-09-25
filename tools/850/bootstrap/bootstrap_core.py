@@ -6,6 +6,13 @@ from typing import Iterable, Mapping
 
 
 PACKAGE_RE = re.compile(r"(?m)^\s*package\s+[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\s*;")
+PROTECTED_SOURCE_RE = re.compile(
+    r'(?:"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*.*?\*/)',
+    re.DOTALL,
+)
+QUALIFIED_IDENTIFIER_RE = re.compile(
+    r"(?<![A-Za-z0-9_$])[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)+(?![A-Za-z0-9_$])"
+)
 
 
 def _dot(internal: str) -> str:
@@ -18,8 +25,59 @@ def _package_of(internal: str) -> str:
     return internal.rsplit("/", 1)[0]
 
 
+def _is_java_identifier_part(char: str) -> bool:
+    return char.isalnum() or char in "_$"
+
+
+def _restore_embedded_recovery_collisions(source: str, entries: Iterable) -> str:
+    """Undo recovery identities that were accidentally embedded in other names.
+
+    The historical normalized JAR used substring replacement on structural UTF8.
+    Short obfuscated identities could therefore match inside non-application names;
+    for example ``ax/c`` inside ``javax/crypto/Cipher`` became an embedded
+    ``l1r/ax/L1MapArea`` identity. A valid Java type identity cannot be directly
+    glued to another identifier character, so only those impossible embedded
+    occurrences are restored to their original identity. Strings, chars and
+    comments are left byte-for-byte unchanged.
+    """
+    pairs = sorted(
+        ((_dot(e.recovered_internal), _dot(e.original_internal)) for e in entries),
+        key=lambda pair: len(pair[0]),
+        reverse=True,
+    )
+
+    def repair_identifier(match: re.Match[str]) -> str:
+        token = match.group(0)
+        for recovered, original in pairs:
+            start = 0
+            while True:
+                pos = token.find(recovered, start)
+                if pos < 0:
+                    break
+                end = pos + len(recovered)
+                embedded_left = pos > 0 and _is_java_identifier_part(token[pos - 1])
+                embedded_right = end < len(token) and _is_java_identifier_part(token[end])
+                if embedded_left or embedded_right:
+                    token = token[:pos] + original + token[end:]
+                    start = pos + len(original)
+                else:
+                    start = end
+        return token
+
+    parts: list[str] = []
+    cursor = 0
+    for protected in PROTECTED_SOURCE_RE.finditer(source):
+        code = source[cursor:protected.start()]
+        parts.append(QUALIFIED_IDENTIFIER_RE.sub(repair_identifier, code))
+        parts.append(protected.group(0))
+        cursor = protected.end()
+    parts.append(QUALIFIED_IDENTIFIER_RE.sub(repair_identifier, source[cursor:]))
+    return "".join(parts)
+
+
 def rewrite_java_source(source: str, target_entry, all_entries: Iterable) -> str:
     entries = list(all_entries)
+    source = _restore_embedded_recovery_collisions(source, entries)
     target_package = _dot(_package_of(target_entry.dev_internal))
 
     if target_package:
