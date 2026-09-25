@@ -120,12 +120,32 @@ class FakeDevBase:
 
 
 class FakeOverlay:
-    def __init__(self):
+    def __init__(self, *, deferred=False):
         self.calls = []
+        self.deferred = deferred
 
     def compile_completed_overlay(self, **kwargs):
         self.calls.append(kwargs)
         output = Path(kwargs["output_dir"])
+        if self.deferred:
+            output.mkdir(parents=True, exist_ok=True)
+            return {
+                "source_count": 1,
+                "class_count": 0,
+                "deployable_source_count": 0,
+                "deferred_source_count": 1,
+                "deployable_identities": [],
+                "deferred_identities": ["l1j/server/A"],
+                "deferred": [
+                    {
+                        "identity": "l1j/server/A",
+                        "javac_exit": 1,
+                        "round": 1,
+                        "errors": ["A.java:1: error: cannot find symbol"],
+                    }
+                ],
+                "rounds": 1,
+            }
         target = output / "l1j" / "server" / "A.class"
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_bytes(b"completed")
@@ -216,6 +236,20 @@ class EnsureDevContracts(unittest.TestCase):
             self.assertEqual(state["source_count"], 1)
             self.assertEqual(state["deployable_source_count"], 1)
             self.assertEqual(state["deferred_source_count"], 0)
+
+    def test_completed_repair_compile_deferral_fails_closed(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            self.fixture(root)
+            self.install_fakes(mod)
+            mod._OVERLAY = FakeOverlay(deferred=True)
+
+            with self.assertRaisesRegex(RuntimeError, "completed repair overlay deferred"):
+                mod.ensure_fast_dev(root, fetch_latest=False)
+
+            self.assertFalse((root / ".build850" / "cache" / "850-dev-base.jar").exists())
+            self.assertFalse((root / ".build850" / "state.json").exists())
 
     def test_cache_hit_requires_matching_completed_overlay_state(self):
         mod = load_module()
