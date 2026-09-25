@@ -25,6 +25,7 @@ REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 PROMOTION_RE = re.compile(r"^fix\(l[123]\): promote (BUG-850-\d+)\b", re.IGNORECASE)
+AUTHORITY_CACHE_SCHEMA_VERSION = 2
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
@@ -294,7 +295,7 @@ def completed_repair_source_paths(
     return sorted(changed)
 
 
-def _cache_hit(cache_core: Path, commit: str) -> bool:
+def _cache_hit(cache_core: Path, commit: str, baseline_commit: str) -> bool:
     marker = cache_core / "PINNED_AUTHORITY.json"
     source_root = cache_core / "src"
     if not marker.is_file() or not source_root.is_dir():
@@ -303,7 +304,26 @@ def _cache_hit(cache_core: Path, commit: str) -> bool:
         payload = json.loads(marker.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return payload.get("commit") == commit and any(source_root.rglob("*.java"))
+    return (
+        payload.get("schema") == AUTHORITY_CACHE_SCHEMA_VERSION
+        and payload.get("commit") == commit
+        and payload.get("baseline_commit") == baseline_commit
+        and any(source_root.rglob("*.java"))
+    )
+
+
+def _overlay_promoted_sources(
+    repo_root: Path,
+    authority_root: Path,
+    *,
+    completed_commit: str,
+    promoted_sources: list[str],
+) -> None:
+    for relative in promoted_sources:
+        proc = _git(repo_root, "show", f"{completed_commit}:{relative}")
+        target = authority_root / relative
+        target.parent.mkdir(parents=True, exist_ok=True)
+        target.write_text(proc.stdout, encoding="utf-8")
 
 
 def materialize_authority_core(
@@ -311,13 +331,18 @@ def materialize_authority_core(
     cache_core: Path,
     *,
     commit: str | None = None,
+    baseline_commit: str | None = None,
     fetch_if_missing: bool = True,
 ) -> dict[str, object]:
-    """Materialize semantic core sources from one exact completed repair commit.
+    """Materialize semantic core from exact Git authorities, never the worktree.
 
-    If commit is omitted, the latest completed branch tip is refreshed and then
-    pinned to its exact SHA before materialization. The active working tree is
-    never used as source authority; newer work/WIP changes cannot enter cache.
+    ``commit`` is the exact completed-repair authority. When ``baseline_commit`` is
+    supplied, the normalized tree starts from that recovery baseline and only Java
+    files belonging to formal promotion commits are overlaid from ``commit``. This
+    is the normal Fast Dev policy: completed repairs win; unrepaired/in-progress
+    cores remain at the recovery baseline. When ``baseline_commit`` is omitted the
+    historical whole-completed-commit materialization behavior is retained for
+    explicit legacy callers.
     """
     repo_root = Path(repo_root).resolve()
     cache_core = Path(cache_core).resolve()
@@ -328,18 +353,38 @@ def materialize_authority_core(
         )
     commit = _exact_commit(commit, "completed authority commit")
 
-    if _cache_hit(cache_core, commit):
-        return {
-            "commit": commit,
-            "source_count": sum(1 for _ in (cache_core / "src").rglob("*.java")),
-            "cached": True,
-        }
-
     ensure_completed_authority_commit(
         repo_root,
         commit=commit,
         fetch_if_missing=fetch_if_missing,
     )
+
+    if baseline_commit is None:
+        baseline = commit
+        promoted_sources: list[str] = []
+        archive_commit = commit
+    else:
+        baseline = ensure_recovery_baseline_commit(
+            repo_root,
+            baseline_commit=baseline_commit,
+            fetch_if_missing=fetch_if_missing,
+        )
+        promoted_sources = completed_repair_source_paths(
+            repo_root,
+            commit=commit,
+            baseline_commit=baseline,
+            fetch_if_missing=fetch_if_missing,
+        )
+        archive_commit = baseline
+
+    if _cache_hit(cache_core, commit, baseline):
+        return {
+            "commit": commit,
+            "baseline_commit": baseline,
+            "source_count": sum(1 for _ in (cache_core / "src").rglob("*.java")),
+            "promoted_source_count": len(promoted_sources),
+            "cached": True,
+        }
 
     cache_core.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.TemporaryDirectory(prefix="fast-dev-authority.", dir=cache_core.parent) as td:
@@ -353,11 +398,19 @@ def materialize_authority_core(
             "archive",
             "--format=tar",
             f"--output={archive_path}",
-            commit,
+            archive_commit,
             *ARCHIVE_PATHS,
         )
         with tarfile.open(archive_path, "r") as archive:
             archive.extractall(authority_root, filter="data")
+
+        if promoted_sources:
+            _overlay_promoted_sources(
+                repo_root,
+                authority_root,
+                completed_commit=commit,
+                promoted_sources=promoted_sources,
+            )
 
         rules_source = repo_root / "tools" / "850" / "bootstrap" / "package_rules.json"
         if not rules_source.is_file():
@@ -372,8 +425,12 @@ def materialize_authority_core(
     marker.write_text(
         json.dumps(
             {
+                "schema": AUTHORITY_CACHE_SCHEMA_VERSION,
                 "commit": commit,
                 "branch": COMPLETED_BRANCH,
+                "baseline_commit": baseline,
+                "promotion_only": baseline_commit is not None,
+                "promoted_source_count": len(promoted_sources),
                 "source_count": int(result["source_count"]),
             },
             indent=2,
@@ -383,6 +440,8 @@ def materialize_authority_core(
     )
     return {
         "commit": commit,
+        "baseline_commit": baseline,
         "source_count": int(result["source_count"]),
+        "promoted_source_count": len(promoted_sources),
         "cached": False,
     }
