@@ -24,6 +24,7 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "families": {
                 "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
                 "ao": {"package": "l1j/server/datatables", "category": "datatables"},
+                "be": {"package": "l1j/server/serverpackets", "category": "serverpackets"},
             },
             "overrides": {},
         }
@@ -33,6 +34,8 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
                 {"Class": "aj.bx", "SourceFile": "C_Result.java"},
                 {"Class": "aj.cd", "SourceFile": "C_ShopWorld.java"},
                 {"Class": "ao.ba", "SourceFile": "RankingTable.java"},
+                {"Class": "be.db", "SourceFile": "S_PrivateShop.java"},
+                {"Class": "be.dc", "SourceFile": "S_ProtoBuffers.java"},
             ],
             rules,
         )
@@ -147,6 +150,52 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         self.assertIn("new Comparator() {", rewritten)
         self.assertNotIn("HashMap<Object, Object> var3", rewritten)
         self.assertNotIn("new Comparator<RankingTable.L1R_a>()", rewritten)
+
+    def test_restores_s_private_shop_list_element_types(self):
+        rewritten = self.rewrite(
+            "S_PrivateShop.java",
+            "package l1r.be;\n"
+            "import java.util.List;\n"
+            "public class S_PrivateShop {\n"
+            "  void x() {\n"
+            "    List var5 = var4.aU();\n"
+            "    L1PrivateShopSellList var8 = var5.get(0);\n"
+            "    List var18 = var4.aV();\n"
+            "    L1PrivateShopBuyList var21 = var18.get(0);\n"
+            "  }\n"
+            "}\n",
+        )
+        self.assertIn(
+            "CopyOnWriteArrayList<L1PrivateShopSellList> var5 = var4.aU();",
+            rewritten,
+        )
+        self.assertIn(
+            "ArrayList<L1PrivateShopBuyList> var18 = var4.aV();",
+            rewritten,
+        )
+        self.assertIn("import java.util.ArrayList;", rewritten)
+        self.assertIn("import java.util.concurrent.CopyOnWriteArrayList;", rewritten)
+
+    def test_restores_s_protobuf_shadowed_lineage_util_calls(self):
+        rewritten = self.rewrite(
+            "S_ProtoBuffers.java",
+            "package l1r.be;\n"
+            "import a.g;\n"
+            "import l1r.bi.LineageUtil;\n"
+            "public class S_ProtoBuffers {\n"
+            "  public static final int a = 55;\n"
+            "  void x(byte[] data, String text) {\n"
+            "    use(a.g.a(new byte[]{-30, 112, -1}));\n"
+            "    use(a.g.a(text));\n"
+            "    use(a.g.a(data));\n"
+            "    use(a.g.a(new byte[]{-1, 0, -1}));\n"
+            "  }\n"
+            "  void use(Object value) {}\n"
+            "}\n",
+        )
+        self.assertEqual(rewritten.count("g.a("), 4)
+        self.assertNotIn("a.g.a(", rewritten)
+        self.assertIn("import a.g;", rewritten)
 
 
 if __name__ == "__main__":
