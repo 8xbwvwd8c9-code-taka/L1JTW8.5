@@ -515,9 +515,14 @@ def ensure_fast_dev(
     fetch_latest: bool = True,
     sync_working_core: bool = False,
 ) -> dict[str, object]:
-    """Guard sync bootstrap so previous formal and active authorities survive failure."""
+    """Guard sync bootstrap and keep a seeded workspace on one pinned authority."""
     root = Path(root).resolve()
     cache = root / ".build850" / "cache"
+    workspace_pinned = (
+        (root / "core" / "src").is_dir()
+        and (root / "core" / "PINNED_AUTHORITY.json").is_file()
+    )
+    effective_fetch_latest = fetch_latest and (sync_working_core or not workspace_pinned)
     guarded = [
         cache / "completed-authority-core",
         cache / "runtime-active-authority-core",
@@ -526,7 +531,7 @@ def ensure_fast_dev(
     if not should_guard:
         return _ensure_fast_dev_impl(
             root,
-            fetch_latest=fetch_latest,
+            fetch_latest=effective_fetch_latest,
             sync_working_core=sync_working_core,
         )
 
@@ -542,7 +547,7 @@ def ensure_fast_dev(
         try:
             return _ensure_fast_dev_impl(
                 root,
-                fetch_latest=fetch_latest,
+                fetch_latest=effective_fetch_latest,
                 sync_working_core=sync_working_core,
             )
         except Exception:
