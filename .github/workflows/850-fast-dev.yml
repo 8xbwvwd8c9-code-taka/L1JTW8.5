@@ -44,8 +44,12 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_authority_cache.py
       - name: Run promotion-only authority materialization contract
         run: python -m unittest -v tools/850/tests/test_authority_materialization.py
+      - name: Run completed promotion scope contracts
+        run: python -m unittest -v tools/850/tests/test_promotion_scopes.py
       - name: Run completed repair overlay compiler contracts
         run: python -m unittest -v tools/850/tests/test_completed_overlay.py
+      - name: Run atomic multi-source overlay scope contracts
+        run: python -m unittest -v tools/850/tests/test_overlay_scopes.py
       - name: Run automatic bootstrap contracts
         run: python -m unittest -v tools/850/tests/test_ensure_dev.py
       - name: Run strict bootstrap authority policy
