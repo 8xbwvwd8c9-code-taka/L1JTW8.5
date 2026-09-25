@@ -110,6 +110,7 @@ class AuthorityMaterializationContracts(unittest.TestCase):
                 commit=completed,
                 baseline_commit=baseline,
                 fetch_if_missing=False,
+                compile_ready=False,
             )
 
             a_source = cache_core / "src" / "l1j" / "server" / "test" / "A.java"
