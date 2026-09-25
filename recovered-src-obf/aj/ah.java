@@ -14,7 +14,7 @@ extends cv {
         super(decrypt);
         u pc = client.f();
         if (pc != null) {
-            AutoHuntService.get().stop(pc);
+            AutoHuntService.stop(pc);
         }
         client.c();
     }
