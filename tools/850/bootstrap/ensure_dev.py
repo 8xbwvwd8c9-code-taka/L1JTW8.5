@@ -304,12 +304,12 @@ def ensure_fast_dev(
         )
         runtime_map = _load_runtime_map(authority_core)
 
-        package_map = authority_core / "package-map.csv"
-        if not package_map.is_file():
-            raise FileNotFoundError(package_map)
+        runtime_map_path = authority_core / "runtime-class-map.json"
+        if not runtime_map_path.is_file():
+            raise FileNotFoundError(runtime_map_path)
         cache_key = _DEV_BASE.make_cache_key(
             original,
-            package_map,
+            runtime_map_path,
             java_major=8,
             schema_version=_DEV_BASE.SCHEMA_VERSION,
             completed_authority_commit=authority_commit,
