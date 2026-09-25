@@ -141,6 +141,20 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
                 )
             self.assertFalse(output.exists())
 
+    def test_authority_cache_wires_compile_ready_before_semantic_migration(self):
+        cache_path = ROOT / "tools" / "850" / "bootstrap" / "authority_cache.py"
+        text = cache_path.read_text(encoding="utf-8")
+        self.assertIn(
+            '_COMPILE_READY = _load_local("compile_ready_authority.py"',
+            text,
+        )
+        prepare = "_COMPILE_READY.prepare_compile_ready_authority("
+        migrate = "_MIGRATE.materialize_sources("
+        self.assertIn(prepare, text)
+        self.assertIn(migrate, text)
+        self.assertLess(text.index(prepare), text.index(migrate))
+        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 3", text)
+
 
 if __name__ == "__main__":
     unittest.main()
