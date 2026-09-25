@@ -70,14 +70,16 @@ public class C_DeleteChar extends ClientBasePacket {
             return;
          }
 
+         if (!CharacterTable.a().deleteCharacterAtomic(var2.a(), var3)) {
+            var2.c();
+            return;
+         }
          if (var4 != null) {
             L1Clan var5 = ClanTable.a().a(var4.aF());
             if (var5 != null) {
                var5.b(var3);
             }
          }
-
-         CharacterTable.a().a(var2.a(), var3);
       } catch (Exception var6) {
          a.log(Level.SEVERE, var6.getLocalizedMessage(), var6);
          var2.c();

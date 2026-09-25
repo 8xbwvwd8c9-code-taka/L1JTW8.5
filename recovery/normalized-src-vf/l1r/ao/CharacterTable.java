@@ -423,55 +423,139 @@ public class CharacterTable {
       }
    }
 
-   public void a(String var1, String var2) throws Exception {
+   public boolean deleteCharacterAtomic(String var1, String var2) {
       Connection var3 = null;
+      boolean var4 = true;
+      boolean var5 = false;
+      boolean var6 = false;
+      boolean var7 = false;
+      int var8 = 0;
 
       try {
          var3 = DatabaseFactory.a().b();
-         int var4;
-         try (PreparedStatement var5 = var3.prepareStatement("SELECT objid FROM characters WHERE account_name=? AND char_name=?")) {
-            var5.setString(1, var1);
-            var5.setString(2, var2);
-            try (ResultSet var6 = var5.executeQuery()) {
-               if (!var6.next()) {
-                  return;
+         this.requireCharacterDeleteInnoDb(var3);
+         var4 = var3.getAutoCommit();
+         var3.setAutoCommit(false);
+
+         try (PreparedStatement var9 = var3.prepareStatement(
+            "SELECT objid,MasterID,PartnerID,account_name,char_name FROM characters WHERE objid=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) OR MasterID=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) OR PartnerID=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) ORDER BY objid FOR UPDATE"
+         )) {
+            var9.setString(1, var1);
+            var9.setString(2, var2);
+            var9.setString(3, var1);
+            var9.setString(4, var2);
+            var9.setString(5, var1);
+            var9.setString(6, var2);
+            try (ResultSet var10 = var9.executeQuery()) {
+               while (var10.next()) {
+                  int var11 = var10.getInt("objid");
+                  int var12 = var10.getInt("MasterID");
+                  if (var1.equals(var10.getString("account_name")) && var2.equals(var10.getString("char_name"))) {
+                     if (var8 != 0) throw new SQLException("BUG-850-027 duplicate delete identity");
+                     var8 = var11;
+                     if (var12 < 0) var6 = true;
+                  }
                }
-               var4 = var6.getInt("objid");
             }
          }
+         if (var8 <= 0) throw new SQLException("BUG-850-102 missing delete character identity");
 
-         executeDeleteById(var3, "DELETE FROM character_buddys WHERE char_id=?", var4);
-         try (PreparedStatement var7 = var3.prepareStatement("DELETE FROM character_buddys WHERE buddy_id=? OR buddy_name=?")) {
-            var7.setInt(1, var4);
-            var7.setString(2, var2);
-            var7.executeUpdate();
+         executeDeleteById(var3, "DELETE FROM character_buddys WHERE char_id=?", var8);
+         try (PreparedStatement var13 = var3.prepareStatement("DELETE FROM character_buddys WHERE buddy_id=? OR buddy_name=?")) {
+            var13.setInt(1, var8);
+            var13.setString(2, var2);
+            var13.executeUpdate();
          }
-         executeDeleteById(var3, "DELETE FROM character_buff WHERE char_obj_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_config WHERE object_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_equip WHERE id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_gift WHERE objid=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_items WHERE char_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_quests WHERE char_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_quests_new WHERE objid=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_skills WHERE char_obj_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_teleport WHERE char_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM character_warehouse_only WHERE char_objid=?", var4);
-         executeDeleteById(var3, "DELETE FROM clan_members WHERE char_id=?", var4);
-         executeDeleteById(var3, "DELETE FROM mail WHERE inbox_id=?", var4);
-         try (PreparedStatement var8 = var3.prepareStatement("DELETE FROM soul_tower WHERE name=?")) {
-            var8.setString(1, var2);
-            var8.executeUpdate();
+         executeDeleteById(var3, "DELETE FROM character_buff WHERE char_obj_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_config WHERE object_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_equip WHERE id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_gift WHERE objid=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_items WHERE char_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_quests WHERE char_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_quests_new WHERE objid=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_skills WHERE char_obj_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_teleport WHERE char_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM character_warehouse_only WHERE char_objid=?", var8);
+         executeDeleteById(var3, "DELETE FROM clan_members WHERE char_id=?", var8);
+         executeDeleteById(var3, "DELETE FROM mail WHERE inbox_id=?", var8);
+         try (PreparedStatement var14 = var3.prepareStatement("DELETE FROM soul_tower WHERE name=?")) {
+            var14.setString(1, var2);
+            var14.executeUpdate();
          }
-         boolean deletedMaster = this.deleteCharacterAndDetachMasterAtomic(var3, var1, var2, var4);
-         if (deletedMaster) {
-            L1Master.a().removeDeletedMaster(var4);
+         try (PreparedStatement var15 = var3.prepareStatement("UPDATE characters SET MasterID=0 WHERE MasterID=?")) {
+            var15.setInt(1, var8);
+            if (var15.executeUpdate() > 0) var6 = true;
+         }
+         try (PreparedStatement var16 = var3.prepareStatement("UPDATE characters SET PartnerID=0 WHERE PartnerID=?")) {
+            var16.setInt(1, var8);
+            var16.executeUpdate();
+         }
+         try (PreparedStatement var17 = var3.prepareStatement("DELETE FROM characters WHERE objid=? AND account_name=? AND char_name=?")) {
+            var17.setInt(1, var8);
+            var17.setString(2, var1);
+            var17.setString(3, var2);
+            if (var17.executeUpdate() != 1) throw new SQLException("BUG-850-102 character delete identity gate failed");
          }
 
-         this.c.remove(var2);
-         MailTable.a().removeInboxCache(var4);
-         BuddyTable.a().removeDeletedCharacter(var4, var2);
-      } catch (SQLException var9) {
-         a.log(Level.SEVERE, var9.getLocalizedMessage(), var9);
+         var7 = true;
+         var3.commit();
+         var5 = true;
+      } catch (SQLException var19) {
+         if (var3 != null) {
+            try { var3.rollback(); } catch (SQLException var18) { var19.addSuppressed(var18); }
+         }
+         if (!(var7 && this.isCharacterDeleteCommitted(var1, var2))) {
+            a.log(Level.SEVERE, "BUG-850-027/100/102/103 atomic character delete failed", var19);
+            return false;
+         }
+         var5 = true;
+      } finally {
+         if (var3 != null) {
+            try { var3.setAutoCommit(var4); } catch (SQLException var20) { a.log(Level.SEVERE, var20.getLocalizedMessage(), var20); }
+         }
+         SQLUtil.a(var3);
+      }
+
+      if (!var5) return false;
+      if (var6) L1Master.a().removeDeletedMaster(var8);
+      this.c.remove(var2);
+      MailTable.a().removeInboxCache(var8);
+      BuddyTable.a().removeDeletedCharacter(var8, var2);
+      return true;
+   }
+
+   public void a(String var1, String var2) throws Exception {
+      this.deleteCharacterAtomic(var1, var2);
+   }
+
+   private void requireCharacterDeleteInnoDb(Connection var1) throws SQLException {
+      String[] var2 = new String[]{"characters","character_buddys","character_buff","character_config","character_equip","character_gift","character_items","character_quests","character_quests_new","character_skills","character_teleport","character_warehouse_only","clan_members","mail","soul_tower"};
+      for (String var3 : var2) {
+         try (PreparedStatement var4 = var1.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=?")) {
+            var4.setString(1, var3);
+            try (ResultSet var5 = var4.executeQuery()) {
+               if (!var5.next() || !"InnoDB".equalsIgnoreCase(var5.getString("ENGINE")) || var5.next()) {
+                  throw new SQLException("BUG-850-027 requires InnoDB table " + var3);
+               }
+            }
+         }
+      }
+   }
+
+   private boolean isCharacterDeleteCommitted(String var1, String var2) {
+      Connection var3 = null;
+      try {
+         var3 = DatabaseFactory.a().b();
+         try (PreparedStatement var4 = var3.prepareStatement("SELECT COUNT(*) FROM characters WHERE account_name=? AND char_name=?")) {
+            var4.setString(1, var1);
+            var4.setString(2, var2);
+            try (ResultSet var5 = var4.executeQuery()) {
+               return var5.next() && var5.getInt(1) == 0;
+            }
+         }
+      } catch (SQLException var6) {
+         a.log(Level.SEVERE, "BUG-850-027 unknown commit reread failed", var6);
+         return false;
       } finally {
          SQLUtil.a(var3);
       }

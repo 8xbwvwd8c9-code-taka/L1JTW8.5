@@ -71,10 +71,13 @@ extends cv {
                 client.a(new af(81));
                 return;
             }
+            if (!o.a().deleteCharacterAtomic(client.a(), name)) {
+                client.c();
+                return;
+            }
             if (pc != null && (clan = q.a().a(pc.aF())) != null) {
                 clan.b(name);
             }
-            o.a().a(client.a(), name);
         }
         catch (Exception e2) {
             a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);

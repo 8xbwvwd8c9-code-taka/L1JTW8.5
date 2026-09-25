@@ -79,30 +79,34 @@ public class SkillsTable {
    }
 
    public void a(int var1, int var2, String var3, int var4, int var5) {
-      if (!this.a(var1, var2)) {
-         L1PcInstance var6 = (L1PcInstance)L1World.a().a(var1);
-         if (var6 != null) {
-            var6.f(var2);
-         }
+      if (this.a(var1, var2)) {
+         return;
+      }
 
-         Connection var7 = null;
-         PreparedStatement var8 = null;
-
-         try {
-            var7 = DatabaseFactory.a().b();
-            var8 = var7.prepareStatement("INSERT INTO character_skills SET char_obj_id=?, skill_id=?, skill_name=?, is_active=?, activetimeleft=?");
-            var8.setInt(1, var1);
-            var8.setInt(2, var2);
-            var8.setString(3, var3);
-            var8.setInt(4, var4);
-            var8.setInt(5, var5);
-            var8.execute();
-         } catch (Exception var13) {
-            a.log(Level.SEVERE, var13.getLocalizedMessage(), var13);
-         } finally {
-            SQLUtil.a(var8);
-            SQLUtil.a(var7);
+      Connection var7 = null;
+      PreparedStatement var8 = null;
+      try {
+         var7 = DatabaseFactory.a().b();
+         var8 = var7.prepareStatement("INSERT INTO character_skills SET char_obj_id=?, skill_id=?, skill_name=?, is_active=?, activetimeleft=?");
+         var8.setInt(1, var1);
+         var8.setInt(2, var2);
+         var8.setString(3, var3);
+         var8.setInt(4, var4);
+         var8.setInt(5, var5);
+         if (var8.executeUpdate() != 1) {
+            throw new SQLException("BUG-850-089 character skill insert affectedRows != 1");
          }
+      } catch (Exception var13) {
+         a.log(Level.SEVERE, "BUG-850-089 durable skill insert failed", var13);
+         return;
+      } finally {
+         SQLUtil.a(var8);
+         SQLUtil.a(var7);
+      }
+
+      L1PcInstance var6 = (L1PcInstance)L1World.a().a(var1);
+      if (var6 != null) {
+         var6.f(var2);
       }
    }
 

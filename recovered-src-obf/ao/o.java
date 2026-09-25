@@ -435,26 +435,38 @@ public class o {
         }
     }
 
-    public void a(String accountName, String charName) throws Exception {
+    public boolean deleteCharacterAtomic(String accountName, String charName) {
         Connection con = null;
+        boolean oldAutoCommit = true;
+        boolean committed = false;
+        boolean deletedMaster = false;
+        boolean commitAttempted = false;
+        int objid = 0;
         try {
             con = l1j.server.b.a().b();
-            int objid;
-            try (PreparedStatement check = con.prepareStatement("SELECT objid FROM characters WHERE account_name=? AND char_name=?")) {
-                check.setString(1, accountName);
-                check.setString(2, charName);
-                try (ResultSet rs = check.executeQuery()) {
-                    if (!rs.next()) {
-                        return;
+            this.requireCharacterDeleteInnoDb(con);
+            oldAutoCommit = con.getAutoCommit();
+            con.setAutoCommit(false);
+            try (PreparedStatement lock = con.prepareStatement("SELECT objid,MasterID,PartnerID,account_name,char_name FROM characters WHERE objid=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) OR MasterID=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) OR PartnerID=(SELECT objid FROM characters WHERE account_name=? AND char_name=?) ORDER BY objid FOR UPDATE")) {
+                lock.setString(1, accountName); lock.setString(2, charName);
+                lock.setString(3, accountName); lock.setString(4, charName);
+                lock.setString(5, accountName); lock.setString(6, charName);
+                try (ResultSet rs = lock.executeQuery()) {
+                    while (rs.next()) {
+                        int rowObjid = rs.getInt("objid");
+                        int masterId = rs.getInt("MasterID");
+                        if (accountName.equals(rs.getString("account_name")) && charName.equals(rs.getString("char_name"))) {
+                            if (objid != 0) throw new SQLException("BUG-850-027 duplicate delete identity");
+                            objid = rowObjid;
+                            if (masterId < 0) deletedMaster = true;
+                        }
                     }
-                    objid = rs.getInt("objid");
                 }
             }
+            if (objid <= 0) throw new SQLException("BUG-850-102 missing delete character identity");
             executeDeleteById(con, "DELETE FROM character_buddys WHERE char_id=?", objid);
             try (PreparedStatement pstm = con.prepareStatement("DELETE FROM character_buddys WHERE buddy_id=? OR buddy_name=?")) {
-                pstm.setInt(1, objid);
-                pstm.setString(2, charName);
-                pstm.executeUpdate();
+                pstm.setInt(1, objid); pstm.setString(2, charName); pstm.executeUpdate();
             }
             executeDeleteById(con, "DELETE FROM character_buff WHERE char_obj_id=?", objid);
             executeDeleteById(con, "DELETE FROM character_config WHERE object_id=?", objid);
@@ -469,21 +481,68 @@ public class o {
             executeDeleteById(con, "DELETE FROM clan_members WHERE char_id=?", objid);
             executeDeleteById(con, "DELETE FROM mail WHERE inbox_id=?", objid);
             try (PreparedStatement pstm = con.prepareStatement("DELETE FROM soul_tower WHERE name=?")) {
-                pstm.setString(1, charName);
-                pstm.executeUpdate();
+                pstm.setString(1, charName); pstm.executeUpdate();
             }
-            boolean deletedMaster = this.deleteCharacterAndDetachMasterAtomic(con, accountName, charName, objid);
-            if (deletedMaster) {
-                x.a().removeDeletedMaster(objid);
+            try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET MasterID=0 WHERE MasterID=?")) {
+                pstm.setInt(1, objid); if (pstm.executeUpdate() > 0) deletedMaster = true;
             }
-            this.c.remove(charName);
-            an.a().removeInboxCache(objid);
-            f.a().removeDeletedCharacter(objid, charName);
+            try (PreparedStatement pstm = con.prepareStatement("UPDATE characters SET PartnerID=0 WHERE PartnerID=?")) {
+                pstm.setInt(1, objid); pstm.executeUpdate();
+            }
+            try (PreparedStatement pstm = con.prepareStatement("DELETE FROM characters WHERE objid=? AND account_name=? AND char_name=?")) {
+                pstm.setInt(1, objid); pstm.setString(2, accountName); pstm.setString(3, charName);
+                if (pstm.executeUpdate() != 1) throw new SQLException("BUG-850-102 character delete identity gate failed");
+            }
+            commitAttempted = true;
+            con.commit();
+            committed = true;
+        } catch (SQLException e) {
+            if (con != null) try { con.rollback(); } catch (SQLException rollback) { e.addSuppressed(rollback); }
+            if (!(commitAttempted && this.isCharacterDeleteCommitted(accountName, charName))) {
+                a.log(Level.SEVERE, "BUG-850-027/100/102/103 atomic character delete failed", e);
+                return false;
+            }
+            committed = true;
+        } finally {
+            if (con != null) try { con.setAutoCommit(oldAutoCommit); } catch (SQLException e) { a.log(Level.SEVERE, e.getLocalizedMessage(), e); }
+            j.a(con);
         }
-        catch (SQLException e2) {
-            a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+        if (!committed) return false;
+        if (deletedMaster) x.a().removeDeletedMaster(objid);
+        this.c.remove(charName);
+        an.a().removeInboxCache(objid);
+        f.a().removeDeletedCharacter(objid, charName);
+        return true;
+    }
+
+    public void a(String accountName, String charName) throws Exception {
+        this.deleteCharacterAtomic(accountName, charName);
+    }
+
+    private void requireCharacterDeleteInnoDb(Connection con) throws SQLException {
+        String[] tables = new String[]{"characters","character_buddys","character_buff","character_config","character_equip","character_gift","character_items","character_quests","character_quests_new","character_skills","character_teleport","character_warehouse_only","clan_members","mail","soul_tower"};
+        for (String table : tables) {
+            try (PreparedStatement pstm = con.prepareStatement("SELECT ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME=?")) {
+                pstm.setString(1, table);
+                try (ResultSet rs = pstm.executeQuery()) {
+                    if (!rs.next() || !"InnoDB".equalsIgnoreCase(rs.getString("ENGINE")) || rs.next()) throw new SQLException("BUG-850-027 requires InnoDB table " + table);
+                }
+            }
         }
-        finally {
+    }
+
+    private boolean isCharacterDeleteCommitted(String accountName, String charName) {
+        Connection con = null;
+        try {
+            con = l1j.server.b.a().b();
+            try (PreparedStatement pstm = con.prepareStatement("SELECT COUNT(*) FROM characters WHERE account_name=? AND char_name=?")) {
+                pstm.setString(1, accountName); pstm.setString(2, charName);
+                try (ResultSet rs = pstm.executeQuery()) { return rs.next() && rs.getInt(1) == 0; }
+            }
+        } catch (SQLException e) {
+            a.log(Level.SEVERE, "BUG-850-027 unknown commit reread failed", e);
+            return false;
+        } finally {
             j.a(con);
         }
     }

@@ -91,41 +91,32 @@ public class be {
     }
 
     public void a(int playerobjid, int skillid, String skillname, int active, int time) {
-        block7: {
-            if (this.a(playerobjid, skillid)) {
-                return;
+        if (this.a(playerobjid, skillid)) {
+            return;
+        }
+        Connection con = null;
+        PreparedStatement pstm = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("INSERT INTO character_skills SET char_obj_id=?, skill_id=?, skill_name=?, is_active=?, activetimeleft=?");
+            pstm.setInt(1, playerobjid);
+            pstm.setInt(2, skillid);
+            pstm.setString(3, skillname);
+            pstm.setInt(4, active);
+            pstm.setInt(5, time);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-089 character skill insert affectedRows != 1");
             }
-            u pc = (u)aq.a().a(playerobjid);
-            if (pc != null) {
-                pc.f(skillid);
-            }
-            Connection con = null;
-            PreparedStatement pstm = null;
-            try {
-                try {
-                    con = l1j.server.b.a().b();
-                    pstm = con.prepareStatement("INSERT INTO character_skills SET char_obj_id=?, skill_id=?, skill_name=?, is_active=?, activetimeleft=?");
-                    pstm.setInt(1, playerobjid);
-                    pstm.setInt(2, skillid);
-                    pstm.setString(3, skillname);
-                    pstm.setInt(4, active);
-                    pstm.setInt(5, time);
-                    pstm.execute();
-                }
-                catch (Exception e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
-                    j.a(pstm);
-                    j.a(con);
-                    break block7;
-                }
-            }
-            catch (Throwable throwable) {
-                j.a(pstm);
-                j.a(con);
-                throw throwable;
-            }
+        } catch (Exception e2) {
+            a.log(Level.SEVERE, "BUG-850-089 durable skill insert failed", e2);
+            return;
+        } finally {
             j.a(pstm);
             j.a(con);
+        }
+        u pc = (u)aq.a().a(playerobjid);
+        if (pc != null) {
+            pc.f(skillid);
         }
     }
 
