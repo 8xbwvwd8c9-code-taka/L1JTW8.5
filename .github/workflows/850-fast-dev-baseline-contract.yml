@@ -1,0 +1,24 @@
+name: L1JTW8.5 Fast Dev Baseline Contract
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-fast-dev-build
+    paths:
+      - 'tools/850/bootstrap/authority_cache.py'
+      - 'tools/850/tests/test_recovery_baseline_contract.py'
+      - '.github/workflows/850-fast-dev-baseline-contract.yml'
+  workflow_dispatch:
+
+jobs:
+  recovery-baseline-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 1
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Verify finalized recovery namespace baseline
+        run: python -m unittest -v tools/850/tests/test_recovery_baseline_contract.py
