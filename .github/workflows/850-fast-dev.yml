@@ -175,7 +175,7 @@ jobs:
           PY
 
           CP=".build850/classes:.build850/cache/850-dev-base.jar:lib/*"
-          java -cp "$CP" l1j.server.Server >"$LOG" 2>&1 &
+          java -noverify -cp "$CP" l1j.server.Server >"$LOG" 2>&1 &
           PID=$!
 
           cleanup_java() {
