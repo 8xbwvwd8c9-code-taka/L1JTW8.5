@@ -185,7 +185,7 @@ def build_dev_base(
                 source_internal = info.filename[:-6]
                 if _is_application_class(source_internal, roots):
                     target_name = _target_class_path(source_internal, normalized_mapping)
-                    data = _TRANSFORMER.remap_class(data, normalized_mapping)
+                    data = _TRANSFORMER.remap_class_bytes(data, normalized_mapping)
                     actual_internal = class_internal_name(data)
                     expected_internal = target_name[:-6]
                     if actual_internal != expected_internal:
