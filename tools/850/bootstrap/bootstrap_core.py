@@ -82,9 +82,45 @@ def _restore_embedded_recovery_collisions(source: str, entries: Iterable) -> str
     return "".join(parts)
 
 
+def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: str) -> str:
+    """Restore exact source artifacts proven by the repaired obfuscated donor.
+
+    These repairs are recovery-only syntax/type restorations. They are intentionally
+    identity-scoped and do not infer gameplay behavior. The repaired donor preserves
+    the overload-disambiguating casts and generic type that Vineflower lost, while
+    the original donor has no Override annotation on L1PcInstance.c(int).
+    """
+    if recovered_internal == "l1r/ap/L1PcInstance":
+        source = source.replace(
+            "   @Override\n   public void c(int var1) {",
+            "   public void c(int var1) {",
+            1,
+        )
+        source = source.replace(
+            "if (var4.d(this)) {",
+            "if (var4.d((L1Character)this)) {",
+            1,
+        )
+        source = source.replace(
+            "!this.b(var1)",
+            "!this.b((L1Object)var1)",
+            1,
+        )
+    elif recovered_internal == "l1r/aq/L1Teleport":
+        source = source.replace(
+            "HashSet var7 = new HashSet<>();",
+            "HashSet<L1PcInstance> var7 = new HashSet<>();",
+            1,
+        )
+    return source
+
+
 def rewrite_java_source(source: str, target_entry, all_entries: Iterable) -> str:
     entries = list(all_entries)
     source = _restore_embedded_recovery_collisions(source, entries)
+    source = _restore_donor_backed_decompiler_artifacts(
+        source, target_entry.recovered_internal
+    )
     target_package = _dot(_package_of(target_entry.dev_internal))
 
     if target_package:
