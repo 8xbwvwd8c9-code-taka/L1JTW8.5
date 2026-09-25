@@ -24,7 +24,10 @@ COMPLETED_BRANCH = "completed/l1jtw85-core-fixes"
 REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
-PROMOTION_RE = re.compile(r"^fix\(l[123]\): promote (BUG-850-\d+)\b", re.IGNORECASE)
+PROMOTION_RE = re.compile(
+    r"^fix\(l[123]\): (?:promote|complete) (BUG-850-\d+)\b",
+    re.IGNORECASE,
+)
 AUTHORITY_CACHE_SCHEMA_VERSION = 2
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
@@ -206,7 +209,7 @@ def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[s
             continue
         sha, subject = line.split("\t", 1)
         if PROMOTION_RE.match(subject.strip()):
-            commits.append(_exact_commit(sha, "promotion commit"))
+            commits.append(_exact_commit(sha, "completed repair commit"))
     return commits
 
 
@@ -242,17 +245,17 @@ def completed_repair_source_paths(
     baseline_commit: str = RECOVERY_BASELINE_COMMIT,
     fetch_if_missing: bool = True,
 ) -> list[str]:
-    """Return normalized Java sources formally promoted as completed repairs.
+    """Return normalized Java sources formally completed as repaired cores.
 
     Candidate membership comes only from first-parent commits whose subject matches
-    ``fix(l1|l2|l3): promote BUG-850-*`` between the immutable recovery baseline
-    and one exact completed-authority SHA. The active worktree/HEAD is never read.
-    Later non-promotion normalization/regeneration commits cannot silently enter the
-    runtime overlay. Source bytes are still materialized from the pinned completed
-    SHA, matching the production-rebuild policy of promotion membership plus current
-    completed-authority source content.
+    ``fix(l1|l2|l3): promote|complete BUG-850-*`` between the immutable recovery
+    baseline and one exact completed-authority SHA. The active worktree/HEAD is never
+    read. Later non-completion normalization/regeneration commits cannot silently
+    enter the runtime overlay. Source bytes are still materialized from the pinned
+    completed SHA, matching the production-rebuild policy of completed membership
+    plus current completed-authority source content.
 
-    Promoted Java deletions and unsupported statuses fail closed because they cannot
+    Completed Java deletions and unsupported statuses fail closed because they cannot
     be represented safely as a class overlay on the original production runtime.
     """
     repo_root = Path(repo_root).resolve()
@@ -338,8 +341,8 @@ def materialize_authority_core(
 
     ``commit`` is the exact completed-repair authority. When ``baseline_commit`` is
     supplied, the normalized tree starts from that recovery baseline and only Java
-    files belonging to formal promotion commits are overlaid from ``commit``. This
-    is the normal Fast Dev policy: completed repairs win; unrepaired/in-progress
+    files belonging to formal completed repair commits are overlaid from ``commit``.
+    This is the normal Fast Dev policy: completed repairs win; unrepaired/in-progress
     cores remain at the recovery baseline. When ``baseline_commit`` is omitted the
     historical whole-completed-commit materialization behavior is retained for
     explicit legacy callers.
