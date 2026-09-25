@@ -13,10 +13,11 @@ public final class AutoHuntTargetPolicy {
         this.engageRange = engageRange;
     }
 
-    public Candidate select(List<Candidate> candidates, boolean treatBossAsNormal, int patrolRadius) {
+    public Candidate select(List<Candidate> candidates, boolean treatBossAsNormal,
+                            boolean avoidOccupied, int patrolRadius) {
         Candidate best = null;
         for (Candidate candidate : candidates) {
-            if (!isSelectable(candidate, treatBossAsNormal, patrolRadius)) continue;
+            if (!isSelectable(candidate, treatBossAsNormal, avoidOccupied, patrolRadius)) continue;
             if (best == null
                     || candidate.distance < best.distance
                     || candidate.distance == best.distance && candidate.anchorDistance < best.anchorDistance
@@ -28,12 +29,14 @@ public final class AutoHuntTargetPolicy {
         return best;
     }
 
-    public boolean isSelectable(Candidate c, boolean treatBossAsNormal, int patrolRadius) {
+    public boolean isSelectable(Candidate c, boolean treatBossAsNormal,
+                                boolean avoidOccupied, int patrolRadius) {
         if (c == null) return false;
         if (c.boss && !treatBossAsNormal) return false;
         if (c.excludedNpc || c.blockedEffect) return false;
         if (c.dead || c.hp <= 0 || c.hidden || c.attackSpeed == 0) return false;
-        if (!c.reachable) return false;
+        if (c.unreachableMarker && !c.meleeReachable) return false;
+        if (avoidOccupied && c.occupiedByOther) return false;
         if (c.distance < 0 || c.distance > targetRange) return false;
         if (patrolRadius > 0) {
             int overflow = Math.max(0, c.anchorDistance - patrolRadius);
@@ -51,13 +54,16 @@ public final class AutoHuntTargetPolicy {
         public final int hp;
         public final boolean hidden;
         public final int attackSpeed;
-        public final boolean reachable;
+        public final boolean unreachableMarker;
+        public final boolean meleeReachable;
+        public final boolean occupiedByOther;
         public final int distance;
         public final int anchorDistance;
 
         public Candidate(int objId, boolean boss, boolean excludedNpc, boolean blockedEffect,
                          boolean dead, int hp, boolean hidden, int attackSpeed,
-                         boolean reachable, int distance, int anchorDistance) {
+                         boolean unreachableMarker, boolean meleeReachable,
+                         boolean occupiedByOther, int distance, int anchorDistance) {
             this.objId = objId;
             this.boss = boss;
             this.excludedNpc = excludedNpc;
@@ -66,7 +72,9 @@ public final class AutoHuntTargetPolicy {
             this.hp = hp;
             this.hidden = hidden;
             this.attackSpeed = attackSpeed;
-            this.reachable = reachable;
+            this.unreachableMarker = unreachableMarker;
+            this.meleeReachable = meleeReachable;
+            this.occupiedByOther = occupiedByOther;
             this.distance = distance;
             this.anchorDistance = anchorDistance;
         }
