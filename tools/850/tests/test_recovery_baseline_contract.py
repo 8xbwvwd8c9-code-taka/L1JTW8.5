@@ -1,3 +1,5 @@
+"""Regression contract for the finalized named-inner recovery baseline."""
+
 import importlib.util
 import shutil
 import subprocess
