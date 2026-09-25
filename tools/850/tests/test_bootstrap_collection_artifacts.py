@@ -176,25 +176,26 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         self.assertIn("import java.util.ArrayList;", rewritten)
         self.assertIn("import java.util.concurrent.CopyOnWriteArrayList;", rewritten)
 
-    def test_restores_s_protobuf_shadowed_lineage_util_calls(self):
+    def test_restores_s_protobuf_shadowed_byte_string_calls(self):
         rewritten = self.rewrite(
             "S_ProtoBuffers.java",
             "package l1r.be;\n"
             "import a.g;\n"
-            "import l1r.bi.LineageUtil;\n"
             "public class S_ProtoBuffers {\n"
             "  public static final int a = 55;\n"
-            "  void x(byte[] data, String text) {\n"
+            "  public static final int g = 76;\n"
+            "  void x(byte[] data) {\n"
             "    use(a.g.a(new byte[]{-30, 112, -1}));\n"
-            "    use(a.g.a(text));\n"
+            "    use(a.g.a(data));\n"
             "    use(a.g.a(data));\n"
             "    use(a.g.a(new byte[]{-1, 0, -1}));\n"
             "  }\n"
             "  void use(Object value) {}\n"
             "}\n",
         )
-        self.assertEqual(rewritten.count("g.a("), 4)
+        self.assertEqual(rewritten.count("((a.g)null).a("), 4)
         self.assertNotIn("a.g.a(", rewritten)
+        self.assertNotIn("g.a(", rewritten)
         self.assertIn("import a.g;", rewritten)
 
 
