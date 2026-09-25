@@ -121,6 +121,37 @@ class PromotionScopeAuthorityContracts(unittest.TestCase):
             self.assertEqual(scopes[1]["commits"], [third])
             self.assertEqual(scopes[1]["source_paths"], [PREFIX + "D.java"])
 
+    def test_same_bug_across_nonoverlapping_promotions_is_one_atomic_scope(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo, baseline = self.new_repo(Path(td))
+
+            write_java(repo, "A", 2)
+            first = commit(repo, "fix(l2): promote BUG-850-143 player amount context")
+
+            write_java(repo, "B", 2)
+            second = commit(repo, "fix(l2): promote BUG-850-143 amount dialog consume")
+
+            write_java(repo, "C", 2)
+            third = commit(repo, "fix(l2): promote BUG-850-144 independent repair")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            scopes = mod.completed_repair_source_scopes(
+                repo,
+                commit=completed,
+                baseline_commit=baseline,
+                fetch_if_missing=False,
+            )
+
+            self.assertEqual(len(scopes), 2)
+            self.assertEqual(scopes[0]["commits"], [first, second])
+            self.assertEqual(
+                scopes[0]["source_paths"],
+                [PREFIX + "A.java", PREFIX + "B.java"],
+            )
+            self.assertEqual(scopes[1]["commits"], [third])
+            self.assertEqual(scopes[1]["source_paths"], [PREFIX + "C.java"])
+
 
 if __name__ == "__main__":
     unittest.main()
