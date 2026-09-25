@@ -16,11 +16,12 @@ from typing import Iterable
 # experiments from silently changing Fast Dev bootstrap semantics.
 PINNED_NORMALIZER_COMMIT = "e83c26c3c10190569acf929e9efe5c101b79163c"
 
+# PBMessageALL* source is intentionally baseline-only in Fast Dev because that
+# generated family is not round-trippable without the historical protobuf ABI
+# research toolchain. Reuse only the proven stage builder plus the normalizers
+# that make the remaining application source compile-ready.
 NORMALIZER_SCRIPTS = (
     "build-normalized-stage.py",
-    "normalize-protobuf-runtime-imports.py",
-    "normalize-protobuf-runtime-type-shadows.py",
-    "repair-normalized-builder-collisions.py",
     "normalize-external-builder-alias-refs.py",
     "normalize-nonprotobuf-runtime-g-calls.py",
     "normalize-l1alchemy-local-generics.py",
@@ -32,11 +33,6 @@ NORMALIZER_SCRIPTS = (
     "normalize-l1thebes-local-generics.py",
     "normalize-nonprotobuf-override-annotations.py",
     "normalize-l1account-base64-compat.py",
-    "normalize-protobuf-af-accessors.py",
-    "normalize-protobuf-builder-superclass.py",
-    "normalize-protobuf-builder-source-bridges.py",
-    "normalize-protobuf-parser-bridges.py",
-    "normalize-protobuf-duplicate-locals.py",
 )
 
 
