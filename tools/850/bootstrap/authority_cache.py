@@ -28,6 +28,7 @@ PROMOTION_RE = re.compile(
     r"^(?:fix\(l[123]\):\s+(?:promote|complete)\b|promote\(l[123]\):\s+)",
     re.IGNORECASE,
 )
+BUG_ID_RE = re.compile(r"\bBUG-(\d+)-(\d+(?:/\d+)*)\b", re.IGNORECASE)
 AUTHORITY_CACHE_SCHEMA_VERSION = 2
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
@@ -194,7 +195,7 @@ def ensure_recovery_baseline_commit(
     return baseline
 
 
-def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[str]:
+def _promotion_history(repo_root: Path, baseline: str, completed: str) -> list[tuple[str, str]]:
     history = _git(
         repo_root,
         "log",
@@ -203,14 +204,28 @@ def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[s
         "--format=%H%x09%s",
         f"{baseline}..{completed}",
     )
-    commits: list[str] = []
+    records: list[tuple[str, str]] = []
     for line in history.stdout.splitlines():
         if not line.strip() or "\t" not in line:
             continue
         sha, subject = line.split("\t", 1)
-        if PROMOTION_RE.match(subject.strip()):
-            commits.append(_exact_commit(sha, "completed repair commit"))
-    return commits
+        subject = subject.strip()
+        if PROMOTION_RE.match(subject):
+            records.append((_exact_commit(sha, "completed repair commit"), subject))
+    return records
+
+
+def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[str]:
+    return [sha for sha, _ in _promotion_history(repo_root, baseline, completed)]
+
+
+def _promotion_bug_ids(subject: str) -> set[str]:
+    bug_ids: set[str] = set()
+    for match in BUG_ID_RE.finditer(subject):
+        family = match.group(1)
+        for issue in match.group(2).split("/"):
+            bug_ids.add(f"BUG-{family}-{issue}")
+    return bug_ids
 
 
 def _promotion_java_changes(repo_root: Path, promotion_commit: str) -> list[tuple[str, str]]:
@@ -265,10 +280,10 @@ def completed_repair_source_scopes(
     """Return atomic completed repair source scopes in promotion history order.
 
     Each authoritative promotion commit starts as one scope. If later promotions
-    touch any source already present in an earlier scope, those scopes are merged
-    transitively. This preserves the smallest atomic compile/publication boundary
-    required by overlapping completed repairs while keeping unrelated promotions
-    independently deployable.
+    touch a source already present in an earlier scope, or carry a BUG identity
+    already present in that scope, those scopes are merged transitively. This
+    preserves the smallest atomic compile/publication boundary required by both
+    overlapping source edits and split commits belonging to one completed repair.
     """
     repo_root = Path(repo_root).resolve()
     completed = _exact_commit(commit, "completed authority commit")
@@ -296,15 +311,18 @@ def completed_repair_source_scopes(
         )
 
     scopes: list[dict[str, list[str]]] = []
-    for promotion_commit in _promotion_commits(repo_root, baseline, completed):
+    scope_bug_ids: list[set[str]] = []
+    for promotion_commit, subject in _promotion_history(repo_root, baseline, completed):
         paths = _validate_promotion_paths(repo_root, promotion_commit)
         if not paths:
             continue
         path_set = set(paths)
+        bug_ids = _promotion_bug_ids(subject)
         overlapping = [
             index
             for index, scope in enumerate(scopes)
             if path_set.intersection(scope["source_paths"])
+            or (bug_ids and bug_ids.intersection(scope_bug_ids[index]))
         ]
         if not overlapping:
             scopes.append(
@@ -313,26 +331,33 @@ def completed_repair_source_scopes(
                     "source_paths": paths,
                 }
             )
+            scope_bug_ids.append(set(bug_ids))
             continue
 
         first = overlapping[0]
         merged_commits: list[str] = []
         merged_paths = set(paths)
+        merged_bug_ids = set(bug_ids)
         overlap_set = set(overlapping)
         retained: list[dict[str, list[str]]] = []
+        retained_bug_ids: list[set[str]] = []
         for index, scope in enumerate(scopes):
             if index in overlap_set:
                 merged_commits.extend(scope["commits"])
                 merged_paths.update(scope["source_paths"])
+                merged_bug_ids.update(scope_bug_ids[index])
             else:
                 retained.append(scope)
+                retained_bug_ids.append(scope_bug_ids[index])
         merged_commits.append(promotion_commit)
         merged_scope = {
             "commits": merged_commits,
             "source_paths": sorted(merged_paths),
         }
         retained.insert(first, merged_scope)
+        retained_bug_ids.insert(first, merged_bug_ids)
         scopes = retained
+        scope_bug_ids = retained_bug_ids
 
     return scopes
 
