@@ -27,6 +27,11 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-027 | L2 | character deletion dependent cleanup transaction atomicity | PASS / PROMOTED |
+| BUG-850-089 | L2 | skill persistence before RAM publication | PASS / PROMOTED |
+| BUG-850-100 | L2 | character deletion spouse reverse PartnerID cleanup | PASS / PROMOTED |
+| BUG-850-102 | L2 | character deletion SQL failure fail-closed result | PASS / PROMOTED |
+| BUG-850-103 | L2 | character deletion clan RAM publication ordering | PASS / PROMOTED |
 | BUG-850-087 | L2 | clan merge membership transaction atomicity | PASS / PROMOTED |
 | BUG-850-095 | L2 | clan kick membership transaction atomicity | PASS / PROMOTED |
 | BUG-850-083 | L2 | clan deletion transaction durability | PASS / PROMOTED |
