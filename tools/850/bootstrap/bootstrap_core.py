@@ -103,6 +103,18 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             "if (!this.b((L1Object)var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {",
             1,
         )
+    elif recovered_internal == "l1r/ap/L1PetInstance":
+        for signature in (
+            "public void d(int var1) {",
+            "public void b(boolean var1) {",
+            "public void i() {",
+            "public void b(L1ItemInstance var1) {",
+        ):
+            source = source.replace(
+                "   @Override\n   " + signature,
+                "   " + signature,
+                1,
+            )
     elif recovered_internal == "l1r/aq/L1Teleport":
         source = source.replace(
             "HashSet var7 = new HashSet<>();",
