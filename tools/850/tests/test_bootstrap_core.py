@@ -64,6 +64,7 @@ class BootstrapCoreTests(unittest.TestCase):
                 "ao": {"package": "l1j/server/datatables", "category": "datatables"},
                 "ap": {"package": "l1j/server/model/instance", "category": "model-instance"},
                 "aq": {"package": "l1j/server/model", "category": "model"},
+                "au": {"package": "l1j/server/model/inventory", "category": "inventory"},
             },
             "overrides": {},
         }
@@ -77,6 +78,7 @@ class BootstrapCoreTests(unittest.TestCase):
                 {"Class": "aq.f", "SourceFile": "L1Character.java"},
                 {"Class": "aq.i", "SourceFile": "L1Clan.java"},
                 {"Class": "aq.am", "SourceFile": "L1Teleport.java"},
+                {"Class": "au.f", "SourceFile": "L1Inventory.java"},
             ],
             rules,
         )
@@ -193,6 +195,41 @@ class BootstrapCoreTests(unittest.TestCase):
         self.assertIn("import l1j.server.datatables.ClanTable;", rewritten)
         self.assertIn("import l1j.server.model.L1Clan;", rewritten)
         self.assertIn("L1Clan clan = ClanTable.a().a(pc.aF());", rewritten)
+
+    def test_restores_donor_backed_l1inventory_collection_and_comparator_types(self):
+        mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_l1inventory_artifacts")
+        entries = self.decompiler_artifact_entries()
+        inventory = next(entry for entry in entries if entry.source_file == "L1Inventory.java")
+        source = (
+            "package l1r.au;\n"
+            "import java.util.ArrayList;\n"
+            "import java.util.Comparator;\n"
+            "import l1r.ap.L1ItemInstance;\n"
+            "public class L1Inventory {\n"
+            "   public L1ItemInstance[] f(int var1, int var2) {\n"
+            "      ArrayList var3 = new ArrayList<>();\n"
+            "      return var3.toArray(new L1ItemInstance[var3.size()]);\n"
+            "   }\n"
+            "   private L1ItemInstance[] h(int var1) {\n"
+            "      ArrayList var2 = new ArrayList<>();\n"
+            "      return var2.toArray(new L1ItemInstance[var2.size()]);\n"
+            "   }\n"
+            "   private class L1R_a<T> implements Comparator<L1ItemInstance> {\n"
+            "      public int a(L1ItemInstance var1, L1ItemInstance var2) { return 0; }\n"
+            "      @Override\n"
+            "      public int compare(Object var1, Object var2) {\n"
+            "         return this.a((L1ItemInstance)var1, (L1ItemInstance)var2);\n"
+            "      }\n"
+            "   }\n"
+            "}\n"
+        )
+
+        rewritten = mod.rewrite_java_source(source, inventory, entries)
+
+        self.assertIn("ArrayList<L1ItemInstance> var3 = new ArrayList<>();", rewritten)
+        self.assertIn("ArrayList<L1ItemInstance> var2 = new ArrayList<>();", rewritten)
+        self.assertIn("private class L1R_a<T> implements Comparator {", rewritten)
+        self.assertNotIn("implements Comparator<L1ItemInstance>", rewritten)
 
     def test_completed_source_wins_over_baseline(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_completed")
