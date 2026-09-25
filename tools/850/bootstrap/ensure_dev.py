@@ -23,6 +23,7 @@ def _load_module(path: Path, module_name: str):
 
 
 _AUTHORITY = _load_module(HERE / "authority_cache.py", "fast_dev_ensure_authority")
+_ACTIVE = _load_module(HERE / "active_authority.py", "fast_dev_active_authority")
 _DEV_BASE = _load_module(HERE / "build_dev_base.py", "fast_dev_ensure_dev_base")
 _OVERLAY = _load_module(HERE / "completed_overlay.py", "fast_dev_ensure_overlay")
 _INCREMENTAL = _load_module(
@@ -142,13 +143,14 @@ def sync_working_core(
     new_authority_core: Path,
     working_core: Path,
 ) -> dict[str, object]:
-    """Three-way sync completed authority changes into ``core/src`` safely.
+    """Three-way sync runtime-active authority changes into ``core/src`` safely.
 
-    Only files whose pinned authority content changed are candidates. A candidate
-    is updated when the working file still equals the previous authority, left
-    alone when it already equals the new authority, and treated as a conflict for
-    any other local content. Conflict detection completes before publication, so
-    no partial completed repair sync can enter the working source tree.
+    Only files whose runtime-active authority content changed are candidates. A
+    candidate is updated when the working file still equals the previous active
+    authority, left alone when it already equals the new active authority, and
+    treated as a conflict for any other local content. Conflict detection completes
+    before publication, so no partial completed repair sync can enter the working
+    source tree.
     """
     previous = Path(previous_authority_core).resolve()
     new = Path(new_authority_core).resolve()
@@ -239,18 +241,46 @@ def _new_compiler(root: Path, dev_base: Path):
     )
 
 
+def _deferred_error(overlay_result: dict[str, object], *, suffix: str | None = None) -> RuntimeError:
+    deferred_count = int(overlay_result.get("deferred_source_count", 0))
+    deferred_rows: list[str] = []
+    for item in overlay_result.get("deferred", []):
+        if not isinstance(item, dict):
+            continue
+        identity = str(item.get("identity", "<unknown>"))
+        errors = [str(value) for value in item.get("errors", [])]
+        error_text = " || ".join(errors) if errors else "javac failed without captured error summary"
+        deferred_rows.append(f"{identity}: {error_text}")
+    if not deferred_rows:
+        deferred_rows = [
+            str(value)
+            for value in overlay_result.get("deferred_identities", [])
+        ]
+    message = (
+        "completed repair overlay deferred "
+        f"{deferred_count} formally completed source(s): "
+        + "; ".join(deferred_rows)
+    )
+    if suffix:
+        message += f"; {suffix}"
+    return RuntimeError(message)
+
+
 def ensure_fast_dev(
     root: Path,
     *,
     fetch_latest: bool = True,
     sync_working_core: bool = False,
 ) -> dict[str, object]:
-    """Ensure Fast Dev baseline, completed overlay and pinned source state exist.
+    """Ensure Fast Dev runtime, source authority and incremental state exist.
 
-    Authority is resolved exactly once from the completed repair branch and then
-    passed through every bootstrap stage as one pinned SHA. Normal bootstrap never
-    overwrites an existing ``core/src``. Explicit sync performs a three-way update
-    against the previous pinned authority and fails closed on local conflicts.
+    ``completed-authority-core`` is the formal repair authority: baseline plus every
+    formally completed promotion source. The Java 8 deployability gate decides which
+    completed scopes can actually replace runtime classes. When any formal repair is
+    deferred, ``runtime-active-authority-core`` is synthesized from the recovery
+    baseline plus only the deployable completed sources. ``core/src`` and incremental
+    state always seed/sync from that runtime-active source tree, so source bytes and
+    Dev Base class bytes cannot silently describe different implementations.
     """
     root = Path(root).resolve()
     original = root / "l1jserver2.jar"
@@ -261,6 +291,8 @@ def ensure_fast_dev(
     cache = build / "cache"
     cache.mkdir(parents=True, exist_ok=True)
     authority_core = cache / "completed-authority-core"
+    baseline_core = cache / "recovery-baseline-core"
+    runtime_active_core = cache / "runtime-active-authority-core"
     preliminary = cache / "850-dev-base.original-semantic.jar"
     completed_overlay = cache / "completed-repair-overlay"
     completed_overlay_state = cache / "completed-overlay-state.json"
@@ -271,17 +303,18 @@ def ensure_fast_dev(
     dependency_index_path = build / "dependency-index.json"
     working_core = root / "core"
 
-    if sync_working_core and (working_core / "src").is_dir() and not (authority_core / "src").is_dir():
+    previous_active_path = runtime_active_core if (runtime_active_core / "src").is_dir() else authority_core
+    if sync_working_core and (working_core / "src").is_dir() and not (previous_active_path / "src").is_dir():
         raise RuntimeError(
-            "cannot safely sync completed repairs: previous pinned authority cache is missing"
+            "cannot safely sync completed repairs: previous runtime-active authority cache is missing"
         )
 
     with tempfile.TemporaryDirectory(prefix="fast-dev-ensure.", dir=cache) as td:
         stage = Path(td)
-        previous_authority = stage / "previous-authority-core"
+        previous_authority = stage / "previous-active-authority-core"
         had_previous_authority = False
-        if sync_working_core and (authority_core / "src").is_dir():
-            shutil.copytree(authority_core, previous_authority)
+        if sync_working_core and (previous_active_path / "src").is_dir():
+            shutil.copytree(previous_active_path, previous_authority)
             had_previous_authority = True
 
         authority_commit = _AUTHORITY.resolve_completed_authority_commit(
@@ -319,97 +352,131 @@ def ensure_fast_dev(
             authority_commit=authority_commit,
             source_count=len(completed_sources),
         )
+        cached_deferred = 0 if overlay_state is None else int(overlay_state["deferred_source_count"])
+        active_cache_ready = (
+            (runtime_active_core / "src").is_dir()
+            if cached_deferred
+            else (authority_core / "src").is_dir()
+        )
         cache_hit = (
             dev_base.is_file()
             and _DEV_BASE.cache_matches(cache_key_path, cache_key)
             and overlay_state is not None
+            and active_cache_ready
         )
         rebuilt = False
         candidate_dev_base = stage / "850-dev-base.jar"
+        candidate_active_core: Path | None = None
 
-        try:
-            if not cache_hit:
-                _DEV_BASE.build_dev_base(
-                    original,
-                    preliminary,
-                    runtime_map,
+        if not cache_hit:
+            _DEV_BASE.build_dev_base(
+                original,
+                preliminary,
+                runtime_map,
+            )
+            overlay_result = _OVERLAY.compile_completed_overlay(
+                authority_core=authority_core,
+                normalized_source_paths=completed_sources,
+                dev_base_jar=preliminary,
+                output_dir=completed_overlay,
+                lib_dir=root / "lib",
+            )
+            if int(overlay_result["source_count"]) != len(completed_sources):
+                raise RuntimeError(
+                    "completed overlay source count mismatch: "
+                    f"{overlay_result['source_count']} != {len(completed_sources)}"
                 )
-                overlay_result = _OVERLAY.compile_completed_overlay(
-                    authority_core=authority_core,
-                    normalized_source_paths=completed_sources,
-                    dev_base_jar=preliminary,
-                    output_dir=completed_overlay,
-                    lib_dir=root / "lib",
+            if (
+                int(overlay_result["deployable_source_count"])
+                + int(overlay_result["deferred_source_count"])
+                != len(completed_sources)
+            ):
+                raise RuntimeError("completed overlay deployable/deferred count does not close")
+
+            deferred_count = int(overlay_result["deferred_source_count"])
+            if deferred_count:
+                source_index = authority_core / "source-index.json"
+                if not source_index.is_file():
+                    raise _deferred_error(
+                        overlay_result,
+                        suffix="runtime-active fallback unavailable: completed source index missing",
+                    )
+                _AUTHORITY.materialize_authority_core(
+                    root,
+                    baseline_core,
+                    commit=baseline_commit,
+                    baseline_commit=None,
+                    fetch_if_missing=fetch_latest,
                 )
-                if int(overlay_result["source_count"]) != len(completed_sources):
-                    raise RuntimeError(
-                        "completed overlay source count mismatch: "
-                        f"{overlay_result['source_count']} != {len(completed_sources)}"
-                    )
-                if (
-                    int(overlay_result["deployable_source_count"])
-                    + int(overlay_result["deferred_source_count"])
-                    != len(completed_sources)
-                ):
-                    raise RuntimeError("completed overlay deployable/deferred count does not close")
-                deferred_count = int(overlay_result["deferred_source_count"])
-                if deferred_count:
-                    deferred_rows: list[str] = []
-                    for item in overlay_result.get("deferred", []):
-                        identity = str(item.get("identity", "<unknown>"))
-                        errors = [str(value) for value in item.get("errors", [])]
-                        error_text = " || ".join(errors) if errors else "javac failed without captured error summary"
-                        deferred_rows.append(f"{identity}: {error_text}")
-                    if not deferred_rows:
-                        deferred_rows = [
-                            str(value)
-                            for value in overlay_result.get("deferred_identities", [])
-                        ]
-                    raise RuntimeError(
-                        "completed repair overlay deferred "
-                        f"{deferred_count} formally completed source(s): "
-                        + "; ".join(deferred_rows)
-                    )
-                overlay_state = {
-                    "authority_commit": authority_commit,
-                    **overlay_result,
-                }
-                _DEV_BASE.build_dev_base(
-                    original,
-                    candidate_dev_base,
-                    runtime_map,
-                    completed_overlay=completed_overlay,
+                candidate_active_core = stage / "runtime-active-authority-core"
+                _ACTIVE.build_active_authority_core(
+                    baseline_core=baseline_core,
+                    completed_core=authority_core,
+                    output_core=candidate_active_core,
+                    authority_commit=authority_commit,
+                    baseline_commit=baseline_commit,
+                    deployable_identities=overlay_result.get("deployable_identities", []),
+                    deferred_identities=overlay_result.get("deferred_identities", []),
                 )
 
-            sync_result = None
-            if sync_working_core and (working_core / "src").is_dir():
-                if not had_previous_authority:
-                    raise RuntimeError(
-                        "cannot safely sync completed repairs without previous pinned authority"
-                    )
-                sync_result = globals()["sync_working_core"](
-                    previous_authority,
-                    authority_core,
-                    working_core,
-                )
-                core_action = "synced" if sync_result["updated_files"] else "preserved"
-            else:
-                core_action = _ensure_working_core(root, authority_core)
+            overlay_state = {
+                "authority_commit": authority_commit,
+                **overlay_result,
+            }
+            _DEV_BASE.build_dev_base(
+                original,
+                candidate_dev_base,
+                runtime_map,
+                completed_overlay=completed_overlay,
+            )
 
-            if not cache_hit:
-                os.replace(candidate_dev_base, dev_base)
-                _atomic_write_json(completed_overlay_state, overlay_state)
-                _atomic_write_json(cache_key_path, cache_key)
-                rebuilt = True
-        except Exception:
-            if sync_working_core and had_previous_authority:
-                restore = stage / "restore-authority-core"
-                shutil.copytree(previous_authority, restore)
-                _publish_directory(restore, authority_core)
-            raise
+        if overlay_state is None:
+            raise RuntimeError("completed overlay state unavailable after bootstrap")
+
+        deferred_count = int(overlay_state["deferred_source_count"])
+        if cache_hit:
+            new_active_authority = runtime_active_core if deferred_count else authority_core
+        else:
+            new_active_authority = candidate_active_core if deferred_count else authority_core
+        if new_active_authority is None or not (new_active_authority / "src").is_dir():
+            raise RuntimeError("runtime-active authority source tree unavailable")
+
+        sync_result = None
+        if sync_working_core and (working_core / "src").is_dir():
+            if not had_previous_authority:
+                raise RuntimeError(
+                    "cannot safely sync completed repairs without previous runtime-active authority"
+                )
+            sync_result = globals()["sync_working_core"](
+                previous_authority,
+                new_active_authority,
+                working_core,
+            )
+            core_action = "synced" if sync_result["updated_files"] else "preserved"
+        else:
+            core_action = _ensure_working_core(root, new_active_authority)
+
+        if not cache_hit:
+            if deferred_count:
+                assert candidate_active_core is not None
+                _publish_directory(candidate_active_core, runtime_active_core)
+            elif runtime_active_core.exists():
+                shutil.rmtree(runtime_active_core)
+            os.replace(candidate_dev_base, dev_base)
+            _atomic_write_json(completed_overlay_state, overlay_state)
+            _atomic_write_json(cache_key_path, cache_key)
+            rebuilt = True
 
     if overlay_state is None:
         raise RuntimeError("completed overlay state unavailable after bootstrap")
+
+    persistent_active_authority = (
+        runtime_active_core
+        if int(overlay_state["deferred_source_count"])
+        else authority_core
+    )
+    if not (persistent_active_authority / "src").is_dir():
+        raise RuntimeError("published runtime-active authority source tree unavailable")
 
     seed_required = rebuilt or not state_path.is_file() or not dependency_index_path.is_file()
     if seed_required:
@@ -418,7 +485,7 @@ def ensure_fast_dev(
         compiler = _new_compiler(root, dev_base)
         compiler.seed_from_dev_base(
             dev_base,
-            baseline_source_root=authority_core / "src",
+            baseline_source_root=persistent_active_authority / "src",
         )
 
     return {
@@ -429,6 +496,7 @@ def ensure_fast_dev(
         "completed_class_count": int(overlay_state.get("class_count", 0)),
         "runtime_class_count": len(runtime_map),
         "dev_base": str(dev_base),
+        "active_authority": str(persistent_active_authority),
         "overlay_state": str(completed_overlay_state),
         "cache_hit": cache_hit,
         "rebuilt": rebuilt,
@@ -447,10 +515,14 @@ def ensure_fast_dev(
     fetch_latest: bool = True,
     sync_working_core: bool = False,
 ) -> dict[str, object]:
-    """Guard sync bootstrap so previous authority survives any pre-publish failure."""
+    """Guard sync bootstrap so previous formal and active authorities survive failure."""
     root = Path(root).resolve()
-    authority_core = root / ".build850" / "cache" / "completed-authority-core"
-    should_guard = sync_working_core and (authority_core / "src").is_dir()
+    cache = root / ".build850" / "cache"
+    guarded = [
+        cache / "completed-authority-core",
+        cache / "runtime-active-authority-core",
+    ]
+    should_guard = sync_working_core and any((path / "src").is_dir() for path in guarded)
     if not should_guard:
         return _ensure_fast_dev_impl(
             root,
@@ -458,10 +530,15 @@ def ensure_fast_dev(
             sync_working_core=sync_working_core,
         )
 
-    authority_core.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.TemporaryDirectory(prefix="fast-dev-authority-guard.", dir=authority_core.parent) as td:
-        backup = Path(td) / "completed-authority-core"
-        shutil.copytree(authority_core, backup)
+    cache.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="fast-dev-authority-guard.", dir=cache) as td:
+        backup_root = Path(td)
+        backups: dict[Path, Path] = {}
+        for path in guarded:
+            if path.is_dir():
+                backup = backup_root / path.name
+                shutil.copytree(path, backup)
+                backups[path] = backup
         try:
             return _ensure_fast_dev_impl(
                 root,
@@ -469,9 +546,14 @@ def ensure_fast_dev(
                 sync_working_core=sync_working_core,
             )
         except Exception:
-            restore = Path(td) / "restore-authority-core"
-            shutil.copytree(backup, restore)
-            _publish_directory(restore, authority_core)
+            for path in guarded:
+                if path.exists():
+                    shutil.rmtree(path)
+                backup = backups.get(path)
+                if backup is not None:
+                    restore = backup_root / (path.name + ".restore")
+                    shutil.copytree(backup, restore)
+                    _publish_directory(restore, path)
             raise
 
 
