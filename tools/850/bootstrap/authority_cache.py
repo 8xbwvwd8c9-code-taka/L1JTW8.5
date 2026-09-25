@@ -25,7 +25,11 @@ REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 PROMOTION_RE = re.compile(
-    r"^(?:fix\(l[123]\):\s+(?:promote|complete)\b|promote\(l[123]\):\s+)",
+    r"^(?:"
+    r"fix\(l[123]\):\s+(?:promote|complete)\b"
+    r"|promote\(l[123]\):\s+"
+    r"|BUG-\d+-\d+(?:/\d+)*\s+promote\b"
+    r")",
     re.IGNORECASE,
 )
 BUG_ID_RE = re.compile(r"\bBUG-(\d+)-(\d+(?:/\d+)*)\b", re.IGNORECASE)
