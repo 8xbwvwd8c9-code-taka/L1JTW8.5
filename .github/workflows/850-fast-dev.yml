@@ -87,6 +87,19 @@ jobs:
               f"DEFERRED={overlay['deferred_source_count']} "
               f"CLASSES={overlay['class_count']}"
           )
+          print('FAST_DEV_DEPLOYABLE_IDENTITIES=' + ','.join(overlay.get('deployable_identities', [])))
+          print('FAST_DEV_DEFERRED_IDENTITIES=' + ','.join(overlay.get('deferred_identities', [])))
+          for item in overlay.get('deferred', []):
+              print(
+                  'FAST_DEV_DEFERRED_DETAIL='
+                  + item['identity']
+                  + '|'
+                  + ' || '.join(item.get('errors', []))
+              )
           PY
+          second_bootstrap="$(python tools/850/bootstrap/ensure_dev.py)"
+          echo "$second_bootstrap"
+          echo "$second_bootstrap" | grep -q 'CACHE_HIT=TRUE'
+          echo "$second_bootstrap" | grep -q 'CORE=preserved'
           python tools/850/fast_dev.py
           test "$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')" = "$original_sha"
