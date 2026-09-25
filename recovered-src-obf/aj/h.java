@@ -41,14 +41,15 @@ extends cv {
                     u tempPc = aq.a().a(s2);
                     if (tempPc != null) {
                         if (tempPc.aF() == pc.aF()) {
+                            if (!p.a().kickClanMemberAtomic(tempPc, pc.aF())) {
+                                return;
+                            }
                             tempPc.ah(0);
                             tempPc.c("");
                             tempPc.ai(0);
-                            tempPc.I();
                             tempPc.a(new ds(238, clan.f()));
                             pc.a(new ds(240, tempPc.et()));
                             clan.b(tempPc.et());
-                            p.a().a(tempPc.fr());
                         } else {
                             pc.a(new ds(109, s2));
                         }
@@ -56,12 +57,13 @@ extends cv {
                         try {
                             u restorePc = o.a().a(s2);
                             if (restorePc != null && restorePc.aF() == pc.aF()) {
+                                if (!p.a().kickClanMemberAtomic(restorePc, pc.aF())) {
+                                    return;
+                                }
                                 restorePc.ah(0);
                                 restorePc.c("");
                                 restorePc.ai(0);
-                                restorePc.I();
                                 clan.b(restorePc.et());
-                                p.a().a(restorePc.fr());
                                 pc.a(new ds(240, restorePc.et()));
                                 break block13;
                             }

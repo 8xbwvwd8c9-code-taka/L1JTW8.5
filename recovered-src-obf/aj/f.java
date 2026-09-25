@@ -609,55 +609,50 @@ extends cv {
                 joinPc.a(new ds(188, pc.et()));
                 return;
             }
+            if (!p.a().mergeClanAtomic(pc.fr(), clan.e(), clan.f(), oldClan.e(), oldClan.f())) {
+                return;
+            }
             for (u u2 : clan.b()) {
                 u2.a(new ds(94, joinPc.et()));
             }
             pc.ai(4);
             pc.a(new cm(27, 4, pc.et()));
-            pc.I();
-            for (String string : oldClan.p()) {
+            String[] memberNames = oldClan.p().toArray(new String[oldClan.p().size()]);
+            for (String string : memberNames) {
                 u oldClanMember = aq.a().a(string);
-                if (oldClanMember != null) {
-                    p.a().a(oldClanMember.fr());
-                    oldClanMember.ah(clan.e());
-                    oldClanMember.c(clan.f());
-                    oldClanMember.ai(2);
-                    oldClanMember.I();
-                    clan.a(oldClanMember.et());
-                    p.a().a(oldClanMember);
+                if (oldClanMember == null) {
+                    try {
+                        oldClanMember = ao.o.a().a(string);
+                    } catch (Exception e2) {
+                        a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+                        continue;
+                    }
+                }
+                if (oldClanMember == null) continue;
+                oldClanMember.ah(clan.e());
+                oldClanMember.c(clan.f());
+                oldClanMember.ai(2);
+                clan.a(oldClanMember.et());
+                if (aq.a().a(oldClanMember.et()) != null) {
                     oldClanMember.a(new cm(27, 7, oldClanMember.et()));
                     oldClanMember.a(new ds(95, clan.f()));
-                    oldClanMember.a(new be.ac(oldClanMember, true));
+                    oldClanMember.a(new cy(oldClanMember, true));
                     oldClanMember.a(new v(60, oldClanMember.fr(), clan.e()));
                     oldClanMember.a(new cm(173, clan.j()));
-                    oldClanMember.a(new cy(clan));
-                    for (u player : clan.b()) {
-                        player.a(new v(60, oldClanMember.fr(), clan.i()));
-                        oldClanMember.a(new v(60, player.fr(), clan.i()));
-                        if (clan.b().size() < 3 || player.bB(4084)) continue;
-                        player.j(4084, 0);
-                        player.a(new cm(180, 450, 3240, 1));
+                    oldClanMember.a(new be.ds(clan));
+                    for (u member : clan.b()) {
+                        member.a(new v(60, oldClanMember.fr(), clan.i()));
+                        oldClanMember.a(new v(60, member.fr(), clan.i()));
+                        if (clan.b().size() < 3 || member.bB(4084)) continue;
+                        member.j(4084, 0);
+                        member.a(new cm(180, 450, 3240, 1));
                     }
-                    continue;
-                }
-                try {
-                    u offClanMember = o.a().a(string);
-                    p.a().a(offClanMember.fr());
-                    offClanMember.ah(clan.e());
-                    offClanMember.c(clan.f());
-                    offClanMember.ai(2);
-                    offClanMember.I();
-                    clan.a(offClanMember.et());
-                    p.a().a(offClanMember);
-                }
-                catch (Exception e2) {
-                    a.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
                 }
             }
-            String string = String.valueOf(oldClan.i());
-            File file = new File("./emblem/" + string);
-            file.delete();
-            ao.q.a().b(oldClan.f());
+            String emblemId = String.valueOf(oldClan.i());
+            File emblemFile = new File("./emblem/" + emblemId);
+            emblemFile.delete();
+            ao.q.a().a(oldClan.f());
         }
     }
 

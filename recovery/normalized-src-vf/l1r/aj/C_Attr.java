@@ -602,32 +602,39 @@ public class C_Attr extends ClientBasePacket {
             var2.a(new S_ServerMessage(188, var1.et()));
             return;
          }
-
+         if (!ClanMembersTable.a().mergeClanAtomic(var1.fr(), var4.e(), var4.f(), var5.e(), var5.f())) {
+            return;
+         }
          for (L1PcInstance var6 : var4.b()) {
             var6.a(new S_ServerMessage(94, var2.et()));
          }
-
          var1.ai(4);
          var1.a(new S_PacketBox(27, 4, var1.et()));
-         var1.I();
-
-         for (String var12 : var5.p()) {
+         String[] var7 = var5.p().toArray(new String[var5.p().size()]);
+         for (String var12 : var7) {
             L1PcInstance var8 = L1World.a().a(var12);
-            if (var8 != null) {
-               ClanMembersTable.a().a(var8.fr());
-               var8.ah(var4.e());
-               var8.c(var4.f());
-               var8.ai(2);
-               var8.I();
-               var4.a(var8.et());
-               ClanMembersTable.a().a(var8);
+            if (var8 == null) {
+               try {
+                  var8 = CharacterTable.a().a(var12);
+               } catch (Exception var11) {
+                  a.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
+                  continue;
+               }
+            }
+            if (var8 == null) {
+               continue;
+            }
+            var8.ah(var4.e());
+            var8.c(var4.f());
+            var8.ai(2);
+            var4.a(var8.et());
+            if (L1World.a().a(var8.et()) != null) {
                var8.a(new S_PacketBox(27, 7, var8.et()));
                var8.a(new S_ServerMessage(95, var4.f()));
                var8.a(new S_ClanName(var8, true));
                var8.a(new S_CharEvent(60, var8.fr(), var4.e()));
                var8.a(new S_PacketBox(173, var4.j()));
                var8.a(new S_PledgeWatch(var4));
-
                for (L1PcInstance var16 : var4.b()) {
                   var16.a(new S_CharEvent(60, var8.fr(), var4.i()));
                   var8.a(new S_CharEvent(60, var16.fr(), var4.i()));
@@ -636,26 +643,12 @@ public class C_Attr extends ClientBasePacket {
                      var16.a(new S_PacketBox(180, 450, 3240, 1));
                   }
                }
-            } else {
-               try {
-                  L1PcInstance var9 = CharacterTable.a().a(var12);
-                  ClanMembersTable.a().a(var9.fr());
-                  var9.ah(var4.e());
-                  var9.c(var4.f());
-                  var9.ai(2);
-                  var9.I();
-                  var4.a(var9.et());
-                  ClanMembersTable.a().a(var9);
-               } catch (Exception var11) {
-                  a.log(Level.SEVERE, var11.getLocalizedMessage(), var11);
-               }
             }
          }
-
          String var13 = String.valueOf(var5.i());
          File var15 = new File("./emblem/" + var13);
          var15.delete();
-         ClanTable.a().b(var5.f());
+         ClanTable.a().a(var5.f());
       }
    }
 

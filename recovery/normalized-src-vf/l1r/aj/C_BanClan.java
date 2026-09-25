@@ -32,14 +32,15 @@ public class C_BanClan extends ClientBasePacket {
                L1PcInstance var7 = L1World.a().a(var4);
                if (var7 != null) {
                   if (var7.aF() == var3.aF()) {
+                     if (!ClanMembersTable.a().kickClanMemberAtomic(var7, var3.aF())) {
+                        return;
+                     }
                      var7.ah(0);
                      var7.c("");
                      var7.ai(0);
-                     var7.I();
                      var7.a(new S_ServerMessage(238, var5.f()));
                      var3.a(new S_ServerMessage(240, var7.et()));
                      var5.b(var7.et());
-                     ClanMembersTable.a().a(var7.fr());
                   } else {
                      var3.a(new S_ServerMessage(109, var4));
                   }
@@ -47,12 +48,13 @@ public class C_BanClan extends ClientBasePacket {
                   try {
                      L1PcInstance var8 = CharacterTable.a().a(var4);
                      if (var8 != null && var8.aF() == var3.aF()) {
+                        if (!ClanMembersTable.a().kickClanMemberAtomic(var8, var3.aF())) {
+                           return;
+                        }
                         var8.ah(0);
                         var8.c("");
                         var8.ai(0);
-                        var8.I();
                         var5.b(var8.et());
-                        ClanMembersTable.a().a(var8.fr());
                         var3.a(new S_ServerMessage(240, var8.et()));
                      } else {
                         var3.a(new S_ServerMessage(109, var4));
