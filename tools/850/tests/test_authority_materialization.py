@@ -120,6 +120,36 @@ class AuthorityMaterializationContracts(unittest.TestCase):
             self.assertEqual(result["commit"], completed)
             self.assertEqual(result["promoted_source_count"], 1)
 
+    def test_materialization_accepts_complete_bug_commit_as_completed_authority(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1, 1)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "recovery baseline")
+            baseline = git(repo, "rev-parse", "HEAD")
+
+            write_authority(repo, 2, 1)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "fix(l2): complete BUG-850-032 and close BUG-850-033 coverage")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            scope = mod.completed_repair_source_paths(
+                repo,
+                commit=completed,
+                baseline_commit=baseline,
+                fetch_if_missing=False,
+            )
+            self.assertEqual(
+                scope,
+                ["recovery/normalized-src-vf/l1r/aa/A.java"],
+            )
+
 
 if __name__ == "__main__":
     unittest.main()
