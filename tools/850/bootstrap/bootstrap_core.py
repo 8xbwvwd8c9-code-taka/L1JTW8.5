@@ -87,8 +87,8 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
 
     These repairs are recovery-only syntax/type restorations. They are intentionally
     identity-scoped and do not infer gameplay behavior. The repaired donor preserves
-    the overload-disambiguating casts and generic type that Vineflower lost, while
-    the original donor has no Override annotation on L1PcInstance.c(int).
+    the overload-disambiguating casts, imports and generic type that Vineflower lost,
+    while the original donor has no Override annotation on L1PcInstance.c(int).
     """
     if recovered_internal == "l1r/ap/L1PcInstance":
         source = source.replace(
@@ -112,6 +112,21 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             "HashSet<L1PcInstance> var7 = new HashSet<>();",
             1,
         )
+    elif recovered_internal == "l1r/aj/C_Amount":
+        missing_imports = [
+            import_line
+            for import_line in (
+                "import l1r.ao.ClanTable;",
+                "import l1r.aq.L1Clan;",
+            )
+            if import_line not in source
+        ]
+        if missing_imports:
+            source = source.replace(
+                "package l1r.aj;",
+                "package l1r.aj;\n\n" + "\n".join(missing_imports),
+                1,
+            )
     return source
 
 
