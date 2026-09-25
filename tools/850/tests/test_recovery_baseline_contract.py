@@ -9,6 +9,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "authority_cache.py"
+REPLAY_PROMOTION = "6dcb4eeb92e83395e1b972246fda9191a056de5d"
 
 
 def load_module():
@@ -57,6 +58,17 @@ class RecoveryBaselineContract(unittest.TestCase):
         )
         self.assertIn("public class L1R_a", pledge_source)
         self.assertNotIn("public class a {", pledge_source)
+
+    def test_completed_history_discovers_validated_replay_promotion(self):
+        mod = load_module()
+        completed = mod.resolve_completed_authority_commit(ROOT, fetch_latest=True)
+        baseline = mod.ensure_recovery_baseline_commit(
+            ROOT,
+            baseline_commit=mod.RECOVERY_BASELINE_COMMIT,
+            fetch_if_missing=True,
+        )
+        promotions = mod._promotion_commits(ROOT, baseline, completed)
+        self.assertIn(REPLAY_PROMOTION, promotions)
 
     def test_completed_union_includes_validated_replay_promotion_sources(self):
         mod = load_module()
