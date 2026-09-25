@@ -55,7 +55,7 @@ class PromotionScopeAuthorityContracts(unittest.TestCase):
         git(repo, "init")
         git(repo, "config", "user.email", "test@example.invalid")
         git(repo, "config", "user.name", "Fast Dev Test")
-        for name in ("A", "B", "C", "D", "E"):
+        for name in ("A", "B", "C", "D", "E", "F"):
             write_java(repo, name, 1)
         baseline = commit(repo, "recovery baseline")
         return repo, baseline
@@ -73,7 +73,9 @@ class PromotionScopeAuthorityContracts(unittest.TestCase):
             commit(repo, "fix(l2): promote durable inventory update")
             write_java(repo, "D", 2)
             commit(repo, "promote(l3): replay validated source hunks")
-            write_java(repo, "E", 99)
+            write_java(repo, "E", 2)
+            commit(repo, "BUG-850-142 promote normalized transactional item CAS helpers")
+            write_java(repo, "F", 99)
             completed = commit(repo, "docs(l2): record completion evidence")
 
             paths = mod.completed_repair_source_paths(
@@ -84,9 +86,9 @@ class PromotionScopeAuthorityContracts(unittest.TestCase):
             )
             self.assertEqual(
                 paths,
-                [PREFIX + f"{name}.java" for name in ("A", "B", "C", "D")],
+                [PREFIX + f"{name}.java" for name in ("A", "B", "C", "D", "E")],
             )
-            self.assertNotIn(PREFIX + "E.java", paths)
+            self.assertNotIn(PREFIX + "F.java", paths)
 
     def test_overlapping_promotions_merge_into_one_atomic_scope(self):
         mod = load_module()
