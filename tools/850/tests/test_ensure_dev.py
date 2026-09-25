@@ -349,6 +349,29 @@ class EnsureDevContracts(unittest.TestCase):
             self.assertEqual(a.read_text(encoding="utf-8"), "A local conflict\n")
             self.assertEqual(b.read_text(encoding="utf-8"), "B old\n")
 
+    def test_existing_workspace_pin_disables_refresh_until_explicit_sync(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            work_src = root / "core" / "src"
+            work_src.mkdir(parents=True)
+            (root / "core" / "PINNED_AUTHORITY.json").write_text(
+                json.dumps({"commit": COMMIT}), encoding="utf-8"
+            )
+            calls = []
+
+            def fake_impl(root_arg, *, fetch_latest=True, sync_working_core=False):
+                calls.append((fetch_latest, sync_working_core))
+                return {"ok": True}
+
+            mod._ensure_fast_dev_impl = fake_impl
+
+            mod.ensure_fast_dev(root, fetch_latest=True, sync_working_core=False)
+            self.assertEqual(calls[-1], (False, False))
+
+            mod.ensure_fast_dev(root, fetch_latest=True, sync_working_core=True)
+            self.assertEqual(calls[-1], (True, True))
+
 
 if __name__ == "__main__":
     unittest.main()
