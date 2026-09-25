@@ -4,12 +4,14 @@ import unittest
 
 ROOT = Path(__file__).resolve().parents[3]
 WORKFLOW = ROOT / ".github" / "workflows" / "850-fast-dev.yml"
+ENSURE_DEV = ROOT / "tools" / "850" / "bootstrap" / "ensure_dev.py"
 
 
 class FastDevRuntimeSmokeContract(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
         cls.text = WORKFLOW.read_text(encoding="utf-8")
+        cls.ensure_text = ENSURE_DEV.read_text(encoding="utf-8")
 
     def test_uses_mysql57_with_850_legacy_sql_mode_and_real_dump(self):
         self.assertIn("mysql:5.7", self.text)
@@ -31,6 +33,12 @@ class FastDevRuntimeSmokeContract(unittest.TestCase):
         self.assertIn("PORT_2000=LISTENING", self.text)
         self.assertIn("127.0.0.1", self.text)
         self.assertIn("2000", self.text)
+
+    def test_bootstrap_uses_runtime_active_authority_when_repairs_are_deferred(self):
+        self.assertIn('runtime_active_core = cache / "runtime-active-authority-core"', self.ensure_text)
+        self.assertIn('_ACTIVE.build_active_authority_core(', self.ensure_text)
+        self.assertIn('baseline_source_root=persistent_active_authority / "src"', self.ensure_text)
+        self.assertIn('"active_authority": str(persistent_active_authority)', self.ensure_text)
 
     def test_production_jar_sha_is_checked_before_and_after(self):
         sha = "8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814"
