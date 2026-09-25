@@ -37,6 +37,25 @@ class BootstrapCoreTests(unittest.TestCase):
         pm.validate_package_map(entries)
         return entries
 
+    def collision_entries(self):
+        pm = load(PACKAGE_MAP_PATH, "fast_dev_package_map_collision_fixture")
+        rules = {
+            "families": {
+                "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
+                "ax": {"package": "l1j/server/model/map", "category": "model-map"},
+            },
+            "overrides": {},
+        }
+        entries = pm.build_package_map(
+            [
+                {"Class": "aj.be", "SourceFile": "C_Login.java"},
+                {"Class": "ax.c", "SourceFile": "L1MapArea.java"},
+            ],
+            rules,
+        )
+        pm.validate_package_map(entries)
+        return entries
+
     def test_rewrites_package_import_and_fully_qualified_reference(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap")
         entries = self.entries()
@@ -50,6 +69,28 @@ class BootstrapCoreTests(unittest.TestCase):
         self.assertIn("import l1j.server.model.instance.L1PetInstance;", rewritten)
         self.assertIn("l1j.server.model.instance.L1PetInstance pet", rewritten)
         self.assertNotIn("l1r.", rewritten)
+
+    def test_restores_recovery_identity_embedded_inside_non_application_identifier(self):
+        mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_collision")
+        entries = self.collision_entries()
+        login = next(entry for entry in entries if entry.source_file == "C_Login.java")
+        source = (
+            "package l1r.aj;\n"
+            "import javl1r.ax.L1MapArearypto.Cipher;\n"
+            "import l1r.ax.L1MapArea;\n"
+            "public class C_Login {\n"
+            "  javl1r.ax.L1MapArearypto.Cipher cipher;\n"
+            "  l1r.ax.L1MapArea map;\n"
+            "}\n"
+        )
+
+        rewritten = mod.rewrite_java_source(source, login, entries)
+
+        self.assertIn("import javax.crypto.Cipher;", rewritten)
+        self.assertIn("javax.crypto.Cipher cipher;", rewritten)
+        self.assertIn("import l1j.server.model.map.L1MapArea;", rewritten)
+        self.assertIn("l1j.server.model.map.L1MapArea map;", rewritten)
+        self.assertNotIn("javl1j", rewritten)
 
     def test_completed_source_wins_over_baseline(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_completed")
