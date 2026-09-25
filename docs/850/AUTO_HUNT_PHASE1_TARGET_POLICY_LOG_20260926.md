@@ -34,12 +34,19 @@ Confirmed:
 - player class `ap.u`
 - world class `aq.aq`
 - HP/dead state are available through repaired character APIs
-- NPC template ID is available from the 850 template object
+- NPC template ID is `mob.U_().b()`
+- hidden status is `mob.ac()`; recovered setter parameter is explicitly named `hiddenStatus`
+- attack speed is `mob.O()`; recovered setter parameter is explicitly named `atkspeed`
+- 381 `isAttackPosition(x,y,1)` can map to 850 character `pc.c(x,y,1)` range + line-of-sight gate
 
-Not yet proven / do not guess:
-- exact obfuscated accessor for boss flag
-- exact obfuscated accessor for hidden status
-- exact obfuscated accessor for attack speed
-- exact 850 reachability/line-of-attack hook to use for the 381 `isAttackPosition` gate
+Boss classification finding:
+- 850 `npc` template loader (`ao.au` / NpcTable) does not load an `is_boss` field.
+- 850 boss spawns are loaded separately from `spawnlist_boss` by `ao.e` / BossSpawnTable using `npc_id`.
+- Therefore do NOT invent a boss getter on `bh.l`; adapter needs an explicit boss-NPC index sourced from `spawnlist_boss` (or a future 850-owned boss registry).
 
-NEXT=Resolve those accessors, then implement the 850 target adapter. Do not start Move/Basic Attack before adapter validation.
+Still pending:
+- implement boss-NPC index / resolver using 850 authority
+- implement 850 target adapter over `ap.s` candidates and the verified accessors
+- validate blocked-effect IDs 33/50/1011/1009 plus the per-player unreachable marker against 850 skill-effect APIs
+
+NEXT=Boss index/resolver -> 850 target adapter -> adapter regression. Do not start Move/Basic Attack before adapter validation.
