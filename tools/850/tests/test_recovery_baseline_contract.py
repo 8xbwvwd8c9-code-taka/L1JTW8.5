@@ -1,4 +1,4 @@
-"""Regression contracts for finalized recovery and completed promotion history."""
+"""Regression contracts for finalized recovery and all reachable completed promotions."""
 
 import importlib.util
 import shutil
