@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "ensure_dev.py"
 NEW_COMMIT = "b" * 40
+BASELINE_COMMIT = "a" * 40
 
 
 def load_module():
@@ -27,17 +28,39 @@ def write_source(core: Path, marker: str) -> Path:
 
 
 class FailingScopeAuthority:
+    RECOVERY_BASELINE_COMMIT = BASELINE_COMMIT
+
     def resolve_completed_authority_commit(self, root, *, fetch_latest=True):
         return NEW_COMMIT
 
-    def materialize_authority_core(self, root, cache_core, *, commit, fetch_if_missing=True):
+    def materialize_authority_core(
+        self,
+        root,
+        cache_core,
+        *,
+        commit,
+        baseline_commit=None,
+        fetch_if_missing=True,
+    ):
         cache_core = Path(cache_core)
         if cache_core.exists():
             shutil.rmtree(cache_core)
         write_source(cache_core, "NEW AUTHORITY")
-        return {"commit": commit, "source_count": 1, "cached": False}
+        return {
+            "commit": commit,
+            "baseline_commit": baseline_commit,
+            "source_count": 1,
+            "cached": False,
+        }
 
-    def completed_repair_source_paths(self, root, *, commit):
+    def completed_repair_source_paths(
+        self,
+        root,
+        *,
+        commit,
+        baseline_commit=None,
+        fetch_if_missing=True,
+    ):
         raise RuntimeError("scope boom")
 
 
