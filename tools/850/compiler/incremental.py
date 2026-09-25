@@ -72,6 +72,8 @@ class IncrementalCompiler:
         dependency_index_path: Path,
         classpath: Iterable[Path | str],
         javac: str = "javac",
+        baseline_jar: Path | None = None,
+        baseline_only_identities: Iterable[str] = (),
     ):
         self.source_root = Path(source_root)
         self.class_dir = Path(class_dir)
@@ -79,6 +81,10 @@ class IncrementalCompiler:
         self.dependency_index_path = Path(dependency_index_path)
         self.classpath = [str(Path(p)) for p in classpath]
         self.javac = javac
+        self.baseline_jar = Path(baseline_jar) if baseline_jar is not None else None
+        self.baseline_only_identities = frozenset(str(x) for x in baseline_only_identities)
+        if self.baseline_only_identities and self.baseline_jar is None:
+            raise ValueError("baseline_jar is required when baseline-only sources are configured")
 
     def _scan_sources(self, source_root: Path | None = None) -> dict[str, dict[str, object]]:
         root = Path(source_root) if source_root is not None else self.source_root
@@ -170,6 +176,35 @@ class IncrementalCompiler:
             except FileNotFoundError:
                 pass
 
+    def _validate_baseline_only_sources(self, sources: dict[str, dict[str, object]]) -> None:
+        if not self.baseline_only_identities:
+            return
+        present = {str(row["identity"]) for row in sources.values()}
+        missing = sorted(self.baseline_only_identities - present)
+        if missing:
+            raise RuntimeError("baseline-only source identity missing: " + ", ".join(missing))
+        if self.baseline_jar is None or not self.baseline_jar.is_file():
+            raise FileNotFoundError(self.baseline_jar)
+
+    def _baseline_class_families(self) -> dict[str, list[str]]:
+        if not self.baseline_only_identities:
+            return {}
+        if self.baseline_jar is None or not self.baseline_jar.is_file():
+            raise FileNotFoundError(self.baseline_jar)
+        with zipfile.ZipFile(self.baseline_jar, "r") as archive:
+            entries = sorted(
+                info.filename
+                for info in archive.infolist()
+                if not info.is_dir() and info.filename.endswith(".class")
+            )
+        families: dict[str, list[str]] = {}
+        for identity in sorted(self.baseline_only_identities):
+            family = self._jar_family_paths(entries, identity)
+            if not family:
+                raise RuntimeError(f"baseline class family missing for {identity}")
+            families[identity] = family
+        return families
+
     def _build_state(self, sources: dict[str, dict[str, object]], class_root: Path) -> dict[str, object]:
         rows: dict[str, object] = {}
         for rel, row in sources.items():
@@ -183,6 +218,29 @@ class IncrementalCompiler:
                 "abi": row["abi"],
                 "class_family": family,
                 "origin": "overlay",
+            }
+        return {"schema": 1, "sources": rows}
+
+    def _build_full_state(self, sources: dict[str, dict[str, object]], class_root: Path) -> dict[str, object]:
+        self._validate_baseline_only_sources(sources)
+        baseline_families = self._baseline_class_families()
+        rows: dict[str, object] = {}
+        for rel, row in sources.items():
+            identity = str(row["identity"])
+            if identity in self.baseline_only_identities:
+                family = baseline_families[identity]
+                origin = "baseline"
+            else:
+                family = self._family_paths(class_root, identity)
+                if not family:
+                    raise RuntimeError(f"javac produced no class family for {identity}")
+                origin = "overlay"
+            rows[rel] = {
+                "identity": identity,
+                "hash": row["hash"],
+                "abi": row["abi"],
+                "class_family": family,
+                "origin": origin,
             }
         return {"schema": 1, "sources": rows}
 
@@ -269,17 +327,23 @@ class IncrementalCompiler:
         sources = self._scan_sources()
         if not sources:
             raise ValueError("no Java sources under source_root")
+        self._validate_baseline_only_sources(sources)
+        overlay_sources = {
+            rel: row for rel, row in sources.items()
+            if str(row["identity"]) not in self.baseline_only_identities
+        }
         self.class_dir.parent.mkdir(parents=True, exist_ok=True)
         with tempfile.TemporaryDirectory(prefix="javac.full.", dir=self.class_dir.parent) as td:
             staging = Path(td)
-            self._javac([Path(row["path"]) for row in sources.values()], staging, include_overlay=False)
-            state = self._build_state(sources, staging)
+            self._javac([Path(row["path"]) for row in overlay_sources.values()], staging, include_overlay=False)
+            state = self._build_full_state(sources, staging)
             deps = self._dependency_index(sources)
             self._publish_full(staging)
         _atomic_write_json(self.state_path, state)
         _atomic_write_json(self.dependency_index_path, deps)
-        identities = sorted(str(row["identity"]) for row in sources.values())
-        return {"mode": "full", "compiled_identities": identities}
+        compiled = sorted(str(row["identity"]) for row in overlay_sources.values())
+        baseline = sorted(self.baseline_only_identities)
+        return {"mode": "full", "compiled_identities": compiled, "baseline_identities": baseline}
 
     def _load_previous(self) -> tuple[dict, dict]:
         if not self.state_path.is_file() or not self.dependency_index_path.is_file():
@@ -293,6 +357,7 @@ class IncrementalCompiler:
         old_state, dependency_index = self._load_previous()
         old_sources = old_state.get("sources", {})
         current = self._scan_sources()
+        self._validate_baseline_only_sources(current)
 
         deleted = set(old_sources) - set(current)
         if deleted:
@@ -307,6 +372,13 @@ class IncrementalCompiler:
 
         current_by_id = self._identity_map(current)
         changed_ids = {str(current[rel]["identity"]) for rel in changed_rel}
+        changed_baseline = sorted(changed_ids & self.baseline_only_identities)
+        if changed_baseline:
+            raise RuntimeError(
+                "baseline-only source changed; exact Dev Base family must be preserved: "
+                + ", ".join(changed_baseline)
+            )
+
         abi_changed: set[str] = set()
         for rel in changed_rel:
             previous = old_sources.get(rel)
@@ -321,6 +393,13 @@ class IncrementalCompiler:
                 affected |= _DEPS.reverse_closure(abi_changed, dependency_index)
             except (KeyError, TypeError, ValueError):
                 return self.full_compile()
+
+        affected_baseline = sorted(affected & self.baseline_only_identities)
+        if affected_baseline:
+            raise RuntimeError(
+                "baseline-only source entered incremental dependency closure: "
+                + ", ".join(affected_baseline)
+            )
 
         if any(identity not in current_by_id for identity in affected):
             return self.full_compile()

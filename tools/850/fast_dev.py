@@ -12,6 +12,10 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+PBMESSAGE_BASELINE_ONLY = tuple(
+    f"l1r.an.PBMessageALL{suffix}"
+    for suffix in ("", "2", "3", "4", "5", "6", "7", "8", "9")
+)
 
 
 def _load_module(path: Path, name: str):
@@ -112,6 +116,8 @@ def _compiler(root: Path):
         state_path=root / ".build850" / "state.json",
         dependency_index_path=root / ".build850" / "dependency-index.json",
         classpath=[dev_base, root / "lib" / "*"],
+        baseline_jar=dev_base,
+        baseline_only_identities=PBMESSAGE_BASELINE_ONLY,
     )
 
 
@@ -183,6 +189,8 @@ def main(argv: list[str] | None = None) -> int:
     compiler = _compiler(root)
     result = compiler.full_compile() if args.mode == "full" else compiler.compile_changed()
     print(f"BUILD=PASS MODE={result['mode']} CLASSES={len(result['compiled_identities'])}")
+    if result.get("baseline_identities"):
+        print("BASELINE_ONLY=" + ",".join(result["baseline_identities"]))
 
     if args.watch:
         watch_loop(root, compiler)
