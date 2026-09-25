@@ -1,4 +1,4 @@
-"""Regression contract for the finalized named-inner recovery baseline."""
+"""Regression contracts for finalized recovery and completed promotion history."""
 
 import importlib.util
 import shutil
@@ -57,6 +57,30 @@ class RecoveryBaselineContract(unittest.TestCase):
         )
         self.assertIn("public class L1R_a", pledge_source)
         self.assertNotIn("public class a {", pledge_source)
+
+    def test_completed_union_includes_validated_replay_promotion_sources(self):
+        mod = load_module()
+        completed = mod.resolve_completed_authority_commit(ROOT, fetch_latest=True)
+        paths = set(
+            mod.completed_repair_source_paths(
+                ROOT,
+                commit=completed,
+                baseline_commit=mod.RECOVERY_BASELINE_COMMIT,
+                fetch_if_missing=True,
+            )
+        )
+
+        # 6dcb4eeb... is a completed-branch `promote(l3): replay ...` commit.
+        # These companion sources add APIs consumed by CharacterTable and must not
+        # disappear merely because the promotion arrived off the first-parent path.
+        self.assertIn(
+            "recovery/normalized-src-vf/l1r/ao/MailTable.java",
+            paths,
+        )
+        self.assertIn(
+            "recovery/normalized-src-vf/l1r/ao/BuddyTable.java",
+            paths,
+        )
 
 
 if __name__ == "__main__":
