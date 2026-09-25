@@ -288,15 +288,19 @@ def ensure_fast_dev(
             root,
             fetch_latest=fetch_latest,
         )
+        baseline_commit = _AUTHORITY.RECOVERY_BASELINE_COMMIT
         _AUTHORITY.materialize_authority_core(
             root,
             authority_core,
             commit=authority_commit,
+            baseline_commit=baseline_commit,
             fetch_if_missing=fetch_latest,
         )
         completed_sources = _AUTHORITY.completed_repair_source_paths(
             root,
             commit=authority_commit,
+            baseline_commit=baseline_commit,
+            fetch_if_missing=fetch_latest,
         )
         runtime_map = _load_runtime_map(authority_core)
 
