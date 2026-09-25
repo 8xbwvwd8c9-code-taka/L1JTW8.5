@@ -352,6 +352,17 @@ def ensure_fast_dev(
                     != len(completed_sources)
                 ):
                     raise RuntimeError("completed overlay deployable/deferred count does not close")
+                deferred_count = int(overlay_result["deferred_source_count"])
+                if deferred_count:
+                    deferred_ids = ", ".join(
+                        str(value)
+                        for value in overlay_result.get("deferred_identities", [])
+                    )
+                    detail = f": {deferred_ids}" if deferred_ids else ""
+                    raise RuntimeError(
+                        "completed repair overlay deferred "
+                        f"{deferred_count} formally completed source(s){detail}"
+                    )
                 overlay_state = {
                     "authority_commit": authority_commit,
                     **overlay_result,
