@@ -23,37 +23,14 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Apply minimal merged-promotion traversal candidate
-        shell: bash
+      - name: Apply candidate
         run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('tools/850/bootstrap/authority_cache.py')
-          text = path.read_text(encoding='utf-8')
-          old = '''        "--first-parent",
-        "--reverse",
-        "--format=%H%x09%s",
-'''
-          new = '''        "--reverse",
-        "--topo-order",
-        "--format=%H%x09%s",
-'''
-          if old in text:
-              text = text.replace(old, new, 1)
-              path.write_text(text, encoding='utf-8')
-          elif new not in text:
-              raise SystemExit('unexpected promotion history traversal')
-          PY
-      - name: Verify finalized recovery and promotion history contracts
+          perl -0pi -e 's/        "--first-parent",\n        "--reverse",/        "--reverse",\n        "--topo-order",/' tools/850/bootstrap/authority_cache.py
+      - name: Verify promotion history contracts
         run: python -m unittest -v tools/850/tests/test_recovery_baseline_contract.py
-      - name: Publish merged promotion traversal fix
-        shell: bash
+      - name: Publish candidate
         run: |
-          set -euo pipefail
           if git diff --quiet -- tools/850/bootstrap/authority_cache.py; then
-            echo 'PROMOTION_TRAVERSAL_FIX_ALREADY_COMMITTED=YES'
             exit 0
           fi
           git config user.name 'github-actions[bot]'
