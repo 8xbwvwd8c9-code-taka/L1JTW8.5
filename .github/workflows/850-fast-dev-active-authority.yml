@@ -5,6 +5,7 @@ on:
     branches:
       - work/l1jtw85-fast-dev-build
     paths:
+      - 'tools/850/bootstrap/active_authority.py'
       - 'tools/850/bootstrap/ensure_dev.py'
       - 'tools/850/tests/test_active_authority.py'
       - '.github/workflows/850-fast-dev-active-authority.yml'
