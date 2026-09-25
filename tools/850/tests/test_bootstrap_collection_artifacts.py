@@ -25,17 +25,22 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
                 "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
                 "ao": {"package": "l1j/server/datatables", "category": "datatables"},
                 "ap": {"package": "l1j/server/model/instance", "category": "instances"},
+                "ba": {"package": "l1j/server/model/timer", "category": "timers"},
                 "be": {"package": "l1j/server/serverpackets", "category": "serverpackets"},
             },
             "overrides": {},
         }
         entries = pm.build_package_map(
             [
+                {"Class": "aj.az", "SourceFile": "C_ItemUSe.java"},
                 {"Class": "aj.bs", "SourceFile": "C_ProtoBuffers.java"},
                 {"Class": "aj.bx", "SourceFile": "C_Result.java"},
                 {"Class": "aj.cd", "SourceFile": "C_ShopWorld.java"},
                 {"Class": "ao.ba", "SourceFile": "RankingTable.java"},
+                {"Class": "ao.bc", "SourceFile": "ShopTable.java"},
+                {"Class": "ap.t", "SourceFile": "L1NpcInstance.java"},
                 {"Class": "ap.v", "SourceFile": "L1PetInstance.java"},
+                {"Class": "ba.h", "SourceFile": "HomeTownTimer.java"},
                 {"Class": "be.db", "SourceFile": "S_PrivateShop.java"},
                 {"Class": "be.dc", "SourceFile": "S_ProtoBuffers.java"},
             ],
@@ -49,6 +54,22 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         entries = self.entries()
         target = next(entry for entry in entries if entry.source_file == source_file)
         return mod.rewrite_java_source(source, target, entries)
+
+    def test_restores_c_itemuse_l1object_overload_casts(self):
+        rewritten = self.rewrite(
+            "C_ItemUSe.java",
+            "package l1r.aj;\n"
+            "public class C_ItemUSe {\n"
+            "  void x() {\n"
+            "    var3.ct(var3.a(var150));\n"
+            "    var3.ct(var3.a(var183));\n"
+            "  }\n"
+            "}\n",
+        )
+        self.assertIn("var3.ct(var3.a((L1Object)var150));", rewritten)
+        self.assertIn("var3.ct(var3.a((L1Object)var183));", rewritten)
+        self.assertNotIn("var3.ct(var3.a(var150));", rewritten)
+        self.assertNotIn("var3.ct(var3.a(var183));", rewritten)
 
     def test_restores_c_protobuf_material_list_generic(self):
         rewritten = self.rewrite(
@@ -153,6 +174,62 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         self.assertNotIn("HashMap<Object, Object> var3", rewritten)
         self.assertNotIn("new Comparator<RankingTable.L1R_a>()", rewritten)
 
+    def test_restores_shoptable_collection_and_bridge_types(self):
+        rewritten = self.rewrite(
+            "ShopTable.java",
+            "package l1r.ao;\n"
+            "import java.util.ArrayList;\n"
+            "import java.util.Collections;\n"
+            "import java.util.Comparator;\n"
+            "import java.util.HashMap;\n"
+            "import java.util.List;\n"
+            "public class ShopTable {\n"
+            "  void a() {\n"
+            "    HashMap var4 = ItemTable.a().c();\n"
+            "    ArrayList var5 = new ArrayList<>();\n"
+            "    for (L1Item var6 : var4.values()) {}\n"
+            "    Collections.sort(var5, new Comparator<L1ShopItem>() {\n"
+            "      public int a(L1ShopItem var1, L1ShopItem var2x) { return 0; }\n"
+            "      @Override public int compare(Object var1, Object var2) { return this.a((L1ShopItem)var1, (L1ShopItem)var2); }\n"
+            "    });\n"
+            "    List var6 = var1.b();\n"
+            "    for (L1ShopItem var7 : var6) {}\n"
+            "  }\n"
+            "}\n",
+        )
+        self.assertIn("HashMap<Integer, L1Item> var4 = ItemTable.a().c();", rewritten)
+        self.assertIn("ArrayList<L1ShopItem> var5 = new ArrayList<>();", rewritten)
+        self.assertIn("new Comparator() {", rewritten)
+        self.assertIn("List<L1ShopItem> var6 = var1.b();", rewritten)
+        self.assertNotIn("new Comparator<L1ShopItem>()", rewritten)
+
+    def test_restores_l1npc_ground_inventory_and_path_queue_generics(self):
+        rewritten = self.rewrite(
+            "L1NpcInstance.java",
+            "package l1r.ap;\n"
+            "import java.util.ArrayList;\n"
+            "import java.util.LinkedList;\n"
+            "public class L1NpcInstance {\n"
+            "  void j() {\n"
+            "    ArrayList var1 = new ArrayList<>();\n"
+            "    for (L1ItemInstance var6 : var1.get(0).d()) {}\n"
+            "  }\n"
+            "  void r() {\n"
+            "    ArrayList var1 = new ArrayList<>();\n"
+            "    for (L1ItemInstance var6 : var1.get(0).d()) {}\n"
+            "  }\n"
+            "  void path() {\n"
+            "    LinkedList var18 = new LinkedList<>();\n"
+            "    int[] var6 = var18.removeFirst();\n"
+            "  }\n"
+            "}\n",
+        )
+        self.assertEqual(
+            rewritten.count("ArrayList<L1GroundInventory> var1 = new ArrayList<>();"),
+            2,
+        )
+        self.assertIn("LinkedList<int[]> var18 = new LinkedList<>();", rewritten)
+
     def test_removes_only_donor_proven_l1pet_override_artifacts(self):
         rewritten = self.rewrite(
             "L1PetInstance.java",
@@ -175,6 +252,25 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         self.assertNotIn("@Override\n   public void i()", rewritten)
         self.assertNotIn("@Override\n   public void b(L1ItemInstance var1)", rewritten)
         self.assertIn("@Override\n   public void b(L1PcInstance var1)", rewritten)
+
+    def test_restores_hometown_player_collection_generic(self):
+        rewritten = self.rewrite(
+            "HomeTownTimer.java",
+            "package l1r.ba;\n"
+            "import java.util.Collection;\n"
+            "public class HomeTownTimer {\n"
+            "  void c() {\n"
+            "    Collection var1 = L1World.a().c();\n"
+            "    for (L1PcInstance var2 : var1) {}\n"
+            "    for (L1PcInstance var5 : var1) {}\n"
+            "    for (L1PcInstance var8 : var1) {}\n"
+            "  }\n"
+            "}\n",
+        )
+        self.assertIn(
+            "Collection<L1PcInstance> var1 = L1World.a().c();",
+            rewritten,
+        )
 
     def test_restores_s_private_shop_list_element_types(self):
         rewritten = self.rewrite(
