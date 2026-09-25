@@ -2,10 +2,12 @@ import hashlib
 import importlib.util
 import json
 import shutil
+import subprocess
 import tempfile
 import unittest
 import zipfile
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -68,6 +70,33 @@ class IncrementalCompilerTests(unittest.TestCase):
                 archive.write(path, path.relative_to(class_dir).as_posix())
         shutil.rmtree(root / ".build850")
         return jar
+
+    def test_javac_uses_argfile_for_source_paths(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            compiler = self.compiler(mod, root)
+            output = root / "classes"
+            sources = [root / "long source tree" / f"Source{i:04d}.java" for i in range(1000)]
+            observed = {}
+
+            def fake_run(command, **kwargs):
+                observed["command"] = list(command)
+                argfiles = [item[1:] for item in command if isinstance(item, str) and item.startswith("@")]
+                self.assertEqual(len(argfiles), 1, command)
+                argfile = Path(argfiles[0])
+                self.assertTrue(argfile.is_file())
+                observed["argfile"] = argfile.read_text(encoding="utf-8").splitlines()
+                return subprocess.CompletedProcess(command, 0, "", "")
+
+            with mock.patch.object(mod.subprocess, "run", side_effect=fake_run):
+                compiler._javac(sources, output, include_overlay=False)
+
+            command = observed["command"]
+            self.assertFalse(any(str(path) in command for path in sources))
+            self.assertEqual(len(observed["argfile"]), len(sources))
+            self.assertIn("Source0000.java", observed["argfile"][0])
+            self.assertIn("Source0999.java", observed["argfile"][-1])
 
     def test_method_body_only_change_compiles_one_top_level_class(self):
         mod = load_module()
