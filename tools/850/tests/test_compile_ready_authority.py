@@ -8,15 +8,20 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "compile_ready_authority.py"
+PRE_STAGE_PATH = ROOT / "tools" / "850" / "bootstrap" / "pre_stage_normalization.py"
 
 
-def load_module():
-    spec = importlib.util.spec_from_file_location("fast_dev_compile_ready_authority", MODULE_PATH)
+def load_path(path: Path, name: str):
+    spec = importlib.util.spec_from_file_location(name, path)
     if spec is None or spec.loader is None:
-        raise ImportError(f"cannot load {MODULE_PATH}")
+        raise ImportError(f"cannot load {path}")
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def load_module():
+    return load_path(MODULE_PATH, "fast_dev_compile_ready_authority")
 
 
 def git(root: Path, *args: str) -> str:
@@ -36,6 +41,44 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
     def setUpClass(cls):
         if shutil.which("git") is None:
             raise unittest.SkipTest("git is required")
+
+    def test_pre_stage_repairs_shadow_calls_and_generics_idempotently(self):
+        self.assertTrue(PRE_STAGE_PATH.is_file())
+        pre = load_path(PRE_STAGE_PATH, "fast_dev_pre_stage_normalization")
+        with tempfile.TemporaryDirectory() as td:
+            authority = Path(td)
+            source = authority / "recovery" / "normalized-src-vf"
+            craft = source / "l1r" / "aq" / "L1Craft.java"
+            buddy = source / "l1r" / "aq" / "L1Buddy.java"
+            craft.parent.mkdir(parents=True)
+            craft.write_text(
+                "package l1r.aq;\nimport a.g;\npublic class L1Craft {\n"
+                "  int a; int g;\n"
+                + "".join(f"  Object m{i}() {{ return a.g.a(v{i}); }}\n" for i in range(18))
+                + "}\n",
+                encoding="utf-8",
+            )
+            buddy.write_text(
+                "package l1r.aq;\n"
+                "class L1Buddy { void x() { for (Entry var3 : this.b.entrySet()) {} } }\n",
+                encoding="utf-8",
+            )
+
+            first = pre.normalize_pre_stage_sources(authority)
+            craft_once = craft.read_text(encoding="utf-8")
+            buddy_once = buddy.read_text(encoding="utf-8")
+            self.assertIn("import static a.g.a;", craft_once)
+            self.assertEqual(craft_once.count("return a(v"), 18)
+            self.assertNotIn("a.g.a(", craft_once)
+            self.assertIn("Entry<Integer, String> var3", buddy_once)
+            self.assertEqual(first["l1craft_static_owner_repairs"], 18)
+            self.assertGreaterEqual(first["generic_type_repairs"], 1)
+
+            second = pre.normalize_pre_stage_sources(authority)
+            self.assertEqual(craft.read_text(encoding="utf-8"), craft_once)
+            self.assertEqual(buddy.read_text(encoding="utf-8"), buddy_once)
+            self.assertEqual(second["l1craft_static_owner_repairs"], 0)
+            self.assertEqual(second["generic_type_repairs"], 0)
 
     def test_replays_pinned_normalizers_without_using_current_worktree_tools(self):
         mod = load_module()
@@ -92,6 +135,7 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
                 output,
                 normalizer_commit=normalizer_commit,
                 script_names=("build-normalized-stage.py", "normalize-marker.py"),
+                pre_stage=False,
             )
 
             transformed = output / "recovery" / "normalized-src-vf" / "l1r" / "aa" / "A.java"
@@ -138,6 +182,7 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
                     output,
                     normalizer_commit=normalizer_commit,
                     script_names=("build-normalized-stage.py",),
+                    pre_stage=False,
                 )
             self.assertFalse(output.exists())
 
@@ -153,7 +198,7 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
         self.assertIn(prepare, text)
         self.assertIn(migrate, text)
         self.assertLess(text.index(prepare), text.index(migrate))
-        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 3", text)
+        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 4", text)
 
 
 if __name__ == "__main__":
