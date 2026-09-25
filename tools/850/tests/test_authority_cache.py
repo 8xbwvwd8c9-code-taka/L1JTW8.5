@@ -278,6 +278,7 @@ class AuthorityCacheContracts(unittest.TestCase):
                 cache_core,
                 commit=completed,
                 fetch_if_missing=False,
+                compile_ready=False,
             )
 
             source = cache_core / "src" / "l1j" / "server" / "test" / "A.java"
@@ -307,6 +308,7 @@ class AuthorityCacheContracts(unittest.TestCase):
                     cache_core,
                     commit="0" * 40,
                     fetch_if_missing=False,
+                    compile_ready=False,
                 )
             self.assertFalse(cache_core.exists())
 
