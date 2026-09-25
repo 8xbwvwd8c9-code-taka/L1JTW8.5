@@ -33,7 +33,7 @@ PROMOTION_RE = re.compile(
     re.IGNORECASE,
 )
 BUG_ID_RE = re.compile(r"\bBUG-(\d+)-(\d+(?:/\d+)*)\b", re.IGNORECASE)
-AUTHORITY_CACHE_SCHEMA_VERSION = 3
+AUTHORITY_CACHE_SCHEMA_VERSION = 4
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
