@@ -44,7 +44,7 @@ extends aa {
     private boolean l = false;
     private int m;
     private final CopyOnWriteArrayList<aa> n = new CopyOnWriteArrayList();
-    private final CopyOnWriteArrayList<u> o = new CopyOnWriteArrayList();
+    private final ArrayList<u> o = new ArrayList();
     private String p;
     private int q = 1;
     private short r = 0;
@@ -596,7 +596,7 @@ extends aa {
 
     public String et() {
         if (this instanceof u) {
-            return ((u)this).af() ? "**\\u5b88\\u8b77\\u8005**" : this.p;
+            return ((u)this).af() ? "**\u5b88\u8b77\u8005**" : this.p;
         }
         return this.p;
     }
@@ -1133,3 +1133,4 @@ extends aa {
         this.aE = skillDamageTemp;
     }
 }
+
