@@ -102,8 +102,8 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             1,
         )
         source = source.replace(
-            "!this.b(var1)",
-            "!this.b((L1Object)var1)",
+            "if (!this.b(var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {",
+            "if (!this.b((L1Object)var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {",
             1,
         )
     elif recovered_internal == "l1r/aq/L1Teleport":
