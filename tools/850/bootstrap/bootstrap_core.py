@@ -6,6 +6,7 @@ from typing import Iterable, Mapping
 
 
 PACKAGE_RE = re.compile(r"(?m)^\s*package\s+[A-Za-z_$][\w$]*(?:\.[A-Za-z_$][\w$]*)*\s*;")
+EMBEDDED_RECOVERY_RE = re.compile(r"[A-Za-z0-9_$]l1r\.")
 PROTECTED_SOURCE_RE = re.compile(
     r'(?:"(?:\\.|[^"\\])*"|\'(?:\\.|[^\'\\])*\'|//[^\n]*|/\*.*?\*/)',
     re.DOTALL,
@@ -40,6 +41,12 @@ def _restore_embedded_recovery_collisions(source: str, entries: Iterable) -> str
     occurrences are restored to their original identity. Strings, chars and
     comments are left byte-for-byte unchanged.
     """
+    # Normal normalized sources begin application identities at a Java token
+    # boundary. Avoid the 788-entry collision table entirely unless the historical
+    # corruption signature (identifier text glued directly before ``l1r.``) exists.
+    if EMBEDDED_RECOVERY_RE.search(source) is None:
+        return source
+
     pairs = sorted(
         ((_dot(e.recovered_internal), _dot(e.original_internal)) for e in entries),
         key=lambda pair: len(pair[0]),
