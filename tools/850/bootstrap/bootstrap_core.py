@@ -115,6 +115,17 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
                 "   " + signature,
                 1,
             )
+    elif recovered_internal == "l1r/ap/L1NpcInstance":
+        source = source.replace(
+            "ArrayList var1 = new ArrayList<>();",
+            "ArrayList<L1GroundInventory> var1 = new ArrayList<>();",
+            2,
+        )
+        source = source.replace(
+            "LinkedList var18 = new LinkedList<>();",
+            "LinkedList<int[]> var18 = new LinkedList<>();",
+            1,
+        )
     elif recovered_internal == "l1r/aq/L1Teleport":
         source = source.replace(
             "HashSet var7 = new HashSet<>();",
@@ -134,6 +145,13 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             source = source.replace(
                 "package l1r.aj;",
                 "package l1r.aj;\n\n" + "\n".join(missing_imports),
+                1,
+            )
+    elif recovered_internal == "l1r/aj/C_ItemUSe":
+        for target in ("var150", "var183"):
+            source = source.replace(
+                f"var3.ct(var3.a({target}));",
+                f"var3.ct(var3.a((L1Object){target}));",
                 1,
             )
     elif recovered_internal == "l1r/au/L1Inventory":
@@ -194,6 +212,33 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
         source = source.replace(
             "new Comparator<RankingTable.L1R_a>() {",
             "new Comparator() {",
+            1,
+        )
+    elif recovered_internal == "l1r/ao/ShopTable":
+        source = source.replace(
+            "HashMap var4 = ItemTable.a().c();",
+            "HashMap<Integer, L1Item> var4 = ItemTable.a().c();",
+            1,
+        )
+        source = source.replace(
+            "ArrayList var5 = new ArrayList<>();",
+            "ArrayList<L1ShopItem> var5 = new ArrayList<>();",
+            1,
+        )
+        source = source.replace(
+            "new Comparator<L1ShopItem>() {",
+            "new Comparator() {",
+            1,
+        )
+        source = source.replace(
+            "List var6 = var1.b();",
+            "List<L1ShopItem> var6 = var1.b();",
+            1,
+        )
+    elif recovered_internal == "l1r/ba/HomeTownTimer":
+        source = source.replace(
+            "Collection var1 = L1World.a().c();",
+            "Collection<L1PcInstance> var1 = L1World.a().c();",
             1,
         )
     elif recovered_internal == "l1r/be/S_PrivateShop":
