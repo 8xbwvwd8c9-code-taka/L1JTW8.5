@@ -2,121 +2,105 @@
 
 ## 專案入口
 
-`main` 只作為原始 baseline 與專案導覽首頁。核心修復、待修 BUG 與完成成果，請依下列權威入口進入。
+`main` 只作為專案導覽首頁與治理規則入口，不作為核心 source authority。
 
-> 2026-09-25 更新：核心修復支線已整理。後續不要再以歷史 `repair/bug-*`、`tmp/*` 或舊 handoff 當作目前核心權威；真正的核心工作只認「待修復 BUG 支線」與「修復完畢支線」。
+> 2026-09-25 核心支線重新整理：從現在開始，**850 核心只承認兩條遠端權威支線**。既有其他 core / repair / promote / integrate / tmp / recovery 工作支線全部視為歷史證據或退休支線，不得再作為目前核心來源；**禁止再建立新的核心相關支線**。
 
-## 核心修復權威入口
+## 850 核心唯一兩條權威支線
 
-| 用途 | 權威支線 / 文件 |
-|---|---|
-| 待修 BUG、audit、修補中、驗證中 | [`work/l1jtw85-core-fixes`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/l1jtw85-core-fixes) |
-| 待修 BUG 權威 ledger | [`recovery/DUAL_LANE_CORE_WORK_LEDGER.md`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/l1jtw85-core-fixes/recovery/DUAL_LANE_CORE_WORK_LEDGER.md) |
-| L2 當前協調 / pending authority | [`recovery/L2_REPAIR_COORDINATION_20260924.md`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/l1jtw85-core-fixes/recovery/L2_REPAIR_COORDINATION_20260924.md) |
-| 已完成並驗證的核心 | [`completed/l1jtw85-core-fixes`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/completed/l1jtw85-core-fixes) |
-| 已完成乾淨反編譯 baseline | [`completed/l1jtw85-decompiled`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/completed/l1jtw85-decompiled) |
+| 用途 | 唯一權威支線 | 規則 |
+|---|---|---|
+| 反編譯原始核心 | [`completed/l1jtw85-decompiled`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/completed/l1jtw85-decompiled) | frozen / read-only；只保存完成反編譯的乾淨 baseline，禁止寫入 BUG fix |
+| 反編譯核心修復完成 | [`completed/l1jtw85-core-fixes`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/completed/l1jtw85-core-fixes) | 所有已驗證核心修復的唯一 authority；後續完成修復只能進這條支線 |
 
-### 核心來源優先規則
+### 禁止再建立核心支線
 
 ```text
-1. 已修復核心：completed/l1jtw85-core-fixes
-2. 尚未完成 / 正在修：work/l1jtw85-core-fixes
-3. completed/l1jtw85-decompiled 只作 frozen source baseline，不寫入 BUG fix
-4. main 只放 baseline + 導覽 / 紀錄，不作修補成果來源
-5. 歷史 repair/bug-*、tmp/* 只視為歷史證據，不作目前 authority
+CORE_BRANCH_POLICY=LOCKED_TWO_BRANCH_MODEL
+
+ALLOWED_CORE_BRANCH_1=completed/l1jtw85-decompiled
+ALLOWED_CORE_BRANCH_2=completed/l1jtw85-core-fixes
+
+NEW_CORE_BRANCH=FORBIDDEN
+repair/bug-*=RETIRED
+promote/*core*=RETIRED
+integrate/*core*=RETIRED
+tmp/*core*=RETIRED
+work/l1jtw85-core-fixes=RETIRED_AS_AUTHORITY
+analysis/l1jtw85-recovery=HISTORICAL_EVIDENCE_ONLY
 ```
 
-每處理一顆 BUG 前都要重新 refresh `work` / `completed` HEAD，避免平行對話重複修補或以舊 source 覆蓋較新的 hardened source。
-
-## 最新 L2 修復狀態（2026-09-25）
-
-最近一次已驗證 recount：
+未來若還有核心修補：
 
 ```text
-L1_PENDING=0
-L2_PENDING=13
-L3_PENDING=0
-ACTIVE_CLAIMS=NONE
-PENDING_IDS=010,027,032,033,034,082,083,087,089,095,100,102,103
+1. 來源只從 completed/l1jtw85-core-fixes 取得
+2. 本地完成分析、修補、Java 8 / runtime / failure-model 驗證
+3. 驗證未 PASS 前不得推到遠端核心 authority
+4. PASS 後直接更新 completed/l1jtw85-core-fixes
+5. 不得為單顆 BUG、批次 promotion、暫存驗證再建立遠端 branch
+6. completed/l1jtw85-decompiled 永遠維持 frozen source baseline
 ```
 
-最近已完成 promotion：
+既有歷史核心支線即使仍存在 Git refs，也只保留追溯用途；任何文件、代理人或對話都不得把它們重新升格為 authority。
+
+## 核心來源優先規則
 
 ```text
-BUG-850-057=PASS_PROMOTED
-BUG-850-058=PASS_PROMOTED
-BUG-850-059=PASS_PROMOTED
+1. 已修復核心唯一來源：completed/l1jtw85-core-fixes
+2. 原始反編譯唯一來源：completed/l1jtw85-decompiled
+3. main：只放入口、治理規則、統計與非核心導覽
+4. 所有其他歷史核心支線：只讀 / 不再續作 / 不再 promotion
 ```
 
-最近 snapshot（每次開工前仍必須重新 refresh）：
+## 已修復核心 BUG 統計（L1-L3）
+
+統計口徑：只計入已完成驗證並已有 completed authority 的 BUG；同一 BUG 在 README 重複紀錄只計一次；`PASS_ALREADY_COVERED` 仍視為該 BUG 已完成關閉。
+
+| 等級 | 已修復完成 | 狀態 / 來源 |
+|---|---:|---|
+| L1 | **45** | `CONFIRMED_L1=45`、`VALIDATED_DONE_PASS=45/45` |
+| L2 | **74** | 最新 `completed/l1jtw85-core-fixes` 的 `Completed repairs` 表依 BUG ID 去重 |
+| L3 | **54** | `L3_REPAIR_SCOPE=54`、`REPAIRED_AND_VALIDATED=54`，後續已整合進 completed |
+| **合計** | **173** | `45 + 74 + 54 = 173` |
 
 ```text
-WORK_BRANCH=work/l1jtw85-core-fixes
-WORK_HEAD=7252848b341e18cb43bb82eecffb18311e886d14
-
-COMPLETED_BRANCH=completed/l1jtw85-core-fixes
-COMPLETED_HEAD=12c7727b516a9e5cc4f8cc9fdcf52c57fc060359
+L1_FIXED=45
+L2_FIXED=74
+L3_FIXED=54
+CORE_BUG_FIXED_TOTAL=173
+COUNT_DATE=2026-09-25
 ```
 
-### 下一批：BUG-850-082 → BUG-850-083
-
-`BUG-850-082`：**CONFIRMED L2**。`ClanTable` 建盟流程在 `clan_data INSERT` 失敗後仍可能繼續發布 clan live state、character/member state，caller 也可能繼續扣除建盟費，造成 durable / live / economy 三個邊界分裂。
-
-`BUG-850-083`：**CONFIRMED L2**。刪盟流程在 `clan_data DELETE` 失敗後仍可能繼續進行 warehouse 與 RAM destructive cleanup，造成 clan 與 warehouse durable state 分裂。
-
-處理順序固定：
+### L1
 
 ```text
-082
-→ fresh RED on latest completed
-→ 找 historical invariant / current active source
-→ minimal semantic repair 或 PASS_ALREADY_COVERED
-→ Java 8 no-new-regression
-→ runtime / failure-model validation
-→ completed head race check
-→ promotion + completion record
-
-083
-→ 同一套獨立驗證流程
-
-完成 082/083 後 fresh recount
-EXPECTED_L2_PENDING=11
+CONFIRMED_L1=45
+VALIDATED_DONE_PASS=45/45
+PATCHED_PENDING_VALIDATION=0
+BLOCKED=0
+UNPATCHED_L1=0
+STATE=L1_REPAIR_COMPLETE
 ```
 
-## 核心修復固定規則
+### L2
+
+L2 統計直接以 `completed/l1jtw85-core-fixes` 首頁最上方的 `Completed repairs` 表為完成權威，按 `BUG-850-xxx` 去重；目前為 **74** 顆。不要再沿用舊首頁的 `L2_PENDING=13` snapshot，該數字已被後續 promotion 淘汰。
+
+### L3
 
 ```text
-BUG / FEATURE
-→ Java CORE entry / call path
-→ config/ 控制文件
-→ DB table / column / loader
-→ default / fallback
-→ ACTIVE source
-→ fresh RED
-→ 最小完整修復
-→ Java 8 / runtime / failure model validation
-→ race check
-→ promotion 到 completed
-→ ledger / report / recount
+L3_REPAIR_SCOPE=54
+REPAIRED_AND_VALIDATED=54
+BATCH1_7=PASS
+FINAL_PROMOTION_VALIDATION=PASS
+INTEGRATED_INTO_COMPLETED=YES
+STATE=L3_REPAIR_COMPLETE
 ```
 
-不得只看 Java 核心就直接修。每次都要同時檢查：
-
-- `config/` 控制文件
-- Java call path / loader / getter
-- DB table / column / row / loader
-- hardcoded default / fallback
-- startup load / runtime reload
-- normalized / obfuscated active forms（若兩者都仍是 runtime authority）
-
-舊 historical patch 若無法乾淨套到 latest completed，**只移植 invariant，不覆蓋整個舊檔案**。
-
-## 已完成的重要基線
-
-### Source Recovery
+## Source Recovery 基線
 
 ```text
-completed/l1jtw85-decompiled
+BRANCH=completed/l1jtw85-decompiled
 STATE=FROZEN / FINAL GATE PASS
 AUTHORITATIVE_SOURCE_MAPPINGS=1765
 APPLICATION_SOURCE_MAPPINGS=788
@@ -128,20 +112,38 @@ SOURCE_ONLY_APPLICATION_COMPILE=PASS
 EXACT_PROTOBUF_RUNTIME_LINKAGE=PASS
 ```
 
-### L1 修復
+這條支線只代表原始反編譯完成基線，不接受任何 BUG fix。
+
+## 核心修復固定規則
 
 ```text
-CONFIRMED_L1=45
-VALIDATED_DONE_PASS=45/45
-PATCHED_PENDING_VALIDATION=0
-BLOCKED=0
-UNPATCHED_L1=0
-STATE=L1_REPAIR_COMPLETE
+BUG / FEATURE
+→ Java CORE entry / call path
+→ config/ 控制文件
+→ DB table / column / loader
+→ default / fallback
+→ ACTIVE source
+→ fresh RED / regression evidence
+→ 最小完整修復
+→ Java 8 / runtime / failure model validation
+→ completed/l1jtw85-core-fixes
+→ completion record / recount
 ```
 
-L1 無需重新掃描，除非有新的 regression evidence。
+不得只看 Java 核心就直接修。每次都要同時檢查：
+
+- `config/` 控制文件
+- Java call path / loader / getter
+- DB table / column / row / loader
+- hardcoded default / fallback
+- startup load / runtime reload
+- normalized / obfuscated ACTIVE forms（若兩者仍是 runtime authority）
+
+舊 historical patch 若無法乾淨套到 latest completed，只移植 invariant，不覆蓋整個舊檔案。
 
 ## 850 其他工作入口
+
+以下不是「核心修復支線」，不受兩條 core authority 命名限制，但不得存放服務端核心修補成果：
 
 - [850 登入器 / 內掛開發支線](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/850-launcher-helper)
 - [850 登入器 / 內掛開發報告](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/850-launcher-helper/docs/850-launcher/REPORT.md)
@@ -150,8 +152,8 @@ L1 無需重新掃描，除非有新的 regression evidence。
 
 ## 歷史首頁
 
-2026-09-25 以前 main README 內的大量歷史 checkpoint、算術驗證與支線整理紀錄已原樣歸檔，避免首頁持續混入已失效狀態：
+2026-09-25 以前的大量 checkpoint、算術驗證、repair/promote/tmp 支線紀錄已歸檔：
 
 - [`docs/archive/README_20260925_before_core_authority_cleanup.md`](docs/archive/README_20260925_before_core_authority_cleanup.md)
 
-需要追舊 repair commit、舊 CI 編號或先前 arithmetic proof 時，再進歷史首頁；目前工作一律以本頁上方的兩條核心權威支線與 ledger 為準。
+需要追舊 repair commit、舊 CI 編號或 arithmetic proof 時才進歷史紀錄；目前核心工作一律只認上方兩條權威支線。
