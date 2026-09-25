@@ -198,8 +198,8 @@ def _promotion_commits(repo_root: Path, baseline: str, completed: str) -> list[s
     history = _git(
         repo_root,
         "log",
-        "--first-parent",
         "--reverse",
+        "--topo-order",
         "--format=%H%x09%s",
         f"{baseline}..{completed}",
     )
