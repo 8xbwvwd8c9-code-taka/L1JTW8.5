@@ -354,14 +354,21 @@ def ensure_fast_dev(
                     raise RuntimeError("completed overlay deployable/deferred count does not close")
                 deferred_count = int(overlay_result["deferred_source_count"])
                 if deferred_count:
-                    deferred_ids = ", ".join(
-                        str(value)
-                        for value in overlay_result.get("deferred_identities", [])
-                    )
-                    detail = f": {deferred_ids}" if deferred_ids else ""
+                    deferred_rows: list[str] = []
+                    for item in overlay_result.get("deferred", []):
+                        identity = str(item.get("identity", "<unknown>"))
+                        errors = [str(value) for value in item.get("errors", [])]
+                        error_text = " || ".join(errors) if errors else "javac failed without captured error summary"
+                        deferred_rows.append(f"{identity}: {error_text}")
+                    if not deferred_rows:
+                        deferred_rows = [
+                            str(value)
+                            for value in overlay_result.get("deferred_identities", [])
+                        ]
                     raise RuntimeError(
                         "completed repair overlay deferred "
-                        f"{deferred_count} formally completed source(s){detail}"
+                        f"{deferred_count} formally completed source(s): "
+                        + "; ".join(deferred_rows)
                     )
                 overlay_state = {
                     "authority_commit": authority_commit,
