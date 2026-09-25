@@ -315,14 +315,134 @@ This remains a candidate until MAP-C verifies 850-native thread/lifecycle patter
 - MAP-B move/safe/magic/supply/summon responsibilities: confirmed.
 - MAP-B settings persistence and teleport/action coordination: confirmed.
 - MAP-B L381 architecture responsibility mapping: CLOSED for initial 850 architecture selection.
-- MAP-C 850 repaired-core lifecycle/scheduler mapping: NEXT.
+- MAP-C 850 repaired-core lifecycle/scheduler mapping: IN PROGRESS.
 - 880 UI/control mapping: pending.
 - No production auto-hunt implementation has been copied into 850.
 
-### Next evidence
+## 2026-09-26 — MAP-C / 850 repaired-core scheduler and lifecycle mapping
 
-1. Map repaired 850 `GeneralThreadPool` and available scheduling/cancellation APIs.
-2. Map repaired 850 `L1PcInstance` task/state ownership and death cleanup.
-3. Map `C_Disconnect`, `C_Restart`, teleport/map-change lifecycle hooks.
-4. Map repaired 850 `L1Map` / `MapsTable` map-policy APIs.
-5. Only after MAP-C, freeze the 850 session/scheduler topology and begin Phase-1 implementation.
+### Authority correction
+
+`class_source_mapping.csv` on `completed/l1jtw85-core-fixes` is authoritative for recovered class identities. Confirmed mappings used by this MAP are:
+
+```text
+L1PcInstance      -> ap.u
+GeneralThreadPool -> bi.e
+C_Disconnect      -> aj.ah
+C_Restart         -> aj.bv
+L1Teleport        -> aq.am
+L1Map             -> ax.b
+MapsTable         -> ao.ao
+ClientThread      -> bj.d
+```
+
+An earlier working note incorrectly associated `L1PcInstance` with `fx.kh` and `GeneralThreadPool` with `ap.u`; that mapping is rejected and must not be reused.
+
+### Native scheduler API — `bi.e` / GeneralThreadPool
+
+850 already exposes two execution families:
+
+- general executor/scheduler
+- player executor/scheduler
+
+The periodic APIs return `ScheduledFuture<?>` and use `scheduleAtFixedRate(...)`. Delayed `delay<=0` helpers execute immediately and return `null`, so ownership code must not assume every submission returns a cancellable future.
+
+For a persistent per-player auto-hunt loop, the native fit is the player scheduled pool (`bi.e.a().b(runnable, initialDelay, period)`) with the returned future owned by the player/session object.
+
+### Native per-player task ownership — `ap.u` / L1PcInstance
+
+850 already keeps multiple `ScheduledFuture<?>` fields directly on the player object. Existing lifecycle style is explicit and idempotent:
+
+```text
+start:
+  if future == null:
+    future = GeneralThreadPool.schedule...
+
+stop:
+  if future != null:
+    future.cancel(true)
+    future = null
+```
+
+`fv()` also demonstrates grouped teardown of several player-owned monitor futures by canceling and nulling every future.
+
+Port consequence: 850 auto-hunt should use the same host-native ownership pattern instead of 381's global scanning timers. Start/stop must remain idempotent and a session generation/token must additionally reject an already-running stale callback after stop/restart.
+
+### Disconnect and restart convergence
+
+`C_Disconnect` delegates to `ClientThread.c()`.
+
+`ClientThread.c()` and its error/finally paths synchronize on the active `L1PcInstance`, call `pc.p()`, then clear the active character reference. `C_Restart` follows the same player cleanup primitive: synchronize on `pc`, call `pc.p()`, clear `client.activeChar`.
+
+`L1PcInstance.p()` is therefore the authoritative full logout/restart cleanup convergence point. It already calls `fv()`, clears world/account/player state, stops other player-owned tasks (`b()` / `d()`), and detaches the client.
+
+Port consequence: auto-hunt teardown must be part of the same player-owned cleanup contract. Disconnect and Restart must not require separate global-timer cleanup code.
+
+### Death entry
+
+The 850 player damage path calls `L1PcInstance.b(lastAttacker)` when HP reaches zero. That method synchronizes on the player, rejects duplicate death, marks the player dead, applies death state, then submits the remaining death work to the player executor.
+
+Port consequence: auto-hunt stop must occur at this synchronous death transition (or through a stop primitive invoked by it), before asynchronous death processing is queued. Waiting for a later periodic check permits an avoidable stale action window.
+
+### Teleport / map-transfer path
+
+`L1Teleport` (`aq.am`) has a two-stage pattern:
+
+1. set destination X/Y/map/heading and optional effect/packet state,
+2. commit teleport through the central `a(pc)` path.
+
+The commit path marks teleporting, moves the object between world/map structures, updates player location, moves pets/dolls, refreshes visibility/status and finally clears teleporting state.
+
+Port consequence:
+
+- delayed auto-hunt actions must carry session generation/task identity and revalidate current map/location before commit;
+- the auto-hunt runtime must not execute movement/attack while native teleport state is active;
+- a map-id change must invalidate target/path state immediately even if auto-hunt itself is allowed to continue on the destination map;
+- safety/idle teleport must call native 850 teleport/item/skill paths rather than mutating coordinates directly.
+
+### Map-policy APIs
+
+`MapsTable` (`ao.ao`) populates the live `L1Map` (`ax.b`) instances from DB table `mapids`, including map policy flags such as teleportable, escapable, usable_item, usable_skill and related rules.
+
+`L1Map` exposes both tile/path passability and these map policy booleans. Auto-hunt therefore must consume native map state for path/skill/item/teleport legality; it must not duplicate a second hard-coded map-policy truth source for rules already represented by 850.
+
+### MAP-C architecture decision
+
+Host evidence now supports this 850-native topology:
+
+```text
+L1PcInstance / AutoHuntSession
+  owns exactly one ScheduledFuture
+  owns generation/session identity
+  owns target/path/action timestamps
+
+player scheduled pool
+  -> one per-character tick
+       -> validate generation + active session
+       -> validate connected/alive/not teleporting
+       -> detect map change and clear stale target/path
+       -> serialize one action decision
+       -> execute through native 850 APIs
+
+lifecycle stop/reset
+  -> explicit user Stop
+  -> synchronous death transition
+  -> L1PcInstance.p() for disconnect/logout/restart
+  -> teleport/map change invalidates stale target/path/delayed work
+```
+
+This intentionally does **not** copy L381's global move/safe/magic/summon scanning threads. Low-frequency supply/support work should first be attempted as phases within the same per-player session; split services require separate host evidence.
+
+### MAP-C remaining proof before closure
+
+1. Identify the exact 850 public/source-level insertion surface that will own the new session without editing the read-only recovered authority branch.
+2. Add a regression verifier for start/start, stop/stop, stop-then-stale-tick, death, cleanup/restart and map-change generation invalidation.
+3. Freeze the Phase-1 file list and only then begin production implementation.
+
+### Current design status
+
+- MAP-A: CLOSED.
+- MAP-B: CLOSED.
+- MAP-C scheduler/lifecycle/map-policy evidence: mapped.
+- MAP-C implementation insertion surface + regression harness: NEXT.
+- Production auto-hunt implementation: not started.
