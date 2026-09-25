@@ -1,0 +1,22 @@
+name: L1JTW8.5 Fast Dev Active Authority
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-fast-dev-build
+    paths:
+      - 'tools/850/bootstrap/ensure_dev.py'
+      - 'tools/850/tests/test_active_authority.py'
+      - '.github/workflows/850-fast-dev-active-authority.yml'
+  workflow_dispatch:
+
+jobs:
+  active-authority-contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - name: Run active authority coherence contracts
+        run: python -m unittest -v tools/850/tests/test_active_authority.py
