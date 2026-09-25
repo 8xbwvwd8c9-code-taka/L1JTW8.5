@@ -87,8 +87,8 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
 
     These repairs are recovery-only syntax/type restorations. They are intentionally
     identity-scoped and do not infer gameplay behavior. The repaired donor preserves
-    the overload-disambiguating casts, imports and generic type that Vineflower lost,
-    while the original donor has no Override annotation on L1PcInstance.c(int).
+    overload-disambiguating casts, collection element types, imports and synthetic
+    bridge shape that Vineflower lost or rendered as uncompilable source.
     """
     if recovered_internal == "l1r/ap/L1PcInstance":
         source = source.replace(
@@ -141,6 +141,55 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
         source = source.replace(
             "private class L1R_a<T> implements Comparator<L1ItemInstance> {",
             "private class L1R_a<T> implements Comparator {",
+            1,
+        )
+    elif recovered_internal == "l1r/aj/C_ProtoBuffers":
+        source = source.replace(
+            "ArrayList var152 = new ArrayList<>();",
+            "ArrayList<L1ItemInstance> var152 = new ArrayList<>();",
+            1,
+        )
+    elif recovered_internal == "l1r/aj/C_Result":
+        source = source.replace(
+            "HashMap var32 = LuckyDrawTable.a().c(var2.e().d());",
+            "HashMap<Integer, L1ItemInstance> var32 = LuckyDrawTable.a().c(var2.e().d());",
+            1,
+        )
+        source = source.replace(
+            "CopyOnWriteArrayList var44 = var37.aU();",
+            "CopyOnWriteArrayList<L1PrivateShopSellList> var44 = var37.aU();",
+            1,
+        )
+        source = source.replace(
+            "List var41 = var35.aV();",
+            "List<L1PrivateShopBuyList> var41 = var35.aV();",
+            1,
+        )
+    elif recovered_internal == "l1r/aj/C_ShopWorld":
+        source = source.replace(
+            "ConcurrentHashMap var13 = ShopWorldTable.a().a(var2.a());",
+            "ConcurrentHashMap<Integer, L1ItemInstance> var13 = ShopWorldTable.a().a(var2.a());",
+            1,
+        )
+        source = source.replace(
+            "ConcurrentHashMap var28 = ShopWorldTable.a().a(var2.a());",
+            "ConcurrentHashMap<Integer, L1ItemInstance> var28 = ShopWorldTable.a().a(var2.a());",
+            1,
+        )
+    elif recovered_internal == "l1r/ao/RankingTable":
+        source = source.replace(
+            "HashMap var3 = new HashMap<>();",
+            "HashMap<Object, Object> var3 = new HashMap<>();",
+            1,
+        )
+        source = source.replace(
+            "int var7 = var3.get(var6);",
+            "int var7 = ((Integer)var3.get(var6)).intValue();",
+            1,
+        )
+        source = source.replace(
+            "new Comparator<RankingTable.L1R_a>() {",
+            "new Comparator() {",
             1,
         )
     return source
