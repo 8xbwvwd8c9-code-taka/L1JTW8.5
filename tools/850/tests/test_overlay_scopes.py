@@ -110,6 +110,41 @@ class AtomicOverlayScopeContracts(unittest.TestCase):
             self.assertEqual(result["deferred_source_count"], 0)
             self.assertEqual(result["scope_count"], 1)
 
+    def test_flat_bootstrap_paths_recover_atomic_scopes_from_pinned_authority(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            core, base = self.make_fixture(root)
+            output = root / "overlay"
+            (core / "PINNED_AUTHORITY.json").write_text(
+                json.dumps({
+                    "commit": "c" * 40,
+                    "baseline_commit": "b" * 40,
+                    "promotion_only": True,
+                }),
+                encoding="utf-8",
+            )
+
+            original = mod._AUTHORITY.completed_repair_source_scopes
+            mod._AUTHORITY.completed_repair_source_scopes = lambda *args, **kwargs: [
+                {"commits": ["d" * 40], "source_paths": [A_PATH, B_PATH]}
+            ]
+            try:
+                result = mod.compile_completed_overlay(
+                    authority_core=core,
+                    normalized_source_paths=[A_PATH, B_PATH],
+                    dev_base_jar=base,
+                    output_dir=output,
+                )
+            finally:
+                mod._AUTHORITY.completed_repair_source_scopes = original
+
+            self.assertEqual(result["scope_count"], 1)
+            self.assertEqual(result["deployable_source_count"], 2)
+            self.assertEqual(result["deferred_source_count"], 0)
+            self.assertTrue((output / "dev/readable/A.class").is_file())
+            self.assertTrue((output / "dev/readable/B.class").is_file())
+
 
 if __name__ == "__main__":
     unittest.main()
