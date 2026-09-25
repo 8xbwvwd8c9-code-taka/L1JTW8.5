@@ -40,6 +40,8 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_seed_authority.py
       - name: Run pinned authority cache contracts
         run: python -m unittest -v tools/850/tests/test_authority_cache.py
+      - name: Run promotion-only authority materialization contract
+        run: python -m unittest -v tools/850/tests/test_authority_materialization.py
       - name: Run completed repair overlay compiler contracts
         run: python -m unittest -v tools/850/tests/test_completed_overlay.py
       - name: Run automatic bootstrap contracts
