@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib.util
 import os
 import shutil
 import subprocess
@@ -9,6 +10,8 @@ import tempfile
 from pathlib import Path
 from typing import Iterable
 
+
+HERE = Path(__file__).resolve().parent
 
 # Exact recovery state immediately before the persisted 788-source application
 # compile PASS (40a44a2). These scripts are source-representation normalizers,
@@ -33,6 +36,22 @@ NORMALIZER_SCRIPTS = (
     "normalize-l1thebes-local-generics.py",
     "normalize-nonprotobuf-override-annotations.py",
     "normalize-l1account-base64-compat.py",
+)
+
+
+def _load_local(filename: str, module_name: str):
+    path = HERE / filename
+    spec = importlib.util.spec_from_file_location(module_name, path)
+    if spec is None or spec.loader is None:
+        raise ImportError(f"cannot load {path}")
+    module = importlib.util.module_from_spec(spec)
+    spec.loader.exec_module(module)
+    return module
+
+
+_PRE_STAGE = _load_local(
+    "pre_stage_normalization.py",
+    "fast_dev_pre_stage_normalization",
 )
 
 
@@ -96,14 +115,15 @@ def prepare_compile_ready_authority(
     *,
     normalizer_commit: str = PINNED_NORMALIZER_COMMIT,
     script_names: Iterable[str] = NORMALIZER_SCRIPTS,
+    pre_stage: bool = True,
 ) -> dict[str, object]:
     """Replay the proven recovery source-normalization stage on an authority copy.
 
-    The input authority is never modified. Historical scripts are loaded from one
-    exact Git commit, executed in order inside an isolated temporary workspace,
-    and published only if every script succeeds. The historical stage directory
-    then replaces ``recovery/normalized-src-vf`` while namespace evidence remains
-    unchanged for the later semantic-package migration.
+    The input authority is never modified. Completed repair overlay happens before
+    this function. Fast Dev first applies idempotent pre-stage representation fixes,
+    then loads the historical stage scripts from one exact Git commit and executes
+    them in order inside an isolated workspace. Publication is atomic and happens
+    only if every transform succeeds.
     """
     repo_root = Path(repo_root).resolve()
     authority_root = Path(authority_root).resolve()
@@ -122,8 +142,12 @@ def prepare_compile_ready_authority(
     temp_parent = Path(tempfile.mkdtemp(prefix="compile-ready.", dir=output_root.parent))
     workspace = temp_parent / "workspace"
     candidate = temp_parent / "candidate"
+    pre_stage_state: dict[str, object] | None = None
     try:
         shutil.copytree(authority_root, workspace)
+        if pre_stage:
+            pre_stage_state = _PRE_STAGE.normalize_pre_stage_sources(workspace)
+
         names = _extract_scripts(
             repo_root,
             workspace,
@@ -154,6 +178,8 @@ def prepare_compile_ready_authority(
             "normalizer_commit": normalizer_commit,
             "scripts": names,
             "source_count": stage_count,
+            "pre_stage": bool(pre_stage),
+            "pre_stage_state": pre_stage_state,
         }
     finally:
         shutil.rmtree(temp_parent, ignore_errors=True)
