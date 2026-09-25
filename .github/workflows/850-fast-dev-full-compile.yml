@@ -1,0 +1,40 @@
+name: L1JTW8.5 Fast Dev Full Compile
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-fast-dev-build
+    paths:
+      - 'tools/850/**'
+      - 'core/**'
+      - 'build850.ps1'
+      - '.github/workflows/850-fast-dev-full-compile.yml'
+  workflow_dispatch:
+
+jobs:
+  full-compile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+      - uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '8'
+      - name: Baseline-only generated-source contract
+        run: python -m unittest -v tools/850/tests/test_baseline_only_sources.py
+      - name: Real Fast Dev full compile
+        shell: bash
+        run: |
+          set -euo pipefail
+          original_sha="$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')"
+          test "$original_sha" = "8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814"
+          rm -rf .build850 core
+          python tools/850/bootstrap/ensure_dev.py
+          python tools/850/fast_dev.py -Full
+          test "$(sha256sum l1jserver2.jar | awk '{print toupper($1)}')" = "$original_sha"
