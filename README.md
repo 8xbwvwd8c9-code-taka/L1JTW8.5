@@ -2,13 +2,75 @@
 
 > Branch: `work/l1jtw85-fast-dev-build`  
 > Mode: **FAST_DEV / readable-source-first / incremental compile**  
-> Updated: 2026-09-24
+> Updated: 2026-09-26
 
 這條支線的目的不是再做一次反編譯，也不是把 850 強行改成 880 的核心格式。
 
 本支線的目標是：**保留 850 已完成的反編譯與 mapping 成果，但把日常開發流程簡化成接近 880 的使用方式。**
 
 未來修改一顆核心後，應該可以直接重新編譯該核心與必要相依類別，不需要每次重新執行完整 recovery、1109 application class rebuild、promotion 掃描、inverse-remap 與 production JAR 重建。
+
+---
+
+## Fast Dev / 本機編譯故障索引
+
+之後再遇到本機 Fast Dev / Full Compile 錯誤時，**先查本索引，再進行新修補**。每筆必須保留症狀、根因、修法與驗證，不把工具鏈/反編譯 artifact 誤判成 gameplay BUG。
+
+### ERROR-LOCAL-001 — Fast Dev branch checkout 被本機變更阻擋
+
+```text
+ERROR_ID=ERROR-LOCAL-001
+DATE=2026-09-25
+PHASE=BRANCH_SWITCH
+SYMPTOM=git switch work/l1jtw85-fast-dev-build 被 tracked/untracked local changes 阻擋
+ROOT_CAUSE=原工作目錄仍有 recovery / production rebuild / audit / SQL 等本機工作，Git 正確拒絕覆蓋
+FIX=git stash push -u 保存 LOCAL-BACKUP-before-fast-dev-build-20260925，再 fetch/switch/pull；禁止 reset --hard / clean -fd / stash pop 到 Fast Dev
+COMMIT=N/A（本機工作目錄保護流程）
+VALIDATION=LOCAL_BRANCH_SWITCH=PASS；LOCAL_SYNC=PASS；stash 保留未 pop
+STATUS=CLOSED
+```
+
+### ERROR-LOCAL-002 — Windows CP950 / Python UnicodeDecodeError
+
+```text
+ERROR_ID=ERROR-LOCAL-002
+DATE=2026-09-25
+PHASE=FAST_DEV_SYNC
+SYMPTOM=.\build850.ps1 -Sync 出現 UnicodeDecodeError(cp950)，之後 proc.stdout=None 導致 write_text(None) TypeError
+ROOT_CAUSE=Windows 繁中環境 subprocess text=True 預設 CP950，但 Git 輸出含 UTF-8 中文
+FIX=build850.ps1 強制 python -X utf8
+COMMIT=HISTORICAL（交接紀錄未保存此修補的 exact SHA；不得猜值）
+VALIDATION=Run #172 RED；Run #173 GREEN；FAST_DEV_SYNC=PASS；AUTHORITY=f27acba8917a2b261ed38125704bd866b00f9038；COMPLETED_SOURCES=77
+STATUS=CLOSED
+```
+
+### ERROR-LOCAL-003 — Windows WinError 206 / javac command line 過長
+
+```text
+ERROR_ID=ERROR-LOCAL-003
+DATE=2026-09-25
+PHASE=LOCAL_FULL_COMPILE
+SYMPTOM=.\build850.ps1 -Full 在 subprocess/_winapi.CreateProcess 報 FileNotFoundError [WinError 206]
+ROOT_CAUSE=Full Compile 把數百個 Java source path 直接塞進 Windows command line；javac 尚未真正啟動
+FIX=source list 改寫入 javac argfile，命令改為 javac ... @javac-sources.xxxxx.args；既有 encoding/source/target/classpath/-d 語意不變
+COMMIT=a133214461343e033ce4f4299dbc0b5be1d95e02
+VALIDATION=Run #174 RED；argfile regression GREEN；incremental compiler contracts PASS；real core materialization PASS；runtime smoke contract PASS
+STATUS=CLOSED
+```
+
+### ERROR-LOCAL-004 — PBMessageALL* protobuf / decompiler symbol rewrite
+
+```text
+ERROR_ID=ERROR-LOCAL-004
+DATE=2026-09-26
+PHASE=LOCAL_FULL_COMPILE
+SYMPTOM=WinError 206 關閉後 javac 真正啟動，錯誤集中 PBMessageALL.java / PBMessageALL1.java ... PBMessageALL6.java；包含 a.p.b visibility/access、a.g/a.h/a.k/a.y 與 L1R_a nested-name resolution
+ROOT_CAUSE=UNDER_AUDIT；目前證據指向 protobuf generated nested types + obfuscated short names + recovery/Fast-Dev namespace normalization 的共同 symbol-rewrite 問題；尚未證明為 gameplay BUG
+FIX=OPEN；先以 completed/l1jtw85-decompiled、completed/l1jtw85-core-fixes normalized source、Fast Dev rewrite 規則建立 focused RED，證明 shared root cause 後只修 normalization/materialization
+COMMIT=N/A
+VALIDATION=REQUIRED：PBMessageALL focused regression PASS；existing normalization/bootstrap tests PASS；incremental compiler tests PASS；.\build850.ps1 -Full PASS；之後才允許 -Run / server / port / DB 驗證
+STATUS=OPEN
+```
 
 ---
 
