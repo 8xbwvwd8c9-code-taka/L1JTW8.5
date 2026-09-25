@@ -24,6 +24,7 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "families": {
                 "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
                 "ao": {"package": "l1j/server/datatables", "category": "datatables"},
+                "ap": {"package": "l1j/server/model/instance", "category": "instances"},
                 "be": {"package": "l1j/server/serverpackets", "category": "serverpackets"},
             },
             "overrides": {},
@@ -34,6 +35,7 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
                 {"Class": "aj.bx", "SourceFile": "C_Result.java"},
                 {"Class": "aj.cd", "SourceFile": "C_ShopWorld.java"},
                 {"Class": "ao.ba", "SourceFile": "RankingTable.java"},
+                {"Class": "ap.v", "SourceFile": "L1PetInstance.java"},
                 {"Class": "be.db", "SourceFile": "S_PrivateShop.java"},
                 {"Class": "be.dc", "SourceFile": "S_ProtoBuffers.java"},
             ],
@@ -150,6 +152,29 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         self.assertIn("new Comparator() {", rewritten)
         self.assertNotIn("HashMap<Object, Object> var3", rewritten)
         self.assertNotIn("new Comparator<RankingTable.L1R_a>()", rewritten)
+
+    def test_removes_only_donor_proven_l1pet_override_artifacts(self):
+        rewritten = self.rewrite(
+            "L1PetInstance.java",
+            "package l1r.ap;\n"
+            "public class L1PetInstance {\n"
+            "   @Override\n"
+            "   public void d(int var1) {}\n"
+            "   @Override\n"
+            "   public void b(boolean var1) {}\n"
+            "   @Override\n"
+            "   public void i() {}\n"
+            "   @Override\n"
+            "   public void b(L1ItemInstance var1) {}\n"
+            "   @Override\n"
+            "   public void b(L1PcInstance var1) {}\n"
+            "}\n",
+        )
+        self.assertNotIn("@Override\n   public void d(int var1)", rewritten)
+        self.assertNotIn("@Override\n   public void b(boolean var1)", rewritten)
+        self.assertNotIn("@Override\n   public void i()", rewritten)
+        self.assertNotIn("@Override\n   public void b(L1ItemInstance var1)", rewritten)
+        self.assertIn("@Override\n   public void b(L1PcInstance var1)", rewritten)
 
     def test_restores_s_private_shop_list_element_types(self):
         rewritten = self.rewrite(
