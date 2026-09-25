@@ -13,7 +13,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[2]
 PBMESSAGE_BASELINE_ONLY = tuple(
-    f"l1r.an.PBMessageALL{suffix}"
+    f"l1j.server.proto.PBMessageALL{suffix}"
     for suffix in ("", "2", "3", "4", "5", "6", "7", "8", "9")
 )
 
@@ -189,8 +189,6 @@ def main(argv: list[str] | None = None) -> int:
     compiler = _compiler(root)
     result = compiler.full_compile() if args.mode == "full" else compiler.compile_changed()
     print(f"BUILD=PASS MODE={result['mode']} CLASSES={len(result['compiled_identities'])}")
-    if result.get("baseline_identities"):
-        print("BASELINE_ONLY=" + ",".join(result["baseline_identities"]))
 
     if args.watch:
         watch_loop(root, compiler)
