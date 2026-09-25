@@ -21,7 +21,7 @@ extends cv {
         if (pc != null) {
             u u2 = pc;
             synchronized (u2) {
-                AutoHuntService.get().stop(pc);
+                AutoHuntService.stop(pc);
                 pc.p();
                 client.a((u)null);
             }
