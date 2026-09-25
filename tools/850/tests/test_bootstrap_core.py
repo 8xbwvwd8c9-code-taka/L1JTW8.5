@@ -129,8 +129,11 @@ class BootstrapCoreTests(unittest.TestCase):
             "      L1MonsterInstance var4 = null;\n"
             "      if (var4.d(this)) {}\n"
             "   }\n"
-            "   public void a(L1Character var1) {\n"
+            "   public void decoy(L1Character var1) {\n"
             "      if (!this.b(var1) && var1 != null) {}\n"
+            "   }\n"
+            "   public void a(L1Character var1) {\n"
+            "      if (!this.b(var1) && var1.fp() == this.fp() && !(var1 instanceof L1EffectInstance)) {}\n"
             "   }\n"
             "}\n"
         )
@@ -139,7 +142,11 @@ class BootstrapCoreTests(unittest.TestCase):
 
         self.assertNotIn("@Override\n   public void c(int var1)", rewritten)
         self.assertIn("var4.d((L1Character)this)", rewritten)
-        self.assertIn("this.b((L1Object)var1)", rewritten)
+        self.assertIn("if (!this.b(var1) && var1 != null)", rewritten)
+        self.assertIn(
+            "if (!this.b((L1Object)var1) && var1.fp() == this.fp()",
+            rewritten,
+        )
 
     def test_restores_donor_backed_l1teleport_subject_generic(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_l1teleport_artifacts")
