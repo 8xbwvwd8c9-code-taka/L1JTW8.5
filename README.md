@@ -27,6 +27,7 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-083 | L2 | clan deletion transaction durability | PASS / PROMOTED |
 | BUG-850-082 | L2 | atomic clan creation / fee durability | PASS / ALREADY COVERED BY BUG-850-166 |
 | BUG-850-059 | L2 | durable inventory state CAS before client publication | PASS / PROMOTED |
 | BUG-850-058 | L2 | durable CAS before inventory full-delete publication | PASS / PROMOTED |
@@ -3610,5 +3611,25 @@ DB_TRANSACTION=InnoDB all-four-table gate
 ADENA_CAS=id+char_id+expected_count affectedRows==1
 PUBLICATION=post-commit only
 JAVA8_PRODUCTION_DELTA=NONE
+RUNTIME_FAILURE_MODEL=PASS
+```
+
+
+## BUG-850-083 — clan deletion transaction durability
+
+The existing clan deletion repair already performs `clan_warehouse_history` and `clan_data` deletes in one JDBC transaction, returns after rollback on SQL failure, and performs warehouse/RAM cleanup only after commit. Fresh validation found the missing durability prerequisite: both participating tables must be transactional. The completed repair therefore adds the explicit InnoDB migration for both tables; no Java production-source delta is required.
+
+```text
+RUN=36089229794
+STATUS=PASS_PROMOTED
+HISTORICAL_REPAIR_COMMIT=cdac6462b1354f1244cf6801e6c0a637b85e10f5
+LATEST_COMPLETED_SOURCE_CONTRACT=PASS
+JAVA_PRODUCTION_CORE_DELTA=NONE
+DB_MIGRATION=BUG-850-083_clan_delete_innodb.sql
+DB_TABLES=clan_warehouse_history,clan_data
+DB_TRANSACTION=InnoDB both-table requirement
+ROLLBACK_ON_SQL_FAILURE=PASS
+FAILURE_STOPS_DESTRUCTIVE_CLEANUP=PASS
+PUBLICATION=commit before warehouse/RAM cleanup
 RUNTIME_FAILURE_MODEL=PASS
 ```
