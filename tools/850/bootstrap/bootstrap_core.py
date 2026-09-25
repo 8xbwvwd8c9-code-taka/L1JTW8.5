@@ -210,7 +210,7 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             1,
         )
     elif recovered_internal == "l1r/be/S_ProtoBuffers":
-        source = source.replace("a.g.a(", "g.a(")
+        source = source.replace("a.g.a(", "((a.g)null).a(")
     return source
 
 
