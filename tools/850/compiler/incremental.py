@@ -129,6 +129,11 @@ class IncrementalCompiler:
             if name == exact or (name.startswith(inner_prefix) and name.endswith(".class"))
         )
 
+    @staticmethod
+    def _javac_argfile_source(path: Path) -> str:
+        value = path.resolve().as_posix().replace('"', '\\"')
+        return f'"{value}"'
+
     def _javac(self, source_paths: list[Path], output_dir: Path, *, include_overlay: bool) -> None:
         output_dir.mkdir(parents=True, exist_ok=True)
         cp = list(self.classpath)
@@ -143,10 +148,27 @@ class IncrementalCompiler:
         ]
         if cp:
             command += ["-classpath", os.pathsep.join(cp)]
-        command += [str(path) for path in source_paths]
-        proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-        if proc.returncode != 0:
-            raise CompileError(command, proc.stdout, proc.stderr)
+
+        fd, argfile_name = tempfile.mkstemp(
+            prefix="javac-sources.",
+            suffix=".args",
+            dir=output_dir.parent,
+        )
+        argfile = Path(argfile_name)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8", newline="\n") as stream:
+                for path in source_paths:
+                    stream.write(self._javac_argfile_source(path))
+                    stream.write("\n")
+            command.append(f"@{argfile}")
+            proc = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+            if proc.returncode != 0:
+                raise CompileError(command, proc.stdout, proc.stderr)
+        finally:
+            try:
+                argfile.unlink()
+            except FileNotFoundError:
+                pass
 
     def _build_state(self, sources: dict[str, dict[str, object]], class_root: Path) -> dict[str, object]:
         rows: dict[str, object] = {}
