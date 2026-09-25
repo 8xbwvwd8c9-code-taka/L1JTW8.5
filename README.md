@@ -27,6 +27,8 @@ BUG
 
 | BUG | Level | Area | Status |
 |---|---|---|---|
+| BUG-850-087 | L2 | clan merge membership transaction atomicity | PASS / PROMOTED |
+| BUG-850-095 | L2 | clan kick membership transaction atomicity | PASS / PROMOTED |
 | BUG-850-083 | L2 | clan deletion transaction durability | PASS / PROMOTED |
 | BUG-850-010 | L2 | craft loader malformed-row isolation | PASS / PROMOTED |
 | BUG-850-034 | L2 | ShopWorld stale item-id fail-closed loading | PASS / PROMOTED |
