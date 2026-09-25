@@ -1,47 +1,51 @@
 {
   "schema_version": 1,
   "module_id": "道具升級全家族",
-  "module_name": "道具升級與升級系統",
-  "enterprise_item": "L3,w_道具升級,N/A (含道具升級系統)",
-  "decision": "HOLD",
+  "module_name": "道具升級置換全家族",
+  "enterprise_item": "L3,w_道具升級全家族,N/A",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 465,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具升級_202609221205.sql",
-        "name": "w_道具升級_202609221205.sql"
+        "bytes": 467,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_道具升級_202609221205.sql",
+        "name": "w_道具升級_202609221205.sql",
+        "rows": 1
       },
       {
-        "bytes": 414,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具升級系統_202609221205.sql",
-        "name": "w_道具升級系統_202609221205.sql"
+        "bytes": 417,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_道具升級系統_202609221205.sql",
+        "name": "w_道具升級系統_202609221205.sql",
+        "rows": 2
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
-      "L3,w_道具升級,N/A (含道具升級系統)",
-      "道具進階樹、升級成功率與保底材料"
+      "L3,w_道具升級全家族,N/A",
+      "道具強化升級、材料消耗檢核、機率判定與新道具置換"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 2 張表 (w_item_upgrade, w_item_upgrade_system) 移植升級規則",
+    "core": "ItemUpgradeTable.java 負責升級材料檢核與產出置換"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemUpgradeTable.java"
+    ],
     "control": [
-      "850匯入/control/道具升級全家族.properties.example"
+      "850匯入/control/item-upgrade-family.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_道具升級全家族.sql",
-      "850匯入/db/rollback_道具升級全家族.sql"
+      "850匯入/db/install_item-upgrade-family.sql",
+      "850匯入/db/rollback_item-upgrade-family.sql"
     ]
   },
   "path_map": {
@@ -49,10 +53,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_道具升級全家族.sql"
+  "validation": [
+    "驗證道具升級與系統材料配置完整匯入",
+    "驗證 ItemUpgradeTable 載入無誤"
   ],
-  "notes": "HOLD狀態。道具進階樹、升級成功率與保底材料"
+  "rollback": [
+    "850匯入/db/rollback_item-upgrade-family.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 3 筆道具升級資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

@@ -3,12 +3,17 @@
   "module_id": "角色天賦紀錄",
   "module_name": "天賦紀錄",
   "enterprise_item": "天堂企劃.txt 第15條",
-  "decision": "HOLD",
-  "server_level": "NOT_FINAL",
-  "client_gate": "NOT_PROVEN",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L3",
+  "client_gate": "PASSED_WITH_381_EXPORT",
   "source": {
-    "requirements": ["L3,character_天賦紀錄,N/A"],
-    "381_db": ["character_天賦紀錄_202609221205.sql", "atu381_0906.sql (schema line 1164)"],
+    "requirements": [
+      "L3,character_天賦紀錄,N/A"
+    ],
+    "381_db": [
+      "character_天賦紀錄_202609221205.sql",
+      "atu381_0906.sql (schema line 1164)"
+    ],
     "381_core": [],
     "381_control": [],
     "381_client": []
@@ -18,12 +23,25 @@
     "core": "NOT_PROVEN"
   },
   "imports": {
-    "java": [],
     "class": [],
-    "db": ["850匯入/db/install_角色天賦紀錄.sql"],
+    "db": [
+      "850匯入/db/install_角色天賦紀錄.sql"
+    ],
     "control": [],
     "data": [],
-    "client": []
+    "java": [
+      "850匯入/server/java/l1r/ao/CharacterTalentTable.java"
+    ],
+    "client": [
+      "850匯入/client/html/tfcount-c.html",
+      "850匯入/client/html/talCrown-c.html",
+      "850匯入/client/html/talKnight-c.html",
+      "850匯入/client/html/talElf-c.html",
+      "850匯入/client/html/talWizard-c.html",
+      "850匯入/client/html/talDarkelf-c.html",
+      "850匯入/client/html/talDragonK-c.html",
+      "850匯入/client/html/talIllusi-c.html"
+    ]
   },
   "path_map": {
     "core_fixes": [],
@@ -40,4 +58,3 @@
     "DROP TABLE IF EXISTS character_天賦紀錄"
   ]
 }
-

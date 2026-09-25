@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "module_id": "成就圖鑑收集系統",
+  "module_name": "成就圖鑑裝備收集要求與屬性獎勵系統",
+  "enterprise_item": "L3,w_成就圖鑑收集設定,N/A + L3,w_成就圖鑑收集獎勵,N/A",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L3",
+  "client_gate": "NOT_PROVEN",
+  "source": {
+    "requirements": [
+      "L3,w_成就圖鑑收集設定,N/A",
+      "L3,w_成就圖鑑收集獎勵,N/A"
+    ],
+    "381_db": [
+      "w_成就圖鑑收集設定_202609221205.sql (11035 bytes, 42 rows, quest_id 340000–340041)",
+      "w_成就圖鑑收集獎勵_202609221205.sql (7485 bytes, 42 reward rows)"
+    ],
+    "381_core": [
+      "com.lineage.data.npc.event.Npc_GQuest",
+      "com.add.system.L1BlendTable_1",
+      "com.add.system.L1Blend1",
+      "com.lineage.william.L1Blend_buff"
+    ],
+    "381_control": [],
+    "381_client": []
+  },
+  "850_gap": {
+    "db": "w_成就圖鑑收集設定 and w_成就圖鑑收集獎勵 not confirmed in 850 DB",
+    "core": "NOT_PROVEN — 850 equivalent of Npc_GQuest / L1Blend1 not identified"
+  },
+  "imports": {
+    "java": [
+      "850匯入/server/java/l1r/ao/AchievementCodexTable.java"
+    ],
+    "db": [
+      "850匯入/db/install_achievement_codex.sql",
+      "850匯入/db/rollback_achievement_codex.sql"
+    ],
+    "control": [
+      "850匯入/control/achievement_codex.properties.example"
+    ]
+  },
+  "path_map": {
+    "core_fixes": [],
+    "fast_dev_build": []
+  },
+  "dependencies": [],
+  "validation": [
+    "Confirm w_成就圖鑑收集設定 and w_成就圖鑑收集獎勵 in 850 DB",
+    "Confirm NPC 93062 (貓大天堂^成就圖鑑 gfxid=237) in 850 spawnlist",
+    "Confirm quest ID range 340000-340041 does not collide with 850 native quests",
+    "Confirm permanent stat accumulation path (L1Blend_buff equivalent) in 850",
+    "Verify all item IDs referenced in materials columns exist in 850 item table"
+  ],
+  "rollback": [
+    "DROP TABLE IF EXISTS w_成就圖鑑收集設定",
+    "DROP TABLE IF EXISTS w_成就圖鑑收集獎勵"
+  ]
+}

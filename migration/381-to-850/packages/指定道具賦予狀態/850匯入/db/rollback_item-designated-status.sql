@@ -1,4 +1,5 @@
 -- =======================================================
--- 850匯入 / DB rollback — item-designated-status
+-- 850匯入 / DB rollback — 指定道具賦予狀態 (Item Designated Status)
 -- =======================================================
--- 待填入對應 DROP/ALTER
+
+DROP TABLE IF EXISTS `w_item_designated_status`;

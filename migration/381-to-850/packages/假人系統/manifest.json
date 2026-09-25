@@ -1,0 +1,31 @@
+﻿{
+  "schema_version": 1,
+  "module_id": "假人系統",
+  "module_name": "850 原生融合假人系統 (381攻城+880擬真)",
+  "enterprise_item": "381新AI虛擬假人更新完整版(0814) + [唯美880]虛擬假人補丁包(0817)",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L3",
+  "client_gate": "PASSED_WITH_381_EXPORT",
+  "source": {
+    "381_db": [],
+    "381_client": [],
+    "381_core": [
+      "I:\\L381\\UPDATE\\381新AI虛擬假人更新完整版(0814)補丁包",
+      "I:\\L880C\\[唯美880]虛擬假人補丁包(0817)"
+    ]
+  },
+  "imports": {
+    "db": [
+      "850匯入/db/install_unified_robot.sql",
+      "850匯入/db/rollback_unified_robot.sql"
+    ],
+    "control": [
+      "850匯入/control/robot.properties.example"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/server/model/robot/L1RobotManager.java",
+      "850匯入/server/java/l1r/server/model/robot/L1RobotAI.java"
+    ]
+  },
+  "notes": "381與880假人合而為一。具備玩家同等打怪、走位、階梯喝水、狂奔逃跑、擺攤，定時切換攻打城堡，專屬血盟【王者之師】統一管理與集火。"
+}

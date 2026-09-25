@@ -3,40 +3,43 @@
   "module_id": "道具附魔系統",
   "module_name": "道具附魔系統",
   "enterprise_item": "L3,w_道具附魔系統,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 4621,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具附魔系統_202609221205.sql",
-        "name": "w_道具附魔系統_202609221205.sql"
+        "bytes": 4653,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_道具附魔系統_202609221205.sql",
+        "name": "w_道具附魔系統_202609221205.sql",
+        "rows": 29
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_道具附魔系統,N/A",
-      "對指定裝備附加額外附魔詞條與能力"
+      "裝備附魔、卡片鑲嵌、字首詞綴與攻擊/變身觸發 (29 筆全量配置)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_item_enchant_power 移植 29 種附魔卡片屬性",
+    "core": "ItemEnchantTable.java 負責附魔卡片能力與攻擊機率觸發管理"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemEnchantTable.java"
+    ],
     "control": [
-      "850匯入/control/道具附魔系統.properties.example"
+      "850匯入/control/item-enchant-system.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_道具附魔系統.sql",
-      "850匯入/db/rollback_道具附魔系統.sql"
+      "850匯入/db/install_item-enchant-system.sql",
+      "850匯入/db/rollback_item-enchant-system.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_道具附魔系統.sql"
+  "validation": [
+    "驗證 29 種附魔卡片設定完整匯入",
+    "驗證 ItemEnchantTable 載入無誤"
   ],
-  "notes": "HOLD狀態。對指定裝備附加額外附魔詞條與能力"
+  "rollback": [
+    "850匯入/db/rollback_item-enchant-system.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 29 筆附魔卡片資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

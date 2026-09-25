@@ -1,2 +1,3 @@
-# 威望名稱自訂 控制開關
-Enabled=false
+# 威望名稱自訂 (Prestige Custom Name)
+PrestigeCustomNameEnabled = true
+DefaultSystemName = 威望積分

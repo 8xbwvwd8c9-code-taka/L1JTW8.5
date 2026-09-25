@@ -1,4 +1,3 @@
--- =======================================================
--- 850匯入 / DB rollback — item-upgrade-family
--- =======================================================
--- 待填入對應 DROP/ALTER
+-- Rollback
+DROP TABLE IF EXISTS `w_item_upgrade_system`;
+DROP TABLE IF EXISTS `w_item_upgrade`;

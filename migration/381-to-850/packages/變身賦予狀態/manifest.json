@@ -1,8 +1,8 @@
-{
+﻿{
   "schema_version": 1,
   "module_id": "變身賦予狀態",
-  "module_name": "變身賦予狀態與道具",
-  "enterprise_item": "L4,w_變身賦予狀態, w_變身賦予狀態_道具",
+  "module_name": "變身賦予狀態 + 道具版",
+  "enterprise_item": "L4,w_變身賦予狀態,N/A + L4,w_變身賦予狀態_道具,N/A",
   "decision": "HOLD",
   "server_level": "L4",
   "client_gate": "NOT_PROVEN",
@@ -10,38 +10,56 @@
     "381_db": [
       {
         "bytes": 0,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_變身賦予狀態_202609221205.sql",
-        "name": "w_變身賦予狀態_202609221205.sql"
+        "file": "I:\\L381\\Atu-381主要\\DB\\381_DB_AI用\\w_變身賦予狀態_202609221205.sql",
+        "name": "w_變身賦予狀態_202609221205.sql",
+        "rows": 0,
+        "schema": "NOT_PROVEN",
+        "note": "空資料，HOLD 非 SKIP"
       },
       {
         "bytes": 2774,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_變身賦予狀態_道具_202609221205.sql",
-        "name": "w_變身賦予狀態_道具_202609221205.sql"
+        "file": "I:\\L381\\Atu-381主要\\DB\\381_DB_AI用\\w_變身賦予狀態_道具_202609221205.sql",
+        "name": "w_變身賦予狀態_道具_202609221205.sql",
+        "rows": 2,
+        "schema": "NOT_PROVEN"
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
-      "L4,w_變身賦予狀態, w_變身賦予狀態_道具",
-      "特定變身時自動獲得額外 buff 或賦予專用技能"
+      "L4,w_變身賦予狀態,N/A",
+      "L4,w_變身賦予狀態_道具,N/A",
+      "指定變身時自動觸發 buff 或賦予狀態（lifecycle: polymorph / item-use）"
     ],
     "381_control": []
   },
+  "audit_refs": [
+    "_共用稽核/inventory/SQL_FULL_INVENTORY.csv (row 300-301)",
+    "_共用稽核/modules/DESIGNATED_ITEM_STATUS_AUDIT.md (語義邊界參照)"
+  ],
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "兩個 table CREATE schema NOT_PROVEN",
+    "core": "執行期擁有者 NOT_PROVEN（兩個）；TransformationOwner hook 未設計",
+    "client": "gfxId 欄位 per-row 確認；poly row 需 client 映射（NOT_PROVEN）"
+  },
+  "lifecycle_boundary": {
+    "w_變身賦予狀態": "polymorph lifecycle",
+    "w_變身賦予狀態_道具": "item-use buff lifecycle",
+    "shared_with": "StatModifierDefinition 向量共享；lifecycle owner 分離"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/TransformGrantStatusTable.java"
+    ],
     "control": [
-      "850匯入/control/變身賦予狀態.properties.example"
+      "850導入/control/transform-grant-status.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_變身賦予狀態.sql",
-      "850匯入/db/rollback_變身賦予狀態.sql"
+      "850導入/db/install_transform-grant-status.sql",
+      "850導入/db/rollback_transform-grant-status.sql"
     ]
   },
   "path_map": {
@@ -51,8 +69,7 @@
   "dependencies": [],
   "validation": [],
   "rollback": [
-    "850匯入/db/rollback_變身賦予狀態.sql"
+    "850導入/db/rollback_transform-grant-status.sql"
   ],
-  "notes": "HOLD狀態。特定變身時自動獲得額外 buff 或賦予專用技能"
+  "notes": "HOLD。w_變身賦予狀態 空資料但非 SKIP；w_變身賦予狀態_道具 2 rows 語義未分析。執行期擁有者兩者均 NOT_PROVEN。"
 }
-

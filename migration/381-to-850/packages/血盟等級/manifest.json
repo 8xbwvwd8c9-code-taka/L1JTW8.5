@@ -3,40 +3,43 @@
   "module_id": "血盟等級",
   "module_name": "血盟等級系統",
   "enterprise_item": "L3,w_血盟等級,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_APPLICABLE",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 1117,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_血盟等級_202609221205.sql",
-        "name": "w_血盟等級_202609221205.sql"
+        "bytes": 1128,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_血盟等級_202609221205.sql",
+        "name": "w_血盟等級_202609221205.sql",
+        "rows": 10
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_血盟等級,N/A",
-      "血盟經驗值累積與盟徽/人數/技能上限解鎖"
+      "血盟升級與盟友能力屬性加成 (1~10 級全量加成)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_clan_level 移植 1~10 級完整屬性",
+    "core": "ClanLevelTable.java 快取並配合血盟權限重算盟友屬性加成"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ClanLevelTable.java"
+    ],
     "control": [
-      "850匯入/control/血盟等級.properties.example"
+      "850匯入/control/clan-level-system.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_血盟等級.sql",
-      "850匯入/db/rollback_血盟等級.sql"
+      "850匯入/db/install_clan-level-system.sql",
+      "850匯入/db/rollback_clan-level-system.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_血盟等級.sql"
+  "validation": [
+    "驗證 1~10 階血盟等級數據完整匯入",
+    "驗證 ClanLevelTable 載入無誤"
   ],
-  "notes": "HOLD狀態。血盟經驗值累積與盟徽/人數/技能上限解鎖"
+  "rollback": [
+    "850匯入/db/rollback_clan-level-system.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 10 階等級資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

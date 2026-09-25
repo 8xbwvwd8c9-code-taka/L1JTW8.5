@@ -1,2 +1,27 @@
-# 變身卡片系統 (登入/套卡/組合) 控制開關
-Enabled=false
+﻿# ========================================================
+# 變身卡片系統 (登入/套卡/組合) 控制設定說明
+# 依 850 權威核心規範：總開關由 DB [_config] 或 config_server 控制，細部由 properties 設定。
+# ========================================================
+
+# 1. 系統總開關 (DB / Config 對應)
+# parameter: TransformCardSystemSwitch
+# value: 0=關閉, 1=開啟 (預設: 1)
+Enabled=true
+
+# 2. 登入卡片基礎設定
+# 消耗變身材料物品 ID (預設 40308, 0 代表不消耗)
+TransformCardConsumeItemId=40308
+# 消耗變身材料數量
+TransformCardConsumeItemCount=1
+
+# 3. 數值重算與防禦機制
+# 是否強制啟用冪等重算 (Recompute Mode，防止重覆登入加成堆疊)
+TransformCardRecomputeOnLogin=true
+# 變身持續時間限制 (秒，若為 0 則依照資料表設定)
+TransformCardDefaultDurationSec=3600
+# 神話級變身持續時間限制 (秒，對應 1800 秒卡片)
+TransformCardMythicDurationSec=1800
+
+# 4. 套卡自動推導與結算
+# 是否啟用套卡能力自動推導 (當所有需求卡片完成時自動啟動套卡加成)
+TransformCardSetAutoDerive=true

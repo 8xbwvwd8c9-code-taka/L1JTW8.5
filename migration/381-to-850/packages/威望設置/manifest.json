@@ -1,42 +1,45 @@
 {
   "schema_version": 1,
   "module_id": "威望設置",
-  "module_name": "威望系統基礎設置",
+  "module_name": "威望設置",
   "enterprise_item": "L3,w_威望設置,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 2247,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_威望設置_202609221205.sql",
-        "name": "w_威望設置_202609221205.sql"
+        "bytes": 2269,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_威望設置_202609221205.sql",
+        "name": "w_威望設置_202609221205.sql",
+        "rows": 20
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_威望設置,N/A",
-      "威望每日上限、衰減規則與基礎設定"
+      "威望 20 大軍階設置與對應屬性加成、炫彩稱號與特效"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_prestige_config 移植 20 階軍階屬性加成",
+    "core": "PrestigeConfigTable.java 負責軍階匹配與角色能力動態計算"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/PrestigeConfigTable.java"
+    ],
     "control": [
-      "850匯入/control/威望設置.properties.example"
+      "850匯入/control/prestige-config.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_威望設置.sql",
-      "850匯入/db/rollback_威望設置.sql"
+      "850匯入/db/install_prestige-config.sql",
+      "850匯入/db/rollback_prestige-config.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_威望設置.sql"
+  "validation": [
+    "驗證 20 階軍階範圍無重疊與屬性正確",
+    "驗證 PrestigeConfigTable 載入無誤"
   ],
-  "notes": "HOLD狀態。威望每日上限、衰減規則與基礎設定"
+  "rollback": [
+    "850匯入/db/rollback_prestige-config.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 20 階軍階資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

@@ -3,7 +3,7 @@
   "module_id": "過安定武器",
   "module_name": "過安定武器額外能力",
   "enterprise_item": "L2,w_過安定武器,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L2",
   "client_gate": "NOT_APPLICABLE",
   "source": {
@@ -28,7 +28,6 @@
   },
   "imports": {
     "class": [],
-    "java": [],
     "control": [
       "850匯入/control/過安定武器.properties.example"
     ],
@@ -37,6 +36,9 @@
     "db": [
       "850匯入/db/install_過安定武器.sql",
       "850匯入/db/rollback_過安定武器.sql"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/OverStabilizeWeaponTable.java"
     ]
   },
   "path_map": {
@@ -50,4 +52,3 @@
   ],
   "notes": "HOLD狀態。武器超過安定值後額外傷害/命中/特效加成"
 }
-

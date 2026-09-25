@@ -1,2 +1,8 @@
-# 血盟技能系統 控制開關
-Enabled=false
+# 血盟技能系統設定 (Clan Skill System Config)
+ClanSkillEnabled = true
+
+# 學習技能消耗扣除材料
+ConsumeMaterialOnLearn = true
+
+# 全服廣播血盟技能解鎖
+BroadcastOnSkillUpgrade = true

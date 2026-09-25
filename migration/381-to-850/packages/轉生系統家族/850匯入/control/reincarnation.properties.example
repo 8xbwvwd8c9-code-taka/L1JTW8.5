@@ -1,0 +1,21 @@
+﻿# ========================================================
+# 轉生系統家族 (850 原生化) 控制設定說明
+# ========================================================
+
+# 1. 系統總開關
+Reincarnation_Enable = true
+
+# 2. 最高轉生次數限制 (預設 20 轉)
+Reincarnation_MaxLevel = 20
+
+# 3. 轉生所需基本條件
+# 轉生所需角色等級 (預設 99 等)
+Reincarnation_ReqLevel = 99
+# 轉生是否重置角色等級為 1 (true=重置為1等 / false=不重置)
+Reincarnation_ResetLevelToOne = true
+
+# 4. 數值重算與防呆保護
+# 登入時強制重新計算轉生加成 (防重複累加漂移)
+Reincarnation_RecomputeOnLogin = true
+# 轉生封號稱號顯示 (true=覆寫為轉生稱號如【一轉】/ false=保留玩家原稱號)
+Reincarnation_ApplyTitle = true

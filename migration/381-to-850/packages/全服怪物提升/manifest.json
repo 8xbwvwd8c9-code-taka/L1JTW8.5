@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "module_id": "全服怪物提升",
+  "module_name": "全服怪物能力動態倍率提升系統",
+  "enterprise_item": "381貓神-全服怪物提升功能(0820)補丁包",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L2",
+  "client_gate": "NOT_REQUIRED",
+  "source": {
+    "381_db": [
+      {
+        "file": "I:\\L381\\UPDATE\\381貓神-全服怪物提升功能(0820)補丁包\\w_全服怪物提升.sql",
+        "name": "w_全服怪物提升.sql",
+        "rows": 1
+      }
+    ],
+    "381_core": [
+      "com.lineage.william.W_MonsterBoost"
+    ]
+  },
+  "imports": {
+    "db": [
+      "850匯入/db/install_monster_boost.sql"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/MonsterBoostTable.java"
+    ]
+  },
+  "notes": "動態載入 w_全服怪物提升，提供 HP/MP/AC/MR/DMG 倍率，支援 GM .reload 指令動態生效，防呆驗證不影響假人與寵物。"
+}

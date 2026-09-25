@@ -3,40 +3,43 @@
   "module_id": "屬性強化系統",
   "module_name": "武器屬性強化系統",
   "enterprise_item": "L3,w_屬性強化系統,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 17077,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_屬性強化系統_202609221205.sql",
-        "name": "w_屬性強化系統_202609221205.sql"
+        "bytes": 17203,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_屬性強化系統_202609221205.sql",
+        "name": "w_屬性強化系統_202609221205.sql",
+        "rows": 114
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_屬性強化系統,N/A",
-      "地水火風四屬性卷軸強化與發動機率加成"
+      "武器四大屬性強化 (地火風水)、各階段成功率、攻擊發動機率、吸血吸魔、束縛衝暈與特效"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_weapon_attr_enchant 移植 114 筆屬性階級能力",
+    "core": "WeaponAttrEnchantTable.java 負責屬性強化攻擊結算與觸發管線"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/WeaponAttrEnchantTable.java"
+    ],
     "control": [
-      "850匯入/control/屬性強化系統.properties.example"
+      "850匯入/control/weapon-attribute-enhancement.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_屬性強化系統.sql",
-      "850匯入/db/rollback_屬性強化系統.sql"
+      "850匯入/db/install_weapon-attribute-enhancement.sql",
+      "850匯入/db/rollback_weapon-attribute-enhancement.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_屬性強化系統.sql"
+  "validation": [
+    "驗證 114 筆屬性強化階級設定完整匯入",
+    "驗證 WeaponAttrEnchantTable 載入無誤"
   ],
-  "notes": "HOLD狀態。地水火風四屬性卷軸強化與發動機率加成"
+  "rollback": [
+    "850匯入/db/rollback_weapon-attribute-enhancement.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 114 筆屬性階級資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

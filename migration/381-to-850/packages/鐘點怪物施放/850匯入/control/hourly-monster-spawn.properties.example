@@ -1,0 +1,8 @@
+# 定時鐘點怪物活動施放設定 (Hourly Monster Spawn Config)
+HourlyMonsterSpawnEnabled = true
+
+# 是否啟用全服公告廣播
+EnableHourlySpawnBroadcast = true
+
+# 排程檢查間隔 (秒，推薦 30 或 60)
+CheckIntervalSeconds = 30

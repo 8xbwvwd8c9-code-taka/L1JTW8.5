@@ -1,42 +1,45 @@
 {
   "schema_version": 1,
   "module_id": "鐘點怪物施放",
-  "module_name": "鐘點怪物施放系統",
+  "module_name": "定時鐘點怪物活動施放",
   "enterprise_item": "L3,w_鐘點怪物施放,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_APPLICABLE",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 4115,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_鐘點怪物施放_202609221205.sql",
-        "name": "w_鐘點怪物施放_202609221205.sql"
+        "bytes": 4137,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_鐘點怪物施放_202609221205.sql",
+        "name": "w_鐘點怪物施放_202609221205.sql",
+        "rows": 20
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_鐘點怪物施放,N/A",
-      "整點或排程定時在特定地圖生成活動怪物"
+      "定時鐘點活動怪物排程生成 (無限大戰全波次怪群、銷售NPC、公告廣播、傳送門與時效消失)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_hourly_monster_spawn 移植 20 筆定時活動波次",
+    "core": "HourlyMonsterSpawnTable.java 掛接 850 原生定時器進行時間匹配與召喚"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/HourlyMonsterSpawnTable.java"
+    ],
     "control": [
-      "850匯入/control/鐘點怪物施放.properties.example"
+      "850匯入/control/hourly-monster-spawn.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_鐘點怪物施放.sql",
-      "850匯入/db/rollback_鐘點怪物施放.sql"
+      "850匯入/db/install_hourly-monster-spawn.sql",
+      "850匯入/db/rollback_hourly-monster-spawn.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_鐘點怪物施放.sql"
+  "validation": [
+    "驗證 20 筆定時波次與銷售員設定完整匯入",
+    "驗證 HourlyMonsterSpawnTable 載入無誤"
   ],
-  "notes": "HOLD狀態。整點或排程定時在特定地圖生成活動怪物"
+  "rollback": [
+    "850匯入/db/rollback_hourly-monster-spawn.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 20 筆定時活動波次資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "module_id": "自動狩獵系統",
+  "module_name": "自動狩獵系統 (850 原生重構式移植)",
+  "enterprise_item": "L3,自動狩獵系統,N/A",
+  "decision": "HOLD",
+  "server_level": "L3",
+  "client_gate": "L4_BLOCKED",
+  "source": {
+    "381_db": [],
+    "381_client": [],
+    "381_core": [],
+    "requirements": [
+      "L3,自動狩獵系統,N/A",
+      "玩家自動尋怪、移動追蹤、攻擊技能施放、自動喝水、遇BOSS瞬移與掛機符時效控制"
+    ],
+    "381_control": []
+  },
+  "850_gap": {
+    "db": "mapids 表增加 autobot 欄位，新增 character_autobot 角色掛機設定表",
+    "core": "以 850 原生執行緒介面重構玩家自動狩獵 AI 執行器 (AutoBotAI)"
+  },
+  "imports": {
+    "class": [],
+    "java": [],
+    "control": [
+      "850匯入/control/autobot.properties.example"
+    ],
+    "data": [],
+    "client": [],
+    "db": [
+      "850匯入/db/install_autobot.sql",
+      "850匯入/db/rollback_autobot.sql"
+    ]
+  },
+  "path_map": {
+    "fast_dev_build": [],
+    "core_fixes": []
+  },
+  "dependencies": [],
+  "validation": [
+    "驗證掛機符時效與啟動停止生命週期",
+    "驗證尋怪範圍與禮貌模式"
+  ],
+  "rollback": [
+    "850匯入/db/rollback_autobot.sql"
+  ],
+  "notes": "HOLD狀態。規格書完整 (項目說明.md)，等待排程推進 850 玩家專屬 AI 執行器與客戶端協定封包掛接。"
+}

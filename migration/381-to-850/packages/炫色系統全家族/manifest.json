@@ -1,62 +1,63 @@
 {
   "schema_version": 1,
   "module_id": "炫色系統全家族",
-  "module_name": "炫色系統全家族 (記錄/素質/隨機名稱/武器/防具)",
-  "enterprise_item": "L4,炫色系列 (character_炫色_記錄資料, w_炫色_素質設定, w_隨機能力炫色)",
-  "decision": "HOLD",
-  "server_level": "L4",
-  "client_gate": "L4_BLOCKED",
+  "module_name": "裝備隨機炫色詞綴全家族",
+  "enterprise_item": "L3,w_炫色系統全家族,N/A",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L3",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 0,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\character_炫色_記錄資料_202609221205.sql",
-        "name": "character_炫色_記錄資料_202609221205.sql"
+        "bytes": 38357,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_炫色_素質設定_202609221205.sql",
+        "name": "w_炫色_素質設定_202609221205.sql",
+        "rows": 115
       },
       {
-        "bytes": 38179,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_炫色_素質設定_202609221205.sql",
-        "name": "w_炫色_素質設定_202609221205.sql"
+        "bytes": 242,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_隨機能力炫色名稱_202609221205.sql",
+        "name": "w_隨機能力炫色名稱_202609221205.sql",
+        "rows": 7
       },
       {
-        "bytes": 234,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色名稱_202609221205.sql",
-        "name": "w_隨機能力炫色名稱_202609221205.sql"
+        "bytes": 540,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_隨機能力炫色武器_202609221205.sql",
+        "name": "w_隨機能力炫色武器_202609221205.sql",
+        "rows": 7
       },
       {
-        "bytes": 532,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色防具_202609221205.sql",
-        "name": "w_隨機能力炫色防具_202609221205.sql"
-      },
-      {
-        "bytes": 532,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_隨機能力炫色武器_202609221205.sql",
-        "name": "w_隨機能力炫色武器_202609221205.sql"
+        "bytes": 540,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_隨機能力炫色防具_202609221205.sql",
+        "name": "w_隨機能力炫色防具_202609221205.sql",
+        "rows": 7
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
-      "L4,炫色系列 (character_炫色_記錄資料, w_炫色_素質設定, w_隨機能力炫色)",
-      "裝備與名稱變色光暈，需客戶端支援特定色彩ID與封包"
+      "L3,w_炫色系統全家族,N/A",
+      "裝備鑑定洗鍊、隨機炫色詞綴、各顏色部位屬性加成、吸血吸魔與魔法發動 (共 136 筆全量配置)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 4 張表 (w_item_color_bonus, w_item_color_name, w_item_color_weapon, w_item_color_armor) 完整移植 136 筆資料",
+    "core": "ItemColorAffixTable.java 負責裝備炫色詞綴加成與洗鍊抽取管線"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemColorAffixTable.java"
+    ],
     "control": [
-      "850匯入/control/炫色系統全家族.properties.example"
+      "850匯入/control/color-affix-family.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_炫色系統全家族.sql",
-      "850匯入/db/rollback_炫色系統全家族.sql"
+      "850匯入/db/install_color-affix-family.sql",
+      "850匯入/db/rollback_color-affix-family.sql"
     ]
   },
   "path_map": {
@@ -64,10 +65,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_炫色系統全家族.sql"
+  "validation": [
+    "驗證 115 筆炫色素質與 21 筆隨機名稱/武器/防具設定完整匯入",
+    "驗證 ItemColorAffixTable 載入無誤"
   ],
-  "notes": "HOLD狀態。裝備與名稱變色光暈，需客戶端支援特定色彩ID與封包"
+  "rollback": [
+    "850匯入/db/rollback_color-affix-family.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 136 筆炫色詞綴資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

@@ -1,2 +1,17 @@
-# 變身箭矢特效 控制開關
-Enabled=false
+﻿# ========================================================
+# 變身箭矢特效控制設定說明
+# 依 850 權威核心規範：總開關由 DB [_config] 或 config_server 控制。
+# ========================================================
+
+# 1. 系統總開關
+# parameter: TransformArrowEffectSwitch
+# value: 0=關閉, 1=開啟 (預設: 1)
+Enabled=true
+
+# 2. 備用與降級視覺設定
+# 當未設定或變身特效解除時的預設箭矢外觀 ID (預設 66)
+TransformArrowFallbackGfxId=66
+
+# 3. 封包送出防護
+# 是否啟用遠端攻擊封包欄位保護 (若用戶端資源不存在時降級回預設外觀)
+TransformArrowClientResourceProtection=true

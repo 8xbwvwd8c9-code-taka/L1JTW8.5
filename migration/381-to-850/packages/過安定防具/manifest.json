@@ -3,7 +3,7 @@
   "module_id": "過安定防具",
   "module_name": "過安定防具額外能力",
   "enterprise_item": "L2,w_過安定防具,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L2",
   "client_gate": "NOT_APPLICABLE",
   "source": {
@@ -28,7 +28,6 @@
   },
   "imports": {
     "class": [],
-    "java": [],
     "control": [
       "850匯入/control/過安定防具.properties.example"
     ],
@@ -37,6 +36,9 @@
     "db": [
       "850匯入/db/install_過安定防具.sql",
       "850匯入/db/rollback_過安定防具.sql"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/OverStabilizeArmorTable.java"
     ]
   },
   "path_map": {
@@ -50,4 +52,3 @@
   ],
   "notes": "HOLD狀態。防具超過安定值後每點提供的階梯能力"
 }
-

@@ -1,4 +1,2 @@
--- =======================================================
--- 850匯入 / DB rollback — clan-level-system
--- =======================================================
--- 待填入對應 DROP/ALTER
+-- Rollback
+DROP TABLE IF EXISTS `w_clan_level`;

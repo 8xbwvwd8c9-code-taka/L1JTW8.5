@@ -1,4 +1,6 @@
+﻿-- =======================================================
+-- 850導入 / DB rollback ─ transform-grant-status
 -- =======================================================
--- 850匯入 / DB rollback — transform-grant-status
--- =======================================================
--- 待填入對應 DROP/ALTER
+
+DROP TABLE IF EXISTS `w_transform_grant_status_item`;
+DROP TABLE IF EXISTS `w_transform_grant_status`;

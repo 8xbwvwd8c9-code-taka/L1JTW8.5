@@ -1,4 +1,5 @@
+﻿-- =======================================================
+-- 850導入 / DB rollback ─ transform-arrow-effect
 -- =======================================================
--- 850匯入 / DB rollback — transform-arrow-effect
--- =======================================================
--- 待填入對應 DROP/ALTER
+
+DROP TABLE IF EXISTS `w_transform_arrow_effect`;

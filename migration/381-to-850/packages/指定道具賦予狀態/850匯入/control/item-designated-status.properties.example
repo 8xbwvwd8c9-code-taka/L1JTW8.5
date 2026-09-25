@@ -1,2 +1,9 @@
-# 指定道具賦予狀態 (暗黑系統) 控制開關
-Enabled=false
+# 指定道具賦予狀態設定 (Item Designated Status Config)
+# 啟用開關: true / false
+ItemDesignatedStatusEnabled = true
+
+# 登入時是否強制重算屬性: true / false
+RecalculateOnLogin = true
+
+# 是否啟用顯示稱號廣播
+EnableDisplayTitle = true

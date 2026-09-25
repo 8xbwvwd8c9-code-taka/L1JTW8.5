@@ -1,4 +1,2 @@
--- =======================================================
--- 850匯入 / DB rollback — prestige-config
--- =======================================================
--- 待填入對應 DROP/ALTER
+-- Rollback
+DROP TABLE IF EXISTS `w_prestige_config`;

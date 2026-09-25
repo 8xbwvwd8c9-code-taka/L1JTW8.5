@@ -1,2 +1,8 @@
-# 威望怪物設定 控制開關
-Enabled=false
+# 威望怪物擊殺掉落設定 (Prestige Monster Config)
+PrestigeMonsterEnabled = true
+
+# 威望獲取倍率
+PrestigeRate = 1.0
+
+# 是否在隊伍共享威望
+SharePrestigeInParty = true

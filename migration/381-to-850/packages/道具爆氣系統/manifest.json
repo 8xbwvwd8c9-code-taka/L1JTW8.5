@@ -3,40 +3,43 @@
   "module_id": "道具爆氣系統",
   "module_name": "道具爆氣系統",
   "enterprise_item": "L3,w_道具爆氣系統,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 418,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_道具爆氣系統_202609221205.sql",
-        "name": "w_道具爆氣系統_202609221205.sql"
+        "bytes": 422,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_道具爆氣系統_202609221205.sql",
+        "name": "w_道具爆氣系統_202609221205.sql",
+        "rows": 3
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_道具爆氣系統,N/A",
-      "攻擊/受擊機率觸發武器暴走/爆氣範圍傷害"
+      "道具怒氣爆發狀態開關、每秒怒氣消耗與等級階梯增傷減傷"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_item_outburst 移植 3 階等級爆氣加成",
+    "core": "ItemOutburstTable.java 負責爆氣開關與等級階級能力提取"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemOutburstTable.java"
+    ],
     "control": [
-      "850匯入/control/道具爆氣系統.properties.example"
+      "850匯入/control/item-outburst-system.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_道具爆氣系統.sql",
-      "850匯入/db/rollback_道具爆氣系統.sql"
+      "850匯入/db/install_item-outburst-system.sql",
+      "850匯入/db/rollback_item-outburst-system.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_道具爆氣系統.sql"
+  "validation": [
+    "驗證 3 階等級爆氣設定完整匯入",
+    "驗證 ItemOutburstTable 載入無誤"
   ],
-  "notes": "HOLD狀態。攻擊/受擊機率觸發武器暴走/爆氣範圍傷害"
+  "rollback": [
+    "850匯入/db/rollback_item-outburst-system.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 3 階爆氣資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

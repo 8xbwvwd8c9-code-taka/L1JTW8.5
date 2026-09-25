@@ -1,4 +1,5 @@
 -- =======================================================
--- 850匯入 / DB rollback — rune-attribute-family
+-- 850匯入 / DB rollback — 五大紋樣屬性設定
 -- =======================================================
--- 待填入對應 DROP/ALTER
+
+DROP TABLE IF EXISTS `w_rune_attribute`;

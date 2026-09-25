@@ -1,0 +1,8 @@
+# 狩獵怪物任務全家族設定 (Hunt Quest Family Config)
+HuntQuestFamilyEnabled = true
+
+# 完成任務是否世界公告
+BroadcastOnHuntQuestComplete = true
+
+# 是否允許隊伍共享殺怪進度
+ShareKillProgressInParty = true

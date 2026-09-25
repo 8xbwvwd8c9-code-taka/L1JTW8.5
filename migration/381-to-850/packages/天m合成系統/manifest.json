@@ -3,13 +3,19 @@
   "module_id": "天m合成系統",
   "module_name": "天M合成系統",
   "enterprise_item": "天堂企劃.txt 第16條",
-  "decision": "HOLD",
-  "server_level": "NOT_FINAL",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L3",
   "client_gate": "NOT_PROVEN",
   "source": {
-    "requirements": ["L3,w_天m合成系統,N/A"],
-    "381_db": ["w_天m合成系統_202609221205.sql (8515 bytes, 36 rows)"],
-    "381_core": ["NOT_PROVEN — audit references NPC 93064 娃娃合成師, NPC 93068 變身師"],
+    "requirements": [
+      "L3,w_天m合成系統,N/A"
+    ],
+    "381_db": [
+      "w_天m合成系統_202609221205.sql (8515 bytes, 36 rows)"
+    ],
+    "381_core": [
+      "NOT_PROVEN — audit references NPC 93064 娃娃合成師, NPC 93068 變身師"
+    ],
     "381_control": [],
     "381_client": []
   },
@@ -18,12 +24,15 @@
     "core": "NOT_PROVEN"
   },
   "imports": {
-    "java": [],
-    "class": [],
-    "db": ["850匯入/db/install_天m合成系統.sql"],
-    "control": [],
-    "data": [],
-    "client": []
+    "java": [
+      "850匯入/server/java/l1r/ao/TmCombineTable.java"
+    ],
+    "db": [
+      "850匯入/db/install_tm_combine.sql"
+    ],
+    "control": [
+      "850匯入/control/tm_combine.properties.example"
+    ]
   },
   "path_map": {
     "core_fixes": [],
@@ -40,4 +49,3 @@
     "DROP TABLE IF EXISTS w_天m合成系統"
   ]
 }
-

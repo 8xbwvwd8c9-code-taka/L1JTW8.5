@@ -2,51 +2,56 @@
   "schema_version": 1,
   "module_id": "狩獵怪物任務全家族",
   "module_name": "狩獵怪物任務全家族",
-  "enterprise_item": "L3,w_狩獵怪物任務,N/A (含地圖與系統)",
-  "decision": "HOLD",
+  "enterprise_item": "L3,w_狩獵怪物任務全家族,N/A",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 744,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_202609221205.sql",
-        "name": "w_狩獵怪物任務_202609221205.sql"
+        "bytes": 749,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_狩獵怪物任務_202609221205.sql",
+        "name": "w_狩獵怪物任務_202609221205.sql",
+        "rows": 4
       },
       {
-        "bytes": 733,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_地圖_202609221205.sql",
-        "name": "w_狩獵怪物任務_地圖_202609221205.sql"
+        "bytes": 736,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_狩獵怪物任務_地圖_202609221205.sql",
+        "name": "w_狩獵怪物任務_地圖_202609221205.sql",
+        "rows": 2
       },
       {
-        "bytes": 1802,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_狩獵怪物任務_系統_202609221205.sql",
-        "name": "w_狩獵怪物任務_系統_202609221205.sql"
+        "bytes": 1811,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_狩獵怪物任務_系統_202609221205.sql",
+        "name": "w_狩獵怪物任務_系統_202609221205.sql",
+        "rows": 8
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
-      "L3,w_狩獵怪物任務,N/A (含地圖與系統)",
-      "NPC接取、地圖指定擊殺、條件回報完整任務閉環"
+      "L3,w_狩獵怪物任務全家族,N/A",
+      "每日狩獵怪物任務接取、擊殺進度計數、地圖限制與完成獎勵"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 3 張表 (w_hunt_quest, w_hunt_quest_map, w_hunt_quest_system) 移植全量任務數據",
+    "core": "HuntMonsterQuestTable.java 負責任務判定與擊殺事件計數"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/HuntMonsterQuestTable.java"
+    ],
     "control": [
-      "850匯入/control/狩獵怪物任務全家族.properties.example"
+      "850匯入/control/hunt-quest-family.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_狩獵怪物任務全家族.sql",
-      "850匯入/db/rollback_狩獵怪物任務全家族.sql"
+      "850匯入/db/install_hunt-quest-family.sql",
+      "850匯入/db/rollback_hunt-quest-family.sql"
     ]
   },
   "path_map": {
@@ -54,10 +59,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_狩獵怪物任務全家族.sql"
+  "validation": [
+    "驗證狩獵任務、地圖計數與NPC派發設定完整匯入",
+    "驗證 HuntMonsterQuestTable 載入無誤"
   ],
-  "notes": "HOLD狀態。NPC接取、地圖指定擊殺、條件回報完整任務閉環"
+  "rollback": [
+    "850匯入/db/rollback_hunt-quest-family.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 14 筆狩獵任務資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

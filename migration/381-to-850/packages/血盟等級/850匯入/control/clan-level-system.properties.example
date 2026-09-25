@@ -1,2 +1,8 @@
-# 血盟等級系統 控制開關
-Enabled=false
+# 血盟等級系統設定 (Clan Level System Config)
+ClanLevelEnabled = true
+
+# 最高血盟等級
+MaxClanLevel = 10
+
+# 盟友登入時是否自動賦予血盟屬性加成
+RecalculateClanBonusOnLogin = true

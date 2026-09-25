@@ -1,2 +1,8 @@
-# 道具狀態與時效Buff 控制開關
-Enabled=false
+# 道具時效狀態系統 (Item Status Buff Config)
+ItemStatusBuffEnabled = true
+
+# 登出時是否保存狀態剩餘時間
+SaveRemainingTimeOnLogout = true
+
+# 是否允許死亡保留狀態
+KeepBuffOnDeath = false

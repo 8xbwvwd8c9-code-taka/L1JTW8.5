@@ -1,2 +1,8 @@
-# 五大紋樣屬性設定 (伊娃/沙哈/帕格里奧/殷海薩/馬普勒) 控制開關
-Enabled=false
+# 五大紋樣屬性系統設定 (Rune Attribute Family Config)
+RuneAttributeEnabled = true
+
+# 玩家登入時是否強制重算紋樣能力
+RecalculateRuneOnLogin = true
+
+# 是否啟用五大紋樣最高階特效與廣播
+EnableMaxLevelBroadcast = true

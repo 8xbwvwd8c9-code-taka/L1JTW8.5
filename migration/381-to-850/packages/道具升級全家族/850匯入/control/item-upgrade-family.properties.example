@@ -1,2 +1,2 @@
-# 道具升級與升級系統 控制開關
-Enabled=false
+ItemUpgradeEnabled = true
+UpgradeRateModifier = 1.0

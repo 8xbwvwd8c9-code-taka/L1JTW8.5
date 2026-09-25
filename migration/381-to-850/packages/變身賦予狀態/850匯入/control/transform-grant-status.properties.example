@@ -1,2 +1,19 @@
-# 變身賦予狀態與道具 控制開關
-Enabled=false
+﻿# ========================================================
+# 變身賦予狀態控制設定說明
+# 依 850 權威核心規範：總開關由 DB [_config] 或 config_server 控制。
+# ========================================================
+
+# 1. 系統總開關
+# parameter: TransformGrantStatusSwitch
+# value: 0=關閉, 1=開啟 (預設: 1)
+Enabled=true
+
+# 2. 狀態賦予生命週期控制
+# 變身解除時是否同步清除該變身所附加之額外屬性加成 (嚴格強制清除)
+TransformGrantRemoveOnUnpoly=true
+
+# 3. 道具觸發變身賦予狀態設定 (w_transform_grant_status_item)
+# 死亡時是否扣除或清除賦予狀態 (對應 dead_exp=0 規則)
+TransformGrantClearOnDeath=false
+# 受傷或特定狀態觸發 cancellation 時是否提前結束狀態
+TransformGrantEnableCancellation=true

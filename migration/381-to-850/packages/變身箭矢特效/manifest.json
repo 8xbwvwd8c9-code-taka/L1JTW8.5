@@ -1,42 +1,57 @@
-{
+﻿{
   "schema_version": 1,
   "module_id": "變身箭矢特效",
   "module_name": "變身箭矢特效",
   "enterprise_item": "L4,w_變身箭矢特效,N/A",
   "decision": "HOLD",
-  "server_level": "L4",
+  "server_level": "L2",
   "client_gate": "L4_BLOCKED",
   "source": {
     "381_db": [
       {
         "bytes": 125,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_變身箭矢特效_202609221205.sql",
-        "name": "w_變身箭矢特效_202609221205.sql"
+        "file": "I:\\L381\\Atu-381主要\\DB\\381_DB_AI用\\w_變身箭矢特效_202609221205.sql",
+        "name": "w_變身箭矢特效_202609221205.sql",
+        "rows": 1,
+        "schema": "NOT_PROVEN"
       }
     ],
     "381_client": [],
-    "381_core": [],
+    "381_core": [
+      "com.lineage.william.ArrowGfxid"
+    ],
     "requirements": [
       "L4,w_變身箭矢特效,N/A",
-      "特定變身狀態下射出箭矢之 GFX 替換"
+      "指定變身外觀時覆寫箭矢 GFX（CLIENT_GATE=L4_BLOCKED）"
     ],
     "381_control": []
   },
+  "audit_refs": [
+    "_共用稽核/modules/TRANSFORM_ARROW_EFFECT_AUDIT.md"
+  ],
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "CREATE schema NOT_PROVEN；polyid 6611 / arrowgfxid 8121 語義 ID 未確認",
+    "core": "下游 polyarrow 消費者路徑 NOT_PROVEN；getpolyarrow → ranged attack packet 未封閉",
+    "client": "poly ID 6611、arrowgfxid 8121 在 850 客戶端資源相容性 NOT_PROVEN"
+  },
+  "data_note": {
+    "mapping": "polyid=6611 → arrowgfxid=8121",
+    "stat_modifier": false,
+    "visual_only": true
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/TransformArrowTable.java"
+    ],
     "control": [
-      "850匯入/control/變身箭矢特效.properties.example"
+      "850導入/control/transform-arrow-effect.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_變身箭矢特效.sql",
-      "850匯入/db/rollback_變身箭矢特效.sql"
+      "850導入/db/install_transform-arrow-effect.sql",
+      "850導入/db/rollback_transform-arrow-effect.sql"
     ]
   },
   "path_map": {
@@ -46,8 +61,7 @@
   "dependencies": [],
   "validation": [],
   "rollback": [
-    "850匯入/db/rollback_變身箭矢特效.sql"
+    "850導入/db/rollback_transform-arrow-effect.sql"
   ],
-  "notes": "HOLD狀態。特定變身狀態下射出箭矢之 GFX 替換"
+  "notes": "HOLD。SERVER=L2（小型解析器）但 CLIENT_GATE=L4_BLOCKED。下游 polyarrow 消費者 NOT_PROVEN。"
 }
-

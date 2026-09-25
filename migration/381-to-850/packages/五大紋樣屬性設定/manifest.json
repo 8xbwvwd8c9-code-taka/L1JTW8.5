@@ -1,62 +1,69 @@
 {
   "schema_version": 1,
   "module_id": "五大紋樣屬性設定",
-  "module_name": "五大紋樣屬性設定 (伊娃/沙哈/帕格里奧/殷海薩/馬普勒)",
+  "module_name": "五大紋樣神殿刻印屬性全家族 (伊娃/沙哈/帕格里奧/殷海薩/馬普勒)",
   "enterprise_item": "L4,伊娃/沙哈/帕格里奧/殷海薩/馬普勒紋樣屬性設定",
-  "decision": "HOLD",
-  "server_level": "L4",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L2",
   "client_gate": "L4_BLOCKED",
   "source": {
     "381_db": [
       {
-        "bytes": 4167,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_伊娃紋樣屬性設定__202609221205.sql",
-        "name": "_伊娃紋樣屬性設定__202609221205.sql"
+        "bytes": 4204,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\_伊娃紋樣屬性設定__202609221205.sql",
+        "name": "_伊娃紋樣屬性設定__202609221205.sql",
+        "rows": 33
       },
       {
-        "bytes": 4060,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_沙哈紋樣屬性設定__202609221205.sql",
-        "name": "_沙哈紋樣屬性設定__202609221205.sql"
+        "bytes": 4097,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\_沙哈紋樣屬性設定__202609221205.sql",
+        "name": "_沙哈紋樣屬性設定__202609221205.sql",
+        "rows": 33
       },
       {
-        "bytes": 4541,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_帕格里奧紋樣屬性設定__202609221205.sql",
-        "name": "_帕格里奧紋樣屬性設定__202609221205.sql"
+        "bytes": 4578,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\_帕格里奧紋樣屬性設定__202609221205.sql",
+        "name": "_帕格里奧紋樣屬性設定__202609221205.sql",
+        "rows": 33
+      },
+      {
+        "bytes": 4152,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\_殷海薩紋樣屬性設定__202609221205.sql",
+        "name": "_殷海薩紋樣屬性設定__202609221205.sql",
+        "rows": 33
       },
       {
         "bytes": 4115,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_殷海薩紋樣屬性設定__202609221205.sql",
-        "name": "_殷海薩紋樣屬性設定__202609221205.sql"
-      },
-      {
-        "bytes": 4078,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\_馬普勒紋樣屬性設定__202609221205.sql",
-        "name": "_馬普勒紋樣屬性設定__202609221205.sql"
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\_馬普勒紋樣屬性設定__202609221205.sql",
+        "name": "_馬普勒紋樣屬性設定__202609221205.sql",
+        "rows": 33
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L4,伊娃/沙哈/帕格里奧/殷海薩/馬普勒紋樣屬性設定",
-      "紋樣刻印與階級屬性加成，依賴客戶端紋樣UI與封包"
+      "五大神殿紋樣階級刻印與屬性加成 (1~33階，共165筆全量設定)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 複合鍵表 w_rune_attribute 整合移植 5 神殿 165 筆屬性",
+    "core": "RuneAttributeTable.java 負責紋樣階級能力加成提取與玩家屬性掛接"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/RuneAttributeTable.java"
+    ],
     "control": [
-      "850匯入/control/五大紋樣屬性設定.properties.example"
+      "850匯入/control/rune-attribute-family.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_五大紋樣屬性設定.sql",
-      "850匯入/db/rollback_五大紋樣屬性設定.sql"
+      "850匯入/db/install_rune-attribute-family.sql",
+      "850匯入/db/rollback_rune-attribute-family.sql"
     ]
   },
   "path_map": {
@@ -64,10 +71,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_五大紋樣屬性設定.sql"
+  "validation": [
+    "驗證 5 大神殿各 33 階共 165 筆屬性加成完整匯入",
+    "驗證 RuneAttributeTable 載入無誤"
   ],
-  "notes": "HOLD狀態。紋樣刻印與階級屬性加成，依賴客戶端紋樣UI與封包"
+  "rollback": [
+    "850匯入/db/rollback_rune-attribute-family.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。伺服器端 165 筆紋樣屬性數據已全量抽取並完成 850 原生載入器與控制設定。客戶端介面可待封包整合時銜接。"
 }
-

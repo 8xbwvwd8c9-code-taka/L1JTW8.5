@@ -1,0 +1,44 @@
+﻿# ========================================================
+# 850 原生單一融合假人系統 (381+880) 設定檔說明
+# ========================================================
+
+# 1. 系統總開關
+RobotSystem_Enable = true
+
+# 2. 假人專屬管理血盟設定
+Robot_ClanId = 99999
+Robot_ClanName = 【王者之師】
+Robot_ClanLeaderName = 王者之王
+
+# 3. 生成與地圖模式
+# 0=全域關閉, 1=黑名單過濾模式(排除清單地圖，其他都生), 2=白名單模式
+AutoSpawnDeMapMode = 1
+# 預設生成總人數
+AutoSpawnDeTotalCount = 500
+# 最低/最高等級
+AutoSpawnDeMinLevel = 65
+AutoSpawnDeMaxLevel = 95
+
+# 4. 戰鬥與階梯喝水 (880 核心移植)
+RobotPotionUseEnabled = true
+RobotPotionRedRatio = 0.9
+RobotPotionOrangeRatio = 0.7
+RobotPotionWhiteRatio = 0.4
+
+# 5. 殘血逃生狂奔與回卷
+RobotSurvivalFleeEnabled = true
+RobotSurvivalHpRatio = 0.25
+RobotSurvivalFleeChance = 85
+
+# 6. 城鎮生態與擺攤
+RobotTownShopEnabled = true
+RobotTownShopChance = 60
+RobotResupply_Enable = true
+RobotResupply_TimeMin = 300
+RobotResupply_TimeMax = 900
+
+# 7. 定時攻城系統 (381 核心移植)
+Robot_Siege_Enable = true
+Robot_Siege_CastleId = 1
+Robot_Siege_Schedule = 20:00
+Robot_Siege_AttackerCount = 80

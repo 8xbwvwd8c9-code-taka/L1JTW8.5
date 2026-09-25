@@ -1,0 +1,13 @@
+﻿# ========================================================
+# 成就圖鑑收集系統設定說明
+# ========================================================
+
+# 1. 系統總開關
+AchievementCodex_Enable = true
+
+# 2. 數值重算與防呆保護
+# 角色登入時強制依完成之圖鑑任務 (Quest) 重新計算總屬性加成 (防重複堆疊漂移)
+AchievementCodex_RecomputeOnLogin = true
+
+# 3. 完成成就全服廣播開關
+AchievementCodex_BroadcastEnabled = true

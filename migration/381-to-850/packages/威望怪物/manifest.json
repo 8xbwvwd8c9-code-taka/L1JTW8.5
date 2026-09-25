@@ -1,42 +1,45 @@
 {
   "schema_version": 1,
   "module_id": "威望怪物",
-  "module_name": "威望怪物設定",
+  "module_name": "威望怪物",
   "enterprise_item": "L3,w_威望怪物,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_APPLICABLE",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 61503,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_威望怪物_202609221205.sql",
-        "name": "w_威望怪物_202609221205.sql"
+        "bytes": 63191,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_威望怪物_202609221205.sql",
+        "name": "w_威望怪物_202609221205.sql",
+        "rows": 1534
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_威望怪物,N/A",
-      "擊殺特定怪物獲得威望值設定"
+      "全服怪物擊殺威望掉落配置 (1,534 隻怪物全量配置)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_prestige_monster 移植 1,534 隻怪物威望掉落",
+    "core": "PrestigeMonsterTable.java 負責怪物死亡威望結算"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/PrestigeMonsterTable.java"
+    ],
     "control": [
-      "850匯入/control/威望怪物.properties.example"
+      "850匯入/control/prestige-monster.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_威望怪物.sql",
-      "850匯入/db/rollback_威望怪物.sql"
+      "850匯入/db/install_prestige-monster.sql",
+      "850匯入/db/rollback_prestige-monster.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_威望怪物.sql"
+  "validation": [
+    "驗證 1,534 隻怪物掉落設定完整匯入",
+    "驗證 PrestigeMonsterTable 載入無誤"
   ],
-  "notes": "HOLD狀態。擊殺特定怪物獲得威望值設定"
+  "rollback": [
+    "850匯入/db/rollback_prestige-monster.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 1,534 筆怪物資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

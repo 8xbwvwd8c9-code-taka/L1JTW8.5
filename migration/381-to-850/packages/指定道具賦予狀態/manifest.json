@@ -1,42 +1,45 @@
 {
   "schema_version": 1,
   "module_id": "指定道具賦予狀態",
-  "module_name": "指定道具賦予狀態 (暗黑系統)",
+  "module_name": "指定道具賦予狀態",
   "enterprise_item": "L2,w_指定道具賦予狀態,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L2",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 26771,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_指定道具賦予狀態_202609221205.sql",
-        "name": "w_指定道具賦予狀態_202609221205.sql"
+        "bytes": 26945,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_指定道具賦予狀態_202609221205.sql",
+        "name": "w_指定道具賦予狀態_202609221205.sql",
+        "rows": 158
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L2,w_指定道具賦予狀態,N/A",
-      "道具穿戴或使用後依設定給予 BUFF/能力狀態"
+      "裝備穿戴或指定道具觸發後給予完整屬性、傷害、抗性、經驗加成與稱號變身"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_item_designated_status 完整正規化移植 158 筆全量資料",
+    "core": "ItemDesignatedStatusTable.java 支援裝備穿脫動態加成與稱號變身"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/ItemDesignatedStatusTable.java"
+    ],
     "control": [
-      "850匯入/control/指定道具賦予狀態.properties.example"
+      "850匯入/control/item-designated-status.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_指定道具賦予狀態.sql",
-      "850匯入/db/rollback_指定道具賦予狀態.sql"
+      "850匯入/db/install_item-designated-status.sql",
+      "850匯入/db/rollback_item-designated-status.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,12 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_指定道具賦予狀態.sql"
+  "validation": [
+    "驗證 158 筆道具屬性設定完整匯入",
+    "驗證 ItemDesignatedStatusTable.java 記憶體快取與屬性提取正確"
   ],
-  "notes": "HOLD狀態。道具穿戴或使用後依設定給予 BUFF/能力狀態"
+  "rollback": [
+    "850匯入/db/rollback_item-designated-status.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 158 筆資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

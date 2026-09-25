@@ -1,2 +1,8 @@
-# 道具爆氣系統 控制開關
-Enabled=false
+# 道具爆氣系統設定 (Item Outburst Config)
+ItemOutburstEnabled = true
+
+# 怒氣最大值 (預設 100)
+MaxRageValue = 100
+
+# 怒氣耗盡自動關閉
+AutoTurnOffWhenDepleted = true

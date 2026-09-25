@@ -1,2 +1,8 @@
-# 道具附魔系統 控制開關
-Enabled=false
+# 道具附魔系統設定 (Item Enchant System Config)
+ItemEnchantEnabled = true
+
+# 附魔成功率倍率
+EnchantRate = 1.0
+
+# 附魔失敗是否損毀裝備 (false=僅消耗卡片)
+DestroyItemOnFail = false

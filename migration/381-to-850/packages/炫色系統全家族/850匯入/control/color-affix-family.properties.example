@@ -1,0 +1,8 @@
+# 裝備隨機炫色詞綴系統設定 (Color Affix Family Config)
+ColorAffixEnabled = true
+
+# 獲得頂級炫色時全服廣播
+BroadcastOnTopTierAffix = true
+
+# 裝備鑑定洗鍊時是否消耗洗鍊石
+ConsumeRerollStone = true

@@ -1,2 +1,11 @@
-# 武器屬性強化系統 控制開關
-Enabled=false
+# 武器屬性強化系統設定 (Weapon Attribute Enhancement Config)
+WeaponAttrEnchantEnabled = true
+
+# 屬性強化成功機率全局倍率 (預設 1.0)
+AttrEnchantRate = 1.0
+
+# 屬性攻擊觸發機率全局倍率 (預設 1.0)
+AttrProcRate = 1.0
+
+# 強化成功是否全服廣播
+BroadcastOnHighStage = true

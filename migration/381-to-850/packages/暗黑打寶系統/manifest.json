@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "module_id": "暗黑打寶系統",
+  "module_name": "暗黑炫色裝備打寶與掉落優化系統",
+  "enterprise_item": "381貓神暗黑系統優化更新完整版(0819)補丁包",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L2",
+  "client_gate": "PASSED_WITH_381_EXPORT",
+  "source": {
+    "381_core": [
+      "I:\\L381\\UPDATE\\381貓神暗黑系統優化更新完整版(0819)補丁包"
+    ]
+  },
+  "imports": {
+    "db": [
+      "850匯入/db/install_dark_loot.sql",
+      "850匯入/db/rollback_dark_loot.sql"
+    ],
+    "control": [
+      "850匯入/control/dark_loot.properties.example"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/DarkLootSystem.java"
+    ]
+  },
+  "notes": "掉落機率外部化由 properties 控制；掉落時未鑑定隱藏前綴防劇透；鑑定後正確解析 \\f 炫色代碼。"
+}

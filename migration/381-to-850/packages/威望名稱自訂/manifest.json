@@ -3,40 +3,43 @@
   "module_id": "威望名稱自訂",
   "module_name": "威望名稱自訂",
   "enterprise_item": "L3,w_威望名稱自訂,N/A",
-  "decision": "HOLD",
+  "decision": "MIGRATE_850_NATIVE",
   "server_level": "L3",
-  "client_gate": "NOT_PROVEN",
+  "client_gate": "NOT_REQUIRED",
   "source": {
     "381_db": [
       {
-        "bytes": 143,
-        "file": "I:\\L381\\Atu-381伺服器端主\\DB\\381_DB_AI用\\w_威望名稱自訂_202609221205.sql",
-        "name": "w_威望名稱自訂_202609221205.sql"
+        "bytes": 145,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_威望名稱自訂_202609221205.sql",
+        "name": "w_威望名稱自訂_202609221205.sql",
+        "rows": 1
       }
     ],
     "381_client": [],
     "381_core": [],
     "requirements": [
       "L3,w_威望名稱自訂,N/A",
-      "威望等級達到門檻之稱號顯示自訂"
+      "全服威望系統顯示文字自訂 (預設: 威望積分)"
     ],
     "381_control": []
   },
   "850_gap": {
-    "db": "待根據381 schema移植或以850原生schema適配",
-    "core": "待確認生命週期hook與加成計算"
+    "db": "以 850 原生 InnoDB 表 w_prestige_custom_name 移植自訂名稱",
+    "core": "PrestigeCustomNameTable.java 負責全域文字替換快取"
   },
   "imports": {
     "class": [],
-    "java": [],
+    "java": [
+      "850匯入/server/java/l1r/ao/PrestigeCustomNameTable.java"
+    ],
     "control": [
-      "850匯入/control/威望名稱自訂.properties.example"
+      "850匯入/control/prestige-custom-name.properties.example"
     ],
     "data": [],
     "client": [],
     "db": [
-      "850匯入/db/install_威望名稱自訂.sql",
-      "850匯入/db/rollback_威望名稱自訂.sql"
+      "850匯入/db/install_prestige-custom-name.sql",
+      "850匯入/db/rollback_prestige-custom-name.sql"
     ]
   },
   "path_map": {
@@ -44,10 +47,11 @@
     "core_fixes": []
   },
   "dependencies": [],
-  "validation": [],
-  "rollback": [
-    "850匯入/db/rollback_威望名稱自訂.sql"
+  "validation": [
+    "驗證自訂名稱讀取正確"
   ],
-  "notes": "HOLD狀態。威望等級達到門檻之稱號顯示自訂"
+  "rollback": [
+    "850匯入/db/rollback_prestige-custom-name.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

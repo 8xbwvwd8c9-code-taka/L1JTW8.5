@@ -1,2 +1,8 @@
-# 威望系統基礎設置 控制開關
-Enabled=false
+# 威望階級設定 (Prestige Config)
+PrestigeEnabled = true
+
+# 登入重算威望階級
+RecalculatePrestigeOnLogin = true
+
+# 是否顯示威望軍階炫彩封號
+EnablePrestigeTitle = true

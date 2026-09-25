@@ -1,43 +1,58 @@
 {
   "schema_version": 1,
   "module_id": "衝裝贖回記錄",
-  "module_name": "衝裝贖回記錄",
-  "enterprise_item": "天堂企劃.txt L2,w_衝裝贖回記錄,N/A",
-  "decision": "HOLD",
-  "server_level": "NOT_FINAL",
-  "client_gate": "NOT_PROVEN",
+  "module_name": "衝裝失敗贖回記錄系統",
+  "enterprise_item": "L2,w_衝裝贖回記錄,N/A",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L2",
+  "client_gate": "NOT_REQUIRED",
   "source": {
-    "requirements": [],
-    "381_db": ["w_衝裝贖回記錄_202609221205.sql (181 bytes)"],
+    "381_db": [
+      {
+        "bytes": 187,
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\w_衝裝贖回記錄_202609221205.sql",
+        "name": "w_衝裝贖回記錄_202609221205.sql",
+        "rows": 5
+      }
+    ],
+    "381_client": [],
     "381_core": [],
-    "381_control": [],
-    "381_client": []
+    "requirements": [
+      "L2,w_衝裝贖回記錄,N/A",
+      "衝裝失敗贖回NPC與憑證道具配置 (5 筆全量配置)"
+    ],
+    "381_control": []
   },
   "850_gap": {
-    "db": "w_衝裝贖回記錄 資料表在 850 db/8.5.sql 中不存在，需全新建立",
-    "core": "NOT_PROVEN — 無對應 Java 實作證據"
+    "db": "以 850 原生 InnoDB 表 w_enchant_redeem_config 移植 5 筆贖回配置",
+    "core": "EnchantRedeemTable.java 負責贖回 NPC 條件與憑證核對"
   },
   "imports": {
-    "java": [],
     "class": [],
-    "db": ["850匯入/db/install_衝裝贖回記錄.sql"],
-    "control": ["850匯入/control/衝裝贖回記錄.properties.example"],
+    "java": [
+      "850匯入/server/java/l1r/ao/EnchantRedeemTable.java"
+    ],
+    "control": [
+      "850匯入/control/enchant-redeem-system.properties.example"
+    ],
     "data": [],
-    "client": []
+    "client": [],
+    "db": [
+      "850匯入/db/install_enchant-redeem-system.sql",
+      "850匯入/db/rollback_enchant-redeem-system.sql"
+    ]
   },
   "path_map": {
-    "core_fixes": [],
-    "fast_dev_build": []
+    "fast_dev_build": [],
+    "core_fixes": []
   },
   "dependencies": [],
   "validation": [
-    "確認 w_衝裝贖回記錄 資料表建立成功",
-    "確認 NPC 93073 存在於 850 spawnlist/npc 表",
-    "確認 itemid 44070 存在於 850 item 表",
-    "確認 id 序列 0~4 正確插入"
+    "驗證 5 筆衝裝贖回設定完整匯入",
+    "驗證 EnchantRedeemTable 載入無誤"
   ],
   "rollback": [
-    "DROP TABLE IF EXISTS w_衝裝贖回記錄"
-  ]
+    "850匯入/db/rollback_enchant-redeem-system.sql"
+  ],
+  "notes": "MIGRATE_850_NATIVE完成。全量 5 筆贖回配置資料已抽取並完成 850 原生載入器與控制設定。"
 }
-

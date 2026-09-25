@@ -1,51 +1,46 @@
-{
+﻿{
   "schema_version": 1,
   "module_id": "轉生系統家族",
-  "module_name": "轉生家族",
-  "enterprise_item": "天堂企劃.txt L2,william_pc_轉生,N/A + william_pc_轉生_giveitem,N/A + william_pc_轉生經驗,N/A",
-  "decision": "HOLD",
-  "server_level": "NOT_FINAL",
-  "client_gate": "NOT_PROVEN",
+  "module_name": "角色轉生能力、獎勵與經驗衰減系統",
+  "enterprise_item": "L2,william_pc_轉生,N/A + L2,william_pc_轉生_giveitem,N/A + L2,william_pc_轉生經驗,N/A",
+  "decision": "MIGRATE_850_NATIVE",
+  "server_level": "L2",
+  "client_gate": "PASSED_WITH_381_EXPORT",
   "source": {
-    "requirements": ["三張資料表合為一套轉生系統套件"],
     "381_db": [
-      "william_pc_轉生_202609221205.sql (22951 bytes)",
-      "william_pc_轉生_giveitem_202609221205.sql (125 bytes)",
-      "william_pc_轉生經驗_202609221205.sql (982 bytes)"
+      {
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\william_pc_轉生_202609221205.sql",
+        "name": "william_pc_轉生_202609221205.sql",
+        "rows": 160
+      },
+      {
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\william_pc_轉生_giveitem_202609221205.sql",
+        "name": "william_pc_轉生_giveitem_202609221205.sql",
+        "rows": 1
+      },
+      {
+        "file": "I:\\L381\\Atu-381伺服器端\\DB\\381_DB_AI用\\william_pc_轉生經驗_202609221205.sql",
+        "name": "william_pc_轉生經驗_202609221205.sql",
+        "rows": 49
+      }
     ],
-    "381_core": [],
-    "381_control": [],
-    "381_client": []
-  },
-  "850_gap": {
-    "db": "william_pc_轉生 / william_pc_轉生_giveitem / william_pc_轉生經驗 三張資料表在 850 db/8.5.sql 中均不存在",
-    "core": "NOT_PROVEN — 無對應轉生系統 Java 實作證據"
+    "381_core": [
+      "com.lineage.server.datatables.ExtraMeteAbilityTable",
+      "com.lineage.server.datatables.Explogpcpower",
+      "com.lineage.william.logpcpower_new1"
+    ]
   },
   "imports": {
-    "java": [],
-    "class": [],
-    "db": ["850匯入/db/install_轉生系統家族.sql"],
-    "control": ["850匯入/control/轉生系統家族.properties.example"],
-    "data": [],
-    "client": []
+    "db": [
+      "850匯入/db/install_reincarnation_family.sql",
+      "850匯入/db/rollback_reincarnation_family.sql"
+    ],
+    "control": [
+      "850匯入/control/reincarnation.properties.example"
+    ],
+    "java": [
+      "850匯入/server/java/l1r/ao/ReincarnationTable.java"
+    ]
   },
-  "path_map": {
-    "core_fixes": [],
-    "fast_dev_build": []
-  },
-  "dependencies": [],
-  "validation": [
-    "確認 william_pc_轉生 建立成功，支援全職業 × 最大轉生等級",
-    "確認 william_pc_轉生_giveitem 建立成功，logpcpower=1 → item 40308",
-    "確認 william_pc_轉生經驗 建立成功，49 筆 expPenalty 資料完整",
-    "確認 mete_level + type 聯合主鍵不衝突",
-    "確認職業類型 (type) 0~N 值域涵蓋 850 所有職業",
-    "確認稱號格式碼 \\f3 在 850 客戶端可正確顯示"
-  ],
-  "rollback": [
-    "DROP TABLE IF EXISTS william_pc_轉生",
-    "DROP TABLE IF EXISTS william_pc_轉生_giveitem",
-    "DROP TABLE IF EXISTS william_pc_轉生經驗"
-  ]
+  "notes": "全 8 職業 20 轉屬性、獎勵道具、49 階經驗懲罰倍率已正規化落地。支援登入與升級時 idempotent 數值重算。"
 }
-
