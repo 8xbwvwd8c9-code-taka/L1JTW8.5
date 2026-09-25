@@ -44,7 +44,7 @@ extends aa {
     private boolean l = false;
     private int m;
     private final CopyOnWriteArrayList<aa> n = new CopyOnWriteArrayList();
-    private final ArrayList<u> o = new ArrayList();
+    private final CopyOnWriteArrayList<u> o = new CopyOnWriteArrayList();
     private String p;
     private int q = 1;
     private short r = 0;
@@ -1133,4 +1133,3 @@ extends aa {
         this.aE = skillDamageTemp;
     }
 }
-
