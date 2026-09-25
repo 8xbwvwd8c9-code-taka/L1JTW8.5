@@ -56,6 +56,28 @@ class BootstrapCoreTests(unittest.TestCase):
         pm.validate_package_map(entries)
         return entries
 
+    def decompiler_artifact_entries(self):
+        pm = load(PACKAGE_MAP_PATH, "fast_dev_package_map_decompiler_fixture")
+        rules = {
+            "families": {
+                "ap": {"package": "l1j/server/model/instance", "category": "model-instance"},
+                "aq": {"package": "l1j/server/model", "category": "model"},
+            },
+            "overrides": {},
+        }
+        entries = pm.build_package_map(
+            [
+                {"Class": "ap.u", "SourceFile": "L1PcInstance.java"},
+                {"Class": "ap.s", "SourceFile": "L1MonsterInstance.java"},
+                {"Class": "aq.aa", "SourceFile": "L1Object.java"},
+                {"Class": "aq.f", "SourceFile": "L1Character.java"},
+                {"Class": "aq.am", "SourceFile": "L1Teleport.java"},
+            ],
+            rules,
+        )
+        pm.validate_package_map(entries)
+        return entries
+
     def test_rewrites_package_import_and_fully_qualified_reference(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap")
         entries = self.entries()
@@ -91,6 +113,54 @@ class BootstrapCoreTests(unittest.TestCase):
         self.assertIn("import l1j.server.model.map.L1MapArea;", rewritten)
         self.assertIn("l1j.server.model.map.L1MapArea map;", rewritten)
         self.assertNotIn("javl1j", rewritten)
+
+    def test_restores_donor_backed_l1pc_overload_casts_and_override_metadata(self):
+        mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_l1pc_artifacts")
+        entries = self.decompiler_artifact_entries()
+        pc = next(entry for entry in entries if entry.source_file == "L1PcInstance.java")
+        source = (
+            "package l1r.ap;\n"
+            "import l1r.aq.L1Character;\n"
+            "import l1r.aq.L1Object;\n"
+            "public class L1PcInstance extends L1Character {\n"
+            "   @Override\n"
+            "   public void c(int var1) {}\n"
+            "   public void h() {\n"
+            "      L1MonsterInstance var4 = null;\n"
+            "      if (var4.d(this)) {}\n"
+            "   }\n"
+            "   public void a(L1Character var1) {\n"
+            "      if (!this.b(var1) && var1 != null) {}\n"
+            "   }\n"
+            "}\n"
+        )
+
+        rewritten = mod.rewrite_java_source(source, pc, entries)
+
+        self.assertNotIn("@Override\n   public void c(int var1)", rewritten)
+        self.assertIn("var4.d((L1Character)this)", rewritten)
+        self.assertIn("this.b((L1Object)var1)", rewritten)
+
+    def test_restores_donor_backed_l1teleport_subject_generic(self):
+        mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_l1teleport_artifacts")
+        entries = self.decompiler_artifact_entries()
+        teleport = next(entry for entry in entries if entry.source_file == "L1Teleport.java")
+        source = (
+            "package l1r.aq;\n"
+            "import java.util.HashSet;\n"
+            "import l1r.ap.L1PcInstance;\n"
+            "public class L1Teleport {\n"
+            "   public static void a(L1PcInstance var0) {\n"
+            "      HashSet var7 = new HashSet<>();\n"
+            "      var7.add(var0);\n"
+            "      for (L1PcInstance var17 : var7) { var17.h(); }\n"
+            "   }\n"
+            "}\n"
+        )
+
+        rewritten = mod.rewrite_java_source(source, teleport, entries)
+
+        self.assertIn("HashSet<L1PcInstance> var7 = new HashSet<>();", rewritten)
 
     def test_completed_source_wins_over_baseline(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_completed")
