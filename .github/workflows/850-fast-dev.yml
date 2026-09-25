@@ -50,6 +50,8 @@ jobs:
         run: python -m unittest -v tools/850/tests/test_ensure_dev_authority_policy.py
       - name: Run sync authority atomicity contract
         run: python -m unittest -v tools/850/tests/test_sync_authority_atomicity.py
+      - name: Run bootstrap runtime sync contracts
+        run: python -m unittest -v tools/850/tests/test_bootstrap_runtime.py
       - name: Run frontend contracts
         run: python -m unittest -v tools/850/tests/test_frontend_contract.py
       - name: Run pack contracts
