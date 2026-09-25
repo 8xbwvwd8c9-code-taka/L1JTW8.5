@@ -28,6 +28,8 @@ jobs:
           java-version: '8'
       - name: Baseline-only generated-source contract
         run: python -m unittest -v tools/850/tests/test_baseline_only_sources.py
+      - name: Compile-ready authority contract
+        run: python -m unittest -v tools/850/tests/test_compile_ready_authority.py
       - name: Real Fast Dev full compile
         shell: bash
         run: |
