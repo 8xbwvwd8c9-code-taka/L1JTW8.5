@@ -6,7 +6,7 @@ from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[3]
-MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "ensure_dev.py"
+MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "active_authority.py"
 COMMIT = "a" * 40
 BASELINE = "b" * 40
 
