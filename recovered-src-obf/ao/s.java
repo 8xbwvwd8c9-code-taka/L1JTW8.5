@@ -38,39 +38,34 @@ public class s {
             while (rs.next()) {
                 int id = rs.getInt("id");
                 String note = rs.getString("note");
-                k craft = new k(id);
-                String craft_itemid = rs.getString("craft_itemid");
-                String craft_count = rs.getString("craft_count");
-                String craft_enchant = rs.getString("craft_enchant");
-                String[] craft_itemID_List = craft_itemid.split(",");
-                String[] craft_itemCount_List = craft_count.split(",");
-                String[] craft_itemEnchant_List = craft_enchant.split(",");
-                int i2 = 0;
-                while (i2 < craft_itemID_List.length) {
-                    try {
+                try {
+                    k craft = new k(id);
+                    String craft_itemid = rs.getString("craft_itemid");
+                    String craft_count = rs.getString("craft_count");
+                    String craft_enchant = rs.getString("craft_enchant");
+                    String[] craft_itemID_List = craft_itemid.split(",");
+                    String[] craft_itemCount_List = craft_count.split(",");
+                    String[] craft_itemEnchant_List = craft_enchant.split(",");
+                    int i2 = 0;
+                    while (i2 < craft_itemID_List.length) {
                         if (craft_itemID_List[i2].trim().length() > 0) {
                             int craft_itemID = Integer.parseInt(craft_itemID_List[i2]);
                             int craft_itemCount = Integer.parseInt(craft_itemCount_List[i2]);
                             int craft_itemEnchant = Integer.parseInt(craft_itemEnchant_List[i2]);
                             craft.a(craft_itemID, craft_itemCount, craft_itemEnchant);
                         }
+                        ++i2;
                     }
-                    catch (ArrayIndexOutOfBoundsException ae2) {
-                        System.out.println("Craft table [" + note + "] errer : check craft item");
-                    }
-                    ++i2;
-                }
-                String material = rs.getString("material");
-                String material_count = rs.getString("material_count");
-                String material_enchant = rs.getString("material_enchant");
-                String material_bless = rs.getString("material_bless");
-                String[] materialID_List = material.split(",");
-                String[] materialCount_List = material_count.split(",");
-                String[] materialEnchant_List = material_enchant.split(",");
-                String[] materialBless_List = material_bless.split(",");
-                int i3 = 0;
-                while (i3 < materialID_List.length) {
-                    try {
+                    String material = rs.getString("material");
+                    String material_count = rs.getString("material_count");
+                    String material_enchant = rs.getString("material_enchant");
+                    String material_bless = rs.getString("material_bless");
+                    String[] materialID_List = material.split(",");
+                    String[] materialCount_List = material_count.split(",");
+                    String[] materialEnchant_List = material_enchant.split(",");
+                    String[] materialBless_List = material_bless.split(",");
+                    int i3 = 0;
+                    while (i3 < materialID_List.length) {
                         if (materialID_List[i3].trim().length() > 0) {
                             int materialID = Integer.parseInt(materialID_List[i3]);
                             int materialCount = Integer.parseInt(materialCount_List[i3]);
@@ -78,26 +73,26 @@ public class s {
                             int materialBless = Integer.parseInt(materialBless_List[i3]);
                             craft.a(materialID, materialCount, materialEnchant, materialBless);
                         }
+                        ++i3;
                     }
-                    catch (ArrayIndexOutOfBoundsException ae3) {
-                        System.out.println("Craft table [" + note + "] errer : check material");
+                    craft.b(rs.getInt("min_level"), rs.getInt("max_level"));
+                    craft.c(rs.getInt("min_lawful"), rs.getInt("max_lawful"));
+                    craft.d(rs.getInt("min_karma"), rs.getInt("max_karma"));
+                    craft.e(rs.getInt("max_count"));
+                    craft.d(rs.getInt("change"));
+                    craft.c(rs.getInt("add_chance_itemid"));
+                    craft.a(rs.getInt("fail_itemid"), rs.getInt("fail_item_count"));
+                    craft.a(rs.getInt("perfect_chance"));
+                    craft.b(rs.getInt("craft_nameid"));
+                    if (this.c.containsKey(craft.a())) {
+                        System.out.println("CraftListTable : craft ID = " + craft.a() + " repeat!!");
+                        continue;
                     }
-                    ++i3;
+                    this.c.put(craft.a(), craft);
                 }
-                craft.b(rs.getInt("min_level"), rs.getInt("max_level"));
-                craft.c(rs.getInt("min_lawful"), rs.getInt("max_lawful"));
-                craft.d(rs.getInt("min_karma"), rs.getInt("max_karma"));
-                craft.e(rs.getInt("max_count"));
-                craft.d(rs.getInt("change"));
-                craft.c(rs.getInt("add_chance_itemid"));
-                craft.a(rs.getInt("fail_itemid"), rs.getInt("fail_item_count"));
-                craft.a(rs.getInt("perfect_chance"));
-                craft.b(rs.getInt("craft_nameid"));
-                if (this.c.containsKey(craft.a())) {
-                    System.out.println("CraftListTable : craft ID = " + craft.a() + " repeat!!");
-                    continue;
+                catch (RuntimeException rowError) {
+                    a.log(Level.WARNING, "Craft table [" + note + "] skip malformed craft row id=" + id, rowError);
                 }
-                this.c.put(craft.a(), craft);
             }
             j.a(rs, pstm, con);
             rs = null;

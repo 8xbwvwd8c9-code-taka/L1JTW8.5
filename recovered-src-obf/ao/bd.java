@@ -47,6 +47,10 @@ public class bd {
                     while (rs.next()) {
                         int itemid = rs.getInt("itemid");
                         q item = ah.a().b(itemid);
+                        if (item == null) {
+                            a.log(Level.WARNING, "ShopWorldTable skip stale shop_world itemid=" + itemid);
+                            continue;
+                        }
                         b data = new b(item);
                         data.b = rs.getInt("price");
                         data.c = rs.getInt("type");
@@ -93,16 +97,20 @@ public class bd {
                     rs = pstm.executeQuery();
                     while (rs.next()) {
                         String acc = rs.getString("acc_name");
-                        a data = null;
+                        int index = rs.getInt("indexid");
+                        int itemid = rs.getInt("itemid");
+                        q item = ah.a().b(itemid);
+                        if (item == null) {
+                            a.log(Level.WARNING, "ShopWorldTable skip stale character_shop itemid=" + itemid + " acc=" + acc + " index=" + index);
+                            continue;
+                        }
+                        a data;
                         if (this.d.containsKey(acc)) {
                             data = this.d.get(acc);
                         } else {
                             data = new a();
                             this.d.put(acc, data);
                         }
-                        int index = rs.getInt("indexid");
-                        int itemid = rs.getInt("itemid");
-                        q item = ah.a().b(itemid);
                         data.b.put(index, item);
                     }
                 }
@@ -244,8 +252,12 @@ public class bd {
                     pstm = con.prepareStatement("INSERT INTO character_shop SET acc_name=?,itemid=?,indexid=?");
                     int c2 = 0;
                     while (c2 < count) {
-                        a data;
                         q item = ah.a().b(itemid);
+                        if (item == null) {
+                            a.log(Level.WARNING, "ShopWorldTable reject unknown ShopWorld itemid=" + itemid + " acc=" + acc);
+                            return;
+                        }
+                        a data;
                         int index = 1;
                         if (this.d.containsKey(acc)) {
                             data = this.d.get(acc);
