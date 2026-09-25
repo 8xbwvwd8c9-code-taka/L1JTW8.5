@@ -25,7 +25,7 @@ REMOTE_COMPLETED_REF = f"refs/remotes/origin/{COMPLETED_BRANCH}"
 LOCAL_COMPLETED_REF = f"refs/heads/{COMPLETED_BRANCH}"
 COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 PROMOTION_RE = re.compile(
-    r"^fix\(l[123]\): (?:promote|complete) (BUG-850-\d+)\b",
+    r"^(?:fix\(l[123]\):\s+(?:promote|complete)\b|promote\(l[123]\):\s+)",
     re.IGNORECASE,
 )
 AUTHORITY_CACHE_SCHEMA_VERSION = 2
@@ -238,25 +238,37 @@ def _promotion_java_changes(repo_root: Path, promotion_commit: str) -> list[tupl
     return changes
 
 
-def completed_repair_source_paths(
+def _validate_promotion_paths(
+    repo_root: Path,
+    promotion_commit: str,
+) -> list[str]:
+    paths: set[str] = set()
+    for status, path in _promotion_java_changes(repo_root, promotion_commit):
+        code = status[:1]
+        if code == "D":
+            raise RuntimeError(f"deleted normalized source is not overlay-safe: {path}")
+        if code not in {"A", "M"}:
+            raise RuntimeError(
+                f"unsupported normalized source promotion status {status}: {path}"
+            )
+        paths.add(path)
+    return sorted(paths)
+
+
+def completed_repair_source_scopes(
     repo_root: Path,
     *,
     commit: str,
     baseline_commit: str = RECOVERY_BASELINE_COMMIT,
     fetch_if_missing: bool = True,
-) -> list[str]:
-    """Return normalized Java sources formally completed as repaired cores.
+) -> list[dict[str, list[str]]]:
+    """Return atomic completed repair source scopes in promotion history order.
 
-    Candidate membership comes only from first-parent commits whose subject matches
-    ``fix(l1|l2|l3): promote|complete BUG-850-*`` between the immutable recovery
-    baseline and one exact completed-authority SHA. The active worktree/HEAD is never
-    read. Later non-completion normalization/regeneration commits cannot silently
-    enter the runtime overlay. Source bytes are still materialized from the pinned
-    completed SHA, matching the production-rebuild policy of completed membership
-    plus current completed-authority source content.
-
-    Completed Java deletions and unsupported statuses fail closed because they cannot
-    be represented safely as a class overlay on the original production runtime.
+    Each authoritative promotion commit starts as one scope. If later promotions
+    touch any source already present in an earlier scope, those scopes are merged
+    transitively. This preserves the smallest atomic compile/publication boundary
+    required by overlapping completed repairs while keeping unrelated promotions
+    independently deployable.
     """
     repo_root = Path(repo_root).resolve()
     completed = _exact_commit(commit, "completed authority commit")
@@ -283,19 +295,69 @@ def completed_repair_source_paths(
             f"{baseline} -> {completed}"
         )
 
-    changed: set[str] = set()
+    scopes: list[dict[str, list[str]]] = []
     for promotion_commit in _promotion_commits(repo_root, baseline, completed):
-        for status, path in _promotion_java_changes(repo_root, promotion_commit):
-            code = status[:1]
-            if code == "D":
-                raise RuntimeError(f"deleted normalized source is not overlay-safe: {path}")
-            if code not in {"A", "M"}:
-                raise RuntimeError(
-                    f"unsupported normalized source promotion status {status}: {path}"
-                )
-            changed.add(path)
+        paths = _validate_promotion_paths(repo_root, promotion_commit)
+        if not paths:
+            continue
+        path_set = set(paths)
+        overlapping = [
+            index
+            for index, scope in enumerate(scopes)
+            if path_set.intersection(scope["source_paths"])
+        ]
+        if not overlapping:
+            scopes.append(
+                {
+                    "commits": [promotion_commit],
+                    "source_paths": paths,
+                }
+            )
+            continue
 
-    return sorted(changed)
+        first = overlapping[0]
+        merged_commits: list[str] = []
+        merged_paths = set(paths)
+        overlap_set = set(overlapping)
+        retained: list[dict[str, list[str]]] = []
+        for index, scope in enumerate(scopes):
+            if index in overlap_set:
+                merged_commits.extend(scope["commits"])
+                merged_paths.update(scope["source_paths"])
+            else:
+                retained.append(scope)
+        merged_commits.append(promotion_commit)
+        merged_scope = {
+            "commits": merged_commits,
+            "source_paths": sorted(merged_paths),
+        }
+        retained.insert(first, merged_scope)
+        scopes = retained
+
+    return scopes
+
+
+def completed_repair_source_paths(
+    repo_root: Path,
+    *,
+    commit: str,
+    baseline_commit: str = RECOVERY_BASELINE_COMMIT,
+    fetch_if_missing: bool = True,
+) -> list[str]:
+    """Return the flat union of formally completed normalized Java sources."""
+    scopes = completed_repair_source_scopes(
+        repo_root,
+        commit=commit,
+        baseline_commit=baseline_commit,
+        fetch_if_missing=fetch_if_missing,
+    )
+    return sorted(
+        {
+            path
+            for scope in scopes
+            for path in scope["source_paths"]
+        }
+    )
 
 
 def _cache_hit(cache_core: Path, commit: str, baseline_commit: str) -> bool:
