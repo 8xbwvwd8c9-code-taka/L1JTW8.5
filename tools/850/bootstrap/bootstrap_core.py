@@ -127,6 +127,22 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
                 "package l1r.aj;\n\n" + "\n".join(missing_imports),
                 1,
             )
+    elif recovered_internal == "l1r/au/L1Inventory":
+        source = source.replace(
+            "public L1ItemInstance[] f(int var1, int var2) {\n      ArrayList var3 = new ArrayList<>();",
+            "public L1ItemInstance[] f(int var1, int var2) {\n      ArrayList<L1ItemInstance> var3 = new ArrayList<>();",
+            1,
+        )
+        source = source.replace(
+            "private L1ItemInstance[] h(int var1) {\n      ArrayList var2 = new ArrayList<>();",
+            "private L1ItemInstance[] h(int var1) {\n      ArrayList<L1ItemInstance> var2 = new ArrayList<>();",
+            1,
+        )
+        source = source.replace(
+            "private class L1R_a<T> implements Comparator<L1ItemInstance> {",
+            "private class L1R_a<T> implements Comparator {",
+            1,
+        )
     return source
 
 
