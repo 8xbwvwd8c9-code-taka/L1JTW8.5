@@ -27,7 +27,7 @@ if ($Pack)  { $Forward += '-Pack' }
 
 Push-Location $RepoRoot
 try {
-    & $Python.Source $Script @Forward
+    & $Python.Source -X utf8 $Script @Forward
     exit $LASTEXITCODE
 }
 finally {
