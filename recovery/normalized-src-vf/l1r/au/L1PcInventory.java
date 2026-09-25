@@ -1,11 +1,14 @@
 package l1r.au;
 
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import l1r.ao.CharacterItemTable;
 import l1r.ao.ItemTable;
+import l1r.ao.ShopWorldTable;
 import l1r.ap.L1ItemInstance;
 import l1r.ap.L1NpcInstance;
 import l1r.ap.L1PcInstance;
@@ -323,6 +326,130 @@ public class L1PcInventory extends L1Inventory {
          g.log(Level.SEVERE, var2.getLocalizedMessage(), var2);
          return false;
       }
+   }
+
+   public synchronized L1ItemInstance claimShopWorldItem(String accountName, int pendingIndex, L1ItemInstance item) {
+      if (accountName == null || item == null || item.E() <= 0) {
+         return null;
+      }
+      L1ItemInstance existing = null;
+      if (item.d()) {
+         existing = this.d(item.N(), item.F());
+         if (item.N() == 40309) {
+            existing = this.a(item.a().j());
+         } else if (item.N() == 40312) {
+            existing = this.c(item.N());
+         }
+         if (existing != null && existing.F() != item.F()) {
+            existing = null;
+         }
+      }
+      boolean stacking = existing != null;
+      int expectedCount = stacking ? existing.E() : 0;
+      long candidate = stacking ? (long)expectedCount + (long)item.E() : (long)item.E();
+      if (candidate <= 0L || candidate > 2000000000L) {
+         return null;
+      }
+      int durableCount = (int)candidate;
+
+      if (!stacking) {
+         int chargeCount = item.a().aM();
+         if (item.N() >= 21340 && item.N() <= 21349) {
+            item.d(this.i.ay());
+         } else if (item.N() == 41401) {
+            chargeCount -= Random.a(5);
+         } else if (item.N() == 20383) {
+            chargeCount = 50;
+         }
+         item.g(chargeCount);
+         if (item.f() && item.a().aP() == 2) {
+            item.j(item.a().d());
+         } else if (item.N() != 40312 && item.N() != 640615) {
+            item.j(item.a().T());
+         }
+         item.n();
+      }
+
+      boolean committed = false;
+      boolean commitUnknown = false;
+      Connection con = null;
+      boolean previousAutoCommit = true;
+      try {
+         con = l1r.l1j.server.DatabaseFactory.a().b();
+         previousAutoCommit = con.getAutoCommit();
+         ShopWorldTable.a().requireShopWorldClaimTables(con);
+         con.setAutoCommit(false);
+         if (!ShopWorldTable.a().lockShopWorldPending(con, accountName, pendingIndex, item.N())) {
+            con.rollback();
+            return null;
+         }
+         if (stacking) {
+            CharacterItemTable.a().updateShopWorldClaimCount(con, this.i.fr(), existing, expectedCount, durableCount);
+         } else {
+            CharacterItemTable.a().insertShopWorldClaim(con, this.i.fr(), item);
+         }
+         ShopWorldTable.a().deleteShopWorldPending(con, accountName, pendingIndex, item.N());
+         try {
+            con.commit();
+            committed = true;
+         } catch (SQLException commitError) {
+            commitUnknown = true;
+            g.log(Level.WARNING, "unknown ShopWorld claim commit outcome", commitError);
+         }
+      } catch (SQLException e) {
+         if (con != null) {
+            try {
+               con.rollback();
+            } catch (SQLException rollbackError) {
+               g.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+            }
+         }
+         g.log(Level.SEVERE, e.getLocalizedMessage(), e);
+         return null;
+      } finally {
+         if (con != null) {
+            if (!commitUnknown) {
+               try {
+                  con.setAutoCommit(previousAutoCommit);
+               } catch (SQLException ignored) {
+               }
+            }
+            l1r.bi.SQLUtil.a(con);
+         }
+      }
+
+      L1ItemInstance durableItem = stacking ? existing : item;
+      if (!committed && commitUnknown) {
+         try {
+            boolean pendingExists = ShopWorldTable.a().shopWorldPendingExists(accountName, pendingIndex, item.N());
+            Integer dbCount = CharacterItemTable.a().readShopWorldItemCount(this.i.fr(), durableItem.fr());
+            if (pendingExists || dbCount == null || dbCount.intValue() != durableCount) {
+               return null;
+            }
+            committed = true;
+         } catch (SQLException reconcileError) {
+            g.log(Level.SEVERE, reconcileError.getLocalizedMessage(), reconcileError);
+            return null;
+         }
+      }
+      if (!committed) {
+         return null;
+      }
+
+      if (stacking) {
+         existing.e(durableCount);
+         this.l1rMarkDurableState(existing);
+         this.b(existing);
+      } else {
+         item.q();
+         if (item.N() == 40309) {
+            L1BugBearRace.a().b(item);
+         }
+         this.a.add(item);
+         this.a(item);
+      }
+      ShopWorldTable.a().publishShopWorldPendingClaim(accountName, pendingIndex);
+      return durableItem;
    }
 
    @Override

@@ -110,9 +110,11 @@ public class C_ShopWorld extends ClientBasePacket {
                      return;
                   }
 
-                  var3.j().d(var29);
+                  L1ItemInstance claimedItem = var3.j().claimShopWorldItem(var2.a(), var26, var29);
+                  if (claimedItem == null) {
+                     return;
+                  }
                   var3.a(new S_ServerMessage(403, var29.s()));
-                  ShopWorldTable.a().a(var2.a(), var26);
                   HistoryTable.a().h(var3, "領取", var29, authoritativeCount);
                }
                break;

@@ -46,9 +46,9 @@ extends cv {
                     int authoritativeCount = item.E();
                     if (authoritativeCount <= 0) break block0;
                     if (pc.j().a(item, authoritativeCount) != 0) break block0;
-                    pc.j().d(item);
+                    q claimedItem = pc.j().claimShopWorldItem(client.a(), index, item);
+                    if (claimedItem == null) break block0;
                     pc.a(new ds(403, item.s()));
-                    bd.a().a(client.a(), index);
                     aa.a().h(pc, "\u9818\u53d6", item, authoritativeCount);
                     ++i2;
                 }

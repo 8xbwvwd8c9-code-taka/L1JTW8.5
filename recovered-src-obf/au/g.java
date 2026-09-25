@@ -5,6 +5,7 @@ package au;
 
 import ao.ah;
 import ao.l;
+import ao.bd;
 import ap.q;
 import ap.t;
 import ap.u;
@@ -29,6 +30,8 @@ import be.ei;
 import be.z;
 import bh.s;
 import bi.i;
+import java.sql.Connection;
+import java.sql.SQLException;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.logging.Level;
@@ -333,6 +336,136 @@ extends f {
             g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
             return false;
         }
+    }
+
+    public synchronized q claimShopWorldItem(String accountName, int pendingIndex, q item) {
+        if (accountName == null || item == null || item.E() <= 0) {
+            return null;
+        }
+        q existing = null;
+        if (item.d()) {
+            existing = this.d(item.N(), item.F());
+            if (item.N() == 40309) {
+                existing = this.a(item.a().j());
+            } else if (item.N() == 40312) {
+                existing = this.c(item.N());
+            }
+            if (existing != null && existing.F() != item.F()) {
+                existing = null;
+            }
+        }
+        boolean stacking = existing != null;
+        int expectedCount = stacking ? existing.E() : 0;
+        long candidate = stacking ? (long)expectedCount + (long)item.E() : (long)item.E();
+        if (candidate <= 0L || candidate > 2000000000L) {
+            return null;
+        }
+        int durableCount = (int)candidate;
+
+        if (!stacking) {
+            int chargeCount = item.a().aM();
+            if (item.N() >= 21340 && item.N() <= 21349) {
+                item.d(this.i.ay());
+            } else if (item.N() == 41401) {
+                chargeCount -= bi.i.a(5);
+            } else if (item.N() == 20383) {
+                chargeCount = 50;
+            }
+            item.g(chargeCount);
+            if (item.f() && item.a().aP() == 2) {
+                item.j(item.a().d());
+            } else if (item.N() != 40312 && item.N() != 640615) {
+                item.j(item.a().T());
+            }
+            item.n();
+        }
+
+        boolean committed = false;
+        boolean commitUnknown = false;
+        Connection con = null;
+        boolean previousAutoCommit = true;
+        try {
+            con = l1j.server.b.a().b();
+            previousAutoCommit = con.getAutoCommit();
+            bd.a().requireShopWorldClaimTables(con);
+            con.setAutoCommit(false);
+            if (!bd.a().lockShopWorldPending(con, accountName, pendingIndex, item.N())) {
+                con.rollback();
+                return null;
+            }
+            if (stacking) {
+                ao.l.a().updateShopWorldClaimCount(con, this.i.fr(), existing, expectedCount, durableCount);
+            } else {
+                ao.l.a().insertShopWorldClaim(con, this.i.fr(), item);
+            }
+            bd.a().deleteShopWorldPending(con, accountName, pendingIndex, item.N());
+            try {
+                con.commit();
+                committed = true;
+            }
+            catch (SQLException commitError) {
+                commitUnknown = true;
+                g.log(Level.WARNING, "unknown ShopWorld claim commit outcome", commitError);
+            }
+        }
+        catch (SQLException e2) {
+            if (con != null) {
+                try {
+                    con.rollback();
+                }
+                catch (SQLException rollbackError) {
+                    g.log(Level.SEVERE, rollbackError.getLocalizedMessage(), rollbackError);
+                }
+            }
+            g.log(Level.SEVERE, e2.getLocalizedMessage(), e2);
+            return null;
+        }
+        finally {
+            if (con != null) {
+                if (!commitUnknown) {
+                    try {
+                        con.setAutoCommit(previousAutoCommit);
+                    }
+                    catch (SQLException ignored) {
+                    }
+                }
+                bi.j.a(con);
+            }
+        }
+
+        q durableItem = stacking ? existing : item;
+        if (!committed && commitUnknown) {
+            try {
+                boolean pendingExists = bd.a().shopWorldPendingExists(accountName, pendingIndex, item.N());
+                Integer dbCount = ao.l.a().readShopWorldItemCount(this.i.fr(), durableItem.fr());
+                if (pendingExists || dbCount == null || dbCount.intValue() != durableCount) {
+                    return null;
+                }
+                committed = true;
+            }
+            catch (SQLException reconcileError) {
+                g.log(Level.SEVERE, reconcileError.getLocalizedMessage(), reconcileError);
+                return null;
+            }
+        }
+        if (!committed) {
+            return null;
+        }
+
+        if (stacking) {
+            existing.e(durableCount);
+            this.l1rMarkDurableState(existing);
+            this.b(existing);
+        } else {
+            item.q();
+            if (item.N() == 40309) {
+                as.a.a().b(item);
+            }
+            this.a.add(item);
+            this.a(item);
+        }
+        bd.a().publishShopWorldPendingClaim(accountName, pendingIndex);
+        return durableItem;
     }
 
     @Override

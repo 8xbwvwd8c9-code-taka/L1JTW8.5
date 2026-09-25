@@ -242,6 +242,96 @@ public class bd {
         }
     }
 
+    public void requireShopWorldClaimTables(Connection con) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = con.prepareStatement("SELECT TABLE_NAME, ENGINE FROM information_schema.TABLES WHERE TABLE_SCHEMA=DATABASE() AND TABLE_NAME IN ('character_shop','character_items')");
+            rs = pstm.executeQuery();
+            boolean characterShopInnoDb = false;
+            boolean characterItemsInnoDb = false;
+            while (rs.next()) {
+                String tableName = rs.getString("TABLE_NAME");
+                String engine = rs.getString("ENGINE");
+                if ("character_shop".equalsIgnoreCase(tableName)) {
+                    characterShopInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                } else if ("character_items".equalsIgnoreCase(tableName)) {
+                    characterItemsInnoDb = "InnoDB".equalsIgnoreCase(engine);
+                }
+            }
+            if (!characterShopInnoDb || !characterItemsInnoDb) {
+                throw new SQLException("BUG-850-032 requires InnoDB character_shop + character_items");
+            }
+        }
+        finally {
+            j.a(rs);
+            j.a(pstm);
+        }
+    }
+
+    public boolean lockShopWorldPending(Connection con, String accountName, int index, int itemId) throws SQLException {
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            pstm = con.prepareStatement("SELECT itemid FROM character_shop WHERE acc_name=? AND indexid=? FOR UPDATE");
+            pstm.setString(1, accountName);
+            pstm.setInt(2, index);
+            rs = pstm.executeQuery();
+            if (!rs.next() || rs.getInt("itemid") != itemId) {
+                return false;
+            }
+            return !rs.next();
+        }
+        finally {
+            j.a(rs);
+            j.a(pstm);
+        }
+    }
+
+    public void deleteShopWorldPending(Connection con, String accountName, int index, int itemId) throws SQLException {
+        PreparedStatement pstm = null;
+        try {
+            pstm = con.prepareStatement("DELETE FROM character_shop WHERE acc_name=? AND indexid=? AND itemid=?");
+            pstm.setString(1, accountName);
+            pstm.setInt(2, index);
+            pstm.setInt(3, itemId);
+            if (pstm.executeUpdate() != 1) {
+                throw new SQLException("BUG-850-032 pending delete CAS failed");
+            }
+        }
+        finally {
+            j.a(pstm);
+        }
+    }
+
+    public boolean shopWorldPendingExists(String accountName, int index, int itemId) throws SQLException {
+        Connection con = null;
+        PreparedStatement pstm = null;
+        ResultSet rs = null;
+        try {
+            con = l1j.server.b.a().b();
+            pstm = con.prepareStatement("SELECT 1 FROM character_shop WHERE acc_name=? AND indexid=? AND itemid=?");
+            pstm.setString(1, accountName);
+            pstm.setInt(2, index);
+            pstm.setInt(3, itemId);
+            rs = pstm.executeQuery();
+            return rs.next();
+        }
+        finally {
+            j.a(rs, pstm, con);
+        }
+    }
+
+    public void publishShopWorldPendingClaim(String accountName, int index) {
+        a data = this.d.get(accountName);
+        if (data != null) {
+            data.b.remove(index);
+            if (data.b.isEmpty()) {
+                this.d.remove(accountName, data);
+            }
+        }
+    }
+
     public void a(String acc, int itemid, int count) {
         block11: {
             Connection con = null;

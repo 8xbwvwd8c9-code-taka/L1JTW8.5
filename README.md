@@ -30,6 +30,8 @@ BUG
 | BUG-850-083 | L2 | clan deletion transaction durability | PASS / PROMOTED |
 | BUG-850-010 | L2 | craft loader malformed-row isolation | PASS / PROMOTED |
 | BUG-850-034 | L2 | ShopWorld stale item-id fail-closed loading | PASS / PROMOTED |
+| BUG-850-032 | L2 | ShopWorld claim atomic inventory/pending persistence | PASS / PROMOTED |
+| BUG-850-033 | L2 | ShopWorld pending purchase atomicity | PASS / ALREADY COVERED by BUG-850-283 |
 | BUG-850-082 | L2 | atomic clan creation / fee durability | PASS / ALREADY COVERED BY BUG-850-166 |
 | BUG-850-059 | L2 | durable inventory state CAS before client publication | PASS / PROMOTED |
 | BUG-850-058 | L2 | durable CAS before inventory full-delete publication | PASS / PROMOTED |
