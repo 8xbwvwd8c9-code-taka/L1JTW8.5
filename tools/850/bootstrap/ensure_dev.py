@@ -416,6 +416,43 @@ def ensure_fast_dev(
     }
 
 
+_ensure_fast_dev_impl = ensure_fast_dev
+
+
+def ensure_fast_dev(
+    root: Path,
+    *,
+    fetch_latest: bool = True,
+    sync_working_core: bool = False,
+) -> dict[str, object]:
+    """Guard sync bootstrap so previous authority survives any pre-publish failure."""
+    root = Path(root).resolve()
+    authority_core = root / ".build850" / "cache" / "completed-authority-core"
+    should_guard = sync_working_core and (authority_core / "src").is_dir()
+    if not should_guard:
+        return _ensure_fast_dev_impl(
+            root,
+            fetch_latest=fetch_latest,
+            sync_working_core=sync_working_core,
+        )
+
+    authority_core.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.TemporaryDirectory(prefix="fast-dev-authority-guard.", dir=authority_core.parent) as td:
+        backup = Path(td) / "completed-authority-core"
+        shutil.copytree(authority_core, backup)
+        try:
+            return _ensure_fast_dev_impl(
+                root,
+                fetch_latest=fetch_latest,
+                sync_working_core=sync_working_core,
+            )
+        except Exception:
+            restore = Path(td) / "restore-authority-core"
+            shutil.copytree(backup, restore)
+            _publish_directory(restore, authority_core)
+            raise
+
+
 def main() -> int:
     result = ensure_fast_dev(ROOT)
     print(
