@@ -10,48 +10,15 @@ on:
       - '.github/workflows/850-fast-dev-baseline-contract.yml'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
   recovery-baseline-contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Apply minimal finalized baseline candidate
-        shell: bash
-        run: |
-          set -euo pipefail
-          python - <<'PY'
-          from pathlib import Path
-
-          path = Path('tools/850/bootstrap/authority_cache.py')
-          text = path.read_text(encoding='utf-8')
-          old = 'RECOVERY_BASELINE_COMMIT = "ba0f234dcb6fc43b47f397652048561a6f28ae68"'
-          new = 'RECOVERY_BASELINE_COMMIT = "f49015ff55120eb414f1feba0b268bbb51484e16"'
-          if old in text:
-              text = text.replace(old, new, 1)
-              path.write_text(text, encoding='utf-8')
-          elif new not in text:
-              raise SystemExit('unexpected recovery baseline constant')
-          PY
       - name: Verify finalized recovery namespace baseline
         run: python -m unittest -v tools/850/tests/test_recovery_baseline_contract.py
-      - name: Publish minimal baseline pin fix
-        shell: bash
-        run: |
-          set -euo pipefail
-          if git diff --quiet -- tools/850/bootstrap/authority_cache.py; then
-            echo 'BASELINE_FIX_ALREADY_COMMITTED=YES'
-            exit 0
-          fi
-          git config user.name 'github-actions[bot]'
-          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
-          git add tools/850/bootstrap/authority_cache.py
-          git commit -m 'fix(fast-dev): pin finalized recovery namespace baseline'
-          git push origin HEAD:work/l1jtw85-fast-dev-build
