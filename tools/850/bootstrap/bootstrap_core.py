@@ -178,11 +178,6 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
         )
     elif recovered_internal == "l1r/ao/RankingTable":
         source = source.replace(
-            "HashMap var3 = new HashMap<>();",
-            "HashMap<Object, Object> var3 = new HashMap<>();",
-            1,
-        )
-        source = source.replace(
             "int var7 = var3.get(var6);",
             "int var7 = ((Integer)var3.get(var6)).intValue();",
             1,
