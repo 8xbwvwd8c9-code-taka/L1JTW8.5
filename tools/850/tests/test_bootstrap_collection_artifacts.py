@@ -115,7 +115,7 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             rewritten,
         )
 
-    def test_restores_ranking_map_value_cast_and_raw_synthetic_comparator(self):
+    def test_restores_ranking_value_cast_without_breaking_typed_map_assignments(self):
         rewritten = self.rewrite(
             "RankingTable.java",
             "package l1r.ao;\n"
@@ -124,8 +124,10 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "import java.util.Comparator;\n"
             "import java.util.HashMap;\n"
             "public class RankingTable {\n"
+            "  private HashMap<Integer, Integer> e = new HashMap<>();\n"
             "  void x(ArrayList<RankingTable.L1R_a> var1) {\n"
             "    HashMap var3 = new HashMap<>();\n"
+            "    var3 = this.e;\n"
             "    int var6 = 1;\n"
             "    int var7 = var3.get(var6);\n"
             "    Collections.sort(var1, new Comparator<RankingTable.L1R_a>() {\n"
@@ -136,12 +138,14 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "  static class L1R_a {}\n"
             "}\n",
         )
-        self.assertIn("HashMap<Object, Object> var3 = new HashMap<>();", rewritten)
+        self.assertIn("HashMap var3 = new HashMap<>();", rewritten)
+        self.assertIn("var3 = this.e;", rewritten)
         self.assertIn(
             "int var7 = ((Integer)var3.get(var6)).intValue();",
             rewritten,
         )
         self.assertIn("new Comparator() {", rewritten)
+        self.assertNotIn("HashMap<Object, Object> var3", rewritten)
         self.assertNotIn("new Comparator<RankingTable.L1R_a>()", rewritten)
 
 
