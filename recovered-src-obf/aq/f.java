@@ -21,6 +21,7 @@ import be.dh;
 import be.eu;
 import bi.d;
 import bi.h;
+import auto.hunt.AutoHuntService;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -595,7 +596,7 @@ extends aa {
 
     public String et() {
         if (this instanceof u) {
-            return ((u)this).af() ? "**\u5b88\u8b77\u8005**" : this.p;
+            return ((u)this).af() ? "**\\u5b88\\u8b77\\u8005**" : this.p;
         }
         return this.p;
     }
@@ -909,6 +910,9 @@ extends aa {
     }
 
     public void X(boolean flag) {
+        if (flag && this instanceof u) {
+            AutoHuntService.stop((u)this);
+        }
         this.ap = flag;
     }
 
@@ -1129,4 +1133,3 @@ extends aa {
         this.aE = skillDamageTemp;
     }
 }
-
