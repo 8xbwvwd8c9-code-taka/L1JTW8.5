@@ -26,6 +26,8 @@ jobs:
         with:
           distribution: 'temurin'
           java-version: '8'
+      - name: Run Windows UTF-8 driver contract
+        run: python -m unittest -v tools/850/tests/test_windows_utf8_driver.py
       - name: Run package-map contracts
         run: python -m unittest -v tools/850/tests/test_package_map.py
       - name: Run core bootstrap contracts
