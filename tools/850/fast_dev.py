@@ -127,7 +127,11 @@ def _snapshot_sources(root: Path) -> dict[str, tuple[int, int]]:
 
 def run_server(root: Path) -> int:
     cp = os.pathsep.join(str(path) for path in runtime_classpath(root))
-    command = ["java", "-cp", cp, "l1j.server.Server"]
+    # The production launcher uses -noverify because the original 8.5 runtime
+    # contains legacy classfiles that modern Java 8 verification rejects before
+    # application startup. Fast Dev preserves that runtime policy while keeping
+    # the production JAR immutable.
+    command = ["java", "-noverify", "-cp", cp, "l1j.server.Server"]
     return subprocess.call(command, cwd=root)
 
 
