@@ -60,6 +60,8 @@ class BootstrapCoreTests(unittest.TestCase):
         pm = load(PACKAGE_MAP_PATH, "fast_dev_package_map_decompiler_fixture")
         rules = {
             "families": {
+                "aj": {"package": "l1j/server/clientpackets", "category": "clientpackets"},
+                "ao": {"package": "l1j/server/datatables", "category": "datatables"},
                 "ap": {"package": "l1j/server/model/instance", "category": "model-instance"},
                 "aq": {"package": "l1j/server/model", "category": "model"},
             },
@@ -67,10 +69,13 @@ class BootstrapCoreTests(unittest.TestCase):
         }
         entries = pm.build_package_map(
             [
+                {"Class": "aj.c", "SourceFile": "C_Amount.java"},
+                {"Class": "ao.q", "SourceFile": "ClanTable.java"},
                 {"Class": "ap.u", "SourceFile": "L1PcInstance.java"},
                 {"Class": "ap.s", "SourceFile": "L1MonsterInstance.java"},
                 {"Class": "aq.aa", "SourceFile": "L1Object.java"},
                 {"Class": "aq.f", "SourceFile": "L1Character.java"},
+                {"Class": "aq.i", "SourceFile": "L1Clan.java"},
                 {"Class": "aq.am", "SourceFile": "L1Teleport.java"},
             ],
             rules,
@@ -168,6 +173,26 @@ class BootstrapCoreTests(unittest.TestCase):
         rewritten = mod.rewrite_java_source(source, teleport, entries)
 
         self.assertIn("HashSet<L1PcInstance> var7 = new HashSet<>();", rewritten)
+
+    def test_restores_donor_backed_c_amount_clan_type_imports(self):
+        mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_c_amount_artifacts")
+        entries = self.decompiler_artifact_entries()
+        amount = next(entry for entry in entries if entry.source_file == "C_Amount.java")
+        source = (
+            "package l1r.aj;\n\n"
+            "import l1r.ap.L1PcInstance;\n"
+            "public class C_Amount {\n"
+            "   public void bid(L1PcInstance pc) {\n"
+            "      L1Clan clan = ClanTable.a().a(pc.aF());\n"
+            "   }\n"
+            "}\n"
+        )
+
+        rewritten = mod.rewrite_java_source(source, amount, entries)
+
+        self.assertIn("import l1j.server.datatables.ClanTable;", rewritten)
+        self.assertIn("import l1j.server.model.L1Clan;", rewritten)
+        self.assertIn("L1Clan clan = ClanTable.a().a(pc.aF());", rewritten)
 
     def test_completed_source_wins_over_baseline(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_completed")
