@@ -41,9 +41,6 @@ def _restore_embedded_recovery_collisions(source: str, entries: Iterable) -> str
     occurrences are restored to their original identity. Strings, chars and
     comments are left byte-for-byte unchanged.
     """
-    # Normal normalized sources begin application identities at a Java token
-    # boundary. Avoid the 788-entry collision table entirely unless the historical
-    # corruption signature (identifier text glued directly before ``l1r.``) exists.
     if EMBEDDED_RECOVERY_RE.search(source) is None:
         return source
 
@@ -187,6 +184,33 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             "new Comparator() {",
             1,
         )
+    elif recovered_internal == "l1r/be/S_PrivateShop":
+        missing_imports = [
+            import_line
+            for import_line in (
+                "import java.util.ArrayList;",
+                "import java.util.concurrent.CopyOnWriteArrayList;",
+            )
+            if import_line not in source
+        ]
+        if missing_imports:
+            source = source.replace(
+                "import java.util.List;",
+                "import java.util.List;\n" + "\n".join(missing_imports),
+                1,
+            )
+        source = source.replace(
+            "List var5 = var4.aU();",
+            "CopyOnWriteArrayList<L1PrivateShopSellList> var5 = var4.aU();",
+            1,
+        )
+        source = source.replace(
+            "List var18 = var4.aV();",
+            "ArrayList<L1PrivateShopBuyList> var18 = var4.aV();",
+            1,
+        )
+    elif recovered_internal == "l1r/be/S_ProtoBuffers":
+        source = source.replace("a.g.a(", "g.a(")
     return source
 
 
@@ -205,7 +229,6 @@ def rewrite_java_source(source: str, target_entry, all_entries: Iterable) -> str
         else:
             source = replacement + "\n" + source
 
-    # Rewrite exact recovered class identities first, longest names first.
     exact_pairs = sorted(
         ((_dot(e.recovered_internal), _dot(e.dev_internal)) for e in entries),
         key=lambda pair: len(pair[0]),
@@ -215,9 +238,6 @@ def rewrite_java_source(source: str, target_entry, all_entries: Iterable) -> str
         if recovered != dev:
             source = source.replace(recovered, dev)
 
-    # A wildcard import/package-qualified reference can be rewritten only when an
-    # entire recovered package maps to one dev package. Split packages are left
-    # untouched so a later validation gate can fail closed instead of guessing.
     package_targets: dict[str, set[str]] = defaultdict(set)
     for entry in entries:
         package_targets[_package_of(entry.recovered_internal)].add(
@@ -243,7 +263,7 @@ def build_core_tree(
     completed_sources: Mapping[str, str],
     quarantined_sources: Mapping[str, str] | None = None,
 ):
-    del quarantined_sources  # Explicitly quarantined: never considered active authority.
+    del quarantined_sources
     entries = list(entries)
 
     seen_original: set[str] = set()
