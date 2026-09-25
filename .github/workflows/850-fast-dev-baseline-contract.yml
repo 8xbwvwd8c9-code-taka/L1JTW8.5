@@ -10,15 +10,54 @@ on:
       - '.github/workflows/850-fast-dev-baseline-contract.yml'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   recovery-baseline-contract:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0
       - uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      - name: Verify finalized recovery namespace baseline
+      - name: Apply minimal merged-promotion traversal candidate
+        shell: bash
+        run: |
+          set -euo pipefail
+          python - <<'PY'
+          from pathlib import Path
+
+          path = Path('tools/850/bootstrap/authority_cache.py')
+          text = path.read_text(encoding='utf-8')
+          old = '''        "--first-parent",
+        "--reverse",
+        "--format=%H%x09%s",
+'''
+          new = '''        "--reverse",
+        "--topo-order",
+        "--format=%H%x09%s",
+'''
+          if old in text:
+              text = text.replace(old, new, 1)
+              path.write_text(text, encoding='utf-8')
+          elif new not in text:
+              raise SystemExit('unexpected promotion history traversal')
+          PY
+      - name: Verify finalized recovery and promotion history contracts
         run: python -m unittest -v tools/850/tests/test_recovery_baseline_contract.py
+      - name: Publish merged promotion traversal fix
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- tools/850/bootstrap/authority_cache.py; then
+            echo 'PROMOTION_TRAVERSAL_FIX_ALREADY_COMMITTED=YES'
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add tools/850/bootstrap/authority_cache.py
+          git commit -m 'fix(fast-dev): include merged completed promotions'
+          git push origin HEAD:work/l1jtw85-fast-dev-build
