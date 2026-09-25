@@ -8,6 +8,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "ensure_dev.py"
 COMMIT = "a" * 40
+BASELINE = "b" * 40
 
 
 def load_module():
@@ -27,6 +28,8 @@ def write_core_source(core: Path, name: str, text: str) -> Path:
 
 
 class FakeAuthority:
+    RECOVERY_BASELINE_COMMIT = BASELINE
+
     def __init__(self):
         self.calls = []
 
@@ -34,8 +37,25 @@ class FakeAuthority:
         self.calls.append(("resolve", Path(root), fetch_latest))
         return COMMIT
 
-    def materialize_authority_core(self, root, cache_core, *, commit, fetch_if_missing=True):
-        self.calls.append(("materialize", Path(root), Path(cache_core), commit, fetch_if_missing))
+    def materialize_authority_core(
+        self,
+        root,
+        cache_core,
+        *,
+        commit,
+        baseline_commit=None,
+        fetch_if_missing=True,
+    ):
+        self.calls.append(
+            (
+                "materialize",
+                Path(root),
+                Path(cache_core),
+                commit,
+                baseline_commit,
+                fetch_if_missing,
+            )
+        )
         cache_core = Path(cache_core)
         source = cache_core / "src" / "l1j" / "server" / "A.java"
         source.parent.mkdir(parents=True, exist_ok=True)
@@ -44,10 +64,25 @@ class FakeAuthority:
             json.dumps({"aa/a": "l1j/server/A"}), encoding="utf-8"
         )
         (cache_core / "package-map.csv").write_text("OriginalInternal,DevInternal\naa/a,l1j/server/A\n", encoding="utf-8")
-        return {"commit": commit, "source_count": 1, "cached": False}
+        return {
+            "commit": commit,
+            "baseline_commit": baseline_commit,
+            "source_count": 1,
+            "promoted_source_count": 1,
+            "cached": False,
+        }
 
-    def completed_repair_source_paths(self, root, *, commit):
-        self.calls.append(("scope", Path(root), commit))
+    def completed_repair_source_paths(
+        self,
+        root,
+        *,
+        commit,
+        baseline_commit=None,
+        fetch_if_missing=True,
+    ):
+        self.calls.append(
+            ("scope", Path(root), commit, baseline_commit, fetch_if_missing)
+        )
         return ["recovery/normalized-src-vf/l1r/aa/A.java"]
 
 
@@ -156,6 +191,9 @@ class EnsureDevContracts(unittest.TestCase):
             result = mod.ensure_fast_dev(root, fetch_latest=True)
 
             self.assertEqual(result["authority_commit"], COMMIT)
+            materialize_calls = [call for call in authority.calls if call[0] == "materialize"]
+            self.assertEqual(len(materialize_calls), 1)
+            self.assertEqual(materialize_calls[0][4], BASELINE)
             self.assertEqual(len(dev_base.build_calls), 2)
             self.assertIsNone(dev_base.build_calls[0]["completed_overlay"])
             self.assertEqual(
