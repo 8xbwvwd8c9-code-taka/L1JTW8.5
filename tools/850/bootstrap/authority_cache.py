@@ -33,7 +33,7 @@ PROMOTION_RE = re.compile(
     re.IGNORECASE,
 )
 BUG_ID_RE = re.compile(r"\bBUG-(\d+)-(\d+(?:/\d+)*)\b", re.IGNORECASE)
-AUTHORITY_CACHE_SCHEMA_VERSION = 2
+AUTHORITY_CACHE_SCHEMA_VERSION = 3
 ARCHIVE_PATHS = (
     "recovery/source_namespace_map.csv",
     "recovery/source_namespace_state.json",
@@ -52,6 +52,7 @@ def _load_local(filename: str, module_name: str):
 
 
 _MIGRATE = _load_local("migrate_core.py", "fast_dev_authority_migrate_core")
+_COMPILE_READY = _load_local("compile_ready_authority.py", "fast_dev_authority_compile_ready")
 
 
 def _git(repo_root: Path, *args: str, check: bool = True) -> subprocess.CompletedProcess[str]:
@@ -389,7 +390,12 @@ def completed_repair_source_paths(
     )
 
 
-def _cache_hit(cache_core: Path, commit: str, baseline_commit: str) -> bool:
+def _cache_hit(
+    cache_core: Path,
+    commit: str,
+    baseline_commit: str,
+    compile_ready: bool,
+) -> bool:
     marker = cache_core / "PINNED_AUTHORITY.json"
     source_root = cache_core / "src"
     if not marker.is_file() or not source_root.is_dir():
@@ -402,6 +408,7 @@ def _cache_hit(cache_core: Path, commit: str, baseline_commit: str) -> bool:
         payload.get("schema") == AUTHORITY_CACHE_SCHEMA_VERSION
         and payload.get("commit") == commit
         and payload.get("baseline_commit") == baseline_commit
+        and payload.get("compile_ready") is bool(compile_ready)
         and any(source_root.rglob("*.java"))
     )
 
@@ -427,6 +434,7 @@ def materialize_authority_core(
     commit: str | None = None,
     baseline_commit: str | None = None,
     fetch_if_missing: bool = True,
+    compile_ready: bool = True,
 ) -> dict[str, object]:
     """Materialize semantic core from exact Git authorities, never the worktree.
 
@@ -434,9 +442,9 @@ def materialize_authority_core(
     supplied, the normalized tree starts from that recovery baseline and only Java
     files belonging to formal completed repair commits are overlaid from ``commit``.
     This is the normal Fast Dev policy: completed repairs win; unrepaired/in-progress
-    cores remain at the recovery baseline. When ``baseline_commit`` is omitted the
-    historical whole-completed-commit materialization behavior is retained for
-    explicit legacy callers.
+    cores remain at the recovery baseline. When ``compile_ready`` is true, the pinned
+    source-representation normalizers run after completed-repair overlay and before
+    semantic-package migration. Synthetic/unit-test authorities can opt out explicitly.
     """
     repo_root = Path(repo_root).resolve()
     cache_core = Path(cache_core).resolve()
@@ -471,16 +479,18 @@ def materialize_authority_core(
         )
         archive_commit = baseline
 
-    if _cache_hit(cache_core, commit, baseline):
+    if _cache_hit(cache_core, commit, baseline, compile_ready):
         return {
             "commit": commit,
             "baseline_commit": baseline,
             "source_count": sum(1 for _ in (cache_core / "src").rglob("*.java")),
             "promoted_source_count": len(promoted_sources),
+            "compile_ready": bool(compile_ready),
             "cached": True,
         }
 
     cache_core.parent.mkdir(parents=True, exist_ok=True)
+    compile_ready_state: dict[str, object] | None = None
     with tempfile.TemporaryDirectory(prefix="fast-dev-authority.", dir=cache_core.parent) as td:
         stage = Path(td)
         authority_root = stage / "authority"
@@ -506,14 +516,24 @@ def materialize_authority_core(
                 promoted_sources=promoted_sources,
             )
 
+        materialization_root = authority_root
+        if compile_ready:
+            compile_ready_root = stage / "compile-ready-authority"
+            compile_ready_state = _COMPILE_READY.prepare_compile_ready_authority(
+                repo_root,
+                authority_root,
+                compile_ready_root,
+            )
+            materialization_root = compile_ready_root
+
         rules_source = repo_root / "tools" / "850" / "bootstrap" / "package_rules.json"
         if not rules_source.is_file():
             raise FileNotFoundError(rules_source)
-        rules_target = authority_root / "tools" / "850" / "bootstrap" / "package_rules.json"
+        rules_target = materialization_root / "tools" / "850" / "bootstrap" / "package_rules.json"
         rules_target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(rules_source, rules_target)
 
-        result = _MIGRATE.materialize_sources(authority_root, cache_core)
+        result = _MIGRATE.materialize_sources(materialization_root, cache_core)
 
     marker = cache_core / "PINNED_AUTHORITY.json"
     marker.write_text(
@@ -526,6 +546,10 @@ def materialize_authority_core(
                 "promotion_only": baseline_commit is not None,
                 "promoted_source_count": len(promoted_sources),
                 "source_count": int(result["source_count"]),
+                "compile_ready": bool(compile_ready),
+                "compile_ready_normalizer_commit": (
+                    None if compile_ready_state is None else compile_ready_state["normalizer_commit"]
+                ),
             },
             indent=2,
         )
@@ -537,5 +561,6 @@ def materialize_authority_core(
         "baseline_commit": baseline,
         "source_count": int(result["source_count"]),
         "promoted_source_count": len(promoted_sources),
+        "compile_ready": bool(compile_ready),
         "cached": False,
     }
