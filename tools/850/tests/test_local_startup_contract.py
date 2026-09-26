@@ -112,6 +112,61 @@ class LocalStartupContractTests(unittest.TestCase):
             self.assertEqual(attempts, 2)
             self.assertTrue(mod._baseline_ready(root))
 
+    def test_stale_dev_base_quarantines_after_persistent_windows_delete_denial(self):
+        mod = load_fast_dev()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            build = root / ".build850"
+            cache = build / "cache"
+            dev_base = cache / "850-dev-base.jar"
+            write_dev_base(dev_base, include_server=False)
+            (build / "state.json").write_text("{}", encoding="utf-8")
+            (build / "dependency-index.json").write_text("{}", encoding="utf-8")
+            (cache / "850-dev-base.key.json").write_text("{}", encoding="utf-8")
+
+            quarantined_seen = []
+
+            class FakeBootstrap:
+                @staticmethod
+                def ensure_fast_dev(repo_root):
+                    repo_root = Path(repo_root)
+                    active = repo_root / ".build850" / "cache" / "850-dev-base.jar"
+                    quarantined = sorted(active.parent.glob("850-dev-base.jar.stale-*"))
+                    if active.exists():
+                        raise AssertionError("stale active dev-base must be moved before bootstrap")
+                    if len(quarantined) != 1:
+                        raise AssertionError(f"expected exactly one quarantined dev-base, got {quarantined}")
+                    quarantined_seen.extend(quarantined)
+                    write_dev_base(active, include_server=True)
+                    (repo_root / ".build850" / "state.json").write_text("{}", encoding="utf-8")
+                    (repo_root / ".build850" / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            original_loader = mod._load_module
+
+            def fake_loader(path, name):
+                if Path(path).name == "ensure_dev.py":
+                    return FakeBootstrap
+                return original_loader(path, name)
+
+            mod._load_module = fake_loader
+            original_unlink = Path.unlink
+            attempts = 0
+
+            def persistent_unlink(path_self, *args, **kwargs):
+                nonlocal attempts
+                if Path(path_self) == dev_base:
+                    attempts += 1
+                    raise PermissionError(5, "Access is denied", str(path_self))
+                return original_unlink(path_self, *args, **kwargs)
+
+            with mock.patch.object(Path, "unlink", persistent_unlink):
+                mod._ensure_baseline(root)
+
+            self.assertEqual(attempts, 5)
+            self.assertEqual(len(quarantined_seen), 1)
+            self.assertFalse(quarantined_seen[0].exists())
+            self.assertTrue(mod._baseline_ready(root))
+
     def test_ci_uses_shared_runtime_config_helper_not_inline_jdbc_patch(self):
         text = WORKFLOW.read_text(encoding="utf-8")
         self.assertIn("ensure_runtime_jdbc_config", text)
