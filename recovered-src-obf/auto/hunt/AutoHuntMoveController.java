@@ -2,6 +2,7 @@ package auto.hunt;
 
 public final class AutoHuntMoveController {
     public enum Result {
+        INVALID_TARGET,
         IN_RANGE,
         COOLDOWN,
         MOVED,
