@@ -589,26 +589,20 @@ promotion scope atomicity = PASS
 - port 2000 listening gate
 - production `l1jserver2.jar` SHA preservation
 
-### 最新完整 Main CI
+### 最新完整 CI
 
 ```text
 FAST_DEV_MAIN_RUN=208
-RUN_ID=36211693807
+MAIN_RUN_ID=36211693807
+FAST_DEV_FULL_COMPILE_RUN=35
+FULL_COMPILE_RUN_ID=36211693810
 HEAD=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
 STATUS=PASS
 ```
 
-這次 Main 已包含：frontend、Watch compile-on-save、pack、real migration、real core materialization、automatic bootstrap、MySQL 5.7、8.5 DB import、DB-backed runtime smoke 與 port 2000 gate。
+Main #208 已包含：frontend、Watch compile-on-save、pack、real migration、real core materialization、automatic bootstrap、MySQL 5.7、8.5 DB import、DB-backed runtime smoke 與 port 2000 gate。
 
-最近一個已完整完成的 Full Compile 證據：
-
-```text
-FAST_DEV_FULL_COMPILE_RUN=34
-RUN_ID=36211535474
-HEAD=8d1b2b4c7d62840fdd54516d0fdcfc45d45cd241
-STATUS=PASS
-REAL_FAST_DEV_FULL_COMPILE=PASS
-```
+Full Compile #35 已包含：baseline-only generated-source contract、compile-ready authority contract 與 real Fast Dev full compile，全部 PASS。
 
 完整日常操作與驗證紀錄：
 
