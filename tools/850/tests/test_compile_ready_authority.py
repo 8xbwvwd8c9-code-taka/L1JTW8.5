@@ -251,7 +251,7 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
         self.assertIn(prepare, text)
         self.assertIn(migrate, text)
         self.assertLess(text.index(prepare), text.index(migrate))
-        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 5", text)
+        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 6", text)
 
 
 if __name__ == "__main__":
