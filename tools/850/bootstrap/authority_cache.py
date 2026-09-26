@@ -523,6 +523,7 @@ def materialize_authority_core(
                 repo_root,
                 authority_root,
                 compile_ready_root,
+                fetch_if_missing=fetch_if_missing,
             )
             materialization_root = compile_ready_root
 
