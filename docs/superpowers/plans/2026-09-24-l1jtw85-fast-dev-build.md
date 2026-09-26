@@ -10,6 +10,40 @@
 
 **Spec:** `docs/superpowers/specs/2026-09-24-l1jtw85-fast-dev-build-design.md`
 
+## Execution Status — 2026-09-26
+
+The implementation work in Tasks 1–7 below is complete for the Fast Dev first-stage automated build/runtime scope. The checkboxes are retained as historical execution records and are now marked complete so future workers do not restart finished infrastructure.
+
+Validated code head:
+
+```text
+CODE_HEAD=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
+FAST_DEV_MAIN_RUN=208
+MAIN_RUN_ID=36211693807
+MAIN_STATUS=PASS
+FAST_DEV_FULL_COMPILE_RUN=35
+FULL_COMPILE_RUN_ID=36211693810
+FULL_COMPILE_STATUS=PASS
+```
+
+Current branch commits after that code head contain documentation-only changes. The remaining second-stage gate is manual validation with the unchanged 8.50c client:
+
+```text
+ACCOUNT_LOGIN=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+CHAR_SELECT=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+ENTER_GAME=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+```
+
+Current operator entry points:
+
+```text
+README.md
+docs/850-fast-dev.md
+CORE_REPAIR_STATUS_20260924.md
+```
+
+Release remap / obfuscation / encryption remain future release work and are not part of this first-stage Fast Dev plan.
+
 ## Global Constraints
 
 - `l1jserver2.jar` is immutable and must never be overwritten.
@@ -43,11 +77,11 @@
 - Consumes: `class_source_mapping.csv`, accepted normalized/recovery source identities.
 - Produces: `build_package_map(mapping_rows, rules) -> list[PackageMapEntry]`, `validate_package_map(entries) -> None`, CSV columns `OriginalInternal,RecoveredInternal,DevInternal,SourceFile,Category`.
 
-- [ ] **Step 1: Write failing tests** for known identities (`aj/bk -> l1j/server/clientpackets/C_NpcAction`, `ao/a -> l1j/server/datatables/AccountTable`), duplicate rejection, unknown-category rejection, and complete uniqueness.
-- [ ] **Step 2: Run tests and verify RED** because `package_map.py` does not exist.
-- [ ] **Step 3: Implement minimal rule-driven mapper**. Rules are explicit by original package family plus named overrides; there is no default `misc` fallback for unknown application packages.
-- [ ] **Step 4: Run tests and verify GREEN**.
-- [ ] **Step 5: Commit** `feat(fast-dev): add semantic package map generator`.
+- [x] **Step 1: Write failing tests** for known identities (`aj/bk -> l1j/server/clientpackets/C_NpcAction`, `ao/a -> l1j/server/datatables/AccountTable`), duplicate rejection, unknown-category rejection, and complete uniqueness.
+- [x] **Step 2: Run tests and verify RED** because `package_map.py` does not exist.
+- [x] **Step 3: Implement minimal rule-driven mapper**. Rules are explicit by original package family plus named overrides; there is no default `misc` fallback for unknown application packages.
+- [x] **Step 4: Run tests and verify GREEN**.
+- [x] **Step 5: Commit** `feat(fast-dev): add semantic package map generator`.
 
 ### Task 2: Core Source Bootstrap
 
@@ -60,11 +94,11 @@
 - Consumes: Task 1 package map; accepted recovered source baseline; completed repair authority.
 - Produces: deterministic semantic source tree with rewritten package/import/type references and `source-index.json` recording source authority per top-level class.
 
-- [ ] **Step 1: Write failing tests** proving package declaration rewriting, cross-source reference rewriting, completed-over-baseline precedence, work-only exclusion, duplicate identity rejection, and source-count equality.
-- [ ] **Step 2: Run tests and verify RED**.
-- [ ] **Step 3: Implement bootstrap staging** into a temporary directory; publish `core/src` only after all mapped sources validate.
-- [ ] **Step 4: Validate all accepted application top-level sources are represented exactly once** and original JAR hash is unchanged.
-- [ ] **Step 5: Run tests GREEN and commit** `feat(fast-dev): bootstrap readable core source tree`.
+- [x] **Step 1: Write failing tests** proving package declaration rewriting, cross-source reference rewriting, completed-over-baseline precedence, work-only exclusion, duplicate identity rejection, and source-count equality.
+- [x] **Step 2: Run tests and verify RED**.
+- [x] **Step 3: Implement bootstrap staging** into a temporary directory; publish `core/src` only after all mapped sources validate.
+- [x] **Step 4: Validate all accepted application top-level sources are represented exactly once** and original JAR hash is unchanged.
+- [x] **Step 5: Run tests GREEN and commit** `feat(fast-dev): bootstrap readable core source tree`.
 
 ### Task 3: Dynamic BUG Repair Registry and Sync
 
@@ -78,11 +112,11 @@
 - Consumes: work/completed branch heads and existing repair evidence; Task 2 source index.
 - Produces: states `PENDING`, `IN_REPAIR`, `PROMOTED_NOT_SYNCED`, `SYNCED_DEV`, `DEFERRED_COMPILE`, `VALIDATED_DEV`; promotion-scoped source candidate sets.
 
-- [ ] **Step 1: Write failing tests** for 20-count snapshot -> completed promotion of 039/043/046 -> 17 effective pending, work-only quarantine, multi-file promotion grouping, and stale registry refresh.
-- [ ] **Step 2: Run RED**.
-- [ ] **Step 3: Implement dynamic reconciliation**; never hard-code pending count as authority.
-- [ ] **Step 4: Implement staged sync candidate generation** without mutating active dev source.
-- [ ] **Step 5: Run GREEN and commit** `feat(fast-dev): add repair registry and sync`.
+- [x] **Step 1: Write failing tests** for 20-count snapshot -> completed promotion of 039/043/046 -> 17 effective pending, work-only quarantine, multi-file promotion grouping, and stale registry refresh.
+- [x] **Step 2: Run RED**.
+- [x] **Step 3: Implement dynamic reconciliation**; never hard-code pending count as authority.
+- [x] **Step 4: Implement staged sync candidate generation** without mutating active dev source.
+- [x] **Step 5: Run GREEN and commit** `feat(fast-dev): add repair registry and sync`.
 
 ### Task 4: Readable Dev Runtime Bootstrap Cache
 
@@ -96,11 +130,11 @@
 - Consumes: original JAR, Task 1 package map.
 - Produces: semantic-namespace application runtime baseline and cache key based on original JAR SHA, package map SHA, Java major, compiler schema.
 
-- [ ] **Step 1: Write failing tests** for class/internal-name rewrite, descriptor/signature/inner-class rewrite, resource preservation, string-constant preservation, cache hit/miss, and original JAR immutability.
-- [ ] **Step 2: Run RED**.
-- [ ] **Step 3: Implement semantic relocation bootstrap** by adapting the existing proven classfile transformer rather than writing a second parser.
-- [ ] **Step 4: Run structural closure validation and tests GREEN**.
-- [ ] **Step 5: Commit** `feat(fast-dev): build cached readable dev runtime`.
+- [x] **Step 1: Write failing tests** for class/internal-name rewrite, descriptor/signature/inner-class rewrite, resource preservation, string-constant preservation, cache hit/miss, and original JAR immutability.
+- [x] **Step 2: Run RED**.
+- [x] **Step 3: Implement semantic relocation bootstrap** by adapting the existing proven classfile transformer rather than writing a second parser.
+- [x] **Step 4: Run structural closure validation and tests GREEN**.
+- [x] **Step 5: Commit** `feat(fast-dev): build cached readable dev runtime`.
 
 ### Task 5: Incremental Compiler and Dependency State
 
@@ -115,11 +149,11 @@
 - Consumes: `core/src`, Task 4 dev-base JAR, `lib/*`.
 - Produces: atomic class overlay and state describing hashes, generated class families, ABI fingerprints, and reverse dependencies.
 
-- [ ] **Step 1: Write failing tests** for method-body-only one-class compile, ABI-change dependent expansion, unknown dependency closure -> full compile, deleted source cleanup, failed compile preserving last-known-good classes.
-- [ ] **Step 2: Run RED**.
-- [ ] **Step 3: Implement source hashing + staging compile** using Java 8 `javac`.
-- [ ] **Step 4: Implement ABI fingerprint + reverse-dependency update** only after PASS.
-- [ ] **Step 5: Run GREEN and commit** `feat(fast-dev): add incremental Java compiler`.
+- [x] **Step 1: Write failing tests** for method-body-only one-class compile, ABI-change dependent expansion, unknown dependency closure -> full compile, deleted source cleanup, failed compile preserving last-known-good classes.
+- [x] **Step 2: Run RED**.
+- [x] **Step 3: Implement source hashing + staging compile** using Java 8 `javac`.
+- [x] **Step 4: Implement ABI fingerprint + reverse-dependency update** only after PASS.
+- [x] **Step 5: Run GREEN and commit** `feat(fast-dev): add incremental Java compiler`.
 
 ### Task 6: Fast Dev Frontend
 
@@ -133,12 +167,12 @@
 - Consumes: Tasks 2-5.
 - Produces commands `default`, `-Run`, `-Watch`, `-Full`, `-Clean`, `-Sync`, `-Pack`.
 
-- [ ] **Step 1: Write failing contract tests** for command parsing, production-JAR overwrite prohibition, default incremental behavior, `-Run` classpath order, `-Watch` core-only monitoring, and `-Clean` cache reset.
-- [ ] **Step 2: Run RED**.
-- [ ] **Step 3: Implement PowerShell thin wrapper + Python coordinator**.
-- [ ] **Step 4: Implement `-Run` as classpath overlay** `.build850/classes;850-dev-base.jar;lib/*`, not JAR replacement.
-- [ ] **Step 5: Implement `-Watch` debounced compile-on-save** without automatic live-server restart.
-- [ ] **Step 6: Run GREEN and commit** `feat(fast-dev): add build850 frontend`.
+- [x] **Step 1: Write failing contract tests** for command parsing, production-JAR overwrite prohibition, default incremental behavior, `-Run` classpath order, `-Watch` core-only monitoring, and `-Clean` cache reset.
+- [x] **Step 2: Run RED**.
+- [x] **Step 3: Implement PowerShell thin wrapper + Python coordinator**.
+- [x] **Step 4: Implement `-Run` as classpath overlay** `.build850/classes;850-dev-base.jar;lib/*`, not JAR replacement.
+- [x] **Step 5: Implement `-Watch` debounced compile-on-save** without automatic live-server restart.
+- [x] **Step 6: Run GREEN and commit** `feat(fast-dev): add build850 frontend`.
 
 ### Task 7: Pack, CI, Migration Verification, and Handoff
 
@@ -152,12 +186,12 @@
 - Consumes: all prior tasks.
 - Produces: `dist/l1jserver2-dev.jar`, CI evidence, user runbook.
 
-- [ ] **Step 1: Write failing pack/CI contract tests** proving resources preserved, overlay wins, original JAR unchanged, registry sync cannot consume work-only repairs.
-- [ ] **Step 2: Run RED**.
-- [ ] **Step 3: Implement `-Pack` deterministic readable dev JAR**.
-- [ ] **Step 4: Add CI bootstrap + incremental smoke** including Java 8 compile and startup smoke where environment permits.
-- [ ] **Step 5: Run full suite** and verify migration/source counts, package-map uniqueness, pending repair registry, cache reuse, one-class incremental rebuild, full compile fallback, and original JAR SHA preservation.
-- [ ] **Step 6: Update status/runbook and commit** `docs(fast-dev): record validated fast development workflow`.
+- [x] **Step 1: Write failing pack/CI contract tests** proving resources preserved, overlay wins, original JAR unchanged, registry sync cannot consume work-only repairs.
+- [x] **Step 2: Run RED**.
+- [x] **Step 3: Implement `-Pack` deterministic readable dev JAR**.
+- [x] **Step 4: Add CI bootstrap + incremental smoke** including Java 8 compile and startup smoke where environment permits.
+- [x] **Step 5: Run full suite** and verify migration/source counts, package-map uniqueness, pending repair registry, cache reuse, one-class incremental rebuild, full compile fallback, and original JAR SHA preservation.
+- [x] **Step 6: Update status/runbook and commit** `docs(fast-dev): record validated fast development workflow`.
 
 ## Plan Self-Review
 
