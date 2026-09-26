@@ -160,6 +160,16 @@ def _unlink_with_retry(path: Path, *, attempts: int = 5, delay: float = 0.1) -> 
             time.sleep(delay)
 
 
+def _quarantine_stale_generated_file(path: Path) -> Path:
+    """Atomically move a stale generated file aside when Windows denies deletion."""
+    path = Path(path)
+    quarantine = path.with_name(
+        f"{path.name}.stale-{os.getpid()}-{time.time_ns()}"
+    )
+    path.rename(quarantine)
+    return quarantine
+
+
 def _ensure_baseline(root: Path) -> None:
     root = Path(root)
     if _baseline_ready(root):
@@ -167,8 +177,12 @@ def _ensure_baseline(root: Path) -> None:
 
     build = root / ".build850"
     dev_base = build / "cache" / "850-dev-base.jar"
+    quarantined_dev_base: Path | None = None
     if dev_base.is_file() and not _dev_base_runtime_ready(dev_base):
-        _unlink_with_retry(dev_base)
+        try:
+            _unlink_with_retry(dev_base)
+        except PermissionError:
+            quarantined_dev_base = _quarantine_stale_generated_file(dev_base)
         cache_key = build / "cache" / "850-dev-base.key.json"
         try:
             cache_key.unlink()
@@ -182,6 +196,12 @@ def _ensure_baseline(root: Path) -> None:
     bootstrap.ensure_fast_dev(root)
     if not _baseline_ready(root):
         raise RuntimeError("Fast Dev automatic bootstrap completed without a usable baseline/state")
+
+    if quarantined_dev_base is not None:
+        try:
+            _unlink_with_retry(quarantined_dev_base)
+        except (FileNotFoundError, PermissionError):
+            pass
 
 
 def sync_completed(root: Path) -> dict[str, object]:
