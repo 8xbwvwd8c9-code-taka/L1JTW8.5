@@ -43,15 +43,24 @@ def pe_sections(data):
     return image_base, out
 
 
-def rva_to_offset(rva, sections):
+def locate_rva(rva, sections):
     for name, va, vs, raw, raw_size in sections:
         span = max(vs, raw_size)
         if va <= rva < va + span:
             delta = rva - va
-            if delta >= raw_size:
-                raise SystemExit(f'RVA 0x{rva:08X} is not file-backed in section {name}')
-            return raw + delta, name
-    raise SystemExit(f'RVA 0x{rva:08X} not mapped by PE sections')
+            file_backed = delta < raw_size
+            offset = raw + delta if file_backed else None
+            return {
+                'name': name,
+                'va': va,
+                'virtual_size': vs,
+                'raw_ptr': raw,
+                'raw_size': raw_size,
+                'delta': delta,
+                'file_backed': file_backed,
+                'offset': offset,
+            }
+    return None
 
 
 def disassemble(blob, va, image_base):
@@ -124,12 +133,34 @@ def main():
     ]
 
     primary_ecx = []
+    virtual_only = []
+    unmapped = []
+
     for rva in EXPECTED_TARGETS:
-        off, section = rva_to_offset(rva, sections)
+        loc = locate_rva(rva, sections)
+        if loc is None:
+            unmapped.append(rva)
+            out.append(f'TARGET_RVA=0x{rva:08X} MAPPED=NO FILE_BACKED=NO')
+            continue
+
+        if not loc['file_backed']:
+            virtual_only.append(rva)
+            out.append(
+                f"TARGET_RVA=0x{rva:08X} SECTION={loc['name']} FILE_BACKED=NO "
+                f"SECTION_RVA=0x{loc['va']:08X} VIRTUAL_SIZE=0x{loc['virtual_size']:X} "
+                f"RAW_PTR=0x{loc['raw_ptr']:08X} RAW_SIZE=0x{loc['raw_size']:X} DELTA=0x{loc['delta']:X}"
+            )
+            continue
+
+        off = loc['offset']
         blob = data[off:off + CAPTURE_BYTES]
         rows, calls, mems, rets = disassemble(blob, image_base + rva, image_base)
         cls = 'PRIMARY_STORAGE_LANDING' if rva == 0x0087E900 else 'SIBLING_STORAGE_LANDING'
-        out.append(f'TARGET_RVA=0x{rva:08X} FILE_OFFSET=0x{off:08X} SECTION={section} BYTES={len(blob)} DECODED_INSNS={len(rows)} CLASS={cls}')
+        out.append(
+            f"TARGET_RVA=0x{rva:08X} FILE_OFFSET=0x{off:08X} SECTION={loc['name']} FILE_BACKED=YES "
+            f"VIRTUAL_SIZE=0x{loc['virtual_size']:X} RAW_SIZE=0x{loc['raw_size']:X} "
+            f"BYTES={len(blob)} DECODED_INSNS={len(rows)} CLASS={cls}"
+        )
         out.append('  DIRECT_TARGETS=' + (','.join(f'0x{x:08X}' for x in calls) if calls else 'NONE'))
         out.append('  THIS_MEM=' + (';'.join(f'RVA=0x{rrva:08X},BASE={base},DISP={disp:+#x},ASM={asm}' for rrva, base, disp, asm in mems) if mems else 'NONE'))
         out.append('  RETS=' + (','.join(f'0x{x:08X}' for x in rets) if rets else 'NONE'))
@@ -138,12 +169,20 @@ def main():
         if rva == 0x0087E900:
             primary_ecx = [(rrva, disp, asm) for rrva, base, disp, asm in mems if base == 'ecx']
 
+    blocked = bool(virtual_only or unmapped)
+    status = 'BLOCKED_STATIC_PE_VIRTUAL_ONLY' if virtual_only else ('BLOCKED_STATIC_PE_RVA_UNMAPPED' if unmapped else 'PASS_V19_OFFLINE_STORAGE_CAPTURE_VALIDATED')
+
     out += [
         '',
         '[DECISION]',
-        'STATUS=PASS_V19_OFFLINE_STORAGE_CAPTURE_VALIDATED',
+        f'STATUS={status}',
+        f'VIRTUAL_ONLY_TARGET_COUNT={len(virtual_only)}',
+        'VIRTUAL_ONLY_TARGETS=' + (','.join(f'0x{x:08X}' for x in virtual_only) if virtual_only else 'NONE'),
+        f'UNMAPPED_TARGET_COUNT={len(unmapped)}',
+        'UNMAPPED_TARGETS=' + (','.join(f'0x{x:08X}' for x in unmapped) if unmapped else 'NONE'),
         f'PRIMARY_0087E900_DIRECT_ECX_MEM_COUNT={len(primary_ecx)}',
         'PRIMARY_0087E900_DIRECT_ECX_MEM=' + (';'.join(f'RVA=0x{rrva:08X},DISP={disp:+#x},ASM={asm}' for rrva, disp, asm in primary_ecx) if primary_ecx else 'NONE'),
+        'OFFLINE_LANE_CAN_PROVE_STORAGE=' + ('NO' if blocked else 'PENDING_REVIEW'),
         'AUTO_PROMOTION_ALLOWED=NO',
         'BEGIN_END_STORAGE_PROVEN=NO',
         'ELEMENT_IDENTITY_PROVEN=NO',
