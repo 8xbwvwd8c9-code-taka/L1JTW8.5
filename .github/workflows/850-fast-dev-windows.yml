@@ -1,0 +1,30 @@
+name: L1JTW8.5 Fast Dev Windows
+
+on:
+  push:
+    branches:
+      - work/l1jtw85-fast-dev-build
+    paths:
+      - 'tools/850/**'
+      - 'build850.ps1'
+      - 'build850.cmd'
+      - '.github/workflows/850-fast-dev-windows.yml'
+  workflow_dispatch:
+
+jobs:
+  windows-startup-contracts:
+    runs-on: windows-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Run local startup contracts
+        run: python -m unittest -v tools/850/tests/test_local_startup_contract.py
+
+      - name: Run Windows UTF-8 driver contract
+        run: python -m unittest -v tools/850/tests/test_windows_utf8_driver.py
