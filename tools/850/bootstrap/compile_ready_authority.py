@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import importlib.util
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -12,6 +13,7 @@ from typing import Iterable
 
 
 HERE = Path(__file__).resolve().parent
+COMMIT_RE = re.compile(r"^[0-9a-fA-F]{40}$")
 
 # Exact recovery state immediately before the persisted 788-source application
 # compile PASS (40a44a2). These scripts are source-representation normalizers,
@@ -53,14 +55,69 @@ _PRE_STAGE = _load_local(
 )
 
 
-def _git_show(repo_root: Path, commit: str, path: str) -> str:
+def _git(
+    repo_root: Path,
+    *args: str,
+    check: bool = True,
+) -> subprocess.CompletedProcess[str]:
     proc = subprocess.run(
-        ["git", "show", f"{commit}:{path}"],
+        ["git", *args],
         cwd=repo_root,
         stdout=subprocess.PIPE,
         stderr=subprocess.PIPE,
         text=True,
     )
+    if check and proc.returncode != 0:
+        detail = proc.stderr.strip() or proc.stdout.strip() or "git command failed"
+        raise RuntimeError(detail)
+    return proc
+
+
+def _normalizer_commit_available(repo_root: Path, commit: str) -> bool:
+    return _git(
+        repo_root,
+        "cat-file",
+        "-e",
+        f"{commit}^{{commit}}",
+        check=False,
+    ).returncode == 0
+
+
+def _ensure_normalizer_commit(
+    repo_root: Path,
+    commit: str,
+    *,
+    fetch_if_missing: bool,
+) -> bool:
+    commit = str(commit).strip().lower()
+    if not COMMIT_RE.fullmatch(commit):
+        raise ValueError("normalizer commit must be an exact 40-hex SHA")
+    if _normalizer_commit_available(repo_root, commit):
+        return False
+    if not fetch_if_missing:
+        raise RuntimeError(f"normalizer commit unavailable: {commit}")
+
+    attempts = (
+        ("fetch", "--no-tags", "--depth=1", "origin", commit),
+        ("fetch", "--no-tags", "origin", commit),
+    )
+    details: list[str] = []
+    for args in attempts:
+        proc = _git(repo_root, *args, check=False)
+        if proc.returncode == 0 and _normalizer_commit_available(repo_root, commit):
+            return True
+        detail = proc.stderr.strip() or proc.stdout.strip()
+        if detail:
+            details.append(detail)
+
+    detail_text = " || ".join(dict.fromkeys(details)) or "git fetch failed"
+    raise RuntimeError(
+        f"normalizer commit unavailable after exact-SHA fetch: {commit}: {detail_text}"
+    )
+
+
+def _git_show(repo_root: Path, commit: str, path: str) -> str:
+    proc = _git(repo_root, "show", f"{commit}:{path}", check=False)
     if proc.returncode != 0:
         detail = proc.stderr.strip() or proc.stdout.strip() or "git show failed"
         raise RuntimeError(f"cannot read pinned normalizer {path} from {commit}: {detail}")
@@ -114,18 +171,21 @@ def prepare_compile_ready_authority(
     normalizer_commit: str = PINNED_NORMALIZER_COMMIT,
     script_names: Iterable[str] = NORMALIZER_SCRIPTS,
     pre_stage: bool = True,
+    fetch_if_missing: bool = True,
 ) -> dict[str, object]:
     """Replay the proven recovery source-normalization stage on an authority copy.
 
     The input authority is never modified. Completed repair overlay happens before
     this function. Fast Dev first applies idempotent pre-stage representation fixes,
     then loads the historical stage scripts from one exact Git commit and executes
-    them in order inside an isolated workspace. Publication is atomic and happens
-    only if every transform succeeds.
+    them in order inside an isolated workspace. A shallow clone fetches only that
+    exact pinned commit when it is missing. Publication is atomic and happens only
+    if every transform succeeds.
     """
     repo_root = Path(repo_root).resolve()
     authority_root = Path(authority_root).resolve()
     output_root = Path(output_root).resolve()
+    normalizer_commit = str(normalizer_commit).strip().lower()
     source_root = authority_root / "recovery" / "normalized-src-vf"
     if not source_root.is_dir():
         raise FileNotFoundError(source_root)
@@ -135,6 +195,12 @@ def prepare_compile_ready_authority(
     source_count = sum(1 for _ in source_root.rglob("*.java"))
     if source_count <= 0:
         raise RuntimeError("compile-ready authority has no normalized Java sources")
+
+    normalizer_commit_fetched = _ensure_normalizer_commit(
+        repo_root,
+        normalizer_commit,
+        fetch_if_missing=fetch_if_missing,
+    )
 
     output_root.parent.mkdir(parents=True, exist_ok=True)
     temp_parent = Path(tempfile.mkdtemp(prefix="compile-ready.", dir=output_root.parent))
@@ -174,6 +240,7 @@ def prepare_compile_ready_authority(
         os.replace(candidate, output_root)
         return {
             "normalizer_commit": normalizer_commit,
+            "normalizer_commit_fetched": normalizer_commit_fetched,
             "scripts": names,
             "source_count": stage_count,
             "pre_stage": bool(pre_stage),
