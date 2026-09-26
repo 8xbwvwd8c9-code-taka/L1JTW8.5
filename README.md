@@ -49,8 +49,33 @@ analysis/l1jtw85-recovery=HISTORICAL_EVIDENCE_ONLY
 1. 已修復核心唯一來源：completed/l1jtw85-core-fixes
 2. 原始反編譯唯一來源：completed/l1jtw85-decompiled
 3. main：只放入口、治理規則、統計與非核心導覽
-4. 所有其他歷史核心支線：只讀 / 不再續作 / 不再 promotion
+4. work/l1jtw85-fast-dev-build：重新架構後的開發 / 編譯 / 執行層，不是第三條 authority
+5. 所有其他歷史核心支線：只讀 / 不再續作 / 不再 promotion
 ```
+
+## Fast Dev / 重新架構核心入口
+
+日常 850 核心開發、增量編譯、`-Sync`、Windows 本機啟動與逐核心路徑映射統一從這裡進入：
+
+- [Fast Dev／重新架構核心支線 `work/l1jtw85-fast-dev-build`](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/l1jtw85-fast-dev-build)
+- [Fast Dev 首頁：核心架構、completed BUG 映射、ERROR-LOCAL 修復紀錄](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/l1jtw85-fast-dev-build/README.md)
+
+固定資料流：
+
+```text
+completed/l1jtw85-decompiled          = frozen decompile baseline
+completed/l1jtw85-core-fixes          = validated BUG repair authority
+                    ↓
+work/l1jtw85-fast-dev-build bootstrap = materialize / map / compile / runtime
+                    ↓
+core/src                              = 本機日常 editable core
+                    ↓
+.build850/classes + 850-dev-base.jar  = Fast Dev runtime
+```
+
+> `work/l1jtw85-fast-dev-build` **不是第三條 core authority**。它只消費上方兩條 completed authority，並把核心轉成可閱讀 semantic package。每顆核心的 completed normalized path、authority cache path、`core/src` path 與 compiled path 都記錄在 Fast Dev 首頁；完整逐核心索引由本機 bootstrap 生成的 `core/source-index.json` / `core/package-map.csv` 維護。
+
+2026-09-26 Windows 本機 Fast Dev 啟動鏈路已完成實機驗證：build、DB、server init、client connect、character login 均 PASS；`ERROR-LOCAL-005` 已關閉。DB credential 屬本機設定，不得提交 Git。
 
 ## 已修復核心 BUG 統計（L1-L3）
 
@@ -127,6 +152,8 @@ BUG / FEATURE
 → 最小完整修復
 → Java 8 / runtime / failure model validation
 → completed/l1jtw85-core-fixes
+→ Fast Dev -Sync / materialize
+→ core/src 實機驗證
 → completion record / recount
 ```
 
@@ -143,8 +170,9 @@ BUG / FEATURE
 
 ## 850 其他工作入口
 
-以下不是「核心修復支線」，不受兩條 core authority 命名限制，但不得存放服務端核心修補成果：
+以下不是「核心修復 authority」，不得取代上方兩條 completed branch：
 
+- [850 Fast Dev／重新架構核心](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/l1jtw85-fast-dev-build)
 - [850 登入器 / 內掛開發支線](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/work/850-launcher-helper)
 - [850 登入器 / 內掛開發報告](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/blob/work/850-launcher-helper/docs/850-launcher/REPORT.md)
 - [381 → 850 DB 移植分析](https://github.com/8xbwvwd8c9-code-taka/L1JTW8.5/tree/analysis/381-to-850-db-migration)
@@ -156,4 +184,4 @@ BUG / FEATURE
 
 - [`docs/archive/README_20260925_before_core_authority_cleanup.md`](docs/archive/README_20260925_before_core_authority_cleanup.md)
 
-需要追舊 repair commit、舊 CI 編號或 arithmetic proof 時才進歷史紀錄；目前核心工作一律只認上方兩條權威支線。
+需要追舊 repair commit、舊 CI 編號或 arithmetic proof 時才進歷史紀錄；目前核心 source authority 一律只認上方兩條 completed 支線，日常開發入口則使用 Fast Dev。
