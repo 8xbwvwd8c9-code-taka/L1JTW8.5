@@ -52,6 +52,10 @@ public final class AutoHuntLifecycle {
         return isCurrentSession(sessionToken) && actionToken == actionGeneration;
     }
 
+    public synchronized void invalidateAction() {
+        actionGeneration++;
+    }
+
     public synchronized void observeMap(int mapId) {
         if (observedMapId == mapId) {
             return;
