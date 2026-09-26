@@ -252,7 +252,10 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             1,
         )
     elif recovered_internal == "l1r/be/S_ProtoBuffers":
-        source = source.replace("a.g.a(", "((a.g)null).a(")
+        # Both `a` and `g` are integer members in this class. Resolve imported
+        # type a.g in cast/type context, then invoke the original static method.
+        source = source.replace("a.g.a(", "((g)null).a(")
+        source = source.replace("g.a(", "((g)null).a(")
     return source
 
 
