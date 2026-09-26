@@ -44,7 +44,8 @@ public final class AutoHuntService {
                 new AutoHunt850Session.TargetAction() {
                     @Override
                     public boolean onTarget(s target) {
-                        AutoHuntMoveController.Result moveResult = mover.moveToward(target, provider.engageRange());
+                        int basicAttackRange = attacker.attackRange();
+                        AutoHuntMoveController.Result moveResult = mover.moveToward(target, basicAttackRange);
                         if (moveResult == AutoHuntMoveController.Result.INVALID_TARGET
                                 || moveResult == AutoHuntMoveController.Result.UNREACHABLE) {
                             return false;
@@ -53,7 +54,7 @@ public final class AutoHuntService {
                             return true;
                         }
 
-                        AutoHuntAttackController.Result attackResult = attacker.attack(target, provider.engageRange());
+                        AutoHuntAttackController.Result attackResult = attacker.attack(target, basicAttackRange);
                         return attackResult != AutoHuntAttackController.Result.INVALID_TARGET;
                     }
 
