@@ -9,6 +9,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[3]
 MODULE_PATH = ROOT / "tools" / "850" / "bootstrap" / "compile_ready_authority.py"
 PRE_STAGE_PATH = ROOT / "tools" / "850" / "bootstrap" / "pre_stage_normalization.py"
+BOOTSTRAP_PATH = ROOT / "tools" / "850" / "bootstrap" / "bootstrap_core.py"
 
 
 def load_path(path: Path, name: str):
@@ -41,6 +42,46 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
     def setUpClass(cls):
         if shutil.which("git") is None:
             raise unittest.SkipTest("git is required")
+
+    def test_default_normalizers_exclude_compile_view_only_aliases(self):
+        mod = load_module()
+        self.assertNotIn(
+            "normalize-external-builder-alias-refs.py",
+            mod.NORMALIZER_SCRIPTS,
+        )
+        self.assertNotIn(
+            "normalize-nonprotobuf-runtime-g-calls.py",
+            mod.NORMALIZER_SCRIPTS,
+        )
+
+    def test_semantic_bootstrap_preserves_generic_comparators(self):
+        bootstrap = load_path(BOOTSTRAP_PATH, "fast_dev_bootstrap_core_contract")
+        cases = (
+            (
+                "l1r/au/L1Inventory",
+                "private class L1R_a<T> implements Comparator<L1ItemInstance> {\n}",
+                "Comparator<L1ItemInstance>",
+            ),
+            (
+                "l1r/ao/RankingTable",
+                "new Comparator<RankingTable.L1R_a>() {\n};",
+                "Comparator<RankingTable.L1R_a>",
+            ),
+            (
+                "l1r/ao/ShopTable",
+                "new Comparator<L1ShopItem>() {\n};",
+                "Comparator<L1ShopItem>",
+            ),
+        )
+        for recovered_internal, source, expected in cases:
+            with self.subTest(recovered_internal=recovered_internal):
+                transformed = bootstrap._restore_donor_backed_decompiler_artifacts(
+                    source,
+                    recovered_internal,
+                )
+                self.assertIn(expected, transformed)
+                self.assertNotIn("new Comparator()", transformed)
+                self.assertNotIn("implements Comparator {", transformed)
 
     def test_pre_stage_repairs_shadow_calls_and_generics_idempotently(self):
         self.assertTrue(PRE_STAGE_PATH.is_file())
@@ -198,7 +239,7 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
         self.assertIn(prepare, text)
         self.assertIn(migrate, text)
         self.assertLess(text.index(prepare), text.index(migrate))
-        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 4", text)
+        self.assertIn("AUTHORITY_CACHE_SCHEMA_VERSION = 5", text)
 
 
 if __name__ == "__main__":
