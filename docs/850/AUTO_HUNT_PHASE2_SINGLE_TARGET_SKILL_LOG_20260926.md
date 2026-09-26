@@ -17,6 +17,8 @@ Confirmed `skills` mapping through `ao.be` + `bh.v`:
 - `skill.p()` = ranged
 - `skill.q()` = area
 
+Native reuse-delay unit is milliseconds: `bf.a` passes `skill.h()` to `bg.a`, which schedules through `bi.e` using `TimeUnit.MILLISECONDS`.
+
 Auto-hunt intentionally does NOT call client anti-speed mutation `pc.ce().a(...)` and does NOT duplicate MP/HP/item deduction.
 
 ## IMPLEMENTATION
@@ -37,7 +39,7 @@ Auto-hunt intentionally does NOT call client anti-speed mutation `pc.ce().a(...)
 - own cooldown gate executes before native executor preflight
 - native `bf.a` preflight remains authoritative
 - successful attempt dispatches through native executor
-- auto-hunt cooldown uses `skills.reuseDelay`
+- auto-hunt cooldown uses `skills.reuseDelay` directly in milliseconds
 
 ### AutoHuntService
 Action order is now:
@@ -65,6 +67,11 @@ RED/GREEN history:
 - service RED: no skill caster wiring
 - service GREEN: skill-first/fallback/invalid-target/reset behavior
 
+Fresh closure after final code:
+- `AUTO_HUNT_SKILL_CONTROLLER_TEST=PASS`, compile=0, run=0
+- `AUTO_HUNT_850_SKILL_ADAPTER=PASS`, compile=0, run=0
+- `AUTO_HUNT_SERVICE_SKILL_WIRING=PASS`, compile=0, run=0
+
 ## EXPLICIT NON-SCOPE
 - Boss/elite monster skill-pool rules are unrelated to this module.
 - no Boss heal prohibition exists here
@@ -72,4 +79,5 @@ RED/GREEN history:
 - 880 UI/settings transport remains separate and unverified
 - full recovered-source project compile is not claimed
 
-NEXT=close fresh regression suite, then design the next auto-hunt module without mixing monster/Boss affix rules into player auto-hunt.
+STATUS=SINGLE_TARGET_ACTIVE_SKILL_CLOSED
+NEXT=choose the next player auto-hunt module without mixing monster/Boss affix rules into player auto-hunt.
