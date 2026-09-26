@@ -289,6 +289,44 @@ class AuthorityCacheContracts(unittest.TestCase):
             self.assertEqual(result["commit"], completed)
             self.assertEqual(result["source_count"], 1)
 
+    def test_materialization_forwards_fetch_policy_to_compile_ready_normalizer(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            repo = Path(td) / "repo"
+            repo.mkdir()
+            git(repo, "init")
+            git(repo, "config", "user.email", "test@example.invalid")
+            git(repo, "config", "user.name", "Fast Dev Test")
+
+            write_authority(repo, 1)
+            git(repo, "add", ".")
+            git(repo, "commit", "-m", "completed authority")
+            completed = git(repo, "rev-parse", "HEAD")
+
+            captured: list[object] = []
+            original_prepare = mod._COMPILE_READY.prepare_compile_ready_authority
+
+            def fake_prepare(repo_root, authority_root, output_root, **kwargs):
+                captured.append(kwargs.get("fetch_if_missing"))
+                shutil.copytree(authority_root, output_root)
+                return {"normalizer_commit": "test-normalizer"}
+
+            mod._COMPILE_READY.prepare_compile_ready_authority = fake_prepare
+            try:
+                cache_core = repo / ".build850" / "cache" / "completed-authority-core"
+                result = mod.materialize_authority_core(
+                    repo,
+                    cache_core,
+                    commit=completed,
+                    fetch_if_missing=False,
+                    compile_ready=True,
+                )
+            finally:
+                mod._COMPILE_READY.prepare_compile_ready_authority = original_prepare
+
+            self.assertEqual(captured, [False])
+            self.assertTrue(result["compile_ready"])
+
     def test_missing_pinned_commit_fails_closed_without_publishing_cache(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
