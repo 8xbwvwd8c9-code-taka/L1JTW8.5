@@ -1,7 +1,9 @@
 import importlib.util
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
+from unittest import mock
 
 
 ROOT = Path(__file__).resolve().parents[3]
@@ -17,6 +19,13 @@ def load_fast_dev():
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
     return module
+
+
+def write_dev_base(path: Path, *, include_server: bool) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    entry = "l1j/server/Server.class" if include_server else "l1j/server/NotServer.class"
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr(entry, b"placeholder")
 
 
 class LocalStartupContractTests(unittest.TestCase):
@@ -55,6 +64,53 @@ class LocalStartupContractTests(unittest.TestCase):
             after_first = path.read_bytes()
             self.assertFalse(mod.ensure_runtime_jdbc_config(root))
             self.assertEqual(path.read_bytes(), after_first)
+
+    def test_stale_dev_base_retries_transient_windows_delete_denial(self):
+        mod = load_fast_dev()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            build = root / ".build850"
+            dev_base = build / "cache" / "850-dev-base.jar"
+            write_dev_base(dev_base, include_server=False)
+            (build / "state.json").write_text("{}", encoding="utf-8")
+            (build / "dependency-index.json").write_text("{}", encoding="utf-8")
+            (build / "cache" / "850-dev-base.key.json").write_text("{}", encoding="utf-8")
+
+            class FakeBootstrap:
+                @staticmethod
+                def ensure_fast_dev(repo_root):
+                    repo_root = Path(repo_root)
+                    write_dev_base(
+                        repo_root / ".build850" / "cache" / "850-dev-base.jar",
+                        include_server=True,
+                    )
+                    (repo_root / ".build850" / "state.json").write_text("{}", encoding="utf-8")
+                    (repo_root / ".build850" / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            original_loader = mod._load_module
+
+            def fake_loader(path, name):
+                if Path(path).name == "ensure_dev.py":
+                    return FakeBootstrap
+                return original_loader(path, name)
+
+            mod._load_module = fake_loader
+            original_unlink = Path.unlink
+            attempts = 0
+
+            def transient_unlink(path_self, *args, **kwargs):
+                nonlocal attempts
+                if Path(path_self) == dev_base:
+                    attempts += 1
+                    if attempts == 1:
+                        raise PermissionError(5, "Access is denied", str(path_self))
+                return original_unlink(path_self, *args, **kwargs)
+
+            with mock.patch.object(Path, "unlink", transient_unlink):
+                mod._ensure_baseline(root)
+
+            self.assertEqual(attempts, 2)
+            self.assertTrue(mod._baseline_ready(root))
 
     def test_ci_uses_shared_runtime_config_helper_not_inline_jdbc_patch(self):
         text = WORKFLOW.read_text(encoding="utf-8")
