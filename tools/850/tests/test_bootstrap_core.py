@@ -228,8 +228,11 @@ class BootstrapCoreTests(unittest.TestCase):
 
         self.assertIn("ArrayList<L1ItemInstance> var3 = new ArrayList<>();", rewritten)
         self.assertIn("ArrayList<L1ItemInstance> var2 = new ArrayList<>();", rewritten)
-        self.assertIn("private class L1R_a<T> implements Comparator {", rewritten)
-        self.assertNotIn("implements Comparator<L1ItemInstance>", rewritten)
+        self.assertIn(
+            "private class L1R_a<T> implements Comparator<L1ItemInstance> {",
+            rewritten,
+        )
+        self.assertNotIn("implements Comparator {", rewritten)
 
     def test_completed_source_wins_over_baseline(self):
         mod = load(BOOTSTRAP_PATH, "fast_dev_bootstrap_completed")
