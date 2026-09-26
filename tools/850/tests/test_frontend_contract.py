@@ -20,6 +20,13 @@ def load_module():
     return module
 
 
+def write_dev_base(path: Path, *, include_server: bool = True) -> None:
+    path.parent.mkdir(parents=True, exist_ok=True)
+    entry = "l1j/server/Server.class" if include_server else "l1j/server/NotServer.class"
+    with zipfile.ZipFile(path, "w") as archive:
+        archive.writestr(entry, b"placeholder")
+
+
 class FrontendContractTests(unittest.TestCase):
     def test_default_mode_is_incremental(self):
         mod = load_module()
@@ -43,9 +50,7 @@ class FrontendContractTests(unittest.TestCase):
             root = Path(td)
             build = root / ".build850"
             dev_base = build / "cache" / "850-dev-base.jar"
-            dev_base.parent.mkdir(parents=True)
-            with zipfile.ZipFile(dev_base, "w") as archive:
-                archive.writestr("l1j/server/NotServer.class", b"placeholder")
+            write_dev_base(dev_base, include_server=False)
             (build / "state.json").write_text("{}", encoding="utf-8")
             (build / "dependency-index.json").write_text("{}", encoding="utf-8")
 
@@ -182,8 +187,7 @@ class FrontendContractTests(unittest.TestCase):
                     calls.append(Path(repo_root))
                     build = Path(repo_root) / ".build850"
                     dev_base = build / "cache" / "850-dev-base.jar"
-                    dev_base.parent.mkdir(parents=True, exist_ok=True)
-                    dev_base.write_bytes(b"base")
+                    write_dev_base(dev_base)
                     (build / "state.json").write_text("{}", encoding="utf-8")
                     (build / "dependency-index.json").write_text("{}", encoding="utf-8")
 
@@ -219,8 +223,7 @@ class FrontendContractTests(unittest.TestCase):
             root = Path(td)
             build = root / ".build850"
             dev_base = build / "cache" / "850-dev-base.jar"
-            dev_base.parent.mkdir(parents=True)
-            dev_base.write_bytes(b"base")
+            write_dev_base(dev_base)
             (build / "state.json").write_text("{}", encoding="utf-8")
             (build / "dependency-index.json").write_text("{}", encoding="utf-8")
 
