@@ -1,13 +1,18 @@
 package auto.hunt;
 
+import ap.s;
 import ap.u;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
 
 public final class AutoHuntService {
     private static final long DEFAULT_PERIOD_MS = 200L;
     private static final Object LOCK = new Object();
+    private static final Object BOSS_LOCK = new Object();
     private static final Map<Integer, Entry> SESSIONS = new HashMap<Integer, Entry>();
+    private static final AutoHuntBossIndex BOSS_INDEX = new AutoHuntBossIndex();
+    private static volatile boolean bossIndexLoaded;
 
     private AutoHuntService() {
     }
@@ -16,6 +21,42 @@ public final class AutoHuntService {
         if (pc == null) {
             throw new NullPointerException("pc");
         }
+        return startSession(pc, new AutoHunt850Session(pc, DEFAULT_PERIOD_MS));
+    }
+
+    public static long start(u pc, AutoHuntRuntimeSettings settings) {
+        if (pc == null) {
+            throw new NullPointerException("pc");
+        }
+        if (settings == null) {
+            throw new NullPointerException("settings");
+        }
+        ensureBossIndexLoaded();
+
+        AutoHuntTargetSelector selector = new AutoHunt850TargetSelector(BOSS_INDEX);
+        final AutoHunt850TargetProvider provider = new AutoHunt850TargetProvider(pc, settings, selector);
+        final AutoHunt850Mover mover = new AutoHunt850Mover(pc);
+        AutoHunt850Session session = new AutoHunt850Session(
+                pc,
+                DEFAULT_PERIOD_MS,
+                provider,
+                new AutoHunt850Session.TargetAction() {
+                    @Override
+                    public boolean onTarget(s target) {
+                        AutoHuntMoveController.Result result = mover.moveToward(target, provider.engageRange());
+                        return result != AutoHuntMoveController.Result.INVALID_TARGET
+                                && result != AutoHuntMoveController.Result.UNREACHABLE;
+                    }
+
+                    @Override
+                    public void reset() {
+                        mover.reset();
+                    }
+                });
+        return startSession(pc, session);
+    }
+
+    private static long startSession(u pc, AutoHunt850Session created) {
         synchronized (LOCK) {
             int objId = pc.fr();
             Entry current = SESSIONS.get(objId);
@@ -26,16 +67,33 @@ public final class AutoHuntService {
                 current.session.stop();
                 SESSIONS.remove(objId);
             }
-            AutoHunt850Session session = new AutoHunt850Session(pc, DEFAULT_PERIOD_MS);
-            Entry created = new Entry(pc, session);
-            SESSIONS.put(objId, created);
+            Entry entry = new Entry(pc, created);
+            SESSIONS.put(objId, entry);
             try {
-                return session.start();
+                return created.start();
             }
             catch (RuntimeException ex) {
                 SESSIONS.remove(objId);
                 throw ex;
             }
+        }
+    }
+
+    private static void ensureBossIndexLoaded() {
+        if (bossIndexLoaded) {
+            return;
+        }
+        synchronized (BOSS_LOCK) {
+            if (bossIndexLoaded) {
+                return;
+            }
+            try {
+                AutoHuntBossIndexLoader.load(BOSS_INDEX);
+            }
+            catch (SQLException ex) {
+                throw new IllegalStateException("failed to load auto-hunt boss index", ex);
+            }
+            bossIndexLoaded = true;
         }
     }
 
