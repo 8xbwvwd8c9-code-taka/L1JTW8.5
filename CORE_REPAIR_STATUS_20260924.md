@@ -233,3 +233,72 @@ NEXT_ACTION=Run the local driver with -StartServer and use the unchanged 8.50c c
 ```
 
 Do **not** label this JAR fully production-ready solely from the startup smoke. Final rebuild PASS requires the unchanged 8.50c client to complete account login, character select and enter-game against the repaired test JAR; targeted gameplay checks for the 13 promoted deployable repairs follow after login PASS.
+
+## Fast Dev handoff — 2026-09-26
+
+Fast Dev work is maintained on:
+
+```text
+BRANCH=work/l1jtw85-fast-dev-build
+RUNBOOK=docs/850-fast-dev.md
+```
+
+The Fast Dev first-stage automated build/runtime gates are now complete. Current validated scope:
+
+```text
+TOP_LEVEL_APPLICATION_SOURCES=788
+APPLICATION_RUNTIME_CLASS_MAPPINGS=1109
+READABLE_CORE_TREE=PASS
+PACKAGE_MAP_COMPLETE=PASS
+DEV_BASELINE_BUILD=PASS
+INCREMENTAL_COMPILE=PASS
+ABI_DEPENDENCY_REBUILD=PASS
+LAST_KNOWN_GOOD_PRESERVATION=PASS
+WATCH_MODE_COMPILE=PASS
+FULL_COMPILE=PASS
+CLEAN_REBOOTSTRAP=PASS
+SYNC_MODE=PASS
+PACK_MODE=PASS
+MYSQL_5_7=PASS
+DB_8_5_IMPORT=PASS
+PORT_2000=PASS
+ORIGINAL_JAR_MODIFIED=NO
+```
+
+Latest code-head CI evidence:
+
+```text
+FAST_DEV_CODE_HEAD=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
+MAIN_RUN=208
+MAIN_RUN_ID=36211693807
+MAIN_STATUS=PASS
+FULL_COMPILE_RUN=35
+FULL_COMPILE_RUN_ID=36211693810
+FULL_COMPILE_STATUS=PASS
+```
+
+The `-Clean` spec gap was closed with explicit RED/GREEN evidence:
+
+```text
+RED_COMMIT=e3dee0571165cff2c7332392d24853bfe8967e05
+GREEN_COMMIT=8d1b2b4c7d62840fdd54516d0fdcfc45d45cd241
+RESULT=clear .build850 then bootstrap usable baseline/state
+```
+
+Watch compile-on-save proof:
+
+```text
+COMMIT=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
+MAIN_RUN_208=PASS
+FULL_COMPILE_RUN_35=PASS
+```
+
+Remaining Fast Dev second-stage gate is manual client validation against the Fast Dev runtime:
+
+```text
+ACCOUNT_LOGIN=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+CHAR_SELECT=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+ENTER_GAME=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+```
+
+Do not restart Fast Dev Tasks 1–6 or the automated portion of Task 7 from the old unchecked implementation-plan checklist. Use the Fast Dev README and `docs/850-fast-dev.md` as the current entry point. Release remap / obfuscation / encryption remain future work and are not part of the daily Fast Dev loop.
