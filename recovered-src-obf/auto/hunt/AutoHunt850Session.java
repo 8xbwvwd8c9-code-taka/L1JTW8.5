@@ -1,17 +1,28 @@
 package auto.hunt;
 
+import ap.s;
 import ap.u;
 import java.util.concurrent.ScheduledFuture;
 
 public final class AutoHunt850Session {
+    public interface TargetProvider {
+        s select();
+    }
+
     private final AutoHuntLifecycle lifecycle;
+    private final AutoHuntTargetState<s> targetState;
     private final AutoHuntSession session;
 
     public AutoHunt850Session(final u pc, long periodMs) {
+        this(pc, periodMs, null);
+    }
+
+    public AutoHunt850Session(final u pc, long periodMs, final TargetProvider targetProvider) {
         if (pc == null) {
             throw new NullPointerException("pc");
         }
         this.lifecycle = new AutoHuntLifecycle();
+        this.targetState = new AutoHuntTargetState<s>(lifecycle);
         this.session = new AutoHuntSession(
             lifecycle,
             new AutoHuntSession.HostState() {
@@ -37,7 +48,9 @@ public final class AutoHunt850Session {
 
                 @Override
                 public void onTick() {
-                    // Phase-1 host gate only. Combat/move/skill logic is added later.
+                    if (targetProvider != null) {
+                        targetState.replace(targetProvider.select());
+                    }
                 }
             },
             new AutoHuntSession.Scheduler() {
@@ -56,10 +69,15 @@ public final class AutoHunt850Session {
 
     public void stop() {
         session.stop();
+        targetState.clear();
     }
 
     public boolean isRunning() {
         return session.isRunning();
+    }
+
+    public s currentTarget() {
+        return targetState.current();
     }
 
     public long getSessionGeneration() {
