@@ -5,6 +5,7 @@ public final class AutoHuntConsumableControllerTest {
         int hp = 50;
         int maxHp = 100;
         boolean blocked;
+        boolean cooldown;
         boolean available = true;
         boolean useSucceeds = true;
         int uses;
@@ -12,6 +13,7 @@ public final class AutoHuntConsumableControllerTest {
         @Override public int currentHp() { return hp; }
         @Override public int maxHp() { return maxHp; }
         @Override public boolean isBlocked() { return blocked; }
+        @Override public boolean isOnCooldown() { return cooldown; }
         @Override public boolean hasConsumable(int itemId) { return available; }
         @Override public boolean useConsumable(int itemId) { uses++; return useSucceeds; }
     }
@@ -22,6 +24,7 @@ public final class AutoHuntConsumableControllerTest {
         percentThresholdDoesNotConsumeAboveBoundary();
         absoluteThresholdConsumesAtBoundary();
         blockedDoesNotConsume();
+        cooldownDoesNotConsume();
         missingItemDoesNotConsume();
         rejectedUseDoesNotReportConsumed();
         System.out.println("AUTO_HUNT_CONSUMABLE_CONTROLLER_TEST=PASS");
@@ -72,6 +75,15 @@ public final class AutoHuntConsumableControllerTest {
                 AutoHuntConsumableController.Mode.PERCENT, 80, 40010)
                 == AutoHuntConsumableController.Result.BLOCKED, "blocked state must win");
         check(host.uses == 0, "blocked state must issue zero uses");
+    }
+
+    private static void cooldownDoesNotConsume() {
+        FakeHost host = new FakeHost();
+        host.cooldown = true;
+        check(AutoHuntConsumableController.tryConsume(host, true,
+                AutoHuntConsumableController.Mode.PERCENT, 80, 40010)
+                == AutoHuntConsumableController.Result.COOLDOWN, "potion cooldown must be independent");
+        check(host.uses == 0, "cooldown must issue zero uses");
     }
 
     private static void missingItemDoesNotConsume() {
