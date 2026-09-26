@@ -187,19 +187,17 @@ DB_BACKED_RUNTIME_SMOKE=PASS
 PORT_2000=PASS
 ```
 
-Latest fully completed Full Compile evidence recorded before this runbook was written:
+Latest complete Full Compile validation on the same code Head:
 
 ```text
-FAST_DEV_FULL_COMPILE_RUN=34
-RUN_ID=36211535474
-HEAD=8d1b2b4c7d62840fdd54516d0fdcfc45d45cd241
+FAST_DEV_FULL_COMPILE_RUN=35
+RUN_ID=36211693810
+HEAD=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
 STATUS=PASS
 BASELINE_ONLY_GENERATED_SOURCE_CONTRACT=PASS
 COMPILE_READY_AUTHORITY_CONTRACT=PASS
 REAL_FAST_DEV_FULL_COMPILE=PASS
 ```
-
-The next Head-only Full Compile run may advance beyond this evidence; use GitHub Actions when deciding whether a newer code commit is green.
 
 ## Recent local-build fixes
 
@@ -225,6 +223,7 @@ BEHAVIOR=clear .build850, then rebuild usable baseline/state
 COMMIT=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
 BEHAVIOR=core/src source change triggers compile_changed exactly once in the contract scenario
 MAIN_RUN_208=PASS
+FULL_COMPILE_RUN_35=PASS
 ```
 
 ## Failure triage
