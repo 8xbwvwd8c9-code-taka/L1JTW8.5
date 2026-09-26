@@ -1,0 +1,2 @@
+Legacy homepage blob SHA: aea69bd87c9f6b2462bf0cfe43c41b98fba43d5d
+Original full construction log is preserved in Git history before homepage reorganization. This pointer identifies the exact blob to recover if needed.
