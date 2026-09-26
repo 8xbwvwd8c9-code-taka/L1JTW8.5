@@ -56,7 +56,6 @@ public final class AutoHunt850SessionTest {
     }
 
     private static void preTargetTickRunsWithoutTargetAndResets() {
-        e.a().reset();
         u pc = new u();
         final int[] ticks = {0};
         final int[] resets = {0};
@@ -80,7 +79,6 @@ public final class AutoHunt850SessionTest {
     }
 
     private static void preTargetTickCanConsumeWholeTick() {
-        e.a().reset();
         u pc = new u();
         final int[] providerCalls = {0};
         final int[] targetCalls = {0};
