@@ -42,6 +42,8 @@ public final class AutoHunt850TargetProviderTest {
         CaptureSelector capture = new CaptureSelector();
         AutoHunt850TargetProvider provider = new AutoHunt850TargetProvider(pc, settings, capture);
 
+        check(provider.engageRange() == 7,
+                "provider must expose the same dynamic engage range used for selection");
         check(provider.select() == capture.result, "provider must return selector result");
         check(capture.boss, "boss setting must reach selector");
         check(capture.avoid, "avoid-occupied setting must reach selector");
@@ -54,9 +56,11 @@ public final class AutoHunt850TargetProviderTest {
         AutoHuntRuntimeSettings noOptionalFeatures = new AutoHuntRuntimeSettings(
                 false, false, false, 0, 0, 0, false, 0);
         CaptureSelector capture2 = new CaptureSelector();
-        new AutoHunt850TargetProvider(pc, noOptionalFeatures, capture2).select();
+        AutoHunt850TargetProvider provider2 = new AutoHunt850TargetProvider(pc, noOptionalFeatures, capture2);
+        check(provider2.engageRange() == 1, "no weapon and no single magic must expose range one");
+        provider2.select();
         check(capture2.patrolRadius == 0, "disabled patrol must map to radius zero");
-        check(capture2.engageRange == 1, "no weapon and no single magic must engage at range one");
+        check(capture2.engageRange == 1, "selector must receive exposed engage range");
 
         System.out.println("AUTO_HUNT_850_TARGET_PROVIDER_TEST=PASS");
     }
