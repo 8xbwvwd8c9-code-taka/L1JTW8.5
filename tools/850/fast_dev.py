@@ -145,6 +145,21 @@ def _baseline_ready(root: Path) -> bool:
     return _dev_base_runtime_ready(dev_base)
 
 
+def _unlink_with_retry(path: Path, *, attempts: int = 5, delay: float = 0.1) -> None:
+    """Delete a generated file while tolerating brief Windows file-lock races."""
+    path = Path(path)
+    if attempts < 1:
+        raise ValueError("attempts must be at least 1")
+    for attempt in range(attempts):
+        try:
+            path.unlink()
+            return
+        except PermissionError:
+            if attempt + 1 >= attempts:
+                raise
+            time.sleep(delay)
+
+
 def _ensure_baseline(root: Path) -> None:
     root = Path(root)
     if _baseline_ready(root):
@@ -153,7 +168,7 @@ def _ensure_baseline(root: Path) -> None:
     build = root / ".build850"
     dev_base = build / "cache" / "850-dev-base.jar"
     if dev_base.is_file() and not _dev_base_runtime_ready(dev_base):
-        dev_base.unlink()
+        _unlink_with_retry(dev_base)
         cache_key = build / "cache" / "850-dev-base.key.json"
         try:
             cache_key.unlink()
