@@ -25,8 +25,7 @@ public final class AutoHunt850TargetProvider implements AutoHunt850Session.Targe
         this.selector = selector;
     }
 
-    @Override
-    public s select() {
+    public int engageRange() {
         q weapon = pc.v();
         boolean hasWeapon = weapon != null;
         int weaponRange = hasWeapon ? weapon.a().aB() : 0;
@@ -39,12 +38,16 @@ public final class AutoHunt850TargetProvider implements AutoHunt850Session.Targe
             }
         }
 
-        int engageRange = AutoHuntEngageRange.resolve(
+        return AutoHuntEngageRange.resolve(
                 hasWeapon,
                 weaponRange,
                 settings.autoMagicOn(),
                 singleSkillRange);
+    }
 
+    @Override
+    public s select() {
+        int engageRange = engageRange();
         int patrolX = settings.patrolEnabled() ? settings.patrolX() : 0;
         int patrolY = settings.patrolEnabled() ? settings.patrolY() : 0;
         int patrolRadius = settings.patrolEnabled() ? settings.patrolRadius() : 0;
