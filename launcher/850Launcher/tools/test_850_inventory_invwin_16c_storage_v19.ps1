@@ -56,7 +56,11 @@ $requiredDecoder = @(
     'AUTO_PROMOTION_ALLOWED=NO',
     'OBJECT_ID_SEMANTICS_PROVEN=NO',
     'ITEM_ID_SEMANTICS_PROVEN=NO',
-    'COUNT_SEMANTICS_PROVEN=NO'
+    'COUNT_SEMANTICS_PROVEN=NO',
+    'BLOCKED_STATIC_PE_VIRTUAL_ONLY',
+    'FILE_BACKED=NO',
+    'VIRTUAL_SIZE=',
+    'RAW_SIZE='
 )
 foreach ($x in $requiredDecoder) {
     if (-not $decoderText.Contains($x)) { throw "Decoder missing gate marker $x" }
@@ -67,6 +71,7 @@ Write-Host 'TARGET_COUNT=5'
 Write-Host 'EXACT_TARGET_ONLY=YES'
 Write-Host 'FILE_IMAGE_ONLY=YES'
 Write-Host 'PROCESS_ATTACH=NO'
+Write-Host 'VIRTUAL_ONLY_DIAGNOSTIC=REQUIRED'
 Write-Host 'HEAP_SCAN=NO'
 Write-Host 'MEM_PRIVATE_SCAN=NO'
 Write-Host 'REMOTE_CALL=NO'
