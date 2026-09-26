@@ -49,6 +49,9 @@ public final class AutoHunt850SkillCaster {
         if (!pc.fq().q() || !pc.h(skillId) || pc.eX() || pc.aR()) {
             return Result.BLOCKED;
         }
+        if (nowMs < controller.nextCastAtMs(skillId)) {
+            return Result.COOLDOWN;
+        }
         if (!isInRange(target, skill.p())) {
             return Result.OUT_OF_RANGE;
         }
