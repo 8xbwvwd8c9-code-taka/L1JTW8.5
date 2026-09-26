@@ -314,7 +314,8 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "  void use(Object value) {}\n"
             "}\n",
         )
-        self.assertEqual(rewritten.count("((a.g)null).a("), 4)
+        self.assertEqual(rewritten.count("((g)null).a("), 4)
+        self.assertNotIn("((a.g)null).a(", rewritten)
         self.assertNotIn("a.g.a(", rewritten)
         self.assertNotIn("g.a(", rewritten)
         self.assertIn("import a.g;", rewritten)
