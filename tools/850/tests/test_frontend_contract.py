@@ -79,6 +79,35 @@ class FrontendContractTests(unittest.TestCase):
             self.assertEqual(prod.read_bytes(), b"production")
             self.assertTrue((recovery / "keep.txt").is_file())
 
+    def test_clean_mode_rebootstraps_after_clearing_state(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            build = root / ".build850"
+            build.mkdir()
+            (build / "stale.txt").write_text("stale", encoding="utf-8")
+            calls = []
+            mod.ROOT = root
+
+            def fake_ensure_baseline(repo_root):
+                repo_root = Path(repo_root)
+                calls.append(repo_root)
+                self.assertFalse((repo_root / ".build850" / "stale.txt").exists())
+                cache = repo_root / ".build850" / "cache"
+                cache.mkdir(parents=True, exist_ok=True)
+                (cache / "850-dev-base.jar").write_bytes(b"base")
+                (repo_root / ".build850" / "state.json").write_text("{}", encoding="utf-8")
+                (repo_root / ".build850" / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            mod._ensure_baseline = fake_ensure_baseline
+            rc = mod.main(["-Clean"])
+
+            self.assertEqual(rc, 0)
+            self.assertEqual(calls, [root])
+            self.assertTrue((root / ".build850" / "cache" / "850-dev-base.jar").is_file())
+            self.assertTrue((root / ".build850" / "state.json").is_file())
+            self.assertTrue((root / ".build850" / "dependency-index.json").is_file())
+
     def test_cli_rejects_conflicting_compile_modes(self):
         mod = load_module()
         with self.assertRaises(SystemExit):
