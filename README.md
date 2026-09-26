@@ -383,9 +383,9 @@ lib/*
 
 ---
 
-## 7. 預定操作指令
+## 7. 操作指令
 
-> 注意：此區是 Fast Dev 的目標 CLI contract。首頁下方「目前實作進度」會標示哪些功能已完成。
+以下 CLI 已實作並有 contract / CI 驗證：
 
 ```powershell
 # 預設：增量編譯
@@ -440,7 +440,7 @@ Fast Dev 必須持續知道：
 - 哪些已同步進 Fast Dev
 - 哪些 promotion source 尚未能在 Dev namespace 編譯
 
-Registry 目標檔：
+Registry 檔：
 
 ```text
 core/repair-registry.json
@@ -466,7 +466,7 @@ work/in-progress source never wins
 unrepaired source stays active until promotion
 ```
 
-`-Sync` 未來流程：
+`-Sync` 流程：
 
 ```text
 refresh work + completed authority
@@ -518,98 +518,121 @@ BUG 修復支線仍持續前進，因此未來接手者不要人工相信「17�
 
 ---
 
-## 9. 目前已實作
+## 9. 目前已實作 / 已驗證
 
-截至本首頁更新時，Fast Dev 已完成第一階段基礎元件：
+Fast Dev 第一階段工具鏈已完成，不再是「只有基礎元件」的施工狀態。
 
-### Package mapping
-
-```text
-tools/850/bootstrap/package_map.py
-tools/850/bootstrap/package_rules.json
-```
-
-功能：
-
-- Original / Recovered / Dev identity mapping
-- semantic package rules
-- duplicate Dev identity 拒絕
-- unknown package family fail-closed
-
-### Core bootstrap primitives
+### Source / mapping
 
 ```text
-tools/850/bootstrap/bootstrap_core.py
+TOP_LEVEL_APPLICATION_SOURCES=788
+TOP_LEVEL_MAPPING_IDENTITIES=788
+APPLICATION_RUNTIME_CLASS_MAPPINGS=1109
+DUPLICATE_DEV_IDENTITY=0
+RECOVERY_NAMESPACE_IN_CORE=0
 ```
 
-已鎖定：
+已完成完整 semantic package rules、`core/package-map.csv`、`core/source-index.json`、`core/runtime-class-map.json` 與 788 top-level source materialization。
+
+### Dev baseline / incremental compiler
+
+已完成：
+
+- `.build850/cache/850-dev-base.jar`
+- source hash / state
+- ABI fingerprint
+- reverse dependency index
+- changed top-level family compile
+- ABI 變更時 reverse-dependent rebuild
+- unknown dependency closure → full compile
+- class staging + atomic publish
+- compile failure preserves last-known-good classes/state
+- PBMessageALL、PBMessageALL2..9 baseline-only generated protocol policy
+
+### Frontend
+
+已完成並可使用：
 
 ```text
-completed source > recovered baseline
-work-only source = quarantine / never wins
-missing source = fail closed
-package/import/FQCN rewrite
-output count must match mapping scope
+build850.ps1
+build850.cmd
+-Run
+-Watch
+-Full
+-Clean
+-Sync
+-Pack
 ```
 
-### Repair registry / sync scope
+`-Watch` 已有 compile-on-save contract；`-Clean` 已修正為清除 `.build850` 後重新 bootstrap usable baseline/state。
+
+### Repair authority
+
+已完成：
 
 ```text
-tools/850/repair-sync/repair_registry.py
-tools/850/repair-sync/sync_repairs.py
+completed repair precedence = PASS
+work/in-progress quarantine = PASS
+promotion scope atomicity = PASS
+-Sync authority atomicity = PASS
 ```
 
-目的：
+### Pack / runtime
 
-- 將 pending/in-repair/promoted 狀態轉成 Fast Dev registry
-- promotion 以 BUG scope 處理，不以「看到某個比較新的檔案」處理
-- work branch 不直接成為 active source
+已完成：
 
-### Contract tests
+- deterministic readable dev JAR packing
+- Java 8 Fast Dev runtime
+- MySQL 5.7 startup
+- `db/8.5.sql` import
+- DB-backed server startup smoke
+- port 2000 listening gate
+- production `l1jserver2.jar` SHA preservation
+
+### 最新完整 Main CI
 
 ```text
-tools/850/tests/test_package_map.py
-tools/850/tests/test_bootstrap_core.py
-tools/850/tests/test_repair_registry.py
+FAST_DEV_MAIN_RUN=208
+RUN_ID=36211693807
+HEAD=9b5fc03c0f8892be29c9ea0bcca6073f18f0d638
+STATUS=PASS
 ```
 
-CI：
+這次 Main 已包含：frontend、Watch compile-on-save、pack、real migration、real core materialization、automatic bootstrap、MySQL 5.7、8.5 DB import、DB-backed runtime smoke 與 port 2000 gate。
+
+最近一個已完整完成的 Full Compile 證據：
 
 ```text
-.github/workflows/850-fast-dev.yml
+FAST_DEV_FULL_COMPILE_RUN=34
+RUN_ID=36211535474
+HEAD=8d1b2b4c7d62840fdd54516d0fdcfc45d45cd241
+STATUS=PASS
+REAL_FAST_DEV_FULL_COMPILE=PASS
 ```
 
-目前 package-map、core-bootstrap、repair-registry contract 已進入 GREEN 階段。
+完整日常操作與驗證紀錄：
+
+```text
+docs/850-fast-dev.md
+```
 
 ---
 
-## 10. 尚未完成
+## 10. 尚未完成 / 下一個 Gate
 
-這條支線目前仍在 **Fast Dev 架構施工階段**，不是完整可用的日常 compiler。
+Fast Dev **第一階段自動化 build/runtime gate 已完成**。舊版首頁列出的 1–16 項不再是待辦，不得重新做一次。
 
-接下來依序要完成：
+目前真正尚未完成的是目前 Fast Dev runtime 的第二階段 8.50c client gate：
 
 ```text
-1. 擴充完整 application semantic package rules
-2. 建立完整 package-map.csv
-3. 將 accepted 788 top-level source bootstrap 到 core/src
-4. 驗證 788 source 無遺漏 / 無 duplicate identity
-5. 建立 semantic Dev baseline JAR
-6. 建立 incremental compiler state
-7. 建立 source hash / ABI fingerprint
-8. 建立 reverse dependency index
-9. 建立 class staging + atomic publish
-10. 建立 build850.ps1 / build850.cmd
-11. 完成 -Run
-12. 完成 -Watch
-13. 完成 -Full / -Clean
-14. 完成 -Sync
-15. 完成 -Pack
-16. 啟動 + DB + port 2000 runtime validation
-17. 最後才進 8.50c client login gate
+ACCOUNT_LOGIN=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+CHAR_SELECT=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+ENTER_GAME=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
 ```
 
-在第 10 項以前，**不要把 README 裡的 build850 指令當成已完成可用工具。**
+這三項必須用未修改的 8.50c client 實際連 Fast Dev runtime 驗證；不能因為 server startup / DB / port 2000 PASS 就自行改成 PASS。
+
+未來 release remap / obfuscation / encryption 仍屬另一階段，**不是 Fast Dev 第一階段未完成項目**。
 
 ---
 
@@ -642,12 +665,13 @@ Fast Dev 不應每次修改 Java 後重新跑 production rebuild。
 
 ```text
 1. 讀本 README
-2. 讀 Fast Dev design spec
-3. 讀 implementation plan
-4. 檢查最新 work/l1jtw85-core-fixes HEAD
-5. 檢查最新 completed/l1jtw85-core-fixes HEAD
-6. 檢查 Fast Dev CI
-7. 從第一個未完成 Fast Dev task 接續
+2. 讀 docs/850-fast-dev.md
+3. 讀 Fast Dev design spec
+4. 讀 implementation plan（注意：原始 checklist 是歷史執行計畫，首頁第 9/10 節才是目前狀態）
+5. 檢查最新 work/l1jtw85-core-fixes HEAD
+6. 檢查最新 completed/l1jtw85-core-fixes HEAD
+7. 檢查 Fast Dev CI
+8. 不重做已完成 Fast Dev 基礎設施；目前下一個人工 gate 是 8.50c client login → character select → enter-game
 ```
 
 設計文件：
@@ -660,6 +684,12 @@ docs/superpowers/specs/2026-09-24-l1jtw85-fast-dev-build-design.md
 
 ```text
 docs/superpowers/plans/2026-09-24-l1jtw85-fast-dev-build.md
+```
+
+Runbook：
+
+```text
+docs/850-fast-dev.md
 ```
 
 ### 不要做
@@ -695,7 +725,7 @@ completed/l1jtw85-decompiled
 
 ## 13. 完成定義
 
-Fast Dev 第一階段真正完成的條件不是「script 能跑」，而是：
+Fast Dev 第一階段目前狀態：
 
 ```text
 READABLE_CORE_TREE=PASS
@@ -708,18 +738,23 @@ DEV_BASELINE_BUILD=PASS
 INCREMENTAL_COMPILE=PASS
 ABI_DEPENDENCY_REBUILD=PASS
 LAST_KNOWN_GOOD_PRESERVATION=PASS
+WATCH_MODE_COMPILE=PASS
+FULL_COMPILE=PASS
+CLEAN_REBOOTSTRAP=PASS
+SYNC_MODE=PASS
+PACK_MODE=PASS
 RUN_MODE=PASS
 MYSQL_DB=PASS
 PORT_2000=PASS
 ORIGINAL_JAR_MODIFIED=NO
 ```
 
-第二階段再驗：
+第二階段目前尚待實機 client 驗證：
 
 ```text
-ACCOUNT_LOGIN=PASS
-CHAR_SELECT=PASS
-ENTER_GAME=PASS
+ACCOUNT_LOGIN=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+CHAR_SELECT=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
+ENTER_GAME=NOT_RUN_FOR_CURRENT_FAST_DEV_HEAD
 ```
 
 Release remap / obfuscation / encryption 不屬於 Fast Dev 第一階段完成條件。
