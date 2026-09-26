@@ -1,5 +1,6 @@
 package auto.hunt;
 
+import ap.q;
 import ap.s;
 import ap.u;
 import aq.ak;
@@ -15,11 +16,22 @@ public final class AutoHunt850Attacker {
         this.pc = pc;
     }
 
-    public AutoHuntAttackController.Result attack(s target, int engageRange) {
-        return attack(target, engageRange, System.currentTimeMillis());
+    public int attackRange() {
+        q weapon = pc.v();
+        return AutoHuntBasicAttackRange.resolve(
+                weapon != null,
+                weapon == null ? 0 : weapon.a().aB());
     }
 
-    public AutoHuntAttackController.Result attack(final s target, final int engageRange, long nowMs) {
+    public AutoHuntAttackController.Result attack(s target) {
+        return attack(target, attackRange(), System.currentTimeMillis());
+    }
+
+    public AutoHuntAttackController.Result attack(s target, int attackRange) {
+        return attack(target, attackRange, System.currentTimeMillis());
+    }
+
+    public AutoHuntAttackController.Result attack(final s target, final int attackRange, long nowMs) {
         return controller.tryAttack(new AutoHuntAttackController.Host() {
             @Override
             public boolean isValidTarget() {
@@ -43,9 +55,9 @@ public final class AutoHunt850Attacker {
 
             @Override
             public boolean attack() {
-                return AutoHunt850Attacker.this.issueAttack(target, engageRange);
+                return AutoHunt850Attacker.this.issueAttack(target, attackRange);
             }
-        }, engageRange, nowMs);
+        }, attackRange, nowMs);
     }
 
     public void reset() {
@@ -81,11 +93,11 @@ public final class AutoHunt850Attacker {
                 || pc.bB(1011);
     }
 
-    private boolean issueAttack(s target, int engageRange) {
+    private boolean issueAttack(s target, int attackRange) {
         if (!isValidTarget(target) || isAttackBlocked()) {
             return false;
         }
-        if (!pc.c(target.fs(), target.ft(), engageRange)) {
+        if (!pc.c(target.fs(), target.ft(), attackRange)) {
             return false;
         }
         if (pc.bB(78)) {
