@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public final class AutoHunt850TargetSelector {
+public final class AutoHunt850TargetSelector implements AutoHuntTargetSelector {
     private static final int TARGET_RANGE = 10;
     private final AutoHuntBossResolver bossResolver;
 
@@ -19,6 +19,7 @@ public final class AutoHunt850TargetSelector {
         this.bossResolver = bossResolver;
     }
 
+    @Override
     public s select(u pc, boolean treatBossAsNormal, boolean avoidOccupied,
                     int patrolX, int patrolY, int patrolRadius, int engageRange) {
         if (pc == null) return null;
