@@ -8,10 +8,12 @@ import shutil
 import subprocess
 import sys
 import time
+import zipfile
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[2]
+RUNTIME_ENTRYPOINT = "l1j/server/Server.class"
 PBMESSAGE_BASELINE_ONLY = tuple(
     f"l1j.server.proto.PBMessageALL{suffix}"
     for suffix in ("", "2", "3", "4", "5", "6", "7", "8", "9")
@@ -117,21 +119,47 @@ def clean_build_state(root: Path) -> None:
         shutil.rmtree(build)
 
 
+def _dev_base_runtime_ready(path: Path) -> bool:
+    path = Path(path)
+    if not path.is_file():
+        return False
+    try:
+        with zipfile.ZipFile(path, "r") as archive:
+            return RUNTIME_ENTRYPOINT in archive.namelist()
+    except (OSError, zipfile.BadZipFile):
+        return False
+
+
 def _baseline_ready(root: Path) -> bool:
     build = Path(root) / ".build850"
-    return all(
+    dev_base = build / "cache" / "850-dev-base.jar"
+    if not all(
         path.is_file()
         for path in (
-            build / "cache" / "850-dev-base.jar",
+            dev_base,
             build / "state.json",
             build / "dependency-index.json",
         )
-    )
+    ):
+        return False
+    return _dev_base_runtime_ready(dev_base)
 
 
 def _ensure_baseline(root: Path) -> None:
+    root = Path(root)
     if _baseline_ready(root):
         return
+
+    build = root / ".build850"
+    dev_base = build / "cache" / "850-dev-base.jar"
+    if dev_base.is_file() and not _dev_base_runtime_ready(dev_base):
+        dev_base.unlink()
+        cache_key = build / "cache" / "850-dev-base.key.json"
+        try:
+            cache_key.unlink()
+        except FileNotFoundError:
+            pass
+
     bootstrap = _load_module(
         root / "tools" / "850" / "bootstrap" / "ensure_dev.py",
         "fast_dev_automatic_bootstrap",
