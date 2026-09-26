@@ -83,6 +83,17 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
                 self.assertNotIn("new Comparator()", transformed)
                 self.assertNotIn("implements Comparator {", transformed)
 
+    def test_semantic_bootstrap_uses_type_context_for_shadowed_runtime_g(self):
+        bootstrap = load_path(BOOTSTRAP_PATH, "fast_dev_runtime_g_shadow_contract")
+        source = "import a.g; class X { int g; Object x(byte[] data) { return g.a(data); } }"
+        transformed = bootstrap._restore_donor_backed_decompiler_artifacts(
+            source,
+            "l1r/be/S_ProtoBuffers",
+        )
+        self.assertIn("return ((g)null).a(data);", transformed)
+        self.assertNotIn("return g.a(data);", transformed)
+        self.assertNotIn("((a.g)null).a(", transformed)
+
     def test_pre_stage_repairs_shadow_calls_and_generics_idempotently(self):
         self.assertTrue(PRE_STAGE_PATH.is_file())
         pre = load_path(PRE_STAGE_PATH, "fast_dev_pre_stage_normalization")
@@ -108,9 +119,10 @@ class CompileReadyAuthorityContracts(unittest.TestCase):
             first = pre.normalize_pre_stage_sources(authority)
             craft_once = craft.read_text(encoding="utf-8")
             buddy_once = buddy.read_text(encoding="utf-8")
-            self.assertIn("import static a.g.a;", craft_once)
-            self.assertEqual(craft_once.count("return a(v"), 18)
+            self.assertNotIn("import static a.g.a;", craft_once)
+            self.assertEqual(craft_once.count("return ((g)null).a(v"), 18)
             self.assertNotIn("a.g.a(", craft_once)
+            self.assertNotIn("return g.a(", craft_once)
             self.assertIn("Entry<Integer, String> var3", buddy_once)
             self.assertEqual(first["l1craft_static_owner_repairs"], 18)
             self.assertGreaterEqual(first["generic_type_repairs"], 1)
