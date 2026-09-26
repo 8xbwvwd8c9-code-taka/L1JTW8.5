@@ -9,198 +9,146 @@
 - Host/runtime authority: 850 repaired core
 - Core donor: L381
 - UI/control donor: L880C
-- 850 類別 mapping authority: `recovery/class_source_mapping.csv`
+- 850 類別 mapping authority: `class_source_mapping.csv`
 
 ## CURRENT BRANCH
 
 - Repo: `8xbwvwd8c9-code-taka/L1JTW8.5`
 - Branch: `work/850-auto-hunting`
-- Known HEAD before homepage/handoff recording: `9df8a5a613e16e61525b63a3a08fbbd720cf9e7b`
-- Commit: `feat: add auto-hunt consumable threshold controller`
+- HP Auto Potion production wiring commit: `5306065444b791459f6f1420becba7fae88855fc`
+- Homepage HP Auto Potion closure commit: `f164a456b233fa7ba59d81502a3f72e334381c32`
 
-開始新對話後第一件事：重新抓 branch HEAD；若比上述 SHA 更新，先看新 commit 再施工，不要覆蓋。
+新對話第一件事仍是重新抓 branch HEAD；若更晚，先看新 commit 再施工。
 
 ## CLOSED
 
-### MAP / lifecycle
-
-- MAP-A L381 controller/control state: CLOSED
-- MAP-B L381 runtime/timer/settings/teleport/action coordination: CLOSED
-- MAP-C 850 lifecycle/scheduler/map policy: CLOSED
-- 1 Player = 1 AutoHuntSession = 1 active ScheduledFuture + generation token
-- start/stop idempotent
-- disconnect hook: CLOSED
-- restart hook: CLOSED
-- death synchronous hook: CLOSED
-- teleport/map-change stale action invalidation: CLOSED
-
-### Phase-1 combat
-
-- Target Search: CLOSED
-- Basic Move: CLOSED
-- Basic Attack: CLOSED
-- Basic Attack uses 850 native combat path, not direct HP mutation.
-
-### Phase-2 single-target active skill
-
-- SINGLE_TARGET_ACTIVE_SKILL=CLOSED
-- Own per-skill cooldown keyed by skillId
-- `skills.reuseDelay` confirmed milliseconds
-- 850 native skill executor remains authoritative for MP/HP/item deduction and actual effects
-- Auto-hunt does not use client anti-speed mutation as its own cooldown mechanism
-- Successful skill attempt consumes current tick; otherwise falls back to Move -> Basic Attack
-- Boss/elite monster skill-pool rules are unrelated to player auto-hunt and must not be mixed into this module
-
-## CURRENT WORK — AUTO POTION / CONSUMABLE
-
-### Implemented
-
-Production file:
-
-`recovered-src-obf/auto/hunt/AutoHuntConsumableController.java`
-
-Test:
-
-`tools/auto-hunt/AutoHuntConsumableControllerTest.java`
-
-Commits immediately after skill closure:
-
-- `5c0de6942b80aac7c0711a050ca244d72cf2d4bc` — `test: add auto-hunt consumable policy regression`
-- `9df8a5a613e16e61525b63a3a08fbbd720cf9e7b` — `feat: add auto-hunt consumable threshold controller`
-
-Controller currently supports:
-
-- `Mode.PERCENT`
-- `Mode.ABSOLUTE`
-- enabled/disabled
-- threshold validation
-- exact boundary consume (`<= threshold`)
-- overflow-safe percentage comparison using `long`
-- blocked state
-- missing item
-- native use accepted/rejected result
-
-Current Host contract:
-
 ```text
-currentHp()
-maxHp()
-isBlocked()
-hasConsumable(itemId)
-useConsumable(itemId)
-```
-
-### NOT YET IMPLEMENTED
-
-Do NOT mark Auto Potion closed yet.
-
-Missing:
-
-1. `AutoHuntRuntimeSettings` potion fields
-   - HP potion enabled
-   - threshold mode: percent / absolute
-   - threshold value
-   - selected item id
-   - potion/action cooldown if required by native host behavior
-2. 850 adapter that reads real player HP/maxHP/inventory and uses native item-use path
-3. Verify exact 850 native `C_ItemUse` / Potion / ItemDelay execution chain
-4. `AutoHuntService` wiring
-5. Decide action priority relative to Skill / Move / Attack
-6. reset semantics on Stop
-7. fresh regression closure
-8. construction log entry for consumable module
-
-### User requirements for potion
-
-- HP/MP values come from actual character values
-- threshold supports percentage or precise numeric value
-- potion must go through 850 native item behavior; do not directly change HP/MP
-- consumable cooldown independent from Move / Attack / Skill timing
-- do not mix pickup, recycling, dissolution, or skill-healing into this module
-
-Current controller only models HP threshold. MP potion policy was not yet implemented at handoff time.
-
-## IMPORTANT DONOR DISTINCTION
-
-L381 `Atu_supply_Timer` is a **replenishment/purchasing** service (30-second low-frequency stock replenishment), not the high-frequency HP potion consumption controller. Do not confuse supply purchasing with actual combat-time potion drinking.
-
-Preserve donor behavior where relevant, but 850 execution must use host-native APIs.
-
-## 880 STATUS
-
-880 visible source/history has not provided authoritative fields for all runtime settings such as Boss handling, avoid-occupied, patrol, and auto-magic. Therefore `AutoHuntRuntimeSettings` is intentionally transport-agnostic. Do not invent an 880 packet/schema/default and claim it is donor-backed.
-
-## KEY FILES
-
-### Production
-
-- `recovered-src-obf/auto/hunt/AutoHuntService.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850Session.java`
-- `recovered-src-obf/auto/hunt/AutoHuntLifecycle.java`
-- `recovered-src-obf/auto/hunt/AutoHuntRuntimeSettings.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850TargetProvider.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850TargetSelector.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850Mover.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850Attacker.java`
-- `recovered-src-obf/auto/hunt/AutoHunt850SkillCaster.java`
-- `recovered-src-obf/auto/hunt/AutoHuntSkillController.java`
-- `recovered-src-obf/auto/hunt/AutoHuntConsumableController.java`
-
-### Logs
-
-- `docs/850/AUTO_HUNT_CONSTRUCTION_LOG.md`
-- `docs/850/AUTO_HUNT_PHASE1_SESSION_LOG_20260926.md`
-- `docs/850/AUTO_HUNT_PHASE1_LIFECYCLE_HOOK_LOG_20260926.md`
-- `docs/850/AUTO_HUNT_PHASE1_DEATH_HOOK_LOG_20260926.md`
-- `docs/850/AUTO_HUNT_PHASE1_TARGET_POLICY_LOG_20260926.md`
-- `docs/850/AUTO_HUNT_PHASE1_BASIC_ATTACK_LOG_20260926.md`
-- `docs/850/AUTO_HUNT_PHASE2_SINGLE_TARGET_SKILL_LOG_20260926.md`
-
-## NEXT EXECUTION ORDER
-
-1. Recheck `work/850-auto-hunting` HEAD.
-2. Map 850 native item-use chain (`C_ItemUse` / potion handler / item-delay handling / inventory item lookup).
-3. TDD an `AutoHunt850ConsumableHost` or equivalent adapter.
-4. Extend `AutoHuntRuntimeSettings` with explicit HP potion settings; no hidden defaults.
-5. Wire potion attempt into `AutoHuntService` with independent timing.
-6. Recommended priority to validate, not assume: emergency potion before offensive skill/move/attack.
-7. Add Stop/reset regression.
-8. Run fresh controller + adapter + service suite.
-9. Only then mark `AUTO_POTION=CLOSED` and update the homepage/log.
-
-## DO NOT
-
-- Do not create another auto-hunt branch.
-- Do not merge the whole completed core branch.
-- Do not copy 381 timer topology literally.
-- Do not directly mutate HP/MP for potion or skill effects.
-- Do not invent 880 settings/packet fields without evidence.
-- Do not mix Boss/elite affix skill-pool rules into player auto-hunt.
-- Do not mix pickup/recycle/dissolve/supply purchasing into combat potion consumption.
-- Do not claim full-project compile unless actually run.
-
-## VALIDATION RULE
-
-Before claiming a module closed, use fresh verification from branch content. TDD order remains RED -> implementation -> GREEN. If a verifier itself is stale, fix the verifier first and do not call the stale failure a production bug.
-
-## FINAL STATUS
-
-```text
-BRANCH=work/850-auto-hunting
-KNOWN_HEAD=9df8a5a613e16e61525b63a3a08fbbd720cf9e7b
 LIFECYCLE=CLOSED
 TARGET_SEARCH=CLOSED
 BASIC_MOVE=CLOSED
 BASIC_ATTACK=CLOSED
 SINGLE_TARGET_ACTIVE_SKILL=CLOSED
-AUTO_POTION=IN_PROGRESS
-AUTO_POTION_THRESHOLD_CONTROLLER=IMPLEMENTED
-AUTO_POTION_850_ITEM_ADAPTER=NOT_STARTED
-AUTO_POTION_SETTINGS=NOT_STARTED
-AUTO_POTION_SERVICE_WIRING=NOT_STARTED
+AUTO_POTION=CLOSED
+```
+
+### HP Auto Potion closure
+
+Production:
+
+- `recovered-src-obf/auto/hunt/AutoHuntConsumableController.java`
+- `recovered-src-obf/auto/hunt/AutoHunt850ConsumableAdapter.java`
+- `recovered-src-obf/auto/hunt/AutoHuntRuntimeSettings.java`
+- `recovered-src-obf/auto/hunt/AutoHuntService.java`
+
+Regression:
+
+- `tools/auto-hunt/AutoHuntConsumableControllerTest.java`
+- `tools/auto-hunt/AutoHunt850ConsumableAdapterTest.java`
+- `tools/auto-hunt/AutoHuntRuntimeSettingsPotionTest.java`
+- `tools/auto-hunt/AutoHuntServicePotionWiringTest.java`
+
+Behavior:
+
+- threshold mode = PERCENT / ABSOLUTE
+- boundary = `<=`
+- HP = `pc.ea()`
+- max HP = `pc.ew()`
+- inventory = 850 `pc.j()`
+- HP potion material type = 23..25
+- 850 potion behavior = `aw.d.a(pc, item)`
+- 850 item delay = `av.a.a(pc.aK(), item)`
+- delay-effect timestamp is preserved
+- auto-hunt never directly mutates HP
+- independent potion cooldown
+- action priority = Potion -> Skill -> Move -> Basic Attack
+- successful potion consumes the current tick
+- rejected / missing / cooldown / above-threshold potion falls through to normal combat flow
+- Stop/reset clears potion timing
+
+Fresh closure verification:
+
+```text
+AUTO_HUNT_CONSUMABLE_CONTROLLER_TEST=PASS
+AUTO_HUNT_850_CONSUMABLE_ADAPTER_TEST=PASS
+SETTINGS_GREEN=PASS
+AUTO_HUNT_SERVICE_POTION_WIRING_TEST=PASS
+```
+
+TDD sequence:
+
+- `242d7be9cb0b303696fceb7bb38ed286359cfdec` — controller cooldown RED
+- `0d073e73b83dcd98846f0dd16f485b359855eb99` — controller cooldown GREEN
+- `5f133ed5f68a272344cbee85ee43e7d4e0d38c10` — adapter RED
+- `9b90c16625b070fca10d1cb112e67520e6fc2a05` — adapter GREEN
+- `56c8abb7a3b77b5e54d52919b0098829bdb9fe45` — settings RED
+- `ee5b2b87ea13902bb33153aa0069272c3177e085` — settings GREEN
+- `d5a42dfa74af2f9cf8823c9f9c147f4e5deaf118` — service wiring RED
+- `5306065444b791459f6f1420becba7fae88855fc` — service wiring GREEN
+
+## STILL OPEN
+
+```text
+MP_POTION_POLICY=NOT_STARTED
+880_UI_SETTINGS_TRANSPORT=UNVERIFIED
 PICKUP=NOT_IN_SCOPE
 RECYCLE=NOT_IN_SCOPE
 DISSOLVE=NOT_IN_SCOPE
 FULL_PROJECT_COMPILE=NOT_CLAIMED
-NEXT=map 850 native item-use path, then adapter/settings/service TDD
+```
+
+MP potion 不得因 HP potion 完成而直接複製／宣告完成；先釐清 MP 使用策略、門檻與 item selection。
+
+## IMPORTANT DONOR DISTINCTION
+
+L381 `Atu_supply_Timer` 是 30 秒級的補貨／購買服務，不是 combat-time threshold potion controller。
+
+不得混入：
+
+- pickup
+- recycle
+- dissolve
+- skill-healing
+- supply purchasing
+
+## 880 STATUS
+
+880 UI / packet schema 尚未證實完整 runtime settings 欄位。`AutoHuntRuntimeSettings` 仍保持 transport-agnostic；不得自行捏造 880 欄位或預設值。
+
+## NEXT EXECUTION ORDER
+
+1. Recheck `work/850-auto-hunting` HEAD.
+2. Decide MP potion policy separately from HP.
+3. TDD MP threshold / selection / cooldown semantics if MP potion is approved next.
+4. Only map 880 settings transport when real donor UI/packet evidence exists.
+5. Keep pickup/recycle/dissolve/supply as independent modules.
+6. Run actual project build before ever setting `FULL_PROJECT_COMPILE=PASS`.
+
+## DO NOT
+
+- Do not create another auto-hunt/core branch.
+- Do not merge the whole completed core branch.
+- Do not copy L381 timer topology literally.
+- Do not directly mutate HP/MP for potion or skill effects.
+- Do not invent 880 settings/packet fields.
+- Do not mix Boss/elite affix rules into player auto-hunt.
+- Do not mix pickup/recycle/dissolve/supply purchasing into combat potion.
+- Do not claim full-project compile unless actually run.
+
+## FINAL STATUS
+
+```text
+BRANCH=work/850-auto-hunting
+LIFECYCLE=CLOSED
+TARGET_SEARCH=CLOSED
+BASIC_MOVE=CLOSED
+BASIC_ATTACK=CLOSED
+SINGLE_TARGET_ACTIVE_SKILL=CLOSED
+AUTO_POTION=CLOSED
+AUTO_POTION_THRESHOLD_CONTROLLER=IMPLEMENTED
+AUTO_POTION_850_ITEM_ADAPTER=IMPLEMENTED
+AUTO_POTION_SETTINGS=IMPLEMENTED
+AUTO_POTION_SERVICE_WIRING=IMPLEMENTED
+MP_POTION_POLICY=NOT_STARTED
+FULL_PROJECT_COMPILE=NOT_CLAIMED
+NEXT=MP potion policy or verified 880 UI/settings transport
 ```
