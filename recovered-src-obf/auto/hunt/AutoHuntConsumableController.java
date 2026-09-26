@@ -9,6 +9,7 @@ public final class AutoHuntConsumableController {
     public enum Result {
         DISABLED,
         BLOCKED,
+        COOLDOWN,
         ABOVE_THRESHOLD,
         NO_ITEM,
         CONSUMED,
@@ -19,6 +20,7 @@ public final class AutoHuntConsumableController {
         int currentHp();
         int maxHp();
         boolean isBlocked();
+        boolean isOnCooldown();
         boolean hasConsumable(int itemId);
         boolean useConsumable(int itemId);
     }
@@ -53,6 +55,9 @@ public final class AutoHuntConsumableController {
 
         if (host.isBlocked()) {
             return Result.BLOCKED;
+        }
+        if (host.isOnCooldown()) {
+            return Result.COOLDOWN;
         }
         int hp = host.currentHp();
         int maxHp = host.maxHp();
