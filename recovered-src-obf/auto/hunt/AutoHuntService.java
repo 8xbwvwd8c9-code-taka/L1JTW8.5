@@ -48,21 +48,31 @@ public final class AutoHuntService {
                 pc,
                 DEFAULT_PERIOD_MS,
                 provider,
+                new AutoHunt850Session.TickAction() {
+                    @Override
+                    public boolean onTick() {
+                        if (potionAdapter == null) {
+                            return true;
+                        }
+                        AutoHuntConsumableController.Result potionResult = AutoHuntConsumableController.tryConsume(
+                                potionAdapter,
+                                true,
+                                settings.hpPotionMode(),
+                                settings.hpPotionThreshold(),
+                                settings.hpPotionItemId());
+                        return potionResult != AutoHuntConsumableController.Result.CONSUMED;
+                    }
+
+                    @Override
+                    public void reset() {
+                        if (potionAdapter != null) {
+                            potionAdapter.reset();
+                        }
+                    }
+                },
                 new AutoHunt850Session.TargetAction() {
                     @Override
                     public boolean onTarget(s target) {
-                        if (potionAdapter != null) {
-                            AutoHuntConsumableController.Result potionResult = AutoHuntConsumableController.tryConsume(
-                                    potionAdapter,
-                                    true,
-                                    settings.hpPotionMode(),
-                                    settings.hpPotionThreshold(),
-                                    settings.hpPotionItemId());
-                            if (potionResult == AutoHuntConsumableController.Result.CONSUMED) {
-                                return true;
-                            }
-                        }
-
                         if (skillCaster != null) {
                             AutoHunt850SkillCaster.Result skillResult = skillCaster.cast(
                                     target,
@@ -91,9 +101,6 @@ public final class AutoHuntService {
 
                     @Override
                     public void reset() {
-                        if (potionAdapter != null) {
-                            potionAdapter.reset();
-                        }
                         if (skillCaster != null) {
                             skillCaster.reset();
                         }
