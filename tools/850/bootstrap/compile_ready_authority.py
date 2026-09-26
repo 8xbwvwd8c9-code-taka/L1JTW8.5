@@ -21,12 +21,10 @@ PINNED_NORMALIZER_COMMIT = "e83c26c3c10190569acf929e9efe5c101b79163c"
 
 # PBMessageALL* source is intentionally baseline-only in Fast Dev because that
 # generated family is not round-trippable without the historical protobuf ABI
-# research toolchain. Reuse only the proven stage builder plus the normalizers
-# that make the remaining application source compile-ready.
+# research toolchain. Reuse only the proven stage builder plus normalizers that
+# do not depend on the historical protobuf compile-view aliases/runtime namespace.
 NORMALIZER_SCRIPTS = (
     "build-normalized-stage.py",
-    "normalize-external-builder-alias-refs.py",
-    "normalize-nonprotobuf-runtime-g-calls.py",
     "normalize-l1alchemy-local-generics.py",
     "normalize-nonprotobuf-local-generics.py",
     "normalize-nonprotobuf-tail-local-generics.py",
