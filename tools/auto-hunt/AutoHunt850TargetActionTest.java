@@ -35,17 +35,20 @@ public final class AutoHunt850TargetActionTest {
 
     private static void actionClearsTargetWhenRejected() {
         final s target = new s();
+        final s[] next = { null };
         AutoHunt850Session session = new AutoHunt850Session(
                 new u(), 200L,
                 new AutoHunt850Session.TargetProvider() {
-                    @Override public s select() { return target; }
+                    @Override public s select() { return next[0]; }
                 },
                 new AutoHunt850Session.TargetAction() {
                     @Override public boolean onTarget(s current) { return false; }
                     @Override public void reset() { }
                 });
         session.start();
+        e.a().fire();
         long before = session.getActionGeneration();
+        next[0] = target;
         e.a().fire();
         check(session.currentTarget() == null, "rejected action must clear target");
         check(session.getActionGeneration() == before + 2,
@@ -67,6 +70,8 @@ public final class AutoHunt850TargetActionTest {
         session.start();
         session.stop();
         check(resets[0] == 1, "stop must reset target action state exactly once");
+        session.stop();
+        check(resets[0] == 1, "duplicate stop must stay idempotent");
     }
 
     private static void check(boolean condition, String message) {
