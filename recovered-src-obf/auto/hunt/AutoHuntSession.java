@@ -9,6 +9,8 @@ public final class AutoHuntSession {
         boolean isTeleporting();
         int getMapId();
         void onTick();
+        default void onStop() {
+        }
     }
 
     public interface Scheduler {
@@ -81,9 +83,13 @@ public final class AutoHuntSession {
             return;
         }
         lifecycle.stop();
-        if (future != null) {
-            future.cancel(true);
-            future = null;
+        try {
+            host.onStop();
+        } finally {
+            if (future != null) {
+                future.cancel(true);
+                future = null;
+            }
         }
     }
 }
