@@ -1,0 +1,1 @@
+Legacy construction log content is preserved by Git history. The homepage was reorganized on 2026-09-26 into a current-status index. Use commit history before the reorganization for the full original construction log.
