@@ -5,6 +5,7 @@ package aj;
 
 import aj.cv;
 import ap.u;
+import auto.hunt.AutoHuntService;
 import be.cm;
 import bj.d;
 
@@ -20,6 +21,7 @@ extends cv {
         if (pc != null) {
             u u2 = pc;
             synchronized (u2) {
+                AutoHuntService.stop(pc);
                 pc.p();
                 client.a((u)null);
             }
@@ -31,4 +33,3 @@ extends cv {
         return "C_Restart";
     }
 }
-

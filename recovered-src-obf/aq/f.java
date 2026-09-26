@@ -21,6 +21,7 @@ import be.dh;
 import be.eu;
 import bi.d;
 import bi.h;
+import auto.hunt.AutoHuntService;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
@@ -909,6 +910,9 @@ extends aa {
     }
 
     public void X(boolean flag) {
+        if (flag && this instanceof u) {
+            AutoHuntService.stop((u)this);
+        }
         this.ap = flag;
     }
 
@@ -1129,4 +1133,3 @@ extends aa {
         this.aE = skillDamageTemp;
     }
 }
-
