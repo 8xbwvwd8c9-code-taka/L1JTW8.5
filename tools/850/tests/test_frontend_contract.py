@@ -62,6 +62,42 @@ class FrontendContractTests(unittest.TestCase):
             root = Path(td)
             self.assertEqual(mod.watch_root(root), root / "core" / "src")
 
+    def test_watch_recompiles_once_after_core_source_change(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            source = root / "core" / "src" / "l1j" / "server" / "Example.java"
+            source.parent.mkdir(parents=True)
+            source.write_text("class Example {}\n", encoding="utf-8")
+
+            class FakeCompiler:
+                def __init__(self):
+                    self.calls = 0
+
+                def compile_changed(self):
+                    self.calls += 1
+                    return {"mode": "incremental", "compiled_identities": ["l1j.server.Example"]}
+
+            compiler = FakeCompiler()
+            sleeps = 0
+            original_sleep = mod.time.sleep
+
+            def fake_sleep(_interval):
+                nonlocal sleeps
+                sleeps += 1
+                if sleeps == 1:
+                    source.write_text("class Example { int changed; }\n", encoding="utf-8")
+                    return
+                raise KeyboardInterrupt
+
+            mod.time.sleep = fake_sleep
+            try:
+                mod.watch_loop(root, compiler, interval=0)
+            finally:
+                mod.time.sleep = original_sleep
+
+            self.assertEqual(compiler.calls, 1)
+
     def test_clean_removes_only_fast_dev_state_and_preserves_production_jar(self):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
