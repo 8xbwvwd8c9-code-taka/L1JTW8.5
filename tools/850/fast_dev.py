@@ -166,6 +166,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if args.mode == "clean":
         clean_build_state(root)
+        _ensure_baseline(root)
         print("FAST_DEV_CLEAN=PASS")
         return 0
 
