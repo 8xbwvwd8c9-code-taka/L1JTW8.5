@@ -64,12 +64,12 @@ STATUS=CLOSED
 ERROR_ID=ERROR-LOCAL-004
 DATE=2026-09-26
 PHASE=LOCAL_FULL_COMPILE
-SYMPTOM=WinError 206 關閉後 javac 真正啟動，錯誤集中 PBMessageALL.java / PBMessageALL1.java ... PBMessageALL6.java；包含 a.p.b visibility/access、a.g/a.h/a.k/a.y 與 L1R_a nested-name resolution
-ROOT_CAUSE=UNDER_AUDIT；目前證據指向 protobuf generated nested types + obfuscated short names + recovery/Fast-Dev namespace normalization 的共同 symbol-rewrite 問題；尚未證明為 gameplay BUG
-FIX=OPEN；先以 completed/l1jtw85-decompiled、completed/l1jtw85-core-fixes normalized source、Fast Dev rewrite 規則建立 focused RED，證明 shared root cause 後只修 normalization/materialization
-COMMIT=N/A
-VALIDATION=REQUIRED：PBMessageALL focused regression PASS；existing normalization/bootstrap tests PASS；incremental compiler tests PASS；.\build850.ps1 -Full PASS；之後才允許 -Run / server / port / DB 驗證
-STATUS=OPEN
+SYMPTOM=WinError 206 關閉後 javac 真正啟動；錯誤先集中 PBMessageALL* protobuf/generated source，之後依序暴露 compile-view alias/runtime-g、raw Comparator 與 L1Craft/S_ProtoBuffers Java name-shadow；javac error family 100→88→22→0
+ROOT_CAUSE=Fast Dev 將 non-round-trippable PBMessageALL* generated source 與歷史 compile-view ABI/normalizer 表示混入一般 javac；其餘錯誤同屬 recovery/source-representation 相容層，不是 gameplay BUG
+FIX=PBMessageALL、PBMessageALL2..9 設為 baseline-only 並由 850-dev-base.jar 提供；其餘 application source 正常 full javac；移除 compile-view-only external-builder/runtime-g normalizer；保留 typed Comparator；shadowed runtime g 呼叫改為 ((g)null).a(...)；shallow clone 缺 pinned normalizer e83c26c3 時只抓 exact SHA，fetch_if_missing policy 端到端傳遞
+COMMIT=47d1f1f5984cd0bdefead21ddff10b76d01bbcac（final fetch-policy guard）；主要修復序列含 63095b16、0c7e85d5、f048222d、18c0cdba
+VALIDATION=Fast Dev Main Run #205 PASS；Fast Dev Full Compile Run #32 PASS；Baseline Contract Run #17 PASS；real automatic bootstrap PASS；MySQL 5.7 import PASS；DB-backed runtime smoke PASS；Real Fast Dev full compile PASS；production l1jserver2.jar SHA256 8E91712FC9EB4AD07E064723CF0FC02AC9A01063231EFD150B90927F04660814 保持不變
+STATUS=CLOSED
 ```
 
 ---
