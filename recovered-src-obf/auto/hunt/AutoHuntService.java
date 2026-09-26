@@ -24,7 +24,7 @@ public final class AutoHuntService {
         return startSession(pc, new AutoHunt850Session(pc, DEFAULT_PERIOD_MS));
     }
 
-    public static long start(u pc, AutoHuntRuntimeSettings settings) {
+    public static long start(u pc, final AutoHuntRuntimeSettings settings) {
         if (pc == null) {
             throw new NullPointerException("pc");
         }
@@ -37,6 +37,9 @@ public final class AutoHuntService {
         final AutoHunt850TargetProvider provider = new AutoHunt850TargetProvider(pc, settings, selector);
         final AutoHunt850Mover mover = new AutoHunt850Mover(pc);
         final AutoHunt850Attacker attacker = new AutoHunt850Attacker(pc);
+        final AutoHunt850SkillCaster skillCaster = settings.autoMagicOn()
+                ? new AutoHunt850SkillCaster(pc)
+                : null;
         AutoHunt850Session session = new AutoHunt850Session(
                 pc,
                 DEFAULT_PERIOD_MS,
@@ -44,6 +47,18 @@ public final class AutoHuntService {
                 new AutoHunt850Session.TargetAction() {
                     @Override
                     public boolean onTarget(s target) {
+                        if (skillCaster != null) {
+                            AutoHunt850SkillCaster.Result skillResult = skillCaster.cast(
+                                    target,
+                                    settings.singleSkillId());
+                            if (skillResult == AutoHunt850SkillCaster.Result.INVALID_TARGET) {
+                                return false;
+                            }
+                            if (skillResult == AutoHunt850SkillCaster.Result.CAST_ATTEMPTED) {
+                                return true;
+                            }
+                        }
+
                         int basicAttackRange = attacker.attackRange();
                         AutoHuntMoveController.Result moveResult = mover.moveToward(target, basicAttackRange);
                         if (moveResult == AutoHuntMoveController.Result.INVALID_TARGET
@@ -60,6 +75,9 @@ public final class AutoHuntService {
 
                     @Override
                     public void reset() {
+                        if (skillCaster != null) {
+                            skillCaster.reset();
+                        }
                         mover.reset();
                         attacker.reset();
                     }
