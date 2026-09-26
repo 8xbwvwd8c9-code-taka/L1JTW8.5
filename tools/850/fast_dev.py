@@ -63,6 +63,54 @@ def watch_root(root: Path) -> Path:
     return Path(root) / "core" / "src"
 
 
+def ensure_runtime_jdbc_config(root: Path) -> bool:
+    """Make the legacy local MySQL 5.7 JDBC URL explicit about disabling SSL.
+
+    Old Connector/J versions may otherwise attempt SSL negotiation by default and
+    fail against modern Java security policy before normal authentication starts.
+    Only the JDBC URL line is changed; login/password and all other properties are
+    preserved byte-for-byte apart from normal text re-encoding when a change is
+    required.
+    """
+    path = Path(root) / "config" / "server.properties"
+    if not path.is_file():
+        raise RuntimeError(f"Fast Dev server config not found: {path}")
+
+    raw = path.read_bytes()
+    had_bom = raw.startswith(b"\xef\xbb\xbf")
+    text = raw.decode("utf-8-sig")
+    newline = "\r\n" if "\r\n" in text else "\n"
+    lines = text.splitlines()
+    trailing_newline = text.endswith(("\n", "\r"))
+
+    url_indexes = [
+        index
+        for index, line in enumerate(lines)
+        if line.strip().startswith("URL=jdbc:mysql://")
+    ]
+    if len(url_indexes) != 1:
+        raise RuntimeError(
+            f"Fast Dev expected exactly one MySQL JDBC URL in {path}, found {len(url_indexes)}"
+        )
+
+    index = url_indexes[0]
+    line = lines[index]
+    if "useSSL=false" in line:
+        return False
+    if "useSSL=" in line:
+        raise RuntimeError(
+            "Fast Dev MySQL JDBC URL has an explicit SSL mode other than useSSL=false"
+        )
+
+    separator = "&" if "?" in line else "?"
+    lines[index] = line + separator + "useSSL=false"
+    updated = newline.join(lines)
+    if trailing_newline:
+        updated += newline
+    path.write_text(updated, encoding="utf-8-sig" if had_bom else "utf-8")
+    return True
+
+
 def clean_build_state(root: Path) -> None:
     build = Path(root) / ".build850"
     if build.exists():
@@ -132,6 +180,7 @@ def _snapshot_sources(root: Path) -> dict[str, tuple[int, int]]:
 
 
 def run_server(root: Path) -> int:
+    ensure_runtime_jdbc_config(root)
     cp = os.pathsep.join(str(path) for path in runtime_classpath(root))
     # The production launcher uses -noverify because the original 8.5 runtime
     # contains legacy classfiles that modern Java 8 verification rejects before
