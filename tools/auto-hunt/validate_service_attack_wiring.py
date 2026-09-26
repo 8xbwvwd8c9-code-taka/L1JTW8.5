@@ -9,13 +9,18 @@ source = SERVICE.read_text(encoding='utf-8')
 
 required = [
     'new AutoHunt850Attacker',
+    'int basicAttackRange = attacker.attackRange()',
+    'mover.moveToward(target, basicAttackRange)',
     'moveResult == AutoHuntMoveController.Result.IN_RANGE',
-    'attacker.attack(target, provider.engageRange())',
+    'attacker.attack(target, basicAttackRange)',
     'AutoHuntAttackController.Result.INVALID_TARGET',
     'attacker.reset()',
 ]
 for needle in required:
     assert needle in source, f'missing service attack wiring: {needle}'
+
+assert 'attacker.attack(target, provider.engageRange())' not in source, \
+    'Basic Attack must not use magic-extended engage range'
 
 files = {
     'ap/u.java': 'package ap; public class u { public int fr(){return 1;} }\n',
@@ -28,7 +33,7 @@ files = {
     'auto/hunt/AutoHunt850TargetProvider.java': '''package auto.hunt;
 public final class AutoHunt850TargetProvider implements AutoHunt850Session.TargetProvider {
  public AutoHunt850TargetProvider(ap.u pc, AutoHuntRuntimeSettings s, AutoHuntTargetSelector t) { }
- public int engageRange(){return 1;}
+ public int engageRange(){return 9;}
  public ap.s select(){return new ap.s();}
 }
 ''',
@@ -37,18 +42,19 @@ public final class AutoHunt850TargetProvider implements AutoHunt850Session.Targe
     'auto/hunt/AutoHunt850Mover.java': '''package auto.hunt;
 public final class AutoHunt850Mover {
  public static AutoHuntMoveController.Result next = AutoHuntMoveController.Result.IN_RANGE;
- public static int calls, resets;
+ public static int calls, resets, lastRange;
  public AutoHunt850Mover(ap.u pc) { }
- public AutoHuntMoveController.Result moveToward(ap.s target, int range){calls++;return next;}
+ public AutoHuntMoveController.Result moveToward(ap.s target, int range){calls++;lastRange=range;return next;}
  public void reset(){resets++;}
 }
 ''',
     'auto/hunt/AutoHunt850Attacker.java': '''package auto.hunt;
 public final class AutoHunt850Attacker {
  public static AutoHuntAttackController.Result next = AutoHuntAttackController.Result.ATTACKED;
- public static int calls, resets;
+ public static int calls, resets, lastRange;
  public AutoHunt850Attacker(ap.u pc) { }
- public AutoHuntAttackController.Result attack(ap.s target, int range){calls++;return next;}
+ public int attackRange(){return 3;}
+ public AutoHuntAttackController.Result attack(ap.s target, int range){calls++;lastRange=range;return next;}
  public void reset(){resets++;}
 }
 ''',
@@ -75,11 +81,13 @@ public final class ServiceAttackHarness {
   AutoHunt850Mover.next=AutoHuntMoveController.Result.MOVED;
   check(AutoHunt850Session.lastAction.onTarget(target),"moved keeps target");
   check(AutoHunt850Attacker.calls==0,"must not attack in same tick as move");
+  check(AutoHunt850Mover.lastRange==3,"move must use physical attack range");
 
   AutoHunt850Mover.next=AutoHuntMoveController.Result.IN_RANGE;
   AutoHunt850Attacker.next=AutoHuntAttackController.Result.ATTACKED;
   check(AutoHunt850Session.lastAction.onTarget(target),"attacked keeps target");
   check(AutoHunt850Attacker.calls==1,"in-range must invoke attacker");
+  check(AutoHunt850Attacker.lastRange==3,"attack must use physical attack range");
 
   AutoHunt850Attacker.next=AutoHuntAttackController.Result.BLOCKED;
   check(AutoHunt850Session.lastAction.onTarget(target),"temporary blocked state keeps target");
