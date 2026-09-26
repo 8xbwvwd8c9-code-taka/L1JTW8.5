@@ -1,5 +1,6 @@
 @ECHO OFF
+CD /D "%~dp0"
 
-java -server -noverify -XX:+UseG1GC -XX:+UseStringDeduplication -XX:+UseFastAccessorMethods -XX:+AggressiveOpts -XX:+OptimizeStringConcat -XX:+UseBiasedLocking -jar l1jserver2.jar
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%~dp0build850.ps1" -Run
 
 PAUSE
