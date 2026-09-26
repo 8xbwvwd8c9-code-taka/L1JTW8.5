@@ -9,6 +9,11 @@ public final class AutoHunt850Session {
         s select();
     }
 
+    public interface TickAction {
+        boolean onTick();
+        void reset();
+    }
+
     public interface TargetAction {
         boolean onTarget(s target);
         void reset();
@@ -19,16 +24,24 @@ public final class AutoHunt850Session {
     private final AutoHuntSession session;
 
     public AutoHunt850Session(final u pc, long periodMs) {
-        this(pc, periodMs, null, null);
+        this(pc, periodMs, null, null, null);
     }
 
     public AutoHunt850Session(final u pc, long periodMs, final TargetProvider targetProvider) {
-        this(pc, periodMs, targetProvider, null);
+        this(pc, periodMs, targetProvider, null, null);
     }
 
     public AutoHunt850Session(final u pc,
                               long periodMs,
                               final TargetProvider targetProvider,
+                              final TargetAction targetAction) {
+        this(pc, periodMs, targetProvider, null, targetAction);
+    }
+
+    public AutoHunt850Session(final u pc,
+                              long periodMs,
+                              final TargetProvider targetProvider,
+                              final TickAction tickAction,
                               final TargetAction targetAction) {
         if (pc == null) {
             throw new NullPointerException("pc");
@@ -60,6 +73,9 @@ public final class AutoHunt850Session {
 
                 @Override
                 public void onTick() {
+                    if (tickAction != null && !tickAction.onTick()) {
+                        return;
+                    }
                     if (targetProvider != null) {
                         targetState.replace(targetProvider.select());
                     }
@@ -72,6 +88,9 @@ public final class AutoHunt850Session {
                 @Override
                 public void onStop() {
                     targetState.clear();
+                    if (tickAction != null) {
+                        tickAction.reset();
+                    }
                     if (targetAction != null) {
                         targetAction.reset();
                     }
