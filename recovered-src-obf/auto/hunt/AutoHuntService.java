@@ -36,6 +36,7 @@ public final class AutoHuntService {
         AutoHuntTargetSelector selector = new AutoHunt850TargetSelector(BOSS_INDEX);
         final AutoHunt850TargetProvider provider = new AutoHunt850TargetProvider(pc, settings, selector);
         final AutoHunt850Mover mover = new AutoHunt850Mover(pc);
+        final AutoHunt850Attacker attacker = new AutoHunt850Attacker(pc);
         AutoHunt850Session session = new AutoHunt850Session(
                 pc,
                 DEFAULT_PERIOD_MS,
@@ -43,14 +44,23 @@ public final class AutoHuntService {
                 new AutoHunt850Session.TargetAction() {
                     @Override
                     public boolean onTarget(s target) {
-                        AutoHuntMoveController.Result result = mover.moveToward(target, provider.engageRange());
-                        return result != AutoHuntMoveController.Result.INVALID_TARGET
-                                && result != AutoHuntMoveController.Result.UNREACHABLE;
+                        AutoHuntMoveController.Result moveResult = mover.moveToward(target, provider.engageRange());
+                        if (moveResult == AutoHuntMoveController.Result.INVALID_TARGET
+                                || moveResult == AutoHuntMoveController.Result.UNREACHABLE) {
+                            return false;
+                        }
+                        if (moveResult != AutoHuntMoveController.Result.IN_RANGE) {
+                            return true;
+                        }
+
+                        AutoHuntAttackController.Result attackResult = attacker.attack(target, provider.engageRange());
+                        return attackResult != AutoHuntAttackController.Result.INVALID_TARGET;
                     }
 
                     @Override
                     public void reset() {
                         mover.reset();
+                        attacker.reset();
                     }
                 });
         return startSession(pc, session);
