@@ -40,6 +40,10 @@ public final class AutoHuntService {
         final AutoHunt850SkillCaster skillCaster = settings.autoMagicOn()
                 ? new AutoHunt850SkillCaster(pc)
                 : null;
+        final AutoHunt850ConsumableAdapter potionAdapter = settings.autoHpPotionOn()
+                ? new AutoHunt850ConsumableAdapter(pc, settings.hpPotionCooldownMs())
+                : null;
+
         AutoHunt850Session session = new AutoHunt850Session(
                 pc,
                 DEFAULT_PERIOD_MS,
@@ -47,6 +51,18 @@ public final class AutoHuntService {
                 new AutoHunt850Session.TargetAction() {
                     @Override
                     public boolean onTarget(s target) {
+                        if (potionAdapter != null) {
+                            AutoHuntConsumableController.Result potionResult = AutoHuntConsumableController.tryConsume(
+                                    potionAdapter,
+                                    true,
+                                    settings.hpPotionMode(),
+                                    settings.hpPotionThreshold(),
+                                    settings.hpPotionItemId());
+                            if (potionResult == AutoHuntConsumableController.Result.CONSUMED) {
+                                return true;
+                            }
+                        }
+
                         if (skillCaster != null) {
                             AutoHunt850SkillCaster.Result skillResult = skillCaster.cast(
                                     target,
@@ -75,6 +91,9 @@ public final class AutoHuntService {
 
                     @Override
                     public void reset() {
+                        if (potionAdapter != null) {
+                            potionAdapter.reset();
+                        }
                         if (skillCaster != null) {
                             skillCaster.reset();
                         }
