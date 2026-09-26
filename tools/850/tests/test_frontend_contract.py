@@ -40,6 +40,12 @@ class FrontendContractTests(unittest.TestCase):
         mod = load_module()
         with tempfile.TemporaryDirectory() as td:
             root = Path(td)
+            config = root / "config"
+            config.mkdir()
+            (config / "server.properties").write_text(
+                "URL=jdbc:mysql://localhost/8.5?useUnicode=true&characterEncoding=utf8&useSSL=false\n",
+                encoding="utf-8",
+            )
             calls = []
 
             def fake_call(command, cwd=None):
