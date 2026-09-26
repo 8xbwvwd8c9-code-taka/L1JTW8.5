@@ -148,22 +148,22 @@ def normalize_pre_stage_sources(authority_root: Path) -> dict[str, object]:
             package_shadow_repairs += count
             package_shadow_files.append(path.relative_to(source_root).as_posix())
 
+    # L1Craft declares both members named `a` and `g`. Package qualification,
+    # imported-type qualification and a static import are therefore all shadowed
+    # in expression/method lookup. Put `g` in a cast type context instead; Java 8
+    # resolves it to imported type a.g, and invoking its static a(...) through a
+    # null-typed expression does not dereference at runtime or expand class ABI.
     l1craft_repairs = 0
     craft = source_root / "l1r" / "aq" / "L1Craft.java"
     if craft.is_file():
         text = craft.read_text(encoding="utf-8", errors="replace")
-        craft_sites = len(re.findall(r"\bg\.a\s*\(", text))
-        if craft_sites:
-            if "import static a.g.a;" not in text:
-                text, inserted = re.subn(
-                    r"(?m)^(import\s+a\.g\s*;\s*)$",
-                    r"\1\nimport static a.g.a;",
-                    text,
-                    count=1,
-                )
-                if inserted != 1:
-                    raise RuntimeError("L1Craft static import insertion failed")
-            text, l1craft_repairs = re.subn(r"\bg\.a\s*\(", "a(", text)
+        text = re.sub(r"(?m)^import static a\.g\.a;\s*\n", "", text)
+        text, l1craft_repairs = re.subn(
+            r"\bg\.a\s*\(",
+            "((g)null).a(",
+            text,
+        )
+        if l1craft_repairs:
             craft.write_text(text, encoding="utf-8")
 
     generic_repairs = 0
@@ -207,6 +207,8 @@ def normalize_pre_stage_sources(authority_root: Path) -> dict[str, object]:
     return {
         "package_shadow_repairs": package_shadow_repairs,
         "package_shadow_files": sorted(set(package_shadow_files)),
+        # Historical key kept stable for callers; the representation is now a
+        # type-context call rather than a static import.
         "l1craft_static_owner_repairs": l1craft_repairs,
         "generic_type_repairs": generic_repairs,
         "generic_type_repair_files": sorted(generic_files),
