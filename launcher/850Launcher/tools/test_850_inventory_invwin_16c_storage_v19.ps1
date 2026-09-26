@@ -14,25 +14,33 @@ $runnerText = [IO.File]::ReadAllText($runner)
 $decoderText = [IO.File]::ReadAllText($decoder)
 
 $expected = @(
-    '0x0087E900L',
-    '0x0087E950L',
-    '0x0087E960L',
-    '0x0087E970L',
-    '0x0087E980L'
+    '0x0087E900',
+    '0x0087E950',
+    '0x0087E960',
+    '0x0087E970',
+    '0x0087E980'
 )
 foreach ($x in $expected) {
-    if (-not $runnerText.Contains($x)) { throw "Runner missing exact target $x" }
+    if (-not $decoderText.Contains($x)) { throw "Decoder missing exact target $x" }
 }
 
-$forbidden = @('HEAP_SCAN=YES','MEM_PRIVATE_SCAN=YES','MEMORY_WRITE=YES','REMOTE_CALL=YES')
+$forbidden = @(
+    'OpenProcess',
+    'ReadProcessMemory',
+    'VirtualQueryEx',
+    'HEAP_SCAN=YES',
+    'MEM_PRIVATE_SCAN=YES',
+    'MEMORY_WRITE=YES',
+    'REMOTE_CALL=YES'
+)
 foreach ($x in $forbidden) {
-    if ($runnerText.Contains($x) -or $decoderText.Contains($x)) { throw "Forbidden safety setting present: $x" }
+    if ($runnerText.Contains($x) -or $decoderText.Contains($x)) { throw "Forbidden V19 behavior present: $x" }
 }
 
 $requiredRunner = @(
     'EXACT_TARGET_ONLY=YES',
-    'RUNTIME_MEM_IMAGE_ONLY=YES',
-    'HELPER_DEPTH=1',
+    'FILE_IMAGE_ONLY=YES',
+    'PROCESS_ATTACH=NO',
     'HEAP_SCAN=NO',
     'MEM_PRIVATE_SCAN=NO',
     'REMOTE_CALL=NO',
@@ -57,6 +65,8 @@ foreach ($x in $requiredDecoder) {
 Write-Host 'STATUS=PASS_V19_STATIC_CONTRACT'
 Write-Host 'TARGET_COUNT=5'
 Write-Host 'EXACT_TARGET_ONLY=YES'
+Write-Host 'FILE_IMAGE_ONLY=YES'
+Write-Host 'PROCESS_ATTACH=NO'
 Write-Host 'HEAP_SCAN=NO'
 Write-Host 'MEM_PRIVATE_SCAN=NO'
 Write-Host 'REMOTE_CALL=NO'
