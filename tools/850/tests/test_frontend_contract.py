@@ -1,6 +1,7 @@
 import importlib.util
 import tempfile
 import unittest
+import zipfile
 from pathlib import Path
 
 
@@ -35,6 +36,20 @@ class FrontendContractTests(unittest.TestCase):
             self.assertEqual(cp[0], root / ".build850" / "classes")
             self.assertEqual(cp[1], root / ".build850" / "cache" / "850-dev-base.jar")
             self.assertEqual(cp[2], root / "lib" / "*")
+
+    def test_stale_baseline_missing_server_entrypoint_is_not_ready(self):
+        mod = load_module()
+        with tempfile.TemporaryDirectory() as td:
+            root = Path(td)
+            build = root / ".build850"
+            dev_base = build / "cache" / "850-dev-base.jar"
+            dev_base.parent.mkdir(parents=True)
+            with zipfile.ZipFile(dev_base, "w") as archive:
+                archive.writestr("l1j/server/NotServer.class", b"placeholder")
+            (build / "state.json").write_text("{}", encoding="utf-8")
+            (build / "dependency-index.json").write_text("{}", encoding="utf-8")
+
+            self.assertFalse(mod._baseline_ready(root))
 
     def test_run_server_matches_production_noverify_policy(self):
         mod = load_module()
