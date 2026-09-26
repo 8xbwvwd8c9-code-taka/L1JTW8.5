@@ -165,11 +165,6 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             "private L1ItemInstance[] h(int var1) {\n      ArrayList<L1ItemInstance> var2 = new ArrayList<>();",
             1,
         )
-        source = source.replace(
-            "private class L1R_a<T> implements Comparator<L1ItemInstance> {",
-            "private class L1R_a<T> implements Comparator {",
-            1,
-        )
     elif recovered_internal == "l1r/aj/C_ProtoBuffers":
         source = source.replace(
             "ArrayList var152 = new ArrayList<>();",
@@ -209,11 +204,6 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
             "int var7 = ((Integer)var3.get(var6)).intValue();",
             1,
         )
-        source = source.replace(
-            "new Comparator<RankingTable.L1R_a>() {",
-            "new Comparator() {",
-            1,
-        )
     elif recovered_internal == "l1r/ao/ShopTable":
         source = source.replace(
             "HashMap var4 = ItemTable.a().c();",
@@ -223,11 +213,6 @@ def _restore_donor_backed_decompiler_artifacts(source: str, recovered_internal: 
         source = source.replace(
             "ArrayList var5 = new ArrayList<>();",
             "ArrayList<L1ShopItem> var5 = new ArrayList<>();",
-            1,
-        )
-        source = source.replace(
-            "new Comparator<L1ShopItem>() {",
-            "new Comparator() {",
             1,
         )
         source = source.replace(
