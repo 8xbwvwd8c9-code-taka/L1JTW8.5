@@ -24,9 +24,11 @@ class FastDevRuntimeSmokeContract(unittest.TestCase):
         self.assertIn("l1j.server.Server", self.text)
         self.assertNotIn("java -jar l1jserver2.jar", self.text)
 
-    def test_runtime_smoke_disables_legacy_mysql_ssl_only_in_runner(self):
-        self.assertIn("useSSL=false", self.text)
-        self.assertIn("RUNTIME_JDBC_SSL_DISABLED=YES", self.text)
+    def test_runtime_smoke_uses_shared_jdbc_runtime_normalizer(self):
+        self.assertIn("ensure_runtime_jdbc_config", self.text)
+        self.assertIn("FAST_DEV_RUNTIME_CONFIG_CHANGED", self.text)
+        self.assertNotIn("RUNTIME_JDBC_SSL_DISABLED=YES", self.text)
+        self.assertNotIn("text = text.replace(base, secure, 1)", self.text)
 
     def test_runtime_smoke_requires_live_process_and_port_2000(self):
         self.assertIn("FAST_DEV_RUNTIME_SMOKE=PASS", self.text)
