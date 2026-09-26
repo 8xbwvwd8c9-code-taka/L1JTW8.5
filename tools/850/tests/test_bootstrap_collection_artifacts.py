@@ -170,9 +170,9 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
             "int var7 = ((Integer)var3.get(var6)).intValue();",
             rewritten,
         )
-        self.assertIn("new Comparator() {", rewritten)
+        self.assertIn("new Comparator<RankingTable.L1R_a>() {", rewritten)
         self.assertNotIn("HashMap<Object, Object> var3", rewritten)
-        self.assertNotIn("new Comparator<RankingTable.L1R_a>()", rewritten)
+        self.assertNotIn("new Comparator() {", rewritten)
 
     def test_restores_shoptable_collection_and_bridge_types(self):
         rewritten = self.rewrite(
@@ -199,9 +199,9 @@ class BootstrapCollectionArtifactTests(unittest.TestCase):
         )
         self.assertIn("HashMap<Integer, L1Item> var4 = ItemTable.a().c();", rewritten)
         self.assertIn("ArrayList<L1ShopItem> var5 = new ArrayList<>();", rewritten)
-        self.assertIn("new Comparator() {", rewritten)
+        self.assertIn("new Comparator<L1ShopItem>() {", rewritten)
         self.assertIn("List<L1ShopItem> var6 = var1.b();", rewritten)
-        self.assertNotIn("new Comparator<L1ShopItem>()", rewritten)
+        self.assertNotIn("new Comparator() {", rewritten)
 
     def test_restores_l1npc_ground_inventory_and_path_queue_generics(self):
         rewritten = self.rewrite(
