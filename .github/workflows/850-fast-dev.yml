@@ -165,6 +165,20 @@ jobs:
           : > "$LOG"
           : > "$RESULT"
 
+          python - <<'PY'
+          import importlib.util
+          from pathlib import Path
+
+          module_path = Path('tools/850/fast_dev.py')
+          spec = importlib.util.spec_from_file_location('fast_dev_runtime_config', module_path)
+          if spec is None or spec.loader is None:
+              raise SystemExit(f'cannot load {module_path}')
+          module = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(module)
+          changed = module.ensure_runtime_jdbc_config(Path('.'))
+          print('FAST_DEV_RUNTIME_CONFIG_CHANGED=' + str(changed).upper())
+          PY
+
           CP=".build850/classes:.build850/cache/850-dev-base.jar:lib/*"
           java -noverify -cp "$CP" l1j.server.Server >"$LOG" 2>&1 &
           PID=$!
