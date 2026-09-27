@@ -237,6 +237,7 @@ public final class a {
             FileInputStream is = new FileInputStream(new File("./config/server.properties"));
             serverSettings.load(is);
             ((InputStream)is).close();
+            d = Boolean.parseBoolean(serverSettings.getProperty("PacketDebug", "false"));
             g = Integer.parseInt(serverSettings.getProperty("GameserverPort", "2000"));
             h = serverSettings.getProperty("URL", "jdbc:mysql://localhost/l1jdb?useUnicode=true&characterEncoding=utf8");
             i = serverSettings.getProperty("Login", "root");
