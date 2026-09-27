@@ -1,4 +1,4 @@
-# L1JTW8.5 自動狩獵首頁狀態 — 2026-09-26
+# L1JTW8.5 自動狩獵首頁狀態 — 2026-09-27
 
 > 正式首頁：`docs/850/AUTO_HUNT_CONSTRUCTION_LOG.md`
 > 舊版完整施工紀錄已保留在 Git history；重整前精確 blob SHA：`aea69bd87c9f6b2462bf0cfe43c41b98fba43d5d`。
@@ -10,6 +10,7 @@
 - Host/runtime authority: 850 repaired core
 - Core donor: L381
 - UI/control donor: L880C
+- 850 原生 client UI / button 若已存在，優先沿用 850 原生入口，不另造平行外掛 UI。
 - 每完成 MAP、掛點、功能或修正，記錄來源、決策、修改檔案、驗證與 blocker。
 
 ## 目前總進度
@@ -27,6 +28,8 @@ AUTO_POTION_SETTINGS=IMPLEMENTED
 AUTO_POTION_SERVICE_WIRING=IMPLEMENTED
 MP_POTION_POLICY=NOT_STARTED
 880_UI_SETTINGS_TRANSPORT=UNVERIFIED
+850_NATIVE_AUTO_HUNT_UI_ENTRY=NEXT_PRIORITY
+LAUNCHER_WINFORMS_AUTO_HUNT_UI=DO_NOT_EXTEND
 FULL_PROJECT_COMPILE=NOT_CLAIMED
 ```
 
@@ -98,6 +101,7 @@ TDD / regression commits：
 - `ee5b2b87ea13902bb33153aa0069272c3177e085` — settings GREEN
 - `d5a42dfa74af2f9cf8823c9f9c147f4e5deaf118` — service wiring RED
 - `5306065444b791459f6f1420becba7fae88855fc` — service wiring GREEN
+- `ea438ad36d1448c4958aad5d7097d67d817ed7b6` — assert potion pre-target tick wiring
 
 Fresh closure verification：
 
@@ -125,13 +129,57 @@ HP potion 已完成；MP potion policy 仍獨立保留為未開始，不因 HP c
 
 L381 `Atu_supply_Timer` 是每 30 秒處理庫存補充／購買的 supply service，**不是戰鬥中依 HP 門檻喝水的 controller**。兩者不得混為一談。
 
+## 2026-09-27 UI / 原生按鈕方向校正
+
+本輪確認：`work/850-launcher-helper` 現有 `MainForm` 是額外建立的 WinForms launcher/helper UI，包含藥水、狀態、特殊、物品、熱鍵、定時與大量 developer probe 頁；其中熱鍵頁目前仍只是 runtime bridge 驗證前的保留介面。
+
+因此自動狩獵 UI 正式決策改為：
+
+```text
+DO_NOT_EXTEND_AUTO_HUNT_IN_LAUNCHER_WINFORMS
+PREFER_850_NATIVE_IN_GAME_BUTTON_AND_UI_ENTRY
+TRACE_NATIVE_BUTTON -> CLIENT_ACTION/PACKET -> SERVER_HANDLER/ADAPTER -> AutoHuntService
+```
+
+理由：
+
+- 自動狩獵核心骨架已存在，不缺另一套 UI state machine。
+- 使用者目前看到的是 850 遊戲內原生按鈕；應優先找它背後既有事件／封包／UI 開關流程。
+- L880C 仍是 UI/control/protocol donor，但只提供設定欄位、流程與 transport 參考；不得把 880 absolute address、半成品 core 或未知 packet 直接當 850 authority。
+- `work/850-launcher-helper` 可繼續負責 launcher/helper 自己的 runtime bridge 調查，但**不是 850 自動狩獵最終 UI authority**。
+
+### 下一輪原生 UI 追蹤 Gate
+
+```text
+UI-A  Identify the exact 850 native auto-hunt button / UI resource / event entry.
+UI-B  Trigger button ON/OFF and correlate client send/call behavior.
+UI-C  Identify server-side dispatch / packet handler / command path, if any.
+UI-D  Map verified transport into 850 Packet Adapter.
+UI-E  Wire only to AutoHuntService start/stop/updateConfig/getState.
+UI-F  Verify one player cannot create duplicate sessions/tasks from repeated UI clicks.
+UI-G  Only after transport is proven, map full settings fields.
+```
+
+Fail-closed：
+
+```text
+DO_NOT_INVENT_OPCODE
+DO_NOT_INVENT_880_SETTINGS_FIELDS
+DO_NOT_BYPASS_AUTO_HUNT_SERVICE
+DO_NOT_CREATE_PARALLEL_SESSION_STATE
+DO_NOT_MOVE_AUTO_HUNT_CORE_INTO_LAUNCHER
+```
+
 ## 下一步
 
 ```text
-1. MP potion policy（獨立設計；不得直接複製 HP 規則）
-2. 880 UI/settings transport mapping，僅在有真實 donor schema 後接線
-3. 後續 pickup / recycle / dissolve 仍保持獨立模組
-4. full-project compile 只有在實際執行後才能宣告 PASS
+1. 優先追 850 遊戲內原生自動狩獵按鈕 / UI entry / client action。
+2. 驗證 ON/OFF 對應的 client send / server handler / command transport。
+3. 將 verified transport 接到既有 850 Packet Adapter -> AutoHuntService。
+4. 再映射完整 UI settings；880 僅作 donor，不捏造 schema。
+5. MP potion policy 保留下一獨立模組，不因 UI 調查混入。
+6. pickup / recycle / dissolve 仍保持獨立模組。
+7. full-project compile 只有在實際執行後才能宣告 PASS。
 ```
 
 ## 關鍵施工紀錄
@@ -143,6 +191,7 @@ L381 `Atu_supply_Timer` 是每 30 秒處理庫存補充／購買的 supply servi
 - `AUTO_HUNT_PHASE1_BASIC_ATTACK_LOG_20260926.md`
 - `AUTO_HUNT_PHASE2_SINGLE_TARGET_SKILL_LOG_20260926.md`
 - `AUTO_HUNT_HANDOFF_20260926.md`
+- `AUTO_HUNT_HANDOFF_20260927.md`
 
 ## 禁止事項
 
@@ -153,4 +202,5 @@ L381 `Atu_supply_Timer` 是每 30 秒處理庫存補充／購買的 supply servi
 - 不捏造 880 packet/settings schema
 - 不把 Boss/菁英詞綴技能規則混進玩家自動狩獵
 - 不把 pickup/recycle/dissolve/supply purchasing 混進 combat potion
+- 不把自動狩獵最終 UI 擴充到 launcher WinForms 形成第二套 UI authority
 - 未實際驗證不得宣告 full-project compile PASS
