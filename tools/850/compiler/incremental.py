@@ -8,7 +8,6 @@ import os
 import shutil
 import subprocess
 import tempfile
-import time
 import zipfile
 from pathlib import Path
 from typing import Iterable
@@ -305,25 +304,6 @@ class IncrementalCompiler:
         shutil.copytree(staging, candidate)
         self._swap_class_dir(candidate)
 
-    @staticmethod
-    def _replace_with_retry(
-        source: Path,
-        target: Path,
-        *,
-        attempts: int = 20,
-        delay: float = 0.1,
-    ) -> None:
-        if attempts < 1:
-            raise ValueError("attempts must be at least 1")
-        for attempt in range(attempts):
-            try:
-                os.replace(source, target)
-                return
-            except PermissionError:
-                if attempt + 1 >= attempts:
-                    raise
-                time.sleep(delay)
-
     def _swap_class_dir(self, candidate: Path) -> None:
         backup = self.class_dir.with_name(self.class_dir.name + ".previous")
         if backup.exists():
@@ -331,11 +311,11 @@ class IncrementalCompiler:
         had_old = self.class_dir.exists()
         try:
             if had_old:
-                self._replace_with_retry(self.class_dir, backup)
-            self._replace_with_retry(candidate, self.class_dir)
+                os.replace(self.class_dir, backup)
+            os.replace(candidate, self.class_dir)
         except Exception:
             if not self.class_dir.exists() and backup.exists():
-                self._replace_with_retry(backup, self.class_dir)
+                os.replace(backup, self.class_dir)
             raise
         finally:
             if backup.exists():

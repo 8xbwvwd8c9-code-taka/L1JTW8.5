@@ -6,7 +6,6 @@ import importlib.util
 import json
 import os
 import re
-import shutil
 import tempfile
 import zipfile
 from pathlib import Path
@@ -235,9 +234,7 @@ def build_dev_base(
         after_sha = sha256_file(original)
         if after_sha != before_sha:
             raise RuntimeError("original production JAR changed while building Dev Base")
-        if output.exists():
-            output.unlink()
-        shutil.copyfile(temp_path, output)
+        os.replace(temp_path, output)
     finally:
         if temp_path.exists():
             temp_path.unlink()
