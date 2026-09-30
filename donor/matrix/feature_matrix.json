@@ -1,0 +1,513 @@
+{
+  "schema_version": 1,
+  "native_binding": false,
+  "canonical_maps": "I:\\850C-Client-RE\\maps",
+  "direct_sources": {
+    "P": "I:/L381/Atu-381客戶端/atum_profiles/冏冏冏.ini",
+    "M": "I:/L381/Atu-381客戶端/atum_menu.txt",
+    "PcAI": "I:/L880C/880c服務端/src/com/lineage/server/model/Instance/PcAI.java",
+    "Hang_fu": "I:/L880C/880c服務端/src/com/lineage/data/item_etcitem/teleport/Hang_fu.java"
+  },
+  "rows": [
+    {
+      "feature_id": "controller_lifecycle",
+      "donor_381": {
+        "status": "UNKNOWN",
+        "semantics": "既有設定來源沒有直接宣告此執行語意。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "donor_880": {
+        "status": "SOURCE_CONFIRMED",
+        "semantics": "startAI 提交 Runnable；死亡、離線、生命耗盡或 inactive 終止；正常路徑清目標，例外清理保證未知。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md: lifecycle_start/stop/cleanup"
+        ],
+        "direct_source_lines": [
+          "PcAI:16-25",
+          "PcAI:53-65",
+          "PcAI:77-92"
+        ]
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [
+          {
+            "source": "functions",
+            "key": "bot_controller_state_singleton_getter",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/op53_semantic_trace.txt"
+          },
+          {
+            "source": "globals",
+            "key": "bot_controller_state_singleton",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/op53_semantic_trace.txt"
+          },
+          {
+            "source": "functions",
+            "key": "bot_stop_routine_shim",
+            "status": "CANDIDATE",
+            "evidence_ref": "evidence/network/op53_semantic_trace.txt"
+          }
+        ],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "純 Python 協調器生命週期；native stop 是 CANDIDATE，維持不可用。",
+        "interfaces": [
+          "BotController",
+          "Adapter",
+          "Snapshot"
+        ]
+      }
+    },
+    {
+      "feature_id": "target_lookup_id",
+      "donor_381": {
+        "status": "UNKNOWN",
+        "semantics": "既有設定來源沒有直接宣告此執行語意。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "donor_880": {
+        "status": "SOURCE_CONFIRMED",
+        "semantics": "每輪先 checkTarget；無目標才 searchTarget；noTarget/onTarget 分流，內部政策未分析。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md: target_validation/dispatch"
+        ],
+        "direct_source_lines": [
+          "PcAI:133-158"
+        ]
+      },
+      "client_850": {
+        "status": "CONFIRMED_BOUNDARY",
+        "contracts": [
+          {
+            "source": "functions",
+            "key": "bot_controller_get_target_id",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/op53_semantic_trace.txt"
+          },
+          {
+            "source": "entity_resolution",
+            "key": "ENTITY_LOOKUP",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/world_entity_resolver.txt"
+          },
+          {
+            "source": "entity_resolution",
+            "key": "ENTITY_ID_FIELD",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/world_entity_resolver.txt"
+          }
+        ],
+        "availability": "METADATA_ONLY"
+      },
+      "reconstruction": {
+        "disposition": "接受外部明確意圖及目標 snapshot；不建立搜尋或攻擊策略。",
+        "interfaces": [
+          "Adapter",
+          "Snapshot",
+          "Intent",
+          "Policy"
+        ]
+      }
+    },
+    {
+      "feature_id": "action_queue",
+      "donor_381": {
+        "status": "UNKNOWN",
+        "semantics": "既有設定來源沒有直接宣告此執行語意。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "CONFIRMED_BOUNDARY",
+        "contracts": [
+          {
+            "source": "entity_resolution",
+            "key": "ENTITY_ACTION_QUEUE",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/action_engine_contract.txt"
+          }
+        ],
+        "availability": "METADATA_ONLY"
+      },
+      "reconstruction": {
+        "disposition": "消費已確認 queue 語意 metadata；目前沒有 queue 實作或 native queue binding。",
+        "interfaces": [
+          "BotController",
+          "Intent"
+        ]
+      }
+    },
+    {
+      "feature_id": "item_action",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "補水、刪除、溶解、變身、娃娃皆有名稱導向設定；未確認執行器。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: potion_threshold/item_delete/item_dissolve/polymorph_maintain/doll_maintain"
+        ],
+        "direct_source_lines": [
+          "P:4-7",
+          "P:37-93"
+        ]
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "CONFIRMED_BOUNDARY",
+        "contracts": [
+          {
+            "source": "functions",
+            "key": "item_action_execute",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/tx_action_boundaries.txt"
+          },
+          {
+            "source": "functions",
+            "key": "item_resolver_singleton_getter",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/entity_lookup_boundary.txt"
+          }
+        ],
+        "availability": "METADATA_ONLY"
+      },
+      "reconstruction": {
+        "disposition": "850 邊界已確認，但目前不在 scaffold allowlist；沒有道具 native binding。",
+        "interfaces": [
+          "Intent",
+          "Adapter",
+          "Policy"
+        ]
+      }
+    },
+    {
+      "feature_id": "ui_settings",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "每角色設定與群組巨集持久化；chat 啟用狀態重登關閉。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: chat_rotation/hotkey_groups"
+        ],
+        "direct_source_lines": [
+          "P:11-14",
+          "P:17-36"
+        ]
+      },
+      "donor_880": {
+        "status": "SOURCE_CONFIRMED",
+        "semantics": "Hang_fu 顯示技能選擇、間隔、魔力量、範圍和開關；縮寫完整語意未知。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md: configuration_display"
+        ],
+        "direct_source_lines": [
+          "Hang_fu:43-78"
+        ]
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [
+          {
+            "source": "ui_windows",
+            "key": "BotWindow",
+            "status": "CANDIDATE",
+            "evidence_ref": "runtime-scan/850-autohunt-region-2-34D8E000.txt:380"
+          },
+          {
+            "source": "ui_events",
+            "key": "BotOpenUI",
+            "status": "CANDIDATE",
+            "evidence_ref": "runtime-scan/850-autohunt-region-0-2F8A9000.txt:965"
+          }
+        ],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "UI native contracts 全部 CANDIDATE，不提供 callback binding；僅比較配置形狀。",
+        "interfaces": [
+          "Snapshot"
+        ]
+      }
+    },
+    {
+      "feature_id": "hpmp_observation",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "HP 低門檻補水支援絕對值或百分比；門檻等號與排程未確認。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: potion_threshold"
+        ],
+        "direct_source_lines": [
+          "P:4-7",
+          "M:1-31"
+        ]
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [
+          {
+            "source": "globals",
+            "key": "player_hp_current",
+            "status": "CANDIDATE",
+            "evidence_ref": "runtime_hpmp_stable_rva_evidence.txt:HP_RVA"
+          },
+          {
+            "source": "globals",
+            "key": "player_mp_current",
+            "status": "CANDIDATE",
+            "evidence_ref": "runtime_hpmp_stable_rva_evidence.txt:MP_RVA"
+          },
+          {
+            "source": "functions",
+            "key": "hpevent_ctor",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/rx_state_sinks.txt"
+          },
+          {
+            "source": "functions",
+            "key": "mpevent_ctor",
+            "status": "CONFIRMED",
+            "evidence_ref": "evidence/network/rx_state_sinks.txt"
+          }
+        ],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "event 邊界確認不等於可讀 HP/MP 合約；direct globals 是 CANDIDATE，保持 unavailable。",
+        "interfaces": [
+          "Snapshot"
+        ]
+      }
+    },
+    {
+      "feature_id": "timing_and_pause",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "定時命令與聊天輪播有間隔設定；排程漂移未確認。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: timed_command/chat_rotation"
+        ],
+        "direct_source_lines": [
+          "P:11-16"
+        ]
+      },
+      "donor_880": {
+        "status": "SOURCE_CONFIRMED",
+        "semantics": "睡眠或麻痺暫停 AIProcess；主迴圈依速度資料等待。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md: incapacitation_pause/movement_timing"
+        ],
+        "direct_source_lines": [
+          "PcAI:33-46",
+          "PcAI:176-228"
+        ]
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "控制器支援顯式 pause/resume；不移植 donor 時間係數或狀態欄位。",
+        "interfaces": [
+          "BotController"
+        ]
+      }
+    },
+    {
+      "feature_id": "auto_hunt_policy",
+      "donor_381": {
+        "status": "UNKNOWN",
+        "semantics": "既有設定來源沒有直接宣告此執行語意。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "donor_880": {
+        "status": "SOURCE_CONFIRMED",
+        "semantics": "存在地圖權限與離起點超範圍處置；未確認選敵攻擊內部算法。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md: map_permission/origin_radius"
+        ],
+        "direct_source_lines": [
+          "PcAI:93-124"
+        ]
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "DenyPolicy 預設拒絕；不採用地圖、半徑、傳送、攻擊或選怪策略。",
+        "interfaces": [
+          "Policy",
+          "DenyPolicy"
+        ]
+      }
+    },
+    {
+      "feature_id": "buff_and_conversion",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "buff master 與名稱清單；HPMP 轉換只有選單目錄。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: buff_maintain/hpmp_conversion"
+        ],
+        "direct_source_lines": [
+          "P:8-10",
+          "M:33-34",
+          "M:36-218"
+        ],
+        "subfeature_statuses": {
+          "buff_maintain": "CONFIG_DECLARED",
+          "hpmp_conversion": "CATALOG_ONLY"
+        }
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "buff 維持與轉換功能 unavailable；不分析施法管理器。",
+        "interfaces": []
+      }
+    },
+    {
+      "feature_id": "maintenance_actions",
+      "donor_381": {
+        "status": "CONFIG_DECLARED",
+        "semantics": "解毒、煉石、變身、娃娃有配置；觸發與完成驗證未確認。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: antidote/stone_refine/polymorph_maintain/doll_maintain"
+        ],
+        "direct_source_lines": [
+          "P:86-101",
+          "M:220-336"
+        ]
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "保留比較證據；缺乏 confirmed 完整能力，維持 unavailable。",
+        "interfaces": []
+      }
+    },
+    {
+      "feature_id": "environment_and_display",
+      "donor_381": {
+        "status": "CONFIG_DECLARED_OR_KEY_ONLY",
+        "semantics": "全白天、抽水、CPU、吃肉宣告；修理、名稱與浮字等只確認鍵存在。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: environment_toggles/display_and_repair_flags"
+        ],
+        "direct_source_lines": [
+          "P:102-116"
+        ],
+        "subfeature_statuses": {
+          "environment_toggles": "CONFIG_DECLARED",
+          "display_and_repair_flags": "KEY_PRESENT_ONLY"
+        }
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "功能鍵不轉成 850 原生能力。",
+        "interfaces": []
+      }
+    },
+    {
+      "feature_id": "pet_summon_spirit",
+      "donor_381": {
+        "status": "UNKNOWN",
+        "semantics": "寵物 HP、召喚物、精靈維持沒有直接宣告。",
+        "sources": [
+          "donor/381/FEATURE_SEMANTICS.md: pet_hp_maintain/summon_maintain/elf_spirit_maintain"
+        ],
+        "direct_source_lines": [
+          "P:1-116 and M:1-336 (no direct declaration)"
+        ]
+      },
+      "donor_880": {
+        "status": "UNKNOWN",
+        "semantics": "此次 Java 證據未確認此功能。",
+        "sources": [
+          "donor/880/FEATURE_SEMANTICS.md"
+        ],
+        "direct_source_lines": []
+      },
+      "client_850": {
+        "status": "UNAVAILABLE",
+        "contracts": [],
+        "availability": "UNAVAILABLE"
+      },
+      "reconstruction": {
+        "disposition": "資料不足，無法確認；所有動作 unavailable。",
+        "interfaces": []
+      }
+    }
+  ]
+}
