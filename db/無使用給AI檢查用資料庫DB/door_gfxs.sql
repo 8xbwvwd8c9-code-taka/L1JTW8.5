@@ -1,0 +1,180 @@
+CREATE TABLE `door_gfxs` (
+  `gfxid` int(11) NOT NULL,
+  `note` varchar(255) DEFAULT NULL,
+  `direction` int(11) NOT NULL,
+  `enterX_offset` int(11) NOT NULL DEFAULT '0',
+  `enterY_offset` int(11) NOT NULL DEFAULT '0',
+  `left_edge_offset` int(11) NOT NULL,
+  `right_edge_offset` int(11) NOT NULL,
+  PRIMARY KEY (`gfxid`)
+) ENGINE=MyISAM DEFAULT CHARSET=utf8;
+
+-- ----------------------------
+-- Records of door_gfxs
+-- ----------------------------
+INSERT INTO `door_gfxs` VALUES ('88', '話せる島の洞窟2階', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('89', '話せる島の洞窟2階', '1', '-1', '0', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('92', 'Pagos Room', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('93', 'Pagos Room', '1', '-1', '0', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('339', 'Kent Castle', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('442', 'Windawood', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('443', 'Dwarf Castle', '1', '-1', '0', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('444', 'SKT', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('446', 'SKT', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('447', 'SKT', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('448', 'SKT  (無用)', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('766', 'Orcish Forest', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('767', 'Orcish Forest', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('768', 'Orcish Forest', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('845', 'SKT (無用)', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1010', 'SKT (無用)', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1327', 'Giran', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1329', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1330', 'Giran', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1331', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1332', 'Giran', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1333', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1334', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1336', '海音內城', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('1338', 'Giran Castle (無用)', '1', '-1', '0', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('1341', 'Orcish Forest', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1342', 'Giran', '1', '-1', '0', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('1347', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1348', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1349', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1350', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1351', 'Giran', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1352', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1371', 'Giran', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1373', 'Giran', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1487', 'Giran Dog Race', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1664', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1665', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1688', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1689', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1690', 'Heine', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('1691', 'Heine', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('1692', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1700', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1734', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1735', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1736', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1737', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1738', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1739', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1740', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1741', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1743', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1744', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1745', 'Heine Castle (無用)', '0', '0', '1', '-2', '0');
+INSERT INTO `door_gfxs` VALUES ('1750', 'Heine', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1751', 'Heine', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1826', 'Dwarf Castle', '1', '-1', '0', '-2', '1');
+INSERT INTO `door_gfxs` VALUES ('1827', 'Dwarf Castle (無用)', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2083', 'Hidden Valley', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2089', 'Hidden Valley', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2114', 'Hidden Valley', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2128', 'Hidden Valley (無用)', '1', '-1', '0', '-1', '1');
+INSERT INTO `door_gfxs` VALUES ('2160', 'Oren', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2161', 'Oren', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2162', 'Oren', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2163', 'Oren', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2164', 'Oren', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2190', 'Oren', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2191', 'Oren', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2301', 'Talking Island (無用)', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2303', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2304', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2305', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2306', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2344', 'Talking Island', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2345', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2346', 'Talking Island', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2510', 'race', '1', '-1', '0', '-3', '4');
+INSERT INTO `door_gfxs` VALUES ('2556', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2558', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2574', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2575', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2578', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2579', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2580', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2581', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2582', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2583', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2585', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2588', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2589', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2590', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2591', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2596', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2597', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2598', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2599', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2600', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2603', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2605', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2606', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2608', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2610', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2628', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2629', 'Aden', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2630', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2631', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2634', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2635', 'Aden', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('2732', 'OT Castle (無用)', '0', '0', '1', '-1', '2');
+INSERT INTO `door_gfxs` VALUES ('2736', 'Kent Castle', '1', '-1', '0', '-2', '1');
+INSERT INTO `door_gfxs` VALUES ('2744', 'Giran Castle (無用)', '0', '0', '1', '0', '3');
+INSERT INTO `door_gfxs` VALUES ('2745', 'Giran Castle (無用)', '0', '0', '1', '-1', '2');
+INSERT INTO `door_gfxs` VALUES ('2746', 'Giran Castle (無用)', '1', '-1', '0', '-2', '1');
+INSERT INTO `door_gfxs` VALUES ('3234', 'Kent Castle (無用)', '0', '0', '1', '-2', '1');
+INSERT INTO `door_gfxs` VALUES ('6026', 'Gludio', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6027', 'Gludio', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6028', 'Gludio', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6029', 'Gludio', '0', '0', '1', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('6030', 'Gludio', '0', '0', '1', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('6031', 'Gludio', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6032', 'Gludio', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6033', 'Gludio', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('6336', 'Haunted House', '0', '0', '1', '-1', '2');
+INSERT INTO `door_gfxs` VALUES ('6351', 'Haunted House', '1', '-1', '0', '-4', '4');
+INSERT INTO `door_gfxs` VALUES ('6379', 'Haunted House', '1', '0', '0', '-1', '3');
+INSERT INTO `door_gfxs` VALUES ('6640', '水晶の洞窟1階', '1', '0', '0', '-1', '3');
+INSERT INTO `door_gfxs` VALUES ('6642', '水晶の洞窟2階', '0', '0', '0', '-2', '2');
+INSERT INTO `door_gfxs` VALUES ('6677', 'race', '1', '-1', '0', '-3', '4');
+INSERT INTO `door_gfxs` VALUES ('6692', 'Death match', '0', '0', '1', '0', '1');
+INSERT INTO `door_gfxs` VALUES ('6694', 'Death match', '1', '-1', '0', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('7536', 'Hardin Quest', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('7556', '安塔瑞斯洞穴', '1', '-1', '0', '-3', '3');
+INSERT INTO `door_gfxs` VALUES ('7858', '法利昂洞穴', '0', '0', '1', '-2', '2');
+INSERT INTO `door_gfxs` VALUES ('7859', '法利昂洞穴', '1', '-1', '0', '-2', '2');
+INSERT INTO `door_gfxs` VALUES ('12164', '妖堡大門', '0', '0', '0', '-3', '2');
+INSERT INTO `door_gfxs` VALUES ('12170', '妖堡外城門(右)', '0', '0', '1', '-1', '1');
+INSERT INTO `door_gfxs` VALUES ('12131', '奇岩城外門(左)', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('12129', '奇岩城大門', '0', '0', '1', '-3', '3');
+INSERT INTO `door_gfxs` VALUES ('12133', '奇岩城外門(右)', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('12127', '奇岩城內門', '0', '0', '0', '-5', '3');
+INSERT INTO `door_gfxs` VALUES ('1554', '奇岩內門', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('11987', '肯特大門', '1', '0', '0', '-2', '2');
+INSERT INTO `door_gfxs` VALUES ('11989', '肯特外城門(左)', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('11991', '肯特外城門(右)', '1', '-1', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('1718', '海音城外門', '0', '0', '1', '-1', '0');
+INSERT INTO `door_gfxs` VALUES ('12658', '騎村武器店', '1', '0', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12663', '騎村小屋', '1', '0', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12657', '騎村武器店', '1', '0', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12656', '傑瑞德小屋', '0', '0', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12662', '騎村旅館', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12660', '騎村雜貨店', '0', '0', '0', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12659', '騎村雜貨店', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12661', '騎村旅館', '0', '0', '1', '0', '0');
+INSERT INTO `door_gfxs` VALUES ('12167', '妖堡外城門(左)', '0', '0', '1', '-1', '1');
+INSERT INTO `door_gfxs` VALUES ('8305', '火龍窟副本的橋', '0', '0', '0', '0', '3');
+INSERT INTO `door_gfxs` VALUES ('8307', '火龍窟副本的橋', '1', '0', '0', '-3', '0');
+INSERT INTO `door_gfxs` VALUES ('12711', '屍魂塔', '1', '0', '0', '-1', '3');
+INSERT INTO `door_gfxs` VALUES ('12632', '屍魂塔', '0', '0', '1', '0', '3');
+INSERT INTO `door_gfxs` VALUES ('12754', '屍魂塔(火堆)', '1', '0', '0', '0', '0');
+
+-- ----------------------------
+-- Table structure for `droplist`
+-- ----------------------------
+DROP TABLE IF EXISTS `droplist`;
