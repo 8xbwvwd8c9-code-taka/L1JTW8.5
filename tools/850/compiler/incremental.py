@@ -150,6 +150,7 @@ class IncrementalCompiler:
             "-encoding", "UTF-8",
             "-source", "8",
             "-target", "8",
+            "-proc:none",
             "-d", str(output_dir),
         ]
         if cp:
